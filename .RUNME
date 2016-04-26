@@ -339,7 +339,7 @@ python_help()
 
     *)
         log_warn "  For ubuntu Python3 do: "
-        log_warn "   TBD..."
+        log_warn "   sudo apt-get install python3-dev"
         ;;
     esac
 }

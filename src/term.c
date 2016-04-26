@@ -6,6 +6,8 @@
 
 #ifndef _WIN32
 #include <sys/ioctl.h>
+#include <termios.h>
+#include <unistd.h>
 #endif
 
 #include "main.h"
