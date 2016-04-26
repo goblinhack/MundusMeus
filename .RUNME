@@ -30,7 +30,15 @@ case `uname` in
         /mingw64/bin/pip3 install colored
         /mingw64/bin/pip3 install hexdump
     ;;
+    *Darwin*)
+        sudo port install python3-pip
+        pip3 install colored
+        pip3 install hexdump
+    ;;
     *)
+        sudo apt-get install python3-pip3
+        pip3 install colored
+        pip3 install hexdump
     ;;
 esac
 
@@ -524,31 +532,7 @@ case `uname` in
 	LDLIBS=`echo $LDLIBS | sed -e 's/-lmingw32 //g'`
 	LDLIBS="$LDLIBS -lopengl32"
 	LDLIBS="$LDLIBS -funwind-tables"
-
-        #
-        # Missing -ldl on mingw64 for some reason
-        #
-#        LDLIBS=$(echo $LDLIBS | sed 's/ -ldl//g')
         ;;
-    *MINGW*)
-	EXE=".exe"
-	LDLIBS=`echo $LDLIBS | sed -e 's/-XCClinker//g'`
-	LDLIBS="$LDLIBS -funwind-tables"
-	#LDLIBS="$LDLIBS -lglew32"
-	LDLIBS="$LDLIBS -lopengl32"
-        #
-        # For __imp warnings in pthread
-        #
-        #C_FLAGS="$C_FLAGS -DPTW32_STATIC_LIB -DGLEW_STATIC"
-        C_FLAGS="$C_FLAGS -DPTW32_STATIC_LIB "
-
-	#
-	# As sdl2-config may be configured for /usr/local
-	#
-        C_FLAGS="$C_FLAGS -I/c/MinGW/include/SDL2"
-        WERROR=""
-        COMPILER_WARN=""
-	;;
     *Darwin*)
 	EXE=""
 	LDLIBS="$LDLIBS -funwind-tables"
@@ -558,12 +542,11 @@ case `uname` in
         WERROR="-Werror"
         COMPILER_WARN="-Wmissing-prototypes"
 	;;
-    MSYs*)
+    *)
 	EXE=""
 	LDLIBS="$LDLIBS -funwind-tables"
 	LDLIBS="$LDLIBS -rdynamic"
 	LDLIBS="$LDLIBS -lGL"
-
         #
         # Better to leave off for production
         #
