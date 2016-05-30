@@ -1,0 +1,42 @@
+{
+ short_name="orcmob"
+ raw_name="orcmob"
+ tooltip="orc mob spwan"
+ mob_spawn={
+    1000 "orc1"
+    20 "orc2"
+    5 "orc3"
+    2 "orc4"
+    1 "orc5"
+ }
+ max_hp=1
+ z_depth="obj"
+ is_mob_spawner
+ can_fall
+ is_effect_pulse
+ is_light_source
+ light_radius=1.0
+ light_tint="green"
+ is_candle_light
+ hit_priority=22
+ is_collision_map_medium
+ damage=1
+ bonus_score_on_death=120
+ mob_spawn_delay_tenths=50
+ d10000_chance_of_appearing=300
+ is_animated
+ tiles={
+  tile={
+   tile="orcmob.1"
+   delay_ms=500
+  }
+  tile={
+   tile="orcmob.2"
+   delay_ms=500
+  }
+  tile={
+   tile="orcmob.3"
+   delay_ms=500
+  }
+ }
+}

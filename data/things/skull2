@@ -1,0 +1,64 @@
+{
+ short_name="skull lord"
+ raw_name="skull2"
+ tooltip="skull lord"
+ z_depth="obj"
+ speed=3
+ max_hp=1
+ damage=1
+ bonus_score_on_death=200
+ is_effect_rotate_2way
+ vision_distance=8
+ hit_delay_tenths=10
+ sound_on_death="urgh"
+ is_undead
+ approach_distance=3
+ can_fall
+ is_not_light_blocking
+ is_throwable
+ is_monst
+is_levitating
+ hit_priority=10
+ is_cats_eyes
+ is_collision_map_medium
+ is_animated
+ fires="energy1"
+ weapon_fire_delay_hundredths=200
+ d10000_chance_of_appearing=80
+ min_appear_depth=5
+ max_appear_depth=100
+ tiles={
+  tile={ delay_ms=50 tile="skull1-1" }
+  tile={ delay_ms=50 tile="skull1-2" }
+  tile={ delay_ms=50 tile="skull1-3" }
+  tile={ delay_ms=50 tile="skull1-4" }
+  tile={ delay_ms=50 tile="skull1-5" }
+  tile={ delay_ms=50 tile="skull1-6" }
+  tile={ delay_ms=50 tile="skull1-7" }
+  tile={ delay_ms=50 tile="skull1-8" }
+  tile={ delay_ms=50 tile="skull1-9" }
+  tile={ delay_ms=50 tile="skull1-10" }
+  tile={ delay_ms=50 tile="skull1-11" }
+  tile={ delay_ms=50 tile="skull1-12" }
+  tile={ delay_ms=50 tile="skull1-13" }
+  tile={ delay_ms=50 tile="skull1-14" }
+  tile={ delay_ms=50 tile="skull1-15" }
+  tile={ delay_ms=50 tile="skull1-16" }
+  tile={ delay_ms=50 tile="skull1-17" }
+  tile={ delay_ms=50 tile="skull1-18" }
+  tile={ delay_ms=50 tile="skull1-19" }
+  tile={ delay_ms=50 tile="skull1-20" }
+  tile={ delay_ms=50 tile="skull1-21" }
+  tile={ delay_ms=50 tile="skull1-22" }
+  tile={ delay_ms=50 tile="skull1-23" }
+  tile={ delay_ms=50 tile="skull1-24" }
+  tile={ delay_ms=50 tile="skull1-25" }
+  tile={ delay_ms=50 tile="skull1-26" }
+  tile={ delay_ms=50 tile="skull1-27" }
+  tile={ delay_ms=50 tile="skull1-28" }
+  tile={ delay_ms=50 tile="skull1-29" }
+  tile={ delay_ms=50 tile="skull1-30" }
+  tile={ delay_ms=50 tile="skull1-31" }
+  tile={ delay_ms=50 tile="skull1-32" }
+ }
+}

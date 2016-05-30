@@ -1,0 +1,12 @@
+{
+ short_name="light ember"
+ raw_name="ember"
+ tooltip="light ember"
+ z_depth="explosion"
+ is_light_source
+ light_radius=2.0
+ light_tint="darkblue"
+ is_dungeon_floor
+ is_hidden
+ is_inactive
+}

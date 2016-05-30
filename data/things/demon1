@@ -1,0 +1,65 @@
+{
+ short_name="lesser fire demon"
+ raw_name="demon1"
+ tooltip="lesser fire demon"
+ z_depth="obj"
+ speed=3
+ max_hp=1
+ damage=1
+ bonus_score_on_death=500
+ is_effect_rotate_2way
+ vision_distance=10
+ hit_delay_tenths=10
+ sound_on_death="urgh2"
+ is_lava_proof
+ can_fall
+ is_not_light_blocking
+ is_throwable
+ is_monst
+ is_levitating
+ hit_priority=10
+ is_levitating
+ is_cats_eyes
+ is_animated
+ fires="fireball2"
+ weapon_fire_delay_hundredths=40
+ d10000_chance_of_appearing=20
+ min_appear_depth=5
+ max_appear_depth=100
+ is_light_source
+ light_radius=3.5
+ tiles={
+  tile={ delay_ms=50 tile="demon1-1" }
+  tile={ delay_ms=50 tile="demon1-2" }
+  tile={ delay_ms=50 tile="demon1-3" }
+  tile={ delay_ms=50 tile="demon1-4" }
+  tile={ delay_ms=50 tile="demon1-5" }
+  tile={ delay_ms=50 tile="demon1-6" }
+  tile={ delay_ms=50 tile="demon1-7" }
+  tile={ delay_ms=50 tile="demon1-8" }
+  tile={ delay_ms=50 tile="demon1-9" }
+  tile={ delay_ms=50 tile="demon1-10" }
+  tile={ delay_ms=50 tile="demon1-11" }
+  tile={ delay_ms=50 tile="demon1-12" }
+  tile={ delay_ms=50 tile="demon1-13" }
+  tile={ delay_ms=50 tile="demon1-14" }
+  tile={ delay_ms=50 tile="demon1-15" }
+  tile={ delay_ms=50 tile="demon1-16" }
+  tile={ delay_ms=50 tile="demon1-17" }
+  tile={ delay_ms=50 tile="demon1-18" }
+  tile={ delay_ms=50 tile="demon1-19" }
+  tile={ delay_ms=50 tile="demon1-20" }
+  tile={ delay_ms=50 tile="demon1-21" }
+  tile={ delay_ms=50 tile="demon1-22" }
+  tile={ delay_ms=50 tile="demon1-23" }
+  tile={ delay_ms=50 tile="demon1-24" }
+  tile={ delay_ms=50 tile="demon1-25" }
+  tile={ delay_ms=50 tile="demon1-26" }
+  tile={ delay_ms=50 tile="demon1-27" }
+  tile={ delay_ms=50 tile="demon1-28" }
+  tile={ delay_ms=50 tile="demon1-29" }
+  tile={ delay_ms=50 tile="demon1-30" }
+  tile={ delay_ms=50 tile="demon1-31" }
+  tile={ delay_ms=50 tile="demon1-32" }
+ }
+}

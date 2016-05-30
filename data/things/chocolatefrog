@@ -1,0 +1,24 @@
+{
+ short_name="chocolatefrag"
+ raw_name="chocolatefrag"
+ tooltip="chocolatefrag"
+ z_depth="obj"
+ can_fall
+ is_treasure
+ is_stackable
+ hit_priority=1
+ is_throwable
+ is_carryable
+ can_fall
+ d10000_chance_of_appearing=100
+ bonus_hp_on_collect=1
+ is_light_source
+ light_radius=1.0
+ light_tint="gold"
+ is_animated
+ tiles={
+  tile={
+   tile="chocolatefrog"
+  }
+ }
+}

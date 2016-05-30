@@ -1,0 +1,13 @@
+{
+ short_name="ropepile"
+ raw_name="ropepile"
+ tooltip="ropepile"
+ z_depth="ladder"
+ is_ropepile
+ is_carryable
+ is_treasure
+ can_fall
+ tiles={
+  tile={ tile="ropepile" }
+ }
+}

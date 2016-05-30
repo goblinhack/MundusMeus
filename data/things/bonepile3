@@ -1,0 +1,41 @@
+{
+ short_name="large bone pile"
+ raw_name="bonepile3"
+ tooltip="large bone pile"
+ mob_spawn={ 1000 "ghost3" }
+ z_depth="obj"
+ max_hp=1
+ is_mob_spawner
+ can_fall
+ is_effect_pulse
+ is_light_source
+ light_radius=2.0
+ light_tint="red"
+ is_candle_light
+ hit_priority=22
+ is_collision_map_medium
+ d10000_chance_of_appearing=600
+ damage=1
+ bonus_score_on_death=80
+ mob_spawn_delay_tenths=30
+ polymorph_on_death="bonepile2"
+ is_animated
+ tiles={
+  tile={
+   tile="bonepile3.1"
+   delay_ms=100
+  }
+  tile={
+   tile="bonepile3.2"
+   delay_ms=100
+  }
+  tile={
+   tile="bonepile3.3"
+   delay_ms=100
+  }
+  tile={
+   tile="bonepile3.4"
+   delay_ms=100
+  }
+ }
+}

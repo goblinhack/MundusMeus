@@ -1,0 +1,15 @@
+{
+ short_name="any weapon"
+ raw_name="weapon_any"
+ tooltip="random weapon"
+ z_depth="obj"
+ can_fall
+ is_treasure
+ is_weapon
+ is_internal
+ tiles={
+  tile={
+   tile="weapon_any"
+  }
+ }
+}

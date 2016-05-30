@@ -1,0 +1,154 @@
+
+NAME=mundusmeus
+OBJDIR=.o
+
+include Makefile.ramdisk.deps
+
+GAME_OBJECTS=				\
+    $(RAMDISK_OBJ)			\
+    $(OBJDIR)/backtrace.o 		\
+    $(OBJDIR)/color.o			\
+    $(OBJDIR)/command.o 		\
+    $(OBJDIR)/config.o			\
+    $(OBJDIR)/demarshal.o 		\
+    $(OBJDIR)/dir.o 			\
+    $(OBJDIR)/file.o 			\
+    $(OBJDIR)/font.o 			\
+    $(OBJDIR)/geo.o 			\
+    $(OBJDIR)/gl.o 			\
+    $(OBJDIR)/dmap.o 			\
+    $(OBJDIR)/glshapes.o 		\
+    $(OBJDIR)/init_fn.o 		\
+    $(OBJDIR)/level.o 			\
+    $(OBJDIR)/level_trigger.o 		\
+    $(OBJDIR)/log.o 			\
+    $(OBJDIR)/main.o 			\
+    $(OBJDIR)/map.o 			\
+    $(OBJDIR)/fluid.o 			\
+    $(OBJDIR)/map_jigsaw.o 		\
+    $(OBJDIR)/marshal.o 		\
+    $(OBJDIR)/math.o 			\
+    $(OBJDIR)/miniz.o 			\
+    $(OBJDIR)/music.o 			\
+    $(OBJDIR)/mzip_file.o 		\
+    $(OBJDIR)/mzip_lib.o 		\
+    $(OBJDIR)/pcg_basic.o 		\
+    $(OBJDIR)/pixel.o 			\
+    $(OBJDIR)/player.o 			\
+    $(OBJDIR)/point.o 			\
+    $(OBJDIR)/ptrcheck.o 		\
+    $(OBJDIR)/ramdisk_read.o 		\
+    $(OBJDIR)/rand.o 			\
+    $(OBJDIR)/resource.o 		\
+    $(OBJDIR)/sdl.o 			\
+    $(OBJDIR)/slre.o 			\
+    $(OBJDIR)/sound.o 			\
+    $(OBJDIR)/stb_image.o 		\
+    $(OBJDIR)/string.o 			\
+    $(OBJDIR)/string_ext.o 		\
+    $(OBJDIR)/term.o 			\
+    $(OBJDIR)/tex.o 			\
+    $(OBJDIR)/thing.o 			\
+    $(OBJDIR)/thing_hit.o 		\
+    $(OBJDIR)/thing_dead.o 		\
+    $(OBJDIR)/thing_ai.o 		\
+    $(OBJDIR)/thing_anim.o 		\
+    $(OBJDIR)/thing_blood.o 		\
+    $(OBJDIR)/thing_bubbles.o 		\
+    $(OBJDIR)/thing_bomb.o 		\
+    $(OBJDIR)/thing_rope.o 		\
+    $(OBJDIR)/thing_key.o 		\
+    $(OBJDIR)/thing_collect.o 		\
+    $(OBJDIR)/thing_move.o 		\
+    $(OBJDIR)/thing_fall.o 		\
+    $(OBJDIR)/thing_drown.o 		\
+    $(OBJDIR)/thing_jump.o 		\
+    $(OBJDIR)/thing_collision.o 	\
+    $(OBJDIR)/thing_damage.o 		\
+    $(OBJDIR)/thing_shop.o 		\
+    $(OBJDIR)/thing_dir.o 		\
+    $(OBJDIR)/thing_effect.o 		\
+    $(OBJDIR)/thing_exit.o 		\
+    $(OBJDIR)/thing_explosion.o 	\
+    $(OBJDIR)/thing_fire.o 		\
+    $(OBJDIR)/thing_health.o 		\
+    $(OBJDIR)/thing_mob_spawn.o 	\
+    $(OBJDIR)/thing_place.o 		\
+    $(OBJDIR)/thing_random.o 		\
+    $(OBJDIR)/thing_teleport.o 		\
+    $(OBJDIR)/thing_template.o 		\
+    $(OBJDIR)/thing_tick.o 		\
+    $(OBJDIR)/thing_tile.o 		\
+    $(OBJDIR)/thing_timer.o 		\
+    $(OBJDIR)/thing_torch.o 		\
+    $(OBJDIR)/thing_vision.o 		\
+    $(OBJDIR)/thing_weapon.o 		\
+    $(OBJDIR)/tile.o 			\
+    $(OBJDIR)/time.o 			\
+    $(OBJDIR)/timer.o 			\
+    $(OBJDIR)/token.o 			\
+    $(OBJDIR)/tree.o 			\
+    $(OBJDIR)/ttf.o 			\
+    $(OBJDIR)/util.o 			\
+    $(OBJDIR)/vision.o 			\
+    $(OBJDIR)/wid.o 			\
+    $(OBJDIR)/wid_anim.o 		\
+    $(OBJDIR)/wid_button.o 		\
+    $(OBJDIR)/wid_cmap.o 		\
+    $(OBJDIR)/wid_console.o 		\
+    $(OBJDIR)/wid_dead.o 		\
+    $(OBJDIR)/wid_dirlist.o 		\
+    $(OBJDIR)/wid_editor.o 		\
+    $(OBJDIR)/wid_game_map.o 		\
+    $(OBJDIR)/wid_game_over.o 		\
+    $(OBJDIR)/wid_game_quit.o 		\
+    $(OBJDIR)/wid_hiscore.o 		\
+    $(OBJDIR)/wid_intro.o 		\
+    $(OBJDIR)/wid_intro_about.o 	\
+    $(OBJDIR)/wid_intro_settings.o 	\
+    $(OBJDIR)/wid_keyboard.o 		\
+    $(OBJDIR)/wid_map.o 		\
+    $(OBJDIR)/wid_menu.o 		\
+    $(OBJDIR)/wid_notify.o 		\
+    $(OBJDIR)/wid_numpad.o 		\
+    $(OBJDIR)/wid_popup.o 		\
+    $(OBJDIR)/wid_splash.o 		\
+    $(OBJDIR)/wid_text_input.o 		\
+    $(OBJDIR)/wid_textbox.o 		\
+    $(OBJDIR)/wid_tooltip.o 		\
+
+#
+# compile
+#
+$(OBJDIR)/%.o: %.c
+	@echo $(CC) $(EXTRA_CFLAGS) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(EXTRA_CFLAGS) $(CFLAGS) -c -o $@ $<
+
+#
+# link
+#
+TARGET_GAME=$(NAME)$(EXE)
+$(TARGET_GAME): $(GAME_OBJECTS)
+	$(CC) $(GAME_OBJECTS) $(LDLIBS) -o ../$(TARGET_GAME)
+
+#
+# To force clean and avoid "up to date" warning.
+#
+.PHONY: clean
+.PHONY: clobber
+
+clean:
+	rm -rf ../$(TARGET_GAME) ../stdout.txt ../stderr.txt
+	rm -rf $(GAME_OBJECTS) $(TARGET_GAME) stdout.txt stderr.txt
+
+clobber: clean
+	rm -rf $(OBJDIR)
+	mkdir -p $(OBJDIR)
+
+valgrind:
+	valgrind --gen-suppressions=all --leak-check=full --suppressions=valgrind.suppress --error-limit=no ../$(NAME)
+
+all: $(TARGET_GAME) 
+	$(DSYM)
+
+include Makefile.ramdisk

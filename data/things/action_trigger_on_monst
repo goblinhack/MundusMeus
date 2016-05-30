@@ -1,0 +1,16 @@
+{
+ short_name="action_trigger_on_monst"
+ raw_name="action_trigger_on_monst"
+ tooltip="triggers on monster step"
+ is_collision_map_medium
+ z_depth="actions"
+ is_action
+ is_visible_on_debug_only
+ is_action_trigger_on_monst
+ is_action_trigger
+ tiles={
+  tile={
+   tile="action_trigger_on_monst"
+  }
+ }
+}

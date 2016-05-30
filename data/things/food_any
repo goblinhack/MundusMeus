@@ -1,0 +1,14 @@
+{
+ short_name="any food"
+ raw_name="food_any"
+ tooltip="random food"
+ z_depth="obj"
+ can_fall
+ is_food
+ is_internal
+ tiles={
+  tile={
+   tile="food_any"
+  }
+ }
+}

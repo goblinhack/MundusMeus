@@ -1,0 +1,27 @@
+{
+ short_name="gargoyle"
+ raw_name="trap3"
+ tooltip="gargoyle"
+ z_depth="obj"
+ speed=0
+ max_hp=1
+ bonus_score_on_death=300
+ vision_distance=4
+ hit_delay_tenths=10
+ is_trap
+ min_appear_depth=30
+ max_appear_depth=100
+ hit_priority=10
+ is_effect_fade_in_out
+ is_animated
+ fires="energy1"
+ can_fall
+ weapon_fire_delay_hundredths=50
+ d10000_chance_of_appearing=20
+ tiles={
+  tile={ delay_ms=500 tile="trap3-1" }
+  tile={ delay_ms=500 tile="trap3-2" }
+  tile={ delay_ms=500 tile="trap3-3" }
+  tile={ delay_ms=500 tile="trap3-4" }
+ }
+}

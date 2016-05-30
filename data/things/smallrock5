@@ -1,0 +1,23 @@
+{
+ short_name="smallrock5"
+ raw_name="smallrock5"
+ tooltip="smallrock5"
+ z_depth="wall_deco"
+ damage=1
+ hit_priority=9
+ is_animated
+ is_throwable
+ is_not_light_blocking
+ can_fall
+ can_roll
+ can_be_hit_chance=5
+ is_smallrock
+ d10000_chance_of_appearing=1000
+ is_light_source
+ light_radius=0.5
+ tiles={
+  tile={
+   tile="smallrock5"
+  }
+ }
+}
