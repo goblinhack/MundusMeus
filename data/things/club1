@@ -1,0 +1,30 @@
+{
+ short_name="giant club"
+ raw_name="club1"
+ tooltip="giant club"
+ z_depth="obj"
+ cost=1000
+ can_fall
+ is_treasure
+ is_weapon
+ sound_on_collect="pickup"
+ is_melee_weapon
+ can_be_enchanted
+ hit_priority=0
+ is_throwable
+ is_carryable
+ weapon_fire_delay_hundredths=25
+ damage=1
+ swing_distance_from_player=5
+ is_collision_map_medium
+ is_animated
+ d10000_chance_of_appearing=15
+ weapon_carry_anim="club1_anim"
+ weapon_swing_anim="weapon_swing2"
+ tiles={
+  tile={
+   tile="club1"
+   delay_ms=50
+  }
+ }
+}

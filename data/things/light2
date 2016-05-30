@@ -1,0 +1,12 @@
+{
+ short_name="light2"
+ raw_name="light2"
+ tooltip="light2"
+ z_depth="explosion"
+ is_light_source
+ light_radius=2.0
+ light_tint="yellow"
+ is_dungeon_floor
+ is_hidden
+ is_inactive
+}

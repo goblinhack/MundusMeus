@@ -1,0 +1,19 @@
+{
+ short_name="small treasue chest"
+ raw_name="chest1"
+ tooltip="small treasure chest"
+ z_depth="obj"
+ is_treasure
+ is_stackable
+ hit_priority=1
+ is_throwable
+ is_carryable
+ can_fall
+ bonus_gold_on_collect=25
+ d10000_chance_of_appearing=100
+ tiles={
+  tile={
+   tile="chest1"
+  }
+ }
+}

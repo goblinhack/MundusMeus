@@ -1,0 +1,33 @@
+{
+ short_name="gold1"
+ raw_name="gold1"
+ tooltip="gold1"
+ z_depth="wall_deco"
+ can_fall
+ is_treasure
+ is_stackable
+ hit_priority=1
+ is_throwable
+ is_carryable
+ can_fall
+ bonus_gold_on_collect=10
+ d10000_chance_of_appearing=100
+ is_light_source
+ light_radius=3.0
+ light_tint="gold"
+ is_animated
+ tiles={
+  tile={
+   tile="gold1.1"
+   delay_ms=20000
+  }
+  tile={
+   tile="gold1.2"
+   delay_ms=50
+  }
+  tile={
+   tile="gold1.3"
+   delay_ms=50
+  }
+ }
+}

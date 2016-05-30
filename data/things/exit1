@@ -1,0 +1,21 @@
+{
+ short_name="exit"
+ raw_name="exit1"
+ tooltip="level exit"
+ z_depth="floor2"
+ is_exit
+ is_light_source
+ is_inactive
+ light_radius=3.0
+ blit_top_off=2
+ blit_bot_off=0
+ blit_left_off=1
+ blit_right_off=1
+ collision_radius=1.5
+ is_ethereal
+ tiles={
+  tile={
+   tile="exit1-3-2"
+  }
+ }
+}

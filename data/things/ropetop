@@ -1,0 +1,14 @@
+{
+ short_name="rope"
+ raw_name="rope"
+ tooltip="rope"
+ z_depth="ladder"
+ is_rope
+ is_ropetop
+ is_climbable
+ is_collision_map_medium
+ is_hidden_from_editor
+ tiles={
+  tile={ tile="rope-top" }
+ }
+}

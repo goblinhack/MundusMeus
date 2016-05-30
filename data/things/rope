@@ -1,0 +1,14 @@
+{
+ short_name="rope"
+ raw_name="rope"
+ tooltip="rope"
+ z_depth="ladder"
+ is_rope
+ is_climbable
+ tiles={
+  tile={ tile="rope1" }
+  tile={ tile="rope2" }
+  tile={ tile="rope3" }
+  tile={ tile="rope4" }
+ }
+}

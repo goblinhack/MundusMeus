@@ -1,0 +1,17 @@
+{
+ short_name="any monst"
+ raw_name="monst_any"
+ tooltip="random monst"
+ z_depth="obj"
+ sound_on_death="urgh"
+ can_fall
+ is_not_light_blocking
+ is_throwable
+ is_monst
+ is_internal
+ tiles={
+  tile={
+   tile="monst_any"
+  }
+ }
+}

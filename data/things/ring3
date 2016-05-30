@@ -1,0 +1,26 @@
+{
+ short_name="ring of nothing"
+ raw_name="ring3"
+ tooltip="ring of nothing"
+ z_depth="obj2"
+ cost=1000
+ can_fall
+ is_treasure
+ is_stackable
+ sound_on_collect="potion"
+ hit_priority=1
+ is_throwable
+ is_carryable
+ is_ring
+ can_be_enchanted
+ d10000_chance_of_appearing=10
+ is_light_source
+ light_radius=0.5
+ light_tint="green"
+ is_candle_light
+ tiles={
+  tile={
+   tile="ring3"
+  }
+ }
+}

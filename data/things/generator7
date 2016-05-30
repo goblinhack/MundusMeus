@@ -1,0 +1,16 @@
+{
+ short_name="mob spawner"
+ raw_name="generator7"
+ tooltip="mob spawner"
+ z_depth="obj"
+ is_mob_spawner
+ can_fall
+ hit_priority=20
+ damage=1
+ mob_spawn_delay_tenths=100
+ tiles={
+  tile={
+   tile="generator7"
+  }
+ }
+}

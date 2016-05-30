@@ -1,0 +1,40 @@
+{
+ short_name="bone pile"
+ raw_name="bonepile2"
+ tooltip="bone pile"
+ mob_spawn={ 1000 "ghost2" }
+ z_depth="obj"
+ is_mob_spawner
+ can_fall
+ is_effect_pulse
+ is_light_source
+ light_radius=0.5
+ light_tint="cyan"
+ is_candle_light
+ hit_priority=12
+ is_collision_map_medium
+ d10000_chance_of_appearing=800
+ damage=1
+ bonus_score_on_death=50
+ mob_spawn_delay_tenths=30
+ polymorph_on_death="bonepile1"
+ is_animated
+ tiles={
+  tile={
+   tile="bonepile2.1"
+   delay_ms=100
+  }
+  tile={
+   tile="bonepile2.2"
+   delay_ms=100
+  }
+  tile={
+   tile="bonepile2.3"
+   delay_ms=100
+  }
+  tile={
+   tile="bonepile2.4"
+   delay_ms=100
+  }
+ }
+}
