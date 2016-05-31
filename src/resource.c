@@ -16,8 +16,11 @@
 
 static uint8_t resource_init_1 (void *context)
 {
+    return (true);
+#if 0
     return (tex_load("data/gfx/mundusmeus.tga",
                      "mundusmeus") != 0);
+#endif
 }
 
 static uint8_t resource_init_1a (void *context)
