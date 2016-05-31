@@ -236,53 +236,12 @@ void wid_intro_visible (void)
     wid_fade_in(wid_intro_title, intro_effect_delay);
 }
 
-static double y;
-static double dy;
-
-static void wid_intro_tick_reset (void)
-{
-    y = -0.20;
-    dy = 0.00026;
-}
-
-static void wid_intro_tick (widp wid)
-{
-    if (!wid_intro_title) {
-        return;
-    }
-
-    wid_move_to_pct_centered(wid_intro_title, 0.5f, y);
-
-    y += dy;
-
-    static const double wall_start = 0.20;
-    static const double accell_down = 1.10;
-    static const double friction_up = 0.8;
-    static const double elasticity = 0.09;
-
-    if (y > wall_start) {
-        y = wall_start;
-        dy = -dy * elasticity;
-        y += dy;
-    }
-
-    if (dy < 0) {
-        dy *= friction_up;
-
-        if (dy > -0.0001) {
-            dy = 0.0001;
-        }
-    } else {
-        dy *= accell_down;
-    }
-}
-
 static void wid_intro_bg_create (void)
 {
     if (!wid_intro_title) {
         widp wid = wid_intro_title = wid_new_window("bg");
         fpoint tl = { 0.0, 0.0 };
-        fpoint br = { 0.75, 0.15 };
+        fpoint br = { 1.0, 1.0 };
 
         wid_set_tl_br_pct(wid, tl, br);
 
@@ -298,10 +257,7 @@ static void wid_intro_bg_create (void)
         wid_set_color(wid, WID_COLOR_BG, c);
 
         wid_update(wid);
-        wid_move_to_pct_centered(wid_intro_title, 0.5f, -2.1f);
-        wid_set_on_tick(wid, wid_intro_tick);
-        wid_intro_tick_reset();
-        wid_set_do_not_lower(wid, true);
+        wid_set_do_not_raise(wid, true);
     }
 }
 
@@ -490,9 +446,11 @@ static void wid_version_make_visible (void *context)
     wid_move_end(w);
     wid_move_to_pct_centered(w, 0.9f, 0.95);
 
+#if 0
     wid_game_map_fini();
     game.level_no = 0;
     wid_game_map_init();
+#endif
 
     if (!wid_change_level_timer) {
         wid_change_level_timer = action_timer_create(
@@ -510,9 +468,11 @@ static void wid_change_level (void *context)
 {
     wid_change_level_timer = 0;
 
+#if 0
     wid_game_map_fini();
     game.level_no = 0;
     wid_game_map_init();
+#endif
 
     wid_change_level_timer = action_timer_create(
         &wid_timers,
