@@ -136,10 +136,17 @@ void music_update_volume (void)
                     ((float) MIX_MAX_VOLUME / (float) SOUND_MAX));
 }
 
+static const char *music_current;
+
 void music_play (const char *file,
                  const char *alias,
                  uint32_t rate)
 {
+    if (file == music_current) {
+        return;
+    }
+    music_current = file;
+
     int audio_format = MIX_DEFAULT_FORMAT;
     int audio_channels = 2;
     int audio_buffers = 4096;
@@ -177,7 +184,7 @@ void music_play (const char *file,
 void music_play_game (uint32_t level_no)
 {
     static const char *music[] = {
-        "data/music/DST_ClockTower.ogg",
+        "data/music/Faith.ogg",
     };
 
     /*
@@ -186,35 +193,37 @@ void music_play_game (uint32_t level_no)
     int r = level_no;
     int x = r % ARRAY_SIZE(music);
 
-    music_play(music[x], music[x], 22050);
+    music_play(music[x], music[x], 44100);
 }
 
 void music_play_death (void)
 {
-    music_play("data/music/DST_ClockTower.ogg", "death", 22050 );
+    music_play("data/music/Faith.ogg", "death", 44100 );
 }
 
 void music_play_demo (void)
 {
-    music_play("data/music/DST_ClockTower.ogg", "battle", 22050 );
+    music_play("data/music/Faith.ogg", "battle", 44100 );
 }
 
 void music_play_intro (void)
 {
-    music_play("data/music/DST_ClockTower.ogg", "intro", 22050 );
+    music_play("data/music/Faith.ogg", "intro", 44100 );
 }
 
 void music_play_dead (void)
 {
-    music_play("data/music/DST_ClockTower.ogg", "dead", 22050 );
+    music_play("data/music/Faith.ogg", "dead", 44100 );
 }
 
 void music_play_game_over (void)
 {
-    music_play("data/music/DST_ClockTower.ogg", "game over", 22050 );
+    music_play("data/music/Faith.ogg", "game over", 44100 );
 }
 
 void music_halt (void)
 {
+    music_current = 0;
+
     Mix_FadeOutMusic(1500);
 }

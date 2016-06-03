@@ -71,7 +71,7 @@ static void wid_intro_about_create (void)
                 0.0, /* hightlight */
                 2, /* columns */
                 4, /* focus */
-                5, /* items */
+                6, /* items */
 
                 /*
                  * Column widths
@@ -86,6 +86,11 @@ static void wid_intro_about_create (void)
                 (int) '0', 
                 "%%fmt=left$%%fg=gray$Music",
                 "%%fg=cyan$Deceased Senior Technician",
+                (void*) 0,
+
+                (int) '0', 
+                "%%fmt=left$%%fg=gray$Music",
+                "%%fg=cyan$www.tannerhelland.com",
                 (void*) 0,
 
                 (int) '0',
