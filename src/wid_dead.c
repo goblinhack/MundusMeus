@@ -168,6 +168,7 @@ static void wid_dead_gravestone_appeared (void *context)
                     0, // on_update
                     0.5, /* x */
                     0.3, /* y */
+                    0.2, /* hightlight */
                     1, /* columns */
                     2, /* focus */
                     4, /* items */

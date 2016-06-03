@@ -238,6 +238,7 @@ static void wid_game_over_create (void)
                  0, // on_update
                  0.5, /* x */
                  0.4, /* y */
+                 0.2, /* hightlight */
                  1, /* columns */
                  1, /* focus */
                  6, /* items */
