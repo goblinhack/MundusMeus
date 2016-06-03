@@ -475,6 +475,8 @@ static uint8_t wid_menu_key_event (widp w, const SDL_KEYSYM *key)
                 on_mouse_down_t event_handler = 
                                 ctx->event_handler[ctx->focus];
 
+                sound_play_click();
+
                 wid_menu_callback(b, ctx->focus, event_handler, 
                                   SDL_BUTTON_LEFT);
                 return (true);

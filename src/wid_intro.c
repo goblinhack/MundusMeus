@@ -86,8 +86,6 @@ void wid_intro_hide (void)
     wid_intro_is_hidden = true;
     wid_intro_is_visible = false;
 
-    music_halt();
-
     if (!wid_intro) {
         return;
     }
@@ -110,8 +108,6 @@ void wid_intro_hide (void)
 void wid_intro_visible (void)
 {
     wid_game_map_fini();
-
-    music_halt();
 
     wid_intro_is_visible = true;
     wid_intro_is_hidden = false;

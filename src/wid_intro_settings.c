@@ -740,7 +740,7 @@ static void wid_intro_settings_create (void)
                 large_font,
                 0, // on_update
                 0.5, /* x */
-                0.6, /* y */
+                0.5, /* y */
                 0.1, /* hightlight */
                 2, /* columns */
                 saved_focus, /* focus */
