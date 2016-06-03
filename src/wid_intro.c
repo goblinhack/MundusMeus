@@ -51,100 +51,6 @@ static int wid_intro_ready;
 
 static int saved_focus = 0;
 
-
-static widp wid_intro_help;
-static void wid_intro_help_create(void);
-
-static void wid_intro_help_destroy (void)
-{
-    wid_destroy(&wid_intro_help);
-}
-
-static void wid_intro_help_hide (void)
-{
-    wid_intro_help_destroy();
-
-    wid_intro_visible();
-}
-
-static void wid_intro_help_visible (void)
-{
-    wid_intro_help_create();
-}
-
-static void wid_intro_help_callback_close (widp wid)
-{
-    wid_intro_help_hide();
-}
-
-static void wid_intro_help_create (void)
-{
-    if (wid_intro_help) {
-        return;
-    }
-
-    wid_intro_help = 
-        wid_menu(0,
-                vlarge_font,
-                large_font,
-                0, // on_update
-                0.5, /* x */
-                0.5, /* y */
-                2, /* columns */
-                4, /* focus */
-                9, /* items */
-
-                /*
-                 * Column widths
-                 */
-                (double) 0.25, (double) 0.25,
-
-                (int) '0',
-                "%%fmt=left$%%fg=white$Space",
-                "%%fg=purple$Fire",
-                (void*) 0,
-
-                (int) '0', 
-                "%%fmt=left$%%fg=white$Movement",
-                "%%fg=purple$Cursor keys, shift to run", 
-                (void*) 0,
-
-                (int) '0', 
-                "%%fmt=left$%%fg=white$Jump",
-                "%%fg=purple$z", 
-                (void*) 0,
-
-                (int) '0', 
-                "%%fmt=left$%%fg=white$Drop bomb",
-                "%%fg=purple$b", 
-                (void*) 0,
-
-                (int) '0', 
-                "%%fmt=left$%%fg=white$Fire rope",
-                "%%fg=purple$r", 
-                (void*) 0,
-
-                (int) '0', 
-                "%%fmt=left$%%fg=white$Drop torch",
-                "%%fg=purple$t", 
-                (void*) 0,
-
-                (int) '0', 
-                "%%fmt=left$%%fg=white$Pay in shop",
-                "%%fg=purple$p",
-                (void*) 0,
-
-                (int) '0', 
-                "%%fmt=left$%%fg=white$Quit game",
-                "%%fg=purple$q",
-                (void*) 0,
-
-                (int) 'b', 
-                "%%fmt=left$Back", 
-                (char*) 0,
-                wid_intro_help_callback_close);
-}
-
 uint8_t wid_intro_init (void)
 {
     if (!wid_intro_init_done) {
@@ -294,6 +200,7 @@ static void wid_intro_quit_selected (void)
                  0,
                  0.5, /* x */
                  0.5, /* y */
+                 0.2, /* hightlight */
                  1, /* columns */
                  2, /* focus */
                  3, /* items */
@@ -370,16 +277,6 @@ static uint8_t wid_menu_past_legends_selected (widp w,
 {
     wid_intro_menu_destroy();
     wid_hiscore_visible();
-
-    return (true);
-}
-
-static uint8_t wid_menu_help_selected (widp w,
-                                       int32_t x, int32_t y,
-                                       uint32_t button)
-{
-    wid_intro_menu_destroy();
-    wid_intro_help_visible();
 
     return (true);
 }
@@ -499,9 +396,10 @@ static void wid_intro_menu_create (void)
                  0, // on_update
                  0.5, /* x */
                  0.55, /* y */
+                 0.2, /* hightlight */
                  1, /* columns */
                  saved_focus, /* focus */
-                 7, /* items */
+                 6, /* items */
 
                  (int) ' ', "Play game", wid_menu_quick_start_selected,
 
@@ -512,8 +410,6 @@ static void wid_intro_menu_create (void)
                  (int) 'c', "Credits", wid_menu_credits_selected,
 
                  (int) 'h', "Hiscores", wid_menu_past_legends_selected,
-
-                 (int) '?', "Help me!", wid_menu_help_selected,
 
                  (int) 'q', "Quit", wid_intro_quit_selected);
 

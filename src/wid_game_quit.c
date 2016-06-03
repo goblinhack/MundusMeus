@@ -124,6 +124,7 @@ static void wid_game_quit_create (void)
                  0, // on_update
                  0.5, /* x */
                  0.3, /* y */
+                 0.2, /* hightlight */
                  1, /* columns */
                  3, /* focus */
                  4, /* items */

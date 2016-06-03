@@ -80,28 +80,53 @@ static void wid_menu_update (widp w)
             cx = br.x;
 
             fontp font;
-            color c;
+            color col;
 
             tl.y = y;
 
             if (i == ctx->focus) {
+
                 font = ctx->focus_font;
                 y += focus_wid_height;
-                c = GREEN;
+                col = GREEN;
             } else {
                 font = ctx->normal_font;
                 y += normal_wid_height;
 
                 if (!ctx->event_handler[i]) {
-                    c = YELLOW;
+                    col = YELLOW;
                 } else {
-                    c = GRAY90;
+                    col = GRAY90;
                 }
             }
 
             br.y = y;
 
             wid_set_tl_br_pct(b, tl, br);
+
+            if (!c && (i == ctx->focus)) {
+
+                if (ctx->highlight) {
+                    widp w = ctx->highlight;
+
+                    wid_set_tex(w, 0, "sword");
+
+                    tl.x = 0.1;
+                    br.x = 0.3;
+
+                    wid_set_tl_br_pct(w, tl, br);
+
+                    wid_set_font(w, font);
+                    wid_set_color(w, WID_COLOR_TEXT, WHITE);
+                    wid_set_color(w, WID_COLOR_BLIT, WHITE);
+                    wid_set_color(w, WID_COLOR_TL, RED);
+                    wid_set_color(w, WID_COLOR_BG, WHITE);
+                    wid_set_color(w, WID_COLOR_BR, RED);
+                    wid_set_color(w, WID_COLOR_BLIT, WHITE);
+                    wid_set_text_outline(w, true);
+                    wid_move_to_horiz_vert_pct_in(w, 0.3, tl.y, 200);
+                }
+            } 
 
             color transparent = BLACK;
             transparent.a = 0;
@@ -113,7 +138,7 @@ static void wid_menu_update (widp w)
             for (mode = WID_MODE_NORMAL; mode < WID_MODE_LAST; mode++) {
                 wid_set_no_shape(b);
                 wid_set_mode(b, mode);
-                wid_set_color(b, WID_COLOR_TEXT, c);
+                wid_set_color(b, WID_COLOR_TEXT, col);
                 wid_set_color(b, WID_COLOR_BG, transparent);
                 wid_set_color(b, WID_COLOR_TL, transparent);
                 wid_set_color(b, WID_COLOR_BR, transparent);
@@ -135,7 +160,7 @@ static void wid_menu_update (widp w)
 
                 wid_set_bevel(bar, 2);
                 wid_set_tl_br_pct(bar, tl, br);
-                wid_set_color(bar, WID_COLOR_BG, c);
+                wid_set_color(bar, WID_COLOR_BG, col);
 
                 wid_set_color(bar, WID_COLOR_TL, WHITE);
                 wid_set_color(bar, WID_COLOR_BR, BLACK);
@@ -983,6 +1008,7 @@ widp wid_menu (widp parent,
                on_update_t on_update,
                double x,
                double y,
+               double highlight,
                int cols,
                int focus,
                int items, ...)
@@ -1162,6 +1188,18 @@ widp wid_menu (widp parent,
     ctx->created = time_get_time_ms();
 
     va_end(ap);
+
+    if (highlight > 0.0) {
+        widp h = ctx->highlight = wid_new_container(w, "wid menu highlight");
+
+        fpoint tl = { 0.2, 0.0};
+        fpoint br = { 0.25, 0.4};
+
+        tl.x = highlight;
+        br.x = highlight + 0.2;
+
+        wid_set_tl_br_pct(h, tl, br);
+    }
 
     wid_move_to_pct_centered(wrapper, 0.5, 0.5);
     wid_move_to_pct_centered(w, x, y);

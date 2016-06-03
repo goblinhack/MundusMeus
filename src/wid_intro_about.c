@@ -68,6 +68,7 @@ static void wid_intro_about_create (void)
                 0, // on_update
                 0.55, /* x */
                 0.5, /* y */
+                0.0, /* hightlight */
                 2, /* columns */
                 4, /* focus */
                 5, /* items */

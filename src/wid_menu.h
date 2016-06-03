@@ -17,6 +17,8 @@ typedef struct {
      */
     widp w;
 
+    widp highlight;
+
     /*
      * Item currently in focus
      */
@@ -86,6 +88,7 @@ widp wid_menu(widp parent,
               on_update_t on_update,
               double x,
               double y,
+              double highlight,
               int cols,
               int focus,
               int args, ...);
