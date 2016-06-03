@@ -15,6 +15,7 @@
 #include "time_util.h"
 #include "timer.h"
 #include "math_util.h"
+#include "sound.h"
 
 int wid_menu_visible;
 
@@ -125,6 +126,17 @@ static void wid_menu_update (widp w)
                     wid_set_color(w, WID_COLOR_BLIT, WHITE);
                     wid_set_text_outline(w, true);
                     wid_move_to_horiz_vert_pct_in(w, 0.3, tl.y, 200);
+
+                    static double last;
+                    if (tl.y != last) {
+                        last = tl.y;
+
+                        static uint32_t last_sword;
+                        if (time_have_x_tenths_passed_since(1, last_sword)) {
+                            last_sword = time_get_time_ms();
+                            sound_play("click");
+                        }
+                    }
                 }
             } 
 

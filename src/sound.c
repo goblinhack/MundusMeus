@@ -16,6 +16,7 @@
 #include "math_util.h"
 #include "thing.h"
 #include "vision.h"
+#include "time_util.h"
 
 typedef struct sound_ {
     tree_key_string tree;
@@ -305,7 +306,11 @@ void sound_play_dead (void)
 
 void sound_play_click (void)
 {
-    sound_play("click");
+    static uint32_t last_click;
+    if (time_have_x_tenths_passed_since(1, last_click)) {
+        last_click = time_get_time_ms();
+        sound_play("sword");
+    }
 }
 
 void sound_play_level_end (void)
