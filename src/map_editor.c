@@ -2336,66 +2336,85 @@ static void map_editor_rotate (void)
     map_editor_undo_save();
 }
 
-static void map_editor_tile_fill_ (int x, int y)
+static uint16_t stack_x[MAP_WIDTH * MAP_HEIGHT * 2];
+static uint16_t stack_y[MAP_WIDTH * MAP_HEIGHT * 2];
+static int stack_size;
+
+static void map_editor_tile_fill_ (void)
 {
     map_editor_ctx *ctx = map_editor_window_ctx;
 
-    if (!map_editor_chosen_tile[ctx->tile_pool]) {
-        return;
-    }
-
-    if ((x < 0) || (y < 0) ||
-        (x >= MAP_WIDTH) ||
-        (y >= MAP_HEIGHT)) {
-        return;
-    }
-
-    /*
-     * Check to see there is nothing here blocking us.
-     */
-    uint8_t min_z;
-    uint8_t z;
-
-    /*
-     * Bound certain things by others. e.g. flood fill ghosts limited by 
-     * walls.
-     */
-    tpp tp = map_editor_chosen_tile[ctx->tile_pool];
-    switch (tp_get_z_depth(tp)) {
-        case MAP_DEPTH_FLOOR: 
-            min_z = MAP_DEPTH_FLOOR; 
-            break;
-        case MAP_DEPTH_FLOOR2: 
-            min_z = MAP_DEPTH_FLOOR2; 
-            break;
-        case MAP_DEPTH_WALL: 
-            min_z = MAP_DEPTH_WALL; 
-            break;
-        case MAP_DEPTH_OBJ: 
-            min_z = MAP_DEPTH_OBJ; 
-            break;
-        default:
-            min_z = MAP_DEPTH_FLOOR2; 
-            break;
-    }
-
-    if (tp_is_rock(tp)) {
-        min_z = MAP_DEPTH_WALL; 
-    }
-
-    for (z = min_z; z < MAP_DEPTH; z++) {
-        if (ctx->map.tile[x][y][z].tp) {
+    for (;;) {
+next:
+        if (!stack_size) {
             return;
         }
+
+        stack_size--;
+        int x = stack_x[stack_size];
+        int y = stack_y[stack_size];
+
+        if (!map_editor_chosen_tile[ctx->tile_pool]) {
+            continue;
+        }
+
+        if ((x < 0) || (y < 0) ||
+            (x >= MAP_WIDTH) ||
+            (y >= MAP_HEIGHT)) {
+            continue;
+        }
+
+        /*
+         * Check to see there is nothing here blocking us.
+         */
+        uint8_t min_z;
+        uint8_t z;
+
+        /*
+         * Bound certain things by others. e.g. flood fill ghosts limited by 
+         * walls.
+         */
+        tpp tp = map_editor_chosen_tile[ctx->tile_pool];
+        switch (tp_get_z_depth(tp)) {
+            case MAP_DEPTH_FLOOR: 
+                min_z = MAP_DEPTH_FLOOR; 
+                break;
+            case MAP_DEPTH_FLOOR2: 
+                min_z = MAP_DEPTH_FLOOR2; 
+                break;
+            case MAP_DEPTH_WALL: 
+                min_z = MAP_DEPTH_WALL; 
+                break;
+            case MAP_DEPTH_OBJ: 
+                min_z = MAP_DEPTH_OBJ; 
+                break;
+            default:
+                min_z = MAP_DEPTH_FLOOR2; 
+                break;
+        }
+
+        if (tp_is_rock(tp)) {
+            min_z = MAP_DEPTH_WALL; 
+        }
+
+        for (z = min_z; z < MAP_DEPTH; z++) {
+            if (ctx->map.tile[x][y][z].tp) {
+                goto next;
+            }
+        }
+
+        z = tp_get_z_depth(tp);
+        map_editor_set_new_tp(x, y, z, tp, 0);
+
+        stack_x[stack_size] = x + 1;
+        stack_y[stack_size++] = y;
+        stack_x[stack_size] = x - 1;
+        stack_y[stack_size++] = y;
+        stack_x[stack_size] = x;
+        stack_y[stack_size++] = y + 1;
+        stack_x[stack_size] = x;
+        stack_y[stack_size++] = y - 1;
     }
-
-    z = tp_get_z_depth(tp);
-    map_editor_set_new_tp(x, y, z, tp, 0);
-
-    map_editor_tile_fill_(x + 1, y);
-    map_editor_tile_fill_(x - 1, y);
-    map_editor_tile_fill_(x, y + 1);
-    map_editor_tile_fill_(x, y - 1);
 }
 
 static void map_editor_tile_fill (int x, int y)
@@ -2404,7 +2423,11 @@ static void map_editor_tile_fill (int x, int y)
         return;
     }
 
-    map_editor_tile_fill_(x, y);
+    stack_x[stack_size] = x;
+    stack_y[stack_size] = y;
+    stack_size = 1;
+
+    map_editor_tile_fill_();
 
     map_editor_fixup();
 

@@ -1792,53 +1792,80 @@ static void world_editor_rotate (void)
     world_editor_undo_save();
 }
 
-static void world_editor_tile_fill_ (int x, int y)
+static uint16_t stack_x[WORLD_WIDTH * WORLD_HEIGHT * 2];
+static uint16_t stack_y[WORLD_WIDTH * WORLD_HEIGHT * 2];
+static int stack_size;
+
+static void world_editor_tile_fill_ (void)
 {
     world_editor_ctx *ctx = world_editor_window_ctx;
 
-    if (!world_editor_chosen_tile[ctx->tile_pool]) {
-        return;
-    }
-
-    if ((x < 0) || (y < 0) ||
-        (x >= WORLD_WIDTH) ||
-        (y >= WORLD_HEIGHT)) {
-        return;
-    }
-
-    /*
-     * Check to see there is nothing here blocking us.
-     */
-    uint8_t min_z;
-    uint8_t z;
-
-    /*
-     * Bound certain things by others. e.g. flood fill ghosts limited by 
-     * walls.
-     */
-    tpp tp = world_editor_chosen_tile[ctx->tile_pool];
-    switch (tp_get_world_depth(tp)) {
-        case WORLD_DEPTH_LAND: 
-            min_z = WORLD_DEPTH_LAND; 
-            break;
-        default:
-            min_z = WORLD_DEPTH_LAND; 
-            break;
-    }
-
-    for (z = min_z; z < WORLD_DEPTH; z++) {
-        if (ctx->map.tile[x][y][z].tp) {
+    for (;;) {
+next:
+        if (!stack_size) {
             return;
         }
+
+        if (stack_size > ARRAY_SIZE(stack_x)) {
+            DIE("overflow");
+        }
+
+        stack_size--;
+        int x = stack_x[stack_size];
+        int y = stack_y[stack_size];
+
+        if (stack_size > ARRAY_SIZE(stack_x)) {
+            DIE("overflow");
+        }
+
+        if (!world_editor_chosen_tile[ctx->tile_pool]) {
+            continue;
+        }
+
+        if ((x < 0) || (y < 0) ||
+            (x >= WORLD_WIDTH) ||
+            (y >= WORLD_HEIGHT)) {
+            continue;
+        }
+
+        /*
+        * Check to see there is nothing here blocking us.
+        */
+        uint8_t min_z;
+        uint8_t z;
+
+        /*
+         * Bound certain things by others. e.g. flood fill ghosts limited by 
+         * walls.
+         */
+        tpp tp = world_editor_chosen_tile[ctx->tile_pool];
+        switch (tp_get_world_depth(tp)) {
+            case WORLD_DEPTH_LAND: 
+                min_z = WORLD_DEPTH_LAND; 
+                break;
+            default:
+            min_z = WORLD_DEPTH_LAND; 
+            break;
+        }
+
+        for (z = min_z; z < WORLD_DEPTH; z++) {
+            if (ctx->map.tile[x][y][z].tp) {
+                goto next;
+            }
+        }
+
+        z = tp_get_z_depth(tp);
+        world_editor_set_new_tp(x, y, z, tp);
+
+        stack_x[stack_size] = x + 1;
+        stack_y[stack_size++] = y;
+        stack_x[stack_size] = x - 1;
+        stack_y[stack_size++] = y;
+        stack_x[stack_size] = x;
+        stack_y[stack_size++] = y + 1;
+        stack_x[stack_size] = x;
+        stack_y[stack_size++] = y - 1;
     }
-
-    z = tp_get_world_depth(tp);
-    world_editor_set_new_tp(x, y, z, tp);
-
-    world_editor_tile_fill_(x + 1, y);
-    world_editor_tile_fill_(x - 1, y);
-    world_editor_tile_fill_(x, y + 1);
-    world_editor_tile_fill_(x, y - 1);
 }
 
 static void world_editor_tile_fill (int x, int y)
@@ -1847,7 +1874,11 @@ static void world_editor_tile_fill (int x, int y)
         return;
     }
 
-    world_editor_tile_fill_(x, y);
+    stack_x[stack_size] = x;
+    stack_y[stack_size] = y;
+    stack_size = 1;
+
+    world_editor_tile_fill_();
 
     world_editor_fixup();
 
