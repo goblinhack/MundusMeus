@@ -210,6 +210,7 @@ void thing_set_owner(levelp, thingp t, thingp owner);
 enum {
     THING_NONE,
     THING_WALL1,
+    THING_LAND1,
     THING_WALL1_DECO,
     THING_BLOCK1,
     THING_CRATE1,
@@ -1042,11 +1043,11 @@ static inline uint8_t thing_is_rrr23 (thingp t)
     return (tp_is_rrr23(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_rrr24 (thingp t)
+static inline uint8_t thing_is_land (thingp t)
 {
     verify(t);
 
-    return (tp_is_rrr24(thing_tp(t)));
+    return (tp_is_land(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_wanderer_lr (thingp t)

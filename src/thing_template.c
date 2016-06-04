@@ -478,6 +478,7 @@ static void demarshal_thing_spawn_on_death (demarshal_p ctx, tpp t)
 }
 
 ENUM_DEF_C(MAP_DEPTH_ENUMS, map_depth)
+ENUM_DEF_C(WORLD_DEPTH_ENUMS, world_depth)
 
 void demarshal_thing_template (demarshal_p ctx, tpp t)
 {
@@ -526,6 +527,15 @@ void demarshal_thing_template (demarshal_p ctx, tpp t)
             GET_OPT_NAMED_ENUM(ctx, "z_depth", en, map_depth_str2val);
             t->z_depth = en;
             if (t->z_depth >= MAP_DEPTH) {
+                ERR("%s/%s has unknown depth", tp_name(t), t->short_name); 
+            }
+        }
+
+        if (GET_PEEK_NAME(ctx, "world_depth")) {
+            world_depth en = 0;
+            GET_OPT_NAMED_ENUM(ctx, "world_depth", en, world_depth_str2val);
+            t->world_depth = en;
+            if (t->world_depth >= WORLD_DEPTH) {
                 ERR("%s/%s has unknown depth", tp_name(t), t->short_name); 
             }
         }
@@ -621,7 +631,7 @@ void demarshal_thing_template (demarshal_p ctx, tpp t)
         GET_OPT_NAMED_BITFIELD(ctx, "is_rrr21", t->is_rrr21);
         GET_OPT_NAMED_BITFIELD(ctx, "is_rrr22", t->is_rrr22);
         GET_OPT_NAMED_BITFIELD(ctx, "is_rrr23", t->is_rrr23);
-        GET_OPT_NAMED_BITFIELD(ctx, "is_rrr24", t->is_rrr24);
+        GET_OPT_NAMED_BITFIELD(ctx, "is_land", t->is_land);
         GET_OPT_NAMED_BITFIELD(ctx, "is_wanderer_lr", t->is_wanderer_lr);
         GET_OPT_NAMED_BITFIELD(ctx, "is_boulder", t->is_boulder);
         GET_OPT_NAMED_BITFIELD(ctx, "can_roll", t->can_roll);
@@ -763,6 +773,7 @@ void marshal_thing_template (marshal_p ctx, tpp t)
     PUT_NAMED_STRING(ctx, "weapon_swing_anim", t->weapon_swing_anim);
     PUT_NAMED_STRING(ctx, "message_on_use", t->message_on_use);
     PUT_NAMED_UINT8(ctx, "z_depth", t->z_depth);
+    PUT_NAMED_UINT8(ctx, "world_depth", t->world_depth);
     PUT_NAMED_UINT8(ctx, "z_order", t->z_order);
     PUT_NAMED_INT32(ctx, "speed", t->speed);
     PUT_NAMED_INT32(ctx, "damage", t->damage);
@@ -849,7 +860,7 @@ void marshal_thing_template (marshal_p ctx, tpp t)
     PUT_NAMED_BITFIELD(ctx, "is_rrr21", t->is_rrr21);
     PUT_NAMED_BITFIELD(ctx, "is_rrr22", t->is_rrr22);
     PUT_NAMED_BITFIELD(ctx, "is_rrr23", t->is_rrr23);
-    PUT_NAMED_BITFIELD(ctx, "is_rrr24", t->is_rrr24);
+    PUT_NAMED_BITFIELD(ctx, "is_land", t->is_land);
     PUT_NAMED_BITFIELD(ctx, "is_wanderer_lr", t->is_wanderer_lr);
     PUT_NAMED_BITFIELD(ctx, "is_boulder", t->is_boulder);
     PUT_NAMED_BITFIELD(ctx, "can_roll", t->can_roll);
@@ -1081,6 +1092,11 @@ const char *tp_get_tooltip (tpp t)
 uint8_t tp_get_z_depth (tpp t)
 {
     return (t->z_depth);
+}
+
+uint8_t tp_get_world_depth (tpp t)
+{
+    return (t->world_depth);
 }
 
 uint8_t tp_get_z_order (tpp t)

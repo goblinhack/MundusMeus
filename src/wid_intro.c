@@ -24,11 +24,12 @@
 #include "glapi.h"
 #include "wid_keyboard.h"
 #include "thing_template.h"
-#include "wid_editor.h"
+#include "map_editor.h"
 #include "wid_map.h"
 #include "wid_cmap.h"
 #include "wid_tooltip.h"
 #include "thing.h"
+#include "world_editor.h"
 
 static widp wid_intro;
 static widp wid_intro_menu;
@@ -289,6 +290,9 @@ static uint8_t wid_menu_credits_selected (widp w,
 
 static void wid_intro_create (void)
 {
+world_editor(0);
+return;
+
     if (wid_intro) {
         return;
     }

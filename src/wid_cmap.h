@@ -71,7 +71,7 @@ typedef struct {
 
 widp wid_cmap(const char *title, on_cmap_selected_t, on_cmap_cancelled_t);
 
-widp wid_editor_color_map_thing_replace_template(widp w,
+widp map_editor_color_map_thing_replace_template(widp w,
                                                  double x,
                                                  double y,
                                                  thingp t,

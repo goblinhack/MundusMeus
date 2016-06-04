@@ -98,7 +98,8 @@ GAME_OBJECTS=				\
     $(OBJDIR)/wid_console.o 		\
     $(OBJDIR)/wid_dead.o 		\
     $(OBJDIR)/wid_dirlist.o 		\
-    $(OBJDIR)/wid_editor.o 		\
+    $(OBJDIR)/map_editor.o 		\
+    $(OBJDIR)/world_editor.o 		\
     $(OBJDIR)/wid_game_map.o 		\
     $(OBJDIR)/wid_game_over.o 		\
     $(OBJDIR)/wid_game_quit.o 		\

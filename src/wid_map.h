@@ -96,7 +96,7 @@ typedef struct {
 
 widp wid_map(const char *title, on_selected_t, on_cancelled_t);
 
-widp wid_editor_level_map_thing_replace_template(levelp,
+widp map_editor_level_map_thing_replace_template(levelp,
                                                  double x,
                                                  double y,
                                                  thingp t,

@@ -109,6 +109,9 @@
 #define MAP_WIDTH                   (((MAP_JIGSAW_PIECES_ACROSS)*JIGPIECE_WIDTH)+4)
 #define MAP_HEIGHT                  (((MAP_JIGSAW_PIECES_DOWN)*JIGPIECE_HEIGHT)+4)
 
+#define WORLD_WIDTH                 1024
+#define WORLD_HEIGHT                1024
+
 #define FLUID_RESOLUTION            8
 #define FLUID_VISIBLE_SCALE         1.0
 #define FLUID_WIDTH                 (MAP_WIDTH * FLUID_RESOLUTION)

@@ -22,7 +22,7 @@
 #include "wid_notify.h"
 #include "math_util.h"
 #include "thing_template.h"
-#include "wid_editor.h"
+#include "map_editor.h"
 #include "sound.h"
 #include "thing_shop.h"
 #include "player.h"
@@ -232,7 +232,7 @@ void wid_game_map_go_back_to_editor (void)
 {
     wid_game_map_fini();
 
-    wid_editor(TEST_LEVEL);
+    map_editor(TEST_LEVEL);
 }
 
 /*
