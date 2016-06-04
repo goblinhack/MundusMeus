@@ -39,7 +39,7 @@
 #include "mzip_lib.h"
 #include "map_jigsaw.h"
 #include "thing_template.h"
-#include "wid_editor.h"
+#include "map_editor.h"
 #include "player.h"
 
 static char **ARGV;
@@ -47,6 +47,7 @@ char *EXEC_FULL_PATH_AND_NAME;
 char *EXEC_DIR;
 char *DATA_PATH;
 char *LEVELS_PATH;
+char *WORLD_PATH;
 char *TTF_PATH;
 char *GFX_PATH;
 int debug;
@@ -118,6 +119,11 @@ void quit (void)
     if (LEVELS_PATH) {
         myfree(LEVELS_PATH);
         LEVELS_PATH = 0;
+    }
+
+    if (WORLD_PATH) {
+        myfree(WORLD_PATH);
+        WORLD_PATH = 0;
     }
 
     if (TTF_PATH) {
@@ -340,6 +346,21 @@ static void find_level_dir (void)
 }
 
 /*
+ * Hunt down the world/ dir.
+ */
+static void find_world_dir (void)
+{
+    WORLD_PATH = dynprintf("%sdata" DSEP "world" DSEP, EXEC_DIR);
+    if (dir_exists(WORLD_PATH)) {
+        return;
+    }
+
+    myfree(WORLD_PATH);
+
+    WORLD_PATH = dupstr(EXEC_DIR, __FUNCTION__);
+}
+
+/*
  * Hunt down the ttf/ dir.
  */
 static void find_ttf_dir (void)
@@ -377,6 +398,7 @@ static void find_file_locations (void)
     find_exec_dir();
     find_data_dir();
     find_level_dir();
+    find_world_dir();
     find_ttf_dir();
     find_gfx_dir();
 

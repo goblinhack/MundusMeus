@@ -6529,9 +6529,7 @@ static uint8_t resource_init_last (void *context)
                   ARRAY_SIZE(powerup1_tiles), 
                   powerup1_tiles);
 
-    /*
-     * Walls
-     */
+    tp_load(THING_LAND1, "land1");
     tp_load(THING_WALL1_DECO, "wall1_deco");
     tp_load(THING_WALL1, "wall1");
     tp_load(THING_BLOCK1, "block1");

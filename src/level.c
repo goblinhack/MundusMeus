@@ -21,7 +21,7 @@
 #include "map.h"
 #include "timer.h"
 #include "sound.h"
-#include "wid_editor.h"
+#include "map_editor.h"
 #include "map_jigsaw.h"
 #include "file.h"
 #include "map.h"
@@ -928,11 +928,11 @@ uint8_t demarshal_level (demarshal_p ctx, levelp level)
     if (level_is_map_editor(level)) {
         rc = demarshal_wid_grid(level,
                                 ctx, wid,
-                                wid_editor_level_map_thing_replace_template);
+                                map_editor_level_map_thing_replace_template);
     } else if (level_is_editor(level)) {
         rc = demarshal_wid_grid(level,
                                 ctx, wid,
-                                wid_editor_replace_template);
+                                map_editor_replace_template);
     } else {
         if (!wid) {
             ERR("no map for level");

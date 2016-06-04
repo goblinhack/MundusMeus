@@ -173,6 +173,7 @@ typedef struct tp_ {
      */
     uint8_t z_depth;
     uint8_t z_order;
+    uint8_t world_depth;
 
     /*
      * Animation tiles.
@@ -366,7 +367,7 @@ typedef struct tp_ {
     uint8_t is_rrr21:1;
     uint8_t is_rrr22:1;
     uint8_t is_rrr23:1;
-    uint8_t is_rrr24:1;
+    uint8_t is_land:1;
     uint8_t is_wanderer_lr:1;
     uint8_t is_boulder:1;
     uint8_t can_roll:1;
@@ -451,6 +452,7 @@ const char *tp_message_on_use(tpp);
 const char *tp_mob_spawn(tpp);
 const char *tp_get_tooltip(tpp);
 uint8_t tp_get_z_depth(tpp);
+uint8_t tp_get_world_depth(tpp);
 uint8_t tp_get_z_order(tpp);
 uint32_t tp_get_speed(tpp);
 uint32_t tp_get_lifespan_ticks(tpp);
@@ -760,9 +762,9 @@ static inline uint8_t tp_is_rrr23 (tpp t)
     return (t->is_rrr23);
 }
 
-static inline uint8_t tp_is_rrr24 (tpp t)
+static inline uint8_t tp_is_land (tpp t)
 {
-    return (t->is_rrr24);
+    return (t->is_land);
 }
 
 static inline uint8_t tp_is_wanderer_lr (tpp t)

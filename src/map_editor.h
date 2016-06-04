@@ -6,59 +6,59 @@
 
 #pragma once
 
-#define WID_EDITOR_MENU_CELLS_ACROSS    26
-#define WID_EDITOR_MENU_CELLS_DOWN      16
+#define MAP_EDITOR_MENU_CELLS_ACROSS    26
+#define MAP_EDITOR_MENU_CELLS_DOWN      16
 
-#define WID_EDITOR_MENU_MAP_ACROSS      25
-#define WID_EDITOR_MENU_MAP_DOWN        15
+#define MAP_EDITOR_MENU_MAP_ACROSS      25
+#define MAP_EDITOR_MENU_MAP_DOWN        15
 
-#define WID_EDITOR_MENU_TILES_ACROSS    20
-#define WID_EDITOR_MENU_TILES_DOWN      14
+#define MAP_EDITOR_MENU_TILES_ACROSS    20
+#define MAP_EDITOR_MENU_TILES_DOWN      14
 
-#define WID_EDITOR_UNDO                 30
+#define MAP_EDITOR_UNDO                 30
 
 enum {
-    WID_EDITOR_MODE_TOGGLE,
-    WID_EDITOR_MODE_COLOR,
-    WID_EDITOR_MODE_DRAW,
-    WID_EDITOR_MODE_PAINT,
-    WID_EDITOR_MODE_LINE,
-    WID_EDITOR_MODE_SQUARE,
-    WID_EDITOR_MODE_CIRCLE,
-    WID_EDITOR_MODE_OCTAGON,
-    WID_EDITOR_MODE_FILL,
-    WID_EDITOR_MODE_DEL,
-    WID_EDITOR_MODE_YANK,
-    WID_EDITOR_MODE_EDIT,
-    WID_EDITOR_MODE_CUT,
-    WID_EDITOR_MODE_COPY,
-    WID_EDITOR_MODE_PASTE,
-    WID_EDITOR_MODE_UNDO,
-    WID_EDITOR_MODE_REDO,
-    WID_EDITOR_MODE_SAVE,
-    WID_EDITOR_MODE_UNUSED_2,
-    WID_EDITOR_MODE_UNUSED_3,
-    WID_EDITOR_MODE_VFLIP,
-    WID_EDITOR_MODE_HFLIP,
-    WID_EDITOR_MODE_ROTATE,
-    WID_EDITOR_MODE_TEST,
-    WID_EDITOR_MODE_STYLE,
-    WID_EDITOR_MODE_RANDOM,
-    WID_EDITOR_MODE_MAX,
+    MAP_EDITOR_MODE_TOGGLE,
+    MAP_EDITOR_MODE_COLOR,
+    MAP_EDITOR_MODE_DRAW,
+    MAP_EDITOR_MODE_PAINT,
+    MAP_EDITOR_MODE_LINE,
+    MAP_EDITOR_MODE_SQUARE,
+    MAP_EDITOR_MODE_CIRCLE,
+    MAP_EDITOR_MODE_OCTAGON,
+    MAP_EDITOR_MODE_FILL,
+    MAP_EDITOR_MODE_DEL,
+    MAP_EDITOR_MODE_YANK,
+    MAP_EDITOR_MODE_EDIT,
+    MAP_EDITOR_MODE_CUT,
+    MAP_EDITOR_MODE_COPY,
+    MAP_EDITOR_MODE_PASTE,
+    MAP_EDITOR_MODE_UNDO,
+    MAP_EDITOR_MODE_REDO,
+    MAP_EDITOR_MODE_SAVE,
+    MAP_EDITOR_MODE_UNUSED_2,
+    MAP_EDITOR_MODE_UNUSED_3,
+    MAP_EDITOR_MODE_VFLIP,
+    MAP_EDITOR_MODE_HFLIP,
+    MAP_EDITOR_MODE_ROTATE,
+    MAP_EDITOR_MODE_TEST,
+    MAP_EDITOR_MODE_STYLE,
+    MAP_EDITOR_MODE_RANDOM,
+    MAP_EDITOR_MODE_MAX,
 };
 
 enum {
-    WID_EDITOR_MODE2_TITLE,
-    WID_EDITOR_MODE2_OUTLINE,
-    WID_EDITOR_MODE2_UNUSED_5,
-    WID_EDITOR_MODE2_UNUSED_6,
-    WID_EDITOR_MODE2_UNUSED_7,
-    WID_EDITOR_MODE2_UNUSED_8,
-    WID_EDITOR_MODE2_FILTER_ACTIONS,
-    WID_EDITOR_MODE2_FILTER_OBJ,
-    WID_EDITOR_MODE2_FILTER_WALL,
-    WID_EDITOR_MODE2_FILTER_ALL,
-    WID_EDITOR_MODE2_MAX,
+    MAP_EDITOR_MODE2_TITLE,
+    MAP_EDITOR_MODE2_OUTLINE,
+    MAP_EDITOR_MODE2_UNUSED_5,
+    MAP_EDITOR_MODE2_UNUSED_6,
+    MAP_EDITOR_MODE2_UNUSED_7,
+    MAP_EDITOR_MODE2_UNUSED_8,
+    MAP_EDITOR_MODE2_FILTER_ACTIONS,
+    MAP_EDITOR_MODE2_FILTER_OBJ,
+    MAP_EDITOR_MODE2_FILTER_WALL,
+    MAP_EDITOR_MODE2_FILTER_ALL,
+    MAP_EDITOR_MODE2_MAX,
 };
 
 enum {
@@ -86,7 +86,7 @@ enum {
 };
 #define WID_TILE_POOL_MAX 14
 
-typedef struct wid_editor_tile_ {
+typedef struct map_editor_tile_ {
     int x;
     int y;
 
@@ -96,27 +96,27 @@ typedef struct wid_editor_tile_ {
     tpp tile_tp;
 
     widp button;
-} wid_editor_tile;
+} map_editor_tile;
 
-typedef struct wid_editor_map_tile_ {
+typedef struct map_editor_map_tile_ {
     tpp tp;
 
     /*
      * Data associated with individual tiles.
      */
     thing_template_data data;
-} wid_editor_map_tile;
+} map_editor_map_tile;
 
-typedef struct wid_editor_map_grid_ {
-    wid_editor_map_tile tile[MAP_WIDTH][MAP_HEIGHT][MAP_DEPTH];
+typedef struct map_editor_map_grid_ {
+    map_editor_map_tile tile[MAP_WIDTH][MAP_HEIGHT][MAP_DEPTH];
 
     /*
      * For joined up walls etc.
      */
     tilep map_tile[MAP_WIDTH][MAP_HEIGHT];
-} wid_editor_map_grid;
+} map_editor_map_grid;
 
-typedef void(*wid_editor_event_t)(widp);
+typedef void(*map_editor_event_t)(widp);
 
 typedef struct {
     /*
@@ -154,29 +154,29 @@ typedef struct {
     /*
      * Items in the map
      */
-    wid_editor_tile 
-        tile[WID_EDITOR_MENU_CELLS_ACROSS][WID_EDITOR_MENU_CELLS_DOWN];
+    map_editor_tile 
+        tile[MAP_EDITOR_MENU_CELLS_ACROSS][MAP_EDITOR_MENU_CELLS_DOWN];
 
     /*
      * Tile pools
      */
-    wid_editor_tile tile_pools[WID_TILE_POOL_MAX][THING_MAX];
+    map_editor_tile tile_pools[WID_TILE_POOL_MAX][THING_MAX];
     int tile_count[WID_TILE_POOL_MAX];
 
     /*
      * Map tiles
      */
-    wid_editor_map_grid map;
-    wid_editor_map_grid map_undo[WID_EDITOR_UNDO];
-    wid_editor_map_grid map_copy;
-    wid_editor_map_grid map_tmp;
+    map_editor_map_grid map;
+    map_editor_map_grid map_undo[MAP_EDITOR_UNDO];
+    map_editor_map_grid map_copy;
+    map_editor_map_grid map_tmp;
 
     /*
      * When we change layer, this holds onto all the unmodified layers.
      */
-    wid_editor_map_grid map_preserved_layers;
+    map_editor_map_grid map_preserved_layers;
 
-    uint8_t valid_undo[WID_EDITOR_UNDO];
+    uint8_t valid_undo[MAP_EDITOR_UNDO];
 
     /*
      * For line drawing.
@@ -243,18 +243,18 @@ typedef struct {
     int cut_end_y;
     int got_cut_start;
 
-} wid_editor_ctx;
+} map_editor_ctx;
 
-void wid_editor(uint32_t);
+void map_editor(uint32_t);
 
-widp wid_editor_replace_template(levelp,
+widp map_editor_replace_template(levelp,
                                  double x,
                                  double y,
                                  thingp t,
                                  tpp tp,
                                  tpp_data);
 
-extern void wid_editor_preview(widp);
-extern void wid_editor_preview_thumbnail(widp);
+extern void map_editor_preview(widp);
+extern void map_editor_preview_thumbnail(widp);
 
-extern widp wid_editor_window;
+extern widp map_editor_window;

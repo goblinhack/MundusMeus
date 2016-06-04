@@ -1,0 +1,12 @@
+{
+ short_name="land1"
+ raw_name="land1"
+ tooltip="land1"
+ world_depth="land"
+ is_land
+ tiles={
+  tile={
+   tile="rock1-2-mid1"
+  }
+ }
+}

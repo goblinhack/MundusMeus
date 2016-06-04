@@ -19,7 +19,7 @@
 #include "level.h"
 #include "math_util.h"
 #include "thing_tile.h"
-#include "wid_editor.h"
+#include "map_editor.h"
 #include "wid_intro.h"
 #include "tile.h"
 #include "string_util.h"
@@ -605,7 +605,7 @@ void wid_map_cell_load (void)
 
     level_no = ctx->focusx + ctx->focusy * LEVELS_ACROSS;
 
-    wid_editor(level_no);
+    map_editor(level_no);
 
     wid_destroy(&wid_map_window);
 }
@@ -1095,7 +1095,7 @@ void wid_map_preview_thumbnail (widp w)
 /*
  * Replace or place a tile.
  */
-widp wid_editor_level_map_thing_replace_template (levelp level,
+widp map_editor_level_map_thing_replace_template (levelp level,
                                                   double x,
                                                   double y,
                                                   thingp t,

@@ -6774,11 +6774,11 @@ static widp wid_mouse_motion_handler (int32_t x, int32_t y,
  *
  * #42 0x00000001180a1233 in wid_update (w=0x11f0c0c00) at wid.c:5353
  *
- * #43 0x00000001180bf45d in wid_editor_map_thing_replace_template 
+ * #43 0x00000001180bf45d in map_editor_map_thing_replace_template 
  * 
- * #44 0x00000001180c1509 in wid_editor_map_thing_replace (w=0x11f1dca00, x=5, 
+ * #44 0x00000001180c1509 in map_editor_map_thing_replace (w=0x11f1dca00, x=5, 
  * 
- * #45 0x00000001180c0275 in wid_editor_map_tile_mouse_motion (w=0x11f1dca00, 
+ * #45 0x00000001180c0275 in map_editor_map_tile_mouse_motion (w=0x11f1dca00, 
  * 
  * #46 0x00000001180a170f in wid_mouse_motion (x=338, y=357, relx=0, rely=0, 
  * 
@@ -6786,11 +6786,11 @@ static widp wid_mouse_motion_handler (int32_t x, int32_t y,
  *
  * #48 0x00000001180a1233 in wid_update (w=0x11f0c0c00) at wid.c:5353
  *
- * #49 0x00000001180bf45d in wid_editor_map_thing_replace_template 
+ * #49 0x00000001180bf45d in map_editor_map_thing_replace_template 
  * 
- * #50 0x00000001180c1509 in wid_editor_map_thing_replace (w=0x11f1dca00, x=5, 
+ * #50 0x00000001180c1509 in map_editor_map_thing_replace (w=0x11f1dca00, x=5, 
  * 
- * #51 0x00000001180c0275 in wid_editor_map_tile_mouse_motion (w=0x11f1dca00, 
+ * #51 0x00000001180c0275 in map_editor_map_tile_mouse_motion (w=0x11f1dca00, 
  * 
  * #52 0x00000001180a170f in wid_mouse_motion (x=338, y=357, relx=0, rely=0, 
  * 
