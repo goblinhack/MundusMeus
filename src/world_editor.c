@@ -84,7 +84,7 @@ static void world_editor_set_new_tp (int x, int y, int z,
     verify(ctx->w);
 
     memset(&ctx->map.tile[x][y][z], 0, sizeof(world_editor_world_tile));
-    ctx->map.tile[x][y][z].tp = tp;
+    ctx->map.tile[x][y][z].tp = tp_to_id(tp);
 }
 
 /*
@@ -892,7 +892,7 @@ static void world_editor_button_display (widp w, fpoint tl, fpoint br)
 
     int z;
     for (z = 0; z < WORLD_DEPTH; z++) {
-        tpp tp = ctx->map.tile[x][y][z].tp;
+        tpp tp = id_to_tp(ctx->map.tile[x][y][z].tp);
         if (!tp) {
             continue;
         }
@@ -900,14 +900,16 @@ static void world_editor_button_display (widp w, fpoint tl, fpoint br)
         fpoint btl = tl;
         fpoint bbr = br;
 
+#if 0
         tilep tile = ctx->map.world_tile[x][y];
         if (tile) {
             glcolor(WHITE);
             tile_blit_fat(tp, tile, 0, btl, bbr);
             continue;
         }
+#endif
 
-        tile = world_editor_tp_to_tile(tp);
+        tilep tile = world_editor_tp_to_tile(tp);
         if (!tp) {
             continue;
         }
@@ -1203,7 +1205,7 @@ static tpp world_editor_world_thing_get (int x, int y)
 
     int z;
     for (z = WORLD_DEPTH - 1; z >= 0; z--) {
-        tpp tp = ctx->map.tile[x][y][z].tp;
+        tpp tp = id_to_tp(ctx->map.tile[x][y][z].tp);
         if (tp) {
             return (tp);
         }
@@ -1475,7 +1477,7 @@ static void world_editor_paste (int mx, int my)
     for (x = x0; x <= x1; x++) {
         for (y = y0; y <= y1; y++) {
             for (z = 0; z < WORLD_DEPTH; z++) {
-                tpp tp = ctx->world_copy.tile[x][y][z].tp;
+                tpp tp = id_to_tp(ctx->world_copy.tile[x][y][z].tp);
                 if (!tp) {
                     continue;
                 }
@@ -2174,7 +2176,7 @@ static void world_editor_tile_right_button_pressed (int x, int y)
             (y < WORLD_EDITOR_MENU_WORLD_DOWN)) {
             int z;
             for (z = WORLD_DEPTH - 1; z >= 0; z--) {
-                tpp tp = ctx->map.tile[mx][my][z].tp;
+                tpp tp = id_to_tp(ctx->map.tile[mx][my][z].tp);
                 if (tp) {
                     /*
                      * Fake a cut so a 'p' can put this back.
@@ -2982,7 +2984,7 @@ static void world_editor_save (const char *dir_and_file, int is_test_level)
         for (x = 0; x < WORLD_WIDTH; x++) {
             for (y = 0; y < WORLD_HEIGHT; y++) {
 
-                tpp tp = ed->map.tile[x][y][z].tp;
+                tpp tp = id_to_tp(ed->map.tile[x][y][z].tp);
                 if (!tp) {
                     continue;
                 }
