@@ -71,7 +71,7 @@ typedef struct world_editor_tile_ {
 } world_editor_tile;
 
 typedef struct world_editor_world_tile_ {
-    tpp tp;
+    uint16_t tp;
 } world_editor_world_tile;
 
 typedef struct world_editor_world_grid_ {
@@ -80,7 +80,9 @@ typedef struct world_editor_world_grid_ {
     /*
      * For joined up walls etc.
      */
+#if 0
     tilep world_tile[WORLD_WIDTH][WORLD_HEIGHT];
+#endif
 } world_editor_world_grid;
 
 typedef void(*world_editor_event_t)(widp);
