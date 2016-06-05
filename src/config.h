@@ -185,14 +185,6 @@
 #define CONSOLE_HEIGHT              100
 
 /*
- * Chat window
- */
-#define CHAT_CURSOR_COLOR           PURPLE
-#define CHAT_CURSOR_OTHER_COLOR     PURPLE
-#define CHAT_TEXT_COLOR             PLUM
-#define CHAT_HEIGHT                 20
-
-/*
  * Fonts
  */
 #undef ENABLE_GENERATE_TTF         // Edit RUNME to add -lSDL_ttf
