@@ -30,6 +30,7 @@
 #include "wid_tooltip.h"
 #include "thing.h"
 #include "world_editor.h"
+#define TEST
 
 static widp wid_intro;
 static widp wid_intro_menu;
@@ -290,8 +291,10 @@ static uint8_t wid_menu_credits_selected (widp w,
 
 static void wid_intro_create (void)
 {
+#ifdef TEST
 world_editor(0);
 return;
+#endif
 
     if (wid_intro) {
         return;
@@ -343,11 +346,9 @@ static void wid_version_make_visible (void *context)
     wid_move_end(w);
     wid_move_to_pct_centered(w, 0.9f, 0.95);
 
-#if 0
     wid_game_map_fini();
     game.level_no = 0;
     wid_game_map_init();
-#endif
 
     if (!wid_change_level_timer) {
         wid_change_level_timer = action_timer_create(
@@ -365,7 +366,7 @@ static void wid_change_level (void *context)
 {
     wid_change_level_timer = 0;
 
-#if 0
+#ifndef TETS
     wid_game_map_fini();
     game.level_no = 0;
     wid_game_map_init();
