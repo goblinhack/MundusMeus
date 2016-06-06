@@ -209,8 +209,9 @@ void thing_set_owner(levelp, thingp t, thingp owner);
 
 enum {
     THING_NONE,
+    THING_GRASS1,
+    THING_GRASS1_DECO,
     THING_WALL1,
-    THING_LAND1,
     THING_WALL1_DECO,
     THING_BLOCK1,
     THING_CRATE1,
@@ -1036,11 +1037,11 @@ static inline uint8_t thing_is_rrr22 (thingp t)
     return (tp_is_rrr22(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_rrr23 (thingp t)
+static inline uint8_t thing_is_grass (thingp t)
 {
     verify(t);
 
-    return (tp_is_rrr23(thing_tp(t)));
+    return (tp_is_grass(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_land (thingp t)
@@ -1169,11 +1170,11 @@ static inline uint8_t thing_is_entrance (thingp t)
     return (tp_is_entrance(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_wall_deco (thingp t)
+static inline uint8_t thing_is_deco (thingp t)
 {
     verify(t);
 
-    return (tp_is_wall_deco(thing_tp(t)));
+    return (tp_is_deco(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_conical_breath_attack (thingp t)

@@ -166,7 +166,7 @@ void thing_dead (levelp level,
             for (dx = -1; dx <= 1; dx++) {
                 for (dy = -1; dy <= 1; dy++) {
                     widp w;
-                    while (map_find_wall_deco_at(level, t->x + dx, t->y + dy, &w)) {
+                    while (map_find_deco_at(level, t->x + dx, t->y + dy, &w)) {
                         thing_destroy(level, wid_get_thing(w), __FUNCTION__);
                     }
                 }

@@ -2,9 +2,9 @@
  short_name="wall1_deco"
  raw_name="wall1_deco"
  tooltip="wall1_deco"
- z_depth="wall_deco"
+ z_depth="deco"
  is_inactive
- is_wall_deco
+ is_deco
  is_ethereal
  can_be_hit_chance=0
  is_hidden_from_editor

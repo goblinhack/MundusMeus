@@ -58,7 +58,7 @@ void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
     double y1;
     double y2;
 
-    if (tp && tp_is_wall(tp)) {
+    if (tp && (tp_is_wall(tp) || tp_is_grass(tp))) {
         /*
          * Clipped 0.5 pixels
          */
@@ -127,7 +127,7 @@ void tile_blit_fat2 (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
     double y1;
     double y2;
 
-    if (tp && tp_is_wall(tp)) {
+    if (tp && (tp_is_wall(tp) || tp_is_grass(tp))) {
         /*
          * Clipped 0.5 pixels
          */

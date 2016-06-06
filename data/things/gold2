@@ -2,7 +2,7 @@
  short_name="gold2"
  raw_name="gold2"
  tooltip="gold2"
- z_depth="wall_deco"
+ z_depth="deco"
  can_fall
  is_treasure
  is_stackable

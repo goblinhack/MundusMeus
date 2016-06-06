@@ -867,7 +867,7 @@ static int thing_handle_collision (levelp level,
                                    int32_t dx, int32_t dy)
 {
     if (thing_is_hidden(it) ||
-        thing_is_wall_deco(it) ||
+        thing_is_deco(it) ||
         thing_is_ladder_deco(it)) {
         return (true);
     }
@@ -1529,7 +1529,7 @@ thingp thing_hit_solid_obstacle (levelp level,
              * Light embers and other junky effects to ignore.
              */
             if (thing_is_hidden(it) ||
-                thing_is_wall_deco(it) ||
+                thing_is_deco(it) ||
                 thing_is_ladder_deco(it)) {
                 continue;
             }
@@ -1861,7 +1861,7 @@ thingp thing_hit_fall_obstacle (levelp level,
              * Light embers and other junky effects to ignore.
              */
             if (thing_is_hidden(it) ||
-                thing_is_wall_deco(it) ||
+                thing_is_deco(it) ||
                 thing_is_ladder_deco(it)) {
                 continue;
             }
@@ -2045,7 +2045,7 @@ thingp thing_hit_any_obstacle (levelp level,
              * Light embers and other junky effects to ignore.
              */
             if (thing_is_hidden(it) ||
-                thing_is_wall_deco(it) ||
+                thing_is_deco(it) ||
                 thing_is_ladder_deco(it)) {
                 continue;
             }
@@ -2133,7 +2133,7 @@ thingp thing_overlaps (levelp level,
             }
 
             if (thing_is_hidden(it) ||
-                thing_is_wall_deco(it) ||
+                thing_is_deco(it) ||
                 thing_is_ladder_deco(it)) {
                 continue;
             }

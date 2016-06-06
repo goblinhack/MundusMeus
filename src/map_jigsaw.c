@@ -3517,7 +3517,7 @@ static tpp map_char_to_tp (char c,
                            int depth,
                            int shop_floor,
                            tpp *wall,
-                           tpp *wall_deco,
+                           tpp *deco,
                            tpp *door,
                            tpp *floor,
                            tpp *floor2,
@@ -3568,10 +3568,10 @@ static tpp map_char_to_tp (char c,
         break;
 
     case MAP_CORRIDOR_WALL: 
-        if (!*wall_deco) {
-            *wall_deco = random_corridor_wall();
+        if (!*deco) {
+            *deco = random_corridor_wall();
         }
-        tp = *wall_deco;
+        tp = *deco;
         break;
 
     case MAP_DOOR: 
@@ -3954,7 +3954,7 @@ void map_jigsaw_generate (levelp level,
     }
 
     tpp wall = 0;
-    tpp wall_deco = 0;
+    tpp deco = 0;
     tpp door = 0;
     tpp floor = 0;
     tpp floor2 = 0;
@@ -4039,7 +4039,7 @@ void map_jigsaw_generate (levelp level,
                                 level,
                                 dg->depth,
                                 shop_floor,
-                                &wall, &wall_deco, &door, 
+                                &wall, &deco, &door, 
                                 &floor, &floor2, &floor3, 
                                 &rock, 
                                 &gen);
@@ -4120,7 +4120,7 @@ void map_jigsaw_generate (levelp level,
                                     x, y,
                                     level, dg->depth,
                                     shop_floor,
-                                    &wall, &wall_deco, &door, 
+                                    &wall, &deco, &door, 
                                     &floor, &floor2, &floor3,
                                     &rock, &gen);
 
@@ -4133,7 +4133,7 @@ void map_jigsaw_generate (levelp level,
                                     x, y,
                                     level, dg->depth,
                                     shop_floor,
-                                    &wall, &wall_deco, &door, 
+                                    &wall, &deco, &door, 
                                     &floor, &floor2, &floor3,
                                     &rock, &gen);
 
@@ -4146,7 +4146,7 @@ void map_jigsaw_generate (levelp level,
                                     x, y,
                                     level, dg->depth,
                                     shop_floor,
-                                    &wall, &wall_deco, &door, 
+                                    &wall, &deco, &door, 
                                     &floor, &floor2, &floor3,
                                     &rock, &gen);
 

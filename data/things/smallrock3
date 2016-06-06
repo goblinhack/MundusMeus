@@ -2,7 +2,7 @@
  short_name="smallrock3"
  raw_name="smallrock3"
  tooltip="smallrock3"
- z_depth="wall_deco"
+ z_depth="deco"
  damage=1
  hit_priority=9
  is_animated

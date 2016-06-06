@@ -102,7 +102,7 @@ tpp map_find_plant_at(levelp, int32_t x, int32_t y, widp *);
 tpp map_find_player_at(levelp, int32_t x, int32_t y, widp *);
 tpp map_find_star_at(levelp, int32_t x, int32_t y, widp *);
 tpp map_find_wall_at(levelp, int32_t x, int32_t y, widp *);
-tpp map_find_wall_deco_at(levelp, int32_t x, int32_t y, widp *);
+tpp map_find_deco_at(levelp, int32_t x, int32_t y, widp *);
 tpp map_find_ladder_at(levelp, int32_t x, int32_t y, widp *);
 tpp map_find_ladder_deco_at(levelp, int32_t x, int32_t y, widp *);
 tpp map_find_rock_at(levelp, int32_t x, int32_t y, widp *);
@@ -457,8 +457,8 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(MAP_DEPTH_PLAYER,            "player"),          \
     /* water */                                                 \
     list_macro(MAP_DEPTH_WALL,              "wall"),            \
-    list_macro(MAP_DEPTH_WALL_DECO,         "wall_deco"),       \
-    list_macro(MAP_DEPTH_WALL_DECO2,        "wall_deco2"),      \
+    list_macro(MAP_DEPTH_DECO,         "deco"),       \
+    list_macro(MAP_DEPTH_DECO2,        "deco2"),      \
     list_macro(MAP_DEPTH_EXPLOSION,         "explosion"),       \
     list_macro(MAP_DEPTH_ACTIONS,           "actions"),         \
 

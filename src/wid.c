@@ -9084,10 +9084,6 @@ static void wid_display (widp w,
         glTranslatef(-((tl.x + br.x)/2), -((tl.y + br.y)/2), 0);
     }
 
-    if (w->on_display) {
-        (w->on_display)(w, tl, br);
-    }
-
     if (tex) {
         /*
          * Fit texture to the window size.
@@ -9641,6 +9637,10 @@ static void wid_display (widp w,
             blit_flush();
         }
     }
+    if (w->on_display) {
+        (w->on_display)(w, tl, br);
+    }
+
     
     /*
      * Undo any push we did earlier.
