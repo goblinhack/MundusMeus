@@ -1,9 +1,10 @@
 {
- short_name="land1"
- raw_name="land1"
- tooltip="land1"
+ short_name="grass1"
+ raw_name="grass1"
+ tooltip="grass1"
  world_depth="land"
  is_land
+ is_grass
  tiles={
   tile={
    tile="rock1-2-mid1"

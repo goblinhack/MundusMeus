@@ -366,7 +366,7 @@ typedef struct tp_ {
     uint8_t is_rrr20:1;
     uint8_t is_rrr21:1;
     uint8_t is_rrr22:1;
-    uint8_t is_rrr23:1;
+    uint8_t is_grass:1;
     uint8_t is_land:1;
     uint8_t is_wanderer_lr:1;
     uint8_t is_boulder:1;
@@ -398,7 +398,7 @@ typedef struct tp_ {
     uint8_t is_variable_size:1;
     uint8_t is_visible_on_debug_only:1;
     uint8_t is_wall:1;
-    uint8_t is_wall_deco:1;
+    uint8_t is_deco:1;
     uint8_t is_wanderer:1;
     uint8_t is_warm_blooded:1;
     uint8_t is_water:1;
@@ -757,9 +757,9 @@ static inline uint8_t tp_is_rrr22 (tpp t)
     return (t->is_rrr22);
 }
 
-static inline uint8_t tp_is_rrr23 (tpp t)
+static inline uint8_t tp_is_grass (tpp t)
 {
-    return (t->is_rrr23);
+    return (t->is_grass);
 }
 
 static inline uint8_t tp_is_land (tpp t)
@@ -852,9 +852,9 @@ static inline uint8_t tp_is_entrance (tpp t)
     return (t->is_entrance);
 }
 
-static inline uint8_t tp_is_wall_deco (tpp t)
+static inline uint8_t tp_is_deco (tpp t)
 {
-    return (t->is_wall_deco);
+    return (t->is_deco);
 }
 
 static inline uint8_t tp_is_conical_breath_attack (tpp t)

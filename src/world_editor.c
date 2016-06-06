@@ -33,6 +33,7 @@
 #include "wid_console.h"
 #include "bits.h"
 #include "thing.h"
+#include "thing_template.h"
 
 static void world_editor_hide(void);
 static void world_editor_tile_right_button_pressed(int x, int y);
@@ -85,6 +86,39 @@ static void world_editor_set_new_tp (int x, int y, int z,
 
     memset(&ctx->map.tile[x][y][z], 0, sizeof(world_editor_world_tile));
     ctx->map.tile[x][y][z].tp = tp_to_id(tp);
+}
+
+static tpp world_editor_get_tp (int x, int y, int z)
+{
+    world_editor_ctx *ctx = world_editor_window_ctx;
+    verify(ctx);
+    verify(ctx->w);
+
+    if (x < 0) {
+        return (0);
+    }
+    if (y < 0) {
+        return (0);
+    }
+    if (x >= WORLD_WIDTH) {
+        return (0);
+    }
+    if (y >= WORLD_HEIGHT) {
+        return (0);
+    }
+
+    return (id_to_tp(ctx->map.tile[x][y][z].tp));
+}
+
+static tpp world_editor_find_grass_at (int x, int y, int z)
+{
+    tpp tp = world_editor_get_tp(x, y, z);
+
+    if (tp && tp_is_grass(tp)) {
+        return (tp);
+    }
+
+    return (0);
 }
 
 /*
@@ -724,10 +758,6 @@ static void world_editor_update_buttons (void)
         fontp font;
         color c;
 
-        tl.x = ((double) x) * width;
-        tl.y = ((double) y) * height;
-        br.x = tl.x + 0.95 * width;
-        br.y = tl.y + 0.95 * height;
 
         font = vsmall_font;
 
@@ -736,9 +766,26 @@ static void world_editor_update_buttons (void)
         int mx = x + ctx->world_x;
         int my = y + ctx->world_y;
 
-        if (!ctx->tile_mode) {
-            int z;
+        tl.x = ((double) x) * width;
+        tl.y = ((double) y) * height;
+        br.x = tl.x + 0.95 * width;
+        br.y = tl.y + 0.95 * height;
+        wid_set_square(b);
 
+        int z;
+
+        for (z = 0; z < WORLD_DEPTH; z++) {
+            if (ctx->map.tile[mx][my][z].tp) {
+                tl.x = ((double) x) * width;
+                tl.y = ((double) y) * height;
+                br.x = ((double) x+1) * width;
+                br.y = ((double) y+1) * height;
+                wid_set_no_shape(b);
+                break;
+            }
+        }
+
+        if (!ctx->tile_mode) {
             if ((x < WORLD_EDITOR_MENU_WORLD_ACROSS) && 
                 (y < WORLD_EDITOR_MENU_WORLD_DOWN)) {
                 for (z = 0; z < WORLD_DEPTH; z++) {
@@ -831,6 +878,182 @@ static void world_editor_update_buttons (void)
     wid_update(world_editor_window);
 }
 
+static void world_map_place_deco_ (double x, 
+                                   double y, 
+                                   tpp tp,
+                                   int index,
+                                   fpoint tl,
+                                   fpoint br)
+{
+    char name[MAXSTR];
+    int corner = 0;
+    tilep tile;
+
+    snprintf(name, sizeof(name) - 1, "%s_deco", tp_raw_name(tp));
+
+    tpp tp_deco = tp_find(name);
+    if (!tp_deco) {
+        DIE("no deco tile tp for %s at %f,%f", tp_name(tp), x, y);
+        return;
+    }
+
+    if (tp_is_grass(tp)) {
+        double delta = (br.y - tl.y) * 0.95;
+
+        switch (index) {
+            case IS_JOIN_TOP:
+                tl.y -= delta;
+                br.y -= delta;
+                break;
+
+            case IS_JOIN_BOT:
+                tl.y += delta;
+                br.y += delta;
+                break;
+
+            case IS_JOIN_LEFT:
+                tl.x -= delta;
+                br.x -= delta;
+                break;
+
+            case IS_JOIN_RIGHT:
+                tl.x += delta;
+                br.x += delta;
+                break;
+
+            case IS_JOIN_TL:
+                tl.x -= delta;
+                tl.y -= delta;
+                br.x -= delta;
+                br.y -= delta;
+                corner = 1;
+                break;
+
+            case IS_JOIN_TR:
+                tl.x += delta;
+                tl.y -= delta;
+                br.x += delta;
+                br.y -= delta;
+                corner = 1;
+                break;
+
+            case IS_JOIN_BL:
+                tl.x -= delta;
+                tl.y += delta;
+                br.x -= delta;
+                br.y += delta;
+                corner = 1;
+                break;
+
+            case IS_JOIN_BR:
+                tl.x += delta;
+                tl.y += delta;
+                br.x += delta;
+                br.y += delta;
+                corner = 1;
+                break;
+        }
+    }
+
+    int n = x + y;
+
+    thing_tilep thing_tile = thing_tile_find_n(tp_deco, index, &tile, n);
+    if (!thing_tile) {
+        ERR("no deco thing_tile for %s", name);
+        return;
+    }
+
+    if (!tile) {
+        ERR("no deco tile for %s", name);
+        return;
+    }
+
+#if 0
+    const char *tilename = thing_tile_name(thing_tile);
+
+    if (!tilename) {
+        ERR("no deco tilename for %s", name);
+        return;
+    }
+#endif
+
+    tile_blit_fat(tp_deco, tile, 0, tl, br);
+}
+
+static void world_map_place_deco (int x, 
+                                  int y, 
+                                  int z,
+                                  int dx, 
+                                  int dy,
+                                  int index,
+                                  fpoint tl,
+                                  fpoint br)
+{
+    tpp tp;
+
+    if (x + dx < 0) {
+        return;
+    }
+    if (y + dy < 0) {
+        return;
+    }
+    if (x + dx >= WORLD_WIDTH) {
+        return;
+    }
+    if (y + dy >= WORLD_HEIGHT) {
+        return;
+    }
+
+    if ((tp = world_editor_find_grass_at(x, y, z)) &&
+        !world_editor_find_grass_at(x + dx, y + dy, z)) {
+        world_map_place_deco_(x + dx, y + dy, tp, index, tl, br);
+    }
+}
+
+static void world_editor_blit_deco (int x, int y, int z,
+                                    fpoint tl,
+                                    fpoint br)
+{
+    world_map_place_deco(x, y, z,  0, -1, IS_JOIN_TOP, tl, br);
+    world_map_place_deco(x, y, z,  0,  1, IS_JOIN_BOT, tl, br);
+    world_map_place_deco(x, y, z, -1,  0, IS_JOIN_LEFT, tl, br);
+    world_map_place_deco(x, y, z,  1,  0, IS_JOIN_RIGHT, tl, br);
+
+    tpp tp;
+
+    if ((x < WORLD_WIDTH - 1) && (y > 0)) {
+        if ((tp = world_editor_find_grass_at(x, y, z)) &&
+            !world_editor_find_grass_at(x + 1, y - 1, z) &&
+            !world_editor_find_grass_at(x + 1, y, z)) {
+            world_map_place_deco_(x + 1, y - 1, tp, IS_JOIN_TR, tl, br);
+        }
+    }
+
+    if ((x > 0) && (y > 0)) {
+        if ((tp = world_editor_find_grass_at(x, y, z)) &&
+            !world_editor_find_grass_at(x - 1, y - 1, z) &&
+            !world_editor_find_grass_at(x - 1, y, z)) {
+            world_map_place_deco_(x - 1, y - 1, tp, IS_JOIN_TL, tl, br);
+        }
+    }
+
+    if ((x < WORLD_WIDTH - 1) && (y < WORLD_HEIGHT - 1)) {
+        if ((tp = world_editor_find_grass_at(x, y, z)) &&
+            !world_editor_find_grass_at(x + 1, y + 1, z) &&
+            !world_editor_find_grass_at(x + 1, y, z)) {
+            world_map_place_deco_(x + 1, y + 1, tp, IS_JOIN_BR, tl, br);
+        }
+    }
+
+    if ((x > 0) && (y < WORLD_HEIGHT - 1)) {
+        if ((tp = world_editor_find_grass_at(x, y, z)) &&
+            !world_editor_find_grass_at(x - 1, y + 1, z) &&
+            !world_editor_find_grass_at(x - 1, y, z)) {
+            world_map_place_deco_(x - 1, y + 1, tp, IS_JOIN_BL, tl, br);
+        }
+    }
+}
+
 static void world_editor_button_display (widp w, fpoint tl, fpoint br)
 {
     world_editor_ctx *ctx = world_editor_window_ctx;
@@ -877,46 +1100,63 @@ static void world_editor_button_display (widp w, fpoint tl, fpoint br)
         return;
     }
 
-    x += ctx->world_x;
-    y += ctx->world_y;
+    if ((x == WORLD_EDITOR_MENU_WORLD_ACROSS - 1) && (y == WORLD_EDITOR_MENU_WORLD_DOWN - 1)) {
+        int bx, by;
 
-    if ((x < 0) || (x >= WORLD_WIDTH) || (y < 0) || (y >= WORLD_HEIGHT)) {
-        ERR("overflow on map coords (%d, %d)", x, y);
-    }
+        for (bx = 0; bx < WORLD_EDITOR_MENU_CELLS_ACROSS; bx++) {
+            for (by = 0; by < WORLD_EDITOR_MENU_CELLS_DOWN; by++) {
 
-    double width = br.x - tl.x;
-    double height = br.y - tl.y;
+                int x = ctx->world_x + bx;
+                int y = ctx->world_y + by;
 
-    br.x = tl.x + width;
-    tl.y = br.y - height;
+                if ((x < 0) || (x >= WORLD_WIDTH) || (y < 0) || (y >= WORLD_HEIGHT)) {
+                    continue;
+                }
 
-    int z;
-    for (z = 0; z < WORLD_DEPTH; z++) {
-        tpp tp = id_to_tp(ctx->map.tile[x][y][z].tp);
-        if (!tp) {
-            continue;
-        }
+                widp b = ctx->tile[bx][by].button;
+                fpoint tl;
+                fpoint br;
+                wid_get_tl_br(b, &tl, &br);
 
-        fpoint btl = tl;
-        fpoint bbr = br;
+                double width = br.x - tl.x;
+                double height = br.y - tl.y;
+
+                br.x = tl.x + width;
+                tl.y = br.y - height;
+
+                int z;
+
+                for (z = 0; z < WORLD_DEPTH; z++) {
+                    tpp tp = id_to_tp(ctx->map.tile[x][y][z].tp);
+                    if (!tp) {
+                        continue;
+                    }
+
+                    fpoint btl = tl;
+                    fpoint bbr = br;
 
 #if 0
-        tilep tile = ctx->map.world_tile[x][y];
-        if (tile) {
-            glcolor(WHITE);
-            tile_blit_fat(tp, tile, 0, btl, bbr);
-            continue;
-        }
+                    tilep tile = ctx->map.world_tile[x][y];
+                    if (tile) {
+                        glcolor(WHITE);
+                        tile_blit_fat(tp, tile, 0, btl, bbr);
+                        continue;
+                    }
 #endif
 
-        tilep tile = world_editor_tp_to_tile(tp);
-        if (!tp) {
-            continue;
+                    tilep tile = world_editor_tp_to_tile(tp);
+                    if (!tp) {
+                        continue;
+                    }
+
+                    glcolor(WHITE);
+
+                    tile_blit_fat(tp, tile, 0, btl, bbr);
+
+                    world_editor_blit_deco(x, y, z, btl, bbr);
+                }
+            }
         }
-
-        glcolor(WHITE);
-
-        tile_blit_fat(tp, tile, 0, btl, bbr);
     }
 
     blit_flush();
@@ -2159,6 +2399,10 @@ static void world_editor_tile_right_button_pressed (int x, int y)
     int mx = -1;
     int my = -1;
 
+    if (!ctx) {
+        return;
+    }
+
     if (time_get_time_ms() - ctx->mode_toggled < 100) {
         return;
     }
@@ -2176,7 +2420,7 @@ static void world_editor_tile_right_button_pressed (int x, int y)
             (y < WORLD_EDITOR_MENU_WORLD_DOWN)) {
             int z;
             for (z = WORLD_DEPTH - 1; z >= 0; z--) {
-                tpp tp = id_to_tp(ctx->map.tile[mx][my][z].tp);
+                tpp tp = world_editor_get_tp(mx, my, z);
                 if (tp) {
                     /*
                      * Fake a cut so a 'p' can put this back.

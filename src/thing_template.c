@@ -630,7 +630,7 @@ void demarshal_thing_template (demarshal_p ctx, tpp t)
         GET_OPT_NAMED_BITFIELD(ctx, "is_rrr20", t->is_rrr20);
         GET_OPT_NAMED_BITFIELD(ctx, "is_rrr21", t->is_rrr21);
         GET_OPT_NAMED_BITFIELD(ctx, "is_rrr22", t->is_rrr22);
-        GET_OPT_NAMED_BITFIELD(ctx, "is_rrr23", t->is_rrr23);
+        GET_OPT_NAMED_BITFIELD(ctx, "is_grass", t->is_grass);
         GET_OPT_NAMED_BITFIELD(ctx, "is_land", t->is_land);
         GET_OPT_NAMED_BITFIELD(ctx, "is_wanderer_lr", t->is_wanderer_lr);
         GET_OPT_NAMED_BITFIELD(ctx, "is_boulder", t->is_boulder);
@@ -649,7 +649,7 @@ void demarshal_thing_template (demarshal_p ctx, tpp t)
         GET_OPT_NAMED_BITFIELD(ctx, "is_ladder", t->is_ladder);
         GET_OPT_NAMED_BITFIELD(ctx, "is_ladder_deco", t->is_ladder_deco);
         GET_OPT_NAMED_BITFIELD(ctx, "is_entrance", t->is_entrance);
-        GET_OPT_NAMED_BITFIELD(ctx, "is_wall_deco", t->is_wall_deco);
+        GET_OPT_NAMED_BITFIELD(ctx, "is_deco", t->is_deco);
         GET_OPT_NAMED_BITFIELD(ctx, "is_conical_breath_attack", t->is_conical_breath_attack);
         GET_OPT_NAMED_BITFIELD(ctx, "is_corpse", t->is_corpse);
         GET_OPT_NAMED_BITFIELD(ctx, "is_spawns_under", t->is_spawns_under);
@@ -859,7 +859,7 @@ void marshal_thing_template (marshal_p ctx, tpp t)
     PUT_NAMED_BITFIELD(ctx, "is_rrr20", t->is_rrr20);
     PUT_NAMED_BITFIELD(ctx, "is_rrr21", t->is_rrr21);
     PUT_NAMED_BITFIELD(ctx, "is_rrr22", t->is_rrr22);
-    PUT_NAMED_BITFIELD(ctx, "is_rrr23", t->is_rrr23);
+    PUT_NAMED_BITFIELD(ctx, "is_grass", t->is_grass);
     PUT_NAMED_BITFIELD(ctx, "is_land", t->is_land);
     PUT_NAMED_BITFIELD(ctx, "is_wanderer_lr", t->is_wanderer_lr);
     PUT_NAMED_BITFIELD(ctx, "is_boulder", t->is_boulder);
@@ -878,7 +878,7 @@ void marshal_thing_template (marshal_p ctx, tpp t)
     PUT_NAMED_BITFIELD(ctx, "is_ladder", t->is_ladder);
     PUT_NAMED_BITFIELD(ctx, "is_ladder_deco", t->is_ladder_deco);
     PUT_NAMED_BITFIELD(ctx, "is_entrance", t->is_entrance);
-    PUT_NAMED_BITFIELD(ctx, "is_wall_deco", t->is_wall_deco);
+    PUT_NAMED_BITFIELD(ctx, "is_deco", t->is_deco);
     PUT_NAMED_BITFIELD(ctx, "is_conical_breath_attack", t->is_conical_breath_attack);
     PUT_NAMED_BITFIELD(ctx, "is_corpse", t->is_corpse);
     PUT_NAMED_BITFIELD(ctx, "is_spawns_under", t->is_spawns_under);

@@ -1180,9 +1180,9 @@ tpp map_find_wall_at (levelp level, int32_t x, int32_t y, widp *w)
     return (map_find_x_at(level, x, y, tp_is_wall, w));
 }
 
-tpp map_find_wall_deco_at (levelp level, int32_t x, int32_t y, widp *w)
+tpp map_find_deco_at (levelp level, int32_t x, int32_t y, widp *w)
 {
-    return (map_find_x_at(level, x, y, tp_is_wall_deco, w));
+    return (map_find_x_at(level, x, y, tp_is_deco, w));
 }
 
 tpp map_find_ladder_at (levelp level, int32_t x, int32_t y, widp *w)
@@ -1807,11 +1807,11 @@ static void map_place_deco_ (levelp level,
     wid_set_tilename(w, tilename);
 
     if (corner) {
-        wid_set_z_depth(w, MAP_DEPTH_WALL_DECO2);
+        wid_set_z_depth(w, MAP_DEPTH_DECO2);
     }
 }
 
-static void map_place_wall_deco (levelp level, 
+static void map_place_deco (levelp level, 
                                  int x, 
                                  int y, 
                                  int dx, 
@@ -1892,7 +1892,7 @@ static void map_place_deco_edge (levelp level,
 
     if ((tp = map_find_wall_at(level, x, y, 0)) &&
         !map_find_wall_at(level, x + dx, y + dy, 0) &&
-        !map_find_wall_deco_at(level, x + dx, y + dy, 0)) {
+        !map_find_deco_at(level, x + dx, y + dy, 0)) {
     }
 }
 #endif
@@ -1909,7 +1909,7 @@ static void map_fixup2 (levelp level)
         for (x = 0; x < MAP_WIDTH; x++) {
             widp w = 0;
 
-            while (map_find_wall_deco_at(level, x, y, &w)) {
+            while (map_find_deco_at(level, x, y, &w)) {
                 thing_destroy(level, wid_get_thing(w), __FUNCTION__);
             }
 
@@ -1923,7 +1923,7 @@ static void map_fixup2 (levelp level)
         for (x = 0; x < MAP_WIDTH; x++) {
             widp w = 0;
 
-            if (map_find_wall_deco_at(level, x, y, &w)) {
+            if (map_find_deco_at(level, x, y, &w)) {
                 DIE("could not erase wall deco");
             }
 
@@ -1937,10 +1937,10 @@ static void map_fixup2 (levelp level)
         for (x = 0; x < MAP_WIDTH; x++) {
             map_place_ladder_deco(level, x, y,  0, -1, IS_JOIN_TOP);
 
-            map_place_wall_deco(level, x, y,  0, -1, IS_JOIN_TOP);
-            map_place_wall_deco(level, x, y,  0,  1, IS_JOIN_BOT);
-            map_place_wall_deco(level, x, y, -1,  0, IS_JOIN_LEFT);
-            map_place_wall_deco(level, x, y,  1,  0, IS_JOIN_RIGHT);
+            map_place_deco(level, x, y,  0, -1, IS_JOIN_TOP);
+            map_place_deco(level, x, y,  0,  1, IS_JOIN_BOT);
+            map_place_deco(level, x, y, -1,  0, IS_JOIN_LEFT);
+            map_place_deco(level, x, y,  1,  0, IS_JOIN_RIGHT);
 
             tpp tp;
 
