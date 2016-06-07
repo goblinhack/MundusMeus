@@ -514,7 +514,7 @@ static void world_editor_update_edit_mode_buttons (void)
     wid_set_color(b, WID_COLOR_TEXT, GREEN);
 }
 
-static tilep world_editor_tp_to_tile (tpp tp)
+static tilep world_editor_tp_to_tile (tpp tp, int x, int y)
 {
     if (!tp) {
         return (0);
@@ -586,7 +586,7 @@ static tilep world_editor_tp_to_tile (tpp tp)
         return (0);
     }
 
-    thing_tile = thing_tile_first(tiles);
+    thing_tile = thing_tile_get_xy(tiles, x, y);
     if (!thing_tile) {
         return (0);
     }
@@ -612,7 +612,7 @@ static void world_editor_button_animate (widp b, tpp tp)
 
     wid_set_thing_template(b, tp);
 
-    tilep tile = world_editor_tp_to_tile(tp);
+    tilep tile = world_editor_tp_to_tile(tp, 0, 0);
     if (tile) {
         wid_set_tile(b, tile);
     }
@@ -968,15 +968,6 @@ static void world_map_place_deco_ (double x,
         return;
     }
 
-#if 0
-    const char *tilename = thing_tile_name(thing_tile);
-
-    if (!tilename) {
-        ERR("no deco tilename for %s", name);
-        return;
-    }
-#endif
-
     tile_blit_fat(tp_deco, tile, 0, tl, br);
 }
 
@@ -1080,7 +1071,7 @@ static void world_editor_button_display (widp w, fpoint tl, fpoint br)
             return;
         }
 
-        tilep tile = world_editor_tp_to_tile(tp);
+        tilep tile = world_editor_tp_to_tile(tp, x, y);
         if (!tp) {
             return;
         }
@@ -1135,16 +1126,7 @@ static void world_editor_button_display (widp w, fpoint tl, fpoint br)
                     fpoint btl = tl;
                     fpoint bbr = br;
 
-#if 0
-                    tilep tile = ctx->map.world_tile[x][y];
-                    if (tile) {
-                        glcolor(WHITE);
-                        tile_blit_fat(tp, tile, 0, btl, bbr);
-                        continue;
-                    }
-#endif
-
-                    tilep tile = world_editor_tp_to_tile(tp);
+                    tilep tile = world_editor_tp_to_tile(tp, x, y);
                     if (!tp) {
                         continue;
                     }

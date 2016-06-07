@@ -825,3 +825,39 @@ thing_tilep thing_tile_next (tree_rootp root, thing_tilep in)
 
     return (next);
 }
+
+thing_tilep thing_tile_get_xy (tree_root *root, int x, int y)
+{
+    static const int R = 128;
+    static int rands[R][R];
+    static int done;
+
+    if (!done) {
+        int ix, iy;
+        for (ix = 0; ix < R; ix++) {
+            for (iy = 0; iy < R; iy++) {
+                rands[ix][iy] = myrand();
+            }
+        }
+
+        done = true;
+    }
+
+    tree_node *top;
+    uint32_t size;
+    uint32_t r;
+
+    top = root->node;
+    if (!top) {
+        return (0);
+    }
+
+    size = tree_size(top);
+    if (!size) {
+        return (0);
+    }
+
+    r = (rands[x % R][y % R]) % size;
+
+    return ((thing_tilep) tree_root_get_nth(root, r));
+}
