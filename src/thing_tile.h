@@ -9,9 +9,7 @@ typedef struct thing_tile_ {
     int array_index;
 
     char *tilename;
-
     char *command;
-
     tilep tile;
 
     /*
@@ -193,6 +191,7 @@ thing_tilep thing_tile_find(tpp, uint32_t index,
                             tilep *tile);
 thing_tilep thing_tile_find_n(tpp, uint32_t index,
                               tilep *tile, int n);
+thing_tilep thing_tile_get_xy(tree_root *root, int x, int y);
 thing_tilep thing_tile_first(tree_rootp root);
 thing_tilep thing_tile_next(tree_rootp root, thing_tilep in);
 thing_tilep thing_tile_random(tree_rootp root);
