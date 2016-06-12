@@ -150,19 +150,19 @@ static void thing_possible_hit_do (levelp level, thingp hitter)
                 best = cand;
             }
         }
-if (0) {
+#if 0
 CON("hitter %s dx %f x %f target %s x %f",
     thing_logname(hitter),
     hitter->dx, hitter->x,
     thing_logname(cand->target),
     cand->target->x);
-}
+#endif
     }
 
     if (best) {
-if (0) {
+#if 0
 CON("hitter %s best %s and hitter_killed_on_hitting %d",thing_logname(hitter),thing_logname(best->target), best->hitter_killed_on_hitting);
-}
+#endif
         if (thing_hit(level, best->target, hitter, 0)) {
             if (best->hitter_killed_on_hitting) {
                 thing_dead(level, hitter, 0, "hitter killed on hitting");
@@ -569,6 +569,7 @@ static uint8_t things_overlap (levelp level,
     widp Aw = thing_wid(A);
     widp Bw = thing_wid(B);
 
+#if 0
     if (0 &&
         ((thing_is_player(A) && thing_is_monst(B)) ||
          (thing_is_player(B) && thing_is_monst(A)))) {
@@ -595,7 +596,9 @@ static uint8_t things_overlap (levelp level,
         Bpy1 = tileB->py1;
         Bpy2 = tileB->py2;
 
-    } else {
+    } else 
+#endif
+    {
         if (thing_is_wall(A) || thing_is_door(A)) {
             tilep tileA = wid_get_tile(Aw);
             if (!tileA) {

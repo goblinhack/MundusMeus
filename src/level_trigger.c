@@ -37,7 +37,7 @@ int level_trigger2slot (levelp level, color c)
         c = default_trigger;
     }
 
-    int i;
+    uint32_t i;
 
     /*
      * See if the trigger exists
@@ -64,7 +64,7 @@ void level_trigger_alloc (levelp level, color c)
         c = default_trigger;
     }
 
-    int i;
+    uint32_t i;
 
     if (level_trigger2slot(level, c) != -1) {
         return;
@@ -301,7 +301,7 @@ void level_trigger_activate_default_triggers (levelp level)
         }
     }
 
-    int i;
+    uint32_t i;
 
     for (i = 0; i < ARRAY_SIZE(level->trigger); i++) {
         color c = level->trigger[i].c;

@@ -17,6 +17,7 @@ void thing_effect_hit_miss (levelp level, thingp t)
 CON("todo miss");
 return;
 
+#if 0
     widp w = t->wid;
     if (w) {
         wid_set_mode(w, WID_MODE_ACTIVE);
@@ -24,6 +25,7 @@ return;
                              0, // owner
                              t->x, t->y);
     }
+#endif
 }
 
 void thing_effect_hit_success (levelp level, thingp t)
@@ -37,6 +39,7 @@ void thing_effect_hit_success (levelp level, thingp t)
 
 CON("todo success");
 return;
+#if 0
     widp w = t->wid;
     if (w) {
         wid_set_mode(w, WID_MODE_ACTIVE);
@@ -73,6 +76,7 @@ return;
                                     t->x, t->y);
         }
     }
+#endif
 }
 
 void thing_effect_flames (levelp level, thingp t)

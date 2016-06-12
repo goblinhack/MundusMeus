@@ -331,7 +331,7 @@ static ptrcheck *ptrcheck_verify_pointer (const void *ptr,
 
 #ifndef ENABLE_PTRCHECK_HISTORY
         return (context);
-#endif
+#else
         if (dont_store) {
             return (context);
         }
@@ -363,6 +363,7 @@ static ptrcheck *ptrcheck_verify_pointer (const void *ptr,
         }
 
         return (context);
+#endif
     }
 
     /*

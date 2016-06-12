@@ -575,8 +575,6 @@ static void wid_cmap_cell_cancelled (widp w)
 
 static void wid_cmap_bg_create (void)
 {
-    return;
-
     widp wid;
 
     if (wid_cmap_background) {

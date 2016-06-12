@@ -110,6 +110,7 @@ static tpp world_editor_get_tp (int x, int y, int z)
     return (id_to_tp(ctx->map.tile[x][y][z].tp));
 }
 
+#if 0
 static tpp world_editor_find_grass_at (int x, int y, int z)
 {
     tpp tp = world_editor_get_tp(x, y, z);
@@ -120,6 +121,7 @@ static tpp world_editor_find_grass_at (int x, int y, int z)
 
     return (0);
 }
+#endif
 
 /*
  * Replace or place a tile.
@@ -878,6 +880,7 @@ static void world_editor_update_buttons (void)
     wid_update(world_editor_window);
 }
 
+#if 0
 static void world_map_place_deco_ (double x, 
                                    double y, 
                                    tpp tp,
@@ -970,7 +973,9 @@ static void world_map_place_deco_ (double x,
 
     tile_blit_fat(tp_deco, tile, 0, tl, br);
 }
+#endif
 
+#if 0
 static void world_map_place_deco (int x, 
                                   int y, 
                                   int z,
@@ -1000,7 +1005,9 @@ static void world_map_place_deco (int x,
         world_map_place_deco_(x + dx, y + dy, tp, index, tl, br);
     }
 }
+#endif
 
+#if 0
 static void world_editor_blit_deco (int x, int y, int z,
                                     fpoint tl,
                                     fpoint br)
@@ -1044,6 +1051,7 @@ static void world_editor_blit_deco (int x, int y, int z,
         }
     }
 }
+#endif
 
 static void world_editor_button_display (widp w, fpoint tl, fpoint br)
 {
@@ -1134,9 +1142,6 @@ static void world_editor_button_display (widp w, fpoint tl, fpoint br)
                     glcolor(WHITE);
 
                     tile_blit_fat(tp, tile, 0, btl, bbr);
-
-                    if (0)
-                    world_editor_blit_deco(x, y, z, btl, bbr);
                 }
             }
         }
@@ -2031,7 +2036,7 @@ next:
             return;
         }
 
-        if (stack_size > ARRAY_SIZE(stack_x)) {
+        if (stack_size > (int) ARRAY_SIZE(stack_x)) {
             DIE("overflow");
         }
 
@@ -2039,7 +2044,7 @@ next:
         int x = stack_x[stack_size];
         int y = stack_y[stack_size];
 
-        if (stack_size > ARRAY_SIZE(stack_x)) {
+        if (stack_size > (int) ARRAY_SIZE(stack_x)) {
             DIE("overflow");
         }
 
@@ -2828,39 +2833,6 @@ static void world_editor_destroy (widp w)
     world_editor_window_ctx = 0;
 }
 
-static void world_editor_bg_create (void)
-{
-    return;
-
-    widp wid;
-
-    if (world_editor_background) {
-        return;
-    }
-
-    {
-        wid = world_editor_background = wid_new_window("bg");
-
-        float f = (1024.0 / 680.0);
-
-        fpoint tl = { 0.0, 0.0 };
-        fpoint br = { 1.0, f };
-
-        wid_set_tl_br_pct(wid, tl, br);
-
-        wid_lower(wid);
-
-        color c;
-        c = WHITE;
-        wid_set_mode(wid, WID_MODE_NORMAL);
-        wid_set_color(wid, WID_COLOR_TL, c);
-        wid_set_color(wid, WID_COLOR_BR, c);
-        wid_set_color(wid, WID_COLOR_BG, c);
-
-        wid_update(wid);
-    }
-}
-
 static uint8_t world_editor_load_tile (const tree_node *node, void *arg)
 {
     world_editor_ctx *ctx = world_editor_window_ctx;
@@ -3631,7 +3603,6 @@ void world_editor (uint32_t level_no)
     wid_update(window);
     world_editor_update_buttons();
     wid_update(window);
-    world_editor_bg_create();
 
     ctx->created = time_get_time_ms();
     world_editor_tile_mode_set(false);

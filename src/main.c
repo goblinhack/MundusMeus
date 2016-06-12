@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include "slre.h"
 #include <time.h>
+#include "python.h"
 
 #include "glapi.h"
 #include "wid_console.h"
@@ -143,6 +144,8 @@ void quit (void)
 #endif
 
     term_fini();
+
+    python_fini();
 }
 
 void restart (void)
@@ -488,6 +491,8 @@ int32_t main (int32_t argc, char *argv[])
     color_init();
 
     find_file_locations();
+
+    python_init();
 
     if (!config_init()) {
 	ERR("Config init");
