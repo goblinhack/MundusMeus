@@ -8018,6 +8018,7 @@ static void wid_display_fast (widp w,
         }
     }
 
+#if 0
     if (0 && t && thing_can_roll(t)) {
         glcolor(YELLOW);
         char tmp[80];
@@ -8108,6 +8109,7 @@ static void wid_display_fast (widp w,
 
         }
     }
+#endif
 }
 
 static void map_light_add_ray_depth (fpoint p,
@@ -8725,6 +8727,7 @@ static void wid_lighting_render (widp w,
 /*
  * Walk all widgets next to this light source and find light intersections.
  */
+#if 0
 static void wid_lighting_debug (widp w, 
                                  const int light_index,
                                  const int light_level)
@@ -8795,6 +8798,7 @@ static void wid_lighting_debug (widp w,
         }
     }
 }
+#endif
 
 /*
  * Display one wid and its children
@@ -9586,6 +9590,7 @@ static void wid_display (widp w,
             }
 #endif
 
+#if 0
             if (0) {
                 for (i = 0; i < wid_light_count; i++) {
                     /*
@@ -9609,6 +9614,7 @@ static void wid_display (widp w,
                     wid_lighting_debug(w, i, 1);
                 }
             }
+#endif
         }
     } else {
         widp child;

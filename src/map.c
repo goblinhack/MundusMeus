@@ -1977,9 +1977,7 @@ static void map_fixup2 (levelp level)
 
 void map_fixup (levelp level)
 {
-    if (0) {
-        map_fixup1(level);
-    }
+    map_fixup1(level);
     map_fixup2(level);
 }
 

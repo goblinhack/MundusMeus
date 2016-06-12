@@ -140,6 +140,7 @@ void wid_intro_visible (void)
     wid_fade_in(wid_intro_title, intro_effect_delay);
 }
 
+#ifndef TEST
 static void wid_intro_bg_create (void)
 {
     if (!wid_intro_title) {
@@ -164,6 +165,7 @@ static void wid_intro_bg_create (void)
         wid_set_do_not_raise(wid, true);
     }
 }
+#endif
 
 static widp wid_intro_quit_popup;
 
@@ -294,7 +296,7 @@ static void wid_intro_create (void)
 #ifdef TEST
 world_editor(0);
 return;
-#endif
+#else
 
     if (wid_intro) {
         return;
@@ -326,6 +328,7 @@ return;
     wid_fade_in(wid_intro_title, intro_effect_delay*2);
 
     wid_intro_menu_create();
+#endif
 }
 
 static void wid_version_make_visible (void *context)

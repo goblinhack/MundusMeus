@@ -92,7 +92,6 @@ if [ "$SDL2_CONFIG" != "" ]; then
     fi
 fi
 
-
 log_info "SDL1 config      : $SDL1_CONFIG"
 log_info "SDL1 version     : "`$SDL1_CONFIG --version`
 log_info "SDL1 include path: $SDL1_INC_PATH"
@@ -139,6 +138,150 @@ else
         log_info "Prefer SDL1 as it has more headers"
         SDL_CONFIG=$SDL1_CONFIG
         USE_SDL1=1
+    fi
+fi
+
+#
+# Gives warings at runtime on MACOS
+#
+SDL_LIBS=`$SDL_CONFIG --static-libs`
+
+if [ $? -ne 0 ]
+then
+    log_err "Please install SDL 1.2 or 1.3. $SDL_CONFIG failed."
+    log_err "SDL-1.2.14.tar.gz is in support/"
+    exit 1
+fi
+
+C_FLAGS=`$SDL_CONFIG --cflags`
+if [ $? -ne 0 ]
+then
+    log_err "Please install SDL 1.2 or 1.3. $SDL_CONFIG failed."
+    log_err "SDL-1.2.14.tar.gz is in support/"
+    exit 1
+fi
+
+log_info "SDL version:" `$SDL_CONFIG --version`
+log_info "  ($SDL_CONFIG)"
+
+#
+# -funwind-tables and -rdynamic for backtrace info on linux.
+# But it seemed to help little.
+#
+LDLIBS="$SDL_LIBS"
+
+if [ "$USE_SDL2" = "1" ]
+then
+#    LDLIBS="$LDLIBS -lSDL2_ttf"
+    LDLIBS="$LDLIBS -lSDL2_mixer"
+else
+#    LDLIBS="$LDLIBS -lSDL_ttf"
+    LDLIBS="$LDLIBS -lSDL_mixer"
+fi
+
+for i in \
+    /opt/local/bin/python3-config \
+    /usr/local/bin/python3-config \
+    /usr/bin/python3-config \
+    /mingw/bin/python3-config \
+    /mingw64/bin/python3-config
+do
+    if [ -x $i ]
+    then
+        Python3_CONFIG=$i
+        break
+    fi
+done
+
+#
+# Prefer Python over Python3 as it seems more common
+#
+for i in \
+    /opt/local/bin/python-config \
+    /usr/local/bin/python-config \
+    /usr/bin/python-config \
+    /mingw/bin/python-config \
+    /mingw64/bin/python-config
+do
+    if [ -x $i ]
+    then
+        Python2_CONFIG=$i
+        break
+    fi
+done
+
+python_help()
+{
+    log_warn "Is python3 installed ?"
+    log_warn "  For ubuntu Python3 do: "
+    log_warn "  For ubuntu Python2 do: "
+    log_warn "  For macos, install Mac ports and then do: "
+    log_warn "   sudo port install python3*"
+}
+
+Python2_SCORE=0
+Python3_SCORE=0
+
+if [ "$Python2_CONFIG" != "" ]; then
+    Python2_INC_PATH=`$Python2_CONFIG --cflags | sed 's/.*-I\([a-zA-Z\/_0-9:\.]*\) .*/\1/g'`
+
+    find $Python2_INC_PATH | grep -q Python.h
+    if [ $? -eq 0 ]; then
+        Python2_SCORE=`expr $Python2_SCORE + 1`
+    fi
+fi
+
+if [ "$Python3_CONFIG" != "" ]; then
+    Python3_INC_PATH=`$Python3_CONFIG --cflags | sed 's/.*-I\([a-zA-Z\/_0-9:\.]*\) .*/\1/g'`
+
+    find $Python3_INC_PATH | grep -q Python.h
+    if [ $? -eq 0 ]; then
+        Python3_SCORE=`expr $Python3_SCORE + 1`
+    fi
+fi
+
+log_info "Python2 config      : $Python2_CONFIG"
+log_info "Python2             : "`$Python2_CONFIG --exec-prefix`
+log_info "Python2 include path: $Python2_INC_PATH"
+log_info "Python2 score       : $Python2_SCORE"
+
+if [[ "$Python3_CONFIG" != "" ]]; then
+    log_info "Python3 config      : $Python3_CONFIG"
+    log_info "Python3             : "`$Python3_CONFIG --exec-prefix`
+    log_info "Python3 include path: $Python3_INC_PATH"
+    log_info "Python3 score       : $Python3_SCORE"
+fi
+
+USE_Python2=0
+USE_Python3=0
+
+if [[ $Python2_SCORE = "0" ]]; then
+    if [[ $Python3_SCORE = "0" ]]; then
+        python_help
+        log_err "I need Python2 or Python3"
+        exit 1
+    else
+        Python_CONFIG=$Python3_CONFIG
+        USE_Python3=1
+    fi
+elif [[ $Python3_SCORE = "0" ]]; then
+    if [[ $Python2_SCORE = "0" ]]; then
+        python_help
+        log_err "I need Python2 or Python3"
+        exit 1
+    else
+        Python_CONFIG=$Python2_CONFIG
+        USE_Python2=1
+    fi
+else
+    if [[ $Python3_SCORE -ge $Python2_SCORE ]]; then
+        log_info "Prefer Python3"
+        Python_CONFIG=$Python3_CONFIG
+        USE_Python3=1
+    else
+        log_info "Prefer Python2"
+        Python_CONFIG=$Python2_CONFIG
+        USE_Python2=1
     fi
 fi
 
@@ -207,40 +350,21 @@ cd ..
 #
 # Gives warings at runtime on MACOS
 #
-SDL_LIBS=`$SDL_CONFIG --static-libs`
+Python_LIBS=`$Python_CONFIG --ldflags`
 
 if [ $? -ne 0 ]
 then
-    log_err "Please install SDL 1.2 or 1.3. $SDL_CONFIG failed."
-    log_err "SDL-1.2.14.tar.gz is in support/"
+    log_err "Please install Python 3. $Python_CONFIG failed."
     exit 1
 fi
 
-C_FLAGS=`$SDL_CONFIG --cflags`
-if [ $? -ne 0 ]
-then
-    log_err "Please install SDL 1.2 or 1.3. $SDL_CONFIG failed."
-    log_err "SDL-1.2.14.tar.gz is in support/"
-    exit 1
-fi
-
-log_info "SDL version:" `$SDL_CONFIG --version`
-log_info "  ($SDL_CONFIG)"
+C_FLAGS="$C_FLAGS `$Python_CONFIG --cflags`"
 
 #
 # -funwind-tables and -rdynamic for backtrace info on linux.
 # But it seemed to help little.
 #
-LDLIBS="$SDL_LIBS"
-
-if [ "$USE_SDL2" = "1" ]
-then
-#    LDLIBS="$LDLIBS -lSDL2_ttf"
-    LDLIBS="$LDLIBS -lSDL2_mixer"
-else
-#    LDLIBS="$LDLIBS -lSDL_ttf"
-    LDLIBS="$LDLIBS -lSDL_mixer"
-fi
+LDLIBS="$LDLIBS $Python_LIBS"
 
 #
 # for backtraces, but it doesn't help much

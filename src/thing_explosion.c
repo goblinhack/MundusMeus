@@ -219,7 +219,6 @@ static void level_place_explosion_ (levelp level,
      * end up being a wall. If this is the case, look around for a closer tile 
      * that has no wall.
      */
-    if (0)
     if (map_find_wall_at(level, x, y, 0) ||
         map_find_door_at(level, x, y, 0) ||
         map_find_rock_at(level, x, y, 0)) {
@@ -476,6 +475,7 @@ void level_place_explosion (levelp level,
 
 CON("todo %s", tp_name(otp));
 return;
+#if 0
     level_place_explosion_(level, 
                            owner,
                            ox, oy,
@@ -485,6 +485,7 @@ return;
                            explodes_as, // epicenter
                            1, // nargs
                            explodes_as);
+#endif
 }
 
 static void level_place_small_rocks (levelp level, 

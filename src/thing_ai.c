@@ -588,15 +588,15 @@ static uint8_t thing_find_nexthop_dmap (thingp t,
     tp = thing_tp(t);
     uint32_t min_distance = tp_get_approach_distance(tp);
     if (min_distance) {
-        if (a < min_distance) { a += not_preferred; }
-        if (b < min_distance) { b += not_preferred; }
-        if (c < min_distance) { c += not_preferred; }
-        if (d < min_distance) { d += not_preferred; }
-        if (e < min_distance) { e += not_preferred; }
-        if (f < min_distance) { f += not_preferred; }
-        if (g < min_distance) { g += not_preferred; }
-        if (h < min_distance) { h += not_preferred; }
-        if (i < min_distance) { i += not_preferred; }
+        if ((uint32_t)a < min_distance) { a += not_preferred; }
+        if ((uint32_t)b < min_distance) { b += not_preferred; }
+        if ((uint32_t)c < min_distance) { c += not_preferred; }
+        if ((uint32_t)d < min_distance) { d += not_preferred; }
+        if ((uint32_t)e < min_distance) { e += not_preferred; }
+        if ((uint32_t)f < min_distance) { f += not_preferred; }
+        if ((uint32_t)g < min_distance) { g += not_preferred; }
+        if ((uint32_t)h < min_distance) { h += not_preferred; }
+        if ((uint32_t)i < min_distance) { i += not_preferred; }
     }
 
     lowest = min(a, min(b, min(c, min(d, min(e, min(f, min(g, min(h,i))))))));

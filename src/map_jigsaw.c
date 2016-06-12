@@ -262,7 +262,7 @@ typedef struct {
 } frag_t;
 
 typedef struct {
-    int depth;
+    uint32_t depth;
 
     /*
      * Co-ords here are in terms of rooms, not characters.
@@ -1406,7 +1406,7 @@ static void jigpiece_get_bounds (jigpiece_t *j)
  *
  * Replace a fragment of the maze to make it more interesting.
  */
-static int jigpiece_add_frag (dungeon_t *dg, frag_t *fragmap, int chance)
+static int jigpiece_add_frag (dungeon_t *dg, frag_t *fragmap, uint32_t chance)
 {
     int32_t i;
     int32_t c;
@@ -1426,7 +1426,7 @@ static int jigpiece_add_frag (dungeon_t *dg, frag_t *fragmap, int chance)
 
     for (F = 0; F < fragmap->frag_cnt; F++) {
 
-        int f = myrand() % fragmap->frag_cnt;
+        uint32_t f = myrand() % fragmap->frag_cnt;
 
         if ((myrand() % 100) > chance) {
             continue;
@@ -3552,7 +3552,7 @@ static tpp map_char_to_tp (char c,
                 DIE("cannot place random loot %s", name);
             }
 
-            int r =  myrand() % 10000;
+            uint32_t r =  myrand() % 10000;
             if (r < tp_get_d10000_chance_of_appearing(tp)) {
                 map_tp[x][y][tp_get_z_depth(tp)] = tp;
             }

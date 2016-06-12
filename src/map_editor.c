@@ -2700,9 +2700,7 @@ static void map_editor_tile_left_button_pressed (int x, int y)
 
             case MAP_EDITOR_MODE_STYLE:
                 map_editor_tile_mode_set(false);
-                if (0) {
                 map_editor_style();
-                }
                 break;
 
             case MAP_EDITOR_MODE_RANDOM:
@@ -3206,39 +3204,6 @@ static void map_editor_destroy (widp w)
     myfree(ctx);
     map_editor_window = 0;
     map_editor_window_ctx = 0;
-}
-
-static void map_editor_bg_create (void)
-{
-    return;
-
-    widp wid;
-
-    if (map_editor_background) {
-        return;
-    }
-
-    {
-        wid = map_editor_background = wid_new_window("bg");
-
-        float f = (1024.0 / 680.0);
-
-        fpoint tl = { 0.0, 0.0 };
-        fpoint br = { 1.0, f };
-
-        wid_set_tl_br_pct(wid, tl, br);
-
-        wid_lower(wid);
-
-        color c;
-        c = WHITE;
-        wid_set_mode(wid, WID_MODE_NORMAL);
-        wid_set_color(wid, WID_COLOR_TL, c);
-        wid_set_color(wid, WID_COLOR_BR, c);
-        wid_set_color(wid, WID_COLOR_BG, c);
-
-        wid_update(wid);
-    }
 }
 
 static uint8_t map_editor_load_tile (const tree_node *node, void *arg)
@@ -4136,7 +4101,6 @@ void map_editor (uint32_t level_no)
     wid_update(window);
     map_editor_update_buttons();
     wid_update(window);
-    map_editor_bg_create();
 
     ctx->created = time_get_time_ms();
     map_editor_tile_mode_set(false);

@@ -656,41 +656,6 @@ static void wid_map_cell_cancelled (widp w)
     wid_intro_visible();
 }
 
-static void wid_map_bg_create (void)
-{
-    return;
-
-    widp wid;
-
-    if (wid_map_background) {
-        return;
-    }
-
-    {
-        wid = wid_map_background = wid_new_window("bg");
-
-        float f = (1024.0 / 680.0);
-
-        fpoint tl = { 0.0, 0.0 };
-        fpoint br = { 1.0, f };
-
-        wid_set_tl_br_pct(wid, tl, br);
-
-        wid_set_tex(wid, 0, "title5");
-
-        wid_lower(wid);
-
-        color c;
-        c = WHITE;
-        wid_set_mode(wid, WID_MODE_NORMAL);
-        wid_set_color(wid, WID_COLOR_TL, c);
-        wid_set_color(wid, WID_COLOR_BR, c);
-        wid_set_color(wid, WID_COLOR_BG, c);
-
-        wid_update(wid);
-    }
-}
-
 static void wid_map_find_player_start (int x, int y)
 {
     wid_map_ctx *ctx = wid_map_window_ctx;
@@ -1401,7 +1366,6 @@ widp wid_map (const char *title,
     wid_map_update_buttons();
     wid_update(window);
     wid_raise(window);
-    wid_map_bg_create();
 
     wid_set_on_display_top_level(window, wid_map_preview);
 
