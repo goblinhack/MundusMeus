@@ -6530,7 +6530,6 @@ static uint8_t resource_init_last (void *context)
                   powerup1_tiles);
 
     tp_load(THING_GRASS1, "grass1");
-    tp_load(THING_GRASS1_DECO, "grass1_deco");
     tp_load(THING_WALL1_DECO, "wall1_deco");
     tp_load(THING_WALL1, "wall1");
     tp_load(THING_BLOCK1, "block1");

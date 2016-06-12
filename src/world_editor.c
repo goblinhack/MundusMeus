@@ -1135,6 +1135,7 @@ static void world_editor_button_display (widp w, fpoint tl, fpoint br)
 
                     tile_blit_fat(tp, tile, 0, btl, bbr);
 
+                    if (0)
                     world_editor_blit_deco(x, y, z, btl, bbr);
                 }
             }
