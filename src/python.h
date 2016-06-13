@@ -10,3 +10,4 @@
 
 void python_init(void);
 void python_fini(void);
+void py_exec(const char *str);

@@ -26,6 +26,7 @@
 #include "level.h"
 #include "fluid.h"
 #include "thing.h"
+#include "python.h"
 
 #ifdef ENABLE_WID_PTRCHECK
 #undef fast_verify
@@ -5621,7 +5622,7 @@ uint8_t wid_receive_input (widp w, const SDL_KEYSYM *key)
                     snprintf(tmp, sizeof(tmp), "> %s", entered);
                     wid_set_text(w->next, tmp);
 
-                    if (!command_handle(entered, updatedtext,
+                   if (!command_handle(entered, updatedtext,
                                     true /* show ambiguous */,
                                     false /* show complete */,
                                     true /* execute command */,

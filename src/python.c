@@ -7,6 +7,8 @@
 #include "python.h"
 #include "main.h"
 #include "string_util.h"
+#include "string_ext.h"
+#include "frameobject.h"
 
 static PyObject* hello (PyObject*obj, PyObject *args, PyObject *keywds)
 {
@@ -66,36 +68,32 @@ python_my_module_create (void)
    return (m);
 }
 
-static int py_obj_to_str (const PyObject *py_str, char **outstr)
+static char *py_obj_to_str (const PyObject *py_str)
 {
     PyObject *py_encstr;
-    int ret;
+    char *outstr = 0;
     char *str;
 
     py_encstr = 0;
     str = 0;
-    ret = 0;
 
     if (!PyUnicode_Check((PyObject *)py_str)) {
         ERR("Object is a %s, not a string object.",
             Py_TYPE((PyObject *)py_str)->tp_name);
-        ret = -1;
         goto err_out;
     }
 
     py_encstr = PyUnicode_AsEncodedString((PyObject *)py_str, "utf-8", 0);
     if (!py_encstr) {
-        ret = -1;
         goto err_out;
     }
 
     str = PyBytes_AS_STRING(py_encstr);
     if (!str) {
-        ret = -1;
         goto err_out;
     }
 
-    *outstr = dupstr(str, __FUNCTION__);
+    outstr = dupstr(str, __FUNCTION__);
 
 err_out:
 
@@ -107,10 +105,92 @@ err_out:
         ERR("string conversion failed");
     }
 
-    return (ret);
+    return (outstr);
 }
 
-static void python_add_to_path (const char *path)
+static void py_err (void)
+{
+    PyObject *err = PyErr_Occurred();
+    if (!err) {
+        return;
+    }
+
+    PyObject *ptype, *pvalue, *ptraceback, *pyobj_str;
+    PyObject *ret, *list, *string;
+    PyObject *mod;
+    char *py_str;
+
+    PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+    pyobj_str = PyObject_Str(pvalue);
+    py_str = py_obj_to_str(pyobj_str);
+    ERR("%s", py_str);
+    myfree(py_str);
+
+    mod = PyImport_ImportModule("traceback");
+    list = PyObject_CallMethod(mod, "format_exception", "OOO", ptype, pvalue, ptraceback);
+    string = PyUnicode_FromString("\n");
+    ret = PyUnicode_Join(string, list);
+    Py_DECREF(list);
+    Py_DECREF(string);
+
+    py_str = py_obj_to_str(ret);
+    ERR("%s", py_str);
+    myfree(py_str);
+
+    Py_DECREF(ret);
+    PyErr_Clear();
+
+    PyThreadState *tstate = PyThreadState_GET();
+
+    if (tstate && tstate->frame) {
+        PyFrameObject *frame = tstate->frame;
+
+        ERR("Python stack trace:\n");
+
+        while (frame) {
+            int line = frame->f_lineno;
+            char *filename = py_obj_to_str(frame->f_code->co_filename);
+            char *funcname = py_obj_to_str(frame->f_code->co_name);
+            ERR("    %s(%d): %s\n", filename, line, funcname);
+            frame = frame->f_back;
+            myfree(filename);
+            myfree(funcname);
+        }
+    }
+}
+
+void py_exec (const char *str)
+{
+    char *stdOutErr =
+"import sys\n\
+class CatchOutErr:\n\
+    def __init__(self):\n\
+        self.value = ''\n\
+    def write(self, txt):\n\
+        self.value += txt\n\
+catchOutErr = CatchOutErr()\n\
+sys.stdout = catchOutErr\n\
+sys.stderr = catchOutErr\n\
+";
+
+    PyObject *pModule = PyImport_AddModule("__main__");
+
+    PyRun_SimpleString(stdOutErr);
+    PyRun_SimpleString(str);
+
+    PyObject *catcher = PyObject_GetAttrString(pModule, "catchOutErr");
+    PyObject *output = PyObject_GetAttrString(catcher, "value");
+
+    char *text = py_obj_to_str(output);
+    if (text) {
+        strchopc(text, '\n');
+        CON("%s", text);
+        myfree(text);
+    }
+    py_err();
+}
+
+static void py_add_to_path (const char *path)
 {
     PyObject *py_cur_path, *py_item;
     char *new_path;
@@ -122,7 +202,7 @@ static void python_add_to_path (const char *path)
     py_cur_path = PySys_GetObject("path");
 
     for (i = 0; i < PyList_Size(py_cur_path); i++) {
-        char *tmp = strappend(new_path, ";");
+        char *tmp = strappend(new_path, ":");
         myfree(new_path);
         new_path = tmp;
 
@@ -132,7 +212,8 @@ static void python_add_to_path (const char *path)
             continue;
         }
 
-        if (py_obj_to_str(py_item, &item) != 0) {
+        item = py_obj_to_str(py_item);
+        if (!item) {
             continue;
         }
 
@@ -159,54 +240,24 @@ static void python_add_to_path (const char *path)
     myfree(wc_new_path);
 }
 
-#if 0
-   PyObject *mymod;
-   PySys_SetPath(L".");
-   mymod = PyImport_ImportModule("my_init");
-   if (!mymod) {
-        PyErr_Print();
-        DIE("");
-        fprintf(stderr,"\nZZZ %s %s %d ",__FILE__,__FUNCTION__,__LINE__);
-        exit(1);
-    }
-
-    PyObject *strret, *strfunc, *strargs;
-    char *cstrret;
-
-    strfunc = PyObject_GetAttrString(mymod, "rstring");
-    if (!strfunc) {
-        PyErr_Print();
-        fprintf(stderr,"\nZZZ %s %s %d ",__FILE__,__FUNCTION__,__LINE__);
-        exit(1);
-    }
-
-    strargs = Py_BuildValue("(s)", "my_init");
-    if (!strargs) {
-        PyErr_Print();
-        fprintf(stderr,"\nZZZ %s %s %d ",__FILE__,__FUNCTION__,__LINE__);
-        exit(1);
-    }
-
-    strret = PyEval_CallObject(strfunc, strargs);
-    if (!strret) {
-        PyErr_Print();
-        fprintf(stderr,"\nZZZ %s %s %d ",__FILE__,__FUNCTION__,__LINE__);
-        exit(1);
-    }
-    PyArg_Parse(strret, "s", &cstrret);
-}
-#endif
-
 void python_init (void)
 {
+   PyObject *mymod;
+
    PyImport_AppendInittab("my_c_mod", python_my_module_create);
 
    Py_Initialize();
 
-   python_add_to_path(GFX_PATH);
-   python_add_to_path(LEVELS_PATH);
-   python_add_to_path(WORLD_PATH);
-   python_add_to_path(DATA_PATH);
+   py_add_to_path(GFX_PATH);
+   py_add_to_path(LEVELS_PATH);
+   py_add_to_path(WORLD_PATH);
+   py_add_to_path(DATA_PATH);
+
+   mymod = PyImport_ImportModule("init");
+   if (!mymod) {
+        py_err();
+        DIE("module import failed");
+    }
 }
 
 void python_fini (void)

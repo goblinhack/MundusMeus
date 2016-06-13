@@ -12,6 +12,7 @@
 #include "wid.h"
 #include "color.h"
 #include "ttf.h"
+#include "string_ext.h"
 
 static int32_t wid_console_inited;
 static int32_t wid_console_exiting;
@@ -23,8 +24,8 @@ static widp wid_console_horiz_scroll;
 
 widp wid_console_input_line;
 
-static float wid_console_line_height = 0.050f;
-static float wid_console_max_line_height = 0.050f;
+static float wid_console_line_height = 0.020f;
+static float wid_console_max_line_height = 0.020f;
 static tree_root *tree_wid_console;
 
 widp wid_console_window;
@@ -85,6 +86,7 @@ void wid_console_hello (void)
     CON("Press %%%%fg=red$<tab>%%%%fg=reset$ to complete commands.");
 
     CON("Press %%%%fg=red$?%%%%fg=reset$ to show command options.");
+    CON("You can also enter raw python code here.");
 }
 
 /*
@@ -102,7 +104,7 @@ static void wid_console_reset_scroll (void)
 /*
  * Log a message to the console
  */
-void wid_console_log (const char *s)
+static void wid_console_log_ (const char *s)
 {
     static int32_t log_wid_console_buffered_lines;
     tree_wid_console_node *node;
@@ -153,6 +155,27 @@ void wid_console_log (const char *s)
 }
 
 /*
+ * Log a message to the console
+ */
+void wid_console_log (const char *s)
+{
+    tree_string_split_node *n;
+    tree_root *d;
+    int chars_per_line = 80;
+
+    d = split(s, chars_per_line);
+
+    /*
+    * Get some rough sizes for the font.
+    */
+    { TREE_WALK(d, n) {
+        wid_console_log_(n->line);
+    } }
+
+    split_free(&d);
+}
+
+/*
  * Key down etc...
  */
 static uint8_t wid_console_receive_input (widp w, const SDL_KEYSYM *key)
@@ -183,7 +206,7 @@ static void wid_console_wid_create (void)
 
     {
         fpoint tl = {0.0f, 0.0f};
-        fpoint br = {1.0f, 0.5f};
+        fpoint br = {1.0f, 1.0f};
         color c;
 
         wid_console_window = wid_new_square_window("wid_console");

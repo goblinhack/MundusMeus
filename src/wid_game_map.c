@@ -100,11 +100,14 @@ void wid_game_map_init (void)
                                   tp,
                                   0 /* tpp_data */);
     if (!w) {
-        ERR("no player");
+        DIE("no player");
     }
 
     thingp t = wid_get_thing(w);
     player = t;
+    if (!player) {
+        DIE("no player");
+    }
 
     thing_move(level, player, t->x, t->y, false, false, false, false, false);
 
