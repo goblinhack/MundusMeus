@@ -258,7 +258,7 @@ USE_Python3=0
 if [[ $Python2_SCORE = "0" ]]; then
     if [[ $Python3_SCORE = "0" ]]; then
         python_help
-        log_err "I need Python2 or Python3"
+        log_err "I need Python3"
         exit 1
     else
         Python_CONFIG=$Python3_CONFIG
@@ -267,11 +267,14 @@ if [[ $Python2_SCORE = "0" ]]; then
 elif [[ $Python3_SCORE = "0" ]]; then
     if [[ $Python2_SCORE = "0" ]]; then
         python_help
-        log_err "I need Python2 or Python3"
+        log_err "I need Python3"
         exit 1
     else
-        Python_CONFIG=$Python2_CONFIG
-        USE_Python2=1
+#        Python_CONFIG=$Python2_CONFIG
+#        USE_Python2=1
+        python_help
+        log_err "I need Python3"
+        exit 1
     fi
 else
     if [[ $Python3_SCORE -ge $Python2_SCORE ]]; then
@@ -279,9 +282,12 @@ else
         Python_CONFIG=$Python3_CONFIG
         USE_Python3=1
     else
-        log_info "Prefer Python2"
-        Python_CONFIG=$Python2_CONFIG
-        USE_Python2=1
+        python_help
+        log_err "I need Python3"
+        exit 1
+#        log_info "Prefer Python2"
+#        Python_CONFIG=$Python2_CONFIG
+#        USE_Python2=1
     fi
 fi
 

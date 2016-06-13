@@ -36,19 +36,91 @@ static PyObject* hello (PyObject*obj, PyObject *args, PyObject *keywds)
     return (Py_BuildValue("s", s));
 }
 
+static PyObject* con_ (PyObject*obj, PyObject *args, PyObject *keywds)
+{
+    char *a = 0;
+
+    if (!PyArg_ParseTuple(args, "s", &a)) {
+        return (0);
+    }
+
+    if (a) {
+        CON("%s", a);
+    }
+
+    Py_INCREF(Py_None);
+
+    return (Py_None);
+}
+
+static PyObject* log_ (PyObject*obj, PyObject *args, PyObject *keywds)
+{
+    char *a = 0;
+
+    if (!PyArg_ParseTuple(args, "s", &a)) {
+        return (0);
+    }
+
+    if (a) {
+        LOG("%s", a);
+    }
+
+    Py_INCREF(Py_None);
+
+    return (Py_None);
+}
+
+static PyObject* err_ (PyObject*obj, PyObject *args, PyObject *keywds)
+{
+    char *a = 0;
+
+    if (!PyArg_ParseTuple(args, "s", &a)) {
+        return (0);
+    }
+
+    if (a) {
+        ERR("%s", a);
+    }
+
+    Py_INCREF(Py_None);
+
+    return (Py_None);
+}
+
+static PyObject* die_ (PyObject*obj, PyObject *args, PyObject *keywds)
+{
+    char *a = 0;
+
+    if (!PyArg_ParseTuple(args, "s", &a)) {
+        return (0);
+    }
+
+    if (a) {
+        DIE("%s", a);
+    }
+
+    Py_INCREF(Py_None);
+
+    return (Py_None);
+}
+
 static PyMethodDef python_c_METHODS[] =
 {
     /*
      * The cast of the function is necessary since PyCFunction values
      * only take two PyObject* parameters, and some take three.
      */
+    {"con", (PyCFunction)con_, METH_VARARGS, "log to the console"},
+    {"err", (PyCFunction)err_, METH_VARARGS, "error to the log file"},
+    {"log", (PyCFunction)log_, METH_VARARGS, "log to the log file"},
+    {"die", (PyCFunction)die_, METH_VARARGS, "exit game with error"},
     {"hello", (PyCFunction)hello, METH_VARARGS | METH_KEYWORDS, "help text"},
     {0, 0, 0, 0}   /* sentinel */
 };
 
 static struct PyModuleDef python_c_MODULE = {
     PyModuleDef_HEAD_INIT,
-    "my_c_mod",
+    "mm",
     0,
     -1,
     python_c_METHODS,
@@ -163,6 +235,7 @@ void py_exec (const char *str)
 {
     char *stdOutErr =
 "import sys\n\
+import mm\n\
 class CatchOutErr:\n\
     def __init__(self):\n\
         self.value = ''\n\
@@ -244,7 +317,7 @@ void python_init (void)
 {
    PyObject *mymod;
 
-   PyImport_AppendInittab("my_c_mod", python_my_module_create);
+   PyImport_AppendInittab("mm", python_my_module_create);
 
    Py_Initialize();
 
