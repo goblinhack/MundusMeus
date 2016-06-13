@@ -1,3 +1,5 @@
-import my_c_mod
+import mm
 
-print("ZOK")
+mm.con("Welcome to the %%fg=yellow$Mundus Meus%%fg=reset$ console")
+
+

@@ -363,14 +363,16 @@ uint8_t command_handle (const char *input,
         return (false);
 #endif
         py_exec(input);
-                strlcpy(history[history_at], input,
-                        sizeof(history[history_at]));
 
-                history_at++;
-                if (history_at >= HISTORY_MAX) {
-                    history_at = 0;
-                }
-                history_walk = history_at;
+        strlcpy(history[history_at], input,
+                sizeof(history[history_at]));
+
+        history_at++;
+        if (history_at >= HISTORY_MAX) {
+            history_at = 0;
+        }
+        history_walk = history_at;
+
         return (true);
     }
 
