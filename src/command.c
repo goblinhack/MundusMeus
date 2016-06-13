@@ -14,6 +14,7 @@
 #include "string_util.h"
 #include "term.h"
 #include "wid.h"
+#include "python.h"
 
 /*
  * Simple console expanding code, takes a comand input and expands it as
@@ -357,8 +358,20 @@ uint8_t command_handle (const char *input,
     matches = command_matches(input, expandedtext, false, false,
                               execute_command, context);
     if (matches == 0) {
+#if 0
         CON("> %%%%fg=red$Unknown command: \"%s\"%%%%fg=reset$", input);
         return (false);
+#endif
+        py_exec(input);
+                strlcpy(history[history_at], input,
+                        sizeof(history[history_at]));
+
+                history_at++;
+                if (history_at >= HISTORY_MAX) {
+                    history_at = 0;
+                }
+                history_walk = history_at;
+        return (true);
     }
 
     if (matches > 1) {
