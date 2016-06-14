@@ -76,20 +76,6 @@ uint8_t wid_console_init (void)
 }
 
 /*
- * Console initialization
- */
-void wid_console_hello (void)
-{
-    CON(" ");
-    CON("%%%%fg=red$          Welcome to the MundusMeus debug console!%%%%fg=reset$");
-    CON(" ");
-    CON("Press %%%%fg=red$<tab>%%%%fg=reset$ to complete commands.");
-
-    CON("Press %%%%fg=red$?%%%%fg=reset$ to show command options.");
-    CON("You can also enter raw python code here.");
-}
-
-/*
  * Scroll back to the bottom of the screen.
  */
 static void wid_console_reset_scroll (void)

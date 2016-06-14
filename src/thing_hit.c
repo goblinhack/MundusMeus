@@ -409,6 +409,7 @@ int thing_hit (levelp level, thingp t, thingp hitter, uint32_t damage)
             return (false);
         }
 
+#if 0
         if (orig_hitter &&
             (orig_hitter->tp_id == THING_SILKBALL)) {
             /*
@@ -433,6 +434,7 @@ int thing_hit (levelp level, thingp t, thingp hitter, uint32_t damage)
                 }
             }
         }
+#endif
     }
 
     /*

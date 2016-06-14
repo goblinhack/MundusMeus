@@ -83,6 +83,7 @@ tpp random_door (void)
 
 tpp random_obstacle (void)
 {
+#if 0
     int any = false;
     int loop = 0;
 
@@ -114,6 +115,8 @@ tpp random_obstacle (void)
             }
         }
     }
+#endif
+    return (0);
 }
 
 tpp random_spikes (void)

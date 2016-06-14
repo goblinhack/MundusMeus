@@ -9,8 +9,9 @@
 #include "string_util.h"
 #include "string_ext.h"
 #include "frameobject.h"
+#include "tex.h"
 
-static PyObject* hello (PyObject*obj, PyObject *args, PyObject *keywds)
+static PyObject *hello (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     int a = 9;
     char *b = "def b";
@@ -36,7 +37,7 @@ static PyObject* hello (PyObject*obj, PyObject *args, PyObject *keywds)
     return (Py_BuildValue("s", s));
 }
 
-static PyObject* con_ (PyObject*obj, PyObject *args, PyObject *keywds)
+static PyObject *con_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     char *a = 0;
 
@@ -53,7 +54,7 @@ static PyObject* con_ (PyObject*obj, PyObject *args, PyObject *keywds)
     return (Py_None);
 }
 
-static PyObject* log_ (PyObject*obj, PyObject *args, PyObject *keywds)
+static PyObject *log_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     char *a = 0;
 
@@ -70,7 +71,7 @@ static PyObject* log_ (PyObject*obj, PyObject *args, PyObject *keywds)
     return (Py_None);
 }
 
-static PyObject* err_ (PyObject*obj, PyObject *args, PyObject *keywds)
+static PyObject *err_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     char *a = 0;
 
@@ -87,7 +88,7 @@ static PyObject* err_ (PyObject*obj, PyObject *args, PyObject *keywds)
     return (Py_None);
 }
 
-static PyObject* die_ (PyObject*obj, PyObject *args, PyObject *keywds)
+static PyObject *die_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     char *a = 0;
 
@@ -104,17 +105,118 @@ static PyObject* die_ (PyObject*obj, PyObject *args, PyObject *keywds)
     return (Py_None);
 }
 
+static PyObject *tex_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    char *a = "unset file";
+    char *b = "unset name";
+
+    static char *kwlist[] = {"file", "name", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ss", kwlist, &a, &b)) {
+        return (0);
+    }
+
+    if (!a) {
+        ERR("tex_load, missing file attr");
+        return (0);
+    }
+
+    if (!b) {
+        ERR("tex_load, missing name attr");
+        return (0);
+    }
+
+    LOG("tex_load(file=%s, name=%s)", a, b);
+    tex_load(a, b);
+
+    Py_INCREF(Py_None);
+
+    return (Py_None);
+}
+
+static PyObject *tex_load_tiled_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    char *a = "unset file";
+    char *b = "unset name";
+    int c = 0;
+    int d = 0;
+
+    static char *kwlist[] = {"file", "name", "width", "height", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ssii", kwlist, &a, &b, &c, &d)) {
+        return (0);
+    }
+
+    if (!a) {
+        ERR("tex_load, missing file attr");
+        return (0);
+    }
+
+    if (!b) {
+        ERR("tex_load, missing name attr");
+        return (0);
+    }
+
+    if (!c) {
+        ERR("tex_load, missing width attr");
+        return (0);
+    }
+
+    if (!d) {
+        ERR("tex_load, missing height attr");
+        return (0);
+    }
+
+
+    LOG("tex_load(file=%s, name=%s, width=%d, height=%d)", a, b, c, d);
+    tex_load_tiled(a, b, c, d);
+
+    Py_INCREF(Py_None);
+
+    return (Py_None);
+}
+
 static PyMethodDef python_c_METHODS[] =
 {
     /*
      * The cast of the function is necessary since PyCFunction values
-     * only take two PyObject* parameters, and some take three.
+     * only take two PyObject *parameters, and some take three.
      */
-    {"con", (PyCFunction)con_, METH_VARARGS, "log to the console"},
-    {"err", (PyCFunction)err_, METH_VARARGS, "error to the log file"},
-    {"log", (PyCFunction)log_, METH_VARARGS, "log to the log file"},
-    {"die", (PyCFunction)die_, METH_VARARGS, "exit game with error"},
-    {"hello", (PyCFunction)hello, METH_VARARGS | METH_KEYWORDS, "help text"},
+    {"con",             
+        (PyCFunction)con_,              
+        METH_VARARGS,                   
+        "log to the console"},
+
+    {"err",             
+        (PyCFunction)err_,              
+        METH_VARARGS,                   
+        "error to the log file"},
+
+    {"log",             
+        (PyCFunction)log_,              
+        METH_VARARGS,                   
+        "log to the log file"},
+
+    {"die",             
+        (PyCFunction)die_,              
+        METH_VARARGS,                   
+        "exit game with error"},
+
+    {"tex_load",        
+        (PyCFunction)tex_load_,         
+        METH_VARARGS | METH_KEYWORDS,   
+        "load a texture"},
+
+    {"tex_load_tiled",  
+        (PyCFunction)tex_load_tiled_,   
+        METH_VARARGS | METH_KEYWORDS,   
+        "load a texture"},
+
+    {"hello",           
+        (PyCFunction)hello,             
+        METH_VARARGS | METH_KEYWORDS,   
+        "help text"},
+
     {0, 0, 0, 0}   /* sentinel */
 };
 
@@ -130,7 +232,7 @@ static struct PyModuleDef python_c_MODULE = {
 static PyMODINIT_FUNC
 python_my_module_create (void)
 {
-   PyObject* m = PyModule_Create(&python_c_MODULE);
+   PyObject *m = PyModule_Create(&python_c_MODULE);
    if (! m) {
         PyErr_Print();
         DIE("python init");
@@ -315,19 +417,19 @@ static void py_add_to_path (const char *path)
 
 void python_init (void)
 {
-   PyObject *mymod;
+    PyObject *mymod;
 
-   PyImport_AppendInittab("mm", python_my_module_create);
+    PyImport_AppendInittab("mm", python_my_module_create);
 
-   Py_Initialize();
+    Py_Initialize();
 
-   py_add_to_path(GFX_PATH);
-   py_add_to_path(LEVELS_PATH);
-   py_add_to_path(WORLD_PATH);
-   py_add_to_path(DATA_PATH);
+    py_add_to_path(GFX_PATH);
+    py_add_to_path(LEVELS_PATH);
+    py_add_to_path(WORLD_PATH);
+    py_add_to_path(DATA_PATH);
 
-   mymod = PyImport_ImportModule("init");
-   if (!mymod) {
+    mymod = PyImport_ImportModule("init");
+    if (!mymod) {
         py_err();
         DIE("module import failed");
     }

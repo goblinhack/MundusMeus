@@ -201,6 +201,7 @@ static void debug_explosion (levelp level, int ix, int iy)
 /*
  * Place an explosion
  */
+#if 0
 static void level_place_explosion_ (levelp level, 
                                     thingp owner,
                                     double ox, 
@@ -406,6 +407,7 @@ static void level_place_explosion_ (levelp level,
         }
     }
 }
+#endif
 
 void level_place_explosion (levelp level, 
                             thingp owner,
@@ -450,6 +452,7 @@ void level_place_explosion (levelp level,
     /*
      * Used for fire potions and bombs as it gives a layered effect.
      */
+#if 0
     if (tp_to_id(otp) == THING_BOMB) {
 
         level_explosion_flash_effect = 10;
@@ -472,6 +475,7 @@ void level_place_explosion (levelp level,
                                "explosion3");
         return;
     }
+#endif
 
 CON("todo %s", tp_name(otp));
 return;

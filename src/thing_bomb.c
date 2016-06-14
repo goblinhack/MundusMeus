@@ -13,6 +13,8 @@ thingp thing_place_bomb (levelp level,
                          thingp owner,
                          double x, double y)
 {
+        return (0);
+#if 0
     if (!owner->bombs) {
         return (0);
     }
@@ -39,6 +41,7 @@ thingp thing_place_bomb (levelp level,
     thing_wake(level, t);
 
     return (t);
+#endif
 }
 
 void thing_collect_bomb (levelp level, 

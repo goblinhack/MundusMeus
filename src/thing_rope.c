@@ -13,6 +13,8 @@ thingp thing_place_ropetop (levelp level,
                             thingp owner,
                             double x, double y)
 {
+    return (0);
+#if 0
     if (!owner->ropes) {
         return (0);
     }
@@ -36,12 +38,15 @@ thingp thing_place_ropetop (levelp level,
     t->jump_speed = 0.5;
 
     return (t);
+#endif
 }
 
 thingp thing_place_rope (levelp level, 
                          thingp owner,
                          double x, double y)
 {
+        return (0);
+#if 0
     widp w = wid_game_map_replace_tile(level, x, y, 
                                        0, /* thing */
                                        id_to_tp(THING_ROPE),
@@ -56,6 +61,7 @@ thingp thing_place_rope (levelp level,
     thing_wake(level, t);
 
     return (t);
+#endif
 }
 
 void thing_collect_rope (levelp level, 

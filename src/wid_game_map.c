@@ -458,7 +458,9 @@ wid_game_map_replace_tile (levelp level,
     widp child;
     int ix = x;
     int iy = y;
+#if 0
     int depth = level->level_no;
+#endif
 
     if (game.level_is_being_loaded == 1) {
         /*
@@ -479,6 +481,7 @@ wid_game_map_replace_tile (levelp level,
             }
         }
 
+#if 0
         switch (tp_to_id(tp)) {
             case THING_FOOD_ANY:
                 tp = random_food();
@@ -496,12 +499,14 @@ wid_game_map_replace_tile (levelp level,
                 tp = random_weapon(shop_floor);
                 break;
         }
+#endif
 
         if (!tp) {
             ERR("failed to make random %s", tp_name(otp));
             return (0);
         }
     } else {
+#if 0
         switch (tp_to_id(tp)) {
             case THING_FOOD_ANY:
             case THING_MOB_ANY:
@@ -511,6 +516,7 @@ wid_game_map_replace_tile (levelp level,
                 level_get_tp(level, x, y, z, &tp);
                 break;
         }
+#endif
     }
 
     /*
