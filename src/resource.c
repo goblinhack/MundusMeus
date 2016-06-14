@@ -226,7 +226,6 @@ static uint8_t resource_init_41 (void *context)
 
 static uint8_t resource_init_last (void *context)
 {
-    tp_load(THING_GRASS1, "grass1");
 
     return (true);
 }

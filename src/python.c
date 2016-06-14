@@ -11,6 +11,7 @@
 #include "frameobject.h"
 #include "tex.h"
 #include "tile.h"
+#include "thing_template.h"
 
 static char *py_obj_to_str (const PyObject *py_str)
 {
@@ -52,6 +53,47 @@ err_out:
     return (outstr);
 }
 
+static char *py_obj_attr_str (const PyObject *py_obj, const char *attr)
+{
+    PyObject *py_encstr;
+    char *outstr = 0;
+    char *str;
+
+    py_encstr = 0;
+    str = 0;
+
+    if (!PyObject_HasAttrString((PyObject *)py_obj, attr)) {
+        ERR("Object is a %s, not a string object.",
+            Py_TYPE((PyObject *)py_obj)->tp_name);
+        goto err_out;
+    }
+
+    py_encstr = PyObject_GetAttrString((PyObject *)py_obj, attr);
+    if (!py_encstr) {
+        goto err_out;
+    }
+
+    str = py_obj_to_str(py_encstr);
+    if (!str) {
+        goto err_out;
+    }
+
+    outstr = dupstr(str, __FUNCTION__);
+CON("outstr %s",str);
+
+err_out:
+
+    if (py_encstr) {
+        Py_XDECREF(py_encstr);
+    }
+
+    if (PyErr_Occurred()) {
+        ERR("string conversion failed");
+    }
+
+    return (outstr);
+}
+
 static PyObject *hello (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     int a = 9;
@@ -71,8 +113,6 @@ static PyObject *hello (PyObject *obj, PyObject *args, PyObject *keywds)
     LOG("c %s",c);
     LOG("d %s",d);
 
-    Py_INCREF(Py_None);
-
     char *s = "hello back";
 
     return (Py_BuildValue("s", s));
@@ -90,9 +130,7 @@ static PyObject *con_ (PyObject *obj, PyObject *args, PyObject *keywds)
         CON("%s", a);
     }
 
-    Py_INCREF(Py_None);
-
-    return (Py_None);
+    Py_RETURN_NONE;
 }
 
 static PyObject *log_ (PyObject *obj, PyObject *args, PyObject *keywds)
@@ -107,9 +145,7 @@ static PyObject *log_ (PyObject *obj, PyObject *args, PyObject *keywds)
         LOG("%s", a);
     }
 
-    Py_INCREF(Py_None);
-
-    return (Py_None);
+    Py_RETURN_NONE;
 }
 
 static PyObject *err_ (PyObject *obj, PyObject *args, PyObject *keywds)
@@ -124,9 +160,7 @@ static PyObject *err_ (PyObject *obj, PyObject *args, PyObject *keywds)
         ERR("%s", a);
     }
 
-    Py_INCREF(Py_None);
-
-    return (Py_None);
+    Py_RETURN_NONE;
 }
 
 static PyObject *die_ (PyObject *obj, PyObject *args, PyObject *keywds)
@@ -141,9 +175,7 @@ static PyObject *die_ (PyObject *obj, PyObject *args, PyObject *keywds)
         DIE("%s", a);
     }
 
-    Py_INCREF(Py_None);
-
-    return (Py_None);
+    Py_RETURN_NONE;
 }
 
 static PyObject *tex_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
@@ -170,9 +202,7 @@ static PyObject *tex_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
     LOG("tex_load(file=%s, name=%s)", a, b);
     tex_load(a, b);
 
-    Py_INCREF(Py_None);
-
-    return (Py_None);
+    Py_RETURN_NONE;
 }
 
 static PyObject *tex_load_tiled_ (PyObject *obj, PyObject *args, PyObject *keywds)
@@ -212,9 +242,7 @@ static PyObject *tex_load_tiled_ (PyObject *obj, PyObject *args, PyObject *keywd
     LOG("tex_load(file=%s, name=%s, width=%d, height=%d)", a, b, c, d);
     tex_load_tiled(a, b, c, d);
 
-    Py_INCREF(Py_None);
-
-    return (Py_None);
+    Py_RETURN_NONE;
 }
 
 static PyObject *tile_load_arr_ (PyObject *obj, PyObject *args, PyObject *keywds)
@@ -270,13 +298,8 @@ static PyObject *tile_load_arr_ (PyObject *obj, PyObject *args, PyObject *keywds
         if (!strObj) {
             continue;
         }
-        arr[i] = py_obj_to_str(strObj);
 
-#if 0
-        if (arr[i]) {
-            LOG(" %s,", arr[i]);
-        }
-#endif
+        arr[i] = py_obj_to_str(strObj);
     }
 
     tile_load_arr(a, b, c, d, numLines, arr);
@@ -289,55 +312,89 @@ static PyObject *tile_load_arr_ (PyObject *obj, PyObject *args, PyObject *keywds
         myfree((char*) arr[i]);
     }
 
-    Py_INCREF(Py_None);
+    Py_RETURN_NONE;
+}
 
-    return (Py_None);
+static PyObject *tp_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *a = 0;
+
+    static char *kwlist[] = {"tp", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, &a)) {
+        return (0);
+    }
+
+    if (!a) {
+        ERR("tp_load, missing name attr");
+        return (0);
+    }
+
+    char *b = py_obj_attr_str(a, "name");
+    if (!b) {
+        ERR("tp_load, missing tp name");
+        return (0);
+    }
+
+    static int id;
+    id++;
+    tp_load(id, b);
+
+    myfree(b);
+
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef python_c_METHODS[] =
 {
-    {"hello",           
-        (PyCFunction)hello,             
-        METH_VARARGS | METH_KEYWORDS,   
+    {"hello",
+        (PyCFunction)hello,
+        METH_VARARGS | METH_KEYWORDS,
         "help text"},
     /*
      * The cast of the function is necessary since PyCFunction values
      * only take two PyObject *parameters, and some take three.
      */
-    {"con",             
-        (PyCFunction)con_,              
-        METH_VARARGS,                   
+    {"con",
+        (PyCFunction)con_,
+        METH_VARARGS,
         "log to the console"},
 
-    {"err",             
-        (PyCFunction)err_,              
-        METH_VARARGS,                   
+    {"err",
+        (PyCFunction)err_,
+        METH_VARARGS,
         "error to the log file"},
 
-    {"log",             
-        (PyCFunction)log_,              
-        METH_VARARGS,                   
+    {"log",
+        (PyCFunction)log_,
+        METH_VARARGS,
         "log to the log file"},
 
-    {"die",             
-        (PyCFunction)die_,              
-        METH_VARARGS,                   
+    {"die",
+        (PyCFunction)die_,
+        METH_VARARGS,
         "exit game with error"},
 
-    {"tex_load",        
-        (PyCFunction)tex_load_,         
-        METH_VARARGS | METH_KEYWORDS,   
+    {"tex_load",
+        (PyCFunction)tex_load_,
+        METH_VARARGS | METH_KEYWORDS,
         "load a texture"},
 
-    {"tex_load_tiled",  
-        (PyCFunction)tex_load_tiled_,   
-        METH_VARARGS | METH_KEYWORDS,   
+    {"tex_load_tiled",
+        (PyCFunction)tex_load_tiled_,
+        METH_VARARGS | METH_KEYWORDS,
         "load a texture"},
 
-    {"tile_load_arr",  
-        (PyCFunction)tile_load_arr_,   
-        METH_VARARGS | METH_KEYWORDS,   
+    {"tile_load_arr",
+        (PyCFunction)tile_load_arr_,
+        METH_VARARGS | METH_KEYWORDS,
         "load a tile array"},
+
+    {"tp_load",
+        (PyCFunction)tp_load_,
+        METH_VARARGS | METH_KEYWORDS,
+        "load a thing template"},
+
 
     {0, 0, 0, 0}   /* sentinel */
 };
