@@ -39,7 +39,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/ptrcheck.o 		\
     $(OBJDIR)/ramdisk_read.o 		\
     $(OBJDIR)/rand.o 			\
-    $(OBJDIR)/resource.o 		\
     $(OBJDIR)/sdl.o 			\
     $(OBJDIR)/slre.o 			\
     $(OBJDIR)/sound.o 			\
