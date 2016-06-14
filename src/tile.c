@@ -73,7 +73,7 @@ void tile_load_arr (const char *tex_name,
 
         const char *name = arr[idx++];
 
-        if (name) {
+        if (name && *name) {
             tile *t;
 
             if (tile_find(name)) {

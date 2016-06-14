@@ -10,6 +10,47 @@
 #include "string_ext.h"
 #include "frameobject.h"
 #include "tex.h"
+#include "tile.h"
+
+static char *py_obj_to_str (const PyObject *py_str)
+{
+    PyObject *py_encstr;
+    char *outstr = 0;
+    char *str;
+
+    py_encstr = 0;
+    str = 0;
+
+    if (!PyUnicode_Check((PyObject *)py_str)) {
+        ERR("Object is a %s, not a string object.",
+            Py_TYPE((PyObject *)py_str)->tp_name);
+        goto err_out;
+    }
+
+    py_encstr = PyUnicode_AsEncodedString((PyObject *)py_str, "utf-8", 0);
+    if (!py_encstr) {
+        goto err_out;
+    }
+
+    str = PyBytes_AS_STRING(py_encstr);
+    if (!str) {
+        goto err_out;
+    }
+
+    outstr = dupstr(str, __FUNCTION__);
+
+err_out:
+
+    if (py_encstr) {
+        Py_XDECREF(py_encstr);
+    }
+
+    if (PyErr_Occurred()) {
+        ERR("string conversion failed");
+    }
+
+    return (outstr);
+}
 
 static PyObject *hello (PyObject *obj, PyObject *args, PyObject *keywds)
 {
@@ -176,8 +217,89 @@ static PyObject *tex_load_tiled_ (PyObject *obj, PyObject *args, PyObject *keywd
     return (Py_None);
 }
 
+static PyObject *tile_load_arr_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    char *a = "unset tex_name";
+    char *b = "unset tex_name_black_and_white";
+    int c = 0;
+    int d = 0;
+    PyObject *e = 0;
+
+    static char *kwlist[] = {"tex_name", "tex_name_black_and_white", "width", "height", "arr", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ssiiO", kwlist, &a, &b, &c, &d, &e)) {
+        return (0);
+    }
+
+    if (!a) {
+        ERR("tile_load_arr, missing tex_name attr");
+        return (0);
+    }
+
+    if (!b) {
+        ERR("tile_load_arr, missing tex_name_black_and_white attr");
+        return (0);
+    }
+
+    if (!c) {
+        ERR("tile_load_arr, missing width attr");
+        return (0);
+    }
+
+    if (!d) {
+        ERR("tile_load_arr, missing height attr");
+        return (0);
+    }
+
+    if (!e) {
+        ERR("tile_load_arr, missing arr attr");
+        return (0);
+    }
+
+    int numLines = PyList_Size(e);
+    const char *arr[numLines + 1];
+    int i;
+
+    memset(arr, 0, sizeof(arr));
+
+    LOG("tile_load_arr(tex_name=%s, tex_name_black_and_white=%s, width=%d, height=%d, ...)", a, b, c, d);
+
+    for (i=0; i<numLines; i++){
+        PyObject * strObj;
+        strObj = PyList_GetItem(e, i); /* Can't fail */
+        if (!strObj) {
+            continue;
+        }
+        arr[i] = py_obj_to_str(strObj);
+
+#if 0
+        if (arr[i]) {
+            LOG(" %s,", arr[i]);
+        }
+#endif
+    }
+
+    tile_load_arr(a, b, c, d, numLines, arr);
+
+    for (i=0; i<numLines; i++){
+        if (!arr[i]) {
+            continue;
+        }
+
+        myfree((char*) arr[i]);
+    }
+
+    Py_INCREF(Py_None);
+
+    return (Py_None);
+}
+
 static PyMethodDef python_c_METHODS[] =
 {
+    {"hello",           
+        (PyCFunction)hello,             
+        METH_VARARGS | METH_KEYWORDS,   
+        "help text"},
     /*
      * The cast of the function is necessary since PyCFunction values
      * only take two PyObject *parameters, and some take three.
@@ -212,10 +334,10 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,   
         "load a texture"},
 
-    {"hello",           
-        (PyCFunction)hello,             
+    {"tile_load_arr",  
+        (PyCFunction)tile_load_arr_,   
         METH_VARARGS | METH_KEYWORDS,   
-        "help text"},
+        "load a tile array"},
 
     {0, 0, 0, 0}   /* sentinel */
 };
@@ -240,46 +362,6 @@ python_my_module_create (void)
    }
 
    return (m);
-}
-
-static char *py_obj_to_str (const PyObject *py_str)
-{
-    PyObject *py_encstr;
-    char *outstr = 0;
-    char *str;
-
-    py_encstr = 0;
-    str = 0;
-
-    if (!PyUnicode_Check((PyObject *)py_str)) {
-        ERR("Object is a %s, not a string object.",
-            Py_TYPE((PyObject *)py_str)->tp_name);
-        goto err_out;
-    }
-
-    py_encstr = PyUnicode_AsEncodedString((PyObject *)py_str, "utf-8", 0);
-    if (!py_encstr) {
-        goto err_out;
-    }
-
-    str = PyBytes_AS_STRING(py_encstr);
-    if (!str) {
-        goto err_out;
-    }
-
-    outstr = dupstr(str, __FUNCTION__);
-
-err_out:
-
-    if (py_encstr) {
-        Py_XDECREF(py_encstr);
-    }
-
-    if (PyErr_Occurred()) {
-        ERR("string conversion failed");
-    }
-
-    return (outstr);
 }
 
 static void py_err (void)
