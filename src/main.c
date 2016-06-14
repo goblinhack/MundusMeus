@@ -492,8 +492,6 @@ int32_t main (int32_t argc, char *argv[])
 
     find_file_locations();
 
-    python_init();
-
     if (!config_init()) {
 	ERR("Config init");
     }
@@ -559,6 +557,8 @@ int32_t main (int32_t argc, char *argv[])
 	ERR("ptrcheck init");
     }
 #endif
+
+    python_init();
 
     action_init_fn_create(&init_fns,
                           (action_init_fn_callback)level_init,

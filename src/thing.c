@@ -475,12 +475,14 @@ thingp thing_new (levelp level,
     t->hp = tp->max_hp;
     t->max_hp = tp->max_hp;
 
+#if 0
     if (thing_is_player(t)) {
         t->torches = 10;
         t->ropes = 5;
         t->bombs = 20;
         thing_wield(level, t, id_to_tp(THING_SWORD1));
     }
+#endif
 
     thing_wield_next_weapon(level, t);
 

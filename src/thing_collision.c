@@ -1772,6 +1772,7 @@ thingp thing_hit_solid_obstacle (levelp level,
                 }
             }
 
+#if 0
             /*
              * You can walk closer to a cobweb, but not back out...
              */
@@ -1803,6 +1804,7 @@ thingp thing_hit_solid_obstacle (levelp level,
                     return (it);
                 }
             }
+#endif
 
             return (it);
         }
@@ -1959,6 +1961,7 @@ thingp thing_hit_fall_obstacle (levelp level,
             /*
              * You can walk closer to a cobweb, but not back out...
              */
+#if 0
             if (thing_is_cobweb(it)) {
                 double dist_now = DISTANCE(t->x, t->y, it->x, it->y);
                 double dist_then = DISTANCE(nx, ny, it->x, it->y);
@@ -1980,6 +1983,7 @@ thingp thing_hit_fall_obstacle (levelp level,
                     return (it);
                 }
             }
+#endif
 
             /*
              * To allow you to land on dead monsters, but prefer live ones.

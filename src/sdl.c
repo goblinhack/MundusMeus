@@ -1361,8 +1361,6 @@ void sdl_loop (void)
     SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
      */
 
-    wid_console_hello();
-
 #if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 /* { */
 
         if (game.display_sync) {

@@ -3557,11 +3557,13 @@ static tpp map_char_to_tp (char c,
                 map_tp[x][y][tp_get_z_depth(tp)] = tp;
             }
 
+#if 0
             r =  myrand() % 10000;
             if (r < 100) {
                 tp = id_to_tp(THING_LIGHT2);
                 map_tp[x][y][tp_get_z_depth(tp)] = tp;
             }
+#endif
         }
 
         tp = *wall;

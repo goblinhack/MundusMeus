@@ -18,6 +18,7 @@
 
 void level_place_light (levelp level, double x, double y)
 {
+#if 0
     int ix = (int)x & ~7;
     int iy = (int)y & ~7;
 
@@ -31,4 +32,6 @@ void level_place_light (levelp level, double x, double y)
                                      0, /* thing */
                                      id_to_tp(THING_LIGHT),
                                      0 /* tpp_data */);
+#endif
+    return;
 }

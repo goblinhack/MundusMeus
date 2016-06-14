@@ -45,6 +45,7 @@ thingp thing_place_torch (levelp level,
                          thingp owner,
                          double x, double y)
 {
+#if 0
     if (!owner->torches) {
         return (0);
     }
@@ -72,6 +73,8 @@ thingp thing_place_torch (levelp level,
     thing_wake(level, t);
 
     return (t);
+#endif
+    return (0);
 }
 
 void thing_collect_torch (levelp level, 
