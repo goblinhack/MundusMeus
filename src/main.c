@@ -33,7 +33,6 @@
 #include "dir.h"
 #include "file.h"
 #include "level.h"
-#include "resource.h"
 #include "init_fn.h"
 #include "ramdisk.h"
 #include "term.h"
@@ -539,10 +538,6 @@ int32_t main (int32_t argc, char *argv[])
 #ifdef ENABLE_LEAKCHECK
     ptrcheck_leak_snapshot();
 #endif
-
-    if (!resource_init()) {
-	ERR("resource init");
-    }
 
     if (!wid_console_init()) {
 	ERR("wid_console init");
