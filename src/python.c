@@ -345,6 +345,65 @@ static PyObject *tp_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
+static PyObject *tp_set_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *a = 0;
+    char *b = 0;
+    char *c = 0;
+
+    char *tp_name = 0;
+    char *tp_field = 0;
+    char *tp_value = 0;
+
+    static char *kwlist[] = {"tp", "field", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ss", kwlist, &a, &b, &c)) {
+        return (0);
+    }
+
+    if (!a) {
+        ERR("tp_set, missing name attr");
+        return (0);
+    }
+
+    if (!b) {
+        ERR("tp_set, missing field");
+        return (0);
+    }
+
+    if (!c) {
+        ERR("tp_set, missing value");
+        return (0);
+    }
+
+    tp_name = py_obj_attr_str(a, "name");
+    if (!tp_name) {
+        ERR("tp_set, missing tp name");
+        goto done;
+    }
+CON("tp_name %s",tp_name);
+CON("field %s",b);
+CON("value %s",c);
+
+    CON("tp_set(%s, %s -> %s", tp_name, b, c);
+
+    tpp tp = tp_find(tp_name);
+    if (!tp) {
+        myfree(tp_name);
+        myfree(tp_field);
+        myfree(tp_value);
+        ERR("tp_set, cannot find tp %s", tp_name);
+        goto done;
+    }
+
+done:
+    myfree(tp_name);
+    myfree(tp_field);
+    myfree(tp_value);
+
+    Py_RETURN_NONE;
+}
+
 static PyMethodDef python_c_METHODS[] =
 {
     {"hello",
@@ -394,6 +453,11 @@ static PyMethodDef python_c_METHODS[] =
         (PyCFunction)tp_load_,
         METH_VARARGS | METH_KEYWORDS,
         "load a thing template"},
+
+    {"tp_set",
+        (PyCFunction)tp_set_,
+        METH_VARARGS | METH_KEYWORDS,
+        "set a field in a thing template"},
 
 
     {0, 0, 0, 0}   /* sentinel */
