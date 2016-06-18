@@ -142,7 +142,7 @@ tpp random_spikes (void)
                 return (tp);
             }
 
-            uint32_t r =  myrand() % 10000;
+            int r =  myrand() % 10000;
             if (r < tp_get_d10000_chance_of_appearing(tp)) {
                 return (tp);
             }
@@ -302,7 +302,7 @@ tpp random_food (void)
                 return (tp);
             }
 
-            uint32_t r =  myrand() % 10000;
+            int r =  myrand() % 10000;
             if (r < tp_get_d10000_chance_of_appearing(tp)) {
                 return (tp);
             }
@@ -344,7 +344,7 @@ tpp random_treasure (int shop_floor)
                 return (tp);
             }
 
-            uint32_t r =  myrand() % 10000;
+            int r =  myrand() % 10000;
             if (r < tp_get_d10000_chance_of_appearing(tp)) {
                 return (tp);
             }
@@ -386,7 +386,7 @@ tpp random_weapon (int shop_floor)
                 return (tp);
             }
 
-            uint32_t r =  myrand() % 10000;
+            int r =  myrand() % 10000;
             if (r < tp_get_d10000_chance_of_appearing(tp)) {
                 return (tp);
             }
@@ -417,7 +417,7 @@ tpp random_rock (void)
             continue;
         }
 
-        uint32_t r = myrand() % 10000;
+        int r = myrand() % 10000;
         if (r < tp_get_d10000_chance_of_appearing(tp)) {
             return (tp);
         }
@@ -443,7 +443,7 @@ tpp random_smallrock (void)
             continue;
         }
 
-        uint32_t r = myrand() % 10000;
+        int r = myrand() % 10000;
         if (r < tp_get_d10000_chance_of_appearing(tp)) {
             return (tp);
         }
@@ -471,7 +471,7 @@ tpp random_lava (void)
     }
 }
 
-tpp random_monst (uint32_t depth)
+tpp random_monst (int depth)
 {
     int loop = 0;
     int any = false;
@@ -516,7 +516,7 @@ tpp random_monst (uint32_t depth)
             continue;
         }
 
-        uint32_t r = myrand() % 10000;
+        int r = myrand() % 10000;
         if (r < (tp_get_d10000_chance_of_appearing(tp) + depth)) {
             LOG("Level depth %d, adding monster, %s", depth, tp_name(tp));
             return (tp);
@@ -524,7 +524,7 @@ tpp random_monst (uint32_t depth)
     }
 }
 
-tpp random_trap (uint32_t depth)
+tpp random_trap (int depth)
 {
     int loop = 0;
     int any = false;
@@ -550,14 +550,14 @@ tpp random_trap (uint32_t depth)
             return (tp);
         }
 
-        uint32_t r = myrand() % 10000;
+        int r = myrand() % 10000;
         if (r < (tp_get_d10000_chance_of_appearing(tp) + depth)) {
             return (tp);
         }
     }
 }
 
-tpp random_mob (uint32_t depth)
+tpp random_mob (int depth)
 {
     int loop = 0;
     int any = false;
@@ -587,7 +587,7 @@ tpp random_mob (uint32_t depth)
             return (tp);
         }
 
-        uint32_t r =  myrand() % 10000;
+        int r =  myrand() % 10000;
         if (r < (tp_get_d10000_chance_of_appearing(tp) + depth)) {
             return (tp);
         }

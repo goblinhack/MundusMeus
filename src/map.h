@@ -457,8 +457,8 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(MAP_DEPTH_PLAYER,            "player"),          \
     /* water */                                                 \
     list_macro(MAP_DEPTH_WALL,              "wall"),            \
-    list_macro(MAP_DEPTH_DECO,         "deco"),       \
-    list_macro(MAP_DEPTH_DECO2,        "deco2"),      \
+    list_macro(MAP_DEPTH_DECO,              "deco"),            \
+    list_macro(MAP_DEPTH_DECO2,             "deco2"),           \
     list_macro(MAP_DEPTH_EXPLOSION,         "explosion"),       \
     list_macro(MAP_DEPTH_ACTIONS,           "actions"),         \
 

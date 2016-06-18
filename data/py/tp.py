@@ -15,6 +15,126 @@ class tpp:
         self.raw_name = value;
         mm.tp_set_raw_name(self, value);
 
+    def set_d10000_chance_of_appearing (self, value):
+        self.d10000_chance_of_appearing = value;
+        mm.tp_set_d10000_chance_of_appearing(self, value);
+
+    def set_z_depth (self, value):
+        self.z_depth = value;
+        mm.tp_set_z_depth(self, value);
+
+    def set_z_order (self, value):
+        self.z_order = value;
+        mm.tp_set_z_order(self, value);
+
+    def set_world_depth (self, value):
+        self.world_depth = value;
+        mm.tp_set_world_depth(self, value);
+
+    def set_speed (self, value):
+        self.speed = value;
+        mm.tp_set_speed(self, value);
+
+    def set_damage (self, value):
+        self.damage = value;
+        mm.tp_set_damage(self, value);
+
+    def set_cost (self, value):
+        self.cost = value;
+        mm.tp_set_cost(self, value);
+
+    def set_lifespan_ticks (self, value):
+        self.lifespan_ticks = value;
+        mm.tp_set_lifespan_ticks(self, value);
+
+    def set_vision_distance (self, value):
+        self.vision_distance = value;
+        mm.tp_set_vision_distance(self, value);
+
+    def set_approach_distance (self, value):
+        self.approach_distance = value;
+        mm.tp_set_approach_distance(self, value);
+
+    def set_bonus_score_on_death (self, value):
+        self.bonus_score_on_death = value;
+        mm.tp_set_bonus_score_on_death(self, value);
+
+    def set_bonus_gold_on_collect (self, value):
+        self.bonus_gold_on_collect = value;
+        mm.tp_set_bonus_gold_on_collect(self, value);
+
+    def set_bonus_hp_on_collect (self, value):
+        self.bonus_hp_on_collect = value;
+        mm.tp_set_bonus_hp_on_collect(self, value);
+
+    def set_blit_top_off (self, value):
+        self.blit_top_off = value;
+        mm.tp_set_blit_top_off(self, value);
+
+    def set_blit_bot_off (self, value):
+        self.blit_bot_off = value;
+        mm.tp_set_blit_bot_off(self, value);
+
+    def set_blit_left_off (self, value):
+        self.blit_left_off = value;
+        mm.tp_set_blit_left_off(self, value);
+
+    def set_blit_right_off (self, value):
+        self.blit_right_off = value;
+        mm.tp_set_blit_right_off(self, value);
+
+    def set_drown_in_secs (self, value):
+        self.drown_in_secs = value;
+        mm.tp_set_drown_in_secs(self, value);
+
+    def set_min_appear_depth (self, value):
+        self.min_appear_depth = value;
+        mm.tp_set_min_appear_depth(self, value);
+
+    def set_max_appear_depth (self, value):
+        self.max_appear_depth = value;
+        mm.tp_set_max_appear_depth(self, value);
+
+    def set_jump_speed (self, value):
+        self.jump_speed = value;
+        mm.tp_set_jump_speed(self, value);
+
+    def set_hp_per_level (self, value):
+        self.hp_per_level = value;
+        mm.tp_set_hp_per_level(self, value);
+
+    def set_max_hp (self, value):
+        self.max_hp = value;
+        mm.tp_set_max_hp(self, value);
+
+    def set_hit_priority (self, value):
+        self.hit_priority = value;
+        mm.tp_set_hit_priority(self, value);
+
+    def set_weapon_fire_delay_hundredths (self, value):
+        self.weapon_fire_delay_hundredths = value;
+        mm.tp_set_weapon_fire_delay_hundredths(self, value);
+
+    def set_sound_random_delay_secs (self, value):
+        self.sound_random_delay_secs = value;
+        mm.tp_set_sound_random_delay_secs(self, value);
+
+    def set_swing_distance_from_player (self, value):
+        self.swing_distance_from_player = value;
+        mm.tp_set_swing_distance_from_player(self, value);
+
+    def set_can_be_hit_chance (self, value):
+        self.can_be_hit_chance = value;
+        mm.tp_set_can_be_hit_chance(self, value);
+
+    def set_hit_delay_tenths (self, value):
+        self.hit_delay_tenths = value;
+        mm.tp_set_hit_delay_tenths(self, value);
+
+    def set_mob_spawn_delay_tenths (self, value):
+        self.mob_spawn_delay_tenths = value;
+        mm.tp_set_mob_spawn_delay_tenths(self, value);
+
     def set_tooltip (self, value):
         self.tooltip = value;
         mm.tp_set_tooltip(self, value);

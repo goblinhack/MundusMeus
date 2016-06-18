@@ -68,6 +68,60 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
+#define TP_BODY_ENUM(__field__, __str2val__)                                    \
+PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
+{	                                                                        \
+    PyObject *py_class = 0;	                                                \
+    char *tp_name = 0;	                                                        \
+    char *value = 0;	                                                        \
+	                                                                        \
+    static char *kwlist[] = {"class", "value", 0};	                        \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, &py_class,    \
+                                     &value)) {	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!value) {	                                                        \
+        ERR("%s, missing value", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    tp_name = py_obj_attr_str(py_class, "name");	                        \
+    if (!tp_name) {	                                                        \
+        ERR("%s, missing tp name", __FUNCTION__);	                        \
+        goto done;	                                                        \
+    }	                                                                        \
+	                                                                        \
+    tpp tp = tp_find(tp_name);	                                                \
+    if (!tp) {	                                                                \
+        ERR("%s, cannot find tp %s", __FUNCTION__, tp_name);	                \
+        goto done;	                                                        \
+    }	                                                                        \
+	                                                                        \
+    tp->__field__ = (__str2val__)(value);                                       \
+    if (tp->__field__ == (typeof(tp->__field__))-1) {                           \
+        ERR("%s, cannot find enum %s", __FUNCTION__, value);	                \
+        goto done;	                                                        \
+    }	                                                                        \
+	                                                                        \
+    LOG("%s(%s -> \"%s\"[%d])", __FUNCTION__, tp_name, value, tp->__field__);	\
+	                                                                        \
+    value = 0;	                                                                \
+	                                                                        \
+done:	                                                                        \
+    if (tp_name) {	                                                        \
+        myfree(tp_name);	                                                \
+    }	                                                                        \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
 #define TP_BODY_INT(__field__)                                                  \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
@@ -111,6 +165,36 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
+TP_PROTO(d10000_chance_of_appearing)
+TP_PROTO(z_depth)
+TP_PROTO(z_order)
+TP_PROTO(world_depth)
+TP_PROTO(speed)
+TP_PROTO(damage)
+TP_PROTO(cost)
+TP_PROTO(lifespan_ticks)
+TP_PROTO(vision_distance)
+TP_PROTO(approach_distance)
+TP_PROTO(bonus_score_on_death)
+TP_PROTO(bonus_gold_on_collect)
+TP_PROTO(bonus_hp_on_collect)
+TP_PROTO(blit_top_off)
+TP_PROTO(blit_bot_off)
+TP_PROTO(blit_left_off)
+TP_PROTO(blit_right_off)
+TP_PROTO(drown_in_secs)
+TP_PROTO(min_appear_depth)
+TP_PROTO(max_appear_depth)
+TP_PROTO(jump_speed)
+TP_PROTO(hp_per_level)
+TP_PROTO(max_hp)
+TP_PROTO(hit_priority)
+TP_PROTO(weapon_fire_delay_hundredths)
+TP_PROTO(sound_random_delay_secs)
+TP_PROTO(swing_distance_from_player)
+TP_PROTO(can_be_hit_chance)
+TP_PROTO(hit_delay_tenths)
+TP_PROTO(mob_spawn_delay_tenths)
 TP_PROTO(short_name)
 TP_PROTO(raw_name)
 TP_PROTO(tooltip)
