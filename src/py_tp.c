@@ -44,6 +44,12 @@ PyObject *tp_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
+TP_BODY_DOUBLE(light_radius)
+TP_BODY_DOUBLE(weapon_density)
+TP_BODY_DOUBLE(weapon_spread)
+TP_BODY_DOUBLE(scale)
+TP_BODY_DOUBLE(explosion_radius)
+TP_BODY_DOUBLE(collision_radius)
 TP_BODY_INT(d10000_chance_of_appearing)
 ENUM_DEF_C(MAP_DEPTH_ENUMS, map_depth)
 TP_BODY_ENUM(z_depth, map_depth_str2val)

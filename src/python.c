@@ -228,6 +228,12 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "load a thing template"},
 
+    TP_DECL(light_radius)
+    TP_DECL(weapon_density)
+    TP_DECL(weapon_spread)
+    TP_DECL(scale)
+    TP_DECL(explosion_radius)
+    TP_DECL(collision_radius)
     TP_DECL(d10000_chance_of_appearing)
     TP_DECL(z_depth)
     TP_DECL(z_order)
