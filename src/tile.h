@@ -39,19 +39,17 @@ void tile_get_coords(tilep, float *x1, float *y1, float *x2, float *y2);
 static inline
 void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
 {
-#if 0
-    if (!tile) {
+    if (unlikely(!tile)) {
         if (!name) {
             DIE("no name for tile blit");
         }
 
         tile = tile_find(name);
-    }
 
-    if (!tile) {
-        return;
+        if (unlikely(!tile)) {
+            return;
+        }
     }
-#endif
 
     double x1;
     double x2;
