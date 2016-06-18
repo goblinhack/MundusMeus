@@ -18,6 +18,3 @@ char *py_obj_attr_str(const PyObject *py_obj, const char *attr);
 PyObject *tex_load_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *tex_load_tiled_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *tile_load_arr_(PyObject *obj, PyObject *args, PyObject *keywds);
-
-PyObject *tp_load_(PyObject *obj, PyObject *args, PyObject *keywds);
-PyObject *tp_set_(PyObject *obj, PyObject *args, PyObject *keywds);

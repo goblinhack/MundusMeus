@@ -46,6 +46,7 @@ static char **ARGV;
 char *EXEC_FULL_PATH_AND_NAME;
 char *EXEC_DIR;
 char *DATA_PATH;
+char *CLASSES_PATH;
 char *LEVELS_PATH;
 char *WORLD_PATH;
 char *TTF_PATH;
@@ -114,6 +115,11 @@ void quit (void)
     if (DATA_PATH) {
         myfree(DATA_PATH);
         DATA_PATH = 0;
+    }
+
+    if (CLASSES_PATH) {
+        myfree(CLASSES_PATH);
+        CLASSES_PATH = 0;
     }
 
     if (LEVELS_PATH) {
@@ -333,6 +339,21 @@ static void find_data_dir (void)
 }
 
 /*
+ * Hunt down the classes/ dir.
+ */
+static void find_classes_dir (void)
+{
+    CLASSES_PATH = dynprintf("%sdata" DSEP "py" DSEP, EXEC_DIR);
+    if (dir_exists(CLASSES_PATH)) {
+        return;
+    }
+
+    myfree(CLASSES_PATH);
+
+    CLASSES_PATH = dupstr(EXEC_DIR, __FUNCTION__);
+}
+
+/*
  * Hunt down the level/ dir.
  */
 static void find_level_dir (void)
@@ -399,6 +420,7 @@ static void find_file_locations (void)
 {
     find_exec_dir();
     find_data_dir();
+    find_classes_dir();
     find_level_dir();
     find_world_dir();
     find_ttf_dir();

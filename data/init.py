@@ -786,3 +786,37 @@ init_tex()
 init_tiles()
 #init_music()
 #init_sound()
+
+
+import os, fnmatch
+from os.path import dirname, basename, isfile
+
+def find_files (directory, pattern):
+    for root, dirs, files in os.walk(directory):
+        for basename in files:
+            if fnmatch.fnmatch(basename, pattern):
+                filename = os.path.join(root, basename)
+                yield filename
+
+
+import imp
+import os
+
+def load_from_file(filepath):
+    if basename(filename) == "init.py":
+        return
+
+    if basename(filename) == "tp.py":
+        return
+
+    mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
+
+    if file_ext.lower() == '.py':
+        py_mod = imp.load_source(mod_name, filepath)
+
+    elif file_ext.lower() == '.pyc':
+        py_mod = imp.load_compiled(mod_name, filepath)
+
+for filename in find_files(dirname(__file__), '*.py'):
+    print(filename);
+    load_from_file(filename);
