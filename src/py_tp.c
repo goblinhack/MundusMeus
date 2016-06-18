@@ -12,92 +12,51 @@
 #include "tex.h"
 #include "tile.h"
 #include "thing_template.h"
+#include "py_tp.h"
 
 PyObject *tp_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
-    PyObject *a = 0;
+    PyObject *py_class = 0;
 
     static char *kwlist[] = {"tp", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, &a)) {
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, &py_class)) {
         return (0);
     }
 
-    if (!a) {
+    if (!py_class) {
         ERR("tp_load, missing name attr");
         return (0);
     }
 
-    char *b = py_obj_attr_str(a, "name");
-    if (!b) {
+    char *tp_name = py_obj_attr_str(py_class, "name");
+    if (!tp_name) {
         ERR("tp_load, missing tp name");
         return (0);
     }
 
     static int id;
     id++;
-    tp_load(id, b);
+    tp_load(id, tp_name);
 
-    myfree(b);
-
-    Py_RETURN_NONE;
-}
-
-PyObject *tp_set_ (PyObject *obj, PyObject *args, PyObject *keywds)
-{
-    PyObject *a = 0;
-    char *b = 0;
-    char *c = 0;
-
-    char *tp_name = 0;
-    char *tp_field = 0;
-    char *tp_value = 0;
-
-    static char *kwlist[] = {"tp", "field", "value", 0};
-
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ss", kwlist, &a, &b, &c)) {
-        return (0);
-    }
-
-    if (!a) {
-        ERR("tp_set, missing name attr");
-        return (0);
-    }
-
-    if (!b) {
-        ERR("tp_set, missing field");
-        return (0);
-    }
-
-    if (!c) {
-        ERR("tp_set, missing value");
-        return (0);
-    }
-
-    tp_name = py_obj_attr_str(a, "name");
-    if (!tp_name) {
-        ERR("tp_set, missing tp name");
-        goto done;
-    }
-CON("tp_name %s",tp_name);
-CON("field %s",b);
-CON("value %s",c);
-
-    CON("tp_set(%s, %s -> %s", tp_name, b, c);
-
-    tpp tp = tp_find(tp_name);
-    if (!tp) {
-        myfree(tp_name);
-        myfree(tp_field);
-        myfree(tp_value);
-        ERR("tp_set, cannot find tp %s", tp_name);
-        goto done;
-    }
-
-done:
     myfree(tp_name);
-    myfree(tp_field);
-    myfree(tp_value);
 
     Py_RETURN_NONE;
 }
+
+TP_BODY_STRING(short_name)
+TP_BODY_STRING(raw_name)
+TP_BODY_STRING(tooltip)
+TP_BODY_STRING(polymorph_on_death)
+TP_BODY_STRING(carried_as)
+TP_BODY_STRING(light_tint)
+TP_BODY_STRING(explodes_as)
+TP_BODY_STRING(sound_on_creation)
+TP_BODY_STRING(sound_on_hitting_something)
+TP_BODY_STRING(sound_on_death)
+TP_BODY_STRING(sound_on_hit)
+TP_BODY_STRING(sound_on_collect)
+TP_BODY_STRING(sound_random)
+TP_BODY_STRING(weapon_carry_anim)
+TP_BODY_STRING(weapon_swing_anim)
+TP_BODY_STRING(message_on_use)

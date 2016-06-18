@@ -5,6 +5,7 @@
  */
 
 #include "python.h"
+#include "py_tp.h"
 #include "main.h"
 #include "string_util.h"
 #include "string_ext.h"
@@ -79,7 +80,6 @@ char *py_obj_attr_str (const PyObject *py_obj, const char *attr)
     }
 
     outstr = dupstr(str, __FUNCTION__);
-CON("outstr %s",str);
 
 err_out:
 
@@ -228,11 +228,22 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "load a thing template"},
 
-    {"tp_set",
-        (PyCFunction)tp_set_,
-        METH_VARARGS | METH_KEYWORDS,
-        "set a field in a thing template"},
-
+    TP_DECL_STRING(short_name)
+    TP_DECL_STRING(raw_name)
+    TP_DECL_STRING(tooltip)
+    TP_DECL_STRING(polymorph_on_death)
+    TP_DECL_STRING(carried_as)
+    TP_DECL_STRING(light_tint)
+    TP_DECL_STRING(explodes_as)
+    TP_DECL_STRING(sound_on_creation)
+    TP_DECL_STRING(sound_on_hitting_something)
+    TP_DECL_STRING(sound_on_death)
+    TP_DECL_STRING(sound_on_hit)
+    TP_DECL_STRING(sound_on_collect)
+    TP_DECL_STRING(sound_random)
+    TP_DECL_STRING(weapon_carry_anim)
+    TP_DECL_STRING(weapon_swing_anim)
+    TP_DECL_STRING(message_on_use)
 
     {0, 0, 0, 0}   /* sentinel */
 };
@@ -279,16 +290,19 @@ static void py_err (void)
 
     mod = PyImport_ImportModule("traceback");
     list = PyObject_CallMethod(mod, "format_exception", "OOO", ptype, pvalue, ptraceback);
-    string = PyUnicode_FromString("\n");
-    ret = PyUnicode_Join(string, list);
-    Py_DECREF(list);
-    Py_DECREF(string);
+    if (list) {
+        string = PyUnicode_FromString("\n");
+        ret = PyUnicode_Join(string, list);
+        Py_DECREF(list);
+        Py_DECREF(string);
 
-    py_str = py_obj_to_str(ret);
-    ERR("%s", py_str);
-    myfree(py_str);
+        py_str = py_obj_to_str(ret);
+        ERR("%s", py_str);
+        myfree(py_str);
 
-    Py_DECREF(ret);
+        Py_DECREF(ret);
+    }
+
     PyErr_Clear();
 
     PyThreadState *tstate = PyThreadState_GET();
@@ -404,6 +418,7 @@ void python_init (void)
     py_add_to_path(LEVELS_PATH);
     py_add_to_path(WORLD_PATH);
     py_add_to_path(DATA_PATH);
+    py_add_to_path(CLASSES_PATH);
 
     mymod = PyImport_ImportModule("init");
     if (!mymod) {
