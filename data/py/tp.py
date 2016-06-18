@@ -70,3 +70,540 @@ class tpp:
     def set_message_on_use (self, value):
         self.message_on_use = value;
         mm.tp_set_message_on_use(self, value);
+
+    def set_is_acid (self, value):
+        self.is_acid = value;
+        mm.tp_set_is_acid(self, value);
+
+    def set_is_acid_proof (self, value):
+        self.is_acid_proof = value;
+        mm.tp_set_is_acid_proof(self, value);
+
+    def set_is_action (self, value):
+        self.is_action = value;
+        mm.tp_set_is_action(self, value);
+
+    def set_is_action_down (self, value):
+        self.is_action_down = value;
+        mm.tp_set_is_action_down(self, value);
+
+    def set_is_action_left (self, value):
+        self.is_action_left = value;
+        mm.tp_set_is_action_left(self, value);
+
+    def set_is_action_right (self, value):
+        self.is_action_right = value;
+        mm.tp_set_is_action_right(self, value);
+
+    def set_is_action_sleep (self, value):
+        self.is_action_sleep = value;
+        mm.tp_set_is_action_sleep(self, value);
+
+    def set_is_action_trigger (self, value):
+        self.is_action_trigger = value;
+        mm.tp_set_is_action_trigger(self, value);
+
+    def set_is_action_trigger_on_hero (self, value):
+        self.is_action_trigger_on_hero = value;
+        mm.tp_set_is_action_trigger_on_hero(self, value);
+
+    def set_is_action_trigger_on_monst (self, value):
+        self.is_action_trigger_on_monst = value;
+        mm.tp_set_is_action_trigger_on_monst(self, value);
+
+    def set_is_action_trigger_on_wall (self, value):
+        self.is_action_trigger_on_wall = value;
+        mm.tp_set_is_action_trigger_on_wall(self, value);
+
+    def set_is_action_up (self, value):
+        self.is_action_up = value;
+        mm.tp_set_is_action_up(self, value);
+
+    def set_is_action_zap (self, value):
+        self.is_action_zap = value;
+        mm.tp_set_is_action_zap(self, value);
+
+    def set_is_animated (self, value):
+        self.is_animated = value;
+        mm.tp_set_is_animated(self, value);
+
+    def set_is_animated_no_dir (self, value):
+        self.is_animated_no_dir = value;
+        mm.tp_set_is_animated_no_dir(self, value);
+
+    def set_is_animated_only_when_moving (self, value):
+        self.is_animated_only_when_moving = value;
+        mm.tp_set_is_animated_only_when_moving(self, value);
+
+    def set_is_animation (self, value):
+        self.is_animation = value;
+        mm.tp_set_is_animation(self, value);
+
+    def set_is_bomb (self, value):
+        self.is_bomb = value;
+        mm.tp_set_is_bomb(self, value);
+
+    def set_is_bullet (self, value):
+        self.is_bullet = value;
+        mm.tp_set_is_bullet(self, value);
+
+    def set_is_candle_light (self, value):
+        self.is_candle_light = value;
+        mm.tp_set_is_candle_light(self, value);
+
+    def set_is_carryable (self, value):
+        self.is_carryable = value;
+        mm.tp_set_is_carryable(self, value);
+
+    def set_is_cats_eyes (self, value):
+        self.is_cats_eyes = value;
+        mm.tp_set_is_cats_eyes(self, value);
+
+    def set_is_cloud_effect (self, value):
+        self.is_cloud_effect = value;
+        mm.tp_set_is_cloud_effect(self, value);
+
+    def set_is_cobweb (self, value):
+        self.is_cobweb = value;
+        mm.tp_set_is_cobweb(self, value);
+
+    def set_is_collision_map_large (self, value):
+        self.is_collision_map_large = value;
+        mm.tp_set_is_collision_map_large(self, value);
+
+    def set_is_collision_map_medium (self, value):
+        self.is_collision_map_medium = value;
+        mm.tp_set_is_collision_map_medium(self, value);
+
+    def set_is_collision_map_small (self, value):
+        self.is_collision_map_small = value;
+        mm.tp_set_is_collision_map_small(self, value);
+
+    def set_is_collision_map_tiny (self, value):
+        self.is_collision_map_tiny = value;
+        mm.tp_set_is_collision_map_tiny(self, value);
+
+    def set_is_combustable (self, value):
+        self.is_combustable = value;
+        mm.tp_set_is_combustable(self, value);
+
+    def set_is_conical_breath_attack (self, value):
+        self.is_conical_breath_attack = value;
+        mm.tp_set_is_conical_breath_attack(self, value);
+
+    def set_is_corpse (self, value):
+        self.is_corpse = value;
+        mm.tp_set_is_corpse(self, value);
+
+    def set_is_corridor (self, value):
+        self.is_corridor = value;
+        mm.tp_set_is_corridor(self, value);
+
+    def set_is_corridor_wall (self, value):
+        self.is_corridor_wall = value;
+        mm.tp_set_is_corridor_wall(self, value);
+
+    def set_is_door (self, value):
+        self.is_door = value;
+        mm.tp_set_is_door(self, value);
+
+    def set_is_dungeon_floor (self, value):
+        self.is_dungeon_floor = value;
+        mm.tp_set_is_dungeon_floor(self, value);
+
+    def set_is_effect_fade_in_out (self, value):
+        self.is_effect_fade_in_out = value;
+        mm.tp_set_is_effect_fade_in_out(self, value);
+
+    def set_is_effect_pulse (self, value):
+        self.is_effect_pulse = value;
+        mm.tp_set_is_effect_pulse(self, value);
+
+    def set_is_effect_rotate_2way (self, value):
+        self.is_effect_rotate_2way = value;
+        mm.tp_set_is_effect_rotate_2way(self, value);
+
+    def set_is_effect_sway (self, value):
+        self.is_effect_sway = value;
+        mm.tp_set_is_effect_sway(self, value);
+
+    def set_is_entrance (self, value):
+        self.is_entrance = value;
+        mm.tp_set_is_entrance(self, value);
+
+    def set_is_ethereal (self, value):
+        self.is_ethereal = value;
+        mm.tp_set_is_ethereal(self, value);
+
+    def set_is_exit (self, value):
+        self.is_exit = value;
+        mm.tp_set_is_exit(self, value);
+
+    def set_is_explosion (self, value):
+        self.is_explosion = value;
+        mm.tp_set_is_explosion(self, value);
+
+    def set_is_fire (self, value):
+        self.is_fire = value;
+        mm.tp_set_is_fire(self, value);
+
+    def set_is_fireball (self, value):
+        self.is_fireball = value;
+        mm.tp_set_is_fireball(self, value);
+
+    def set_is_fires_when_angry (self, value):
+        self.is_fires_when_angry = value;
+        mm.tp_set_is_fires_when_angry(self, value);
+
+    def set_is_food (self, value):
+        self.is_food = value;
+        mm.tp_set_is_food(self, value);
+
+    def set_is_fragile (self, value):
+        self.is_fragile = value;
+        mm.tp_set_is_fragile(self, value);
+
+    def set_is_given_randomly_at_start (self, value):
+        self.is_given_randomly_at_start = value;
+        mm.tp_set_is_given_randomly_at_start(self, value);
+
+    def set_is_hard (self, value):
+        self.is_hard = value;
+        mm.tp_set_is_hard(self, value);
+
+    def set_is_hidden (self, value):
+        self.is_hidden = value;
+        mm.tp_set_is_hidden(self, value);
+
+    def set_is_hidden_from_editor (self, value):
+        self.is_hidden_from_editor = value;
+        mm.tp_set_is_hidden_from_editor(self, value);
+
+    def set_is_inactive (self, value):
+        self.is_inactive = value;
+        mm.tp_set_is_inactive(self, value);
+
+    def set_is_internal (self, value):
+        self.is_internal = value;
+        mm.tp_set_is_internal(self, value);
+
+    def set_is_item_unusable (self, value):
+        self.is_item_unusable = value;
+        mm.tp_set_is_item_unusable(self, value);
+
+    def set_is_joinable (self, value):
+        self.is_joinable = value;
+        mm.tp_set_is_joinable(self, value);
+
+    def set_is_key (self, value):
+        self.is_key = value;
+        mm.tp_set_is_key(self, value);
+
+    def set_is_ladder (self, value):
+        self.is_ladder = value;
+        mm.tp_set_is_ladder(self, value);
+
+    def set_is_ladder_deco (self, value):
+        self.is_ladder_deco = value;
+        mm.tp_set_is_ladder_deco(self, value);
+
+    def set_is_lava (self, value):
+        self.is_lava = value;
+        mm.tp_set_is_lava(self, value);
+
+    def set_is_lava_proof (self, value):
+        self.is_lava_proof = value;
+        mm.tp_set_is_lava_proof(self, value);
+
+    def set_is_levitating (self, value):
+        self.is_levitating = value;
+        mm.tp_set_is_levitating(self, value);
+
+    def set_is_life_saving (self, value):
+        self.is_life_saving = value;
+        mm.tp_set_is_life_saving(self, value);
+
+    def set_is_light_source (self, value):
+        self.is_light_source = value;
+        mm.tp_set_is_light_source(self, value);
+
+    def set_is_magical_weapon (self, value):
+        self.is_magical_weapon = value;
+        mm.tp_set_is_magical_weapon(self, value);
+
+    def set_is_melee_weapon (self, value):
+        self.is_melee_weapon = value;
+        mm.tp_set_is_melee_weapon(self, value);
+
+    def set_is_mob_spawner (self, value):
+        self.is_mob_spawner = value;
+        mm.tp_set_is_mob_spawner(self, value);
+
+    def set_is_monst (self, value):
+        self.is_monst = value;
+        mm.tp_set_is_monst(self, value);
+
+    def set_is_non_explosive_gas_cloud (self, value):
+        self.is_non_explosive_gas_cloud = value;
+        mm.tp_set_is_non_explosive_gas_cloud(self, value);
+
+    def set_is_not_light_blocking (self, value):
+        self.is_not_light_blocking = value;
+        mm.tp_set_is_not_light_blocking(self, value);
+
+    def set_is_obstacle (self, value):
+        self.is_obstacle = value;
+        mm.tp_set_is_obstacle(self, value);
+
+    def set_is_player (self, value):
+        self.is_player = value;
+        mm.tp_set_is_player(self, value);
+
+    def set_is_projectile (self, value):
+        self.is_projectile = value;
+        mm.tp_set_is_projectile(self, value);
+
+    def set_is_ranged_weapon (self, value):
+        self.is_ranged_weapon = value;
+        mm.tp_set_is_ranged_weapon(self, value);
+
+    def set_is_rock (self, value):
+        self.is_rock = value;
+        mm.tp_set_is_rock(self, value);
+
+    def set_is_rrr1 (self, value):
+        self.is_rrr1 = value;
+        mm.tp_set_is_rrr1(self, value);
+
+    def set_is_rrr2 (self, value):
+        self.is_rrr2 = value;
+        mm.tp_set_is_rrr2(self, value);
+
+    def set_is_rrr3 (self, value):
+        self.is_rrr3 = value;
+        mm.tp_set_is_rrr3(self, value);
+
+    def set_is_rrr4 (self, value):
+        self.is_rrr4 = value;
+        mm.tp_set_is_rrr4(self, value);
+
+    def set_is_rrr5 (self, value):
+        self.is_rrr5 = value;
+        mm.tp_set_is_rrr5(self, value);
+
+    def set_is_rrr6 (self, value):
+        self.is_rrr6 = value;
+        mm.tp_set_is_rrr6(self, value);
+
+    def set_is_rrr7 (self, value):
+        self.is_rrr7 = value;
+        mm.tp_set_is_rrr7(self, value);
+
+    def set_is_rrr8 (self, value):
+        self.is_rrr8 = value;
+        mm.tp_set_is_rrr8(self, value);
+
+    def set_is_rrr9 (self, value):
+        self.is_rrr9 = value;
+        mm.tp_set_is_rrr9(self, value);
+
+    def set_is_rrr10 (self, value):
+        self.is_rrr10 = value;
+        mm.tp_set_is_rrr10(self, value);
+
+    def set_is_rrr11 (self, value):
+        self.is_rrr11 = value;
+        mm.tp_set_is_rrr11(self, value);
+
+    def set_is_rrr12 (self, value):
+        self.is_rrr12 = value;
+        mm.tp_set_is_rrr12(self, value);
+
+    def set_is_rrr13 (self, value):
+        self.is_rrr13 = value;
+        mm.tp_set_is_rrr13(self, value);
+
+    def set_is_rrr14 (self, value):
+        self.is_rrr14 = value;
+        mm.tp_set_is_rrr14(self, value);
+
+    def set_is_rrr15 (self, value):
+        self.is_rrr15 = value;
+        mm.tp_set_is_rrr15(self, value);
+
+    def set_is_rrr16 (self, value):
+        self.is_rrr16 = value;
+        mm.tp_set_is_rrr16(self, value);
+
+    def set_is_rrr17 (self, value):
+        self.is_rrr17 = value;
+        mm.tp_set_is_rrr17(self, value);
+
+    def set_is_rrr18 (self, value):
+        self.is_rrr18 = value;
+        mm.tp_set_is_rrr18(self, value);
+
+    def set_is_rrr19 (self, value):
+        self.is_rrr19 = value;
+        mm.tp_set_is_rrr19(self, value);
+
+    def set_is_rrr20 (self, value):
+        self.is_rrr20 = value;
+        mm.tp_set_is_rrr20(self, value);
+
+    def set_is_rrr21 (self, value):
+        self.is_rrr21 = value;
+        mm.tp_set_is_rrr21(self, value);
+
+    def set_is_rrr22 (self, value):
+        self.is_rrr22 = value;
+        mm.tp_set_is_rrr22(self, value);
+
+    def set_is_grass (self, value):
+        self.is_grass = value;
+        mm.tp_set_is_grass(self, value);
+
+    def set_is_land (self, value):
+        self.is_land = value;
+        mm.tp_set_is_land(self, value);
+
+    def set_is_wanderer_lr (self, value):
+        self.is_wanderer_lr = value;
+        mm.tp_set_is_wanderer_lr(self, value);
+
+    def set_is_boulder (self, value):
+        self.is_boulder = value;
+        mm.tp_set_is_boulder(self, value);
+
+    def set_is_bubbles (self, value):
+        self.is_bubbles = value;
+        mm.tp_set_is_bubbles(self, value);
+
+    def set_is_ropepile (self, value):
+        self.is_ropepile = value;
+        mm.tp_set_is_ropepile(self, value);
+
+    def set_is_ropetop (self, value):
+        self.is_ropetop = value;
+        mm.tp_set_is_ropetop(self, value);
+
+    def set_is_climbable (self, value):
+        self.is_climbable = value;
+        mm.tp_set_is_climbable(self, value);
+
+    def set_is_smallrock (self, value):
+        self.is_smallrock = value;
+        mm.tp_set_is_smallrock(self, value);
+
+    def set_is_rope (self, value):
+        self.is_rope = value;
+        mm.tp_set_is_rope(self, value);
+
+    def set_is_throwable (self, value):
+        self.is_throwable = value;
+        mm.tp_set_is_throwable(self, value);
+
+    def set_is_sawblade (self, value):
+        self.is_sawblade = value;
+        mm.tp_set_is_sawblade(self, value);
+
+    def set_is_shadow_caster (self, value):
+        self.is_shadow_caster = value;
+        mm.tp_set_is_shadow_caster(self, value);
+
+    def set_is_shadow_caster_soft (self, value):
+        self.is_shadow_caster_soft = value;
+        mm.tp_set_is_shadow_caster_soft(self, value);
+
+    def set_is_shop_floor (self, value):
+        self.is_shop_floor = value;
+        mm.tp_set_is_shop_floor(self, value);
+
+    def set_is_shopkeeper (self, value):
+        self.is_shopkeeper = value;
+        mm.tp_set_is_shopkeeper(self, value);
+
+    def set_is_single_mob_spawner (self, value):
+        self.is_single_mob_spawner = value;
+        mm.tp_set_is_single_mob_spawner(self, value);
+
+    def set_is_sleeping (self, value):
+        self.is_sleeping = value;
+        mm.tp_set_is_sleeping(self, value);
+
+    def set_is_spawns_under (self, value):
+        self.is_spawns_under = value;
+        mm.tp_set_is_spawns_under(self, value);
+
+    def set_is_spider_proof (self, value):
+        self.is_spider_proof = value;
+        mm.tp_set_is_spider_proof(self, value);
+
+    def set_is_spikes (self, value):
+        self.is_spikes = value;
+        mm.tp_set_is_spikes(self, value);
+
+    def set_is_stackable (self, value):
+        self.is_stackable = value;
+        mm.tp_set_is_stackable(self, value);
+
+    def set_is_teleport (self, value):
+        self.is_teleport = value;
+        mm.tp_set_is_teleport(self, value);
+
+    def set_is_torch (self, value):
+        self.is_torch = value;
+        mm.tp_set_is_torch(self, value);
+
+    def set_is_trap (self, value):
+        self.is_trap = value;
+        mm.tp_set_is_trap(self, value);
+
+    def set_is_treasure (self, value):
+        self.is_treasure = value;
+        mm.tp_set_is_treasure(self, value);
+
+    def set_is_undead (self, value):
+        self.is_undead = value;
+        mm.tp_set_is_undead(self, value);
+
+    def set_is_variable_size (self, value):
+        self.is_variable_size = value;
+        mm.tp_set_is_variable_size(self, value);
+
+    def set_is_visible_on_debug_only (self, value):
+        self.is_visible_on_debug_only = value;
+        mm.tp_set_is_visible_on_debug_only(self, value);
+
+    def set_is_wall (self, value):
+        self.is_wall = value;
+        mm.tp_set_is_wall(self, value);
+
+    def set_is_deco (self, value):
+        self.is_deco = value;
+        mm.tp_set_is_deco(self, value);
+
+    def set_is_wanderer (self, value):
+        self.is_wanderer = value;
+        mm.tp_set_is_wanderer(self, value);
+
+    def set_is_warm_blooded (self, value):
+        self.is_warm_blooded = value;
+        mm.tp_set_is_warm_blooded(self, value);
+
+    def set_is_water (self, value):
+        self.is_water = value;
+        mm.tp_set_is_water(self, value);
+
+    def set_is_water_proof (self, value):
+        self.is_water_proof = value;
+        mm.tp_set_is_water_proof(self, value);
+
+    def set_is_weapon (self, value):
+        self.is_weapon = value;
+        mm.tp_set_is_weapon(self, value);
+
+    def set_is_weapon_carry_anim (self, value):
+        self.is_weapon_carry_anim = value;
+        mm.tp_set_is_weapon_carry_anim(self, value);
+
