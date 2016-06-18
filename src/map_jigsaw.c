@@ -3552,7 +3552,7 @@ static tpp map_char_to_tp (char c,
                 DIE("cannot place random loot %s", name);
             }
 
-            uint32_t r =  myrand() % 10000;
+            int r =  myrand() % 10000;
             if (r < tp_get_d10000_chance_of_appearing(tp)) {
                 map_tp[x][y][tp_get_z_depth(tp)] = tp;
             }

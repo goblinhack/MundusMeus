@@ -67,7 +67,7 @@ typedef struct tp_ {
     tree_key_string tree;
     tree_key_int tree2;
 
-    uint16_t tp_id;
+    int tp_id;
 
     /*
      * Internal description of the thing.
@@ -166,7 +166,7 @@ typedef struct tp_ {
     int spawn_on_death_chance_d1000[MAX_MOB_SPAWN];
     int spawn_on_death_count;
 
-    uint32_t d10000_chance_of_appearing;
+    int d10000_chance_of_appearing;
 
     /*
      * In relation to other widgets, where are we.
@@ -183,52 +183,59 @@ typedef struct tp_ {
     /*
      * Speed in milliseconds it takes to move one tile.
      */
-    uint16_t speed;
+    int speed;
 
     /*
      * Damage on hits.
      */
-    uint16_t damage;
+    int damage;
 
     /*
      * Cost in shops
      */
-    uint16_t cost;
+    int cost;
 
     /*
      * Lifespan in milliseconds.
      */
-    uint16_t lifespan_ticks;
+    int lifespan_ticks;
 
     /*
      * How far in tiles the thing can detect the monster.
      */
-    uint8_t vision_distance;
+    int vision_distance;
 
     /*
      * How close a thing tries to get to you
      */
-    uint8_t approach_distance;
+    int approach_distance;
 
     /*
      * Various bounties.
      */
-    int32_t bonus_score_on_death;
-    int32_t bonus_gold_on_collect;
-    int16_t bonus_hp_on_collect;
+    int bonus_score_on_death;
+    int bonus_gold_on_collect;
+    int bonus_hp_on_collect;
 
-    int32_t blit_top_off;
-    int32_t blit_bot_off;
-    int32_t blit_left_off;
-    int32_t blit_right_off;
+    int blit_top_off;
+    int blit_bot_off;
+    int blit_left_off;
+    int blit_right_off;
 
-    uint32_t ppp6;
-    uint32_t drown_in_secs;
-    uint32_t min_appear_depth;
-    uint32_t max_appear_depth;
-    uint32_t jump_speed;
-    uint32_t hp_per_level;
-    uint32_t max_hp;
+    int drown_in_secs;
+    int min_appear_depth;
+    int max_appear_depth;
+    int jump_speed;
+    int hp_per_level;
+    int max_hp;
+
+    int hit_priority;
+    int weapon_fire_delay_hundredths;
+    int sound_random_delay_secs;
+    int swing_distance_from_player;
+    int can_be_hit_chance;
+    int hit_delay_tenths;
+    int mob_spawn_delay_tenths;
 
     /*
      * How much light it gives off in tiles.
@@ -255,14 +262,6 @@ typedef struct tp_ {
      * How close for collision detection.
      */
     float collision_radius;
-
-    uint32_t hit_priority;
-    uint32_t weapon_fire_delay_hundredths;
-    uint32_t sound_random_delay_secs;
-    uint32_t swing_distance_from_player;
-    uint32_t can_be_hit_chance;
-    uint32_t hit_delay_tenths;
-    uint32_t mob_spawn_delay_tenths;
 
     uint8_t can_be_enchanted:1;
     uint8_t can_fall:1;
@@ -421,13 +420,10 @@ typedef struct tpp_data_ {
 
 uint8_t tp_init(void);
 void tp_fini(void);
-tpp tp_load(uint16_t id, const char *file);
+tpp tp_load(int id, const char *file);
 tpp tp_find(const char *name);
 tpp tp_find_short_name(const char *name);
-void demarshal_thing_template(demarshal_p ctx, tpp);
-void marshal_thing_template(marshal_p ctx, tpp);
-void thing_templates_marshal(marshal_p out);
-uint8_t thing_test(int32_t argc, char *argv[]);
+uint8_t thing_test(int argc, char *argv[]);
 tpp string2thing_template(const char **s);
 
 const char *tp_name(tpp);
@@ -454,55 +450,52 @@ const char *tp_get_tooltip(tpp);
 uint8_t tp_get_z_depth(tpp);
 uint8_t tp_get_world_depth(tpp);
 uint8_t tp_get_z_order(tpp);
-uint32_t tp_get_speed(tpp);
-uint32_t tp_get_lifespan_ticks(tpp);
-int32_t tp_get_bonus_score_on_death(tpp t);
-uint16_t tp_get_damage(tpp);
-uint16_t tp_get_cost(tpp);
-uint32_t tp_get_vision_distance(tpp);
-uint32_t tp_get_approach_distance(tpp);
-int32_t tp_get_bonus_gold_on_collect(tpp);
-int32_t tp_get_blit_top_off(tpp);
-int32_t tp_get_blit_bot_off(tpp);
-int32_t tp_get_blit_left_off(tpp);
-int32_t tp_get_blit_right_off(tpp);
-uint32_t tp_get_ppp6(tpp);
-uint32_t tp_get_drown_in_secs(tpp);
-uint32_t tp_get_min_appear_depth(tpp);
-uint32_t tp_get_max_appear_depth(tpp);
-uint32_t tp_get_jump_speed(tpp);
+int tp_get_speed(tpp);
+int tp_get_lifespan_ticks(tpp);
+int tp_get_bonus_score_on_death(tpp t);
+int tp_get_damage(tpp);
+int tp_get_cost(tpp);
+int tp_get_vision_distance(tpp);
+int tp_get_approach_distance(tpp);
+int tp_get_bonus_gold_on_collect(tpp);
+int tp_get_blit_top_off(tpp);
+int tp_get_blit_bot_off(tpp);
+int tp_get_blit_left_off(tpp);
+int tp_get_blit_right_off(tpp);
+int tp_get_drown_in_secs(tpp);
+int tp_get_min_appear_depth(tpp);
+int tp_get_max_appear_depth(tpp);
+int tp_get_jump_speed(tpp);
 double tp_get_light_radius(tpp);
 double tp_get_weapon_density(tpp);
 double tp_get_weapon_spread(tpp);
 double tp_get_scale(tpp);
 double tp_get_explosion_radius(tpp);
 double tp_get_collision_radius(tpp);
-uint32_t tp_get_quantity(tpp);
-uint32_t tp_get_hit_priority(tpp);
-uint32_t tp_get_weapon_fire_delay_hundredths(tpp);
-uint32_t tp_get_sound_random_delay_secs(tpp);
-uint32_t tp_get_swing_distance_from_player(tpp);
-int16_t tp_get_stats_max_hp(tpp);
-uint32_t tp_get_hp_per_level(tpp);
-int16_t tp_get_bonus_hp_on_collect(tpp);
-
-uint32_t tp_get_tx_map_update_delay_thousandths(tpp);
-uint32_t tp_get_can_be_hit_chance(tpp);
-uint32_t tp_get_d10000_chance_of_appearing(tpp);
-uint32_t tp_get_hit_delay_tenths(tpp);
-uint32_t tp_get_mob_spawn_delay_tenths(tpp);
+int tp_get_quantity(tpp);
+int tp_get_hit_priority(tpp);
+int tp_get_weapon_fire_delay_hundredths(tpp);
+int tp_get_sound_random_delay_secs(tpp);
+int tp_get_swing_distance_from_player(tpp);
+int tp_get_stats_max_hp(tpp);
+int tp_get_hp_per_level(tpp);
+int tp_get_bonus_hp_on_collect(tpp);
+int tp_get_can_be_hit_chance(tpp);
+int tp_get_d10000_chance_of_appearing(tpp);
+int tp_get_hit_delay_tenths(tpp);
+int tp_get_mob_spawn_delay_tenths(tpp);
 
 tree_rootp tp_get_tiles(tpp);
 
 extern tree_rootp thing_templates;
 extern tree_rootp thing_templates_create_order;
 
-static inline int16_t tp_to_id (tpp t) 
+static inline int tp_to_id (tpp t) 
 {
     return (t->tp_id);
 }
 
-static inline tpp id_to_tp (uint16_t id) 
+static inline tpp id_to_tp (int id) 
 {
     if (!id) {
         return (0);
@@ -1228,6 +1221,6 @@ tpp random_weapon(int shop_floor);
 tpp random_rock(void);
 tpp random_smallrock(void);
 tpp random_lava(void);
-tpp random_monst(uint32_t depth);
-tpp random_trap(uint32_t depth);
-tpp random_mob(uint32_t depth);
+tpp random_monst(int depth);
+tpp random_trap(int depth);
+tpp random_mob(int depth);

@@ -50,7 +50,7 @@ void tp_fini (void)
 static void tp_fill_cache (tpp t)
 {
     thing_tilep thing_tile;
-    uint32_t index;
+    int index;
     tilep tile;
 
     TREE_WALK_UNSAFE(t->tiles, thing_tile) {
@@ -177,7 +177,7 @@ static void tp_fill_cache (tpp t)
     }
 }
 
-tpp tp_load (uint16_t id, const char *name)
+tpp tp_load (int id, const char *name)
 {
     tpp t;
 
@@ -210,7 +210,7 @@ tpp tp_load (uint16_t id, const char *name)
         ERR("thing template insert name [%s] failed", name);
     }
 
-    static uint32_t create_order;
+    static int create_order;
 
     t->tree2.key = create_order++;
     if (!tree_insert_static(thing_templates_create_order, &t->tree2.node)) {
@@ -386,9 +386,6 @@ tpp string2thing_template (const char **s)
     return (target);
 }
 
-ENUM_DEF_C(MAP_DEPTH_ENUMS, map_depth)
-ENUM_DEF_C(WORLD_DEPTH_ENUMS, world_depth)
-
 const char *tp_name (tpp t)
 {
     return (t->tree.key);
@@ -534,22 +531,22 @@ uint8_t tp_get_z_order (tpp t)
     return (t->z_order);
 }
 
-uint32_t tp_get_speed (tpp t)
+int tp_get_speed (tpp t)
 {
     return (t->speed);
 }
 
-uint16_t tp_get_damage (tpp t)
+int tp_get_damage (tpp t)
 {
     return (t->damage);
 }
 
-uint16_t tp_get_cost (tpp t)
+int tp_get_cost (tpp t)
 {
     return (t->cost);
 }
 
-uint32_t tp_get_lifespan_ticks (tpp t)
+int tp_get_lifespan_ticks (tpp t)
 {
     return (t->lifespan_ticks);
 }
@@ -559,12 +556,12 @@ int32_t tp_get_bonus_score_on_death (tpp t)
     return (t->bonus_score_on_death);
 }
 
-uint32_t tp_get_vision_distance (tpp t)
+int tp_get_vision_distance (tpp t)
 {
     return (t->vision_distance);
 }
 
-uint32_t tp_get_approach_distance (tpp t)
+int tp_get_approach_distance (tpp t)
 {
     return (t->approach_distance);
 }
@@ -574,7 +571,7 @@ int32_t tp_get_bonus_gold_on_collect (tpp t)
     return (t->bonus_gold_on_collect);
 }
 
-uint32_t tp_get_d10000_chance_of_appearing (tpp t)
+int tp_get_d10000_chance_of_appearing (tpp t)
 {
     return (t->d10000_chance_of_appearing);
 }
@@ -599,32 +596,27 @@ int32_t tp_get_blit_right_off (tpp t)
     return (t->blit_right_off);
 }
 
-uint32_t tp_get_ppp6 (tpp t)
-{
-    return (t->ppp6);
-}
-
-uint32_t tp_get_drown_in_secs (tpp t)
+int tp_get_drown_in_secs (tpp t)
 {
     return (t->drown_in_secs);
 }
 
-uint32_t tp_get_min_appear_depth (tpp t)
+int tp_get_min_appear_depth (tpp t)
 {
     return (t->min_appear_depth);
 }
 
-uint32_t tp_get_max_appear_depth (tpp t)
+int tp_get_max_appear_depth (tpp t)
 {
     return (t->max_appear_depth);
 }
 
-uint32_t tp_get_jump_speed (tpp t)
+int tp_get_jump_speed (tpp t)
 {
     return (t->jump_speed);
 }
 
-uint32_t tp_get_hp_per_level (tpp t)
+int tp_get_hp_per_level (tpp t)
 {
     return (t->hp_per_level);
 }
@@ -667,42 +659,42 @@ double tp_get_collision_radius (tpp t)
     return (t->collision_radius);
 }
 
-uint32_t tp_get_hit_priority (tpp t)
+int tp_get_hit_priority (tpp t)
 {
     return (t->hit_priority);
 }
 
-uint32_t tp_get_weapon_fire_delay_hundredths (tpp t)
+int tp_get_weapon_fire_delay_hundredths (tpp t)
 {
     return (t->weapon_fire_delay_hundredths);
 }
 
-uint32_t tp_get_sound_random_delay_secs (tpp t)
+int tp_get_sound_random_delay_secs (tpp t)
 {
     return (t->sound_random_delay_secs);
 }
 
-uint32_t tp_get_swing_distance_from_player (tpp t)
+int tp_get_swing_distance_from_player (tpp t)
 {
     return (t->swing_distance_from_player);
 }
 
-int16_t tp_get_bonus_hp_on_collect (tpp t)
+int tp_get_bonus_hp_on_collect (tpp t)
 {
     return (t->bonus_hp_on_collect);
 }
 
-uint32_t tp_get_can_be_hit_chance (tpp t)
+int tp_get_can_be_hit_chance (tpp t)
 {
     return (t->can_be_hit_chance);
 }
 
-uint32_t tp_get_hit_delay_tenths (tpp t)
+int tp_get_hit_delay_tenths (tpp t)
 {
     return (t->hit_delay_tenths);
 }
 
-uint32_t tp_get_mob_spawn_delay_tenths (tpp t)
+int tp_get_mob_spawn_delay_tenths (tpp t)
 {
     return (t->mob_spawn_delay_tenths);
 }
