@@ -68,6 +68,56 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
+#define TP_BODY_STRING_FN(__field__, __fn__)                                    \
+PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
+{	                                                                        \
+    PyObject *py_class = 0;	                                                \
+    char *tp_name = 0;	                                                        \
+    char *value = 0;	                                                        \
+	                                                                        \
+    static char *kwlist[] = {"class", "value", 0};	                        \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, &py_class,    \
+                                     &value)) {	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!value) {	                                                        \
+        ERR("%s, missing value", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    tp_name = py_obj_attr_str(py_class, "name");	                        \
+    if (!tp_name) {	                                                        \
+        ERR("%s, missing tp name", __FUNCTION__);	                        \
+        goto done;	                                                        \
+    }	                                                                        \
+	                                                                        \
+    LOG("%s(%s -> \"%s\")", __FUNCTION__, tp_name, value);	                \
+	                                                                        \
+    tpp tp = tp_find(tp_name);	                                                \
+    if (!tp) {	                                                                \
+        ERR("%s, cannot find tp %s", __FUNCTION__, tp_name);	                \
+        goto done;	                                                        \
+    }	                                                                        \
+	                                                                        \
+    tp->__field__ = dupstr(value, __FUNCTION__);	                        \
+    value = 0;	                                                                \
+    (__fn__)(tp);                                                               \
+	                                                                        \
+done:	                                                                        \
+    if (tp_name) {	                                                        \
+        myfree(tp_name);	                                                \
+    }	                                                                        \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
 #define TP_BODY_ENUM(__field__, __str2val__)                                    \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \

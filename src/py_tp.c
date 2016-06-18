@@ -81,7 +81,15 @@ TP_BODY_STRING(raw_name)
 TP_BODY_STRING(tooltip)
 TP_BODY_STRING(polymorph_on_death)
 TP_BODY_STRING(carried_as)
-TP_BODY_STRING(light_tint)
+static void light_tint_fixup (tpp t)
+{
+    if (t->light_tint) {
+        t->light_color = color_find(t->light_tint);
+    } else {
+        t->light_color = WHITE;
+    }
+}
+TP_BODY_STRING_FN(light_tint, light_tint_fixup)
 TP_BODY_STRING(explodes_as)
 TP_BODY_STRING(sound_on_creation)
 TP_BODY_STRING(sound_on_hitting_something)
