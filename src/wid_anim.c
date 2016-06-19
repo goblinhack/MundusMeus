@@ -151,7 +151,7 @@ void wid_animate (widp w)
     /*
      * When does this tile expire ?
      */
-    uint32_t delay = thing_tile_delay(tile);
+    uint32_t delay = thing_tile_delay_ms(tile);
     if (delay) {
         delay = myrand() % delay;
     }

@@ -18,7 +18,6 @@ void thing_animate (levelp level, thingp t)
     thing_tilep tile;
     thing_tilep otile;
     tree_rootp tiles;
-    const char *command;
     tpp tp = thing_tp(t);
     widp w = t->wid;
 
@@ -598,22 +597,12 @@ void thing_animate (levelp level, thingp t)
     /*
      * When does this tile expire ?
      */
-    uint32_t delay = thing_tile_delay(tile);
+    uint32_t delay = thing_tile_delay_ms(tile);
     if (delay) {
         delay = delay + (myrand() % delay) / 10;
     }
 
     t->timestamp_change_to_next_frame = time_get_time_ms() + delay;
-
-    command = thing_tile_command(tile);
-    if (command) {
-        command_handle(command,
-                       0 /* expanded text */,
-                       false /* show ambiguous */,
-                       false /* show complete */,
-                       true /* execute command */,
-                       (void*) t /* context */);
-    }
 
     {
 //CON("%s", tile->tilename);
