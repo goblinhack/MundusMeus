@@ -47,7 +47,7 @@ void tile_load_arr (const char *tex_name,
     texp tex = tex_load(0, tex_name);
     texp tex_black_and_white;
     
-    if (tex_name_black_and_white) {
+    if (tex_name_black_and_white && *tex_name_black_and_white) {
         tex_black_and_white = tex_load(0, tex_name_black_and_white);
     } else {
         tex_black_and_white = 0;
