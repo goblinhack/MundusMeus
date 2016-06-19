@@ -591,17 +591,17 @@ class tpp:
         self.is_rrr19 = value;
         mm.tp_set_is_rrr19(self, value);
 
-    def set_is_rrr20 (self, value):
-        self.is_rrr20 = value;
-        mm.tp_set_is_rrr20(self, value);
+    def set_is_mountain (self, value):
+        self.is_mountain = value;
+        mm.tp_set_is_mountain(self, value);
 
-    def set_is_rrr21 (self, value):
-        self.is_rrr21 = value;
-        mm.tp_set_is_rrr21(self, value);
+    def set_is_forest (self, value):
+        self.is_forest = value;
+        mm.tp_set_is_forest(self, value);
 
-    def set_is_rrr22 (self, value):
-        self.is_rrr22 = value;
-        mm.tp_set_is_rrr22(self, value);
+    def set_is_sand (self, value):
+        self.is_sand = value;
+        mm.tp_set_is_sand(self, value);
 
     def set_is_grass (self, value):
         self.is_grass = value;

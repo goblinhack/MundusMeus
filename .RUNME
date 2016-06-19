@@ -293,28 +293,28 @@ fi
 
 /bin/rm -f data/mundusmeus-hiscore.txt data/mundusmeus-config.txt
 
-#
-# Make the ramdisk
-#
-RAMDISK_FILES=.ramdisk_files
-
-log_info "Creating ramdisk filelist"
-
-find data -type f | grep -v Resources | grep -v DS_Store | grep -v "\.ttf$" | grep -v "xcf" | grep -v "mp3" | grep -v "\.session" | grep -v "^\." > $RAMDISK_FILES
-if [ ! -s $ramdisk_files ]
-then
-    cd src
-    log_die "Failed to build list of ramdisk files"
-fi
-
-mkdir -p src/asm
-scripts/RUNME.ramdisk.pl $RAMDISK_FILES
-if [ $? -ne 0 ]
-then
-    log_die "Failed to make ramdisk files"
-fi
-
-/bin/rm -f $RAMDISK_FILES
+### #
+### # Make the ramdisk
+### #
+### RAMDISK_FILES=.ramdisk_files
+### 
+### log_info "Creating ramdisk filelist"
+### 
+### find data -type f | grep -v Resources | grep -v DS_Store | grep -v "\.ttf$" | grep -v "xcf" | grep -v "mp3" | grep -v "\.session" | grep -v "^\." > $RAMDISK_FILES
+### if [ ! -s $ramdisk_files ]
+### then
+###     cd src
+###     log_die "Failed to build list of ramdisk files"
+### fi
+### 
+### mkdir -p src/asm
+### scripts/RUNME.ramdisk.pl $RAMDISK_FILES
+### if [ $? -ne 0 ]
+### then
+###     log_die "Failed to make ramdisk files"
+### fi
+### 
+### /bin/rm -f $RAMDISK_FILES
 
 #
 # Make the makefile
