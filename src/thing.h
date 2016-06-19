@@ -863,25 +863,25 @@ static inline uint8_t thing_is_rrr19 (thingp t)
     return (tp_is_rrr19(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_rrr20 (thingp t)
+static inline uint8_t thing_is_mountain (thingp t)
 {
     verify(t);
 
-    return (tp_is_rrr20(thing_tp(t)));
+    return (tp_is_mountain(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_rrr21 (thingp t)
+static inline uint8_t thing_is_forest (thingp t)
 {
     verify(t);
 
-    return (tp_is_rrr21(thing_tp(t)));
+    return (tp_is_forest(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_rrr22 (thingp t)
+static inline uint8_t thing_is_sand (thingp t)
 {
     verify(t);
 
-    return (tp_is_rrr22(thing_tp(t)));
+    return (tp_is_sand(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_grass (thingp t)
