@@ -32,7 +32,7 @@ int thing_drown (levelp level, thingp t)
 
                     if ((myrand() % 100) < 10) {
                         if (thing_submerged_depth(level, t) > 10) {
-                            level_place_bubbles(level, t, t->x, t->y - 0.5);
+                            level_place_northern_settlement(level, t, t->x, t->y - 0.5);
                         }
                     }
                 }
@@ -46,7 +46,7 @@ int thing_drown (levelp level, thingp t)
                         level_place_blood_crit(level, t, t->x, t->y);
                     } else {
                         if (thing_submerged_depth(level, t) > 10) {
-                            level_place_bubbles(level, t, t->x, t->y - 0.5);
+                            level_place_northern_settlement(level, t, t->x, t->y - 0.5);
                         }
                     }
 

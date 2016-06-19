@@ -451,7 +451,7 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(MAP_DEPTH_FLOOR2,            "floor2"),          \
     list_macro(MAP_DEPTH_OBJ,               "obj"),             \
     list_macro(MAP_DEPTH_OBJ2,              "obj2"),            \
-    list_macro(MAP_DEPTH_BOULDER,           "boulder"),         \
+    list_macro(MAP_DEPTH_BOULDER,           "snow_settlement"),         \
     list_macro(MAP_DEPTH_MONST,             "monst"),           \
     list_macro(MAP_DEPTH_LADDER,            "ladder"),          \
     list_macro(MAP_DEPTH_PLAYER,            "player"),          \

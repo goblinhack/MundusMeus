@@ -67,8 +67,8 @@ static void thing_timer_place_and_destroy_callback (levelp level,
             thing_explosion_placed(level, t);
         }
 
-        if (thing_is_bubbles(t)) {
-            thing_bubbles_placed(level, t);
+        if (thing_is_northern_settlement(t)) {
+            thing_northern_settlement_placed(level, t);
         }
     }
 

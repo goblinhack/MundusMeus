@@ -576,9 +576,9 @@ wid_game_map_replace_tile (levelp level,
     double dx = 0;
     double dy = 0;
 
-    if (tp_is_smallrock(tp)) {
+    if (tp_is_sea(tp)) {
         dx = gaussrand(0.0, 0.5);
-        tp = random_smallrock();
+        tp = random_sea();
     }
 
     /*

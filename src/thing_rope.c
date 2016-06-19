@@ -9,7 +9,7 @@
 #include "wid_game_map.h"
 #include "player.h"
 
-thingp thing_place_ropetop (levelp level, 
+thingp thing_place_mountain (levelp level, 
                             thingp owner,
                             double x, double y)
 {

@@ -270,7 +270,7 @@ void thing_wid_move (levelp level,
     }
 
     /*
-     * Breaks boulder bounce if not
+     * Breaks snow_settlement bounce if not
      */
     if (thing_can_roll(t)) {
         smooth = false;

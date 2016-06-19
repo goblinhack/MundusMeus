@@ -424,7 +424,7 @@ tpp random_rock (void)
     }
 }
 
-tpp random_smallrock (void)
+tpp random_sea (void)
 {
     for (;;) {
 
@@ -439,7 +439,7 @@ tpp random_smallrock (void)
             continue;
         }
 
-        if (!tp_is_smallrock(tp)) {
+        if (!tp_is_sea(tp)) {
             continue;
         }
 

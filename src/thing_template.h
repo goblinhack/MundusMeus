@@ -359,23 +359,23 @@ typedef struct tp_ {
     uint8_t is_rrr14:1;
     uint8_t is_rrr15:1;
     uint8_t is_rrr16:1;
-    uint8_t is_rrr17:1;
-    uint8_t is_rrr18:1;
-    uint8_t is_rrr19:1;
+    uint8_t is_northern_mountain:1;
+    uint8_t is_snow_castle:1;
+    uint8_t is_castle:1;
     uint8_t is_mountain:1;
     uint8_t is_forest:1;
     uint8_t is_sand:1;
     uint8_t is_grass:1;
     uint8_t is_land:1;
     uint8_t is_wanderer_lr:1;
-    uint8_t is_boulder:1;
+    uint8_t is_snow_settlement:1;
     uint8_t can_roll:1;
-    uint8_t is_bubbles:1;
+    uint8_t is_northern_settlement:1;
     uint8_t can_drown:1;
-    uint8_t is_ropepile:1;
-    uint8_t is_ropetop:1;
-    uint8_t is_climbable:1;
-    uint8_t is_smallrock:1;
+    uint8_t is_snow:1;
+    uint8_t is_settlement:1;
+    uint8_t is_northern_rock:1;
+    uint8_t is_sea:1;
     uint8_t is_rope:1;
     uint8_t is_throwable:1;
     uint8_t is_sawblade:1;
@@ -720,19 +720,19 @@ static inline uint8_t tp_is_rrr16 (tpp t)
     return (t->is_rrr16);
 }
 
-static inline uint8_t tp_is_rrr17 (tpp t)
+static inline uint8_t tp_is_northern_mountain (tpp t)
 {
-    return (t->is_rrr17);
+    return (t->is_northern_mountain);
 }
 
-static inline uint8_t tp_is_rrr18 (tpp t)
+static inline uint8_t tp_is_snow_castle (tpp t)
 {
-    return (t->is_rrr18);
+    return (t->is_snow_castle);
 }
 
-static inline uint8_t tp_is_rrr19 (tpp t)
+static inline uint8_t tp_is_castle (tpp t)
 {
-    return (t->is_rrr19);
+    return (t->is_castle);
 }
 
 static inline uint8_t tp_is_mountain (tpp t)
@@ -765,9 +765,9 @@ static inline uint8_t tp_is_wanderer_lr (tpp t)
     return (t->is_wanderer_lr);
 }
 
-static inline uint8_t tp_is_boulder (tpp t)
+static inline uint8_t tp_is_snow_settlement (tpp t)
 {
-    return (t->is_boulder);
+    return (t->is_snow_settlement);
 }
 
 static inline uint8_t tp_can_roll (tpp t)
@@ -775,9 +775,9 @@ static inline uint8_t tp_can_roll (tpp t)
     return (t->can_roll);
 }
 
-static inline uint8_t tp_is_bubbles (tpp t)
+static inline uint8_t tp_is_northern_settlement (tpp t)
 {
-    return (t->is_bubbles);
+    return (t->is_northern_settlement);
 }
 
 static inline uint8_t tp_can_drown (tpp t)
@@ -785,24 +785,24 @@ static inline uint8_t tp_can_drown (tpp t)
     return (t->can_drown);
 }
 
-static inline uint8_t tp_is_ropepile (tpp t)
+static inline uint8_t tp_is_snow (tpp t)
 {
-    return (t->is_ropepile);
+    return (t->is_snow);
 }
 
-static inline uint8_t tp_is_ropetop (tpp t)
+static inline uint8_t tp_is_settlement (tpp t)
 {
-    return (t->is_ropetop);
+    return (t->is_settlement);
 }
 
-static inline uint8_t tp_is_climbable (tpp t)
+static inline uint8_t tp_is_northern_rock (tpp t)
 {
-    return (t->is_climbable);
+    return (t->is_northern_rock);
 }
 
-static inline uint8_t tp_is_smallrock (tpp t)
+static inline uint8_t tp_is_sea (tpp t)
 {
-    return (t->is_smallrock);
+    return (t->is_sea);
 }
 
 static inline uint8_t tp_is_rope (tpp t)
@@ -1219,7 +1219,7 @@ tpp random_food(void);
 tpp random_treasure(int shop_floor);
 tpp random_weapon(int shop_floor);
 tpp random_rock(void);
-tpp random_smallrock(void);
+tpp random_sea(void);
 tpp random_lava(void);
 tpp random_monst(int depth);
 tpp random_trap(int depth);

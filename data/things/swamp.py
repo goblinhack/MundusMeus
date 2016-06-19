@@ -2,8 +2,8 @@ from tp import tpp
 import mm
 
 x = tpp("swamp1");
-x.set_short_name("some swamp");
-x.set_tooltip("some swamp");
+x.set_short_name("swamp");
+x.set_tooltip("swamp");
 x.set_is_land(True);
 x.set_world_depth("land");
 

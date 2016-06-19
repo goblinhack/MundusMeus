@@ -214,9 +214,9 @@ uint8_t player_move (levelp level)
     if (up) {
         if (!submerged) {
             if (!thing_overlaps(level, player, player->x, player->y -0.5, 
-                                thing_is_climbable) &&
+                                thing_is_northern_settlement) &&
                 !thing_overlaps(level, player, player->x, player->y,      
-                                thing_is_climbable)) {
+                                thing_is_northern_settlement)) {
                 up = 0;
             }
         }
@@ -225,7 +225,7 @@ uint8_t player_move (levelp level)
     if (down) {
         if (!submerged) {
             if (!thing_overlaps(level, player, player->x, player->y + 0.5, 
-                                thing_is_climbable)) {
+                                thing_is_northern_settlement)) {
                 down = 0;
             }
         }
@@ -344,7 +344,7 @@ uint8_t player_move (levelp level)
         if (rope) {
             level->last_rope = time_get_time_ms();
 
-            thing_place_ropetop(level, player, player->x, player->y);
+            thing_place_mountain(level, player, player->x, player->y);
         }
     }
 
