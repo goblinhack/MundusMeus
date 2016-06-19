@@ -82,34 +82,34 @@ PyObject *tex_load_tiled_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
 PyObject *tile_load_arr_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
-    char *a = "unset tex_name";
-    char *b = "unset tex_name_black_and_white";
-    int c = 0;
-    int d = 0;
+    char *tex_name = "unset tex_name";
+    char *tex_name_black_and_white = "unset tex_name_black_and_white";
+    int width = 0;
+    int height = 0;
     PyObject *e = 0;
 
     static char *kwlist[] = {"tex_name", "tex_name_black_and_white", "width", "height", "arr", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ssiiO", kwlist, &a, &b, &c, &d, &e)) {
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ssiiO", kwlist, &tex_name, &tex_name_black_and_white, &width, &height, &e)) {
         return (0);
     }
 
-    if (!a) {
+    if (!tex_name) {
         ERR("tile_load_arr, missing tex_name attr");
         return (0);
     }
 
-    if (!b) {
+    if (!tex_name_black_and_white) {
         ERR("tile_load_arr, missing tex_name_black_and_white attr");
         return (0);
     }
 
-    if (!c) {
+    if (!width) {
         ERR("tile_load_arr, missing width attr");
         return (0);
     }
 
-    if (!d) {
+    if (!height) {
         ERR("tile_load_arr, missing height attr");
         return (0);
     }
@@ -125,7 +125,7 @@ PyObject *tile_load_arr_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     memset(arr, 0, sizeof(arr));
 
-    LOG("tile_load_arr(tex_name=%s, tex_name_black_and_white=%s, width=%d, height=%d, ...)", a, b, c, d);
+    LOG("tile_load_arr(tex_name=%s, tex_name_black_and_white=%s, width=%d, height=%d, ...)", tex_name, tex_name_black_and_white, width, height);
 
     for (i=0; i<numLines; i++){
         PyObject * strObj;
@@ -137,7 +137,7 @@ PyObject *tile_load_arr_ (PyObject *obj, PyObject *args, PyObject *keywds)
         arr[i] = py_obj_to_str(strObj);
     }
 
-    tile_load_arr(a, b, c, d, numLines, arr);
+    tile_load_arr(tex_name, tex_name_black_and_white, width, height, numLines, arr);
 
     for (i=0; i<numLines; i++){
         if (!arr[i]) {
