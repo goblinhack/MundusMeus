@@ -9,13 +9,12 @@ typedef struct thing_tile_ {
     int array_index;
 
     char *tilename;
-    char *command;
     tilep tile;
 
     /*
      * Delay in ms between frames.
      */
-    uint32_t delay;
+    uint32_t delay_ms;
 
     /*
      * Move now at x speed
@@ -102,9 +101,8 @@ void marshal_thing_tiles(marshal_p, tpp);
 void thing_tile_free(thing_tilep);
 
 const char *thing_tile_name(thing_tilep);
-uint32_t thing_tile_delay(thing_tilep);
+uint32_t thing_tile_delay_ms(thing_tilep);
 uint32_t thing_tile_move(thing_tilep);
-const char *thing_tile_command(thing_tilep);
 uint8_t thing_tile_is_moving(thing_tilep);
 uint8_t thing_tile_begin_jump(thing_tilep);
 uint8_t thing_tile_is_jumping(thing_tilep);
@@ -197,3 +195,4 @@ thing_tilep thing_tile_next(tree_rootp root, thing_tilep in);
 thing_tilep thing_tile_random(tree_rootp root);
 
 extern thing_tile thing_tile_arr[TILES_ANIM_MAX];
+extern int thing_tile_count;

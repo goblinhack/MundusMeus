@@ -15,6 +15,30 @@ class tpp:
         self.raw_name = value;
         mm.tp_set_raw_name(self, value);
 
+    def set_light_radius (self, value):
+        self.light_radius = value;
+        mm.tp_set_light_radius(self, value);
+
+    def set_weapon_density (self, value):
+        self.weapon_density = value;
+        mm.tp_set_weapon_density(self, value);
+
+    def set_weapon_spread (self, value):
+        self.weapon_spread = value;
+        mm.tp_set_weapon_spread(self, value);
+
+    def set_scale (self, value):
+        self.scale = value;
+        mm.tp_set_scale(self, value);
+
+    def set_explosion_radius (self, value):
+        self.explosion_radius = value;
+        mm.tp_set_explosion_radius(self, value);
+
+    def set_collision_radius (self, value):
+        self.collision_radius = value;
+        mm.tp_set_collision_radius(self, value);
+
     def set_d10000_chance_of_appearing (self, value):
         self.d10000_chance_of_appearing = value;
         mm.tp_set_d10000_chance_of_appearing(self, value);
