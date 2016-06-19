@@ -37,7 +37,7 @@ static void level_place_spatter (levelp level,
     }
 }
 
-void level_place_bubbles (levelp level, 
+void level_place_northern_settlement (levelp level, 
                           thingp owner,
                           double x, double y)
 {
@@ -51,10 +51,10 @@ void level_place_bubbles (levelp level,
                         0.05, // radius
                         1, // amount
                         1, // nargs
-                        "bubbles1");
+                        "northern_settlement1");
 }
 
-void thing_bubbles_placed (levelp level, thingp t)
+void thing_northern_settlement_placed (levelp level, thingp t)
 {
     widp w = t->wid;
 

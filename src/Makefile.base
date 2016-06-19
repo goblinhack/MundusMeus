@@ -2,10 +2,11 @@
 NAME=mundusmeus
 OBJDIR=.o
 
-include Makefile.ramdisk.deps
-
+#include Makefile.ramdisk.deps
+#    $(RAMDISK_OBJ)			
+    
 GAME_OBJECTS=				\
-    $(RAMDISK_OBJ)			\
+    $(OBJDIR)/ramdisk_read.o 		\
     $(OBJDIR)/backtrace.o 		\
     $(OBJDIR)/color.o			\
     $(OBJDIR)/command.o 		\
@@ -37,7 +38,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/player.o 			\
     $(OBJDIR)/point.o 			\
     $(OBJDIR)/ptrcheck.o 		\
-    $(OBJDIR)/ramdisk_read.o 		\
     $(OBJDIR)/rand.o 			\
     $(OBJDIR)/sdl.o 			\
     $(OBJDIR)/slre.o 			\
@@ -154,4 +154,4 @@ valgrind:
 all: $(TARGET_GAME) 
 	$(DSYM)
 
-include Makefile.ramdisk
+#include Makefile.ramdisk

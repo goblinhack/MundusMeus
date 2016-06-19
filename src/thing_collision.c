@@ -1035,7 +1035,7 @@ CON("  overlap %s vs %s",thing_logname(me), thing_logname(it));
                     return (true);
                 }
 
-                if (thing_is_ropepile(it)) {
+                if (thing_is_sand(it)) {
                     thing_collect_rope(level, me, it);
                     return (true);
                 }
@@ -1130,7 +1130,7 @@ LOG("add poss me %s hitter %s",thing_logname(me), thing_logname(it));
         }
     }
 
-    if (thing_is_boulder(me) &&
+    if (thing_is_snow_settlement(me) &&
         ((fabs(me->momentum) > THING_FALL_SPEED_BOULDER_HURTS) || 
          (me->fall_speed > THING_FALL_SPEED_BOULDER_HURTS))) {
 
@@ -1156,7 +1156,7 @@ LOG("add poss me %s hitter %s",thing_logname(me), thing_logname(it));
         }
     }
 
-    if (thing_is_smallrock(me) && 
+    if (thing_is_sea(me) && 
         ((fabs(me->momentum) > THING_PUSH_SPEED_OBJ) || 
          (me->fall_speed >  THING_PUSH_SPEED_OBJ))) {
 
@@ -1550,8 +1550,8 @@ thingp thing_hit_solid_obstacle (levelp level,
             /*
              * Allowed to pass through small rocks.
              */
-            if (!thing_is_smallrock(me)) {
-                if (thing_is_smallrock(it)) {
+            if (!thing_is_sea(me)) {
+                if (thing_is_sea(it)) {
                     continue;
                 }
             }
@@ -1756,9 +1756,9 @@ thingp thing_hit_solid_obstacle (levelp level,
             }
 
             /*
-             * You can walk away from a boulder, but not closer...
+             * You can walk away from a snow_settlement, but not closer...
              */
-            if (thing_is_boulder(it)) {
+            if (thing_is_snow_settlement(it)) {
                 double dist_now = DISTANCE(t->x, t->y, it->x, it->y);
                 double dist_then = DISTANCE(nx, ny, it->x, it->y);
 
@@ -1886,7 +1886,7 @@ thingp thing_hit_fall_obstacle (levelp level,
                 if (!thing_is_wall(it) && 
                     !thing_is_rock(it) && 
                     !thing_is_monst(it) && 
-                    !thing_is_smallrock(it) && 
+                    !thing_is_sea(it) && 
                     !thing_is_rope(it) && 
                     !thing_is_ladder(it) && 
                     !thing_is_obstacle(it) && 
@@ -1908,7 +1908,7 @@ thingp thing_hit_fall_obstacle (levelp level,
                  */
                 if (!thing_is_wall(it) && 
                     !thing_is_rock(it) && 
-                    !thing_is_smallrock(it) && 
+                    !thing_is_sea(it) && 
                     !thing_is_obstacle(it) && 
                     !thing_is_rope(it) && 
                     !thing_is_ladder(it) && 
@@ -1924,8 +1924,8 @@ thingp thing_hit_fall_obstacle (levelp level,
                     !thing_is_door(it)) {
                     continue;
                 }
-            } else if (thing_is_smallrock(me)) {
-                if (thing_is_smallrock(it)) {
+            } else if (thing_is_sea(me)) {
+                if (thing_is_sea(it)) {
                     if (me->y > it->y) {
                         continue;
                     }
@@ -1938,7 +1938,7 @@ thingp thing_hit_fall_obstacle (levelp level,
 
                 if (!thing_is_wall(it) && 
                     !thing_is_rock(it) && 
-                    !thing_is_smallrock(it) && 
+                    !thing_is_sea(it) && 
                     !thing_is_door(it)) {
                     continue;
                 }
@@ -1948,7 +1948,7 @@ thingp thing_hit_fall_obstacle (levelp level,
                  */
                 if (!thing_is_wall(it) && 
                     !thing_is_rock(it) && 
-                    !thing_is_boulder(it) && 
+                    !thing_is_snow_settlement(it) && 
                     !thing_is_door(it)) {
                     continue;
                 }

@@ -842,25 +842,25 @@ static inline uint8_t thing_is_rrr16 (thingp t)
     return (tp_is_rrr16(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_rrr17 (thingp t)
+static inline uint8_t thing_is_northern_mountain (thingp t)
 {
     verify(t);
 
-    return (tp_is_rrr17(thing_tp(t)));
+    return (tp_is_northern_mountain(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_rrr18 (thingp t)
+static inline uint8_t thing_is_snow_castle (thingp t)
 {
     verify(t);
 
-    return (tp_is_rrr18(thing_tp(t)));
+    return (tp_is_snow_castle(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_rrr19 (thingp t)
+static inline uint8_t thing_is_castle (thingp t)
 {
     verify(t);
 
-    return (tp_is_rrr19(thing_tp(t)));
+    return (tp_is_castle(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_mountain (thingp t)
@@ -877,11 +877,11 @@ static inline uint8_t thing_is_forest (thingp t)
     return (tp_is_forest(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_sand (thingp t)
+static inline uint8_t thing_is_snow (thingp t)
 {
     verify(t);
 
-    return (tp_is_sand(thing_tp(t)));
+    return (tp_is_snow(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_grass (thingp t)
@@ -905,11 +905,11 @@ static inline uint8_t thing_is_wanderer_lr (thingp t)
     return (tp_is_wanderer_lr(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_boulder (thingp t)
+static inline uint8_t thing_is_snow_settlement (thingp t)
 {
     verify(t);
 
-    return (tp_is_boulder(thing_tp(t)));
+    return (tp_is_snow_settlement(thing_tp(t)));
 }
 
 static inline uint8_t thing_can_roll (thingp t)
@@ -919,11 +919,11 @@ static inline uint8_t thing_can_roll (thingp t)
     return (tp_can_roll(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_bubbles (thingp t)
+static inline uint8_t thing_is_northern_settlement (thingp t)
 {
     verify(t);
 
-    return (tp_is_bubbles(thing_tp(t)));
+    return (tp_is_northern_settlement(thing_tp(t)));
 }
 
 static inline uint8_t thing_can_drown (thingp t)
@@ -933,32 +933,32 @@ static inline uint8_t thing_can_drown (thingp t)
     return (tp_can_drown(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_ropepile (thingp t)
+static inline uint8_t thing_is_sand (thingp t)
 {
     verify(t);
 
-    return (tp_is_ropepile(thing_tp(t)));
+    return (tp_is_sand(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_ropetop (thingp t)
+static inline uint8_t thing_is_settlement (thingp t)
 {
     verify(t);
 
-    return (tp_is_ropetop(thing_tp(t)));
+    return (tp_is_settlement(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_climbable (thingp t)
+static inline uint8_t thing_is_northern_rock (thingp t)
 {
     verify(t);
 
-    return (tp_is_climbable(thing_tp(t)));
+    return (tp_is_northern_rock(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_smallrock (thingp t)
+static inline uint8_t thing_is_sea (thingp t)
 {
     verify(t);
 
-    return (tp_is_smallrock(thing_tp(t)));
+    return (tp_is_sea(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_rope (thingp t)
@@ -1694,12 +1694,12 @@ void level_place_blood_crit(levelp level,
                             double x, double y);
 
 /*
- * thing_bubbles.c
+ * thing_northern_settlement.c
  */
-void level_place_bubbles(levelp level,
+void level_place_northern_settlement(levelp level,
                          thingp owner,
                          double x, double y);
-void thing_bubbles_placed(levelp level, thingp t);
+void thing_northern_settlement_placed(levelp level, thingp t);
 
 /*
  * thing_bomb.c
@@ -1725,7 +1725,7 @@ void thing_collect_torch(levelp level,
 /*
  * thing_rope.c
  */
-thingp thing_place_ropetop(levelp level, 
+thingp thing_place_mountain(levelp level, 
                            thingp owner,
                            double x, double y);
 thingp thing_place_rope(levelp level, 
@@ -1838,7 +1838,7 @@ static inline void real_to_map (double ix, double iy, double *x, double *y)
 void thing_effect_hit_miss(levelp, thingp t);
 void thing_effect_hit_success(levelp, thingp t);
 void thing_effect_flames(levelp, thingp t);
-void thing_effect_bubbles(levelp, thingp t);
+void thing_effect_northern_settlement(levelp, thingp t);
 void thing_effect_hit_crit(levelp, thingp t);
 void thing_effect_power_up(levelp, thingp t);
 

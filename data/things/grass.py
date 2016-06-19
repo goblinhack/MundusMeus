@@ -2,8 +2,8 @@ from tp import tpp
 import mm
 
 x = tpp("grass1");
-x.set_short_name("some grass");
-x.set_tooltip("some grass");
+x.set_short_name("grass");
+x.set_tooltip("grass");
 x.set_is_land(True);
 x.set_is_grass(True);
 x.set_world_depth("land");

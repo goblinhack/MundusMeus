@@ -505,7 +505,7 @@ static void level_place_small_rocks (levelp level,
 
         wid_game_map_replace_tile(level, px, py,
                                   0, /* thing */
-                                  tp_find("smallrock1"),
+                                  tp_find("sea1"),
                                   0 /* tpp_data */);
     }
 }

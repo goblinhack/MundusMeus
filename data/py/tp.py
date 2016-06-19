@@ -579,17 +579,17 @@ class tpp:
         self.is_rrr16 = value;
         mm.tp_set_is_rrr16(self, value);
 
-    def set_is_rrr17 (self, value):
-        self.is_rrr17 = value;
-        mm.tp_set_is_rrr17(self, value);
+    def set_is_northern_mountain (self, value):
+        self.is_northern_mountain = value;
+        mm.tp_set_is_northern_mountain(self, value);
 
-    def set_is_rrr18 (self, value):
-        self.is_rrr18 = value;
-        mm.tp_set_is_rrr18(self, value);
+    def set_is_snow_castle (self, value):
+        self.is_snow_castle = value;
+        mm.tp_set_is_snow_castle(self, value);
 
-    def set_is_rrr19 (self, value):
-        self.is_rrr19 = value;
-        mm.tp_set_is_rrr19(self, value);
+    def set_is_castle (self, value):
+        self.is_castle = value;
+        mm.tp_set_is_castle(self, value);
 
     def set_is_mountain (self, value):
         self.is_mountain = value;
@@ -615,29 +615,29 @@ class tpp:
         self.is_wanderer_lr = value;
         mm.tp_set_is_wanderer_lr(self, value);
 
-    def set_is_boulder (self, value):
-        self.is_boulder = value;
-        mm.tp_set_is_boulder(self, value);
+    def set_is_snow_settlement (self, value):
+        self.is_snow_settlement = value;
+        mm.tp_set_is_snow_settlement(self, value);
 
-    def set_is_bubbles (self, value):
-        self.is_bubbles = value;
-        mm.tp_set_is_bubbles(self, value);
+    def set_is_northern_settlement (self, value):
+        self.is_northern_settlement = value;
+        mm.tp_set_is_northern_settlement(self, value);
 
-    def set_is_ropepile (self, value):
-        self.is_ropepile = value;
-        mm.tp_set_is_ropepile(self, value);
+    def set_is_snow (self, value):
+        self.is_snow = value;
+        mm.tp_set_is_snow(self, value);
 
-    def set_is_ropetop (self, value):
-        self.is_ropetop = value;
-        mm.tp_set_is_ropetop(self, value);
+    def set_is_settlement (self, value):
+        self.is_settlement = value;
+        mm.tp_set_is_settlement(self, value);
 
-    def set_is_climbable (self, value):
-        self.is_climbable = value;
-        mm.tp_set_is_climbable(self, value);
+    def set_is_northern_rock (self, value):
+        self.is_northern_rock = value;
+        mm.tp_set_is_northern_rock(self, value);
 
-    def set_is_smallrock (self, value):
-        self.is_smallrock = value;
-        mm.tp_set_is_smallrock(self, value);
+    def set_is_sea (self, value):
+        self.is_sea = value;
+        mm.tp_set_is_sea(self, value);
 
     def set_is_rope (self, value):
         self.is_rope = value;

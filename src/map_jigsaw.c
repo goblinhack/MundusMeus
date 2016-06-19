@@ -3743,11 +3743,11 @@ static tpp map_char_to_tp (char c,
         break;
 
     case MAP_BOULDER1: 
-        tp = tp_find("boulder1");
+        tp = tp_find("snow_settlement1");
         break;
 
     case MAP_BOULDER2: 
-        tp = tp_find("boulder2");
+        tp = tp_find("snow_settlement2");
         break;
 
     case MAP_TREASURE: {

@@ -2,8 +2,8 @@ from tp import tpp
 import mm
 
 x = tpp("sand1");
-x.set_short_name("some sand");
-x.set_tooltip("some sand");
+x.set_short_name("sand");
+x.set_tooltip("sand");
 x.set_is_land(True);
 x.set_is_sand(True);
 x.set_world_depth("land");
@@ -83,12 +83,3 @@ mm.tp_set_tile(x, tile="sand2.7");
 mm.tp_set_tile(x, tile="sand2.7");
 mm.tp_set_tile(x, tile="sand2.7");
 mm.tp_set_tile(x, tile="sand2.7");
-
-mm.tp_set_tile(x, tile="sand3.1");
-mm.tp_set_tile(x, tile="sand3.2");
-mm.tp_set_tile(x, tile="sand3.3");
-mm.tp_set_tile(x, tile="sand3.4");
-mm.tp_set_tile(x, tile="sand3.5");
-mm.tp_set_tile(x, tile="sand3.6");
-mm.tp_set_tile(x, tile="sand3.7");
-

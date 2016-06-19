@@ -35,7 +35,7 @@ int thing_jump (levelp level, thingp t)
 
     thing_wid_update(level, t, x, y, true, false /* is new */);
 
-    if (thing_is_ropetop(t)) {
+    if (thing_is_mountain(t)) {
         if (!thing_hit_fall_obstacle(level, t,  t->x, (int) t->y + 1.0)) {
             thing_place_rope(level, t, t->x, (int) t->y + 1.0);
         }
