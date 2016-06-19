@@ -1123,6 +1123,23 @@ static void world_editor_button_display (widp w, fpoint tl, fpoint br)
                 br.x = tl.x + width;
                 tl.y = br.y - height;
 
+                if (by & 1) {
+                    tl.x += width / 2;
+                    br.x += width / 2;
+                }
+
+                double w = tl.x - br.x;
+                double h = tl.y - br.y;
+                double sw = 1.2;
+                double sh = 1.3;
+
+                tl.x -= w * sw;
+                br.x += w * sw;
+                tl.y -= h * sh;
+                br.y += h * sh;
+
+                swap(tl.y, br.y);
+
                 int z;
 
                 for (z = 0; z < WORLD_DEPTH; z++) {
