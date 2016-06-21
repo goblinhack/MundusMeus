@@ -510,13 +510,8 @@ void gl_blitline (float left, float top, float right, float bottom)
 
 void gl_ortho_set (int32_t width, int32_t height)
 {
-#ifdef SCALE_GRAPHICS
-    game.video_gl_width = DEFAULT_VIDEO_WIDTH;
-    game.video_gl_height = DEFAULT_VIDEO_HEIGHT;
-#else
     game.video_gl_width = width;
     game.video_gl_height = height;
-#endif
 
     game.xscale = (float)game.video_gl_width / (float)width;
     game.yscale = (float)game.video_gl_height / (float)height;
