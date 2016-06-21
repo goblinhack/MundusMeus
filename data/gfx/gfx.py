@@ -7,7 +7,11 @@ def init_tex ():
 
 def init_tiles ():
 
-    mm.tex_load_tiled(file="data/gfx/sprites_large.tga", name="sprites_large", width=64, height=64);
+    mm.tex_load_tiled(
+            file="data/gfx/sprites_large.tga", 
+            name="sprites_large", 
+            width=128, 
+            height=128);
 
     sprites_large = [
         "grass1.1",
@@ -320,7 +324,7 @@ def init_tiles ():
     mm.tile_load_arr(
             tex_name = "sprites_large",
             tex_name_black_and_white = "",
-            width = 64, height = 64,
+            width = 128, height = 128,
             arr = sprites_large);
 
 init_tex();

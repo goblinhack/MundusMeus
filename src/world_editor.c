@@ -84,6 +84,19 @@ static void world_editor_set_new_tp (int x, int y, int z,
     verify(ctx);
     verify(ctx->w);
 
+    if (x < 0) {
+        return;
+    }
+    if (y < 0) {
+        return;
+    }
+    if (x >= WORLD_WIDTH) {
+        return;
+    }
+    if (y >= WORLD_HEIGHT) {
+        return;
+    }
+
     memset(&ctx->map.tile[x][y][z], 0, sizeof(world_editor_world_tile));
     ctx->map.tile[x][y][z].tp = tp_to_id(tp);
 }
@@ -1102,45 +1115,26 @@ static void world_editor_button_display (widp w, fpoint tl, fpoint br)
     if ((x == WORLD_EDITOR_MENU_WORLD_ACROSS - 1) && (y == WORLD_EDITOR_MENU_WORLD_DOWN - 1)) {
         int bx, by;
 
-        for (bx = 0; bx < WORLD_EDITOR_MENU_CELLS_ACROSS; bx++) {
-            for (by = 0; by < WORLD_EDITOR_MENU_CELLS_DOWN; by++) {
+        int mx = ctx->world_x;
+        int my = ctx->world_y;
 
-                int x = ctx->world_x + bx;
-                int y = ctx->world_y + by;
+        double across = 20;
+        double down = 10;
+
+        double tw = ((double)game.video_pix_width) / across;
+        double th = ((double)game.video_pix_height) / down;
+        double ox, oy;
+
+        for (oy = 0, by = my - down / 2; by < my + down / 2 + 1; by++, oy++) {
+            for (ox = across, bx = mx + across / 2; bx > (mx - across / 2) - 2; bx--, ox--) {
+
+                int x = ctx->world_x + ox;
+                int y = ctx->world_y + oy;
+                int z;
 
                 if ((x < 0) || (x >= WORLD_WIDTH) || (y < 0) || (y >= WORLD_HEIGHT)) {
                     continue;
                 }
-
-                widp b = ctx->tile[bx][by].button;
-                fpoint tl;
-                fpoint br;
-                wid_get_tl_br(b, &tl, &br);
-
-                double width = br.x - tl.x;
-                double height = br.y - tl.y;
-
-                br.x = tl.x + width;
-                tl.y = br.y - height;
-
-                if (by & 1) {
-                    tl.x += width / 2;
-                    br.x += width / 2;
-                }
-
-                double w = tl.x - br.x;
-                double h = tl.y - br.y;
-                double sw = 1.2;
-                double sh = 1.3;
-
-                tl.x -= w * sw;
-                br.x += w * sw;
-                tl.y -= h * sh;
-                br.y += h * sh;
-
-                swap(tl.y, br.y);
-
-                int z;
 
                 for (z = 0; z < WORLD_DEPTH; z++) {
                     tpp tp = id_to_tp(ctx->map.tile[x][y][z].tp);
@@ -1150,6 +1144,27 @@ static void world_editor_button_display (widp w, fpoint tl, fpoint br)
 
                     fpoint btl = tl;
                     fpoint bbr = br;
+
+                    btl.x = ox * tw;
+                    btl.y = oy * th;
+                    bbr.x = btl.x + tw;
+                    bbr.y = btl.y + th;
+
+                    if ((int)y & 1) {
+                        btl.x += tw / 2.0;
+                        bbr.x += tw / 2.0;
+                    }
+
+                    btl.x -= tw / 2.0;
+                    bbr.x -= tw / 2.0;
+
+                    double sw = 0.35;
+                    double sh = 0.48;
+
+                    btl.x -= sw * tw;
+                    bbr.x += sw * tw;
+                    btl.y -= sh * th;
+                    bbr.y += sh * th;
 
                     tilep tile = world_editor_tp_to_tile(tp, x, y);
                     if (!tp) {

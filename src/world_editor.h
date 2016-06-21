@@ -123,7 +123,7 @@ typedef struct {
     /*
      * Tile pools
      */
-    world_editor_tile tile_pools[WORLD_TILE_POOL_MAX][THING_MAX];
+    world_editor_tile tile_pools[WORLD_TILE_POOL_MAX][TP_MAX_ID];
     int tile_count[WORLD_TILE_POOL_MAX];
 
     /*
