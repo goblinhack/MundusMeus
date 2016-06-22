@@ -14,6 +14,25 @@
 #include "tile.h"
 #include "thing_template.h"
 
+static PyObject *mymod;
+
+void py_call_int (const char *name, int val1)
+{
+    LOG("python: %s(%d)", name, val1);
+
+    PyObject *pFunc = PyObject_GetAttrString(mymod, name);
+    if (PyCallable_Check(pFunc)) {
+        PyObject *pArgs = Py_BuildValue("(i)", val1);
+        PyObject *pValue = PyObject_CallObject(pFunc, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python function %s(%d)", name, val1);
+    }
+}
+
 char *py_obj_to_str (const PyObject *py_str)
 {
     PyObject *py_encstr;
@@ -579,8 +598,6 @@ static void py_add_to_path (const char *path)
 
 void python_init (void)
 {
-    PyObject *mymod;
-
     PyImport_AppendInittab("mm", python_my_module_create);
 
     Py_Initialize();
@@ -596,6 +613,9 @@ void python_init (void)
         py_err();
         DIE("module import failed");
     }
+py_call_int("set_game_video_pix_width", game.video_pix_width);
+py_call_int("set_game_video_pix_width", game.video_pix_width+1);
+py_err();
 }
 
 void python_fini (void)

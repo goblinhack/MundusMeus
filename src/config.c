@@ -12,7 +12,7 @@
 
 struct game_ game;
 
-static const char *config_dir_and_file = "mundusmeus-config.txt";
+static const char *config_dir_and_file = "mundusmeus-config.py";
 static int32_t config_inited;
 
 void config_fini (void)
