@@ -5,7 +5,6 @@ from os.path import dirname, basename
 import imp
 
 def init_console ():
-
     mm.con("Welcome to the %%fg=yellow$Mundus Meus%%fg=reset$ console")
     mm.con(" ");
     mm.con("%%fg=red$          Welcome to the MundusMeus debug console!%%fg=reset$");
@@ -36,7 +35,16 @@ def load_plugin(filepath):
     elif file_ext.lower() == '.pyc':
         py_mod = imp.load_compiled(mod_name, filepath)
 
+    if basename(filepath) == "config.py":
+        global config
+        config = py_mod
+
 def init_plugins():
+    print(dirname(__file__));
+    for filename in find_plugins(os.getcwd(), 'mundusmeus-config.py'):
+        mm.con("Loading " + filename);
+        load_plugin(filename);
+
     for filename in find_plugins(dirname(__file__), '*.py'):
         mm.con("Loading " + filename);
         load_plugin(filename);
@@ -45,4 +53,12 @@ def main():
     init_console()
     init_plugins()
 
+mm.game_video_pix_width = 100
+
 main();
+
+def set_game_video_pix_width(val):
+    global config
+    mm.con(str(mm.game_video_pix_width))
+    config.set_game_video_pix_width(val);
+    mm.con(str(mm.game_video_pix_width))

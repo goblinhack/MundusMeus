@@ -12,6 +12,7 @@ void python_init(void);
 void python_fini(void);
 void py_exec(const char *str);
 
+void py_call_int(const char *name, int val1);
 char *py_obj_to_str(const PyObject *py_str);
 char *py_obj_attr_str(const PyObject *py_obj, const char *attr);
 
