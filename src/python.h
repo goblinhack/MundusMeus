@@ -12,8 +12,14 @@ void python_init(void);
 void python_fini(void);
 void py_exec(const char *str);
 
-void py_call_int(const char *name, int val1);
+void py_call_vi(const char *name, int val1);
+void py_call_vmi(const char *module, const char *name, int val1);
+int py_call_ii(const char *name, int val1);
+int py_call_imi(const char *module, const char *name, int val1);
+
+void py_err(void);
 char *py_obj_to_str(const PyObject *py_str);
+int py_obj_to_int(PyObject *py_obj);
 char *py_obj_attr_str(const PyObject *py_obj, const char *attr);
 
 PyObject *tex_load_(PyObject *obj, PyObject *args, PyObject *keywds);

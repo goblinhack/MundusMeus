@@ -16,7 +16,43 @@
 
 static PyObject *mymod;
 
-void py_call_int (const char *name, int val1)
+void py_call_vmi (const char *module, const char *name, int val1)
+{
+    LOG("python: %s.%s(%d)", module, name, val1);
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(i)", val1);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+}
+
+void py_call_vi (const char *name, int val1)
 {
     LOG("python: %s(%d)", name, val1);
 
@@ -31,6 +67,74 @@ void py_call_int (const char *name, int val1)
     } else {
         ERR("cannot call python function %s(%d)", name, val1);
     }
+
+    py_err();
+}
+
+int py_call_imi (const char *module, const char *name, int val1)
+{
+    int ret = -1;
+
+    LOG("python: %s.%s(%d)", module, name, val1);
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return (ret);
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return (ret);
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return (ret);
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(i)", val1);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            ret = py_obj_to_int(pValue);
+
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return (ret);
+}
+
+int py_call_ii (const char *name, int val1)
+{
+    int ret = -1;
+
+    LOG("python: %s(%d)", name, val1);
+
+    PyObject *pFunc = PyObject_GetAttrString(mymod, name);
+    if (PyCallable_Check(pFunc)) {
+        PyObject *pArgs = Py_BuildValue("(i)", val1);
+        PyObject *pValue = PyObject_CallObject(pFunc, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            ret = py_obj_to_int(pValue);
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python function %s(%d)", name, val1);
+    }
+
+    py_err();
+
+    return (ret);
 }
 
 char *py_obj_to_str (const PyObject *py_str)
@@ -71,6 +175,32 @@ err_out:
     }
 
     return (outstr);
+}
+
+int py_obj_to_int (PyObject *py_obj)
+{
+    int val;
+
+    val = 0;
+
+    if (!PyLong_Check((PyObject *)py_obj)) {
+        ERR("Object is a %s, not a int object.",
+            Py_TYPE((PyObject *)py_obj)->tp_name);
+        goto err_out;
+    }
+
+    val = PyLong_AsLong(py_obj);
+    if (!val) {
+        goto err_out;
+    }
+
+err_out:
+
+    if (PyErr_Occurred()) {
+        ERR("int conversion failed");
+    }
+
+    return (val);
 }
 
 char *py_obj_attr_str (const PyObject *py_obj, const char *attr)
@@ -460,7 +590,7 @@ python_my_module_create (void)
    return (m);
 }
 
-static void py_err (void)
+void py_err (void)
 {
     PyObject *err = PyErr_Occurred();
     if (!err) {
@@ -613,9 +743,13 @@ void python_init (void)
         py_err();
         DIE("module import failed");
     }
-py_call_int("set_game_video_pix_width", game.video_pix_width);
-py_call_int("set_game_video_pix_width", game.video_pix_width+1);
-py_err();
+
+
+py_call_vmi("config", "set_game_video_pix_width", game.video_pix_width);
+py_call_vmi("config", "set_game_video_pix_width", game.video_pix_width+100);
+int x = py_call_imi("config", "get_game_video_pix_width", game.video_pix_width);
+CON("x %d",x);
+//py_call_int("set_game_video_pix_width", game.video_pix_width+1);
 }
 
 void python_fini (void)
