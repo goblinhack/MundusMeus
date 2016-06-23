@@ -209,28 +209,6 @@ uint8_t player_move (levelp level)
         }
     }
 
-    double submerged = thing_is_partially_or_fully_submerged(level, player);
-
-    if (up) {
-        if (!submerged) {
-            if (!thing_overlaps(level, player, player->x, player->y -0.5, 
-                                thing_is_northern_settlement) &&
-                !thing_overlaps(level, player, player->x, player->y,      
-                                thing_is_northern_settlement)) {
-                up = 0;
-            }
-        }
-    }
-
-    if (down) {
-        if (!submerged) {
-            if (!thing_overlaps(level, player, player->x, player->y + 0.5, 
-                                thing_is_northern_settlement)) {
-                down = 0;
-            }
-        }
-    }
-
     if (!time_have_x_hundredths_passed_since(2, level->last_moved)) {
         double x = player->x;
         double y = player->y;
@@ -319,7 +297,7 @@ uint8_t player_move (levelp level)
         }
     }
 
-    if (submerged && jump) {
+    if (jump) {
         jump = 0;
         up = 1;
     }
@@ -724,46 +702,6 @@ void player_wid_update (levelp level)
             }
         }
     }
-    
-    /*
-     * Drowning and torches and ropes
-     */
-    if (player->breath) {
-        double y1 = 0.15;
-        fpoint tl = { 0.0, 0.0 };
-        fpoint br = { 0.03, 0.05 };
-
-        double x1 = 0.05;
-
-        {
-            int i;
-
-            int max = ARRAY_SIZE(game.wid_drown_icon);
-            int n = max - player->breath;
-            if (n > max) {
-                n = max;
-            }
-
-            for (i = 0; i < n; i++) {
-
-                widp w = game.wid_drown_icon[i] = wid_new_window("icon-drown");
-                wid_set_tl_br_pct(w, tl, br);
-
-                wid_set_tilename(w, "icon-drown");
-
-                wid_set_no_shape(w);
-                wid_set_do_not_lower(w, true);
-                wid_move_to_pct_centered(w, x1, y1);
-
-                wid_effect_pulses(w);
-                wid_bounce_to_pct_in(w, ((double) max - n) * 0.01, 0.8, 500, 999);
-
-                x1 += 0.03;
-            }
-
-            wid_effect_pulses(player->wid);
-        }
-    }
 }
 
 void player_wid_destroy (levelp level)
@@ -831,17 +769,5 @@ void player_wid_destroy (levelp level)
     if (game.wid_ropes_text) {
         wid_destroy_nodelay(&game.wid_ropes_text);
         game.wid_ropes_text = 0;
-    }
-
-    {
-        int max = ARRAY_SIZE(game.wid_drown_icon);
-
-        int i;
-        for (i = 0; i < max; i++) {
-            if (game.wid_drown_icon[i]) {
-                wid_destroy_nodelay(&game.wid_drown_icon[i]);
-                game.wid_drown_icon[i] = 0;
-            }
-        }
     }
 }

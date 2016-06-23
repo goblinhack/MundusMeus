@@ -596,11 +596,6 @@ int32_t tp_get_blit_right_off (tpp t)
     return (t->blit_right_off);
 }
 
-int tp_get_drown_in_secs (tpp t)
-{
-    return (t->drown_in_secs);
-}
-
 int tp_get_min_appear_depth (tpp t)
 {
     return (t->min_appear_depth);

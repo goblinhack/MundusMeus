@@ -23,7 +23,6 @@
 #include "math_util.h"
 #include "map.h"
 #include "level.h"
-#include "fluid.h"
 #include "thing.h"
 #include "python.h"
 
@@ -9264,10 +9263,6 @@ static void wid_display (widp w,
                         }
                     }
                 }
-            }
-
-            if (z == MAP_DEPTH_PLAYER) {
-                fluid_render(w, minx, miny, maxx, maxy);
             }
         }
 

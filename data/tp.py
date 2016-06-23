@@ -107,10 +107,6 @@ class tpp:
         self.blit_right_off = value;
         mm.tp_set_blit_right_off(self, value);
 
-    def set_drown_in_secs (self, value):
-        self.drown_in_secs = value;
-        mm.tp_set_drown_in_secs(self, value);
-
     def set_min_appear_depth (self, value):
         self.min_appear_depth = value;
         mm.tp_set_min_appear_depth(self, value);

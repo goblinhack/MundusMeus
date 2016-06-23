@@ -25,7 +25,6 @@
 #include "file.h"
 #include "map.h"
 #include "thing_shop.h"
-#include "fluid.h"
 #include "player.h"
 #include "thing_timer.h"
 
@@ -250,8 +249,6 @@ static void level_update_incremental (levelp level)
     dmap_generate(level, true /* force */);
 
     map_fixup(level);
-
-    fluid_update(level);
 }
 
 levelp level_load_new (int level_no)
@@ -317,8 +314,6 @@ static void level_loaded_common (levelp level)
      */
     if (!level->is_editor && !level->is_map_editor) {
         level_trigger_activate_default_triggers(level);
-
-        fluid_init(level);
     }
 }
 

@@ -8,7 +8,6 @@
 #include "math_util.h"
 #include "wid_game_map.h"
 #include "thing.h"
-#include "fluid.h"
 
 int level_explosion_flash_effect;
 
@@ -78,12 +77,6 @@ void level_place_explosion_at (levelp level,
 
     if (is_epicenter) {
         if (tp_is_explosion(tp)) {
-            int i;
-            for (i = 0; i < 100; i++) {
-                fluid_add_droplets(level);
-            }
-
-            fluid_remove_water_radius(level, x, y, 3);
         }
     }
 }

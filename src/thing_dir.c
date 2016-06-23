@@ -33,10 +33,6 @@ void thing_set_dir_down (levelp level, thingp t)
 {
     verify(t);
 
-    if (thing_is_submerged(level, t)) {
-        return;
-    }
-
     if (thing_is_animated_no_dir(t)) {
         return;
     }
@@ -57,10 +53,6 @@ uint8_t thing_is_dir_down (thingp t)
 void thing_set_dir_up (levelp level, thingp t)
 {
     verify(t);
-
-    if (thing_is_submerged(level, t)) {
-        return;
-    }
 
     if (thing_is_animated_no_dir(t)) {
         return;
