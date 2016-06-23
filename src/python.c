@@ -186,6 +186,43 @@ int py_call_int_module_void (const char *module, const char *name)
     return (ret);
 }
 
+void py_call_void_module_void (const char *module, const char *name)
+{
+    LOG("python: %s.%s()", module, name);
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pValue = PyObject_CallObject(fn, 0);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+}
+
 int py_call_int_int (const char *name, int val1)
 {
     int ret = -1;

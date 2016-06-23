@@ -37,6 +37,7 @@ uint8_t config_save (void)
     set_game_display_sync(game.display_sync);
     set_game_full_screen(game.full_screen);
     set_game_fps_counter(game.fps_counter);
+    save_game_config();
 
     return (true);
 }
@@ -158,3 +159,9 @@ int get_game_fps_counter (void)
 
     return (game.fps_counter);
 }
+
+void save_game_config (void)
+{
+    py_call_void_module_void("config", "save_game_config");
+}
+

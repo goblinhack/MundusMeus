@@ -18,6 +18,7 @@ int py_call_int_int(const char *name, int val1);
 void py_call_void_module_int(const char *module, const char *name, int val1);
 int py_call_int_module_int(const char *module, const char *name, int val1);
 int py_call_int_module_void(const char *module, const char *name);
+void py_call_void_module_void(const char *module, const char *name);
 void py_call_void(const char *name);
 
 void py_err(void);
