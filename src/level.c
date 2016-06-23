@@ -15,7 +15,6 @@
 #include "thing.h"
 #include "command.h"
 #include "time_util.h"
-#include "marshal.h"
 #include "wid_game_map.h"
 #include "wid_map.h"
 #include "map.h"
@@ -372,45 +371,6 @@ levelp level_load (uint32_t level_no,
 
     for (pass = 0; pass < max_pass; pass++) {
         LEVEL_LOG(level, "Level %s: loading pass %d", dir_and_file, pass);
-
-        demarshal_p in;
-
-        game.level_is_being_loaded = pass + 1;
-
-        if (!(in = demarshal(dir_and_file))) {
-            /*
-             * Fail
-             *
-             * I'm assuming this means the end of the game
-             *
-            char *popup_str = dynprintf("Failed to load level %s: %s",
-                                        dir_and_file,
-                                        strerror(errno));
-
-            MSG_BOX("%s", popup_str);
-            myfree(popup_str);
-             */
-            myfree(dir_and_file);
-
-            level_destroy(&level, false /* keep player */);
-
-            return (0);
-        } else {
-            /*
-             * Success
-             */
-            if (!demarshal_level(in, level)) {
-                char *popup_str = dynprintf("There were some errors "
-                                            "while loading level %s: %s",
-                                            dir_and_file,
-                                            strerror(errno));
-
-                MSG_BOX("%s", popup_str);
-                myfree(popup_str);
-            }
-
-            demarshal_fini(in);
-        }
     }
 
     game.level_is_being_loaded = 0;
@@ -880,83 +840,4 @@ void level_open_door (levelp level, int32_t ix, int32_t iy)
     level_update_incremental(level);
 
     MESG(SOUND, "door");
-}
-
-void marshal_level (marshal_p ctx, levelp level)
-{
-    if (!level) {
-        return;
-    }
-
-    PUT_BRA(ctx);
-
-    if (!level->title[0]) {
-        PUT_NAMED_STRING(ctx, "title", "unnamed level");
-    } else {
-        PUT_NAMED_STRING(ctx, "title", level->title);
-    }
-}
-
-uint8_t demarshal_level (demarshal_p ctx, levelp level)
-{
-    uint8_t rc;
-    widp wid;
-
-    if (!level) {
-        return (false);
-    }
-
-    GET_BRA(ctx);
-
-    char *tmp = 0;
-    GET_OPT_NAMED_STRING(ctx, "title", tmp);
-    if (!tmp) {
-        ERR("no level title for level");
-    } else {
-        level_set_title(level, tmp);
-        myfree(tmp);
-    }
-
-    wid = level_get_map(level);
-
-#if 0
-    do {
-        GET_OPT_NAMED_BITFIELD(ctx, "is_zzz13", level->is_zzz13);
-    } while (demarshal_gotone(ctx));
-#endif
-
-    if (level_is_map_editor(level)) {
-        rc = demarshal_wid_grid(level,
-                                ctx, wid,
-                                map_editor_level_map_thing_replace_template);
-    } else if (level_is_editor(level)) {
-        rc = demarshal_wid_grid(level,
-                                ctx, wid,
-                                map_editor_replace_template);
-    } else {
-        if (!wid) {
-            ERR("no map for level");
-        }
-
-        rc = demarshal_wid_grid(level,
-                                ctx, wid,
-                                wid_game_map_replace_tile);
-    }
-
-    if (level_is_map_editor(level)) {
-        /*
-         * No widget to update
-         */
-    } else if (level_is_editor(level)) {
-        /*
-         * No widget to update
-         */
-    } else {
-        map_fixup(level);
-        wid_update(game.wid_grid);
-    }
-
-    GET_KET(ctx);
-
-    return (rc);
 }

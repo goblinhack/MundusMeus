@@ -11,7 +11,6 @@
 #include "sound.h"
 #include "timer.h"
 #include "tile.h"
-#include "wid_hiscore.h"
 #include "thing_shop.h"
 #include "thing_tile.h"
 #include "player.h"
@@ -40,13 +39,6 @@ static void thing_dead_ (levelp level, thingp t, char *reason)
          */
     } else {
         THING_LOG(t, "Dead, why(%s)", reason);
-    }
-
-    if (thing_is_player(t)) {
-        /*
-         * Tell the poor player they've croaked it.
-         */
-        hiscore_try_to_add("Happless human", reason, t->score);
     }
 
     const char *sound = tp_sound_on_death(thing_tp(t));

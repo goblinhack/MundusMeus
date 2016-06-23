@@ -15,7 +15,6 @@
 #include "thing.h"
 #include "command.h"
 #include "time_util.h"
-#include "marshal.h"
 #include "wid_game_map.h"
 #include "wid_map.h"
 #include "map.h"

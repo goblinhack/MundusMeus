@@ -26,7 +26,6 @@
 #include "wid_intro_about.h"
 #include "wid_game_over.h"
 #include "wid_intro_settings.h"
-#include "wid_hiscore.h"
 #include "wid_intro.h"
 #include "wid_game_map.h"
 #include "string_util.h"
@@ -72,8 +71,6 @@ void quit (void)
      */
     config_save();
 
-    hiscore_save();
-
     sdl_exit();
 
     wid_game_map_fini();
@@ -89,7 +86,6 @@ void quit (void)
     wid_intro_about_fini();
     wid_game_over_fini();
     wid_intro_settings_fini();
-    wid_hiscore_fini();
 
     command_fini();
 
@@ -553,10 +549,6 @@ int32_t main (int32_t argc, char *argv[])
 
     if (!wid_init()) {
 	ERR("wid init");
-    }
-
-    if (!wid_hiscore_init()) {
-	ERR("wid hiscore init");
     }
 
 #ifdef ENABLE_LEAKCHECK
