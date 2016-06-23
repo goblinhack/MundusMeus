@@ -194,15 +194,6 @@ static int thing_tick_all_things (levelp level)
             continue;
         }
 
-        /*
-         * You can only drown/die once!
-         */
-        if (tp_can_drown(tp)) {
-            if (!thing_drown(level, t)) {
-                continue;
-            }
-        }
-
         if (thing_is_mob_spawner(t)) {
             /*
              * Time to spawn a thing?

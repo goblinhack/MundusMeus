@@ -31,7 +31,6 @@
 #include "wid_game_map.h"
 #include "player.h"
 #include "thing_timer.h"
-#include "fluid.h"
 #include "wid_menu.h"
 #include "map_editor.h"
 
@@ -1496,7 +1495,6 @@ void sdl_loop (void)
                  * Let things wriggle.
                  */
                 thing_animate_all(level);
-                fluid_tick(level);
             }
 
             level = &game.level;

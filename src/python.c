@@ -514,7 +514,6 @@ static PyMethodDef python_c_METHODS[] =
     TP_DECL(blit_bot_off)
     TP_DECL(blit_left_off)
     TP_DECL(blit_right_off)
-    TP_DECL(drown_in_secs)
     TP_DECL(min_appear_depth)
     TP_DECL(max_appear_depth)
     TP_DECL(jump_speed)

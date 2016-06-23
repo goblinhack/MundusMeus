@@ -222,7 +222,6 @@ typedef struct tp_ {
     int blit_left_off;
     int blit_right_off;
 
-    int drown_in_secs;
     int min_appear_depth;
     int max_appear_depth;
     int jump_speed;
@@ -371,7 +370,6 @@ typedef struct tp_ {
     uint8_t is_snow_settlement:1;
     uint8_t can_roll:1;
     uint8_t is_northern_settlement:1;
-    uint8_t can_drown:1;
     uint8_t is_snow:1;
     uint8_t is_settlement:1;
     uint8_t is_northern_rock:1;
@@ -462,7 +460,6 @@ int tp_get_blit_top_off(tpp);
 int tp_get_blit_bot_off(tpp);
 int tp_get_blit_left_off(tpp);
 int tp_get_blit_right_off(tpp);
-int tp_get_drown_in_secs(tpp);
 int tp_get_min_appear_depth(tpp);
 int tp_get_max_appear_depth(tpp);
 int tp_get_jump_speed(tpp);
@@ -778,11 +775,6 @@ static inline uint8_t tp_can_roll (tpp t)
 static inline uint8_t tp_is_northern_settlement (tpp t)
 {
     return (t->is_northern_settlement);
-}
-
-static inline uint8_t tp_can_drown (tpp t)
-{
-    return (t->can_drown);
 }
 
 static inline uint8_t tp_is_snow (tpp t)

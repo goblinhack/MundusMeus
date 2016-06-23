@@ -926,13 +926,6 @@ static inline uint8_t thing_is_northern_settlement (thingp t)
     return (tp_is_northern_settlement(thing_tp(t)));
 }
 
-static inline uint8_t thing_can_drown (thingp t)
-{
-    verify(t);
-
-    return (tp_can_drown(thing_tp(t)));
-}
-
 static inline uint8_t thing_is_sand (thingp t)
 {
     verify(t);
@@ -1858,10 +1851,6 @@ static inline uint32_t thing_id (thingp t)
 
     return (t->thing_id);
 }
-
-int thing_submerged_depth(levelp level, thingp t);
-int thing_is_submerged(levelp, thingp t);
-int thing_is_partially_or_fully_submerged(levelp, thingp t);
 
 static inline int thing_is_stationary (thingp t)
 {

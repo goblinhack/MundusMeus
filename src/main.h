@@ -425,7 +425,6 @@ struct game_ {
 
     widp wid_hp_text;
     widp wid_hp_icon;
-    widp wid_drown_icon[10];
 
     widp wid_torches_icon;
     widp wid_torches_text;

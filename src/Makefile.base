@@ -24,7 +24,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/log.o 			\
     $(OBJDIR)/main.o 			\
     $(OBJDIR)/map.o 			\
-    $(OBJDIR)/fluid.o 			\
     $(OBJDIR)/map_jigsaw.o 		\
     $(OBJDIR)/math.o 			\
     $(OBJDIR)/miniz.o 			\
@@ -58,7 +57,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/thing_collect.o 		\
     $(OBJDIR)/thing_move.o 		\
     $(OBJDIR)/thing_fall.o 		\
-    $(OBJDIR)/thing_drown.o 		\
     $(OBJDIR)/thing_jump.o 		\
     $(OBJDIR)/thing_collision.o 	\
     $(OBJDIR)/thing_damage.o 		\
