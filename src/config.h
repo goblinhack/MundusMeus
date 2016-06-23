@@ -273,3 +273,4 @@ void set_game_full_screen(int full_screen);
 int get_game_full_screen(void);
 void set_game_fps_counter(int fps_counter);
 int get_game_fps_counter(void);
+void save_game_config(void);

@@ -41,3 +41,14 @@ def set_game_fps_counter (value):
 
 def get_game_fps_counter ():
     return (mm.game_fps_counter)
+
+def save_game_config ():
+    with open('mundusmeus-config.py', 'w') as f:
+        f.write("import mm\n")
+        f.write("mm.game_video_pix_width=%d\n" % mm.game_video_pix_width)
+        f.write("mm.game_video_pix_height=%d\n" % mm.game_video_pix_height)
+        f.write("mm.game_sound_volume=%d\n" % mm.game_sound_volume)
+        f.write("mm.game_music_volume=%d\n" % mm.game_music_volume)
+        f.write("mm.game_display_sync=%d\n" % mm.game_display_sync)
+        f.write("mm.game_full_screen=%d\n" % mm.game_full_screen)
+        f.write("mm.game_fps_counter=%d\n" % mm.game_fps_counter)

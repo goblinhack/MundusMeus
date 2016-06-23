@@ -36,21 +36,25 @@ def load_all_plugins():
         load_one_plugin(filename);
 
 def load_plugin(plugin):
-    for filename in find_plugins(dirname(__file__), plugin):
+    for filename in find_plugins(os.getcwd(), plugin):
         mm.con("Loading " + filename);
         load_one_plugin(filename);
 
 def init1():
+    #
+    # Defaults
+    #
     mm.game_video_pix_width = 0
     mm.game_video_pix_height = 0
-    mm.game_sound_volume = 0
-    mm.game_music_volume = 0
+    mm.game_sound_volume = 10
+    mm.game_music_volume = 5
     mm.game_display_sync = 0
     mm.game_full_screen = 0
     mm.game_fps_counter = 0
 
     load_plugin('config.py')
     load_plugin('mundusmeus-config.py')
+    config.save_game_config()
 
 def init2():
     load_all_plugins()
