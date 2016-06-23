@@ -13,10 +13,11 @@
 #include "tex.h"
 #include "tile.h"
 #include "thing_template.h"
+#include "config.h"
 
 static PyObject *mymod;
 
-void py_call_vmi (const char *module, const char *name, int val1)
+void py_call_void_module_int (const char *module, const char *name, int val1)
 {
     LOG("python: %s.%s(%d)", module, name, val1);
 
@@ -52,7 +53,7 @@ void py_call_vmi (const char *module, const char *name, int val1)
     py_err();
 }
 
-void py_call_vi (const char *name, int val1)
+void py_call_void_int (const char *name, int val1)
 {
     LOG("python: %s(%d)", name, val1);
 
@@ -71,7 +72,7 @@ void py_call_vi (const char *name, int val1)
     py_err();
 }
 
-int py_call_imi (const char *module, const char *name, int val1)
+int py_call_int_module_int (const char *module, const char *name, int val1)
 {
     int ret = -1;
 
@@ -113,7 +114,47 @@ int py_call_imi (const char *module, const char *name, int val1)
     return (ret);
 }
 
-int py_call_ii (const char *name, int val1)
+int py_call_int_module_void (const char *module, const char *name)
+{
+    int ret = -1;
+
+    LOG("python: %s.%s()", module, name);
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return (ret);
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return (ret);
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return (ret);
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pValue = PyObject_CallObject(fn, 0);
+        if (pValue != NULL) {
+            ret = py_obj_to_int(pValue);
+
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return (ret);
+}
+
+int py_call_int_int (const char *name, int val1)
 {
     int ret = -1;
 
@@ -743,13 +784,8 @@ void python_init (void)
         py_err();
         DIE("module import failed");
     }
-
-
-py_call_vmi("config", "set_game_video_pix_width", game.video_pix_width);
-py_call_vmi("config", "set_game_video_pix_width", game.video_pix_width+100);
-int x = py_call_imi("config", "get_game_video_pix_width", game.video_pix_width);
-CON("x %d",x);
-//py_call_int("set_game_video_pix_width", game.video_pix_width+1);
+set_game_video_pix_width(1000);
+CON("%d ",get_game_video_pix_width());
 }
 
 void python_fini (void)

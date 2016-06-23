@@ -56,10 +56,3 @@ def main():
 mm.game_video_pix_width = 100
 
 main();
-print(config.set_game_video_pix_width)
-
-def set_game_video_pix_width(val):
-    global config
-    mm.con(str(mm.game_video_pix_width))
-    config.set_game_video_pix_width(val);
-    mm.con(str(mm.game_video_pix_width))

@@ -258,3 +258,6 @@ enum {
 };
 
 #define DMAP_MAP_MAX 8
+
+void set_game_video_pix_width(int width);
+int get_game_video_pix_width(void);

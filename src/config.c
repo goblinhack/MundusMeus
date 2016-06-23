@@ -9,6 +9,7 @@
 #include "main.h"
 #include "marshal.h"
 #include "string_util.h"
+#include "python.h"
 
 struct game_ game;
 
@@ -113,4 +114,19 @@ uint8_t config_load (void)
     demarshal_fini(ctx);
 
     return (true);
+}
+
+void set_game_video_pix_width (int width)
+{
+    game.video_pix_width = width;
+
+    py_call_void_module_int("config", "set_game_video_pix_width", game.video_pix_width);
+}
+
+int get_game_video_pix_width (void)
+{
+    game.video_pix_width = 
+        py_call_int_module_void("config", "get_game_video_pix_width");
+
+    return (game.video_pix_width);
 }
