@@ -24,7 +24,6 @@
 #include "wid_intro.h"
 #include "map_jigsaw.h"
 #include "tile.h"
-#include "marshal.h"
 #include "wid_map.h"
 #include "wid_cmap.h"
 #include "wid_menu.h"
@@ -3569,85 +3568,7 @@ static void map_editor_tick (widp w)
 
 static void map_editor_save (const char *dir_and_file, int is_test_level)
 {
-    map_editor_ctx *ed = map_editor_window_ctx;
-
-    LOG("Saving: %s", dir_and_file);
-
-    /*
-     * Write the file.
-     */
-    marshal_p ctx;
-    ctx = marshal(dir_and_file);
-
-    if (!ed->level) {
-        ERR("no level to save");
-    }
-
-    marshal_level(ctx, ed->level);
-
-    PUT_BRA(ctx);
-
-    PUT_NAMED_UINT32(ctx, "width", MAP_WIDTH);
-    PUT_NAMED_UINT32(ctx, "height", MAP_HEIGHT);
-
-    int x, y, z;
-
-    for (z = 0; z < MAP_DEPTH; z++) {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            for (y = 0; y < MAP_HEIGHT; y++) {
-
-                tpp tp = ed->map.tile[x][y][z].tp;
-                if (!tp) {
-                    continue;
-                }
-
-                PUT_BRA(ctx);
-
-                PUT_NAMED_UINT32(ctx, "x", x);
-                PUT_NAMED_UINT32(ctx, "y", y);
-                PUT_NAMED_STRING(ctx, "t", tp_name(tp));
-
-                map_editor_map_tile *tile = &ed->map.tile[x][y][z];
-                thing_template_data *data = &tile->data;
-
-                if (!color_none(data->col) &&
-                    !color_cmp(data->col, WHITE)) {
-                    PUT_NAME(ctx, "color");
-                    PUT_BRA(ctx);
-                    PUT_NAMED_STRING(ctx, "color", color_find_col(data->col));
-                    PUT_KET(ctx);
-                }
-
-                PUT_KET(ctx);
-            }
-        }
-    }
-
-    PUT_KET(ctx);
-    PUT_KET(ctx); // level
-
-    if (marshal_fini(ctx) < 0) {
-        /*
-         * Fail
-         */
-        char *popup_str = dynprintf("Failed to save %s: %s", dir_and_file,
-                                    strerror(errno));
-
-        MSG_BOX("%s", popup_str);
-        myfree(popup_str);
-    } else {
-        if (!is_test_level) {
-            /*
-             * Success
-             */
-            char *popup_str = dynprintf("Saved %s", dir_and_file);
-            widp popup = wid_tooltip(popup_str, 0.5f, 0.5f, med_font);
-            wid_destroy_in(popup, ONESEC);
-            myfree(popup_str);
-        }
-
-        LOG("Saved: %s", dir_and_file);
-    }
+    CON("TBD: %s", dir_and_file);
 }
 
 static void map_editor_go_back (void)

@@ -11,7 +11,6 @@
 #include "sound.h"
 #include "timer.h"
 #include "tile.h"
-#include "wid_hiscore.h"
 #include "thing_shop.h"
 #include "thing_tile.h"
 #include "player.h"

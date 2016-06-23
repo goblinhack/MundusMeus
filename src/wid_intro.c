@@ -15,7 +15,6 @@
 #include "wid_menu.h"
 #include "wid_game_over.h"
 #include "wid_game_map.h"
-#include "wid_hiscore.h"
 #include "wid_notify.h"
 #include "thing_template.h"
 #include "music.h"
@@ -271,16 +270,6 @@ static uint8_t wid_menu_quick_start_selected (widp w,
     return (true);
 }
 
-static uint8_t wid_menu_past_legends_selected (widp w,
-                                               int32_t x, int32_t y,
-                                               uint32_t button)
-{
-    wid_intro_menu_destroy();
-    wid_hiscore_visible();
-
-    return (true);
-}
-
 static uint8_t wid_menu_credits_selected (widp w,
                                           int32_t x, int32_t y,
                                           uint32_t button)
@@ -403,7 +392,7 @@ static void wid_intro_menu_create (void)
                  0.2, /* hightlight */
                  1, /* columns */
                  saved_focus, /* focus */
-                 6, /* items */
+                 5, /* items */
 
                  (int) ' ', "Play game", wid_menu_quick_start_selected,
 
@@ -412,8 +401,6 @@ static void wid_intro_menu_create (void)
                  (int) 'e', "Editor", wid_menu_level_editor_selected,
 
                  (int) 'c', "Credits", wid_menu_credits_selected,
-
-                 (int) 'h', "Hiscores", wid_menu_past_legends_selected,
 
                  (int) 'q', "Quit", wid_intro_quit_selected);
 

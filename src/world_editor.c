@@ -23,7 +23,6 @@
 #include "wid_tooltip.h"
 #include "wid_intro.h"
 #include "tile.h"
-#include "marshal.h"
 #include "wid_map.h"
 #include "wid_cmap.h"
 #include "wid_menu.h"
@@ -3188,74 +3187,7 @@ static void world_editor_tick (widp w)
 
 static void world_editor_save (const char *dir_and_file, int is_test_level)
 {
-    world_editor_ctx *ed = world_editor_window_ctx;
-
-    LOG("Saving: %s", dir_and_file);
-
-    /*
-     * Write the file.
-     */
-    marshal_p ctx;
-    ctx = marshal(dir_and_file);
-
-    if (!ed->level) {
-        ERR("no level to save");
-    }
-
-    marshal_level(ctx, ed->level);
-
-    PUT_BRA(ctx);
-
-    PUT_NAMED_UINT32(ctx, "width", WORLD_WIDTH);
-    PUT_NAMED_UINT32(ctx, "height", WORLD_HEIGHT);
-
-    int x, y, z;
-
-    for (z = 0; z < WORLD_DEPTH; z++) {
-        for (x = 0; x < WORLD_WIDTH; x++) {
-            for (y = 0; y < WORLD_HEIGHT; y++) {
-
-                tpp tp = id_to_tp(ed->map.tile[x][y][z].tp);
-                if (!tp) {
-                    continue;
-                }
-
-                PUT_BRA(ctx);
-
-                PUT_NAMED_UINT32(ctx, "x", x);
-                PUT_NAMED_UINT32(ctx, "y", y);
-                PUT_NAMED_STRING(ctx, "t", tp_name(tp));
-
-                PUT_KET(ctx);
-            }
-        }
-    }
-
-    PUT_KET(ctx);
-    PUT_KET(ctx); // level
-
-    if (marshal_fini(ctx) < 0) {
-        /*
-         * Fail
-         */
-        char *popup_str = dynprintf("Failed to save %s: %s", dir_and_file,
-                                    strerror(errno));
-
-        MSG_BOX("%s", popup_str);
-        myfree(popup_str);
-    } else {
-        if (!is_test_level) {
-            /*
-             * Success
-             */
-            char *popup_str = dynprintf("Saved %s", dir_and_file);
-            widp popup = wid_tooltip(popup_str, 0.5f, 0.5f, med_font);
-            wid_destroy_in(popup, ONESEC);
-            myfree(popup_str);
-        }
-
-        LOG("Saved: %s", dir_and_file);
-    }
+    CON("TBD Saving: %s", dir_and_file);
 }
 
 static void world_editor_go_back (void)

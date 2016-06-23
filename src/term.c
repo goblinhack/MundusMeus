@@ -14,7 +14,6 @@
 #include <stdlib.h>
 
 #include "main.h"
-#include "marshal.h"
 #include "config.h"
 #include "string_util.h"
 #include "term.h"
