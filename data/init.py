@@ -4,15 +4,6 @@ import fnmatch
 from os.path import dirname, basename
 import imp
 
-def init_console ():
-    mm.con("Welcome to the %%fg=yellow$Mundus Meus%%fg=reset$ console")
-    mm.con(" ");
-    mm.con("%%fg=red$          Welcome to the MundusMeus debug console!%%fg=reset$");
-    mm.con(" ");
-    mm.con("Press %%fg=red$<tab>%%fg=reset$ to complete commands.");
-    mm.con("Press %%fg=red$?%%fg=reset$ to show command options.");
-    mm.con("You can also enter raw python code here.");
-
 def find_plugins(directory, pattern):
     for root, dirs, files in os.walk(directory):
         for basename in files:
@@ -20,7 +11,7 @@ def find_plugins(directory, pattern):
                 filename = os.path.join(root, basename)
                 yield filename
 
-def load_plugin(filepath):
+def load_one_plugin(filepath):
     if basename(filepath) == "init.py":
         return
 
@@ -39,20 +30,29 @@ def load_plugin(filepath):
         global config
         config = py_mod
 
-def init_plugins():
-    print(dirname(__file__));
-    for filename in find_plugins(os.getcwd(), 'mundusmeus-config.py'):
-        mm.con("Loading " + filename);
-        load_plugin(filename);
-
+def load_all_plugins():
     for filename in find_plugins(dirname(__file__), '*.py'):
         mm.con("Loading " + filename);
-        load_plugin(filename);
+        load_one_plugin(filename);
 
-def main():
-    init_console()
-    init_plugins()
+def load_plugin(plugin):
+    for filename in find_plugins(dirname(__file__), plugin):
+        mm.con("Loading " + filename);
+        load_one_plugin(filename);
 
-mm.game_video_pix_width = 100
+def init1():
+    mm.game_video_pix_width = 0
+    mm.game_video_pix_height = 0
+    mm.game_sound_volume = 0
+    mm.game_music_volume = 0
+    mm.game_display_sync = 0
+    mm.game_full_screen = 0
+    mm.game_fps_counter = 0
 
-main();
+    load_plugin('config.py')
+    load_plugin('mundusmeus-config.py')
+
+def init2():
+    load_all_plugins()
+
+init1()

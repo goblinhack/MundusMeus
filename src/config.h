@@ -261,3 +261,15 @@ enum {
 
 void set_game_video_pix_width(int width);
 int get_game_video_pix_width(void);
+void set_game_video_pix_height(int height);
+int get_game_video_pix_height(void);
+void set_game_sound_volume(int sound_volume);
+int get_game_sound_volume(void);
+void set_game_music_volume(int music_volume);
+int get_game_music_volume(void);
+void set_game_display_sync(int display_sync);
+int get_game_display_sync(void);
+void set_game_full_screen(int full_screen);
+int get_game_full_screen(void);
+void set_game_fps_counter(int fps_counter);
+int get_game_fps_counter(void);
