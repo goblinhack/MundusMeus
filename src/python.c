@@ -20,6 +20,9 @@ static PyObject *mymod;
 void py_call_void_module_int (const char *module, const char *name, int val1)
 {
     LOG("python: %s.%s(%d)", module, name, val1);
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
 
     PyObject *v = PyObject_GetAttrString(mymod, module);
     if (!v) {
@@ -56,6 +59,9 @@ void py_call_void_module_int (const char *module, const char *name, int val1)
 void py_call_void_int (const char *name, int val1)
 {
     LOG("python: %s(%d)", name, val1);
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
 
     PyObject *pFunc = PyObject_GetAttrString(mymod, name);
     if (PyCallable_Check(pFunc)) {
@@ -72,11 +78,34 @@ void py_call_void_int (const char *name, int val1)
     py_err();
 }
 
+void py_call_void (const char *name)
+{
+    LOG("python: %s()", name);
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *pFunc = PyObject_GetAttrString(mymod, name);
+    if (PyCallable_Check(pFunc)) {
+        PyObject *pValue = PyObject_CallObject(pFunc, 0);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python function %s", name);
+    }
+
+    py_err();
+}
+
 int py_call_int_module_int (const char *module, const char *name, int val1)
 {
     int ret = -1;
 
     LOG("python: %s.%s(%d)", module, name, val1);
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
 
     PyObject *v = PyObject_GetAttrString(mymod, module);
     if (!v) {
@@ -119,6 +148,9 @@ int py_call_int_module_void (const char *module, const char *name)
     int ret = -1;
 
     LOG("python: %s.%s()", module, name);
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
 
     PyObject *v = PyObject_GetAttrString(mymod, module);
     if (!v) {
@@ -159,6 +191,9 @@ int py_call_int_int (const char *name, int val1)
     int ret = -1;
 
     LOG("python: %s(%d)", name, val1);
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
 
     PyObject *pFunc = PyObject_GetAttrString(mymod, name);
     if (PyCallable_Check(pFunc)) {
@@ -784,8 +819,6 @@ void python_init (void)
         py_err();
         DIE("module import failed");
     }
-set_game_video_pix_width(1000);
-CON("%d ",get_game_video_pix_width());
 }
 
 void python_fini (void)
