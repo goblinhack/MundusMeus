@@ -3,36 +3,168 @@ import datetime
 import traceback
 from curses import wrapper
 
-def timestamp():
+def Timestamp():
     return "{:%Y-%m-%d %H:%M:%S}".format(datetime.datetime.now())
+
+class Xyz:
+    def __init__ (self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def __str__ (self):
+        return str(self.x) + "," + str(self.y) + "," + str(self.z)
 
 class World:
     def __init__ (self, world):
         self.world_id = world
-        self.thing_id = 1
 
-    def set_level (self, level):
-        self.level = level
+        #
+        # Max thing ID in use in any level. This grows forever.
+        #
+        self.max_thing_id = 1
 
-class Level:
-    def __init__ (self, world, x, y, z, w, h):
-        self.world = world
-        self.x = x
-        self.y = y
-        self.z = z
-        self.w = w
-        self.h = h
-        self.debug = "world{0}:x{1}:y{2}:z{3}".format(self.world.world_id, x, y, z)
+        #
+        # Current playing level
+        #
+        self.level = None
 
-        self.all_things = {}
-        self.on_map = [[[] for x in range(w)] for y in range(h)] 
+        #
+        # Stack of level co-ordinates so we can backtrack out of dungeons
+        #
+        self.levels = []
+
+        self.log("Created")
+
+    def destroy (self):
+        while self.level != None:
+            self.pop_level()
+
+        self.log("destroyed")
+        del self
+
+    def __str__(self):
+        return "world:{0}".format(self.world_id)
 
     def log (self, msg):
-        print("{0: <20}: {1: <15}: {2}".format(timestamp(), self.debug, msg))
+        print("{0: <20}: {1: <15}: WORLD: {2}".
+                format(Timestamp(), self, msg))
 
     def err (self, msg):
-        print("{0: <20}: {1: <15}: ERROR: {2}".format(timestamp(), self.debug, msg))
+        print("{0: <20}: {1: <15}: WORLD: ERROR: {2}".
+                format(Timestamp(), self, msg))
         traceback.print_stack()
+
+    def get_level (self):
+        return self.level
+
+    def get_level_name (self, xyz):
+        return "world{0}@{1}".format(self.world_id, xyz)
+
+    def load_level (self, xyz):
+        level_name = self.get_level_name(xyz)
+        self.log("Loading level {0}".format(level_name))
+
+        try:
+            with open(level_name, 'rb') as f:
+                level = pickle.load(f)
+        except:
+            level = Level(self, xyz)
+
+        return level
+
+    def push_level (self, xyz):
+        #
+        # Add a new level onto the stack. Destroy the current level first.
+        #
+        if self.level != None:
+            self.level.destroy()
+            self.level = None
+
+        self.levels.append(xyz)
+        self.level = self.load_level(xyz)
+
+    def pop_level (self):
+        #
+        # Destory the current level and try and load the next in the stack.
+        #
+        if not len(self.levels):
+            return
+
+        if self.level != None:
+            self.level.destroy()
+            self.level = None
+            
+        self.levels.pop()
+
+        if not len(self.levels):
+            return
+
+        xyz = self.levels[len(self.levels)-1]
+        self.level = self.load_level(xyz)
+
+    def save (self):
+        self.log("save")
+        with open(str(self), 'wb') as f:
+            pickle.dump(self.world_id, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.max_thing_id, f, pickle.HIGHEST_PROTOCOL)
+
+        self.level.save()
+
+    def load (self):
+        self.log("load")
+        with open(str(self), 'rb') as f:
+            self.world_id = pickle.load(f)
+            self.max_thing_id = pickle.load(f)
+
+        xyz = self.levels[len(self.levels)-1]
+
+        self.level = self.load_level(xyz)
+
+    def dump (self):
+        self.log("{0: <20} {1}".format("world_id", self.world_id))
+        self.log("{0: <20} {1}".format("max_thing_id", self.max_thing_id))
+        self.log("{0: <20} {1}".format("levels", self.levels))
+
+        if self.level != None:
+            self.level.dump()
+
+class Level:
+    def __init__ (self, world, xyz):
+        self.world = world
+        self.xyz = xyz
+        self.all_things = {}
+
+    def __str__(self):
+        return "{0},level:{1}".format(self.world, self.xyz)
+
+    def destroy (self):
+        for key,value in self.all_things.items():
+            value.destroy()
+            self.all_things.pop(key)
+        self.log("destroyed")
+
+    def log (self, msg):
+        print("{0: <20}: {1: <15}: LEVEL: {2}".format(Timestamp(), self, msg))
+
+    def err (self, msg):
+        print("{0: <20}: {1: <15}: LEVEL: ERROR: {2}".format(
+            Timestamp(), self, msg))
+        traceback.print_stack()
+
+    def dump (self):
+        for i in self.all_things:
+            self.all_things[i].dump()
+
+    def save (self):
+        with open(str(self), 'wb') as f:
+            pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
+
+    def set_dim (self, w, h):
+        self.w = w
+        self.h = h
+
+        self.on_map = [[[] for x in range(w)] for y in range(h)] 
 
 class Thing:
     def __init__ (self, level, name):
@@ -40,14 +172,13 @@ class Thing:
         self.name = name
         self.level = level
 
-        level.world.thing_id += 1
-        self.thing_id = level.world.thing_id
+        level.world.max_thing_id += 1
+        self.thing_id = level.world.max_thing_id
 
         self.x = -1
         self.y = -1
         self.on_map = False
 
-        self.debug = "id[{0}]:{1}".format(self.thing_id, self.name)
         self.log("created")
 
         if self.thing_id in self.level.all_things:
@@ -56,20 +187,28 @@ class Thing:
 
         self.level.all_things[self.thing_id] = self
 
+    def __str__(self):
+        return "{0}: id[{0}]:{1}".format(self.level, self.thing_id, self.name)
+
     def destroy (self):
         if self.on_map:
             self.pop()
 
-        self.level.all_things[self.thing_id] = []
-        self.log("detroyed")
+        if self.thing_id in self.level.all_things:
+            self.level.all_things[self.thing_id] = []
+
+        self.log("destroyed")
         del self
 
     def log (self, msg):
-        print("{0: <20}: {1: <15}: {2}".format(timestamp(), self.debug, msg))
+        print("{0: <20}: {1: <15}: {2}".format(Timestamp(), self, msg))
 
     def err (self, msg):
-        print("{0: <20}: {1: <15}: ERROR: {2}".format(timestamp(), self.debug, msg))
+        print("{0: <20}: {1: <15}: ERROR: {2}".format(Timestamp(), self.debug, msg))
         traceback.print_stack()
+
+    def dump (self):
+        self.log("@ {0},{1}".format(self.x, self.y))
 
     def push (self, x, y):
         self.x = x
@@ -92,64 +231,25 @@ class Thing:
 
 
 w = World(0)
-l = Level(world=w, x=0, y=0, z=0, w=256, h=256)
-w.set_level(l)
 
-t = Thing(level=l, name="grass")
-t.push(10, 10)
-t.pop()
-t.destroy()
+p = Xyz(0,0,0)
+w.push_level(p)
+l = w.get_level()
+l.set_dim(256, 256)
 
-import time
-time.sleep(1)
+p2 = Xyz(0,0,1)
+w.push_level(p2)
+l = w.get_level()
+l.set_dim(256, 256)
 
-#with open('company_data.pkl', 'wb') as output:
-#    print("WRITING")
-#
-#    company1 = []
-#    for i in range(0, 256*256*1):
-#        obj = {}
-#        obj['name'] = "grass"
-#        obj['x'] = 1
-#        obj['y'] = 1
-#
-#        company1.append(obj)
-#    pickle.dump(company1, output, pickle.HIGHEST_PROTOCOL)
-#
-#    company2 = Level('spam', 42)
-#    pickle.dump(company2, output, pickle.HIGHEST_PROTOCOL)
-#    print("WROTE")
-#
-#del company1
-#del company2
-#
-#with open('company_data.pkl', 'rb') as input:
-#    print("READING")
-#    company1 = pickle.load(input)
-##    print(company1)  # -> banana
-#
-#    company2 = pickle.load(input)
-#    print("READ")
-#
-#    print(company2.name) # -> spam
-#    print(company2.value)  # -> 42
-#
-##def save_object(obj, filename):
-##    with open(filename, 'wb') as output:
-##        pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
-##
-### sample usage
-##save_object(company1, 'company1.pkl')
-#
-#def main(stdscr):
-#    # Clear screen
-#    stdscr.clear()
-#
-#    # This raises ZeroDivisionError when i == 10.
-#    for i in range(0, 11):
-#        stdscr.addstr(i, 0, 'xxx')
-#
-#    stdscr.refresh()
-#    stdscr.getkey()
-#
-#wrapper(main)
+for i in range(0,3):
+    t = Thing(level=l, name="grass")
+    t.push(10 + 1, 10 + 1)
+    t.pop()
+
+w.save()
+
+w.load()
+w.dump()
+w.destroy()
+
