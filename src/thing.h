@@ -1520,7 +1520,6 @@ static inline tpp thing_weapon (const thingp t)
  * thing_move.c
  */
 int thing_fall(levelp, thingp);
-int thing_drown(levelp, thingp);
 int thing_slide(levelp, thingp);
 int thing_jump(levelp, thingp);
 thingp things_throw(levelp level, thingp t);

@@ -1,0 +1,82 @@
+{ 
+ title="unnamed level" {  
+  width=1024 
+  height=1024 {   
+   x=513 
+   y=513 
+   t="castle1" 
+  } {   
+   x=515 
+   y=513 
+   t="castle1" 
+  } {   
+   x=515 
+   y=515 
+   t="castle1" 
+  } {   
+   x=516 
+   y=513 
+   t="castle1" 
+  } {   
+   x=516 
+   y=514 
+   t="castle1" 
+  } {   
+   x=516 
+   y=515 
+   t="castle1" 
+  } {   
+   x=517 
+   y=513 
+   t="castle1" 
+  } {   
+   x=517 
+   y=514 
+   t="castle1" 
+  } {   
+   x=518 
+   y=514 
+   t="castle1" 
+  } {   
+   x=518 
+   y=515 
+   t="castle1" 
+  } {   
+   x=518 
+   y=516 
+   t="castle1" 
+  } {   
+   x=519 
+   y=513 
+   t="castle1" 
+  } {   
+   x=519 
+   y=514 
+   t="castle1" 
+  } {   
+   x=519 
+   y=515 
+   t="castle1" 
+  } {   
+   x=519 
+   y=516 
+   t="castle1" 
+  } {   
+   x=520 
+   y=514 
+   t="castle1" 
+  } {   
+   x=520 
+   y=515 
+   t="castle1" 
+  } {   
+   x=521 
+   y=515 
+   t="castle1" 
+  } {   
+   x=521 
+   y=516 
+   t="castle1" 
+  } 
+ } 
+} 
