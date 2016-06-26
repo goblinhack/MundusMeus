@@ -1,7 +1,6 @@
 import pickle
 import datetime
 import traceback
-from curses import wrapper
 
 def Timestamp():
     return "{:%Y-%m-%d %H:%M:%S}".format(datetime.datetime.now())
@@ -51,11 +50,11 @@ class World:
 
     def log (self, msg):
         print("{0: <19}: {1: <25}: WORLD: {2}".
-                format(Timestamp(), self, msg))
+                format(Timestamp(), str(self), msg))
 
     def err (self, msg):
         print("{0: <19}: {1: <25}: WORLD: ERROR: {2}".
-                format(Timestamp(), self, msg))
+                format(Timestamp(), str(self), msg))
         traceback.print_stack()
 
     def get_level (self):
@@ -162,7 +161,7 @@ class Level:
         self.all_things = {}
 
     def __str__(self):
-        return "{0},level:{1}".format(self.world, self.xyz)
+        return "{0},level:{1}".format(self.world, str(self.xyz))
 
     def destroy (self):
         self.log("Destroying level {")
@@ -173,11 +172,12 @@ class Level:
         del self
 
     def log (self, msg):
-        print("{0: <19}: {1: <25}: LEVEL: {2}".format(Timestamp(), self, msg))
+        print("{0: <19}: {1: <25}: LEVEL: {2}".format(
+            Timestamp(), str(self), msg))
 
     def err (self, msg):
         print("{0: <19}: {1: <25}: LEVEL: ERROR: {2}".format(
-            Timestamp(), self, msg))
+            Timestamp(), str(self), msg))
         traceback.print_stack()
 
     def dump (self):
@@ -231,7 +231,7 @@ class Thing:
         del self
 
     def log (self, msg):
-        print("{0: <19}: {1: <25}: {2}".format(Timestamp(), self, msg))
+        print("{0: <19}: {1: <25}: {2}".format(Timestamp(), str(self), msg))
 
     def err (self, msg):
         print("{0: <19}: {1: <25}: ERROR: {2}".format(
@@ -284,7 +284,6 @@ def load_test():
     w = World(0)
     w.load()
     w.dump()
-
 
 save_test()
 print("===============")
