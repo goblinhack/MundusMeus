@@ -35,10 +35,8 @@
 #include "init_fn.h"
 #include "ramdisk.h"
 #include "term.h"
-#include "mzip_lib.h"
 #include "map_jigsaw.h"
 #include "thing_template.h"
-#include "map_editor.h"
 #include "player.h"
 
 static char **ARGV;
@@ -101,7 +99,9 @@ void quit (void)
     enum_fmt_destroy();
     enum_font_destroy();
     blit_fini();
+#if 0
     miniz_fini();
+#endif
 
     if (EXEC_FULL_PATH_AND_NAME) {
         myfree(EXEC_FULL_PATH_AND_NAME);

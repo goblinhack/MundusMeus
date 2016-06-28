@@ -32,7 +32,6 @@
 #include "player.h"
 #include "thing_timer.h"
 #include "wid_menu.h"
-#include "map_editor.h"
 
 #if defined WIN32 || defined __CYGWIN__
 #include <windows.h>
@@ -1514,8 +1513,7 @@ void sdl_loop (void)
         /*
          * FPS counter.
          */
-        if (!map_editor_window) {
-
+        {
             static char fps_text[10] = {0};
 
             /*

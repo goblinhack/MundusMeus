@@ -23,8 +23,6 @@
 #include "glapi.h"
 #include "wid_keyboard.h"
 #include "thing_template.h"
-#include "map_editor.h"
-#include "wid_map.h"
 #include "wid_cmap.h"
 #include "wid_tooltip.h"
 #include "thing.h"
@@ -237,8 +235,6 @@ static uint8_t wid_menu_level_editor_selected (widp w,
     SDL_ShowCursor(0);
     wid_intro_hide();
     wid_game_map_fini();
-
-    wid_map("Choose epic level to edit", 0, 0);
 
     return (true);
 }

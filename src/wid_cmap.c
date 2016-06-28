@@ -19,7 +19,6 @@
 #include "color.h"
 #include "math_util.h"
 #include "thing_tile.h"
-#include "map_editor.h"
 #include "wid_intro.h"
 #include "tile.h"
 #include "string_util.h"
