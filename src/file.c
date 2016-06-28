@@ -10,7 +10,6 @@
 #include <time.h>
 
 #include "main.h"
-#include "mzip_file.h"
 #include "string_util.h"
 #include "file.h"
 #include "time_util.h"
@@ -136,6 +135,7 @@ uint8_t file_exists (const char *filename)
 
 unsigned char *file_read_if_exists (const char *filename, int32_t *out_len)
 {
+#if 0
     unsigned char *ret;
     char *mz_filename;
 
@@ -160,6 +160,7 @@ unsigned char *file_read_if_exists (const char *filename, int32_t *out_len)
     }
 
     myfree(mz_filename);
+#endif
 
     if (file_exists(filename)) {
         return (file_read(filename, out_len));

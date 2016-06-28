@@ -23,7 +23,6 @@
 #include "wid_tooltip.h"
 #include "wid_intro.h"
 #include "tile.h"
-#include "wid_map.h"
 #include "wid_cmap.h"
 #include "wid_menu.h"
 #include "wid_keyboard.h"
@@ -3194,8 +3193,6 @@ static void world_editor_go_back (void)
 {
     wid_destroy(&world_editor_background);
     wid_destroy(&world_editor_window);
-
-    wid_map("Choose epic level", 0, 0);
 }
 
 static void world_editor_save_close_dialog (widp w)

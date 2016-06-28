@@ -16,11 +16,9 @@
 #include "command.h"
 #include "time_util.h"
 #include "wid_game_map.h"
-#include "wid_map.h"
 #include "map.h"
 #include "timer.h"
 #include "sound.h"
-#include "map_editor.h"
 #include "map_jigsaw.h"
 #include "file.h"
 #include "map.h"
@@ -572,13 +570,6 @@ levelp level_finished (levelp level, int keep_player)
 
     if (!level->is_valid) {
         LEVEL_LOG(level, "Level is no longer valid, do not free");
-        return (0);
-    }
-
-    if (level->is_test_level) {
-        LEVEL_LOG(level, "Test level finished");
-        level_destroy(&level, false /* keep player */);
-        wid_game_map_go_back_to_editor();
         return (0);
     }
 

@@ -26,10 +26,7 @@ GAME_OBJECTS=				\
     $(OBJDIR)/map.o 			\
     $(OBJDIR)/map_jigsaw.o 		\
     $(OBJDIR)/math.o 			\
-    $(OBJDIR)/miniz.o 			\
     $(OBJDIR)/music.o 			\
-    $(OBJDIR)/mzip_file.o 		\
-    $(OBJDIR)/mzip_lib.o 		\
     $(OBJDIR)/pcg_basic.o 		\
     $(OBJDIR)/pixel.o 			\
     $(OBJDIR)/player.o 			\
@@ -93,7 +90,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/wid_console.o 		\
     $(OBJDIR)/wid_dead.o 		\
     $(OBJDIR)/wid_dirlist.o 		\
-    $(OBJDIR)/map_editor.o 		\
     $(OBJDIR)/world_editor.o 		\
     $(OBJDIR)/wid_game_map.o 		\
     $(OBJDIR)/wid_game_over.o 		\
@@ -102,7 +98,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/wid_intro_about.o 	\
     $(OBJDIR)/wid_intro_settings.o 	\
     $(OBJDIR)/wid_keyboard.o 		\
-    $(OBJDIR)/wid_map.o 		\
     $(OBJDIR)/wid_menu.o 		\
     $(OBJDIR)/wid_notify.o 		\
     $(OBJDIR)/wid_numpad.o 		\
