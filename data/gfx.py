@@ -3,7 +3,8 @@ import mm;
 def init_tex ():
 
     mm.tex_load(file="data/gfx/sword.tga", name="sword");
-    mm.tex_load(file="data/gfx/main_title.tga", name="main_title");
+#    mm.tex_load(file="data/gfx/main_title.tga", name="main_title");
+    mm.tex_load(file="data/gfx/title2.tga", name="main_title");
 
 def init_tiles ():
 

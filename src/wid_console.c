@@ -271,7 +271,7 @@ static void wid_console_wid_create (void)
             wid_set_text_lhs(child, true);
             wid_set_text_bot(child, true);
             wid_set_text_fixed_width(child, true);
-            wid_set_text_outline(child, true);
+            wid_set_text_outline(child, false);
             wid_set_font(child, font);
 
             wid_set_prev(child, prev);
@@ -290,7 +290,7 @@ static void wid_console_wid_create (void)
                 wid_set_text_lhs(prefix, true);
                 wid_set_text_bot(prefix, true);
                 wid_set_text_fixed_width(prefix, true);
-                wid_set_text_outline(prefix, true);
+                wid_set_text_outline(prefix, false);
                 wid_set_font(prefix, font);
                 wid_set_text(prefix, ">");
 
@@ -316,7 +316,7 @@ static void wid_console_wid_create (void)
     wid_hide(wid_console_window, 0);
 
     color c = BLACK;
-    c.a = 150;
+    c.a = 200;
     wid_set_color(wid_console_window, WID_COLOR_BG, c);
     wid_set_color(wid_console_window, WID_COLOR_TL, c);
     wid_set_color(wid_console_window, WID_COLOR_BR, c);

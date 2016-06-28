@@ -197,13 +197,13 @@
 #define VLARGE_FONT                 "data/ttf/tekton.ttf"
 #define VVLARGE_FONT                "data/ttf/tekton.ttf"
 
-#define VSMALL_FONT_SIZE            10
-#define SMALL_FONT_SIZE             12
-#define FIXED_FONT_SIZE             14
+#define VSMALL_FONT_SIZE            14
+#define SMALL_FONT_SIZE             16
+#define FIXED_FONT_SIZE             16
 #define MED_FONT_SIZE               20
-#define LARGE_FONT_SIZE             20
-#define VLARGE_FONT_SIZE            20
-#define VVLARGE_FONT_SIZE           28
+#define LARGE_FONT_SIZE             24
+#define VLARGE_FONT_SIZE            32
+#define VVLARGE_FONT_SIZE           36
 #define MAX_FONT_SIZE               60
 
 /*

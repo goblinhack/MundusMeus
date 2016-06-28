@@ -697,7 +697,7 @@ font *
 ttf_write_tga (char *name, int32_t pointsize)
 {
     uint32_t rmask, gmask, bmask, amask;
-    uint32_t glyph_per_row;
+    double glyph_per_row;
     char filename[200];
     SDL_Surface *dst;
     uint32_t height;
@@ -707,7 +707,7 @@ ttf_write_tga (char *name, int32_t pointsize)
     uint32_t c;
     int x;
     int y;
-    uint32_t h;
+    double h;
     font *f;
 
     snprintf(filename, sizeof(filename), "%s_pointsize%u.tga",
@@ -957,6 +957,14 @@ ttf_write_tga (char *name, int32_t pointsize)
 
         {
             int y = (h + (h + f->glyphs[c].height)) / 2;
+            /*
+             * Christ only knows. For some reason the glyphing for w is off in 
+             * Tekton
+             */
+            if (c == 'w') {
+                d1_max = d2_max;
+            }
+
             int y1 = y - d1_max;
             int y2 = y + d2_max;
 
