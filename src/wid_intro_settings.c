@@ -270,8 +270,6 @@ static uint8_t wid_intro_settings_back_mouse_event (widp w,
 
     wid_intro_restart_selected();
 
-    wid_intro_visible();
-
     return (true);
 }
 

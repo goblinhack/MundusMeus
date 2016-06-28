@@ -9127,6 +9127,7 @@ static void wid_display (widp w,
             } else {
                 ERR("unhandled text outline case");
             }
+                outline = 2.0;
 
             double dx;
 
@@ -9134,7 +9135,7 @@ static void wid_display (widp w,
 
             for (dx = 0.5; dx < outline; dx += 0.5) {
                 glcolor(col_text_outline);
-                col_text_outline.a = (col_text_outline.a * 2) / 3;
+                col_text_outline.a = (col_text_outline.a * 2) / 8;
 
                 ttf_puts_no_fmt(font, text,
                                 x - dx * scaling,

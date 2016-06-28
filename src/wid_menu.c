@@ -89,7 +89,7 @@ static void wid_menu_update (widp w)
 
                 font = ctx->focus_font;
                 y += focus_wid_height;
-                col = GREEN;
+                col = ORANGE;
             } else {
                 font = ctx->normal_font;
                 y += normal_wid_height;
@@ -659,7 +659,7 @@ static void wid_menu_tick (widp w)
                 continue;
             }
 
-            c = GREEN;
+            c = ORANGE;
             c.g = val;
 
             /*

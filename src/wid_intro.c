@@ -27,7 +27,7 @@
 #include "wid_tooltip.h"
 #include "thing.h"
 #include "world_editor.h"
-#define TEST
+#undef TEST
 
 static widp wid_intro;
 static widp wid_intro_menu;
@@ -142,8 +142,8 @@ static void wid_intro_bg_create (void)
 {
     if (!wid_intro_title) {
         widp wid = wid_intro_title = wid_new_window("bg");
-        fpoint tl = { 0.0, 0.0 };
-        fpoint br = { 1.0, 1.0 };
+        fpoint tl = { 0.0, 0.1 };
+        fpoint br = { 1.0, 0.9 };
 
         wid_set_tl_br_pct(wid, tl, br);
 
@@ -336,7 +336,9 @@ static void wid_version_make_visible (void *context)
 
     wid_game_map_fini();
     game.level_no = 0;
+#if 0
     wid_game_map_init();
+#endif
 
     if (!wid_change_level_timer) {
         wid_change_level_timer = action_timer_create(
@@ -354,11 +356,10 @@ static void wid_change_level (void *context)
 {
     wid_change_level_timer = 0;
 
-#ifndef TETS
+#if 0
     wid_game_map_fini();
     game.level_no = 0;
     wid_game_map_init();
-#endif
 
     wid_change_level_timer = action_timer_create(
         &wid_timers,
@@ -368,6 +369,7 @@ static void wid_change_level (void *context)
         "change level",
         5000,
         0 /* jitter */);
+#endif
 }
 
 static void wid_intro_menu_create (void)
