@@ -77,39 +77,6 @@ void wid_game_map_init (void)
 
     wid_game_map_wid_create();
 
-    levelp level = level_load_new(game.level_no);
-    if (!level) {
-        DIE("no level active");
-    }
-
-    level = &game.level;
-
-    tpp tp = tp_find("player");
-    if (!tp) {
-        DIE("no player template found");
-    }
-
-    /*
-     * Pop the player off of the map.
-     */
-    widp w = 
-        wid_game_map_replace_tile(level,
-                                  0, 0, 
-                                  0, /* thing */
-                                  tp,
-                                  0 /* tpp_data */);
-    if (!w) {
-        DIE("no player");
-    }
-
-    thingp t = wid_get_thing(w);
-    player = t;
-    if (!player) {
-        DIE("no player");
-    }
-
-    thing_move(level, player, t->x, t->y, false, false, false, false, false);
-
     /*
      * To allow the player to be centered in the new level if it is a
      * different size.
@@ -119,38 +86,7 @@ void wid_game_map_init (void)
         game.wid_grid->grid->bounds_locked = 0;
     }
 
-    /*
-     * Fluid code needs the level pointer.
-     */
-    game.wid_grid->level = level;
-
-    /*
-     * Need one tick for dmap light source generation.
-     */
-    level_tick(level);
-
-    /*
-     * Don't want to call tick all things, just tick the players torch.
-     */
-    thing_torch_update_count(level, player, false /* force */);
-
-    {
-        fpoint tl = {0.00f, 0.00f};
-        fpoint br = {1.00f, 1.00f};
-
-        widp tmp = wid_new_container(game.wid_map, "gwid game client grid container");
-
-        wid_set_tl_br_pct(tmp, tl, br);
-
-        wid_set_color(tmp, WID_COLOR_TL, BLACK);
-        wid_set_color(tmp, WID_COLOR_BG, BLACK);
-        wid_set_color(tmp, WID_COLOR_BR, BLACK);
-
-        wid_raise(tmp);
-
-        wid_fade_out(tmp, 1000);
-        wid_destroy_in(tmp, 2000);
-    }
+    wid_game_map_grid_create();
 }
 
 static uint8_t wid_game_map_receive_mouse_motion (
@@ -233,7 +169,7 @@ void wid_game_map_scroll_adjust (levelp level, uint8_t adjust)
 /*
  * Create the wid_game_map
  */
-void wid_game_map_grid_create (levelp level)
+void wid_game_map_grid_create (void)
 {
     {
         fpoint tl = {0.00f, 0.00f};
@@ -241,8 +177,6 @@ void wid_game_map_grid_create (levelp level)
 
         game.wid_grid = wid_new_container(game.wid_map,
                                             "wid game client grid container");
-
-        wid_set_context(game.wid_grid, level);
 
         wid_set_no_shape(game.wid_grid);
 

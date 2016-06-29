@@ -18,7 +18,6 @@
 #include "wid_notify.h"
 #include "thing_template.h"
 #include "music.h"
-#include "level.h"
 #include "timer.h"
 #include "glapi.h"
 #include "wid_keyboard.h"
@@ -26,15 +25,11 @@
 #include "wid_cmap.h"
 #include "wid_tooltip.h"
 #include "thing.h"
-#include "world_editor.h"
-#undef TEST
 
 static widp wid_intro;
 static widp wid_intro_menu;
 static widp wid_intro_title;
-static timerp wid_change_level_timer;
 
-static void wid_change_level(void *context);
 static uint8_t wid_intro_is_hidden;
 static uint8_t wid_intro_is_visible;
 static uint8_t wid_intro_init_done;
@@ -137,7 +132,6 @@ void wid_intro_visible (void)
     wid_fade_in(wid_intro_title, intro_effect_delay);
 }
 
-#ifndef TEST
 static void wid_intro_bg_create (void)
 {
     if (!wid_intro_title) {
@@ -162,7 +156,6 @@ static void wid_intro_bg_create (void)
         wid_set_do_not_raise(wid, true);
     }
 }
-#endif
 
 static widp wid_intro_quit_popup;
 
@@ -219,49 +212,16 @@ static uint8_t wid_menu_settings_selected (widp w,
     return (true);
 }
 
-static uint8_t wid_menu_level_editor_selected (widp w,
-                                               int32_t x, int32_t y,
-                                               uint32_t button)
-{
-    if (!wid_intro_ready) {
-        return (true);
-    }
-
-    if (wid_change_level_timer) {
-        action_timer_destroy(&wid_timers, wid_change_level_timer);
-        wid_change_level_timer = 0;
-    }
-
-    SDL_ShowCursor(0);
-    wid_intro_hide();
-    wid_game_map_fini();
-
-    return (true);
-}
-
 static uint8_t wid_menu_quick_start_selected (widp w,
                                               int32_t x, int32_t y,
                                               uint32_t button)
 {
     SDL_ShowCursor(0);
 
-    /*
-     * Check the level is ready
-     */
-    if (!game.level.is_ready) {
-        return (true);
-    }
-
-    if (wid_change_level_timer) {
-        action_timer_destroy(&wid_timers, wid_change_level_timer);
-        wid_change_level_timer = 0;
-    }
-
     wid_intro_menu_destroy();
     wid_intro_hide();
 
-    levelp level = &game.level;
-    level_resume(level);
+    wid_game_map_init();
 
     return (true);
 }
@@ -278,11 +238,6 @@ static uint8_t wid_menu_credits_selected (widp w,
 
 static void wid_intro_create (void)
 {
-#ifdef TEST
-world_editor(0);
-return;
-#else
-
     if (wid_intro) {
         return;
     }
@@ -313,7 +268,6 @@ return;
     wid_fade_in(wid_intro_title, intro_effect_delay*2);
 
     wid_intro_menu_create();
-#endif
 }
 
 static void wid_version_make_visible (void *context)
@@ -333,43 +287,6 @@ static void wid_version_make_visible (void *context)
 
     wid_move_end(w);
     wid_move_to_pct_centered(w, 0.9f, 0.95);
-
-    wid_game_map_fini();
-    game.level_no = 0;
-#if 0
-    wid_game_map_init();
-#endif
-
-    if (!wid_change_level_timer) {
-        wid_change_level_timer = action_timer_create(
-            &wid_timers,
-            (action_timer_callback)wid_change_level,
-            (action_timer_destroy_callback)0,
-            0, /* context */
-            "change level",
-            5000,
-            0 /* jitter */);
-    }
-}
-
-static void wid_change_level (void *context)
-{
-    wid_change_level_timer = 0;
-
-#if 0
-    wid_game_map_fini();
-    game.level_no = 0;
-    wid_game_map_init();
-
-    wid_change_level_timer = action_timer_create(
-        &wid_timers,
-        (action_timer_callback)wid_change_level,
-        (action_timer_destroy_callback)0,
-        0, /* context */
-        "change level",
-        5000,
-        0 /* jitter */);
-#endif
 }
 
 static void wid_intro_menu_create (void)
@@ -390,13 +307,11 @@ static void wid_intro_menu_create (void)
                  0.2, /* hightlight */
                  1, /* columns */
                  saved_focus, /* focus */
-                 5, /* items */
+                 4, /* items */
 
                  (int) ' ', "Play game", wid_menu_quick_start_selected,
 
                  (int) 'S', "Settings", wid_menu_settings_selected,
-
-                 (int) 'e', "Editor", wid_menu_level_editor_selected,
 
                  (int) 'c', "Credits", wid_menu_credits_selected,
 

@@ -43,28 +43,6 @@ typedef struct level_trigger_ {
     int activated;
 } level_trigger;
 
-enum {
-    FLUID_IS_AIR,
-    FLUID_IS_SOLID,
-    FLUID_IS_LAVA,
-    FLUID_IS_ACID,
-    FLUID_IS_WATER,
-};
-
-enum {
-    FLUID_DIR_NONE,
-    FLUID_DIR_LEFT,
-    FLUID_DIR_RIGHT,
-};
-
-typedef uint8_t fluid_mass_t;
-
-typedef struct {
-    fluid_mass_t mass;
-    uint8_t type:3;
-    uint8_t is_surface:3;
-} fluid_t;
-
 typedef struct level_t_ {
     uint32_t level_no;
     uint32_t seed;
@@ -75,11 +53,6 @@ typedef struct level_t_ {
     thing things[MAX_THINGS_PER_LEVEL];
 
     thing_place_context_t timers[MAX_TIMERS_PER_LEVEL];
-
-    /*
-     * Cellular automatom for fluid flow.
-     */
-    fluid_t fluid[FLUID_WIDTH][FLUID_HEIGHT];
 
     uint32_t next_thing_id;
 
