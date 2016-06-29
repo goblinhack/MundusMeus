@@ -578,7 +578,7 @@ static void level_log_ (levelp l, const char *fmt, va_list args)
     timestamp(buf, sizeof(buf));
     len = (uint32_t)strlen(buf);
 
-    snprintf(buf + len, sizeof(buf) - len, "Level %d(%p): ", l->level_no, l);
+    snprintf(buf + len, sizeof(buf) - len, "Level (%p): ", l);
     len = (uint32_t)strlen(buf);
     vsnprintf(buf + len, sizeof(buf) - len, fmt, args);
 

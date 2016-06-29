@@ -21,7 +21,6 @@
 #include "sound.h"
 #include "file.h"
 #include "map.h"
-#include "thing_shop.h"
 #include "player.h"
 #include "thing_timer.h"
 
@@ -74,8 +73,6 @@ void level_destroy (levelp *plevel, uint8_t keep_player)
      */
     things_level_destroyed(level, keep_player);
 
-    level->title[0] = 0;
-
     *plevel = 0;
 
     thing tmp;
@@ -100,23 +97,9 @@ void level_destroy (levelp *plevel, uint8_t keep_player)
     level = 0;
 }
 
-void level_pause (levelp level)
-{
-    level->is_paused = true;
-}
-
-void level_resume (levelp level)
-{
-    level->is_paused = false;
-
-    player_wid_update(level);
-}
-
 void level_update_slow (levelp level)
 {
     map_fixup(level);
-
-    shop_fixup(level);
 
     level_set_walls(level);
 
@@ -200,16 +183,6 @@ static void level_update_incremental (levelp level)
     map_fixup(level);
 }
 
-const char *level_get_title (levelp level)
-{
-    return (level->title);
-}
-
-void level_set_title (levelp level, const char *val)
-{
-    strncpy(level->title, val, sizeof(level->title));
-}
-
 widp level_get_map (levelp level)
 {
     return (game.wid_grid);
@@ -287,10 +260,6 @@ static void level_set_walls (levelp level)
                         }
                     }
 
-                    if (thing_is_ladder(t)) {
-                        c = ' ';
-                    }
-
                     if (c) {
                         level->dmap[DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_WALLS].walls[x][y] = c;
                         level->dmap[DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_PASSABLE].walls[x][y] = c;
@@ -324,11 +293,6 @@ levelp level_finished (levelp level, int keep_player)
         LEVEL_LOG(level, "Finish level and kill player");
     }
 
-    if (!level->is_valid) {
-        LEVEL_LOG(level, "Level is no longer valid, do not free");
-        return (0);
-    }
-
     thingp t;
 
     /*
@@ -351,14 +315,6 @@ levelp level_finished (levelp level, int keep_player)
     /*
      * LEVEL CAN BE NULL HERE
      */
-
-    if (game.game_over) {
-        return (0);
-    }
-
-    if (!keep_player) {
-        return (0);
-    }
 
     return (level);
 }
@@ -391,53 +347,6 @@ int level_tick (levelp level)
     return (true);
 }
 
-uint32_t level_get_level_no (levelp level)
-{
-    return (level->level_no);
-}
-
-void level_set_level_no (levelp level, uint32_t val)
-{
-    level->level_no = val;
-}
-
-uint32_t level_get_seed (levelp level)
-{
-    return (level->seed);
-}
-
-void level_set_seed (levelp level, uint32_t val)
-{
-    level->seed = val;
-}
-
-uint32_t level_get_tick_started (levelp level)
-{
-    return (level->tick_started);
-}
-
-void level_set_tick_started (levelp level, uint32_t val)
-{
-    level->tick_started = val;
-}
-
-uint8_t level_has_shop (levelp level)
-{
-    return (level->has_shop > 0);
-}
-
-void level_set_has_shop (levelp level, uint8_t val)
-{
-
-    if (val) {
-        level->has_shop++;
-    } else {
-        if (level->has_shop) {
-            level->has_shop--;
-        }
-    }
-}
-
 static uint32_t level_count_is_x (levelp level, map_is_at_callback callback)
 {
     uint32_t count;
@@ -460,49 +369,3 @@ uint32_t level_count_is_exit (levelp level)
     return (level_count_is_x(level, tp_is_exit));
 }
 
-static thingp this_door[MAP_WIDTH][MAP_HEIGHT];
-
-static void door_flood (levelp level, int32_t x, int32_t y)
-{
-    if (this_door[x][y]) {
-        return;
-    }
-
-    if (!(this_door[x][y] = map_thing_is_door_at(level, x, y))) {
-        this_door[x][y] = (thingp) (void*)-1;
-        return;
-    }
-
-    door_flood(level, x-1, y);
-    door_flood(level, x+1, y);
-    door_flood(level, x, y-1);
-    door_flood(level, x, y+1);
-}
-
-void level_open_door (levelp level, int32_t ix, int32_t iy)
-{
-    int32_t x;
-    int32_t y;
-
-    memset(this_door, 0, sizeof(this_door));
-
-    door_flood(level, ix, iy);
-
-    for (x = 0; x < MAP_WIDTH; x++) {
-        for (y = 0; y < MAP_HEIGHT; y++) {
-            if (!this_door[x][y]) {
-                continue;
-            }
-
-            if (this_door[x][y] == (void*)-1) {
-                continue;
-            }
-
-            thing_dead(level, this_door[x][y], 0 /* killer */, "open");
-        }
-    }
-
-    level_update_incremental(level);
-
-    MESG(SOUND, "door");
-}

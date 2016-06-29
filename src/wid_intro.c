@@ -13,7 +13,6 @@
 #include "wid_intro_about.h"
 #include "wid_intro_settings.h"
 #include "wid_menu.h"
-#include "wid_game_over.h"
 #include "wid_game_map.h"
 #include "wid_notify.h"
 #include "thing_template.h"
@@ -114,12 +113,6 @@ void wid_intro_visible (void)
     LOG("Intro screen show");
 
     music_play_intro();
-
-    if (game.game_over) {
-        game.game_over = false;
-        wid_game_over_visible();
-        return;
-    }
 
     if (!wid_intro) {
         return;

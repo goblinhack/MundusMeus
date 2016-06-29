@@ -39,8 +39,7 @@ static void thing_timer_place_and_destroy_callback (levelp level,
                                   place->x,
                                   place->y,
                                   0, /* thing */
-                                  place->tp,
-                                  0 /* tpp data */);
+                                  place->tp);
 
     /*
      * Some things like projectiles can go offscrenn.
@@ -66,18 +65,9 @@ static void thing_timer_place_and_destroy_callback (levelp level,
         if (thing_is_explosion(t)) {
             thing_explosion_placed(level, t);
         }
-
-        if (thing_is_northern_settlement(t)) {
-            thing_northern_settlement_placed(level, t);
-        }
     }
 
     place->thing_id = t->thing_id;
-
-    /*
-     * Save the owner of this new thing. This could be who cast a spell.
-     */
-    thing_set_owner_id(level, t, place->owner_id);
 }
 
 static void thing_timer_place_callback (levelp level,
@@ -89,8 +79,7 @@ static void thing_timer_place_callback (levelp level,
                                   place->x,
                                   place->y,
                                   0, /* thing */
-                                  place->tp,
-                                  0 /* tpp data */);
+                                  place->tp);
 
     /*
      * Some things like projectiles can go offscrenn.
@@ -98,13 +87,6 @@ static void thing_timer_place_callback (levelp level,
     if (!w) {
         return;
     }
-
-    thingp t = wid_get_thing(w);
-
-    /*
-     * Save the owner of this new thing. This could be who cast a spell.
-     */
-    thing_set_owner_id(level, t, place->owner_id);
 }
 
 /*

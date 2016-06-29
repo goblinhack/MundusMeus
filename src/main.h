@@ -180,7 +180,6 @@ typedef struct thing_ *thingp;
 typedef struct action_timer_ *timerp;
 typedef struct action_init_fn_ *init_fnp;
 typedef struct tp_ *tpp;
-typedef struct tpp_data_ *tpp_data;
 typedef struct thing_tile_ *thing_tilep;
 typedef struct tokens_t_ *tokenp;
 typedef struct tree_demarshal_ *demarshal_p;
@@ -392,8 +391,6 @@ int32_t map_jigsaw_test(int32_t argc, char **argv);
 /*
  * main.c
  */
-extern uint8_t opt_seed;
-
 extern int debug;
 
 #include "color.h"
@@ -426,18 +423,6 @@ struct game_ {
     widp wid_hp_text;
     widp wid_hp_icon;
 
-    widp wid_torches_icon;
-    widp wid_torches_text;
-
-    widp wid_ropes_text;
-    widp wid_ropes_icon;
-
-    widp wid_bombs_text;
-    widp wid_bombs_icon;
-
-    widp wid_keys_text;
-    widp wid_keys_icon;
-
     int32_t video_pix_width;
     int32_t video_pix_height;
     int32_t video_gl_width;
@@ -455,9 +440,6 @@ struct game_ {
 
     double last_playery;
     double last_playerx;
-
-    uint8_t game_over:1;
-    uint8_t level_is_being_loaded:1;
 };
 
 extern struct game_ game;

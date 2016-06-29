@@ -269,28 +269,14 @@ typedef struct tp_ {
     uint8_t has_submerged_anim:1;
     uint8_t is_acid:1;
     uint8_t is_acid_proof:1;
-    uint8_t is_action:1;
-    uint8_t is_action_down:1;
-    uint8_t is_action_left:1;
-    uint8_t is_action_right:1;
-    uint8_t is_action_sleep:1;
-    uint8_t is_action_trigger:1;
-    uint8_t is_action_trigger_on_hero:1;
-    uint8_t is_action_trigger_on_monst:1;
-    uint8_t is_action_trigger_on_wall:1;
-    uint8_t is_action_up:1;
-    uint8_t is_action_zap:1;
     uint8_t is_animated:1;
     uint8_t is_animated_no_dir:1;
-    uint8_t is_animated_only_when_moving:1;
     uint8_t is_animation:1;
-    uint8_t is_bomb:1;
     uint8_t is_bullet:1;
     uint8_t is_candle_light:1;
     uint8_t is_carryable:1;
     uint8_t is_cats_eyes:1;
     uint8_t is_cloud_effect:1;
-    uint8_t is_cobweb:1;
     uint8_t is_collision_map_large:1;
     uint8_t is_collision_map_medium:1;
     uint8_t is_collision_map_small:1;
@@ -312,7 +298,6 @@ typedef struct tp_ {
     uint8_t is_explosion:1;
     uint8_t is_fire:1;
     uint8_t is_fireball:1;
-    uint8_t is_fires_when_angry:1;
     uint8_t is_food:1;
     uint8_t is_fragile:1;
     uint8_t is_given_randomly_at_start:1;
@@ -321,11 +306,8 @@ typedef struct tp_ {
     uint8_t is_hidden_from_editor:1;
     uint8_t is_inactive:1;
     uint8_t is_internal:1;
-    uint8_t is_item_unusable:1;
     uint8_t is_joinable:1;
     uint8_t is_key:1;
-    uint8_t is_ladder:1;
-    uint8_t is_ladder_deco:1;
     uint8_t is_lava:1;
     uint8_t is_lava_proof:1;
     uint8_t is_levitating:1;
@@ -376,28 +358,20 @@ typedef struct tp_ {
     uint8_t is_sea:1;
     uint8_t is_rope:1;
     uint8_t is_throwable:1;
-    uint8_t is_sawblade:1;
     uint8_t is_shadow_caster:1;
     uint8_t is_shadow_caster_soft:1;
     uint8_t is_shop_floor:1;
     uint8_t is_shopkeeper:1;
-    uint8_t is_single_mob_spawner:1;
     uint8_t is_sleeping:1;
-    uint8_t is_spawns_under:1;
-    uint8_t is_spider_proof:1;
-    uint8_t is_spikes:1;
     uint8_t is_stackable:1;
-    uint8_t is_teleport:1;
     uint8_t is_torch:1;
     uint8_t is_trap:1;
     uint8_t is_treasure:1;
     uint8_t is_undead:1;
     uint8_t is_variable_size:1;
-    uint8_t is_visible_on_debug_only:1;
     uint8_t is_wall:1;
     uint8_t is_deco:1;
     uint8_t is_wanderer:1;
-    uint8_t is_warm_blooded:1;
     uint8_t is_water:1;
     uint8_t is_water_proof:1;
     uint8_t is_weapon:1;
@@ -408,13 +382,6 @@ typedef struct tp_ {
     tilep tilep_join_tile[IS_JOIN_MAX][IS_JOIN_ALT_MAX];
     uint8_t tilep_join_count[IS_JOIN_MAX];
 } thing_template;
-
-typedef struct tpp_data_ {
-    /*
-     * Color of the thing, mainly used in triggers.
-     */
-    color col;
-} thing_template_data;
 
 uint8_t tp_init(void);
 void tp_fini(void);
@@ -612,11 +579,6 @@ static inline uint8_t tp_is_non_explosive_gas_cloud (tpp t)
     return (t->is_non_explosive_gas_cloud);
 }
 
-static inline uint8_t tp_is_item_unusable (tpp t)
-{
-    return (t->is_item_unusable);
-}
-
 static inline uint8_t tp_is_carryable (tpp t)
 {
     return (t->is_carryable);
@@ -630,11 +592,6 @@ static inline uint8_t tp_is_door (tpp t)
 static inline uint8_t tp_is_mob_spawner (tpp t)
 {
     return (t->is_mob_spawner);
-}
-
-static inline uint8_t tp_is_single_mob_spawner (tpp t)
-{
-    return (t->is_single_mob_spawner);
 }
 
 static inline uint8_t tp_is_rrr1 (tpp t)
@@ -812,24 +769,9 @@ static inline uint8_t tp_is_not_light_blocking (tpp t)
     return (t->is_not_light_blocking);
 }
 
-static inline uint8_t tp_is_spikes (tpp t)
-{
-    return (t->is_spikes);
-}
-
 static inline uint8_t tp_is_obstacle (tpp t)
 {
     return (t->is_obstacle);
-}
-
-static inline uint8_t tp_is_ladder (tpp t)
-{
-    return (t->is_ladder);
-}
-
-static inline uint8_t tp_is_ladder_deco (tpp t)
-{
-    return (t->is_ladder_deco);
 }
 
 static inline uint8_t tp_is_entrance (tpp t)
@@ -850,11 +792,6 @@ static inline uint8_t tp_is_conical_breath_attack (tpp t)
 static inline uint8_t tp_is_corpse (tpp t)
 {
     return (t->is_corpse);
-}
-
-static inline uint8_t tp_is_spawns_under (tpp t)
-{
-    return (t->is_spawns_under);
 }
 
 static inline uint8_t tp_is_wanderer (tpp t)
@@ -912,19 +849,9 @@ static inline uint8_t tp_is_lava_proof (tpp t)
     return (t->is_lava_proof);
 }
 
-static inline uint8_t tp_is_spider_proof (tpp t)
-{
-    return (t->is_spider_proof);
-}
-
 static inline uint8_t tp_is_acid_proof (tpp t)
 {
     return (t->is_acid_proof);
-}
-
-static inline uint8_t tp_is_fires_when_angry (tpp t)
-{
-    return (t->is_fires_when_angry);
 }
 
 static inline uint8_t tp_is_shopkeeper (tpp t)
@@ -972,16 +899,6 @@ static inline uint8_t tp_is_lava (tpp t)
     return (t->is_lava);
 }
 
-static inline uint8_t tp_is_teleport (tpp t)
-{
-    return (t->is_teleport);
-}
-
-static inline uint8_t tp_is_cobweb (tpp t)
-{
-    return (t->is_cobweb);
-}
-
 static inline uint8_t tp_is_ethereal (tpp t)
 {
     return (t->is_ethereal);
@@ -1022,76 +939,6 @@ static inline uint8_t tp_is_sleeping (tpp t)
     return (t->is_sleeping);
 }
 
-static inline uint8_t tp_is_bomb (tpp t)
-{
-    return (t->is_bomb);
-}
-
-static inline uint8_t tp_is_sawblade (tpp t)
-{
-    return (t->is_sawblade);
-}
-
-static inline uint8_t tp_is_visible_on_debug_only (tpp t)
-{
-    return (t->is_visible_on_debug_only);
-}
-
-static inline uint8_t tp_is_action (tpp t)
-{
-    return (t->is_action);
-}
-
-static inline uint8_t tp_is_action_sleep (tpp t)
-{
-    return (t->is_action_sleep);
-}
-
-static inline uint8_t tp_is_action_zap (tpp t)
-{
-    return (t->is_action_zap);
-}
-
-static inline uint8_t tp_is_action_trigger (tpp t)
-{
-    return (t->is_action_trigger);
-}
-
-static inline uint8_t tp_is_action_trigger_on_wall (tpp t)
-{
-    return (t->is_action_trigger_on_wall);
-}
-
-static inline uint8_t tp_is_action_trigger_on_hero (tpp t)
-{
-    return (t->is_action_trigger_on_hero);
-}
-
-static inline uint8_t tp_is_action_trigger_on_monst (tpp t)
-{
-    return (t->is_action_trigger_on_monst);
-}
-
-static inline uint8_t tp_is_action_down (tpp t)
-{
-    return (t->is_action_down);
-}
-
-static inline uint8_t tp_is_action_up (tpp t)
-{
-    return (t->is_action_up);
-}
-
-static inline uint8_t tp_is_action_left (tpp t)
-{
-    return (t->is_action_left);
-}
-
-static inline uint8_t tp_is_action_right (tpp t)
-{
-    return (t->is_action_right);
-}
-
 static inline uint8_t tp_can_walk_through (tpp t)
 {
     return (t->can_walk_through);
@@ -1100,16 +947,6 @@ static inline uint8_t tp_can_walk_through (tpp t)
 static inline uint8_t tp_is_weapon_carry_anim (tpp t)
 {
     return (t->is_weapon_carry_anim);
-}
-
-static inline uint8_t tp_is_animated_only_when_moving (tpp t)
-{
-    return (t->is_animated_only_when_moving);
-}
-
-static inline uint8_t tp_is_warm_blooded (tpp t)
-{
-    return (t->is_warm_blooded);
 }
 
 static inline uint8_t tp_can_be_enchanted (tpp t)
@@ -1201,7 +1038,6 @@ tpp random_wall(void);
 tpp random_corridor_wall(void);
 tpp random_door(void);
 tpp random_obstacle(void);
-tpp random_spikes(void);
 tpp random_floor(void);
 tpp random_corridor(void);
 tpp random_player(void);

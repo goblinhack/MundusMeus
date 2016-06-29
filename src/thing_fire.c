@@ -32,114 +32,6 @@ static void thing_fire_at_target_xy_ (levelp level,
                                       double target_y, 
                                       int line_of_fire)
 {
-    /*
-     * Cannot fire until we're on a level.
-     */
-    if (!t->wid) {
-        THING_LOG(t, "Cannot fire yet, not on the level");
-        return;
-    }
-
-    double dx, dy;
-
-    /*
-     * Any smaller than this and diagonal shots collide with adjoining walls.
-     */
-    double dist_from_player = 0.7;
-
-    double distance = DISTANCE(t->x, t->y, target_x, target_y);
-    double sx = (target_x - t->x) / distance;
-    double sy = (target_y - t->y) / distance;
-
-    dx = sx * dist_from_player;
-    dy = sy * dist_from_player;
-
-    /*
-     * Fire from the player position plus the initial delta so it looks like 
-     * it comes from outside of the body.
-     */
-    double x = t->x;
-    double y = t->y;
-
-    tpp projectile = 0;
-
-    tpp weapon = thing_weapon(t);
-    if (weapon) {
-        projectile = tp_fires(weapon);
-    }
-
-    if (!projectile) {
-        projectile = tp_fires(thing_tp(t));
-    }
-
-    if (!projectile) {
-        ERR("nothing to fire");
-        return;
-    }
-
-    widp w = wid_game_map_replace_tile(
-                                    level,
-                                    x,
-                                    y,
-                                    0, /* thing */
-                                    projectile,
-                                    0 /* tpp data */);
-    if (!w) {
-        return;
-    }
-
-    thingp p = wid_get_thing(w);
-
-    /*
-     * Make sure we keep track of who fired so we can award scores.
-     */
-    thing_set_owner(level, p, t);
-
-    /*
-     * Set up the modifier damage if this is say a fireball or bow for ex.
-     */
-    p->damage = thing_stats_get_total_damage(t);
-
-    p->is_epicenter = true;
-
-    /*
-     * Round up say -0.7 to -1.0
-     */
-    dx *= 10.0;
-    dy *= 10.0;
-    dx /= (dist_from_player * 10.0);
-    dy /= (dist_from_player * 10.0);
-
-    p->dx = sx;
-    p->dy = sy;
-    p->dir = thing_angle_to_dir(p->dx, p->dy);
-
-    /*
-     * Check for immediate collision with a wall
-     */
-    thing_handle_collisions(level, p);
-    if (thing_is_dead(p)) {
-        return;
-    }
-
-    double fnexthop_x = p->x + p->dx;
-    double fnexthop_y = p->y + p->dy;
-
-    thing_move(level, p,
-               fnexthop_x,
-               fnexthop_y,
-               fnexthop_y < p->y,
-               fnexthop_y > p->y,
-               fnexthop_x < p->x,
-               fnexthop_x > p->x,
-               false /* fire */);
-
-    /*
-     * Point the shooter at the target.
-     */
-    if (line_of_fire) {
-        t->dir = thing_angle_to_dir(p->dx, p->dy);
-    }
 }
 
 /*
@@ -298,7 +190,6 @@ void thing_fire (levelp level,
         /*
          * Might be a sword.
          */
-        thing_swing(level, t);
         return;
     } else {
         /*
@@ -396,8 +287,6 @@ static void thing_fire_at (levelp level, thingp t, thingp target)
         }
 
         t->dir = thing_angle_to_dir(dx, dy);
-
-        thing_swing(level, t);
         return;
     }
 
@@ -460,8 +349,7 @@ thing_fire_at_best_target (levelp level, thingp hitter)
          * Skip things that aren't really hitable.
          */
         if (thing_is_animation(cand->target) ||
-            thing_is_cloud_effect(cand->target) ||
-            thing_is_weapon_swing_effect(cand->target)) {
+            thing_is_cloud_effect(cand->target)) {
             continue;
         }
 
@@ -510,7 +398,6 @@ static void thing_consider_target (levelp level,
      * Filter out boring things.
      */
     if (thing_is_dungeon_floor(it)  ||
-        thing_is_ladder(it)         ||
         thing_is_rope(it)           ||
         thing_is_animation(it)) {
         return;
@@ -522,37 +409,6 @@ if (debug) {
 LOG("  dead or dying");
 }
 #endif
-        return;
-    }
-
-    /*
-     * Need this or shields attack the player.
-     */
-    if (thing_owner(level, it) == me) {
-#if 0
-if (debug) {
-LOG("  owner");
-}
-#endif
-        return;
-    }
-
-
-    if (thing_is_shopkeeper(me)) {
-        if (thing_is_monst(it)) {
-            if (!thing_is_shopkeeper(it)) {
-                thing_possible_hit_add(level, me, it);
-                return;
-            }
-        }
-
-        if (thing_is_angry(me)) {
-            if (thing_is_player(it)) {
-                thing_possible_hit_add(level, me, it);
-                return;
-            }
-        }
-
         return;
     }
 

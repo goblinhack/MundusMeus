@@ -219,50 +219,6 @@ class tpp:
         self.is_acid_proof = value;
         mm.tp_set_is_acid_proof(self, value);
 
-    def set_is_action (self, value):
-        self.is_action = value;
-        mm.tp_set_is_action(self, value);
-
-    def set_is_action_down (self, value):
-        self.is_action_down = value;
-        mm.tp_set_is_action_down(self, value);
-
-    def set_is_action_left (self, value):
-        self.is_action_left = value;
-        mm.tp_set_is_action_left(self, value);
-
-    def set_is_action_right (self, value):
-        self.is_action_right = value;
-        mm.tp_set_is_action_right(self, value);
-
-    def set_is_action_sleep (self, value):
-        self.is_action_sleep = value;
-        mm.tp_set_is_action_sleep(self, value);
-
-    def set_is_action_trigger (self, value):
-        self.is_action_trigger = value;
-        mm.tp_set_is_action_trigger(self, value);
-
-    def set_is_action_trigger_on_hero (self, value):
-        self.is_action_trigger_on_hero = value;
-        mm.tp_set_is_action_trigger_on_hero(self, value);
-
-    def set_is_action_trigger_on_monst (self, value):
-        self.is_action_trigger_on_monst = value;
-        mm.tp_set_is_action_trigger_on_monst(self, value);
-
-    def set_is_action_trigger_on_wall (self, value):
-        self.is_action_trigger_on_wall = value;
-        mm.tp_set_is_action_trigger_on_wall(self, value);
-
-    def set_is_action_up (self, value):
-        self.is_action_up = value;
-        mm.tp_set_is_action_up(self, value);
-
-    def set_is_action_zap (self, value):
-        self.is_action_zap = value;
-        mm.tp_set_is_action_zap(self, value);
-
     def set_is_animated (self, value):
         self.is_animated = value;
         mm.tp_set_is_animated(self, value);
@@ -271,17 +227,9 @@ class tpp:
         self.is_animated_no_dir = value;
         mm.tp_set_is_animated_no_dir(self, value);
 
-    def set_is_animated_only_when_moving (self, value):
-        self.is_animated_only_when_moving = value;
-        mm.tp_set_is_animated_only_when_moving(self, value);
-
     def set_is_animation (self, value):
         self.is_animation = value;
         mm.tp_set_is_animation(self, value);
-
-    def set_is_bomb (self, value):
-        self.is_bomb = value;
-        mm.tp_set_is_bomb(self, value);
 
     def set_is_bullet (self, value):
         self.is_bullet = value;
@@ -302,10 +250,6 @@ class tpp:
     def set_is_cloud_effect (self, value):
         self.is_cloud_effect = value;
         mm.tp_set_is_cloud_effect(self, value);
-
-    def set_is_cobweb (self, value):
-        self.is_cobweb = value;
-        mm.tp_set_is_cobweb(self, value);
 
     def set_is_collision_map_large (self, value):
         self.is_collision_map_large = value;
@@ -391,10 +335,6 @@ class tpp:
         self.is_fireball = value;
         mm.tp_set_is_fireball(self, value);
 
-    def set_is_fires_when_angry (self, value):
-        self.is_fires_when_angry = value;
-        mm.tp_set_is_fires_when_angry(self, value);
-
     def set_is_food (self, value):
         self.is_food = value;
         mm.tp_set_is_food(self, value);
@@ -411,14 +351,6 @@ class tpp:
         self.is_hard = value;
         mm.tp_set_is_hard(self, value);
 
-    def set_is_hidden (self, value):
-        self.is_hidden = value;
-        mm.tp_set_is_hidden(self, value);
-
-    def set_is_hidden_from_editor (self, value):
-        self.is_hidden_from_editor = value;
-        mm.tp_set_is_hidden_from_editor(self, value);
-
     def set_is_inactive (self, value):
         self.is_inactive = value;
         mm.tp_set_is_inactive(self, value);
@@ -427,10 +359,6 @@ class tpp:
         self.is_internal = value;
         mm.tp_set_is_internal(self, value);
 
-    def set_is_item_unusable (self, value):
-        self.is_item_unusable = value;
-        mm.tp_set_is_item_unusable(self, value);
-
     def set_is_joinable (self, value):
         self.is_joinable = value;
         mm.tp_set_is_joinable(self, value);
@@ -438,14 +366,6 @@ class tpp:
     def set_is_key (self, value):
         self.is_key = value;
         mm.tp_set_is_key(self, value);
-
-    def set_is_ladder (self, value):
-        self.is_ladder = value;
-        mm.tp_set_is_ladder(self, value);
-
-    def set_is_ladder_deco (self, value):
-        self.is_ladder_deco = value;
-        mm.tp_set_is_ladder_deco(self, value);
 
     def set_is_lava (self, value):
         self.is_lava = value;
@@ -643,10 +563,6 @@ class tpp:
         self.is_throwable = value;
         mm.tp_set_is_throwable(self, value);
 
-    def set_is_sawblade (self, value):
-        self.is_sawblade = value;
-        mm.tp_set_is_sawblade(self, value);
-
     def set_is_shadow_caster (self, value):
         self.is_shadow_caster = value;
         mm.tp_set_is_shadow_caster(self, value);
@@ -663,33 +579,13 @@ class tpp:
         self.is_shopkeeper = value;
         mm.tp_set_is_shopkeeper(self, value);
 
-    def set_is_single_mob_spawner (self, value):
-        self.is_single_mob_spawner = value;
-        mm.tp_set_is_single_mob_spawner(self, value);
-
     def set_is_sleeping (self, value):
         self.is_sleeping = value;
         mm.tp_set_is_sleeping(self, value);
 
-    def set_is_spawns_under (self, value):
-        self.is_spawns_under = value;
-        mm.tp_set_is_spawns_under(self, value);
-
-    def set_is_spider_proof (self, value):
-        self.is_spider_proof = value;
-        mm.tp_set_is_spider_proof(self, value);
-
-    def set_is_spikes (self, value):
-        self.is_spikes = value;
-        mm.tp_set_is_spikes(self, value);
-
     def set_is_stackable (self, value):
         self.is_stackable = value;
         mm.tp_set_is_stackable(self, value);
-
-    def set_is_teleport (self, value):
-        self.is_teleport = value;
-        mm.tp_set_is_teleport(self, value);
 
     def set_is_torch (self, value):
         self.is_torch = value;
@@ -711,25 +607,13 @@ class tpp:
         self.is_variable_size = value;
         mm.tp_set_is_variable_size(self, value);
 
-    def set_is_visible_on_debug_only (self, value):
-        self.is_visible_on_debug_only = value;
-        mm.tp_set_is_visible_on_debug_only(self, value);
-
     def set_is_wall (self, value):
         self.is_wall = value;
         mm.tp_set_is_wall(self, value);
 
-    def set_is_deco (self, value):
-        self.is_deco = value;
-        mm.tp_set_is_deco(self, value);
-
     def set_is_wanderer (self, value):
         self.is_wanderer = value;
         mm.tp_set_is_wanderer(self, value);
-
-    def set_is_warm_blooded (self, value):
-        self.is_warm_blooded = value;
-        mm.tp_set_is_warm_blooded(self, value);
 
     def set_is_water (self, value):
         self.is_water = value;

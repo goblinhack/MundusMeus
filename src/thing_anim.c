@@ -71,33 +71,18 @@ void thing_animate (levelp level, thingp t)
             t->anim_x = t->x;
             t->anim_y = t->y;
             t->is_moving = true;
-            t->timestamp_anim_stopped_moving = 0;
         } else {
             t->is_moving = false;
-
-            if (!t->timestamp_anim_stopped_moving) {
-                t->timestamp_anim_stopped_moving = time_get_time_ms();
-            }
-        }
-
-        if (thing_is_animated_only_when_moving(t)) {
-            if (!t->is_submerged) {
-                if (t->fall_speed > 0) {
-                    return;
-                }
-            }
         }
 
         /*
          * If walking and now we've stopped, choose the idle no dir tile.
          */
-        if (thing_is_animated_only_when_moving(t) &&
-            !thing_is_dead(t) &&
-            !t->is_moving) {
+        if (!thing_is_dead(t) && !t->is_moving) {
 
             thing_tilep new_tile;
 
-            if ((time_get_time_ms() - t->timestamp_anim_stopped_moving) > 50) {
+            {
                 new_tile = thing_tile_first(tiles);
                 while (new_tile) {
                     if (thing_tile_is_dir_none(new_tile)) {
@@ -145,20 +130,6 @@ void thing_animate (levelp level, thingp t)
                 if (!thing_is_dead(t)) {
                     tile = thing_tile_next(tiles, tile);
                     continue;
-                }
-            }
-
-            if (tp->has_submerged_anim) {
-                if (t->is_submerged) {
-                    if (!thing_tile_is_submerged(tile)) {
-                        tile = thing_tile_next(tiles, tile);
-                        continue;
-                    }
-                } else {
-                    if (thing_tile_is_submerged(tile)) {
-                        tile = thing_tile_next(tiles, tile);
-                        continue;
-                    }
                 }
             }
 

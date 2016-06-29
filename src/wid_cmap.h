@@ -75,8 +75,7 @@ widp map_editor_color_map_thing_replace_template(widp w,
                                                  double x,
                                                  double y,
                                                  thingp t,
-                                                 tpp tp,
-                                                 tpp_data);
+                                                 tpp tp);
 extern void wid_cmap_cell_play(void);
 extern void wid_cmap_cell_load(void);
 extern void wid_cmap_visible(void);

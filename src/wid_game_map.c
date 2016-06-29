@@ -23,7 +23,6 @@
 #include "math_util.h"
 #include "thing_template.h"
 #include "sound.h"
-#include "thing_shop.h"
 #include "player.h"
 
 double last_playery;
@@ -293,25 +292,6 @@ void wid_game_map_wid_create (void)
     }
 }
 
-static void level_set_new_tp (levelp level,
-                              int x, int y, int z, 
-                              tpp tp, tpp_data data)
-{
-    memset(&level->map_grid.tile[x][y][z], 0, sizeof(level_map_tile));
-    level->map_grid.tile[x][y][z].tp = tp;
-
-    if (data) {
-        level->map_grid.tile[x][y][z].data = *data;
-    }
-}
-
-static void level_get_tp (levelp level,
-                          int x, int y, int z, 
-                          tpp *tp)
-{
-    *tp = level->map_grid.tile[x][y][z].tp;
-}
-
 /*
  * Replace or place a tile.
  */
@@ -319,175 +299,12 @@ widp
 wid_game_map_replace_tile (levelp level,
                            double x, double y,
                            thingp t,
-                           tpp tp,
-                           tpp_data data)
+                           tpp tp)
 {
-#if 0
-    static levelp last_level;
-    static int flip_x;
-    static int flip_y;
-    static int rot;
-
-    /*
-     * Does not handle rotation of triggers correctly, so commented out for 
-     * now
-     */
-    if (game.level_is_being_loaded) {
-        if (level != last_level) {
-            last_level = level;
-
-            /*
-             * Need to change direction triggers too... Not sure if this is 
-             * worth the complexity...
-             */
-            flip_x = 0;
-            flip_y = 0;
-            rot = 0;
-
-            if ((myrand() % 100) < 50) {
-                flip_x = 1;
-            }
-
-            if ((myrand() % 100) < 50) {
-                flip_y = 1;
-            }
-
-            if ((myrand() % 100) < 50) {
-                rot = 1;
-            }
-        }
-
-        if (flip_x) {
-            x = MAP_WIDTH - x - 1;
-        }
-
-        if (flip_y) {
-            y = MAP_HEIGHT - y - 1;
-        }
-
-        if (rot) {
-            swap(x, y);
-        }
-
-        if ((x < 0) || (y < 0) || (x >= MAP_WIDTH) || (y >= MAP_HEIGHT)) {
-            ERR("%s placing thing at bad co-ords %f %f", tp_name(tp), x, y);
-            return (0);
-        }
-    }
-#endif
-
-
-    int z = tp_get_z_depth(tp);
     tree_rootp thing_tiles;
     const char *tilename;
     tilep tile = 0;
     widp child;
-    int ix = x;
-    int iy = y;
-#if 0
-    int depth = level->level_no;
-#endif
-
-    if (game.level_is_being_loaded == 1) {
-        /*
-         * Map random things to real things.
-         */
-        tpp otp = tp;
-
-        /*
-         * Some things are only valid in shops.
-         */
-        tpp floor_tp;
-        level_get_tp(level, x, y, MAP_DEPTH_FLOOR, &floor_tp);
-        int shop_floor = false;
-
-        if (floor_tp) {
-            if (tp_is_shop_floor(floor_tp)) {
-                shop_floor = true;
-            }
-        }
-
-#if 0
-        switch (tp_to_id(tp)) {
-            case THING_FOOD_ANY:
-                tp = random_food();
-                break;
-            case THING_MOB_ANY:
-                tp = random_mob(depth);
-                break;
-            case THING_MONST_ANY:
-                tp = random_monst(depth);
-                break;
-            case THING_TREASURE_ANY:
-                tp = random_treasure(shop_floor);
-                break;
-            case THING_WEAPON_ANY:
-                tp = random_weapon(shop_floor);
-                break;
-        }
-#endif
-
-        if (!tp) {
-            ERR("failed to make random %s", tp_name(otp));
-            return (0);
-        }
-    } else {
-#if 0
-        switch (tp_to_id(tp)) {
-            case THING_FOOD_ANY:
-            case THING_MOB_ANY:
-            case THING_MONST_ANY:
-            case THING_TREASURE_ANY:
-            case THING_WEAPON_ANY:
-                level_get_tp(level, x, y, z, &tp);
-                break;
-        }
-#endif
-    }
-
-    /*
-     * First pass? Only interested in location of triggers.
-     */
-    if (game.level_is_being_loaded == 1) {
-        /*
-         * Record what triggers exist on the level.
-         */
-        if (tp_is_action_trigger(tp)) {
-            if (!data) {
-                ERR("expecting trigger data for %s", tp_name(tp));
-                return (0);
-            }
-
-            level_trigger_alloc(level, data->col);
-        }
-
-        level_set_new_tp(level, x, y, z, tp, data);
-
-        return (0);
-    }
-
-    /*
-     * Second pass, do not create things that are to only be created on 
-     * triggers.
-     */
-    if (game.level_is_being_loaded == 2) {
-        /*
-         * If there is a trigger here 
-         */
-        if (z > MAP_DEPTH_FLOOR) {
-            tpp trigger = level->map_grid.tile[ix][iy][MAP_DEPTH_ACTIONS].tp;
-
-            if (trigger) {
-                if (tp_is_action_sleep(trigger)) {
-                    return (0);
-                }
-            }
-        }
-    }
-
-    /*
-     * Second pass, create the things.
-     */
 
     if ((x < 0) || (y < 0) || (x >= MAP_WIDTH) || (y >= MAP_HEIGHT)) {
         /*
@@ -501,39 +318,6 @@ wid_game_map_replace_tile (levelp level,
 
     double dx = 0;
     double dy = 0;
-
-    if (tp_is_sea(tp)) {
-        dx = gaussrand(0.0, 0.5);
-        tp = random_sea();
-    }
-
-    /*
-     * If we find a player, it is really a placeholder of where to put a 
-     * future player who joins.
-     */
-    if (tp_is_player(tp)) {
-        if ((x == 0) && (y == 0)) {
-            /*
-             * Grab a position from the list loaded.
-             */
-            x = level->player_start_position.x;
-            y = level->player_start_position.y;
-            level->player_start_at++;
-
-            if (level->player_start_at >= level->player_start_max) {
-                level->player_start_at = 0;
-            }
-        } else {
-            /*
-             * Append to the array of possible start positions.
-             */
-            level->player_start_position.x = x;
-            level->player_start_position.y = y;
-            level->player_start_max++;
-
-            return (0);
-        }
-    }
 
     /*
      * Grow tl and br to fit the template thing. Use the first tile.
@@ -584,13 +368,6 @@ wid_game_map_replace_tile (levelp level,
         t = thing_new(level, tp_name(tp), x, y);
     } else {
         thing_reinit(level, t, x, y);
-    }
-
-    if (data) {
-        memcpy(&t->data, data, sizeof(thing_template_data));
-        if (!color_none(t->data.col)) {
-            wid_set_color(child, WID_COLOR_BLIT, t->data.col);
-        }
     }
 
     wid_set_thing(child, level, t);
@@ -660,25 +437,11 @@ wid_game_map_replace_tile (levelp level,
         flip = !flip;
         wid_flip_horiz(child, flip);
     }
-if (thing_can_roll(t)) {
-t->fall_speed = gauss(0, 0.0);
-t->momentum = gauss(0, 0.15);
-}
+
     /*
      * This adds it to the grid wid.
      */
     wid_update(child);
-
-    /*
-     * Avoid doing the map fixup all the time as it is expensive.
-     */
-    if (game.level_is_being_loaded) {
-        return (child);
-    }
-
-    /*
-     * STUFF ADDED HERE WILL BE SKIPPED BY THE ABOVE CHECK
-     */
 
     return (child);
 }

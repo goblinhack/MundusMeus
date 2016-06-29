@@ -17,6 +17,5 @@ extern widp
 wid_game_map_replace_tile(levelp,
                           double x, double y,
                           thingp t,
-                          tpp tp,
-                          tpp_data data);
+                          tpp tp);
 

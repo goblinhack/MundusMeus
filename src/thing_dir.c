@@ -18,7 +18,6 @@ void thing_set_dir_none (levelp level, thingp t)
 
     if (t->dir != THING_DIR_NONE) {
         t->dir = THING_DIR_NONE;
-        thing_set_weapon_placement(level, t);
     }
 }
 
@@ -39,7 +38,6 @@ void thing_set_dir_down (levelp level, thingp t)
 
     if (t->dir != THING_DIR_DOWN) {
         t->dir = THING_DIR_DOWN;
-        thing_set_weapon_placement(level, t);
     }
 }
 
@@ -60,7 +58,6 @@ void thing_set_dir_up (levelp level, thingp t)
 
     if (t->dir != THING_DIR_UP) {
         t->dir = THING_DIR_UP;
-        thing_set_weapon_placement(level, t);
     }
 }
 
@@ -81,7 +78,6 @@ void thing_set_dir_left (levelp level, thingp t)
 
     if (t->dir != THING_DIR_LEFT) {
         t->dir = THING_DIR_LEFT;
-        thing_set_weapon_placement(level, t);
     }
 }
 
@@ -102,7 +98,6 @@ void thing_set_dir_right (levelp level, thingp t)
 
     if (t->dir != THING_DIR_RIGHT) {
         t->dir = THING_DIR_RIGHT;
-        thing_set_weapon_placement(level, t);
     }
 }
 
@@ -123,7 +118,6 @@ void thing_set_dir_tl (levelp level, thingp t)
 
     if (t->dir != THING_DIR_TL) {
         t->dir = THING_DIR_TL;
-        thing_set_weapon_placement(level, t);
     }
 }
 
@@ -144,7 +138,6 @@ void thing_set_dir_bl (levelp level, thingp t)
 
     if (t->dir != THING_DIR_BL) {
         t->dir = THING_DIR_BL;
-        thing_set_weapon_placement(level, t);
     }
 }
 
@@ -165,7 +158,6 @@ void thing_set_dir_tr (levelp level, thingp t)
 
     if (t->dir != THING_DIR_TR) {
         t->dir = THING_DIR_TR;
-        thing_set_weapon_placement(level, t);
     }
 }
 
@@ -186,7 +178,6 @@ void thing_set_dir_br (levelp level, thingp t)
 
     if (t->dir != THING_DIR_BR) {
         t->dir = THING_DIR_BR;
-        thing_set_weapon_placement(level, t);
     }
 }
 

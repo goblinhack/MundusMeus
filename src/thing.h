@@ -32,7 +32,6 @@ void thing_reinit(levelp, thingp, double x, double y);
 void thing_restarted(levelp, thingp t);
 void thing_destroy(levelp, thingp, const char *why);
 void thing_destroy_in(levelp level, thingp t, int32_t delay);
-void thing_remove_hooks(levelp level, thingp t);
 int thing_tick_all(levelp level);
 void thing_animate_all(levelp level);
 void thing_tick_player_slow_all(levelp level,
@@ -42,15 +41,12 @@ thingp thing_mob_spawn_on_death(levelp, thingp);
 void thing_wake(levelp, thingp t);
 void thing_dead(levelp, thingp, thingp killer,
                 const char *fmt, ...) __attribute__ ((format (printf, 4, 5)));
-int thing_hit(levelp, thingp, thingp hitter, uint32_t damage);
 void thing_hide(levelp, thingp);
-thingp thing_owner(levelp, thingp t);
 uint8_t thing_is_visible(levelp, thingp);
 void thing_leave_level(levelp, thingp);
 void thing_join_level(levelp, thingp);
 void thing_visible(levelp, thingp);
 void things_level_destroyed(levelp, uint8_t keep_player);
-int thing_is_player_or_owned_by_player(levelp, thingp t);
 void demarshal_thing(demarshal_p ctx, thingp);
 void marshal_thing(marshal_p ctx, thingp);
 void thing_templates_marshal(marshal_p out);
@@ -190,8 +186,6 @@ typedef struct {
 
 } thing_place_context_t;
 
-void thing_teleport(levelp, thingp t, int32_t x, int32_t y);
-
 enum {
     THING_DIR_NONE,
     THING_DIR_DOWN,
@@ -203,9 +197,6 @@ enum {
     THING_DIR_TR,
     THING_DIR_BR,
 };
-
-void thing_set_owner_id(levelp, thingp t, uint32_t owner_id);
-void thing_set_owner(levelp, thingp t, thingp owner);
 
 enum {
     THING_NONE,
@@ -233,10 +224,6 @@ typedef struct thing_ {
     int32_t gold;
     int32_t gold_owed;
     int32_t score;
-    int32_t keys;
-    int32_t torches;
-    int32_t ropes;
-    int32_t bombs;
 
     /*-------------------------------------------------------------------
      * Dynamic things we cannot save.
@@ -257,37 +244,9 @@ typedef struct thing_ {
     int32_t destroy_in_ms;
     
     /*
-     * Data we read in along with the thing template.
-     */
-    thing_template_data data;
-
-    uint32_t weapon_carry_anim_thing_id;
-    uint32_t weapon_swing_anim_thing_id;
-
-    /*
-     * Used to detect exit...
-     */
-    uint32_t in_shop_owned_by_thing_id;
-
-    /*
      * Weapon thing template.
      */
     uint16_t weapon_tp_id;
-
-    /*
-     * Who created this thing? e.g. who cast a spell?
-     */
-    uint32_t owner_thing_id;
-
-    /*
-     * How many things this thing owns.
-     */
-    uint16_t owned_count;
-
-    /*
-     * How much damage per hit?
-     */
-    uint16_t damage;
 
     /*
      * Which djkstra map this thing is using.
@@ -301,22 +260,12 @@ typedef struct thing_ {
      */
     float x;
     float y;
-    fpoint normal_velocity;
-    fpoint tangent_velocity;
 
     /*
      * Last anim frame position. To be able to detect moving things.
      */
     float anim_x;
     float anim_y;
-
-    /*
-     * For freefalling.
-     */
-    float fall_speed;
-    float jump_speed;
-    float momentum;
-    float rot;
 
     /*
      * How close for collision detection.
@@ -353,65 +302,9 @@ typedef struct thing_ {
     float scale;
 
     /*
-     * Last time we were underwater.
-     */
-    uint32_t timestamp_last_submerged;
-
-    /*
-     * Last time we were teleported.
-     */
-    uint32_t timestamp_last_teleport;
-
-    /*
-     * So players are not killed too quickly
-     */
-    uint32_t timestamp_last_hit;
-
-    /*
-     * Last time we entered a shop.
-     */
-    uint32_t timestamp_last_shop_enter;
-
-    /*
-     * Last time we were attacked.
-     */
-    uint32_t timestamp_last_attacked;
-
-    /*
-     * When to change frame for animation.
-     */
-    uint32_t timestamp_change_to_next_frame;
-    uint32_t timestamp_anim_stopped_moving;
-
-    /*
-     * When we last teleported.
-     */
-    uint32_t timestamp_teleport;
-
-    /*
-     * When we last checked for hitting something.
-     */
-    uint32_t timestamp_collision;
-
-    /*
-     * When we last spawned.
-     */
-    uint32_t timestamp_mob_spawn;
-
-    /*
-     * When did I last hit?
-     */
-    uint32_t timestamp_i_attacked;
-
-    /*
      * When life sputtered into this corpse
      */
     uint32_t tick_born;
-
-    /*
-     * Last time it fired at a player.
-     */
-    uint32_t timestamp_fired;
 
     /*
      * Last utterance
@@ -436,18 +329,8 @@ typedef struct thing_ {
      * how much we can really see.
      */
     float torch_light_radius;
-    uint32_t tick_torch;
 
-    /*
-     * For auto decrementing health if over max due to magical boost.
-     */
-    uint32_t tick_health;
-
-    /*
-     * Hit a limit and you drown.
-     */
-    uint32_t breath;
-    uint32_t timestamp_last_breath;
+    uint32_t timestamp_change_to_next_frame;
 
     /*
      * Debugging this thing?
@@ -455,8 +338,6 @@ typedef struct thing_ {
     uint32_t debug:1;
 
     uint32_t is_sleeping:1;
-    uint32_t is_submerged:1;
-    uint32_t is_partially_submerged:1;
     uint32_t is_collected:1;
     uint32_t is_open:1;
     uint32_t is_dead:1;
@@ -670,29 +551,11 @@ static inline uint8_t thing_is_animated_no_dir (thingp t)
     return (tp_is_animated_no_dir(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_weapon_swing_effect (thingp t)
-{
-    verify(t);
-
-    return (tp_is_weapon_swing_effect(thing_tp(t)));
-}
-
 static inline uint8_t thing_is_fire (thingp t)
 {
     verify(t);
 
     return (tp_is_fire(thing_tp(t)));
-}
-
-static inline double thing_collision_radius (thingp t)
-{
-    verify(t);
-
-    if (t->collision_radius > 0) {
-        return (t->collision_radius);
-    }
-
-    return (tp_get_collision_radius(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_cats_eyes (thingp t)
@@ -714,13 +577,6 @@ static inline uint8_t thing_is_non_explosive_gas_cloud (thingp t)
     verify(t);
 
     return (tp_is_non_explosive_gas_cloud(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_item_unusable (thingp t)
-{
-    verify(t);
-
-    return (tp_is_item_unusable(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_door (thingp t)
@@ -975,32 +831,11 @@ static inline uint8_t thing_is_not_light_blocking (thingp t)
     return (tp_is_not_light_blocking(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_spikes (thingp t)
-{
-    verify(t);
-
-    return (tp_is_spikes(thing_tp(t)));
-}
-
 static inline uint8_t thing_is_obstacle (thingp t)
 {
     verify(t);
 
     return (tp_is_obstacle(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_ladder (thingp t)
-{
-    verify(t);
-
-    return (tp_is_ladder(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_ladder_deco (thingp t)
-{
-    verify(t);
-
-    return (tp_is_ladder_deco(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_entrance (thingp t)
@@ -1031,13 +866,6 @@ static inline uint8_t thing_is_corpse (thingp t)
     return (tp_is_corpse(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_spawns_under (thingp t)
-{
-    verify(t);
-
-    return (tp_is_spawns_under(thing_tp(t)));
-}
-
 static inline uint8_t thing_is_wanderer (thingp t)
 {
     verify(t);
@@ -1059,13 +887,6 @@ static inline uint8_t thing_is_life_saving (thingp t)
     return (tp_is_life_saving(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_single_mob_spawner (thingp t)
-{
-    verify(t);
-
-    return (tp_is_single_mob_spawner(thing_tp(t)));
-}
-
 static inline uint8_t thing_is_water (thingp t)
 {
     verify(t);
@@ -1078,13 +899,6 @@ static inline uint8_t thing_is_undead (thingp t)
     verify(t);
 
     return (tp_is_undead(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_hidden (thingp t)
-{
-    verify(t);
-
-    return (tp_is_hidden(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_trap (thingp t)
@@ -1122,32 +936,11 @@ static inline uint8_t thing_is_lava_proof (thingp t)
     return (tp_is_lava_proof(thing_tp(t)));
 }
 
-static inline uint8_t thing_is_spider_proof (thingp t)
-{
-    verify(t);
-
-    return (tp_is_spider_proof(thing_tp(t)));
-}
-
 static inline uint8_t thing_is_acid_proof (thingp t)
 {
     verify(t);
 
     return (tp_is_acid_proof(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_fires_when_angry (thingp t)
-{
-    verify(t);
-
-    return (tp_is_fires_when_angry(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_shopkeeper (thingp t)
-{
-    verify(t);
-
-    return (tp_is_shopkeeper(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_shop_floor (thingp t)
@@ -1204,20 +997,6 @@ static inline uint8_t thing_is_lava (thingp t)
     verify(t);
 
     return (tp_is_lava(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_teleport (thingp t)
-{
-    verify(t);
-
-    return (tp_is_teleport(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_cobweb (thingp t)
-{
-    verify(t);
-
-    return (tp_is_cobweb(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_ethereal (thingp t)
@@ -1290,137 +1069,11 @@ static inline uint8_t thing_is_awake (thingp t)
     return (!t->is_sleeping);
 }
 
-static inline uint8_t thing_is_bomb (thingp t)
-{
-    verify(t);
-
-    return (tp_is_bomb(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_sawblade (thingp t)
-{
-    verify(t);
-
-    return (tp_is_sawblade(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_visible_on_debug_only (thingp t)
-{
-    verify(t);
-
-    return (tp_is_visible_on_debug_only(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action_sleep (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action_sleep(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action_zap (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action_zap(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action_trigger (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action_trigger(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action_trigger_on_wall (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action_trigger_on_wall(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action_trigger_on_hero (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action_trigger_on_hero(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action_trigger_on_monst (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action_trigger_on_monst(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action_down (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action_down(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action_up (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action_up(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action_left (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action_left(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_action_right (thingp t)
-{
-    verify(t);
-
-    return (tp_is_action_right(thing_tp(t)));
-}
-
 static inline uint8_t thing_can_walk_through (thingp t)
 {
     verify(t);
 
     return (tp_can_walk_through(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_weapon_carry_anim (thingp t)
-{
-    verify(t);
-
-    return (tp_is_weapon_carry_anim(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_animated_only_when_moving (thingp t)
-{
-    verify(t);
-
-    return (tp_is_animated_only_when_moving(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_warm_blooded (thingp t)
-{
-    verify(t);
-
-    return (tp_is_warm_blooded(thing_tp(t)));
-}
-
-static inline uint8_t thing_can_be_enchanted (thingp t)
-{
-    verify(t);
-
-    return (tp_can_be_enchanted(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_stackable (thingp t)
@@ -1442,13 +1095,6 @@ static inline uint8_t thing_is_explosion (thingp t)
     verify(t);
 
     return (tp_is_explosion(thing_tp(t)));
-}
-
-static inline uint8_t thing_is_hidden_from_editor (thingp t)
-{
-    verify(t);
-
-    return (tp_is_hidden_from_editor(thing_tp(t)));
 }
 
 static inline uint8_t thing_is_animated (thingp t)
@@ -1519,10 +1165,6 @@ static inline tpp thing_weapon (const thingp t)
 /*
  * thing_move.c
  */
-int thing_fall(levelp, thingp);
-int thing_slide(levelp, thingp);
-int thing_jump(levelp, thingp);
-thingp things_throw(levelp level, thingp t);
 void thing_move_set_dir(levelp,
                         thingp t,
                         double *x,
@@ -1531,11 +1173,6 @@ void thing_move_set_dir(levelp,
                         uint8_t down,
                         uint8_t left,
                         uint8_t right);
-int things_handle_impact(levelp,
-                         const thingp A, 
-                         double nx,
-                         double ny,
-                         const thingp B);
 
 /*
  * thing.c
@@ -1573,40 +1210,6 @@ void thing_wid_move(levelp level,
 void thing_effect(thingp t, int effect);
 
 /*
- * thing_item.c
- */
-void thing_auto_collect(levelp, thingp t, thingp it, tpp tp);
-void thing_item_collect(levelp, thingp t, thingp it, tpp tp);
-void thing_used(levelp, thingp t, tpp tp);
-void thing_drop(levelp, thingp t, tpp tp);
-int thing_wear_out(levelp, thingp t, tpp tp);
-void thing_item_destroyed(levelp, thingp t, tpp tp);
-void thing_wield_next_weapon(levelp, thingp t);
-
-/*
- * thing_collision.c
- */
-void 
-thingp_get_interpolated_position(const thingp t, double *x, double *y);
-
-int circle_box_collision(levelp,
-                         thingp C, 
-                         double bx,
-                         double by,
-                         thingp B,
-                         double cx,
-                         double cy,
-                         fpoint *normal,
-                         fpoint *intersect,
-                         int check_only);
-
-int circle_circle_collision(thingp A, 
-                            thingp B,
-                            double nx,
-                            double ny,
-                            fpoint *intersect);
-
-/*
  * thing_place.c
  */
 widp thing_place(levelp, thingp t, tpp tp);
@@ -1618,29 +1221,6 @@ widp thing_place_behind_or_under(levelp, thingp t, tpp tp);
  */
 void thing_dir(thingp t, double *dx, double *dy);
 int thing_angle_to_dir(double dx, double dy);
-
-/*
- * thing_weapon.c
- */
-void thing_unwield(levelp, thingp t, const char *why);
-void thing_sheath(levelp, thingp t);
-void thing_swing(levelp, thingp t);
-void thing_wield(levelp, thingp t, tpp tp);
-void thing_weapon_sheath(levelp, thingp t);
-void thing_weapon_swing_offset(levelp, thingp t, 
-                               double *dx, double *dy);
-thingp thing_weapon_carry_anim(levelp, thingp t);
-thingp thing_weapon_swing_anim(levelp, thingp t);
-void thing_set_weapon_placement(levelp, thingp t);
-widp thing_get_weapon_carry_anim_wid(levelp, thingp t);
-void thing_set_weapon_carry_anim_id(levelp, thingp t, 
-                                    uint32_t weapon_carry_anim_id);
-void thing_set_weapon_carry_anim(levelp, thingp t, 
-                                 thingp weapon_carry_anim);
-void thing_set_weapon_swing_anim_id(levelp, thingp t, 
-                                    uint32_t weapon_swing_anim_id);
-void thing_set_weapon_swing_anim(levelp, thingp t, 
-                                 thingp weapon_swing_anim);
 
 /*
  * thing_explosion.c
@@ -1684,70 +1264,6 @@ void level_place_flames(levelp level,
 void level_place_blood_crit(levelp level, 
                             thingp owner,
                             double x, double y);
-
-/*
- * thing_northern_settlement.c
- */
-void level_place_northern_settlement(levelp level,
-                         thingp owner,
-                         double x, double y);
-void thing_northern_settlement_placed(levelp level, thingp t);
-
-/*
- * thing_bomb.c
- */
-thingp thing_place_bomb(levelp level, 
-                        thingp owner,
-                        double x, double y);
-void thing_collect_bomb(levelp level, 
-                         thingp owner,
-                         thingp it);
-/*
- * thing_torch.c
- */
-void thing_torch_update_count(levelp, thingp t, int force);
-
-thingp thing_place_torch(levelp level, 
-                         thingp owner,
-                         double x, double y);
-void thing_collect_torch(levelp level, 
-                         thingp owner,
-                         thingp it);
-
-/*
- * thing_rope.c
- */
-thingp thing_place_mountain(levelp level, 
-                           thingp owner,
-                           double x, double y);
-thingp thing_place_rope(levelp level, 
-                        thingp owner,
-                        double x, double y);
-void thing_collect_rope(levelp level, 
-                        thingp owner,
-                        thingp it);
-/*
- * thing_key.c
- */
-void thing_use_key(levelp level, 
-                   thingp owner,
-                   double x, double y);
-void thing_collect_key(levelp level, 
-                        thingp owner,
-                        thingp it);
-/*
- * thing_collect.c
- */
-void thing_collect(levelp level, 
-                   thingp owner,
-                   thingp it);
-
-/*
- * thing_collision.c
- */
-int thing_handle_collisions(levelp, thingp t);
-void thing_to_coords(thingp t, fpoint *P0, fpoint *P1, fpoint *P2, fpoint *P3);
-
 /*
  * thing_fire.c
  */
@@ -1759,48 +1275,6 @@ void thing_fire(levelp,
                 const uint8_t down,
                 const uint8_t left,
                 const uint8_t right);
-/*
- * thing_damage.c
- */
-int32_t thing_stats_get_total_damage(thingp t);
-
-/*
- * thing_speed.c
- */
-double thing_stats_get_total_speed(thingp t);
-
-/*
- * thing_damage.c
- */
-int32_t thing_stats_get_total_damage_minus_defense(thingp t, 
-                                                   thingp hitter, 
-                                                   int32_t damage);
-
-/*
- * thing_vision.c
- */
-double thing_stats_get_total_vision(thingp t, double vision);
-void level_place_light(levelp level, double x, double y);
-
-/*
- * thing_health.c
- */
-void thing_health_tick(levelp, thingp t);
-
-/*
- * thing_score.c
- */
-void thing_modify_score(thingp t, int val);
-
-/*
- * thing_teleport.c
- */
-void thing_reached_teleport(levelp, thingp t, thingp teleport);
-
-/*
- * thing_exit.c
- */
-void thing_reached_exit(levelp, thingp t);
 
 /*
  * round the thing coords and find out what floor tile we are really on.
@@ -1830,7 +1304,6 @@ static inline void real_to_map (double ix, double iy, double *x, double *y)
 void thing_effect_hit_miss(levelp, thingp t);
 void thing_effect_hit_success(levelp, thingp t);
 void thing_effect_flames(levelp, thingp t);
-void thing_effect_northern_settlement(levelp, thingp t);
 void thing_effect_hit_crit(levelp, thingp t);
 void thing_effect_power_up(levelp, thingp t);
 
@@ -1843,7 +1316,6 @@ void thing_effect_power_up(levelp, thingp t);
 
 #define FOR_ALL_THINGS_END } }
 
-
 static inline uint32_t thing_id (thingp t)
 {
     verify(t);
@@ -1855,31 +1327,3 @@ static inline int thing_is_stationary (thingp t)
 {
     return (!thing_can_roll(t));
 }
-
-static inline fpoint thing_velocity (thingp t)
-{
-    fpoint v;
-
-    v.x = t->momentum;                    
-    v.y = t->fall_speed;
-
-    return (v);
-}
-
-static void inline thing_set_velocity (thingp t, double x, double y)
-{
-    if (thing_is_stationary(t)) {
-        return;
-    }
-
-    t->momentum = x;
-    t->fall_speed = y;
-}
-
-#define THING_FALL_SPEED_CLING_ONTO_WALLS   0.2
-#define THING_FALL_SPEED_TOO_FAST           0.45
-#define THING_FALL_SPEED_GRAVITY            0.012
-#define THING_FALL_SPEED_HIT_MONST          0.024
-#define THING_FALL_SPEED_HIT_SPIKES         0.1
-#define THING_FALL_SPEED_BOULDER_HURTS      0.05
-#define THING_PUSH_SPEED_OBJ                0.1

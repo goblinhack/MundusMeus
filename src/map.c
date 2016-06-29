@@ -231,11 +231,6 @@ uint8_t map_is_non_explosive_gas_cloud_at (levelp level, int32_t x, int32_t y)
     return (map_is_x_at(level, x, y, tp_is_non_explosive_gas_cloud));
 }
 
-uint8_t map_is_item_unusable_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_item_unusable));
-}
-
 uint8_t map_is_door_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at(level, x, y, tp_is_door));
@@ -259,16 +254,6 @@ uint8_t map_is_water_at (levelp level, int32_t x, int32_t y)
 uint8_t map_is_lava_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at(level, x, y, tp_is_lava));
-}
-
-uint8_t map_is_teleport_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_teleport));
-}
-
-uint8_t map_is_cobweb_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_cobweb));
 }
 
 uint8_t map_is_ethereal_at (levelp level, int32_t x, int32_t y)
@@ -311,79 +296,9 @@ uint8_t map_is_sleeping_at (levelp level, int32_t x, int32_t y)
     return (map_is_x_at(level, x, y, tp_is_sleeping));
 }
 
-uint8_t map_is_bomb_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_bomb));
-}
-
-uint8_t map_is_sawblade_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_sawblade));
-}
-
-uint8_t map_is_visible_on_debug_only_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_visible_on_debug_only));
-}
-
-uint8_t map_is_action_zap_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_action_zap));
-}
-
-uint8_t map_is_action_sleep_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_action_sleep));
-}
-
-uint8_t map_is_action_trigger_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_action_trigger));
-}
-
-uint8_t map_is_action_down_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_action_down));
-}
-
-uint8_t map_is_action_up_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_action_up));
-}
-
-uint8_t map_is_action_left_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_action_left));
-}
-
-uint8_t map_is_action_right_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_action_right));
-}
-
 uint8_t map_can_walk_through_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at(level, x, y, tp_can_walk_through));
-}
-
-uint8_t map_is_weapon_carry_anim_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_weapon_carry_anim));
-}
-
-uint8_t map_is_animated_only_when_moving_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_animated_only_when_moving));
-}
-
-uint8_t map_is_warm_blooded_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_warm_blooded));
-}
-
-uint8_t map_can_be_enchanted_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_can_be_enchanted));
 }
 
 uint8_t map_is_stackable_at (levelp level, int32_t x, int32_t y)
@@ -399,11 +314,6 @@ uint8_t map_is_torch_at (levelp level, int32_t x, int32_t y)
 uint8_t map_is_explosion_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at(level, x, y, tp_is_explosion));
-}
-
-uint8_t map_is_hidden_from_editor_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_is_x_at(level, x, y, tp_is_hidden_from_editor));
 }
 
 uint8_t map_is_animated_at (levelp level, int32_t x, int32_t y)
@@ -573,11 +483,6 @@ thingp map_thing_is_non_explosive_gas_cloud_at (levelp level, int32_t x, int32_t
     return (map_thing_is_x_at(level, x, y, tp_is_non_explosive_gas_cloud));
 }
 
-thingp map_thing_is_item_unusable_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_item_unusable));
-}
-
 thingp map_thing_is_door_at (levelp level, int32_t x, int32_t y)
 {
     return (map_thing_is_x_at(level, x, y, tp_is_door));
@@ -596,16 +501,6 @@ thingp map_thing_is_acid_at (levelp level, int32_t x, int32_t y)
 thingp map_thing_is_lava_at (levelp level, int32_t x, int32_t y)
 {
     return (map_thing_is_x_at(level, x, y, tp_is_lava));
-}
-
-thingp map_thing_is_teleport_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_teleport));
-}
-
-thingp map_thing_is_cobweb_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_cobweb));
 }
 
 thingp map_thing_is_ethereal_at (levelp level, int32_t x, int32_t y)
@@ -648,79 +543,9 @@ thingp map_thing_is_sleeping_at (levelp level, int32_t x, int32_t y)
     return (map_thing_is_x_at(level, x, y, tp_is_sleeping));
 }
 
-thingp map_thing_is_bomb_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_bomb));
-}
-
-thingp map_thing_is_sawblade_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_sawblade));
-}
-
-thingp map_thing_is_visible_on_debug_only_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_visible_on_debug_only));
-}
-
-thingp map_thing_is_action_zap_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_action_zap));
-}
-
-thingp map_thing_is_action_sleep_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_action_sleep));
-}
-
-thingp map_thing_is_action_trigger_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_action_trigger));
-}
-
-thingp map_thing_is_action_down_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_action_down));
-}
-
-thingp map_thing_is_action_up_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_action_up));
-}
-
-thingp map_thing_is_action_left_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_action_left));
-}
-
-thingp map_thing_is_action_right_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_action_right));
-}
-
 thingp map_thing_can_walk_through_at (levelp level, int32_t x, int32_t y)
 {
     return (map_thing_is_x_at(level, x, y, tp_can_walk_through));
-}
-
-thingp map_thing_is_weapon_carry_anim_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_weapon_carry_anim));
-}
-
-thingp map_thing_is_animated_only_when_moving_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_animated_only_when_moving));
-}
-
-thingp map_thing_is_warm_blooded_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_warm_blooded));
-}
-
-thingp map_thing_can_be_enchanted_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_can_be_enchanted));
 }
 
 thingp map_thing_is_stackable_at (levelp level, int32_t x, int32_t y)
@@ -736,11 +561,6 @@ thingp map_thing_is_torch_at (levelp level, int32_t x, int32_t y)
 thingp map_thing_is_explosion_at (levelp level, int32_t x, int32_t y)
 {
     return (map_thing_is_x_at(level, x, y, tp_is_explosion));
-}
-
-thingp map_thing_is_hidden_from_editor_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_thing_is_x_at(level, x, y, tp_is_hidden_from_editor));
 }
 
 thingp map_thing_is_animated_at (levelp level, int32_t x, int32_t y)
@@ -926,11 +746,6 @@ tree_rootp map_all_things_is_non_explosive_gas_cloud_at (levelp level, int32_t x
     return (map_all_things_is_x_at(level, x, y, tp_is_non_explosive_gas_cloud));
 }
 
-tree_rootp map_all_things_is_item_unusable_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_item_unusable));
-}
-
 tree_rootp map_all_things_is_door_at (levelp level, int32_t x, int32_t y)
 {
     return (map_all_things_is_x_at(level, x, y, tp_is_door));
@@ -949,16 +764,6 @@ tree_rootp map_all_things_is_acid_at (levelp level, int32_t x, int32_t y)
 tree_rootp map_all_things_is_lava_at (levelp level, int32_t x, int32_t y)
 {
     return (map_all_things_is_x_at(level, x, y, tp_is_lava));
-}
-
-tree_rootp map_all_things_is_teleport_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_teleport));
-}
-
-tree_rootp map_all_things_is_cobweb_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_cobweb));
 }
 
 tree_rootp map_all_things_is_ethereal_at (levelp level, int32_t x, int32_t y)
@@ -1001,81 +806,6 @@ tree_rootp map_all_things_is_sleeping_at (levelp level, int32_t x, int32_t y)
     return (map_all_things_is_x_at(level, x, y, tp_is_sleeping));
 }
 
-tree_rootp map_all_things_is_bomb_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_bomb));
-}
-
-tree_rootp map_all_things_is_sawblade_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_sawblade));
-}
-
-tree_rootp map_all_things_is_visible_on_debug_only_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_visible_on_debug_only));
-}
-
-tree_rootp map_all_things_is_action_sleep_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_action_sleep));
-}
-
-tree_rootp map_all_things_is_action_zap_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_action_zap));
-}
-
-tree_rootp map_all_things_is_action_trigger_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_action_trigger));
-}
-
-tree_rootp map_all_things_is_action_down_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_action_down));
-}
-
-tree_rootp map_all_things_is_action_up_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_action_up));
-}
-
-tree_rootp map_all_things_is_action_left_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_action_left));
-}
-
-tree_rootp map_all_things_is_action_right_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_action_right));
-}
-
-tree_rootp map_all_things_can_walk_through_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_can_walk_through));
-}
-
-tree_rootp map_all_things_is_weapon_carry_anim_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_weapon_carry_anim));
-}
-
-tree_rootp map_all_things_is_animated_only_when_moving_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_animated_only_when_moving));
-}
-
-tree_rootp map_all_things_is_warm_blooded_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_warm_blooded));
-}
-
-tree_rootp map_all_things_can_be_enchanted_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_can_be_enchanted));
-}
-
 tree_rootp map_all_things_is_stackable_at (levelp level, int32_t x, int32_t y)
 {
     return (map_all_things_is_x_at(level, x, y, tp_is_stackable));
@@ -1089,11 +819,6 @@ tree_rootp map_all_things_is_torch_at (levelp level, int32_t x, int32_t y)
 tree_rootp map_all_things_is_explosion_at (levelp level, int32_t x, int32_t y)
 {
     return (map_all_things_is_x_at(level, x, y, tp_is_explosion));
-}
-
-tree_rootp map_all_things_is_hidden_from_editor_at (levelp level, int32_t x, int32_t y)
-{
-    return (map_all_things_is_x_at(level, x, y, tp_is_hidden_from_editor));
 }
 
 tree_rootp map_all_things_is_animated_at (levelp level, int32_t x, int32_t y)
@@ -1185,16 +910,6 @@ tpp map_find_deco_at (levelp level, int32_t x, int32_t y, widp *w)
     return (map_find_x_at(level, x, y, tp_is_deco, w));
 }
 
-tpp map_find_ladder_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_ladder, w));
-}
-
-tpp map_find_ladder_deco_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_ladder_deco, w));
-}
-
 tpp map_find_rock_at (levelp level, int32_t x, int32_t y, widp *w)
 {
     return (map_find_x_at(level, x, y, tp_is_rock, w));
@@ -1240,29 +955,9 @@ tpp map_find_candle_light_at (levelp level, int32_t x, int32_t y, widp *w)
     return (map_find_x_at(level, x, y, tp_is_candle_light, w));
 }
 
-tpp map_find_star_green_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_cats_eyes, w));
-}
-
-tpp map_find_star_cyan_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_fire, w));
-}
-
 tpp map_find_explosion_at (levelp level, int32_t x, int32_t y, widp *w)
 {
     return (map_find_x_at(level, x, y, tp_is_animation, w));
-}
-
-tpp map_find_spikes_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_non_explosive_gas_cloud, w));
-}
-
-tpp map_find_is_item_unusable_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_item_unusable, w));
 }
 
 tpp map_find_door_at (levelp level, int32_t x, int32_t y, widp *w)
@@ -1288,16 +983,6 @@ tpp map_find_lava_at (levelp level, int32_t x, int32_t y, widp *w)
 tpp map_find_water_at (levelp level, int32_t x, int32_t y, widp *w)
 {
     return (map_find_x_at(level, x, y, tp_is_water, w));
-}
-
-tpp map_find_teleport_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_teleport, w));
-}
-
-tpp map_find_cobweb_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_cobweb, w));
 }
 
 tpp map_find_ethereal_at (levelp level, int32_t x, int32_t y, widp *w)
@@ -1340,69 +1025,9 @@ tpp map_find_sleeping_at (levelp level, int32_t x, int32_t y, widp *w)
     return (map_find_x_at(level, x, y, tp_is_sleeping, w));
 }
 
-tpp map_find_bomb_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_bomb, w));
-}
-
-tpp map_find_saw_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_sawblade, w));
-}
-
-tpp map_find_visible_on_debug_only_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_visible_on_debug_only, w));
-}
-
-tpp map_find_action_zap_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_action_zap, w));
-}
-
-tpp map_find_action_sleep_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_action_sleep, w));
-}
-
-tpp map_find_action_trigger_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_action_trigger, w));
-}
-
-tpp map_find_action_down_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_action_down, w));
-}
-
-tpp map_find_action_up_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_action_up, w));
-}
-
-tpp map_find_action_left_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_action_left, w));
-}
-
-tpp map_find_action_right_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_action_right, w));
-}
-
 tpp map_find_can_walk_through_at (levelp level, int32_t x, int32_t y, widp *w)
 {
     return (map_find_x_at(level, x, y, tp_can_walk_through, w));
-}
-
-tpp map_find_weapon_carry_anim_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_weapon_carry_anim, w));
-}
-
-tpp map_find_animate_only_when_moving_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_animated_only_when_moving, w));
 }
 
 tpp map_find_torch_at (levelp level, int32_t x, int32_t y, widp *w)
@@ -1413,11 +1038,6 @@ tpp map_find_torch_at (levelp level, int32_t x, int32_t y, widp *w)
 tpp map_find_is_explosion_at (levelp level, int32_t x, int32_t y, widp *w)
 {
     return (map_find_x_at(level, x, y, tp_is_explosion, w));
-}
-
-tpp map_find_hidden_from_editor_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_hidden_from_editor, w));
 }
 
 tpp map_find_is_projectile_at (levelp level, int32_t x, int32_t y, widp *w)
@@ -1713,272 +1333,9 @@ if (level != level)
 #endif
 }
 
-static void map_place_deco_ (levelp level, 
-                             double x, 
-                             double y, 
-                             tpp tp,
-                             int index)
-{
-    char name[MAXSTR];
-    int corner = 0;
-    tilep tile;
-
-    snprintf(name, sizeof(name) - 1, "%s_deco", tp_raw_name(tp));
-
-    tpp tp_deco = tp_find(name);
-    if (!tp_deco) {
-        DIE("no deco tile tp for %s at %f,%f", tp_name(tp), x, y);
-        return;
-    }
-
-    if (tp_is_wall(tp)) {
-        double delta = 0.50;
-
-        switch (index) {
-            case IS_JOIN_TOP:
-                y += delta;
-                break;
-
-            case IS_JOIN_BOT:
-                y -= delta;
-                break;
-
-            case IS_JOIN_LEFT:
-                x += delta;
-                break;
-
-            case IS_JOIN_RIGHT:
-                x -= delta;
-                break;
-
-            case IS_JOIN_TL:
-                x += delta;
-                y += delta;
-                corner = 1;
-                break;
-
-            case IS_JOIN_TR:
-                x -= delta;
-                y += delta;
-                corner = 1;
-                break;
-
-            case IS_JOIN_BL:
-                x += delta;
-                y -= delta;
-                corner = 1;
-                break;
-
-            case IS_JOIN_BR:
-                x -= delta;
-                y -= delta;
-                corner = 1;
-                break;
-        }
-    }
-
-    widp w = wid_game_map_replace_tile(level,
-                                       x,
-                                       y,
-                                       0, /* thing */
-                                       tp_deco,
-                                       0 /* tpp data */);
-
-    int n = x + y;
-
-    thing_tilep thing_tile = thing_tile_find_n(tp_deco, index, &tile, n);
-    if (!thing_tile) {
-        ERR("no deco thing_tile for %s", name);
-        return;
-    }
-
-    if (!tile) {
-        ERR("no deco tile for %s", name);
-        return;
-    }
-
-    const char *tilename = thing_tile_name(thing_tile);
-
-    if (!tilename) {
-        ERR("no deco tilename for %s", name);
-        return;
-    }
-
-    wid_set_tilename(w, tilename);
-
-    if (corner) {
-        wid_set_z_depth(w, MAP_DEPTH_DECO2);
-    }
-}
-
-static void map_place_deco (levelp level, 
-                                 int x, 
-                                 int y, 
-                                 int dx, 
-                                 int dy,
-                                 int index)
-{
-    tpp tp;
-
-    if (x + dx < 0) {
-        return;
-    }
-    if (y + dy < 0) {
-        return;
-    }
-    if (x + dx >= MAP_WIDTH) {
-        return;
-    }
-    if (y + dy >= MAP_HEIGHT) {
-        return;
-    }
-
-    if ((tp = map_find_wall_at(level, x, y, 0)) &&
-        !map_find_wall_at(level, x + dx, y + dy, 0)) {
-        map_place_deco_(level, x + dx, y + dy, tp, index);
-    }
-}
-
-static void map_place_ladder_deco (levelp level, 
-                                   int x, 
-                                   int y, 
-                                   int dx, 
-                                   int dy,
-                                   int index)
-{
-    tpp tp;
-
-    if (x + dx < 0) {
-        return;
-    }
-    if (y + dy < 0) {
-        return;
-    }
-    if (x + dx >= MAP_WIDTH) {
-        return;
-    }
-    if (y + dy >= MAP_HEIGHT) {
-        return;
-    }
-
-    if ((tp = map_find_ladder_at(level, x, y, 0)) &&
-        !map_find_ladder_at(level, x + dx, y + dy, 0)) {
-        map_place_deco_(level, x + dx, y + dy, tp, index);
-    }
-}
-
-#if 0
-static void map_place_deco_edge (levelp level, 
-                            int x, 
-                            int y, 
-                            int dx, 
-                            int dy,
-                            int index)
-{
-    tpp tp;
-
-    if (x + dx < 0) {
-        return;
-    }
-    if (y + dy < 0) {
-        return;
-    }
-    if (x + dx >= MAP_WIDTH) {
-        return;
-    }
-    if (y + dy >= MAP_HEIGHT) {
-        return;
-    }
-
-    if ((tp = map_find_wall_at(level, x, y, 0)) &&
-        !map_find_wall_at(level, x + dx, y + dy, 0) &&
-        !map_find_deco_at(level, x + dx, y + dy, 0)) {
-    }
-}
-#endif
-
-static void map_fixup2 (levelp level)
-{
-    int32_t x;
-    int32_t y;
-
-    /*
-     * Clean out old wall decorations
-     */
-    for (y = 0; y < MAP_HEIGHT; y++) {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            widp w = 0;
-
-            while (map_find_deco_at(level, x, y, &w)) {
-                thing_destroy(level, wid_get_thing(w), __FUNCTION__);
-            }
-
-            while (map_find_ladder_deco_at(level, x, y, &w)) {
-                thing_destroy(level, wid_get_thing(w), __FUNCTION__);
-            }
-        }
-    }
-
-    for (y = 0; y < MAP_HEIGHT; y++) {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            widp w = 0;
-
-            if (map_find_deco_at(level, x, y, &w)) {
-                DIE("could not erase wall deco");
-            }
-
-            if (map_find_ladder_deco_at(level, x, y, &w)) {
-                DIE("could not erase ladder deco");
-            }
-        }
-    }
-
-    for (y = 0; y < MAP_HEIGHT; y++) {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            map_place_ladder_deco(level, x, y,  0, -1, IS_JOIN_TOP);
-
-            map_place_deco(level, x, y,  0, -1, IS_JOIN_TOP);
-            map_place_deco(level, x, y,  0,  1, IS_JOIN_BOT);
-            map_place_deco(level, x, y, -1,  0, IS_JOIN_LEFT);
-            map_place_deco(level, x, y,  1,  0, IS_JOIN_RIGHT);
-
-            tpp tp;
-
-            if ((x < MAP_WIDTH - 1) && (y > 0)) {
-                if ((tp = map_find_wall_at(level, x, y, 0)) &&
-                    !map_find_wall_at(level, x + 1, y - 1, 0)) {
-                    map_place_deco_(level, x + 1, y - 1, tp, IS_JOIN_TR);
-                }
-            }
-
-            if ((x > 0) && (y > 0)) {
-                if ((tp = map_find_wall_at(level, x, y, 0)) &&
-                    !map_find_wall_at(level, x - 1, y - 1, 0)) {
-                    map_place_deco_(level, x - 1, y - 1, tp, IS_JOIN_TL);
-                }
-            }
-
-            if ((x < MAP_WIDTH - 1) && (y < MAP_HEIGHT - 1)) {
-                if ((tp = map_find_wall_at(level, x, y, 0)) &&
-                    !map_find_wall_at(level, x + 1, y + 1, 0)) {
-                    map_place_deco_(level, x + 1, y + 1, tp, IS_JOIN_BR);
-                }
-            }
-
-            if ((x > 0) && (y < MAP_HEIGHT - 1)) {
-                if ((tp = map_find_wall_at(level, x, y, 0)) &&
-                    !map_find_wall_at(level, x - 1, y + 1, 0)) {
-                    map_place_deco_(level, x - 1, y + 1, tp, IS_JOIN_BL);
-                }
-            }
-        }
-    }
-}
-
 void map_fixup (levelp level)
 {
     map_fixup1(level);
-    map_fixup2(level);
 }
 
 static tree_rootp map_all_things_is_x (levelp level,
@@ -2135,11 +1492,6 @@ tree_rootp map_all_things_is_non_explosive_gas_cloud (levelp level)
     return (map_all_things_is_x(level, tp_is_non_explosive_gas_cloud));
 }
 
-tree_rootp map_all_things_is_item_unusable (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_item_unusable));
-}
-
 tree_rootp map_all_things_is_door (levelp level)
 {
     return (map_all_things_is_x(level, tp_is_door));
@@ -2163,16 +1515,6 @@ tree_rootp map_all_things_is_lava (levelp level)
 tree_rootp map_all_things_is_water (levelp level)
 {
     return (map_all_things_is_x(level, tp_is_water));
-}
-
-tree_rootp map_all_things_is_teleport (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_teleport));
-}
-
-tree_rootp map_all_things_is_cobweb (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_cobweb));
 }
 
 tree_rootp map_all_things_is_ethereal (levelp level)
@@ -2215,79 +1557,9 @@ tree_rootp map_all_things_is_sleeping (levelp level)
     return (map_all_things_is_x(level, tp_is_sleeping));
 }
 
-tree_rootp map_all_things_is_bomb (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_bomb));
-}
-
-tree_rootp map_all_things_is_sawblade (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_sawblade));
-}
-
-tree_rootp map_all_things_is_visible_on_debug_only (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_visible_on_debug_only));
-}
-
-tree_rootp map_all_things_is_action_zap (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_action_zap));
-}
-
-tree_rootp map_all_things_is_action_sleep (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_action_sleep));
-}
-
-tree_rootp map_all_things_is_action_trigger (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_action_trigger));
-}
-
-tree_rootp map_all_things_is_action_down (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_action_down));
-}
-
-tree_rootp map_all_things_is_action_up (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_action_up));
-}
-
-tree_rootp map_all_things_is_action_left (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_action_left));
-}
-
-tree_rootp map_all_things_is_action_right (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_action_right));
-}
-
 tree_rootp map_all_things_can_walk_through (levelp level)
 {
     return (map_all_things_is_x(level, tp_can_walk_through));
-}
-
-tree_rootp map_all_things_is_weapon_carry_anim (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_weapon_carry_anim));
-}
-
-tree_rootp map_all_things_is_animated_only_when_moving (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_animated_only_when_moving));
-}
-
-tree_rootp map_all_things_is_warm_blooded (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_warm_blooded));
-}
-
-tree_rootp map_all_things_can_be_enchanted (levelp level)
-{
-    return (map_all_things_is_x(level, tp_can_be_enchanted));
 }
 
 tree_rootp map_all_things_is_stackable (levelp level)
@@ -2303,11 +1575,6 @@ tree_rootp map_all_things_is_torch (levelp level)
 tree_rootp map_all_things_is_explosion (levelp level)
 {
     return (map_all_things_is_x(level, tp_is_explosion));
-}
-
-tree_rootp map_all_things_is_hidden_from_editor (levelp level)
-{
-    return (map_all_things_is_x(level, tp_is_hidden_from_editor));
 }
 
 tree_rootp map_all_things_is_animated (levelp level)

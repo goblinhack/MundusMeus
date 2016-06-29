@@ -485,31 +485,6 @@ return;
 #endif
 }
 
-static void level_place_small_rocks (levelp level, 
-                                     thingp t,
-                                     double x, 
-                                     double y,
-                                     double radius,
-                                     int amount)
-{
-    while (amount--) {
-        double px = gauss(x, radius);
-        double py = y - gauss(1, radius);
-
-        wid_game_map_replace_tile(level, px, py,
-                                  0, /* thing */
-                                  tp_find("sea1"),
-                                  0 /* tpp_data */);
-    }
-}
-
 void thing_explosion_placed (levelp level, thingp t)
 {
-    level_place_small_rocks(level, t,
-                            t->x, t->y,
-                            2.05, // radius
-                            5 // amount
-                        );
-
-    things_throw(level, t);
 }

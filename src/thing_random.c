@@ -119,37 +119,6 @@ tpp random_obstacle (void)
     return (0);
 }
 
-tpp random_spikes (void)
-{
-    int any = false;
-    int loop = 0;
-
-    for (;;) {
-
-        if (loop++ > 1000) {
-            any = true;
-        }
-
-        uint32_t id = myrand() % TP_MAX_ID;
-
-        tpp tp = id_to_tp(id);
-        if (!tp) {
-            continue;
-        }
-
-        if (tp_is_spikes(tp)) {
-            if (any) {
-                return (tp);
-            }
-
-            int r =  myrand() % 10000;
-            if (r < tp_get_d10000_chance_of_appearing(tp)) {
-                return (tp);
-            }
-        }
-    }
-}
-
 tpp random_floor (void)
 {
     for (;;) {
