@@ -81,7 +81,7 @@ levelp level_reinit (uint32_t level_no,
     level->last_torch = time_get_time_ms();
 
     if (!is_editor && !is_map_editor) {
-        wid_game_map_grid_create(level);
+        wid_game_map_grid_create();
     }
 
     if (level_no == TEST_LEVEL) {
