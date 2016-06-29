@@ -19,7 +19,6 @@
 #include "map.h"
 #include "timer.h"
 #include "sound.h"
-#include "map_jigsaw.h"
 #include "file.h"
 #include "color.h"
 

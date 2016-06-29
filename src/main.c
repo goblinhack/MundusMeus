@@ -35,7 +35,6 @@
 #include "init_fn.h"
 #include "ramdisk.h"
 #include "term.h"
-#include "map_jigsaw.h"
 #include "thing_template.h"
 #include "player.h"
 
@@ -77,7 +76,6 @@ void quit (void)
     player_fini();
     tp_fini();
     thing_fini();
-    map_jigsaw_fini();
 
     wid_console_fini();
     wid_intro_fini();

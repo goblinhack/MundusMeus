@@ -105,16 +105,8 @@ typedef struct level_t_ {
     /*
      * Being used in level editor.
      */
-    uint8_t is_editor:1;
-    uint8_t is_map_editor:1;
     uint8_t is_paused:1;
     uint8_t is_ready:1;
-
-    /*
-     * Usually level TEST_LEVEL
-     */
-    uint8_t is_test_level:1;
-
     uint8_t is_being_destroyed:1;
 
     uint8_t reached_exit:1;
