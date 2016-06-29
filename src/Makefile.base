@@ -24,7 +24,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/log.o 			\
     $(OBJDIR)/main.o 			\
     $(OBJDIR)/map.o 			\
-    $(OBJDIR)/map_jigsaw.o 		\
     $(OBJDIR)/math.o 			\
     $(OBJDIR)/music.o 			\
     $(OBJDIR)/pcg_basic.o 		\
@@ -90,7 +89,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/wid_console.o 		\
     $(OBJDIR)/wid_dead.o 		\
     $(OBJDIR)/wid_dirlist.o 		\
-    $(OBJDIR)/world_editor.o 		\
     $(OBJDIR)/wid_game_map.o 		\
     $(OBJDIR)/wid_game_over.o 		\
     $(OBJDIR)/wid_game_quit.o 		\

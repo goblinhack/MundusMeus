@@ -19,7 +19,6 @@
 #include "map.h"
 #include "timer.h"
 #include "sound.h"
-#include "map_jigsaw.h"
 #include "file.h"
 #include "map.h"
 #include "thing_shop.h"
@@ -28,22 +27,10 @@
 
 static uint8_t level_init_done;
 static uint8_t level_init_done;
-static void level_reset_player(levelp level);
 static void level_set_walls(levelp level);
 static void level_update_incremental(levelp level);
 
 uint8_t level_init (void)
-{
-    if (level_init_done) {
-        return (true);
-    }
-
-    level_init_done = true;
-
-    return (true);
-}
-
-static uint8_t level_side_one_time_init (void)
 {
     if (level_init_done) {
         return (true);
@@ -59,42 +46,6 @@ void level_fini (void)
     if (level_init_done) {
         level_init_done = false;
     }
-}
-
-levelp level_reinit (uint32_t level_no, 
-                     int is_editor, 
-                     int is_map_editor)
-{
-    levelp level;
-
-    level = &game.level;
-    newptr(level, "level");
-    LOG("Level allocated %p", level);
-
-    level->is_valid = true;
-
-    level->last_moved = 
-    level->last_hit_obstacle =
-    level->last_jumped =
-    level->last_bomb =
-    level->last_rope =
-    level->last_torch = time_get_time_ms();
-
-    if (!is_editor && !is_map_editor) {
-        wid_game_map_grid_create();
-    }
-
-    if (level_no == TEST_LEVEL) {
-        level->is_test_level = true;
-    }
-
-    level_set_level_no(level, level_no);
-    level_set_is_editor(level, is_editor);
-    level_set_is_map_editor(level, is_map_editor);
-
-    LEVEL_LOG(level, "Reset fresh level %d", level_no);
-
-    return (level);
 }
 
 void level_destroy (levelp *plevel, uint8_t keep_player)
@@ -249,169 +200,6 @@ static void level_update_incremental (levelp level)
     map_fixup(level);
 }
 
-levelp level_load_new (int level_no)
-{
-    levelp level;
-    level = &game.level;
-
-    LOG("New level, %d", level_no);
-
-    char *tmp = dynprintf("%s%d", LEVELS_PATH, level_no);
-
-    /*
-     * Mostly random levels.
-     */
-    int fixed = false;
-
-    if (game.level_no == TEST_LEVEL) {
-        fixed = true;
-    }
-
-    int r = (myrand() % 100);
-    if ((r < 20) && file_exists(tmp)) {
-        fixed = true;
-    }
-
-    if (fixed) {
-        LOG("Level %s exists, create fixed level", tmp);
-
-        level = level_load(game.level_no,
-                           false /* is_editor */,
-                           false /* is_map_editor */);
-    } else {
-        LOG("Level %s does not exist, create random level", tmp);
-
-        level = level_load_random(game.level_no,
-                                  false /* is_editor */,
-                                  false /* is_map_editor */);
-    }
-
-    myfree(tmp);
-
-    LOG("New level, %d done loading", level_no);
-
-    if (!level) {
-        ERR("failed to load level %d", game.level_no);
-        return (0);
-    }
-
-    level_update_slow(level);
-
-    level->is_ready = true;
-
-    return (level);
-}
-
-/*
- * Routines done for both random and static levels.
- */
-static void level_loaded_common (levelp level)
-{
-    /*
-     * Activate any triggers that have no activators.
-     */
-    if (!level->is_editor && !level->is_map_editor) {
-        level_trigger_activate_default_triggers(level);
-    }
-}
-
-levelp level_load (uint32_t level_no, 
-                   int is_editor,
-                   int is_map_editor)
-{
-    levelp level;
-
-    level_side_one_time_init();
-
-    level = level_reinit(level_no, is_editor, is_map_editor);
-
-    level_set_tick_started(level, time_get_time_ms());
-
-    char *dir_and_file;
-
-    dir_and_file = dynprintf("%s%d", LEVELS_PATH, level_no);
-
-    if (!file_exists(dir_and_file)) {
-        myfree(dir_and_file);
-
-        dir_and_file = dynprintf("data/levels/%d", level_no);
-    }
-
-    int pass;
-    int max_pass;
-
-    if (level_is_map_editor(level) || 
-        level_is_editor(level)) {
-
-        max_pass = 1;
-
-        LEVEL_LOG(level, "Level %s: loading editor, max passes %d", 
-                  dir_and_file, max_pass);
-
-    } else {
-        /*
-         * Need 2 passes for levels being read into the game. First pass is 
-         * just to learn where the action triggers are for spawned things and 
-         * the like.
-         *
-         * Second pass creates the things.
-         */
-        max_pass = 2;
-
-        LEVEL_LOG(level, "Level %s: loading, max passes %d", dir_and_file,
-                  max_pass);
-    }
-
-    for (pass = 0; pass < max_pass; pass++) {
-        LEVEL_LOG(level, "Level %s: loading pass %d", dir_and_file, pass);
-    }
-
-    game.level_is_being_loaded = 0;
-
-    myfree(dir_and_file);
-
-    if (!level_is_map_editor(level) &&
-        !level_is_editor(level)) {
-        level_update_slow(level);
-    }
-
-    if (!level_is_map_editor(level) &&
-        !level_is_editor(level)) {
-        level_reset_player(level);
-    }
-
-    level_loaded_common(level);
-
-    return (level);
-}
-
-levelp level_load_random (uint32_t level_no, 
-                          int is_editor,
-                          int is_map_editor)
-{
-    levelp level;
-
-    level_side_one_time_init();
-
-    level = level_reinit(level_no, 
-                         is_editor, 
-                         is_map_editor);
-
-    level_set_tick_started(level, time_get_time_ms());
-
-    LEVEL_LOG(level, "Level generating");
-
-    map_jigsaw_generate(level, 0, wid_game_map_replace_tile);
-
-    level_update_slow(level);
-
-    level_reset_player(level);
-
-    level_loaded_common(level);
-
-    return (level);
-}
-
 const char *level_get_title (levelp level)
 {
     return (level->title);
@@ -525,38 +313,6 @@ static void level_set_walls (levelp level)
 }
 
 /*
- * New level; update player.
- */
-void level_reset_player (levelp level)
-{
-    thingp t;
-
-    /*
-     * Rewield weapons at start.
-     */
-    LEVEL_LOG(level, "Reset player at start of level");
-
-    FOR_ALL_THINGS(level, t) {
-        if (thing_is_player(t)) {
-            THING_LOG(t, "Reset player thing at start of level");
-
-            tpp weapon = thing_weapon(t);
-            if (weapon) {
-                THING_LOG(t, "Rewield weapon at start of level");
-
-                thing_wield(level, t, weapon);
-            }
-
-            /*
-             * Need this else we are in darkness at level start
-             */
-            thing_torch_update_count(level, t, true);
-        }
-    }
-    FOR_ALL_THINGS_END
-}
-
-/*
  * Clean up the level. It's over! the exit was reached and a delay passed to 
  * warn the other player.
  */
@@ -590,8 +346,6 @@ levelp level_finished (levelp level, int keep_player)
     wid_destroy_grid(game.wid_grid);
     wid_destroy(&game.wid_grid);
 
-    int next_level = level->level_no + 1;
-
     level_destroy(&level, keep_player);
 
     /*
@@ -605,58 +359,6 @@ levelp level_finished (levelp level, int keep_player)
     if (!keep_player) {
         return (0);
     }
-
-    /*
-     * Create the new level, random or otherwise.
-     */
-    level = level_load_new(next_level);
-
-    LEVEL_LOG(level, "Move player to new level");
-
-    /*
-     * Move player to the new level.
-     */
-    FOR_ALL_THINGS(level, t) {
-        if (!thing_is_player(t)) {
-            continue;
-        }
-
-        thing_map_remove(level, t);
-
-        wid_game_map_replace_tile(
-                level,
-                0, 0,
-                t,
-                thing_tp(t),
-                0 /* tpp_data */);
-
-        thing_join_level(level, t);
-
-        level_reset_player(level);
-    }
-    FOR_ALL_THINGS_END
-
-    level_update_slow(level);
-
-    sound_play_level_end();
-
-    /*
-     * To allow the player to be centered in the new level if it is a
-     * different size.
-     */
-    if (game.wid_grid &&
-        game.wid_grid->grid) {
-        game.wid_grid->grid->bounds_locked = 0;
-    }
-
-    /*
-     * Fluid code needs the level pointer.
-     */
-    game.wid_grid->level = level;
-
-    verify(player);
-
-    thing_move(level, player, player->x, player->y, false, false, false, false, false);
 
     return (level);
 }
@@ -719,31 +421,8 @@ void level_set_tick_started (levelp level, uint32_t val)
     level->tick_started = val;
 }
 
-uint8_t level_is_editor (levelp level)
-{
-    return (level->is_editor);
-}
-
-void level_set_is_editor (levelp level, uint8_t val)
-{
-    level->is_editor = val;
-}
-
-uint8_t level_is_map_editor (levelp level)
-{
-
-    return (level->is_map_editor);
-}
-
-void level_set_is_map_editor (levelp level, uint8_t val)
-{
-
-    level->is_map_editor = val;
-}
-
 uint8_t level_has_shop (levelp level)
 {
-
     return (level->has_shop > 0);
 }
 
