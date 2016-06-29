@@ -665,39 +665,12 @@ static uint8_t thing_try_nexthop (levelp level,
                                   const double *nexthop_x, 
                                   const double *nexthop_y)
 {
+    /*
     if (thing_hit_solid_obstacle(level, t,
                                  *nexthop_x, *nexthop_y)) {
         return (false);
     }
-
-    if (!thing_hit_fall_obstacle(level, t,
-                                 *nexthop_x, *nexthop_y + 1)) {
-        /*
-         * If the player is below us, try to drop down.
-         */
-        if (player && (player->y > t->y)) {
-            if (thing_hit_fall_obstacle(level, t,
-                                        *nexthop_x, *nexthop_y + 2)) {
-                /*
-                 * A small drop is ok
-                 */
-            } else {
-                if (thing_hit_fall_obstacle(level, t,
-                                            *nexthop_x, *nexthop_y + 3)) {
-                    /*
-                     * A small drop is ok
-                     */
-                } else {
-                    /*
-                     * Too large a drop.
-                     */
-                    return (false);
-                }
-            }
-        } else {
-            return (false);
-        }
-    }
+     */
 
     if (thing_move(level,
                    t, *nexthop_x, *nexthop_y,
@@ -731,10 +704,12 @@ static uint8_t thing_dmap_try_nexthop (levelp level,
     if (thing_find_nexthop_dmap(t, d, nexthop_x, nexthop_y)) {
 
         if (!can_change_dir_without_moving) {
+            /*
             if (thing_hit_solid_obstacle(level, t,
                                          *nexthop_x, *nexthop_y)) {
                 return (false);
             }
+             */
         }
 
         if (thing_move(level,
@@ -1040,15 +1015,7 @@ uint8_t thing_find_nexthop (levelp level,
      * Start out with treating doors as passable.
      */
     if (!t->dmap_id) {
-        if (thing_is_shopkeeper(t)) {
-            if (thing_is_angry(t)) {
-                t->dmap_id = DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_PASSABLE;
-            } else {
-                t->dmap_id = DMAP_MAP_NONE;
-            }
-        } else {
-            t->dmap_id = DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_PASSABLE;
-        }
+        t->dmap_id = DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_PASSABLE;
     }
 
     /*
@@ -1062,24 +1029,6 @@ uint8_t thing_find_nexthop (levelp level,
                                    nexthop_y,
                                    true /* can_change_dir_without_moving */)) {
             return (true);
-        }
-    }
-
-    /*
-     * Try the alternative map.
-     */
-    if (thing_is_shopkeeper(t)) {
-        /*
-         * Chase player only if angry.
-         */
-        if (thing_is_angry(t)) {
-            if (t->dmap_id == DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_PASSABLE) {
-                t->dmap_id = DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_WALLS;
-            } else {
-                t->dmap_id = DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_PASSABLE;
-            }
-        } else {
-            t->dmap_id = 0;
         }
     }
 
@@ -1115,8 +1064,6 @@ uint8_t thing_find_nexthop (levelp level,
     uint32_t y;
     uint32_t tries = 0;
 
-    thing_map_t *map = level_map(level);
-
     for (;;) {
         x = myrand() % MAP_WIDTH;
         y = myrand() % MAP_HEIGHT;
@@ -1132,58 +1079,6 @@ uint8_t thing_find_nexthop (levelp level,
         int cost_to_this_target = dmap_map_wander[x][y].walls[(int)t->x][(int)t->y];
         if (cost_to_this_target >= not_preferred) {
             continue;
-        }
-
-        thing_map_cell *cell = &map->cells[x][y];
-        int done = false;
-        uint32_t i;
-        for (i = 0; i < cell->count; i++) {
-            thingp it;
-            
-            it = id_to_thing(cell->id[i]);
-
-            if (thing_is_shopkeeper(t)) {
-                if (!thing_is_angry(t)) {
-                    /*
-                     * Not angry. Just wander the shop floor.
-                     */
-                    if (thing_is_shop_floor(it)) {
-                        done = true;
-                        break;
-                    }
-
-                    /*
-                     * Make sure we stay in the same shop.
-                     */
-                    if (DISTANCE(x, y, t->x, t->y) > 4.0) {
-                        continue;
-                    }
-
-                    /*
-                     * Keep looking for a shop floor.
-                     */
-                    continue;
-                } else {
-                    /*
-                     * Lost sight of the player. Hunting.
-                     */
-                    done = true;
-                    break;
-                }
-            } else {
-                /*
-                 * Monsters just wander anywhere.
-                 */
-                done = true;
-                break;
-            }
-
-            done = true;
-            break;
-        }
-
-        if (done) {
-            break;
         }
     }
 

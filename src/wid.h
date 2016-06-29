@@ -167,8 +167,7 @@ typedef widp (*level_replace_thing_t)(levelp,
                                    double x,
                                    double y,
                                    thingp, 
-                                   tpp, 
-                                   tpp_data);
+                                   tpp);
 
 /*
  * Client.

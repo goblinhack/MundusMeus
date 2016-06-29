@@ -15,7 +15,6 @@
 #include "music.h"
 #include "wid_game_quit.h"
 #include "wid_menu.h"
-#include "wid_game_over.h"
 
 static widp wid_gravestone;
 static widp wid_click_to_continue;
@@ -186,11 +185,6 @@ static void wid_dead_gravestone_appeared (void *context)
 static void wid_dead_create (const char *name, 
                              const char *reason)
 {
-    if (!strcasecmp(reason, "quest completed")) {
-        wid_game_over_visible();
-        return;
-    }
-
     if (sdl_is_exiting()) {
         return;
     }

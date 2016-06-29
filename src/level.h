@@ -25,28 +25,9 @@ typedef struct {
 
 typedef struct level_map_tile_ {
     tpp tp;
-
-    /*
-     * Data associated with individual tiles.
-     */
-    thing_template_data data;
 } level_map_tile;
 
-typedef struct level_map_grid_ {
-    level_map_tile tile[MAP_WIDTH][MAP_HEIGHT][MAP_DEPTH];
-    uint8_t lit[MAP_WIDTH][MAP_HEIGHT];
-} level_map_grid;
-
-typedef struct level_trigger_ {
-    color c;
-    int activate_exists;
-    int activated;
-} level_trigger;
-
 typedef struct level_t_ {
-    uint32_t level_no;
-    uint32_t seed;
-
     /*
      * All things on this level.
      */
@@ -56,60 +37,13 @@ typedef struct level_t_ {
 
     uint32_t next_thing_id;
 
-    /*
-     * Quick look op for initial things on the map and for finding what to 
-     * spawn on a trigger for ex.
-     */
-    level_map_grid map_grid;
-
     thing_map_t thing_map;
 
     level_walls dmap[DMAP_MAP_MAX];
     level_walls walls;
     level_walls doors;
 
-    /*
-     * Possible places for player to start.
-     */
-    fpoint player_start_position;
-    uint8_t player_start_max;
-    uint8_t player_start_at;
-
-    /*
-     * On screen name for level.
-     */
-    char title[MAXSTR];
-
-    /*
-     * When the level began being played.
-     */
-    int32_t tick_started;
-
-    uint32_t last_moved;
-    uint32_t last_hit_obstacle;
-    uint32_t last_jumped;
-    uint32_t last_bomb;
-    uint32_t last_rope;
-    uint32_t last_torch;
-
-#define MAX_TRIGGERS 256
-    level_trigger trigger[MAX_TRIGGERS];
-
-    /*
-     * Level has a shop on it
-     */
-    uint8_t has_shop;
-
-    uint8_t is_valid:1;
-
-    /*
-     * Being used in level editor.
-     */
-    uint8_t is_paused:1;
-    uint8_t is_ready:1;
     uint8_t is_being_destroyed:1;
-
-    uint8_t reached_exit:1;
 
 } level_t;
 
@@ -172,14 +106,3 @@ uint8_t level_is_ready_to_fade_out(levelp);
 
 void level_set_has_shop(levelp, uint8_t val);
 uint8_t level_has_shop(levelp);
-
-/*
- * level_trigger.c
- */
-int level_trigger2slot(levelp, color c);
-void level_trigger_activate(levelp, color c);
-void level_trigger_alloc(levelp, color c);
-int level_trigger_is_activated(levelp, color c);
-void level_trigger_activate_default_triggers(levelp);
-void level_trigger_move_thing(levelp, tpp me, thingp t);
-levelp current_level(void);

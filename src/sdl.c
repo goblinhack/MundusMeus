@@ -1481,7 +1481,7 @@ void sdl_loop (void)
             }
 
             levelp level = &game.level;
-            if (level && !wid_menu_visible && !level->is_paused) {
+            if (level && !wid_menu_visible) {
                 /*
                  * Let things do AI.
                  */

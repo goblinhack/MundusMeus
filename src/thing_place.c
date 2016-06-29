@@ -30,8 +30,7 @@ static widp thing_place__ (levelp level,
         if (!fn || !(*fn)(level, t, x, y)) {
             widp w = wid_game_map_replace_tile(level, x, y,
                                                0, /* thing */
-                                               tp,
-                                               0 /* tpp_data */);
+                                               tp);
             return (w);
         }
     }
@@ -70,8 +69,7 @@ static widp thing_place__ (levelp level,
     if (!fn || !(*fn)(level, t, x, y)) {
         widp w = wid_game_map_replace_tile(level, x, y,
                                            0, /* thing */
-                                           tp,
-                                           0 /* tpp_data */);
+                                           tp);
         return (w);
     }
 
@@ -88,8 +86,7 @@ static widp thing_place__ (levelp level,
     if (!fn || !(*fn)(level, t, x, y)) {
         widp w = wid_game_map_replace_tile(level, x, y,
                                            0, /* thing */
-                                           tp,
-                                           0 /* tpp_data */);
+                                           tp);
         return (w);
     }
 
@@ -106,8 +103,7 @@ static widp thing_place__ (levelp level,
     if (!fn || !(*fn)(level, t, x, y)) {
         widp w = wid_game_map_replace_tile(level, x, y,
                                            0, /* thing */
-                                           tp,
-                                           0 /* tpp_data */);
+                                           tp);
         return (w);
     }
 
@@ -124,8 +120,7 @@ static widp thing_place__ (levelp level,
     if (!fn || !(*fn)(level, t, x, y)) {
         widp w = wid_game_map_replace_tile(level, x, y,
                                            0, /* thing */
-                                           tp,
-                                           0 /* tpp_data */);
+                                           tp);
         return (w);
     }
 
@@ -165,8 +160,7 @@ static widp thing_place__ (levelp level,
             if (!fn || !(*fn)(level, t, x, y)) {
                 widp w = wid_game_map_replace_tile(level, x, y, 
                                                    0, /* thing */
-                                                   tp,
-                                                   0 /* tpp_data */);
+                                                   tp);
                 return (w);
             }
         }
@@ -179,8 +173,7 @@ static widp thing_place__ (levelp level,
      */
     widp w = wid_game_map_replace_tile(level, x, y, 
                                        0, /* thing */
-                                       tp,
-                                       0 /* tpp_data */);
+                                       tp);
     return (w);
 }
 
@@ -192,15 +185,7 @@ static widp thing_place_ (levelp level,
 {
     thing_hit_obstacle_fn fn;
 
-    if (tp_is_bomb(tp)) {
-        fn = 0;
-    } else if (tp_is_torch(tp)) {
-        fn = thing_hit_solid_obstacle;
-    } else if (tp_is_rope(tp)) {
-        fn = thing_hit_fall_obstacle;
-    } else {
-        fn = thing_hit_any_obstacle;
-    }
+    fn = 0;
 
     widp w = thing_place__(level,
                           t, 
@@ -212,12 +197,6 @@ static widp thing_place_ (levelp level,
     if (!w) {
         return (0);
     }
-
-    thingp it = wid_get_thing(w);
-
-    it->fall_speed = t->fall_speed;
-    it->jump_speed = t->jump_speed;
-    it->momentum = t->momentum;
 
     return (w);
 }

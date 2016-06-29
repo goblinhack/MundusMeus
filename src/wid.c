@@ -7535,7 +7535,6 @@ static void wid_light_init (void)
 static void wid_light_add (widp w, fpoint at, double strength, color c)
 {
     thingp t = w->thing;
-    levelp level = wid_get_level(w);
 
     /*
      * Looks better and brighter without this.
@@ -7580,12 +7579,6 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
 
     uint16_t max_light_rays;
 
-    if (thing_is_torch(t)) {
-        if (t->is_submerged) {
-            return;
-        }
-    }
-
     if (thing_is_explosion(t)) {
         /*
          * Too slow without this for large explosions.
@@ -7595,7 +7588,7 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
         }
 
         max_light_rays = MAX_LIGHT_RAYS / 16;
-    } else if (thing_is_player_or_owned_by_player(level, t)) {
+    } else if (thing_is_player(t)) {
         max_light_rays = MAX_LIGHT_RAYS;
     } else {
         if (strength >= 10) {
@@ -7661,17 +7654,6 @@ static void wid_display_fast (widp w,
     tpp tp = 0;
 
     if (likely(t != 0)) {
-        if (unlikely(debug)) {
-            /*
-             * Always show in debug mode
-             */
-        } else if (thing_is_visible_on_debug_only(t)) {
-            /*
-             * Show only in debug mode
-             */
-            return;
-        }
-
         tp = thing_tp(t);
 
         /*
@@ -8037,13 +8019,11 @@ static void wid_light_calculate_for_single_obstacle (widp w,
         return;
     }
 
-    levelp level = wid_get_level(w);
-
     /*
      * No blocking our own light.
      */
     if (thing_is_player(light->t)) {
-        if (thing_is_player_or_owned_by_player(level, t)) {
+        if (thing_is_player(t)) {
             return;
         }
     }
@@ -8929,12 +8909,6 @@ static void wid_display (widp w,
             disable_scissor = true;
 
             glRotatef(-wid_get_rotate(w), 0, 0, 1);
-        }
-
-        if ((t && thing_can_roll(t))) {
-            disable_scissor = true;
-
-            glRotatef(t->rot * 30, 0, 0, 1);
         }
 
         if (w->flip_horiz) {

@@ -32,6 +32,7 @@ int thing_move (levelp level,
         return (false);;
     }
 
+#if 0
     if (t->wid) {
         if (thing_hit_solid_obstacle(level, t, x, y)) {
             if (!thing_hit_solid_obstacle(level, t, x, t->y)) {
@@ -54,23 +55,9 @@ int thing_move (levelp level,
             }
         }
     }
+#endif
 
     thing_move_set_dir(level, t, &x, &y, up, down, left, right);
-
-    /*
-     * Move the weapon too.
-     */
-    thingp weapon_carry_anim = thing_weapon_carry_anim(level, t);
-    if (weapon_carry_anim) {
-        thing_move_set_dir(level, weapon_carry_anim, 
-                           &x, &y, up, down, left, right);
-    }
-
-    thingp weapon_swing_anim = thing_weapon_swing_anim(level, t);
-    if (weapon_swing_anim) {
-        thing_move_set_dir(level, weapon_swing_anim, 
-                           &x, &y, up, down, left, right);
-    }
 
     /*
      * If no widget yet then this can be a dummy move during thing creation
@@ -84,62 +71,15 @@ int thing_move (levelp level,
         thing_wid_update(level, t, x, y, true, false /* is new */);
     }
 
-    if (thing_is_player(t)) {
-        level_place_light(level, t->x, t->y);
-    }
-
     if (fire) {
         thing_fire(level, t, up, down, left, right);
     }
 
+    /*
     thing_handle_collisions(level, t);
+     */
 
     return (rc);
-}
-
-/*
- * Try to keep moving with momentum
- */
-int thing_slide (levelp level, thingp t)
-{
-    double x;
-    double y = t->y;
-
-    t->rot += t->momentum;
-
-    if (fabs(t->momentum) < 0.008) {
-        t->momentum = 0;
-        return (false);
-    }
-
-    x = t->x + t->momentum;
-    if (thing_hit_solid_obstacle(level, t, x, y)) {
-        t->momentum /= 2;
-
-        x = t->x + t->momentum;
-        if (thing_hit_solid_obstacle(level, t, x, y)) {
-            t->momentum /= 2;
-
-            x = t->x + t->momentum;
-            if (thing_hit_solid_obstacle(level, t, x, y)) {
-                t->momentum /= 2;
-
-                x = t->x + t->momentum;
-                if (thing_hit_solid_obstacle(level, t, x, y)) {
-                    t->momentum = 0;
-                    return (false);
-                }
-            }
-        }
-    }
-
-    t->momentum *= 0.90;
-
-    thing_wid_update(level, t, x, y, true, false /* is new */);
-
-    thing_handle_collisions(level, t);
-
-    return (true);
 }
 
 void thing_wid_move (levelp level,
@@ -263,13 +203,6 @@ void thing_wid_move (levelp level,
     }
 
     /*
-     * Player moves better in small increments.
-     */
-    if (thing_is_player_or_owned_by_player(level, t)) {
-        smooth = false;
-    }
-
-    /*
      * Breaks snow_settlement bounce if not
      */
     if (thing_can_roll(t)) {
@@ -300,50 +233,14 @@ void thing_wid_move (levelp level,
 
     double bounce_ms = 300;
 
-    /*
-     * Make the player bounce about as they walk
-     */
-    if (thing_is_bomb(t)) {
-        wid_bounce_to_pct_in(w, 0.1, 0.9, bounce_ms, 4);
-    }
+    wid_bounce_to_pct_in(w, 0.1, 0.9, bounce_ms, 4);
 
     if (thing_is_player(t) || 
         thing_is_monst(t)) {
 
-        if (thing_is_player(t)) {
-            if (t->is_submerged) {
-                if (thing_is_dir_left(t) ||
-                    thing_is_dir_tl(t) ||
-                    thing_is_dir_bl(t)) {
-
-                    wid_rotate_to_pct_in(w, 65, 70, ONESEC, 999);
-                } else {
-                    wid_rotate_to_pct_in(w, -65, -70, ONESEC, 999);
-                }
-            } else {
-                if (time_have_x_tenths_passed_since(5, t->timestamp_last_submerged)) {
-                    wid_rotate_to_pct_in(w, 0, 0, ONESEC, 999);
-
-                    t->timestamp_last_submerged = time_get_time_ms();
-                }
-            }
-
-            wid_effect_sways(t->wid);
-            wid_set_animate(t->wid, false);
-            wid_set_no_shape(t->wid);
-        }
-
-        if (!t->fall_speed && !t->jump_speed) {
+        {
             if (!w->bouncing) {
                 wid_bounce_to_pct_in(w, 0.1, 0.9, bounce_ms, 0);
-            }
-
-            /*
-             * And their little weapon too.
-             */
-            widp weapon_wid = thing_get_weapon_carry_anim_wid(level, t);
-            if (weapon_wid) {
-                wid_bounce_to_pct_in(weapon_wid, 0.15, 0.9, bounce_ms, 0);
             }
         }
     }
@@ -358,232 +255,4 @@ void thing_wid_update (levelp level,
     verify(t);
 
     thing_wid_move(level, t, x, y, smooth);
-
-    /*
-     * Update the weapon being carried.
-     */
-    thingp weapon_carry_anim = thing_weapon_carry_anim(level, t);
-    if (weapon_carry_anim) {
-        weapon_carry_anim->dir = t->dir;
-        if (thing_is_dir_left(t)) {
-            thing_wid_move(level, weapon_carry_anim, x - 0.2, y - 0.3, smooth);
-        } else {
-            thing_wid_move(level, weapon_carry_anim, x + 0.2, y - 0.3, smooth);
-        }
-    }
-
-    /*
-     * Update the weapon being swung.
-     */
-    thingp weapon_swing_anim = thing_weapon_swing_anim(level, t);
-    if (weapon_swing_anim) {
-        double dx = 0;
-        double dy = 0;
-
-        weapon_swing_anim->dir = t->dir;
-        thing_weapon_swing_offset(level, t, &dx, &dy);
-        thing_wid_move(level, weapon_swing_anim, x + dx, y + dy, smooth);
-    }
-}
-
-/*
- * Throw things in the vicinity around.
- */
-thingp things_throw (levelp level, thingp t)
-{
-    thingp it;
-    thingp me;
-    widp wid_next;
-    widp wid_me;
-    widp wid_it;
-
-    verify(t);
-    wid_me = thing_wid(t);
-    verify(wid_me);
-
-    int32_t dx, dy;
-
-    me = wid_get_thing(wid_me);
-
-    uint8_t z;
-
-    widp grid = game.wid_grid;
-
-    int32_t collision_radius = thing_collision_radius(me);
-    if (!collision_radius) {
-        collision_radius = 2;
-    }
-
-    collision_radius *= 3;
-
-    for (dx = -collision_radius; dx <= collision_radius; dx++) 
-    for (dy = -collision_radius; dy <= collision_radius; dy++)
-    for (z = MAP_DEPTH_OBJ; z < MAP_DEPTH; z++) {
-        int32_t x = (int32_t)me->x + dx;
-        int32_t y = (int32_t)me->y + dy;
-
-        if ((x < 0) || (y < 0) || (x >= MAP_WIDTH) || (y >= MAP_HEIGHT)) {
-            continue;
-        }
-
-        wid_it = wid_grid_find_first(grid, x, y, z);
-        while (wid_it) {
-            verify(wid_it);
-
-            wid_next = wid_grid_find_next(grid, wid_it, x, y, z);
-            if (wid_me == wid_it) {
-                wid_it = wid_next;
-                continue;
-            }
-
-            it = wid_get_thing(wid_it);
-            if (!it) {
-                wid_it = wid_next;
-                continue;
-            }
-
-            if (!thing_is_throwable(it)) {
-                wid_it = wid_next;
-                continue;
-            }
-
-            THING_LOG(it, "is thrown by the explosion");
-
-            double scale = 8;
-
-            it->momentum = (it->x - me->x) / scale;
-            it->jump_speed = (it->y - me->y) / scale;
-
-            wid_it = wid_next;
-            continue;
-        }
-    }
-
-    return (0);
-}
-
-thingp collision_ignore;
-int things_handle_impact (levelp level, 
-                          const thingp A, 
-                          double nx,
-                          double ny,
-                          const thingp B)
-{
-    int check_only = false;
-    int collided = false;
-    fpoint intersect = {0,0};
-    fpoint normal_A = {0,0};
-    fpoint normal_B = {0,0};
-    fpoint A_at = { A->x, A->y };
-    fpoint B_at = { B->x, B->y };
-    int circle_circle = false;
-
-    if (thing_can_roll(A) && !thing_can_roll(B)) {
-        if (circle_box_collision(level,
-                                 A, /* circle */
-                                 nx,
-                                 ny,
-                                 B, /* box */
-                                 B->x,
-                                 B->y,
-                                 &normal_A,
-                                 &intersect,
-                                 check_only)) {
-            normal_B = normal_A;
-            collided = true;
-        }
-    } else if (thing_can_roll(A) && thing_can_roll(B)) {
-        if (circle_circle_collision(A, /* circle */
-                                    B, /* circle */
-                                    nx,
-                                    ny,
-                                    &intersect)) {
-            normal_A = fsub(B_at, A_at);
-            normal_B = normal_A;
-            collided = true;
-            circle_circle = true;
-        }
-    } else{
-        return (false);
-    }
-
-    if (!collided) {
-        return (false);
-    }
-
-    /*
-     * Normal vector is a line between the two center of masses.
-     * Tangent vector is at 90 degrees to this.
-     */
-    fpoint normal_A_unit = funit(normal_A);
-    fpoint tangent_A_unit = { -normal_A_unit.y, normal_A_unit.x };
-
-    fpoint normal_B_unit = funit(normal_B);
-    fpoint tangent_B_unit = { -normal_B_unit.y, normal_B_unit.x };
-
-    double mA = 1;
-    double mB = 1;
-
-    fpoint vA = thing_velocity(A);
-    fpoint vB = thing_velocity(B);
-
-    if (thing_is_stationary(B)) {
-        mB = mA;
-        vB = fmul(-1, vA);
-    }
-
-    /*
-     * Project the velocity onto the normal vectors.
-     */
-    double normal_A_len = fdot(normal_A_unit, vA);
-    double normal_B_len = fdot(normal_B_unit, vB);
-
-    double tangent_A_len = fdot(tangent_A_unit, vA);
-    double tangent_B_len = fdot(tangent_B_unit, vB);
-    
-    /*
-     * Tangent velocity doesn't change.after collision.
-     */
-    double tangent_A_velocity = tangent_A_len;
-    double tangent_B_velocity = tangent_B_len;
-    
-    /*
-     * Do one dimensional elastic collision.
-     */
-    double normal_A_velocity =
-        (normal_A_len*(mA - mB) + 2.0 * mB*normal_B_len) / (mA + mB);
-
-    double normal_B_velocity =
-        (normal_B_len*(mB - mA) + 2.0 * mA*normal_B_len) / (mA + mB);
-
-    fpoint normal_velocity_A  = fmul(normal_A_velocity, normal_A_unit);
-    fpoint tangent_velocity_A = fmul(tangent_A_velocity, tangent_A_unit);
-
-    A->normal_velocity  = normal_velocity_A;
-    A->tangent_velocity = tangent_velocity_A;
-
-    fpoint normal_velocity_B  = fmul(normal_B_velocity, normal_B_unit);
-    fpoint tangent_velocity_B = fmul(tangent_B_velocity, tangent_B_unit);
-
-    static double COLLISION_ELASTICITY      = 0.4;
-    static double TANGENT_ELASTICITY        = 0.4;
-
-    normal_velocity_A = fmul(COLLISION_ELASTICITY, normal_velocity_A);
-    normal_velocity_B = fmul(COLLISION_ELASTICITY, normal_velocity_B);
-    tangent_velocity_A = fmul(TANGENT_ELASTICITY, tangent_velocity_A);
-    tangent_velocity_B = fmul(TANGENT_ELASTICITY, tangent_velocity_B);
-
-    thing_set_velocity(A,
-        normal_velocity_A.x + tangent_velocity_A.x,
-        normal_velocity_A.y + tangent_velocity_A.y);
-
-    if (thing_is_stationary(B)) {
-        return (true);
-    }
-
-    thing_set_velocity(B,
-        normal_velocity_B.x + tangent_velocity_B.x,
-        normal_velocity_B.y + tangent_velocity_B.y);
-
-    return (true);
 }

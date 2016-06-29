@@ -24,7 +24,6 @@
 #include "thing.h"
 #include "wid.h"
 #include "wid_intro_about.h"
-#include "wid_game_over.h"
 #include "wid_intro_settings.h"
 #include "wid_intro.h"
 #include "wid_game_map.h"
@@ -53,7 +52,6 @@ FILE *LOG_STDOUT;
 FILE *LOG_STDERR;
 
 uint8_t quitting;
-uint8_t opt_seed = 1;
 
 void quit (void)
 {
@@ -80,7 +78,6 @@ void quit (void)
     wid_console_fini();
     wid_intro_fini();
     wid_intro_about_fini();
-    wid_game_over_fini();
     wid_intro_settings_fini();
 
     command_fini();
@@ -436,9 +433,6 @@ static void usage (void)
 
     CON("MundusMeus, options:");
     CON(" ");
-    CON("        --seed        dungeon random seed");
-    CON("        -seed");
-    CON(" ");
     CON("Written by goblinhack@gmail.com");
 }
 
@@ -457,18 +451,6 @@ static void parse_args (int32_t argc, char *argv[])
     }
 
     for (i = 1; i < argc; i++) {
-
-        /*
-         * -seed
-         */
-        if (!strcasecmp(argv[i], "--seed") ||
-            !strcasecmp(argv[i], "-seed") ||
-            !strcasecmp(argv[i], "-s")) {
-
-            opt_seed = atoi(argv[i + 1]);
-            i++;
-            continue;
-        }
 
         /*
          * Bad argument.

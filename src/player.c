@@ -10,7 +10,6 @@
 #include "wid_menu.h"
 #include "time_util.h"
 #include "level.h"
-#include "thing_shop.h"
 #include "wid_game_map.h"
 #include "wid_game_quit.h"
 #include "color.h"
@@ -209,23 +208,12 @@ uint8_t player_move (levelp level)
         }
     }
 
-    if (!time_have_x_hundredths_passed_since(2, level->last_moved)) {
-        double x = player->x;
-        double y = player->y;
-
-        thing_move(level, player, x, y, false, false, false, false, fire);
-        return (false);
-    }
-
-    level->last_moved = time_get_time_ms();
-
     double x = player->x;
     double y = player->y;
 
     double max_momentum = 0.5;
     double move_momentum = 0.012;
     double jump_speed = 0.15;
-    double wall_friction = 0.95;
 
     /*
      * run?
@@ -236,133 +224,7 @@ uint8_t player_move (levelp level)
         jump_speed = 0.20;
     }
 
-    /*
-     * Don't move too fast either way as we build up speed
-     */
-    if (left) {
-        player->momentum -= move_momentum;
-        if (player->momentum <= -max_momentum) {
-            player->momentum = -max_momentum;
-        }
-    }
-
-    if (right) {
-        player->momentum += move_momentum;
-        if (player->momentum >= max_momentum) {
-            player->momentum = max_momentum;
-        }
-    }
-
-    /*
-     * Don't allow too frequent jumps
-     */
-    if (jump) {
-        if (player->is_submerged) {
-            if (!time_have_x_hundredths_passed_since(50, level->last_jumped)) {
-                jump = 0;
-            }
-        } else if (player->is_partially_submerged) {
-            if (!time_have_x_hundredths_passed_since(25, level->last_jumped)) {
-                jump = 0;
-            }
-        } else {
-            if (!time_have_x_hundredths_passed_since(10, level->last_jumped)) {
-                jump = 0;
-            }
-        }
-    }
-
-    if (jump) {
-        if (level->last_hit_obstacle &&
-            !time_have_x_hundredths_passed_since(15, level->last_hit_obstacle)) {
-
-            /*
-             * Allow the player to cling onto and jump when they hit a ledge 
-             * as long as not falling too fast
-             */
-            if (player->fall_speed < THING_FALL_SPEED_CLING_ONTO_WALLS) {
-                if (!player->jump_speed) {
-                    player->jump_speed = jump_speed;
-                }
-            }
-        }
-
-        /*
-         * Else if not falling, allow the jump
-         */
-        if (!player->fall_speed) {
-            if (!player->jump_speed) {
-                player->jump_speed = jump_speed;
-            }
-        }
-    }
-
-    if (jump) {
-        jump = 0;
-        up = 1;
-    }
-
-    if (bomb) {
-        if (!time_have_x_hundredths_passed_since(15, level->last_bomb)) {
-            bomb = 0;
-        }
-
-        if (bomb) {
-            level->last_bomb = time_get_time_ms();
-
-            thing_place_bomb(level, player, player->x, player->y);
-        }
-    }
-
-    if (rope) {
-        if (!time_have_x_hundredths_passed_since(15, level->last_rope)) {
-            rope = 0;
-        }
-
-        if (rope) {
-            level->last_rope = time_get_time_ms();
-
-            thing_place_mountain(level, player, player->x, player->y);
-        }
-    }
-
-    if (torch) {
-        if (!time_have_x_hundredths_passed_since(15, level->last_torch)) {
-            torch = 0;
-        }
-
-        if (torch) {
-            level->last_torch = time_get_time_ms();
-
-            thing_place_torch(level, player, player->x, player->y);
-        }
-    }
-
-    /*
-     * If we hit a side wall when falling, slow the fall.
-     */
-    if (thing_hit_solid_obstacle(level, player, x + player->momentum, y)) {
-        level->last_hit_obstacle = time_get_time_ms();
-
-        if (player->fall_speed) {
-            player->fall_speed *= wall_friction;
-        }
-
-        player->momentum = 0;
-    }
-
-    double lr_delta = player->momentum;
-    double ud_delta = 0.1;
-
-    x += lr_delta;
-    y -= (double)up * ud_delta;
-    y += (double)down * ud_delta;
-
     thing_move(level, player, x, y, up, down, left, right, fire);
-
-    if (jump) {
-        level->last_jumped = time_get_time_ms();
-    }
 
     /*
      * If no key then we allow the console.
@@ -372,8 +234,6 @@ uint8_t player_move (levelp level)
 
 uint8_t player_key (widp w, const SDL_KEYSYM *key)
 {
-    levelp level = &game.level;
-
     if (wid_menu_visible) {
         return (false);
     }
@@ -398,11 +258,7 @@ uint8_t player_key (widp w, const SDL_KEYSYM *key)
 
         case 'p':
 
-            if (player->in_shop_owned_by_thing_id) {
-                shop_pay_for_items(level, player);
-            } else {
-                MSG_SHOUT_AT(INFO, player, 0, 0, "I'm not in a shop");
-            }
+            MSG_SHOUT_AT(INFO, player, 0, 0, "pay TBD");
             break;
 
         case 'q':
@@ -580,121 +436,6 @@ void player_wid_update (levelp level)
                 wid_set_text_outline(game.wid_hp_text, true);
             }
         }
-
-        if (player->torches) {
-
-            double x1 = 0.12;
-
-            {
-                game.wid_torches_icon = wid_new_window("icon-torches");
-                wid_set_tl_br_pct(game.wid_torches_icon, tl, br);
-                wid_set_tilename(game.wid_torches_icon, "icon-torches");
-                wid_set_no_shape(game.wid_torches_icon);
-                wid_set_do_not_lower(game.wid_torches_icon, true);
-                wid_move_to_pct_centered(game.wid_torches_icon, x1, y1);
-            }
-            {
-                game.wid_torches_text = wid_new_window("text-torches");
-                wid_set_tl_br_pct(game.wid_torches_text, tl, br2);
-                wid_set_no_shape(game.wid_torches_text);
-                wid_set_do_not_lower(game.wid_torches_text, true);
-                wid_move_to_pct_centered(game.wid_torches_text, x1 + dx, y2);
-
-                wid_set_font(game.wid_torches_text, vlarge_font);
-                snprintf(tmp, sizeof(tmp), "x %u", player->torches);
-                wid_set_text(game.wid_torches_text, tmp);
-                wid_set_text_outline(game.wid_torches_text, true);
-            }
-        }
-
-        {
-            double x1 = 0.19;
-
-            {
-                game.wid_ropes_icon = wid_new_window("icon-ropes");
-                wid_set_tl_br_pct(game.wid_ropes_icon, tl, br);
-                wid_set_tilename(game.wid_ropes_icon, "icon-ropes");
-                wid_set_no_shape(game.wid_ropes_icon);
-                wid_set_do_not_lower(game.wid_ropes_icon, true);
-                wid_move_to_pct_centered(game.wid_ropes_icon, x1, y1);
-            }
-            {
-                game.wid_ropes_text = wid_new_window("text-ropes");
-                wid_set_tl_br_pct(game.wid_ropes_text, tl, br2);
-                wid_set_no_shape(game.wid_ropes_text);
-                wid_set_do_not_lower(game.wid_ropes_text, true);
-                wid_move_to_pct_centered(game.wid_ropes_text, x1 + dx, y2);
-
-                wid_set_font(game.wid_ropes_text, vlarge_font);
-                snprintf(tmp, sizeof(tmp), "x %u", player->ropes);
-                wid_set_text(game.wid_ropes_text, tmp);
-                wid_set_text_outline(game.wid_ropes_text, true);
-            }
-        }
-    }
-
-    /*
-     * Bombs and keys
-     */
-    {
-        double y1 = 0.15;
-        double y2 = 0.17;
-        double dx = 0.02;
-        fpoint tl = { 0.0, 0.0 };
-        fpoint br = { 0.04, 0.07 };
-        fpoint br2 = { 0.25, 0.18 };
-
-        if (player->keys) {
-
-            double x1 = 0.88;
-
-            {
-                game.wid_keys_icon = wid_new_window("icon-keys");
-                wid_set_tl_br_pct(game.wid_keys_icon, tl, br);
-                wid_set_tilename(game.wid_keys_icon, "icon-keys");
-                wid_set_no_shape(game.wid_keys_icon);
-                wid_set_do_not_lower(game.wid_keys_icon, true);
-                wid_move_to_pct_centered(game.wid_keys_icon, x1, y1);
-            }
-            {
-                game.wid_keys_text = wid_new_window("text-keys");
-                wid_set_tl_br_pct(game.wid_keys_text, tl, br2);
-                wid_set_no_shape(game.wid_keys_text);
-                wid_set_do_not_lower(game.wid_keys_text, true);
-                wid_move_to_pct_centered(game.wid_keys_text, x1 + dx, y2);
-
-                wid_set_font(game.wid_keys_text, vlarge_font);
-                snprintf(tmp, sizeof(tmp), "x %u", player->keys);
-                wid_set_text(game.wid_keys_text, tmp);
-                wid_set_text_outline(game.wid_keys_text, true);
-            }
-        }
-
-        if (player->bombs) {
-
-            double x1 = 0.95;
-
-            {
-                game.wid_bombs_icon = wid_new_window("icon-bombs");
-                wid_set_tl_br_pct(game.wid_bombs_icon, tl, br);
-                wid_set_tilename(game.wid_bombs_icon, "icon-bombs");
-                wid_set_no_shape(game.wid_bombs_icon);
-                wid_set_do_not_lower(game.wid_bombs_icon, true);
-                wid_move_to_pct_centered(game.wid_bombs_icon, x1, y1);
-            }
-            {
-                game.wid_bombs_text = wid_new_window("text-bombs");
-                wid_set_tl_br_pct(game.wid_bombs_text, tl, br2);
-                wid_set_no_shape(game.wid_bombs_text);
-                wid_set_do_not_lower(game.wid_bombs_text, true);
-                wid_move_to_pct_centered(game.wid_bombs_text, x1 + dx, y2);
-
-                wid_set_font(game.wid_bombs_text, vlarge_font);
-                snprintf(tmp, sizeof(tmp), "x %u", player->bombs);
-                wid_set_text(game.wid_bombs_text, tmp);
-                wid_set_text_outline(game.wid_bombs_text, true);
-            }
-        }
     }
 }
 
@@ -711,17 +452,6 @@ void player_wid_destroy (levelp level)
     }
 
 
-    if (game.wid_torches_icon) {
-        wid_destroy_nodelay(&game.wid_torches_icon);
-        game.wid_torches_icon = 0;
-    }
-
-    if (game.wid_torches_text) {
-        wid_destroy_nodelay(&game.wid_torches_text);
-        game.wid_torches_text = 0;
-    }
-
-
     if (game.wid_hp_icon) {
         wid_destroy_nodelay(&game.wid_hp_icon);
         game.wid_hp_icon = 0;
@@ -730,38 +460,5 @@ void player_wid_destroy (levelp level)
     if (game.wid_hp_text) {
         wid_destroy_nodelay(&game.wid_hp_text);
         game.wid_hp_text = 0;
-    }
-
-
-    if (game.wid_bombs_icon) {
-        wid_destroy_nodelay(&game.wid_bombs_icon);
-        game.wid_bombs_icon = 0;
-    }
-
-    if (game.wid_bombs_text) {
-        wid_destroy_nodelay(&game.wid_bombs_text);
-        game.wid_bombs_text = 0;
-    }
-
-
-    if (game.wid_keys_icon) {
-        wid_destroy_nodelay(&game.wid_keys_icon);
-        game.wid_keys_icon = 0;
-    }
-
-    if (game.wid_keys_text) {
-        wid_destroy_nodelay(&game.wid_keys_text);
-        game.wid_keys_text = 0;
-    }
-
-
-    if (game.wid_ropes_icon) {
-        wid_destroy_nodelay(&game.wid_ropes_icon);
-        game.wid_ropes_icon = 0;
-    }
-
-    if (game.wid_ropes_text) {
-        wid_destroy_nodelay(&game.wid_ropes_text);
-        game.wid_ropes_text = 0;
     }
 }

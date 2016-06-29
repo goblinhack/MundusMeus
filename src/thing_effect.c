@@ -124,15 +124,9 @@ void thing_effect_hit_crit (levelp level, thingp t)
             wid_shake_to_pct_in(w, 0.2, 0.9, 100, 5);
         }
 
-        if (thing_is_warm_blooded(t)) {
-            level_place_blood_crit(level,
-                                   0, // owner
-                                   t->x, t->y);
-        } else {
-            level_place_hit_success(level,
-                                    0, // owner
-                                    t->x, t->y);
-        }
+        level_place_hit_success(level,
+                                0, // owner
+                                t->x, t->y);
     }
 }
 
