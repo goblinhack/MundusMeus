@@ -3,7 +3,6 @@ import mm
 
 x = tpp("snow1");
 x.set_short_name("snow");
-x.set_tooltip("snow");
 x.set_is_land(True);
 x.set_is_snow(True);
 x.set_world_depth("land");

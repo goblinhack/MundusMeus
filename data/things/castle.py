@@ -3,7 +3,6 @@ import mm
 
 x = tpp("castle1");
 x.set_short_name("castle");
-x.set_tooltip("castle");
 x.set_is_land(True);
 x.set_is_castle(True);
 x.set_world_depth("land");

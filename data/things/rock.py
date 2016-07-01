@@ -3,7 +3,6 @@ import mm
 
 x = tpp("rock1");
 x.set_short_name("rock");
-x.set_tooltip("rock");
 x.set_is_land(True);
 x.set_is_rock(True);
 x.set_world_depth("land");
