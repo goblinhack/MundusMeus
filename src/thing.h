@@ -203,12 +203,6 @@ typedef struct thing_ {
     float dy;
 
     /*
-     * Do we need this?
-     */
-    int map_x;
-    int map_y;
-
-    /*
      * e.g. IS_JOIN_BLOCK
      */
     uint8_t join_index;

@@ -199,7 +199,7 @@ static void level_set_walls (levelp level)
                     char c = 0;
 
                     if (thing_is_wall(t)) {
-                        if (!map_is_wall_at(level, x, y - 1)) {
+                        if (!map_is_wall_at(level, x, y - 1, 0)) {
                             c = ' ';
                         }
                     }

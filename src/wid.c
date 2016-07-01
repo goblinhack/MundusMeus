@@ -294,10 +294,6 @@ static void wid_grid_tree_attach (widp w)
     w->gridnode->aligned_x = !((mx + (grid->pixwidth/2)) % grid->pixwidth);
     w->gridnode->aligned_y = !((my + (grid->pixheight/2)) % grid->pixheight);
 
-    if (w->thing) {
-        thing_map_add(w->level, w->thing, x, y);
-    }
-
     /*
      * Optimization do not keep grid wids which are numerous on the big
      * parent tree where it is slow to add/remove.
@@ -324,10 +320,6 @@ static uint8_t wid_grid_tree_detach (widp w)
 
     w->gridnode = 0;
     w->gridtree = 0;
-
-    if (w->thing) {
-        thing_map_remove(w->level, w->thing);
-    }
 
     return (true);
 }
