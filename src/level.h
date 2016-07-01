@@ -11,15 +11,6 @@
 #include "map.h"
 
 typedef struct {
-    uint32_t id[MAP_THINGS_PER_CELL];
-    uint8_t count;
-} thing_map_cell;
-
-typedef struct {
-    thing_map_cell cells[MAP_WIDTH][MAP_HEIGHT];
-} thing_map_t;
-
-typedef struct {
     int8_t walls[MAP_WIDTH][MAP_HEIGHT];
 } level_walls;
 
@@ -37,8 +28,6 @@ typedef struct level_t_ {
 
     uint32_t next_thing_id;
 
-    thing_map_t thing_map;
-
     level_walls dmap[DMAP_MAP_MAX];
     level_walls walls;
     level_walls doors;
@@ -46,11 +35,6 @@ typedef struct level_t_ {
     uint8_t is_being_destroyed:1;
 
 } level_t;
-
-static inline thing_map_t *level_map (levelp level)
-{
-    return (&level->thing_map);
-}
 
 uint8_t level_init(void);
 void level_fini(void);

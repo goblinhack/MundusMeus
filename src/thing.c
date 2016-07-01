@@ -20,11 +20,6 @@ int monst_things_total;
 
 static uint8_t thing_init_done;
 
-/*
- * What things live on the map.
- */
-thing_map_t thing_map;
-
 uint8_t thing_init (void)
 {
     thing_init_done = true;
@@ -60,286 +55,6 @@ static void thing_try_to_flush_ids_ (levelp level)
 static void thing_try_to_flush_ids (levelp level)
 {
     thing_try_to_flush_ids_(level);
-}
-
-static void thing_map_dump_ (thing_map_t *map, const char *name)
-{
-    uint32_t i;
-    uint32_t x;
-    uint32_t y;
-
-    FILE *fp;
-
-    fp = fopen(name, "w");
-
-    uint32_t width = 0;
-
-    for (y = 0; y < MAP_HEIGHT; y++) {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            thing_map_cell *cell = &map->cells[x][y];
-
-            width = max(width, cell->count);
-        }
-    }
-
-    for (y = 0; y < MAP_HEIGHT; y++) {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            thing_map_cell *cell = &map->cells[x][y];
-
-            for (i = 0; i < width; i++) {
-                uint32_t m = cell->id[i];
-
-                if (!m) {
-                    fprintf(fp, "----- ");
-                    continue;
-                }
-
-                fprintf(fp, "%5u ", m);
-            }
-
-            fprintf(fp, "|");
-        }
-        fprintf(fp, "\n");
-    }
-}
-
-void thing_map_dump (void)
-{
-    thing_map_dump_(&thing_map, "thing.map");
-}
-
-static void thing_map_sanity_ (levelp level, thing_map_t *map)
-{
-    uint32_t i;
-    uint32_t x;
-    uint32_t y;
-
-    for (y = 0; y < MAP_HEIGHT; y++) {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            thing_map_cell *cell = &map->cells[x][y];
-
-            uint8_t found_end = 0;
-
-            for (i = 0; i < MAP_THINGS_PER_CELL; i++) {
-                uint32_t m = cell->id[i];
-
-                if (!m) {
-                    found_end = true;
-                    continue;
-                }
-
-                if (found_end) {
-                    thing_map_dump();
-
-                    ERR("map elements are not contiguous at %d,%d", x, y);
-                }
-
-                thingp t = id_to_thing(m);
-                if (!t) {
-                    ERR("thing %p id %08X is invalid and on map", t, m);
-                }
-
-                verify(t);
-            }
-        }
-    }
-}
-
-void thing_map_sanity (levelp level)
-{
-    thing_map_sanity_(level, &thing_map);
-}
-
-void thing_map_remove (levelp level, thingp t)
-{
-    int i;
-
-    verify(t);
-
-    int32_t x = t->map_x;
-    int32_t y = t->map_y;
-
-    /*
-     * Check not on the map.
-     */
-    if ((x == -1) || (y == -1)) {
-        return;
-    }
-
-    thing_map_t *map = level_map(level);
-    thing_map_cell *cell = &map->cells[x][y];
-
-    if (!cell->count) {
-        ERR("map count mismatch");
-        return;
-    }
-
-    /*
-     * Remove from the map.
-     */
-    for (i = 0; i < cell->count; i++) {
-        uint32_t m = cell->id[i];
-        if (m != thing_id(t)) {
-            continue;
-        }
-
-        if (i == cell->count - 1) {
-            /*
-             * Popping last element.
-             */
-            cell->id[i] = 0;
-        } else {
-            /*
-             * Pop and swap last element.
-             */
-            cell->id[i] = cell->id[cell->count - 1];
-            cell->id[cell->count - 1] = 0;
-        }
-
-        cell->count--;
-
-        t->map_x = -1;
-        t->map_y = -1;
-
-        return;
-    }
-
-    ERR("did not find id %08X/%s on map at %d,%d to remove",
-        thing_id(t), thing_logname(t), x, y);
-}
-
-void thing_map_add (levelp level, thingp t, int32_t x, int32_t y)
-{
-    verify(t);
-
-    if (!t->thing_id) {
-        DIE("cannot add thing %s ID of 0", thing_logname(t));
-    }
-
-    if (x < 0) {
-        DIE("map underflow for thing %s", thing_logname(t));
-    }
-
-    if (y < 0) {
-        DIE("map y underflow for thing %s", thing_logname(t));
-    }
-
-    if (x >= MAP_WIDTH) {
-        DIE("map x overflow for thing %s", thing_logname(t));
-    }
-
-    if (y >= MAP_HEIGHT) {
-        DIE("map y overflow for thing %s", thing_logname(t));
-    }
-
-    thing_map_t *map = level_map(level);
-
-    /*
-     * Check not on the map.
-     */
-    if ((t->map_x != -1) || (t->map_y != -1)) {
-        ERR("thing %s already on map at %d,%d", thing_logname(t),
-            t->map_x, t->map_y);
-        return;
-    }
-
-    uint32_t i;
-
-    /*
-     * Sanity check we're not on already.
-     */
-    thing_map_cell *cell = &map->cells[x][y];
-
-#ifdef ENABLE_MAP_SANITY
-    for (i = 0; i < cell->count; i++) {
-        uint32_t m = cell->id[i];
-
-        if (!m) {
-            continue;
-        }
-
-        /*
-         * Something is on the map.
-         */
-        if (m == t->thing_id) {
-            /*
-             * It's us?
-             */
-            ERR("already found on map");
-        }
-
-        thingp p = id_to_thing(m);
-        if (p == t) {
-            ERR("already found thing %s on map", thing_logname(t));
-        }
-    }
-#endif
-
-    if (cell->count == MAP_THINGS_PER_CELL) {
-#if 0
-        /*
-         * Try to find something we can boot out.
-         */
-        if (thing_is_cloud_effect(t)    ||
-            thing_is_explosion(t)       ||
-            thing_is_projectile(t)) {
-            /*
-             * Don't bother. This is a transient thing.
-             */
-            return;
-        }
-#endif
-
-        /*
-         * This is a more important thing. Try and boot out something less
-         * important.
-         */
-        for (i = 0; i < cell->count; i++) {
-            uint32_t m = cell->id[i];
-            if (!m) {
-                DIE("expected to find a map id on the map here");
-            }
-
-            thingp p = id_to_thing(m);
-            if (!p) {
-                DIE("expected to find a thing on the map here at slot %d", m);
-            }
-
-#if 0
-            if (thing_is_cloud_effect(p)    ||
-                thing_is_explosion(p)       ||
-                thing_is_projectile(t)) {
-                /*
-                 * Kick out this transient thing.
-                 */
-                thing_map_remove(level, p);
-                break;
-            }
-#endif
-        }
-    }
-
-    if (cell->count == MAP_THINGS_PER_CELL) {
-        /*
-         * We're hosed.
-         */
-        ERR("Out of map slots trying to add %s", thing_logname(t));
-
-        for (i = 0; i < cell->count; i++) {
-            uint32_t m = cell->id[i];
-            thingp p = id_to_thing(m);
-
-            LOG("  slot [%d] id %08X %s", i, m, thing_logname(p));
-        }
-
-        return;
-    }
-
-    cell->id[cell->count] = t->thing_id;
-    cell->count++;
-
-    t->map_x = x;
-    t->map_y = y;
 }
 
 /*
@@ -466,8 +181,6 @@ void thing_reinit (levelp level, thingp t, double x, double y)
      */
     t->last_x = -1.0;
     t->last_y = -1.0;
-    t->map_x = -1.0;
-    t->map_y = -1.0;
 
     t->x = x;
     t->y = y;
@@ -483,7 +196,6 @@ void thing_destroy (levelp level, thingp t, const char *why)
     thing_timers_destroy(level, t);
 
     if (t->wid) {
-        thing_map_remove(level, t);
         thing_set_wid(level, t, 0);
     }
 
@@ -573,7 +285,6 @@ void thing_leave_level (levelp level, thingp t)
         THING_LOG(t, "Leave level");
     }
 
-    thing_map_remove(level, t);
     thing_set_wid(level, t, 0);
 }
 
@@ -604,7 +315,6 @@ void things_level_destroyed (levelp level, uint8_t keep_player)
                 if (keep_player &&
                     !thing_is_player(t)) {
 
-                    thing_map_remove(level, t);
                     thing_set_wid(level, t, 0);
                     continue;
                 }

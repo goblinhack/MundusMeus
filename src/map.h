@@ -6,16 +6,12 @@
 
 #pragma once
 
-uint8_t map_is_exit_at(levelp, int32_t x, int32_t y);
-uint8_t map_is_dungeon_floor_at(levelp, int32_t x, int32_t y);
-uint8_t map_is_food_at(levelp, int32_t x, int32_t y);
-uint8_t map_is_monst_at(levelp, int32_t x, int32_t y);
-uint8_t map_is_player_at(levelp, int32_t x, int32_t y);
-uint8_t map_is_wall_at(levelp, int32_t x, int32_t y);
-uint8_t map_is_door_at(levelp, int32_t x, int32_t y);
-
-tpp map_find_wall_at(levelp level, int32_t x, int32_t y, widp *w);
-tpp map_find_door_at(levelp level, int32_t x, int32_t y, widp *w);
+tpp map_is_exit_at(levelp, int32_t x, int32_t y, widp *);
+tpp map_is_food_at(levelp, int32_t x, int32_t y, widp *);
+tpp map_is_monst_at(levelp, int32_t x, int32_t y, widp *);
+tpp map_is_player_at(levelp, int32_t x, int32_t y, widp *);
+tpp map_is_wall_at(levelp, int32_t x, int32_t y, widp *);
+tpp map_is_door_at(levelp, int32_t x, int32_t y, widp *);
 
 #include "tree.h"
 

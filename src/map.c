@@ -55,8 +55,10 @@ thingp map_is_tp_at (levelp level, int32_t x, int32_t y, tpp tp)
     return (0);
 }
 
-static uint8_t map_is_x_at (levelp level,
-                            int32_t x, int32_t y, map_is_at_callback callback)
+static tpp map_is_x_at (levelp level,
+                        int32_t x, int32_t y, 
+                        map_is_at_callback callback,
+                        widp *wout)
 {
     tpp tp;
     widp grid_wid;
@@ -82,7 +84,10 @@ static uint8_t map_is_x_at (levelp level,
             tp = wid_get_thing_template(w);
             if (tp) {
                 if ((*callback)(tp)) {
-                    return (true);
+                    if (wout) {
+                        *wout = 0;
+                    }
+                    return (tp);
                 }
             }
 
@@ -90,7 +95,7 @@ static uint8_t map_is_x_at (levelp level,
         }
     }
 
-    return (false);
+    return (0);
 }
 
 uint8_t map_count_x_at (levelp level,
@@ -131,19 +136,24 @@ uint8_t map_count_x_at (levelp level,
     return (count);
 }
 
-uint8_t map_is_player_at (levelp level, int32_t x, int32_t y)
+tpp map_is_player_at (levelp level, int32_t x, int32_t y, widp *w)
 {
-    return (map_is_x_at(level, x, y, tp_is_player));
+    return (map_is_x_at(level, x, y, tp_is_player, w));
 }
 
-uint8_t map_is_monst_at (levelp level, int32_t x, int32_t y)
+tpp map_is_monst_at (levelp level, int32_t x, int32_t y, widp *w)
 {
-    return (map_is_x_at(level, x, y, tp_is_monst));
+    return (map_is_x_at(level, x, y, tp_is_monst, w));
 }
 
-uint8_t map_is_wall_at (levelp level, int32_t x, int32_t y)
+tpp map_is_door_at (levelp level, int32_t x, int32_t y, widp *w)
 {
-    return (map_is_x_at(level, x, y, tp_is_wall));
+    return (map_is_x_at(level, x, y, tp_is_door, w));
+}
+
+tpp map_is_wall_at (levelp level, int32_t x, int32_t y, widp *w)
+{
+    return (map_is_x_at(level, x, y, tp_is_wall, w));
 }
 
 thingp map_thing_is_x_at (levelp level,
@@ -246,46 +256,6 @@ tree_rootp map_all_things_is_x_at (levelp level,
     return (root);
 }
 
-static tpp map_find_x_at (levelp level,
-                          int32_t x, int32_t y,
-                          map_is_at_callback callback,
-                          widp *wout)
-{
-    if ((x >= MAP_WIDTH) || (x < 0) || (y >= MAP_HEIGHT) || (y < 0)) {
-        return (0);
-    }
-
-    thing_map_t *map = level_map(level);
-    thing_map_cell *cell = &map->cells[x][y];
-
-    uint32_t i;
-    for (i = 0; i < cell->count; i++) {
-        thingp thing_it;
-            
-        thing_it = id_to_thing(cell->id[i]);
-
-        if ((*callback)(thing_tp(thing_it))) {
-            if (wout) {
-                *wout = thing_it->wid;
-            }
-
-            return (thing_tp(thing_it));
-        }
-    }
-
-    return (0);
-}
-
-tpp map_find_door_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_door, w));
-}
-
-tpp map_find_wall_at (levelp level, int32_t x, int32_t y, widp *w)
-{
-    return (map_find_x_at(level, x, y, tp_is_wall, w));
-}
-
 /*
  * Gauntlet style joining
  */
@@ -315,7 +285,7 @@ static void map_fixup1 (levelp level)
 
             tpp tp = 0;
 
-            if ((tp = map_find_door_at(level, x, y, &w))) {
+            if ((tp = map_is_door_at(level, x, y, &w))) {
 #ifdef GORY_DEBUG
 if (level != level)
                 fprintf(fp,"D");
@@ -338,9 +308,9 @@ if (level != level)
                     widp w;
                     tpp tp;
 
-                    if (map_find_door_at(level, x, y, &w)) {
+                    if (map_is_door_at(level, x, y, &w)) {
 
-                        tp = map_find_door_at(level, x + dx, y + dy, &w);
+                        tp = map_is_door_at(level, x + dx, y + dy, &w);
 
                         nbrs[dx + 1][dy + 1] = tp;
                     }
