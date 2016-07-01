@@ -3,7 +3,6 @@ import mm
 
 x = tpp("sand1");
 x.set_short_name("sand");
-x.set_tooltip("sand");
 x.set_is_land(True);
 x.set_is_sand(True);
 x.set_world_depth("land");

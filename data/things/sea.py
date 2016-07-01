@@ -3,7 +3,6 @@ import mm
 
 x = tpp("sea1");
 x.set_short_name("sea");
-x.set_tooltip("sea");
 x.set_is_land(True);
 x.set_is_sea(True);
 x.set_world_depth("land");

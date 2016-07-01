@@ -3,7 +3,6 @@ import mm
 
 x = tpp("forest1");
 x.set_short_name("forest");
-x.set_tooltip("forest");
 x.set_is_land(True);
 x.set_is_forest(True);
 x.set_world_depth("land");

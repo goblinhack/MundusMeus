@@ -3,7 +3,6 @@ import mm
 
 x = tpp("settlement1");
 x.set_short_name("settlement");
-x.set_tooltip("settlement");
 x.set_is_land(True);
 x.set_is_settlement(True);
 x.set_world_depth("land");
