@@ -35,10 +35,6 @@ class tpp:
         self.explosion_radius = value;
         mm.tp_set_explosion_radius(self, value);
 
-    def set_collision_radius (self, value):
-        self.collision_radius = value;
-        mm.tp_set_collision_radius(self, value);
-
     def set_d10000_chance_of_appearing (self, value):
         self.d10000_chance_of_appearing = value;
         mm.tp_set_d10000_chance_of_appearing(self, value);
@@ -163,10 +159,6 @@ class tpp:
         self.polymorph_on_death = value;
         mm.tp_set_polymorph_on_death(self, value);
 
-    def set_carried_as (self, value):
-        self.carried_as = value;
-        mm.tp_set_carried_as(self, value);
-
     def set_light_tint (self, value):
         self.light_tint = value;
         mm.tp_set_light_tint(self, value);
@@ -198,14 +190,6 @@ class tpp:
     def set_sound_random (self, value):
         self.sound_random = value;
         mm.tp_set_sound_random(self, value);
-
-    def set_weapon_carry_anim (self, value):
-        self.weapon_carry_anim = value;
-        mm.tp_set_weapon_carry_anim(self, value);
-
-    def set_weapon_swing_anim (self, value):
-        self.weapon_swing_anim = value;
-        mm.tp_set_weapon_swing_anim(self, value);
 
     def set_message_on_use (self, value):
         self.message_on_use = value;
@@ -250,22 +234,6 @@ class tpp:
     def set_is_cloud_effect (self, value):
         self.is_cloud_effect = value;
         mm.tp_set_is_cloud_effect(self, value);
-
-    def set_is_collision_map_large (self, value):
-        self.is_collision_map_large = value;
-        mm.tp_set_is_collision_map_large(self, value);
-
-    def set_is_collision_map_medium (self, value):
-        self.is_collision_map_medium = value;
-        mm.tp_set_is_collision_map_medium(self, value);
-
-    def set_is_collision_map_small (self, value):
-        self.is_collision_map_small = value;
-        mm.tp_set_is_collision_map_small(self, value);
-
-    def set_is_collision_map_tiny (self, value):
-        self.is_collision_map_tiny = value;
-        mm.tp_set_is_collision_map_tiny(self, value);
 
     def set_is_combustable (self, value):
         self.is_combustable = value;
@@ -626,8 +594,3 @@ class tpp:
     def set_is_weapon (self, value):
         self.is_weapon = value;
         mm.tp_set_is_weapon(self, value);
-
-    def set_is_weapon_carry_anim (self, value):
-        self.is_weapon_carry_anim = value;
-        mm.tp_set_is_weapon_carry_anim(self, value);
-

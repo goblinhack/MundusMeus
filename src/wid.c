@@ -153,6 +153,11 @@ static uint8_t wid_exiting;
 
 tree_rootp wid_timers;
 
+/*
+ * TBD
+ */
+static int level_explosion_flash_effect;
+
 uint8_t wid_init (void)
 {
     wid_init_done = true;
@@ -2069,7 +2074,7 @@ void wid_set_tilename (widp w, const char *name)
 
     thingp t = wid_get_thing(w);
 
-    if (t && thing_is_cats_eyes(t)) {
+    if (t && tp_is_cats_eyes(thing_tp(t))) {
         char tmp[SMALL_STRING_LEN_MAX];
 
         snprintf(tmp, sizeof(tmp), "%s-eyes", name);
@@ -2108,7 +2113,7 @@ void wid_set_tile (widp w, tilep tile)
 
     thingp t = wid_get_thing(w);
 
-    if (t && thing_is_cats_eyes(t)) {
+    if (t && tp_is_cats_eyes(thing_tp(t))) {
         char tmp[SMALL_STRING_LEN_MAX];
         const char *name = tile_name(tile);
 
@@ -7579,16 +7584,7 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
 
     uint16_t max_light_rays;
 
-    if (thing_is_explosion(t)) {
-        /*
-         * Too slow without this for large explosions.
-         */
-        if (!thing_is_epicenter(t)) {
-            return;
-        }
-
-        max_light_rays = MAX_LIGHT_RAYS / 16;
-    } else if (thing_is_player(t)) {
+    if (thing_is_player(t)) {
         max_light_rays = MAX_LIGHT_RAYS;
     } else {
         if (strength >= 10) {
@@ -7673,8 +7669,7 @@ static void wid_display_fast (widp w,
              * eyes over the player and they look like a zombie!
              */
             if ((t->lit == 0) && 
-                (t->torch_light_radius == 0) &&
-                thing_is_cats_eyes(t)) {
+                tp_is_cats_eyes(thing_tp(t))) {
 
                 tile = wid_get_tile_eyes(w);
                 if (!tile) {
@@ -7687,22 +7682,6 @@ static void wid_display_fast (widp w,
 
     if (pass == 0) {
         int light_source = false;
-
-        if (t) {
-            /*
-             * Only light lava at edges for speed
-             */
-            if (thing_is_lava(t) || 
-                thing_is_acid(t)) {
-                if (t->join_index != IS_JOIN_BLOCK) {
-                    light_source = true;
-                }
-            } else {
-                if (thing_is_light_source(t)) {
-                    light_source = true;
-                }
-            }
-        }
 
         if (light_source) {
             fpoint light_pos;
@@ -7720,22 +7699,6 @@ static void wid_display_fast (widp w,
             }
 
             double light_radius = tp_get_light_radius(tp);
-
-            if (thing_is_player(t)) {
-                /*
-                 * Player light is limited by the number of torches.
-                 */
-                light_radius = t->torch_light_radius;
-
-                if (thing_is_dead(t)) {
-                    light_radius = t->torch_light_radius;
-                }
-            } else if (thing_is_cloud_effect(t) && !t->is_epicenter) {
-                /*
-                 * No light source for explosion edges. Too high a cpu drain.
-                 */
-                light_radius = 0.0;
-            }
 
             if (light_radius > 0.0) {
                 wid_light_add(w, light_pos, light_radius, tp_light_color(tp));
@@ -7844,7 +7807,7 @@ static void wid_display_fast (widp w,
         return;
     }
 
-    if ((t && thing_can_roll(t)) || w->rotating || w->rotated) {
+    if (w->rotating || w->rotated) {
         uint8_t child_updated_scissors = false;
         blit_flush();
         wid_display(w, true, &child_updated_scissors, false);
@@ -8028,7 +7991,7 @@ static void wid_light_calculate_for_single_obstacle (widp w,
         }
     }
 
-    if (thing_is_not_light_blocking(t)) {
+    if (tp_is_not_light_blocking(thing_tp(t))) {
         return;
     }
 
@@ -8889,8 +8852,7 @@ static void wid_display (widp w,
     /*
      * Do rotation and flipping.
      */
-    if ((t && thing_can_roll(t)) ||
-        w->rotating || w->rotated || w->bouncing || 
+    if (w->rotating || w->rotated || w->bouncing || 
         w->flip_vert || w->flip_horiz) {
 
         did_push_matrix = true;

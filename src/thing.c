@@ -48,9 +48,11 @@ static void thing_try_to_flush_ids_ (levelp level)
 
     FOR_ALL_THINGS(level, t)
 
+#if 0
         if (thing_is_cloud_effect(t)) {
             thing_destroy(level, t, "too many things");
         }
+#endif
 
     FOR_ALL_THINGS_END
 }
@@ -274,6 +276,7 @@ void thing_map_add (levelp level, thingp t, int32_t x, int32_t y)
 #endif
 
     if (cell->count == MAP_THINGS_PER_CELL) {
+#if 0
         /*
          * Try to find something we can boot out.
          */
@@ -285,6 +288,7 @@ void thing_map_add (levelp level, thingp t, int32_t x, int32_t y)
              */
             return;
         }
+#endif
 
         /*
          * This is a more important thing. Try and boot out something less
@@ -301,6 +305,7 @@ void thing_map_add (levelp level, thingp t, int32_t x, int32_t y)
                 DIE("expected to find a thing on the map here at slot %d", m);
             }
 
+#if 0
             if (thing_is_cloud_effect(p)    ||
                 thing_is_explosion(p)       ||
                 thing_is_projectile(t)) {
@@ -310,6 +315,7 @@ void thing_map_add (levelp level, thingp t, int32_t x, int32_t y)
                 thing_map_remove(level, p);
                 break;
             }
+#endif
         }
     }
 
@@ -427,14 +433,6 @@ thingp thing_new (levelp level,
      * New items are top quality.
      */
     t->is_sleeping = tp_is_sleeping(tp);
-    t->tick_born = game.tick;
-    t->timestamp_sound_random = time_get_time_ms();
-
-    /*
-     * Start our with max stats.
-     */
-    t->hp = tp->max_hp;
-    t->max_hp = tp->max_hp;
 
 #if 0
     if (thing_is_player(t)) {
@@ -475,19 +473,6 @@ void thing_reinit (levelp level, thingp t, double x, double y)
     t->y = y;
 }
 
-void thing_restarted (levelp level, thingp t)
-{
-    verify(t);
-
-    t->current_tile = 0;
-
-    if (!thing_is_dead(t)) {
-        return;
-    }
-
-    thing_set_is_dead(t, false);
-}
-
 void thing_destroy (levelp level, thingp t, const char *why)
 {
     verify(t);
@@ -520,11 +505,6 @@ void thing_destroy (levelp level, thingp t, const char *why)
     t->thing_id = 0;
 
     oldptr(t);
-}
-
-void thing_destroy_in (levelp level, thingp t, int32_t ms)
-{
-    t->destroy_in_ms = ms;
 }
 
 void thing_wake (levelp level, thingp t)
@@ -593,11 +573,6 @@ void thing_leave_level (levelp level, thingp t)
         THING_LOG(t, "Leave level");
     }
 
-    /*
-     * Still in a shop? Sneaky.
-     */
-    t->gold_owed = 0;
-
     thing_map_remove(level, t);
     thing_set_wid(level, t, 0);
 }
@@ -627,7 +602,7 @@ void things_level_destroyed (levelp level, uint8_t keep_player)
             FOR_ALL_THINGS(level, t)
 
                 if (keep_player &&
-                    !thing_is_animation(t)) {
+                    !thing_is_player(t)) {
 
                     thing_map_remove(level, t);
                     thing_set_wid(level, t, 0);
@@ -724,13 +699,6 @@ uint8_t thing_is_light_source (thingp t)
     return (thing_tp(t)->is_light_source);
 }
 
-void thing_set_is_candle_light (thingp t, uint8_t val)
-{
-    verify(t);
-
-    thing_tp(t)->is_candle_light = val;
-}
-
 uint8_t thing_is_candle_light (thingp t)
 {
     verify(t);
@@ -738,39 +706,18 @@ uint8_t thing_is_candle_light (thingp t)
     return (thing_tp(t)->is_candle_light);
 }
 
+uint8_t thing_is_explosion (thingp t)
+{
+    verify(t);
+
+    return (thing_tp(t)->is_explosion);
+}
+
 void thing_set_is_sleeping (thingp t, uint8_t val)
 {
     verify(t);
 
     t->is_sleeping = val;
-}
-
-void thing_set_is_collected (thingp t, uint8_t val)
-{
-    verify(t);
-
-    t->is_collected = val;
-}
-
-uint8_t thing_is_collected (thingp t)
-{
-    verify(t);
-
-    return (t->is_collected);
-}
-
-void thing_set_is_open (thingp t, uint8_t val)
-{
-    verify(t);
-
-    t->is_open = val;
-}
-
-void thing_set_is_angry (thingp t, uint8_t val)
-{
-    verify(t);
-
-    t->is_angry = val;
 }
 
 void thing_set_is_dead (thingp t, uint8_t val)
@@ -785,13 +732,6 @@ const char *thing_name (thingp t)
     verify(t);
 
     return (tp_short_name(thing_tp(t)));
-}
-
-const char * thing_tooltip (thingp t)
-{
-    verify(t);
-
-    return (tp_get_tooltip(thing_tp(t)));
 }
 
 tree_rootp thing_tiles (thingp t)
@@ -837,15 +777,6 @@ void thing_move_set_dir (levelp level,
                          uint8_t left,
                          uint8_t right)
 {
-    /*
-     * Projectiles like the fireball anim have their direction set when 
-     * created and don't need upating; and if we do we get the angles not 
-     * quite right
-     */
-    if (thing_is_projectile(t)) {
-        return;
-    }
-
     double ox = t->x;
     double oy = t->y;
 

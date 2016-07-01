@@ -141,7 +141,9 @@ soundp sound_find (const char *name_alias)
 
 void sound_play_at (const char *name_alias, double x, double y)
 {
+#if 0
     levelp level = &game.level;
+#endif
 
     if (!music_init_done) {
         return;
@@ -162,6 +164,7 @@ void sound_play_at (const char *name_alias, double x, double y)
 
         real_to_map(x, y, &sx, &sy);
 
+#if 0
         int distance = dmap_distance_to_player(sx, sy);
         if (distance == -1) {
             return;
@@ -188,6 +191,7 @@ void sound_play_at (const char *name_alias, double x, double y)
         }
 
         LOG("Play: %s vol %f dist %d",name_alias, volume, distance);
+#endif
     }
 
     if (Mix_PlayChannel(-1, sound->sound, 0) == -1) {

@@ -59,20 +59,12 @@ int thing_move (levelp level,
 
     thing_move_set_dir(level, t, &x, &y, up, down, left, right);
 
-    /*
-     * If no widget yet then this can be a dummy move during thing creation
-     * just to set the weapon anim correctly.
-     */
     if (!t->wid) {
         return (false);
     }
 
     if (up || down || left || right) {
         thing_wid_update(level, t, x, y, true, false /* is new */);
-    }
-
-    if (fire) {
-        thing_fire(level, t, up, down, left, right);
     }
 
     /*
@@ -202,13 +194,6 @@ void thing_wid_move (levelp level,
         smooth = false;
     }
 
-    /*
-     * Breaks snow_settlement bounce if not
-     */
-    if (thing_can_roll(t)) {
-        smooth = false;
-    }
-
     double ms = 1000;
     ms = ms / (1.0 / dist);
 
@@ -220,12 +205,6 @@ void thing_wid_move (levelp level,
     }
 
     if (smooth) {
-        if (t->is_jumping) {
-            if (wid_is_moving(w)) {
-                wid_move_end(w);
-            }
-        }
-
         wid_move_to_abs_poffset_in(w, tl, ms);
     } else {
         wid_set_tl_br(w, tl, br);

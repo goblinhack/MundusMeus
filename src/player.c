@@ -159,10 +159,6 @@ uint8_t player_move (levelp level)
         return (false);
     }
 
-    if (thing_is_dead(player)) {
-        return (false);
-    }
-
     /*
      * If no longer visible it may mean we have finished the level and are 
      * waiting for others to finish.
@@ -176,36 +172,6 @@ uint8_t player_move (levelp level)
     if (time_have_x_tenths_passed_since(1, last_tick)) {
         player_wid_update(level);
         last_tick = time_get_time_ms();
-    }
-
-    /*
-     * Check if we are allowed to fire our gun again so soon.
-     */
-    if (fire) {
-        tpp weapon = thing_weapon(player);
-
-        if (!weapon) {
-            THING_LOG(player, "Tried to fire but no weapon");
-            fire = 0;
-        }
-
-        if (fire) {
-            static uint32_t last_fired = 0;
-
-            uint32_t delay = tp_get_weapon_fire_delay_hundredths(weapon);
-            
-            if (!time_have_x_hundredths_passed_since(delay, last_fired)) {
-                fire = 0;
-
-                if (!up && !down && !left && !right && !jump) {
-                    return (false);
-                }
-            }
-
-            if (fire) {
-                last_fired = time_get_time_ms();
-            }
-        }
     }
 
     double x = player->x;

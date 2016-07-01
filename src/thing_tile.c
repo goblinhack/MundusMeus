@@ -35,16 +35,6 @@ uint8_t thing_tile_is_moving (thing_tilep t)
     return (t->is_moving);
 }
 
-uint8_t thing_tile_is_jumping (thing_tilep t)
-{
-    return (t->is_jumping);
-}
-
-uint8_t thing_tile_begin_jump (thing_tilep t)
-{
-    return (t->begin_jump);
-}
-
 uint8_t thing_tile_is_join_block (thing_tilep t)
 {
     return (t->is_join_block);
@@ -410,11 +400,6 @@ uint8_t thing_tile_is_dead (thing_tilep t)
     return (t->is_dead);
 }
 
-uint8_t thing_tile_is_bloodied (thing_tilep t)
-{
-    return (t->is_bloodied);
-}
-
 uint8_t thing_tile_is_end_of_anim (thing_tilep t)
 {
     return (t->is_end_of_anim);
@@ -467,10 +452,6 @@ thing_tilep thing_tile_random (tree_rootp root)
          * Filter out terminal state tiles.
          */
         if (thing_tile->is_dead) {
-            continue;
-        }
-
-        if (thing_tile->is_bloodied) {
             continue;
         }
 

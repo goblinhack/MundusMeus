@@ -80,93 +80,10 @@ typedef struct tp_ {
     char *raw_name;
 
     /*
-     * End user description of the thing.
-     */
-    char *tooltip;
-
-    /*
-     * What the thing throws.
-     */
-    tpp fires;
-
-    /*
-     * What to create when you die. Usually a smaller monster.
-     */
-    char *polymorph_on_death;
-
-    /*
-     * When you collect a bundle of items it as carried as x of this.
-     */
-    char *carried_as;
-
-    /*
      * What shade of light does this thing emit
      */
     char *light_tint;
     color light_color;
-
-    /*
-     * For potions and monster death.
-     */
-    char *explodes_as;
-
-    /*
-     * Sound on thing creation
-     */
-    char *sound_on_creation;
-
-    /*
-     * Sound on hitting a thing
-     */
-    char *sound_on_hitting_something;
-
-    /*
-     * Sound on thing death
-     */
-    char *sound_on_death;
-
-    /*
-     * Sound on thing hit
-     */
-    char *sound_on_hit;
-
-    /*
-     * Sound on thing collect
-     */
-    char *sound_on_collect;
-
-    /*
-     * Occasional grunts
-     */
-    char *sound_random;
-
-    /*
-     * How this weapon appears on screen when it is used.
-     */
-    char *weapon_carry_anim;
-    char *weapon_swing_anim;
-
-    /*
-     * What to shout when an item is used.
-     */
-    char *message_on_use;
-
-    /*
-     * Periodically spawn something.
-     */
-#define MAX_MOB_SPAWN 16
-    char *mob_spawn_what[MAX_MOB_SPAWN];
-    int mob_spawn_chance_d1000[MAX_MOB_SPAWN];
-    int mob_spawn_count;
-
-    /*
-     * What to spawn when you die. Usually a generator or grave.
-     */
-    char *spawn_on_death_what[MAX_MOB_SPAWN];
-    int spawn_on_death_chance_d1000[MAX_MOB_SPAWN];
-    int spawn_on_death_count;
-
-    int d10000_chance_of_appearing;
 
     /*
      * In relation to other widgets, where are we.
@@ -185,56 +102,10 @@ typedef struct tp_ {
      */
     int speed;
 
-    /*
-     * Damage on hits.
-     */
-    int damage;
-
-    /*
-     * Cost in shops
-     */
-    int cost;
-
-    /*
-     * Lifespan in milliseconds.
-     */
-    int lifespan_ticks;
-
-    /*
-     * How far in tiles the thing can detect the monster.
-     */
-    int vision_distance;
-
-    /*
-     * How close a thing tries to get to you
-     */
-    int approach_distance;
-
-    /*
-     * Various bounties.
-     */
-    int bonus_score_on_death;
-    int bonus_gold_on_collect;
-    int bonus_hp_on_collect;
-
     int blit_top_off;
     int blit_bot_off;
     int blit_left_off;
     int blit_right_off;
-
-    int min_appear_depth;
-    int max_appear_depth;
-    int jump_speed;
-    int hp_per_level;
-    int max_hp;
-
-    int hit_priority;
-    int weapon_fire_delay_hundredths;
-    int sound_random_delay_secs;
-    int swing_distance_from_player;
-    int can_be_hit_chance;
-    int hit_delay_tenths;
-    int mob_spawn_delay_tenths;
 
     /*
      * How much light it gives off in tiles.
@@ -242,48 +113,16 @@ typedef struct tp_ {
     float light_radius;
 
     /*
-     * For multi fire weapons
-     */
-    float weapon_density;
-    float weapon_spread;
-
-    /*
      * How large or small the thing is blitted as.
      */
     float scale;
 
-    /*
-     * How large an explosion is.
-     */
-    float explosion_radius;
-
-    /*
-     * How close for collision detection.
-     */
-    float collision_radius;
-
-    uint8_t can_be_enchanted:1;
-    uint8_t can_fall:1;
-    uint8_t can_walk_through:1;
     uint8_t has_dir_anim:1;
-    uint8_t has_submerged_anim:1;
-    uint8_t is_acid:1;
-    uint8_t is_acid_proof:1;
     uint8_t is_animated:1;
     uint8_t is_animated_no_dir:1;
     uint8_t is_animation:1;
-    uint8_t is_bullet:1;
     uint8_t is_candle_light:1;
-    uint8_t is_carryable:1;
     uint8_t is_cats_eyes:1;
-    uint8_t is_cloud_effect:1;
-    uint8_t is_collision_map_large:1;
-    uint8_t is_collision_map_medium:1;
-    uint8_t is_collision_map_small:1;
-    uint8_t is_collision_map_tiny:1;
-    uint8_t is_combustable:1;
-    uint8_t is_conical_breath_attack:1;
-    uint8_t is_corpse:1;
     uint8_t is_corridor:1;
     uint8_t is_corridor_wall:1;
     uint8_t is_door:1;
@@ -292,38 +131,18 @@ typedef struct tp_ {
     uint8_t is_effect_pulse:1;
     uint8_t is_effect_rotate_2way:1;
     uint8_t is_effect_sway:1;
-    uint8_t is_entrance:1;
-    uint8_t is_ethereal:1;
-    uint8_t is_exit:1;
-    uint8_t is_explosion:1;
-    uint8_t is_fire:1;
-    uint8_t is_fireball:1;
     uint8_t is_food:1;
-    uint8_t is_fragile:1;
-    uint8_t is_given_randomly_at_start:1;
-    uint8_t is_hard:1;
-    uint8_t is_hidden:1;
-    uint8_t is_hidden_from_editor:1;
-    uint8_t is_inactive:1;
-    uint8_t is_internal:1;
     uint8_t is_joinable:1;
-    uint8_t is_key:1;
-    uint8_t is_lava:1;
-    uint8_t is_lava_proof:1;
-    uint8_t is_levitating:1;
-    uint8_t is_life_saving:1;
     uint8_t is_light_source:1;
-    uint8_t is_magical_weapon:1;
-    uint8_t is_melee_weapon:1;
-    uint8_t is_mob_spawner:1;
     uint8_t is_monst:1;
-    uint8_t is_non_explosive_gas_cloud:1;
     uint8_t is_not_light_blocking:1;
-    uint8_t is_obstacle:1;
     uint8_t is_player:1;
-    uint8_t is_projectile:1;
-    uint8_t is_ranged_weapon:1;
-    uint8_t is_rock:1;
+    uint8_t is_shadow_caster:1;
+    uint8_t is_shadow_caster_soft:1;
+    uint8_t is_sleeping:1;
+    uint8_t is_wall:1;
+    uint8_t is_hidden:1;
+    uint8_t is_explosion:1;
     uint8_t is_rrr1:1;
     uint8_t is_rrr2:1;
     uint8_t is_rrr3:1;
@@ -340,43 +159,6 @@ typedef struct tp_ {
     uint8_t is_rrr14:1;
     uint8_t is_rrr15:1;
     uint8_t is_rrr16:1;
-    uint8_t is_northern_mountain:1;
-    uint8_t is_snow_castle:1;
-    uint8_t is_castle:1;
-    uint8_t is_mountain:1;
-    uint8_t is_forest:1;
-    uint8_t is_sand:1;
-    uint8_t is_grass:1;
-    uint8_t is_land:1;
-    uint8_t is_wanderer_lr:1;
-    uint8_t is_snow_settlement:1;
-    uint8_t can_roll:1;
-    uint8_t is_northern_settlement:1;
-    uint8_t is_snow:1;
-    uint8_t is_settlement:1;
-    uint8_t is_northern_rock:1;
-    uint8_t is_sea:1;
-    uint8_t is_rope:1;
-    uint8_t is_throwable:1;
-    uint8_t is_shadow_caster:1;
-    uint8_t is_shadow_caster_soft:1;
-    uint8_t is_shop_floor:1;
-    uint8_t is_shopkeeper:1;
-    uint8_t is_sleeping:1;
-    uint8_t is_stackable:1;
-    uint8_t is_torch:1;
-    uint8_t is_trap:1;
-    uint8_t is_treasure:1;
-    uint8_t is_undead:1;
-    uint8_t is_variable_size:1;
-    uint8_t is_wall:1;
-    uint8_t is_deco:1;
-    uint8_t is_wanderer:1;
-    uint8_t is_water:1;
-    uint8_t is_water_proof:1;
-    uint8_t is_weapon:1;
-    uint8_t is_weapon_carry_anim:1;
-    uint8_t is_weapon_swing_effect:1;
 
     thing_tilep tilep_join[IS_JOIN_MAX][IS_JOIN_ALT_MAX];
     tilep tilep_join_tile[IS_JOIN_MAX][IS_JOIN_ALT_MAX];
@@ -395,59 +177,18 @@ const char *tp_name(tpp);
 const char *tp_short_name(tpp);
 const char *tp_raw_name(tpp);
 tpp tp_fires(tpp);
-const char *tp_polymorph_on_death(tpp);
-const char *tp_carried_as(tpp);
 const char *tp_light_tint(tpp);
 color tp_light_color(tpp);
-const char *tp_spawn_on_death(tpp);
-const char *tp_explodes_as(tpp);
-const char *tp_sound_on_creation(tpp);
-const char *tp_sound_on_hitting_something(tpp);
-const char *tp_sound_on_death(tpp);
-const char *tp_sound_on_hit(tpp);
-const char *tp_sound_on_collect(tpp);
-const char *tp_weapon_carry_anim(tpp);
-const char *tp_shield_carry_anim(tpp);
-const char *tp_weapon_swing_anim(tpp);
-const char *tp_message_on_use(tpp);
-const char *tp_mob_spawn(tpp);
-const char *tp_get_tooltip(tpp);
-uint8_t tp_get_z_depth(tpp);
-uint8_t tp_get_world_depth(tpp);
-uint8_t tp_get_z_order(tpp);
+int tp_get_z_depth(tpp);
+int tp_get_world_depth(tpp);
+int tp_get_z_order(tpp);
 int tp_get_speed(tpp);
-int tp_get_lifespan_ticks(tpp);
-int tp_get_bonus_score_on_death(tpp t);
-int tp_get_damage(tpp);
-int tp_get_cost(tpp);
-int tp_get_vision_distance(tpp);
-int tp_get_approach_distance(tpp);
-int tp_get_bonus_gold_on_collect(tpp);
 int tp_get_blit_top_off(tpp);
 int tp_get_blit_bot_off(tpp);
 int tp_get_blit_left_off(tpp);
 int tp_get_blit_right_off(tpp);
-int tp_get_min_appear_depth(tpp);
-int tp_get_max_appear_depth(tpp);
-int tp_get_jump_speed(tpp);
 double tp_get_light_radius(tpp);
-double tp_get_weapon_density(tpp);
-double tp_get_weapon_spread(tpp);
 double tp_get_scale(tpp);
-double tp_get_explosion_radius(tpp);
-double tp_get_collision_radius(tpp);
-int tp_get_quantity(tpp);
-int tp_get_hit_priority(tpp);
-int tp_get_weapon_fire_delay_hundredths(tpp);
-int tp_get_sound_random_delay_secs(tpp);
-int tp_get_swing_distance_from_player(tpp);
-int tp_get_stats_max_hp(tpp);
-int tp_get_hp_per_level(tpp);
-int tp_get_bonus_hp_on_collect(tpp);
-int tp_get_can_be_hit_chance(tpp);
-int tp_get_d10000_chance_of_appearing(tpp);
-int tp_get_hit_delay_tenths(tpp);
-int tp_get_mob_spawn_delay_tenths(tpp);
 
 tree_rootp tp_get_tiles(tpp);
 
@@ -474,14 +215,29 @@ static inline tpp id_to_tp (int id)
     return (&thing_templates_chunk[id]);
 }
 
-static inline uint8_t tp_is_exit (tpp t)
-{
-    return (t->is_exit);
-}
-
 static inline uint8_t tp_is_dungeon_floor (tpp t)
 {
     return (t->is_dungeon_floor);
+}
+
+static inline uint8_t tp_is_wall (tpp t)
+{
+    return (t->is_dungeon_floor);
+}
+
+static inline uint8_t tp_is_joinable (tpp t)
+{
+    return (t->is_joinable);
+}
+
+static inline uint8_t tp_is_door (tpp t)
+{
+    return (t->is_door);
+}
+
+static inline uint8_t tp_is_sleeping (tpp t)
+{
+    return (t->is_sleeping);
 }
 
 static inline uint8_t tp_is_food (tpp t)
@@ -499,44 +255,14 @@ static inline uint8_t tp_is_player (tpp t)
     return (t->is_player);
 }
 
-static inline uint8_t tp_is_key (tpp t)
-{
-    return (t->is_key);
-}
-
-static inline uint8_t tp_is_rock (tpp t)
-{
-    return (t->is_rock);
-}
-
 static inline uint8_t tp_is_shadow_caster (tpp t)
 {
     return (t->is_shadow_caster);
 }
 
-static inline uint8_t tp_is_weapon (tpp t)
+static inline uint8_t tp_is_shadow_caster_soft (tpp t)
 {
-    return (t->is_weapon);
-}
-
-static inline uint8_t tp_is_treasure (tpp t)
-{
-    return (t->is_treasure);
-}
-
-static inline uint8_t tp_is_fragile (tpp t)
-{
-    return (t->is_fragile);
-}
-
-static inline uint8_t tp_is_animated_no_dir (tpp t)
-{
-    return (t->is_animated_no_dir);
-}
-
-static inline uint8_t tp_is_weapon_swing_effect (tpp t)
-{
-    return (t->is_weapon_swing_effect);
+    return (t->is_shadow_caster_soft);
 }
 
 static inline uint8_t tp_is_light_source (tpp t)
@@ -554,44 +280,19 @@ static inline uint8_t tp_is_cats_eyes (tpp t)
     return (t->is_cats_eyes);
 }
 
-static inline uint8_t tp_is_fire (tpp t)
-{
-    return (t->is_fire);
-}
-
 static inline uint8_t tp_is_animation (tpp t)
 {
     return (t->is_animation);
 }
 
-static inline uint8_t tp_is_shadow_caster_soft (tpp t)
+static inline uint8_t tp_is_animated (tpp t)
 {
-    return (t->is_shadow_caster_soft);
+    return (t->is_animated);
 }
 
-static inline uint8_t tp_is_collision_map_large (tpp t)
+static inline uint8_t tp_is_animated_no_dir (tpp t)
 {
-    return (t->is_collision_map_large);
-}
-
-static inline uint8_t tp_is_non_explosive_gas_cloud (tpp t)
-{
-    return (t->is_non_explosive_gas_cloud);
-}
-
-static inline uint8_t tp_is_carryable (tpp t)
-{
-    return (t->is_carryable);
-}
-
-static inline uint8_t tp_is_door (tpp t)
-{
-    return (t->is_door);
-}
-
-static inline uint8_t tp_is_mob_spawner (tpp t)
-{
-    return (t->is_mob_spawner);
+    return (t->is_animated_no_dir);
 }
 
 static inline uint8_t tp_is_rrr1 (tpp t)
@@ -674,349 +375,9 @@ static inline uint8_t tp_is_rrr16 (tpp t)
     return (t->is_rrr16);
 }
 
-static inline uint8_t tp_is_northern_mountain (tpp t)
-{
-    return (t->is_northern_mountain);
-}
-
-static inline uint8_t tp_is_snow_castle (tpp t)
-{
-    return (t->is_snow_castle);
-}
-
-static inline uint8_t tp_is_castle (tpp t)
-{
-    return (t->is_castle);
-}
-
-static inline uint8_t tp_is_mountain (tpp t)
-{
-    return (t->is_mountain);
-}
-
-static inline uint8_t tp_is_forest (tpp t)
-{
-    return (t->is_forest);
-}
-
-static inline uint8_t tp_is_sand (tpp t)
-{
-    return (t->is_sand);
-}
-
-static inline uint8_t tp_is_grass (tpp t)
-{
-    return (t->is_grass);
-}
-
-static inline uint8_t tp_is_land (tpp t)
-{
-    return (t->is_land);
-}
-
-static inline uint8_t tp_is_wanderer_lr (tpp t)
-{
-    return (t->is_wanderer_lr);
-}
-
-static inline uint8_t tp_is_snow_settlement (tpp t)
-{
-    return (t->is_snow_settlement);
-}
-
-static inline uint8_t tp_can_roll (tpp t)
-{
-    return (t->can_roll);
-}
-
-static inline uint8_t tp_is_northern_settlement (tpp t)
-{
-    return (t->is_northern_settlement);
-}
-
-static inline uint8_t tp_is_snow (tpp t)
-{
-    return (t->is_snow);
-}
-
-static inline uint8_t tp_is_settlement (tpp t)
-{
-    return (t->is_settlement);
-}
-
-static inline uint8_t tp_is_northern_rock (tpp t)
-{
-    return (t->is_northern_rock);
-}
-
-static inline uint8_t tp_is_sea (tpp t)
-{
-    return (t->is_sea);
-}
-
-static inline uint8_t tp_is_rope (tpp t)
-{
-    return (t->is_rope);
-}
-
-static inline uint8_t tp_is_throwable (tpp t)
-{
-    return (t->is_throwable);
-}
-
 static inline uint8_t tp_is_not_light_blocking (tpp t)
 {
     return (t->is_not_light_blocking);
-}
-
-static inline uint8_t tp_is_obstacle (tpp t)
-{
-    return (t->is_obstacle);
-}
-
-static inline uint8_t tp_is_entrance (tpp t)
-{
-    return (t->is_entrance);
-}
-
-static inline uint8_t tp_is_deco (tpp t)
-{
-    return (t->is_deco);
-}
-
-static inline uint8_t tp_is_conical_breath_attack (tpp t)
-{
-    return (t->is_conical_breath_attack);
-}
-
-static inline uint8_t tp_is_corpse (tpp t)
-{
-    return (t->is_corpse);
-}
-
-static inline uint8_t tp_is_wanderer (tpp t)
-{
-    return (t->is_wanderer);
-}
-
-static inline uint8_t tp_can_fall (tpp t)
-{
-    return (t->can_fall);
-}
-
-static inline uint8_t tp_is_life_saving (tpp t)
-{
-    return (t->is_life_saving);
-}
-
-static inline uint8_t tp_is_water (tpp t)
-{
-    return (t->is_water);
-}
-
-static inline uint8_t tp_is_undead (tpp t)
-{
-    return (t->is_undead);
-}
-
-static inline uint8_t tp_is_hidden (tpp t)
-{
-    return (t->is_hidden);
-}
-
-static inline uint8_t tp_is_trap (tpp t)
-{
-    return (t->is_trap);
-}
-
-static inline uint8_t tp_is_corridor_wall (tpp t)
-{
-    return (t->is_corridor_wall);
-}
-
-static inline uint8_t tp_is_corridor (tpp t)
-{
-    return (t->is_corridor);
-}
-
-static inline uint8_t tp_is_water_proof (tpp t)
-{
-    return (t->is_water_proof);
-}
-
-static inline uint8_t tp_is_lava_proof (tpp t)
-{
-    return (t->is_lava_proof);
-}
-
-static inline uint8_t tp_is_acid_proof (tpp t)
-{
-    return (t->is_acid_proof);
-}
-
-static inline uint8_t tp_is_shopkeeper (tpp t)
-{
-    return (t->is_shopkeeper);
-}
-
-static inline uint8_t tp_is_shop_floor (tpp t)
-{
-    return (t->is_shop_floor);
-}
-
-static inline uint8_t tp_is_fireball (tpp t)
-{
-    return (t->is_fireball);
-}
-
-static inline uint8_t tp_is_bullet (tpp t)
-{
-    return (t->is_bullet);
-}
-
-static inline uint8_t tp_is_effect_fade_in_out (tpp t)
-{
-    return (t->is_effect_fade_in_out);
-}
-
-static inline uint8_t tp_is_internal (tpp t)
-{
-    return (t->is_internal);
-}
-
-static inline uint8_t tp_is_levitating (tpp t)
-{
-    return (t->is_levitating);
-}
-
-static inline uint8_t tp_is_acid (tpp t)
-{
-    return (t->is_acid);
-}
-
-static inline uint8_t tp_is_lava (tpp t)
-{
-    return (t->is_lava);
-}
-
-static inline uint8_t tp_is_ethereal (tpp t)
-{
-    return (t->is_ethereal);
-}
-
-static inline uint8_t tp_is_variable_size (tpp t)
-{
-    return (t->is_variable_size);
-}
-
-static inline uint8_t tp_is_magical_weapon (tpp t)
-{
-    return (t->is_magical_weapon);
-}
-
-static inline uint8_t tp_is_ranged_weapon (tpp t)
-{
-    return (t->is_ranged_weapon);
-}
-
-static inline uint8_t tp_is_melee_weapon (tpp t)
-{
-    return (t->is_melee_weapon);
-}
-
-static inline uint8_t tp_is_cloud_effect (tpp t)
-{
-    return (t->is_cloud_effect);
-}
-
-static inline uint8_t tp_is_hard (tpp t)
-{
-    return (t->is_hard);
-}
-
-static inline uint8_t tp_is_sleeping (tpp t)
-{
-    return (t->is_sleeping);
-}
-
-static inline uint8_t tp_can_walk_through (tpp t)
-{
-    return (t->can_walk_through);
-}
-
-static inline uint8_t tp_is_weapon_carry_anim (tpp t)
-{
-    return (t->is_weapon_carry_anim);
-}
-
-static inline uint8_t tp_can_be_enchanted (tpp t)
-{
-    return (t->can_be_enchanted);
-}
-
-static inline uint8_t tp_is_stackable (tpp t)
-{
-    return (t->is_stackable);
-}
-
-static inline uint8_t tp_is_torch (tpp t)
-{
-    return (t->is_torch);
-}
-
-static inline uint8_t tp_is_explosion (tpp t)
-{
-    return (t->is_explosion);
-}
-
-static inline uint8_t tp_is_hidden_from_editor (tpp t)
-{
-    return (t->is_hidden_from_editor);
-}
-
-static inline uint8_t tp_is_animated (tpp t)
-{
-    return (t->is_animated);
-}
-
-static inline uint8_t tp_is_collision_map_medium (tpp t)
-{
-    return (t->is_collision_map_medium);
-}
-
-static inline uint8_t tp_is_collision_map_small (tpp t)
-{
-    return (t->is_collision_map_small);
-}
-
-static inline uint8_t tp_is_collision_map_tiny (tpp t)
-{
-    return (t->is_collision_map_tiny);
-}
-
-static inline uint8_t tp_is_combustable (tpp t)
-{
-    return (t->is_combustable);
-}
-
-static inline uint8_t tp_is_projectile (tpp t)
-{
-    return (t->is_projectile);
-}
-
-static inline uint8_t tp_is_inactive (tpp t)
-{
-    return (t->is_inactive);
-}
-
-static inline uint8_t tp_is_joinable (tpp t)
-{
-    return (t->is_joinable);
-}
-
-static inline uint8_t tp_is_wall (tpp t)
-{
-    return (t->is_wall);
 }
 
 static inline uint8_t tp_is_effect_sway (tpp t)
@@ -1034,21 +395,17 @@ static inline uint8_t tp_is_effect_rotate_2way (tpp t)
     return (t->is_effect_rotate_2way);
 }
 
-tpp random_wall(void);
-tpp random_corridor_wall(void);
-tpp random_door(void);
-tpp random_obstacle(void);
-tpp random_floor(void);
-tpp random_corridor(void);
-tpp random_player(void);
-tpp random_exit(void);
-tpp random_entrance(void);
-tpp random_food(void);
-tpp random_treasure(int shop_floor);
-tpp random_weapon(int shop_floor);
-tpp random_rock(void);
-tpp random_sea(void);
-tpp random_lava(void);
-tpp random_monst(int depth);
-tpp random_trap(int depth);
-tpp random_mob(int depth);
+static inline uint8_t tp_is_hidden (tpp t)
+{
+    return (t->is_hidden);
+}
+
+static inline uint8_t tp_is_explosion (tpp t)
+{
+    return (t->is_explosion);
+}
+
+static inline uint8_t tp_is_effect_fade_in_out (tpp t)
+{
+    return (t->is_effect_fade_in_out);
+}

@@ -12,7 +12,7 @@ void thing_set_dir_none (levelp level, thingp t)
 {
     verify(t);
 
-    if (thing_is_animated_no_dir(t)) {
+    if (tp_is_animated_no_dir(thing_tp(t))) {
         return;
     }
 
@@ -32,7 +32,7 @@ void thing_set_dir_down (levelp level, thingp t)
 {
     verify(t);
 
-    if (thing_is_animated_no_dir(t)) {
+    if (tp_is_animated_no_dir(thing_tp(t))) {
         return;
     }
 
@@ -52,7 +52,7 @@ void thing_set_dir_up (levelp level, thingp t)
 {
     verify(t);
 
-    if (thing_is_animated_no_dir(t)) {
+    if (tp_is_animated_no_dir(thing_tp(t))) {
         return;
     }
 
@@ -72,7 +72,7 @@ void thing_set_dir_left (levelp level, thingp t)
 {
     verify(t);
 
-    if (thing_is_animated_no_dir(t)) {
+    if (tp_is_animated_no_dir(thing_tp(t))) {
         return;
     }
 
@@ -92,7 +92,7 @@ void thing_set_dir_right (levelp level, thingp t)
 {
     verify(t);
 
-    if (thing_is_animated_no_dir(t)) {
+    if (tp_is_animated_no_dir(thing_tp(t))) {
         return;
     }
 
@@ -112,7 +112,7 @@ void thing_set_dir_tl (levelp level, thingp t)
 {
     verify(t);
 
-    if (thing_is_animated_no_dir(t)) {
+    if (tp_is_animated_no_dir(thing_tp(t))) {
         return;
     }
 
@@ -132,7 +132,7 @@ void thing_set_dir_bl (levelp level, thingp t)
 {
     verify(t);
 
-    if (thing_is_animated_no_dir(t)) {
+    if (tp_is_animated_no_dir(thing_tp(t))) {
         return;
     }
 
@@ -152,7 +152,7 @@ void thing_set_dir_tr (levelp level, thingp t)
 {
     verify(t);
 
-    if (thing_is_animated_no_dir(t)) {
+    if (tp_is_animated_no_dir(thing_tp(t))) {
         return;
     }
 
@@ -172,7 +172,7 @@ void thing_set_dir_br (levelp level, thingp t)
 {
     verify(t);
 
-    if (thing_is_animated_no_dir(t)) {
+    if (tp_is_animated_no_dir(thing_tp(t))) {
         return;
     }
 
