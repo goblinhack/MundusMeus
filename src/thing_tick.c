@@ -29,19 +29,6 @@ static int thing_tick_all_things (levelp level)
         THING_SANITY(level, t);
         tp = thing_tp(t);
 
-        if (tp_is_inactive(tp)) {
-            /*
-             * Even inactive things like walls need death checks else they
-             * stay on the level forever!
-             */
-            if (thing_is_dead(t)) {
-                thing_destroy(level, t, "died");
-                continue;
-            }
-
-            continue;
-        }
-
         if ((t->x >= MAP_WIDTH) ||
             (t->y >= MAP_HEIGHT) ||
             (t->x < 0) ||
@@ -71,6 +58,7 @@ static int thing_tick_all_things (levelp level)
             continue;
         }
 
+#if 0
         /*
          * If a projectile, move it by the delta
          */
@@ -79,6 +67,7 @@ static int thing_tick_all_things (levelp level)
         if (thing_is_explosion(t)) {
             need_collision_test = true;
         }
+#endif
 
         if (!wid_is_moving(w)) {
             /*
@@ -97,7 +86,9 @@ static int thing_tick_all_things (levelp level)
                     continue;
                 }
 
+#if 0
                 need_collision_test = true;
+#endif
             }
         }
 
@@ -111,6 +102,7 @@ static int thing_tick_all_things (levelp level)
          * born, then do not move it before the client gets a chance to find 
          * out.
          */
+#if 0
         float speed = tp_get_speed(tp);
 
         int look_for_new_hop = false;
@@ -143,6 +135,7 @@ static int thing_tick_all_things (levelp level)
                 }
             }
         }
+#endif
 
         if (w) {
             switch (t->dir) {
@@ -218,20 +211,8 @@ static void thing_animate_slow (levelp level)
          * Sanity checks.
          */
         THING_SANITY(level, t);
-        tpp tp = thing_tp(t);
-
-        /*
-         * Random utterance?
-         */
-        uint32_t delay = tp_get_sound_random_delay_secs(tp);
-        if (delay) {
-            if (time_have_x_secs_passed_since(myrand() % delay, 
-                                                t->timestamp_sound_random)) {
-                t->timestamp_sound_random = time_get_time_ms();
-                MSG_SHOUT_AT(SOUND, t, t->x, t->y, "%s", tp->sound_random);
-            }
-        }
     }
+
     FOR_ALL_THINGS_END
 }
 
@@ -247,16 +228,8 @@ void thing_animate_all (levelp level)
 
         THING_SANITY(level, t);
 
-        if (t->wid && thing_is_animated(t)) {
+        if (t->wid && tp_is_animated(thing_tp(t))) {
             thing_animate(level, t);
-        }
-
-        if (t->destroy_in_ms > 0) {
-            t->destroy_in_ms -= MAIN_LOOP_DELAY;
-            if (t->destroy_in_ms <= 0) {
-                thing_dead(level, t, 0, "timer expired");
-                continue;
-            }
         }
     }
 

@@ -43,13 +43,7 @@ static void wid_game_map_set_thing_template (widp w, tpp t)
     wid_set_thing_template(w, t);
 
     if (tp_is_effect_pulse(t)) {
-        if (tp_is_lava(t)) {
-            wid_scaling_to_pct_in(w, 1.0, 1.05, gauss(500, 10), 9999999);
-        } else if (tp_is_water(t)) {
-            wid_scaling_to_pct_in(w, 1.0, 1.02, gauss(500, 10), 9999999);
-        } else {
-            wid_scaling_to_pct_in(w, 1.0, 1.05, gauss(500, 10), 9999999);
-        }
+        wid_scaling_to_pct_in(w, 1.0, 1.05, gauss(500, 10), 9999999);
     }
 
     if (tp_is_effect_sway(t)) {
@@ -385,14 +379,6 @@ wid_game_map_replace_tile (levelp level,
      */
     double scale = tp_get_scale(tp);
 
-    /*
-     * So we have baby and bigger slimes. But alas this is visual only and has 
-     * no effect on hp.
-     */
-    if (thing_is_variable_size(t)) {
-        scale += gaussrand(0.0, 0.05);
-    }
-
     if (scale != 1.0) {
         wid_scaling_blit_to_pct_in(child, scale, scale, 500, 9999999);
     }
@@ -405,7 +391,7 @@ wid_game_map_replace_tile (levelp level,
      * If this is a pre-existing thing perhaps being recreated ona new level
      * then it will have a direction already. Update it.
      */
-    if (thing_is_animated(t)) {
+    if (tp_is_animated(thing_tp(t))) {
         thing_animate(level, t);
     }
 
@@ -418,25 +404,6 @@ wid_game_map_replace_tile (levelp level,
     sprintf(name, "%d",thing_id(t));
     wid_set_text(child,name);
 #endif
-
-    const char *sound = tp_sound_on_creation(tp);
-    if (sound) {
-        if (thing_is_explosion(t) ||
-            thing_is_cloud_effect(t)) {
-
-            /*
-             * Let the caller do this for the epicenter
-             */
-        } else {
-            sound_play_at(sound, t->x, t->y);
-        }
-    }
-
-    if (thing_is_explosion(t)) {
-        static int flip;
-        flip = !flip;
-        wid_flip_horiz(child, flip);
-    }
 
     /*
      * This adds it to the grid wid.

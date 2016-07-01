@@ -71,9 +71,6 @@ typedef struct thing_tile_ {
     uint8_t is_join_horiz2:1;
     uint8_t is_join_vert2:1;
     uint8_t is_moving:1;
-    uint8_t is_jumping:1;
-    uint8_t is_end_of_jump:1;
-    uint8_t begin_jump:1;
     uint8_t dir:4;
     uint8_t is_yyy5:1;
     uint8_t is_yyy6:1;
@@ -90,7 +87,6 @@ typedef struct thing_tile_ {
     uint8_t is_sleeping:1;
     uint8_t is_open:1;
     uint8_t is_dead:1;
-    uint8_t is_bloodied:1;
     uint8_t is_end_of_anim:1;
     uint8_t is_dead_on_end_of_anim:1;
     uint8_t has_dir_anim:1;
@@ -104,9 +100,6 @@ const char *thing_tile_name(thing_tilep);
 uint32_t thing_tile_delay_ms(thing_tilep);
 uint32_t thing_tile_move(thing_tilep);
 uint8_t thing_tile_is_moving(thing_tilep);
-uint8_t thing_tile_begin_jump(thing_tilep);
-uint8_t thing_tile_is_jumping(thing_tilep);
-uint8_t thing_tile_is_end_of_jump(thing_tilep);
 uint8_t thing_tile_is_join_block(thing_tilep);
 uint8_t thing_tile_is_join_horiz(thing_tilep);
 uint8_t thing_tile_is_join_vert(thing_tilep);
@@ -181,7 +174,6 @@ uint8_t thing_tile_is_submerged(thing_tilep);
 uint8_t thing_tile_is_sleeping(thing_tilep);
 uint8_t thing_tile_is_open(thing_tilep);
 uint8_t thing_tile_is_dead(thing_tilep);
-uint8_t thing_tile_is_bloodied(thing_tilep);
 uint8_t thing_tile_is_end_of_anim(thing_tilep);
 uint8_t thing_tile_is_dead_on_end_of_anim(thing_tilep);
 

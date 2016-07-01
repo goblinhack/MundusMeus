@@ -226,10 +226,6 @@ static void tp_destroy_internal (tpp t)
 {
     tree_destroy(&t->tiles, (tree_destroy_func)thing_tile_free);
 
-    if (t->tooltip) {
-        myfree(t->tooltip);
-    }
-
     if (t->short_name) {
         myfree(t->short_name);
     }
@@ -238,69 +234,8 @@ static void tp_destroy_internal (tpp t)
         myfree(t->raw_name);
     }
 
-    if (t->polymorph_on_death) {
-        myfree(t->polymorph_on_death);
-    }
-
-    if (t->carried_as) {
-        myfree(t->carried_as);
-    }
-
     if (t->light_tint) {
         myfree(t->light_tint);
-    }
-
-    if (t->explodes_as) {
-        myfree(t->explodes_as);
-    }
-
-    if (t->sound_on_creation) {
-        myfree(t->sound_on_creation);
-    }
-
-    if (t->sound_on_hitting_something) {
-        myfree(t->sound_on_hitting_something);
-    }
-
-    if (t->sound_on_death) {
-        myfree(t->sound_on_death);
-    }
-
-    if (t->sound_on_hit) {
-        myfree(t->sound_on_hit);
-    }
-
-    if (t->sound_on_collect) {
-        myfree(t->sound_on_collect);
-    }
-
-    if (t->sound_random) {
-        myfree(t->sound_random);
-    }
-
-    if (t->weapon_carry_anim) {
-        myfree(t->weapon_carry_anim);
-    }
-
-    if (t->weapon_swing_anim) {
-        myfree(t->weapon_swing_anim);
-    }
-
-    if (t->message_on_use) {
-        myfree(t->message_on_use);
-    }
-
-    int i;
-    for (i = 0; i < t->mob_spawn_count; i++) {
-        if (t->mob_spawn_what[i]) {
-            myfree(t->mob_spawn_what[i]);
-        }
-    }
-
-    for (i = 0; i < t->spawn_on_death_count; i++) {
-        if (t->spawn_on_death_what[i]) {
-            myfree(t->spawn_on_death_what[i]);
-        }
     }
 
     oldptr(t);
@@ -401,21 +336,6 @@ const char *tp_raw_name (tpp t)
     return (t->raw_name);
 }
 
-tpp tp_fires (tpp t)
-{
-    return (t->fires);
-}
-
-const char *tp_polymorph_on_death (tpp t)
-{
-    return (t->polymorph_on_death);
-}
-
-const char *tp_carried_as (tpp t)
-{
-    return (t->carried_as);
-}
-
 const char *tp_light_tint (tpp t)
 {
     return (t->light_tint);
@@ -426,107 +346,17 @@ color tp_light_color (tpp t)
     return (t->light_color);
 }
 
-const char *tp_explodes_as (tpp t)
-{
-    return (t->explodes_as);
-}
-
-const char *tp_sound_on_creation (tpp t)
-{
-    return (t->sound_on_creation);
-}
-
-const char *tp_sound_on_hitting_something (tpp t)
-{
-    return (t->sound_on_hitting_something);
-}
-
-const char *tp_sound_on_death (tpp t)
-{
-    return (t->sound_on_death);
-}
-
-const char *tp_sound_on_hit (tpp t)
-{
-    return (t->sound_on_hit);
-}
-
-const char *tp_sound_on_collect (tpp t)
-{
-    return (t->sound_on_collect);
-}
-
-const char *tp_weapon_carry_anim (tpp t)
-{
-    return (t->weapon_carry_anim);
-}
-
-const char *tp_weapon_swing_anim (tpp t)
-{
-    return (t->weapon_swing_anim);
-}
-
-const char *tp_message_on_use (tpp t)
-{
-    return (t->message_on_use);
-}
-
-const char *tp_mob_spawn (tpp t)
-{
-    if (!t->mob_spawn_count) {
-        return (0);
-    }
-
-    for (;;) {
-        int i = myrand() % t->mob_spawn_count;
-        int r = myrand() % 1000;
-
-        if (r < t->mob_spawn_chance_d1000[i]) {
-            if (!t->mob_spawn_what[i][0]) {
-                return (0);
-            }
-
-            return (t->mob_spawn_what[i]);
-        }
-    }
-}
-
-const char *tp_spawn_on_death (tpp t)
-{
-    if (!t->spawn_on_death_count) {
-        return (0);
-    }
-
-    for (;;) {
-        int i = myrand() % t->spawn_on_death_count;
-        int r = myrand() % 1000;
-
-        if (r < t->spawn_on_death_chance_d1000[i]) {
-            if (!t->spawn_on_death_what[i][0]) {
-                return (0);
-            }
-
-            return (t->spawn_on_death_what[i]);
-        }
-    }
-}
-
-const char *tp_get_tooltip (tpp t)
-{
-    return (t->tooltip);
-}
-
-uint8_t tp_get_z_depth (tpp t)
+int tp_get_z_depth (tpp t)
 {
     return (t->z_depth);
 }
 
-uint8_t tp_get_world_depth (tpp t)
+int tp_get_world_depth (tpp t)
 {
     return (t->world_depth);
 }
 
-uint8_t tp_get_z_order (tpp t)
+int tp_get_z_order (tpp t)
 {
     return (t->z_order);
 }
@@ -534,46 +364,6 @@ uint8_t tp_get_z_order (tpp t)
 int tp_get_speed (tpp t)
 {
     return (t->speed);
-}
-
-int tp_get_damage (tpp t)
-{
-    return (t->damage);
-}
-
-int tp_get_cost (tpp t)
-{
-    return (t->cost);
-}
-
-int tp_get_lifespan_ticks (tpp t)
-{
-    return (t->lifespan_ticks);
-}
-
-int32_t tp_get_bonus_score_on_death (tpp t)
-{
-    return (t->bonus_score_on_death);
-}
-
-int tp_get_vision_distance (tpp t)
-{
-    return (t->vision_distance);
-}
-
-int tp_get_approach_distance (tpp t)
-{
-    return (t->approach_distance);
-}
-
-int32_t tp_get_bonus_gold_on_collect (tpp t)
-{
-    return (t->bonus_gold_on_collect);
-}
-
-int tp_get_d10000_chance_of_appearing (tpp t)
-{
-    return (t->d10000_chance_of_appearing);
 }
 
 int32_t tp_get_blit_top_off (tpp t)
@@ -596,39 +386,9 @@ int32_t tp_get_blit_right_off (tpp t)
     return (t->blit_right_off);
 }
 
-int tp_get_min_appear_depth (tpp t)
-{
-    return (t->min_appear_depth);
-}
-
-int tp_get_max_appear_depth (tpp t)
-{
-    return (t->max_appear_depth);
-}
-
-int tp_get_jump_speed (tpp t)
-{
-    return (t->jump_speed);
-}
-
-int tp_get_hp_per_level (tpp t)
-{
-    return (t->hp_per_level);
-}
-
 double tp_get_light_radius (tpp t)
 {
     return (t->light_radius);
-}
-
-double tp_get_weapon_density (tpp t)
-{
-    return (t->weapon_density);
-}
-
-double tp_get_weapon_spread (tpp t)
-{
-    return (t->weapon_spread);
 }
 
 double tp_get_scale (tpp t)
@@ -638,60 +398,6 @@ double tp_get_scale (tpp t)
     }
 
     return (t->scale);
-}
-
-double tp_get_explosion_radius (tpp t)
-{
-    if (!t->explosion_radius) {
-        return (1.0);
-    }
-
-    return (t->explosion_radius);
-}
-
-double tp_get_collision_radius (tpp t)
-{
-    return (t->collision_radius);
-}
-
-int tp_get_hit_priority (tpp t)
-{
-    return (t->hit_priority);
-}
-
-int tp_get_weapon_fire_delay_hundredths (tpp t)
-{
-    return (t->weapon_fire_delay_hundredths);
-}
-
-int tp_get_sound_random_delay_secs (tpp t)
-{
-    return (t->sound_random_delay_secs);
-}
-
-int tp_get_swing_distance_from_player (tpp t)
-{
-    return (t->swing_distance_from_player);
-}
-
-int tp_get_bonus_hp_on_collect (tpp t)
-{
-    return (t->bonus_hp_on_collect);
-}
-
-int tp_get_can_be_hit_chance (tpp t)
-{
-    return (t->can_be_hit_chance);
-}
-
-int tp_get_hit_delay_tenths (tpp t)
-{
-    return (t->hit_delay_tenths);
-}
-
-int tp_get_mob_spawn_delay_tenths (tpp t)
-{
-    return (t->mob_spawn_delay_tenths);
 }
 
 tree_rootp tp_get_tiles (tpp t)

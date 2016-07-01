@@ -19,7 +19,6 @@ void thing_animate (levelp level, thingp t)
     thing_tilep otile;
     tree_rootp tiles;
     tpp tp = thing_tp(t);
-    widp w = t->wid;
 
     verify(t);
     otile = tile = thing_current_tile(t);
@@ -119,13 +118,6 @@ void thing_animate (levelp level, thingp t)
             }
             verify(tile);
 
-            if (thing_tile_is_bloodied(tile)) {
-                if (!thing_is_bloodied(t)) {
-                    tile = thing_tile_next(tiles, tile);
-                    continue;
-                }
-            }
-
             if (thing_tile_is_dead(tile)) {
                 if (!thing_is_dead(t)) {
                     tile = thing_tile_next(tiles, tile);
@@ -138,23 +130,8 @@ void thing_animate (levelp level, thingp t)
                     tile = thing_tile_next(tiles, tile);
                     continue;
                 }
-            } else if (thing_is_bloodied(t)) {
-                if (!thing_tile_is_bloodied(tile)) {
-                    tile = thing_tile_next(tiles, tile);
-                    continue;
-                }
             } else if (thing_is_sleeping(t)) {
                 if (!thing_tile_is_sleeping(tile)) {
-                    tile = thing_tile_next(tiles, tile);
-                    continue;
-                }
-            } else if (thing_is_jumping(t) && 
-                    thing_is_effect_rotate_2way(t)) {
-                /*
-                 * Jumping and doesn't use directions, so just stick to jump 
-                 * animation frames/
-                 */
-                if (!thing_tile_is_jumping(tile)) {
                     tile = thing_tile_next(tiles, tile);
                     continue;
                 }
@@ -523,11 +500,6 @@ void thing_animate (levelp level, thingp t)
                     continue;
                 }
 
-                if (thing_tile_is_bloodied(tile)) {
-                    tile = thing_tile_next(tiles, tile);
-                    continue;
-                }
-
                 if (thing_tile_is_open(tile)) {
                     tile = thing_tile_next(tiles, tile);
                     continue;
@@ -574,25 +546,4 @@ void thing_animate (levelp level, thingp t)
     }
 
     t->timestamp_change_to_next_frame = time_get_time_ms() + delay;
-
-    {
-//CON("%s", tile->tilename);
-        /*
-         * Send a jump on the next move to the client?
-         */
-        if (thing_tile_begin_jump(tile)) {
-            t->one_shot_move = true;
-            t->want_to_jump = true;
-        }
-
-        /*
-         * End of jump on the client?
-         */
-        if (t->is_jumping) {
-            if (!wid_is_moving(w)) {
-                t->is_jumping = false;
-//CON("end of jump");
-            }
-        }
-    }
 }

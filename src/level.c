@@ -106,79 +106,23 @@ void level_update_slow (levelp level)
     /*
      * One time generate of expensive wander map
      */
+#if 0
     dmap_generate_map_wander(level);
+#endif
 
     level_update_incremental(level);
 }
 
-static int level_update_needed (levelp level)
-{
-    static uint64_t last_checksum;
-    uint64_t checksum = 0;
-
-    int tot = 0;
-    int x, y, z;
-
-    widp w = game.wid_grid;
-    if (!w) {
-        return (false);
-    }
-
-    verify(w);
-
-    z = MAP_DEPTH_WALL;
-    {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            for (y = 0; y < MAP_HEIGHT; y++) {
-                tree_root **tree = 
-                    w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
-                widgridnode *node;
-
-                TREE_WALK_REVERSE_UNSAFE_INLINE(
-                                    *tree, 
-                                    node,
-                                    tree_prev_tree_wid_compare_func) {
-
-                    widp w = node->wid;
-
-                    thingp t = wid_get_thing(w);
-                    if (!t) {
-                        continue;
-                    }
-
-                    if (thing_is_wall(t)        ||
-                        thing_is_rock(t)        ||
-                        thing_is_door(t)) {
-
-                        tot++;
-                        checksum += x + y * MAP_WIDTH;
-                        checksum += 1000;
-                    }
-                }
-            }
-        }
-    }
-
-    if (checksum != last_checksum) {
-        last_checksum = checksum;
-        return (true);
-    }
-
-    return (false);
-}
-
 static void level_update_incremental (levelp level)
 {
-    if (!level_update_needed(level)) {
-        return;
-    }
-
     level_set_walls(level);
 
     /*
      * Regenerate player dmaps as things like doors may have been opened.
      */
+#if 0
     dmap_generate(level, true /* force */);
+#endif
 
     map_fixup(level);
 }
@@ -346,26 +290,3 @@ int level_tick (levelp level)
 
     return (true);
 }
-
-static uint32_t level_count_is_x (levelp level, map_is_at_callback callback)
-{
-    uint32_t count;
-    int32_t x;
-    int32_t y;
-
-    count = 0;
-
-    for (x = 0; x < MAP_WIDTH; x++) {
-        for (y = 0; y < MAP_HEIGHT; y++) {
-            count += map_count_x_at(level, x, y, callback);
-        }
-    }
-
-    return (count);
-}
-
-uint32_t level_count_is_exit (levelp level)
-{
-    return (level_count_is_x(level, tp_is_exit));
-}
-

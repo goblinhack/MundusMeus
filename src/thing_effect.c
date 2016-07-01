@@ -32,13 +32,15 @@ void thing_effect_hit_success (levelp level, thingp t)
 {
     verify(t);
 
+CON("todo success");
+return;
+#if 0
     const char *sound = tp_sound_on_hit(thing_tp(t));
     if (sound) {
         MSG_SHOUT_AT(SOUND, t, t->x, t->y, "%s", sound);
     }
+#endif
 
-CON("todo success");
-return;
 #if 0
     widp w = t->wid;
     if (w) {
