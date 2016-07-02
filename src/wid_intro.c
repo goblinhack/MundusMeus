@@ -24,6 +24,7 @@
 #include "wid_cmap.h"
 #include "wid_tooltip.h"
 #include "thing.h"
+#include "python.h"
 
 static widp wid_intro;
 static widp wid_intro_menu;
@@ -215,6 +216,8 @@ static uint8_t wid_menu_quick_start_selected (widp w,
     wid_intro_hide();
 
     wid_game_map_init();
+
+    py_call_void_module_void("hooks", "hook_new_game");
 
     return (true);
 }
