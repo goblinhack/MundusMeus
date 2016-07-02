@@ -12,37 +12,17 @@
 #include <stdlib.h>
 #include <math.h>
 
-extern int things_total;
-extern int things_total;
-extern int monst_things_total;
-extern int monst_things_total;
-
 uint8_t thing_init(void);
 void thing_fini(void);
-void thing_map_sanity(levelp level);
+thingp thing_load(const char *name);
+thingp thing_find(const char *name);
 void thing_sanity(levelp, thingp);
-void thing_map_dump(void);
-thingp thing_new(levelp,
-                 const char *name, 
-                 double x, double y);
-void thing_reinit(levelp, thingp, double x, double y);
-void thing_restarted(levelp, thingp t);
-void thing_destroy(levelp, thingp, const char *why);
-void thing_destroy_in(levelp level, thingp t, int32_t delay);
 int thing_tick_all(levelp level);
 void thing_animate_all(levelp level);
 void thing_wake(levelp, thingp t);
 void thing_dead(levelp, thingp, thingp killer,
                 const char *fmt, ...) __attribute__ ((format (printf, 4, 5)));
-void thing_hide(levelp, thingp);
-uint8_t thing_is_visible(levelp, thingp);
-void thing_leave_level(levelp, thingp);
-void thing_join_level(levelp, thingp);
-void thing_visible(levelp, thingp);
-void things_level_destroyed(levelp, uint8_t keep_player);
 void thing_set_wid(levelp, thingp, widp);
-void thing_map_remove(levelp, thingp t);
-void thing_map_add(levelp, thingp t, int32_t x, int32_t y);
 widp thing_wid(thingp);
 const char *thing_name(thingp);
 const char *thing_logname(thingp);
@@ -149,16 +129,9 @@ enum {
     THING_DIR_BR,
 };
 
-enum {
-    THING_NONE,
-    THING_GRASS1,
-    TP_MAX_ID,
-};
-
-#define TP_MAX_ID 4096
-#define THING_FIRST 1
-
 typedef struct thing_ {
+
+    tree_key_string tree;
 
     uint32_t thing_id;
 
@@ -363,33 +336,9 @@ void thing_wid_move(levelp level,
 void thing_dir(thingp t, double *dx, double *dy);
 int thing_angle_to_dir(double dx, double dy);
 
-/*
- * round the thing coords and find out what floor tile we are really on.
- * we use the bottom of the tile as that is where the 'feet' commonly are
- */
-static inline void thing_real_to_map (thingp t, double *x, double *y)
-{
-    *x = (t->x + 0.0);
-    *y = (t->y + 0.0);
-}
-
-static inline void thing_real_to_fmap (thingp t, double *x, double *y)
-{
-    *x = (t->x + 0.0);
-    *y = (t->y + 0.0);
-}
-
-static inline void real_to_map (double ix, double iy, double *x, double *y)
-{
-    *x = (ix + 0.0);
-    *y = (iy + 0.0);
-}
-
 #define FOR_ALL_THINGS(level, t) \
     { \
-    for (t = &level->things[0]; \
-         t < &level->things[MAX_THINGS_PER_LEVEL]; t++) { \
-        if (!t->thing_id) { continue; } \
+        TREE_WALK_UNSAFE(things, t) { \
         verify(t);
 
 #define FOR_ALL_THINGS_END } }
@@ -400,3 +349,5 @@ static inline uint32_t thing_id (thingp t)
 
     return (t->thing_id);
 }
+
+extern tree_root *things;

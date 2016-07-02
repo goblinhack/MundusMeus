@@ -159,15 +159,6 @@ uint8_t player_move (levelp level)
         return (false);
     }
 
-    /*
-     * If no longer visible it may mean we have finished the level and are 
-     * waiting for others to finish.
-     */
-    if (!thing_is_visible(level, player)) {
-        LOG("Player is not visible, cannot move");
-        return (false);
-    }
-
     static uint32_t last_tick;
     if (time_have_x_tenths_passed_since(1, last_tick)) {
         player_wid_update(level);

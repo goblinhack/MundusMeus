@@ -6,6 +6,7 @@
 
 #include "python.h"
 #include "py_tp.h"
+#include "py_thing.h"
 #include "main.h"
 #include "string_util.h"
 #include "string_ext.h"
@@ -490,6 +491,7 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "load a thing template"},
 
+    THING_DECL(thing_id)
     TP_DECL(tile)
     TP_DECL(light_radius)
     TP_DECL(z_depth)
