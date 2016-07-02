@@ -260,31 +260,32 @@ class Thing:
         self.level.on_map[self.x][self.y].remove(self)
         self.on_map = False
 
-def save_test():
-    w = World(0)
-    
-    p = Xyz(0,0,0)
-    w.push_level(p)
-    l = w.get_level()
-    l.set_dim(256, 256)
-    
-    p2 = Xyz(0,0,1)
-    w.push_level(p2)
-    l = w.get_level()
-    l.set_dim(256, 256)
-    
-    for i in range(0,3):
-        t = Thing(level=l, name="grass")
-        t.push(10 + 1, 10 + 1)
-        t.pop()
-
-    w.save()
-
-def load_test():
-    w = World(0)
-    w.load()
-    w.dump()
-
-save_test()
-print("===============")
-load_test()
+#def save_test():
+#    w = World(0)
+#    
+#    p = Xyz(0,0,0)
+#    w.push_level(p)
+#    l = w.get_level()
+#    l.set_dim(256, 256)
+#    
+#    p2 = Xyz(0,0,1)
+#    w.push_level(p2)
+#    l = w.get_level()
+#    l.set_dim(256, 256)
+#    
+#    for i in range(0,3):
+#        t = Thing(level=l, name="grass")
+#        t.push(10 + 1, 10 + 1)
+#        t.pop()
+#
+#    w.save()
+#
+#def load_test():
+#    w = World(0)
+#    w.load()
+#    w.dump()
+#
+##save_test()
+##print("===============")
+##load_test()
+#

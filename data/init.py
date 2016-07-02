@@ -30,6 +30,18 @@ def load_one_plugin(filepath):
         global config
         config = py_mod
 
+    if basename(filepath) == "hooks.py":
+        global hooks
+        hooks = py_mod
+
+    if basename(filepath) == "world.py":
+        global world
+        world = py_mod
+
+    if basename(filepath) == "game.py":
+        global game
+        game = py_mod
+
 def load_all_plugins():
     for filename in find_plugins(dirname(__file__), '*.py'):
         mm.con("Loading " + filename);
