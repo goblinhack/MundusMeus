@@ -36,13 +36,13 @@ class World:
         del self
 
     def __str__(self):
-        return "world:{0}".format(self.world_id)
+        return "{0}".format(self.world_id)
 
     def log (self, msg):
-        mm.log("{0: <25}: WORLD: {1}".format(str(self), msg))
+        mm.log("p-world: {0}: {1}".format(str(self), msg))
 
     def err (self, msg):
-        mm.err("{0: <25}: WORLD: ERROR: {1}".format(str(self), msg))
+        mm.err("p-world: {0}: ERROR: {1}".format(str(self), msg))
         traceback.print_stack()
 
     def get_level (self):

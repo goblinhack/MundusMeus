@@ -20,7 +20,7 @@ static PyObject *mymod;
 
 void py_call_void_module_int (const char *module, const char *name, int val1)
 {
-    LOG("python: %s.%s(%d)", module, name, val1);
+    LOG("c-to-python: %s.%s(%d)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -59,7 +59,7 @@ void py_call_void_module_int (const char *module, const char *name, int val1)
 
 void py_call_void_int (const char *name, int val1)
 {
-    LOG("python: %s(%d)", name, val1);
+    LOG("c-to-python: %s(%d)", name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -81,7 +81,7 @@ void py_call_void_int (const char *name, int val1)
 
 void py_call_void (const char *name)
 {
-    LOG("python: %s()", name);
+    LOG("c-to-python: %s()", name);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -103,7 +103,7 @@ int py_call_int_module_int (const char *module, const char *name, int val1)
 {
     int ret = -1;
 
-    LOG("python: %s.%s(%d)", module, name, val1);
+    LOG("c-to-python: %s.%s(%d)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -148,7 +148,7 @@ int py_call_int_module_void (const char *module, const char *name)
 {
     int ret = -1;
 
-    LOG("python: %s.%s()", module, name);
+    LOG("c-to-python: %s.%s()", module, name);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -189,7 +189,7 @@ int py_call_int_module_void (const char *module, const char *name)
 
 void py_call_void_module_void (const char *module, const char *name)
 {
-    LOG("python: %s.%s()", module, name);
+    LOG("c-to-python: %s.%s()", module, name);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -228,7 +228,7 @@ int py_call_int_int (const char *name, int val1)
 {
     int ret = -1;
 
-    LOG("python: %s(%d)", name, val1);
+    LOG("c-to-python: %s(%d)", name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
