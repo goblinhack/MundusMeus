@@ -281,5 +281,3 @@ done:	                                                                        \
 	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
-
-THING_BODY_INT(thing_id)

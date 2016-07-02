@@ -39,12 +39,10 @@ class World:
         return "world:{0}".format(self.world_id)
 
     def log (self, msg):
-        print("{0: <19}: {1: <25}: WORLD: {2}".
-                format(util.Timestamp(), str(self), msg))
+        mm.log("{0: <25}: WORLD: {1}".format(str(self), msg))
 
     def err (self, msg):
-        print("{0: <19}: {1: <25}: WORLD: ERROR: {2}".
-                format(util.Timestamp(), str(self), msg))
+        mm.err("{0: <25}: WORLD: ERROR: {1}".format(str(self), msg))
         traceback.print_stack()
 
     def get_level (self):

@@ -30,7 +30,6 @@
 #include "string_util.h"
 #include "wid_game_map.h"
 #include "player.h"
-#include "thing_timer.h"
 #include "wid_menu.h"
 
 #if defined WIN32 || defined __CYGWIN__

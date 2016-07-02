@@ -1,11 +1,15 @@
 import mm
 
+all_tps={}
+
 class tpp:
     """thing template"""
     def __init__(self, name):
         self.name = name;
         mm.tp_load(self);
         self.set_raw_name(name);
+
+        all_tps[name] = self
 
     def set_short_name(self, value):
         self.short_name = value;

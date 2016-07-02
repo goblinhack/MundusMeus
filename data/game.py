@@ -21,7 +21,7 @@ class Game:
         l.set_dim(256, 256)
         
         for i in range(0,3):
-            t = thing.Thing(level=l, name="grass")
+            t = thing.Thing(level=l, tp_name="grass1")
             t.push(10 + 1, 10 + 1)
 
 def game_new():

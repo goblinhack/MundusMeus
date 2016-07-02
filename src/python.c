@@ -491,7 +491,12 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "load a thing template"},
 
-    THING_DECL(thing_id)
+    {"thing_load",
+        (PyCFunction)thing_load_,
+        METH_VARARGS | METH_KEYWORDS,
+        "create a thing template"},
+
+//    THING_DECL(thing_id)
     TP_DECL(tile)
     TP_DECL(light_radius)
     TP_DECL(z_depth)
