@@ -10,7 +10,7 @@ class Level:
         self.all_things = {}
 
     def __str__(self):
-        return "{0},level:{1}".format(self.world, str(self.xyz))
+        return "xyz:{0}".format(str(self.xyz))
 
     def destroy (self):
         self.log("Destroying level {")
@@ -21,10 +21,10 @@ class Level:
         del self
 
     def log (self, msg):
-        mm.log("{0: <25}: LEVEL: {1}".format(str(self), msg))
+        mm.log("p-level: {0}: {1}".format(str(self), msg))
 
     def err (self, msg):
-        mm.err("{0: <25}: LEVEL: ERROR: {1}".format(str(self), msg))
+        mm.err("p-level: {0}: ERROR: {1}".format(str(self), msg))
         traceback.print_stack()
 
     def dump (self):

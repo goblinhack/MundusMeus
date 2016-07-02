@@ -23,7 +23,7 @@ class Thing:
         self.y = -1
         self.on_map = False
 
-        self.log("P created thing")
+        self.log("Created thing")
 
         if self.thing_id in self.level.all_things:
             self.err("Already in level list")
@@ -34,7 +34,7 @@ class Thing:
         mm.thing_load(self)
 
     def __str__(self):
-        return "{0}: id[{1}]:{2}".format(self.level, self.thing_id, self.tp_name)
+        return "{0}:{1}".format(self.thing_id, self.tp_name)
 
     def destroy (self):
         if self.on_map:
@@ -47,10 +47,10 @@ class Thing:
         del self
 
     def log (self, msg):
-        mm.log("{0: <25}: {1}".format(str(self), msg))
+        mm.log("p-thing {0}: {1}".format(str(self), msg))
 
     def err (self, msg):
-        mm.err("{0: <25}: ERROR: {1}".format(self.name, msg))
+        mm.err("p-thing {0}: ERROR: {1}".format(self.name, msg))
         traceback.print_stack()
 
     def dump (self):

@@ -469,7 +469,7 @@ static void thing_log_ (thingp t, const char *fmt, va_list args)
     buf[0] = '\0';
     timestamp(buf, sizeof(buf));
     len = (uint32_t)strlen(buf);
-    snprintf(buf + len, sizeof(buf) - len, "Thing %s: ", thing_logname(t));
+    snprintf(buf + len, sizeof(buf) - len, "c-thing %s: ", thing_logname(t));
     len = (uint32_t)strlen(buf);
     vsnprintf(buf + len, sizeof(buf) - len, fmt, args);
 
@@ -496,7 +496,7 @@ static void thing_con_ (thingp t, const char *fmt, va_list args)
     buf[0] = '\0';
     timestamp(buf, sizeof(buf));
     len = (uint32_t)strlen(buf);
-    snprintf(buf + len, sizeof(buf) - len, "Thing %s: ", thing_logname(t));
+    snprintf(buf + len, sizeof(buf) - len, "c-thing %s: ", thing_logname(t));
     len = (uint32_t)strlen(buf);
     vsnprintf(buf + len, sizeof(buf) - len, fmt, args);
 
@@ -578,7 +578,7 @@ static void level_log_ (levelp l, const char *fmt, va_list args)
     timestamp(buf, sizeof(buf));
     len = (uint32_t)strlen(buf);
 
-    snprintf(buf + len, sizeof(buf) - len, "Level (%p): ", l);
+    snprintf(buf + len, sizeof(buf) - len, "level (%p): ", l);
     len = (uint32_t)strlen(buf);
     vsnprintf(buf + len, sizeof(buf) - len, fmt, args);
 
@@ -626,7 +626,7 @@ static void wid_log_ (widp t, const char *fmt, va_list args)
     buf[0] = '\0';
     timestamp(buf, sizeof(buf));
     len = (uint32_t)strlen(buf);
-    snprintf(buf + len, sizeof(buf) - len, "Wid   %s: ", wid_logname(t));
+    snprintf(buf + len, sizeof(buf) - len, "wid   %s: ", wid_logname(t));
     len = (uint32_t)strlen(buf);
     vsnprintf(buf + len, sizeof(buf) - len, fmt, args);
 

@@ -56,7 +56,7 @@ thingp thing_load (const char *name)
         ERR("thing template insert name [%s] failed", name);
     }
 
-   THING_LOG(t, "C created thing");
+    THING_LOG(t, "Created thing");
 
     return (t);
 }
@@ -240,7 +240,7 @@ const char *thing_logname (thingp t)
         loop = 0;
     }
 
-    snprintf(tmp[loop], sizeof(tmp[loop]) - 1, "%s[%p]", t->tree.key, t);
+    snprintf(tmp[loop], sizeof(tmp[loop]) - 1, "%s", t->tree.key);
 
     return (tmp[loop++]);
 }
