@@ -19,4 +19,4 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
         METH_VARARGS | METH_KEYWORDS,                                           \
         "set a " #__field__ " in a thing"},                                     \
 
-THING_PROTO(thing_id)
+//THING_PROTO(thing_id)

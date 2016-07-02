@@ -2233,7 +2233,7 @@ void wid_set_thing (widp w, levelp level, thingp t)
         wid_set_tilename(w, thing_tile_name(tile));
     }
 
-    wid_set_name(w, thing_name(t));
+    wid_set_name(w, thing_logname(t));
 
     thing_set_wid(level, t, w);
 }

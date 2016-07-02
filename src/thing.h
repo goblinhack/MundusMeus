@@ -24,9 +24,7 @@ void thing_dead(levelp, thingp, thingp killer,
                 const char *fmt, ...) __attribute__ ((format (printf, 4, 5)));
 void thing_set_wid(levelp, thingp, widp);
 widp thing_wid(thingp);
-const char *thing_name(thingp);
 const char *thing_logname(thingp);
-const char *thing_short_name(thingp);
 uint8_t thing_z_depth(thingp);
 uint8_t thing_z_order(thingp);
 tree_rootp thing_tile_tiles(thingp);
@@ -108,7 +106,6 @@ typedef struct {
     float y;
 
     uint32_t owner_id;
-    uint32_t thing_id;
 
     /*
      * Center of an explosion.
@@ -132,8 +129,6 @@ enum {
 typedef struct thing_ {
 
     tree_key_string tree;
-
-    uint32_t thing_id;
 
     /*
      * Pointer to common settings for this thing.
@@ -342,12 +337,5 @@ int thing_angle_to_dir(double dx, double dy);
         verify(t);
 
 #define FOR_ALL_THINGS_END } }
-
-static inline uint32_t thing_id (thingp t)
-{
-    verify(t);
-
-    return (t->thing_id);
-}
 
 extern tree_root *things;

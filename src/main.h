@@ -453,30 +453,5 @@ static inline levelp thing_levelp (uint32_t id)
     return(level);
 }
 
-static inline thingp id_to_thing (uint32_t id) 
-{
-    uint32_t index = id & ~(THING_ID_RAND_MASK);
-
-    if (index >= MAX_THINGS_PER_LEVEL) {
-        DIE("overflow in looking up IDs, id %08X, index %u", id, index);
-    }
-
-    levelp level = &game.level;
-    verify(level);
-
-    thingp t = &level->things[index];
-    verify(t);
-
-    if (!t->thing_id) {
-        return (0);
-    }
-
-    if (t->thing_id != id) {
-        DIE("thing id %08X magic mismatch %u vs %u", index, id, t->thing_id);
-    }
-
-    return (t);
-}
-
 #define SOUND_MAX 20
 

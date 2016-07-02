@@ -6,7 +6,6 @@
 
 
 #include "main.h"
-#include "thing_timer.h"
 #include "timer.h"
 #include "level.h"
 #include "wid_game_map.h"

@@ -46,7 +46,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/thing_template.o 		\
     $(OBJDIR)/thing_tick.o 		\
     $(OBJDIR)/thing_tile.o 		\
-    $(OBJDIR)/thing_timer.o 		\
     $(OBJDIR)/tile.o 			\
     $(OBJDIR)/time.o 			\
     $(OBJDIR)/timer.o 			\

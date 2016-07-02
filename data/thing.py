@@ -1,23 +1,29 @@
 import pickle
 import traceback
 import mm
+import tp
 import util
-from util import Timestamp
 
 class Thing:
-    def __init__ (self, level, name):
+    def __init__ (self, level, tp_name):
         self.level = level
-        self.name = name
-        self.level = level
+        self.tp_name = tp_name
 
         level.world.max_thing_id += 1
         self.thing_id = level.world.max_thing_id
+        self.name = "{0}:{1}".format(self.thing_id, self.tp_name)
+
+        if not tp_name in tp.all_tps:
+            self.err("Thing template {0} does not exist".format(tp_name))
+
+        self.tp = tp.all_tps[tp_name]
+        self.level = level
 
         self.x = -1
         self.y = -1
         self.on_map = False
 
-        self.log("Created thing")
+        self.log("P created thing")
 
         if self.thing_id in self.level.all_things:
             self.err("Already in level list")
@@ -25,11 +31,10 @@ class Thing:
 
         self.level.all_things[self.thing_id] = self
 
-        self.name =  "{0}:{1}".format(self.thing_id, self.name)
         mm.thing_load(self)
 
     def __str__(self):
-        return "{0}: id[{1}]:{2}".format(self.level, self.thing_id, self.name)
+        return "{0}: id[{1}]:{2}".format(self.level, self.thing_id, self.tp_name)
 
     def destroy (self):
         if self.on_map:
@@ -42,11 +47,10 @@ class Thing:
         del self
 
     def log (self, msg):
-        print("{0: <19}: {1: <25}: {2}".format(Timestamp(), str(self), msg))
+        mm.log("{0: <25}: {1}".format(str(self), msg))
 
     def err (self, msg):
-        print("{0: <19}: {1: <25}: ERROR: {2}".format(
-            Timestamp(), self.debug, msg))
+        mm.err("{0: <25}: ERROR: {1}".format(self.name, msg))
         traceback.print_stack()
 
     def dump (self):

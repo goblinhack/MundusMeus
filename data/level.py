@@ -21,12 +21,10 @@ class Level:
         del self
 
     def log (self, msg):
-        print("{0: <19}: {1: <25}: LEVEL: {2}".format(
-            util.Timestamp(), str(self), msg))
+        mm.log("{0: <25}: LEVEL: {1}".format(str(self), msg))
 
     def err (self, msg):
-        print("{0: <19}: {1: <25}: LEVEL: ERROR: {2}".format(
-            util.Timestamp(), str(self), msg))
+        mm.err("{0: <25}: LEVEL: ERROR: {1}".format(str(self), msg))
         traceback.print_stack()
 
     def dump (self):

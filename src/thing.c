@@ -5,7 +5,6 @@
  */
 
 #include "main.h"
-#include "thing_timer.h"
 #include "wid_game_map.h"
 #include "string_util.h"
 #include "sound.h"
@@ -57,6 +56,8 @@ thingp thing_load (const char *name)
         ERR("thing template insert name [%s] failed", name);
     }
 
+   THING_LOG(t, "C created thing");
+
     return (t);
 }
 
@@ -78,7 +79,7 @@ thingp thing_find (const char *name)
     }
 
     // memset(&target, 0, sizeof(target)); intentional for speed
-    target.tree.key = (char*) name;
+    target.tree.key = (char*) dupstr(name, "thing name");
 
     result = (typeof(result)) tree_find(thing_templates, &target.tree.node);
     if (!result) {
@@ -239,17 +240,9 @@ const char *thing_logname (thingp t)
         loop = 0;
     }
 
-    snprintf(tmp[loop], sizeof(tmp[loop]) - 1,
-             "%s[%p, id %08X]", thing_short_name(t), t, t->thing_id);
+    snprintf(tmp[loop], sizeof(tmp[loop]) - 1, "%s[%p]", t->tree.key, t);
 
     return (tmp[loop++]);
-}
-
-const char *thing_short_name (thingp t)
-{
-    verify(t);
-
-    return (tp_short_name(thing_tp(t)));
 }
 
 uint8_t thing_z_depth (thingp t)
@@ -334,13 +327,6 @@ void thing_set_is_dead (thingp t, uint8_t val)
     verify(t);
 
     t->is_dead = val;
-}
-
-const char *thing_name (thingp t)
-{
-    verify(t);
-
-    return (tp_short_name(thing_tp(t)));
 }
 
 tree_rootp thing_tiles (thingp t)
