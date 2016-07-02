@@ -1,18 +1,8 @@
 import pickle
-import datetime
 import traceback
-
-def Timestamp():
-    return "{:%Y-%m-%d %H:%M:%S}".format(datetime.datetime.now())
-
-class Xyz:
-    def __init__ (self, x, y, z):
-        self.x = x
-        self.y = y
-        self.z = z
-
-    def __str__ (self):
-        return str(self.x) + "," + str(self.y) + "," + str(self.z)
+import level
+import util
+import mm
 
 class World:
     def __init__ (self, world):
@@ -50,11 +40,11 @@ class World:
 
     def log (self, msg):
         print("{0: <19}: {1: <25}: WORLD: {2}".
-                format(Timestamp(), str(self), msg))
+                format(util.Timestamp(), str(self), msg))
 
     def err (self, msg):
         print("{0: <19}: {1: <25}: WORLD: ERROR: {2}".
-                format(Timestamp(), str(self), msg))
+                format(util.Timestamp(), str(self), msg))
         traceback.print_stack()
 
     def get_level (self):
@@ -69,11 +59,11 @@ class World:
 
         try:
             with open(level_name, 'rb') as f:
-                level = pickle.load(f)
+                l = pickle.load(f)
         except:
-            level = Level(self, xyz)
+            l = level.Level(self, xyz)
 
-        return level
+        return l
 
     def push_level (self, xyz):
         self.log("Push level {0}".format(xyz))
@@ -137,7 +127,7 @@ class World:
             # Just load the default level
             #
             self.err("Empty level stack")
-            p = Xyz(0,0,0)
+            p = util.Xyz(0,0,0)
             self.push_level(p)
         else:
             xyz = self.level_stack[len(self.level_stack)-1]
@@ -153,139 +143,3 @@ class World:
 
         if self.level != None:
             self.level.dump()
-
-class Level:
-    def __init__ (self, world, xyz):
-        self.world = world
-        self.xyz = xyz
-        self.all_things = {}
-
-    def __str__(self):
-        return "{0},level:{1}".format(self.world, str(self.xyz))
-
-    def destroy (self):
-        self.log("Destroying level {")
-        for key,value in self.all_things.items():
-            value.destroy()
-            self.all_things.pop(key)
-        self.log("} Destroyed level")
-        del self
-
-    def log (self, msg):
-        print("{0: <19}: {1: <25}: LEVEL: {2}".format(
-            Timestamp(), str(self), msg))
-
-    def err (self, msg):
-        print("{0: <19}: {1: <25}: LEVEL: ERROR: {2}".format(
-            Timestamp(), str(self), msg))
-        traceback.print_stack()
-
-    def dump (self):
-        for i in self.all_things:
-            self.all_things[i].dump()
-
-    def save (self):
-        self.log("Save level")
-
-        with open(str(self), 'wb') as f:
-            pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
-
-    def set_dim (self, w, h):
-        self.w = w
-        self.h = h
-
-        self.on_map = [[[] for x in range(w)] for y in range(h)] 
-
-class Thing:
-    def __init__ (self, level, name):
-        self.level = level
-        self.name = name
-        self.level = level
-
-        level.world.max_thing_id += 1
-        self.thing_id = level.world.max_thing_id
-
-        self.x = -1
-        self.y = -1
-        self.on_map = False
-
-        self.log("Created thing")
-
-        if self.thing_id in self.level.all_things:
-            self.err("Already in level list")
-            return
-
-        self.level.all_things[self.thing_id] = self
-
-    def __str__(self):
-        return "{0}: id[{1}]:{2}".format(self.level, self.thing_id, self.name)
-
-    def destroy (self):
-        if self.on_map:
-            self.pop()
-
-        if self.thing_id in self.level.all_things:
-            self.level.all_things[self.thing_id] = []
-
-        self.log("Destroyed thing")
-        del self
-
-    def log (self, msg):
-        print("{0: <19}: {1: <25}: {2}".format(Timestamp(), str(self), msg))
-
-    def err (self, msg):
-        print("{0: <19}: {1: <25}: ERROR: {2}".format(
-            Timestamp(), self.debug, msg))
-        traceback.print_stack()
-
-    def dump (self):
-        self.log("@ {0},{1}".format(self.x, self.y))
-
-    def push (self, x, y):
-        self.x = x
-        self.y = y
-
-        if self.on_map:
-            self.err("Already on the map at {0},{1}".format(self.x, self.y))
-            return
-
-        self.on_map = True
-        self.level.on_map[x][y].append(self)
-
-    def pop (self):
-        if not self.on_map:
-            self.err("Is not on the map")
-            return
-
-        self.level.on_map[self.x][self.y].remove(self)
-        self.on_map = False
-
-#def save_test():
-#    w = World(0)
-#    
-#    p = Xyz(0,0,0)
-#    w.push_level(p)
-#    l = w.get_level()
-#    l.set_dim(256, 256)
-#    
-#    p2 = Xyz(0,0,1)
-#    w.push_level(p2)
-#    l = w.get_level()
-#    l.set_dim(256, 256)
-#    
-#    for i in range(0,3):
-#        t = Thing(level=l, name="grass")
-#        t.push(10 + 1, 10 + 1)
-#        t.pop()
-#
-#    w.save()
-#
-#def load_test():
-#    w = World(0)
-#    w.load()
-#    w.dump()
-#
-##save_test()
-##print("===============")
-##load_test()
-#
