@@ -78,6 +78,7 @@ GAME_OBJECTS=				\
     $(OBJDIR)/wid_tooltip.o 		\
     $(OBJDIR)/python.o 			\
     $(OBJDIR)/py_tp.o 			\
+    $(OBJDIR)/py_thing.o 		\
     $(OBJDIR)/py_tex.o 			\
 
 #

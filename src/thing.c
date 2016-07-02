@@ -15,10 +15,10 @@
 #include "player.h"
 #include "time_util.h"
 
-int things_total;
-int monst_things_total;
+tree_root *things;
 
-static uint8_t thing_init_done;
+static void thing_destroy_internal(thingp t);
+static int thing_init_done;
 
 uint8_t thing_init (void)
 {
@@ -31,9 +31,64 @@ void thing_fini (void)
 {
     if (thing_init_done) {
         thing_init_done = false;
+
+        tree_destroy(&thing_templates,
+            (tree_destroy_func)thing_destroy_internal);
     }
 }
 
+thingp thing_load (const char *name)
+{
+    thingp t;
+
+    if (thing_find(name)) {
+        ERR("thing template name [%s] already used", name);
+    }
+
+    if (!thing_templates) {
+        thing_templates = tree_alloc(TREE_KEY_STRING, "TREE ROOT: thing");
+    }
+
+    t = myzalloc(sizeof(*t), "a thing");
+
+    t->tree.key = dupstr(name, "TREE KEY: thing");
+
+    if (!tree_insert(thing_templates, &t->tree.node)) {
+        ERR("thing template insert name [%s] failed", name);
+    }
+
+    return (t);
+}
+
+static void thing_destroy_internal (thingp t)
+{
+    myfree(t);
+}
+
+/*
+ * Find an existing thing.
+ */
+thingp thing_find (const char *name)
+{
+    thing_template target;
+    thingp result;
+
+    if (!name) {
+        ERR("no name for thing find");
+    }
+
+    // memset(&target, 0, sizeof(target)); intentional for speed
+    target.tree.key = (char*) name;
+
+    result = (typeof(result)) tree_find(thing_templates, &target.tree.node);
+    if (!result) {
+        return (0);
+    }
+
+    return (result);
+}
+
+#if 0
 /*
  * Create a new thing.
  */
@@ -168,163 +223,7 @@ thingp thing_new (levelp level,
 
     return (t);
 }
-
-/*
- * Reinit this player on a new level
- */
-void thing_reinit (levelp level, thingp t, double x, double y)
-{
-    verify(t);
-
-    /*
-     * Start out not on the map.
-     */
-    t->last_x = -1.0;
-    t->last_y = -1.0;
-
-    t->x = x;
-    t->y = y;
-}
-
-void thing_destroy (levelp level, thingp t, const char *why)
-{
-    verify(t);
-
-    /*
-     * Stop all timers.
-     */
-    thing_timers_destroy(level, t);
-
-    if (t->wid) {
-        thing_set_wid(level, t, 0);
-    }
-
-    /*
-     * Record that the client player may have died so we do not disconnect.
-     */
-    if (t == player) {
-        player_wid_destroy(level);
-
-        player = 0;
-    }
-
-    if (thing_is_monst(t)) {
-        monst_things_total--;
-    }
-
-    things_total--;
-
-    t->thing_id = 0;
-
-    oldptr(t);
-}
-
-void thing_wake (levelp level, thingp t)
-{
-    verify(t);
-
-    if (!t->is_sleeping) {
-        return;
-    }
-
-    THING_LOG(t, "Wake");
-
-    thing_set_is_sleeping(t, false);
-}
-
-void thing_hide (levelp level, thingp t)
-{
-    verify(t);
-
-    widp w = t->wid;
-    if (!w) {
-        return;
-    }
-
-    if (wid_this_is_hidden(w)) {
-        return;
-    }
-
-    wid_this_hide(w, 0);
-}
-
-void thing_visible (levelp level, thingp t)
-{
-    verify(t);
-
-    widp w = t->wid;
-    if (!w) {
-        return;
-    }
-
-    if (!wid_this_is_hidden(w)) {
-        return;
-    }
-
-    /*
-     * Reveal the thing.
-     */
-    wid_this_visible(w, 0);
-}
-
-uint8_t thing_is_visible (levelp level, thingp t)
-{
-    verify(t);
-
-    widp w = t->wid;
-    if (w) {
-        return (!wid_is_hidden(w));
-    }
-
-    return (false);
-}
-
-void thing_leave_level (levelp level, thingp t)
-{
-    if (thing_is_player(t)) {
-        THING_LOG(t, "Leave level");
-    }
-
-    thing_set_wid(level, t, 0);
-}
-
-void thing_join_level (levelp level, thingp t)
-{
-    if (thing_is_player(t)) {
-        THING_LOG(t, "Join level");
-    }
-}
-
-void things_level_destroyed (levelp level, uint8_t keep_player)
-{
-    thingp t;
-
-    /*
-     * Ensure no stale pointers.
-     */
-    {
-        {
-            if (keep_player) {
-                LEVEL_LOG(level, "Destroy things, keep player");
-            } else {
-                LEVEL_LOG(level, "Destroy things and player");
-            }
-
-            FOR_ALL_THINGS(level, t)
-
-                if (keep_player &&
-                    !thing_is_player(t)) {
-
-                    thing_set_wid(level, t, 0);
-                    continue;
-                }
-
-                thing_destroy(level, t, "level destroyed");
-
-            FOR_ALL_THINGS_END
-        }
-    }
-}
+#endif
 
 const char *thing_logname (thingp t)
 {

@@ -160,11 +160,11 @@ void sound_play_at (const char *name_alias, double x, double y)
               ((float) MIX_MAX_VOLUME / (float) SOUND_MAX);
 
     if (player) {
+#if 0
         double sx, sy;
 
         real_to_map(x, y, &sx, &sy);
 
-#if 0
         int distance = dmap_distance_to_player(sx, sy);
         if (distance == -1) {
             return;

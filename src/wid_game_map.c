@@ -38,6 +38,7 @@ uint32_t tile_height;
 
 static void wid_game_map_wid_destroy(int keep_player);
 
+#if 0
 static void wid_game_map_set_thing_template (widp w, tpp t)
 {
     wid_set_thing_template(w, t);
@@ -54,6 +55,7 @@ static void wid_game_map_set_thing_template (widp w, tpp t)
         wid_fade_in_out(w, 4000, 99999, 1);
     }
 }
+#endif
 
 void wid_game_map_fini (void)
 {
@@ -295,6 +297,7 @@ wid_game_map_replace_tile (levelp level,
                            thingp t,
                            tpp tp)
 {
+#if 0
     tree_rootp thing_tiles;
     const char *tilename;
     tilep tile = 0;
@@ -411,6 +414,8 @@ wid_game_map_replace_tile (levelp level,
     wid_update(child);
 
     return (child);
+#endif
+    return (0);
 }
 
 static void wid_game_map_wid_destroy (int keep_player)

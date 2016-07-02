@@ -62,35 +62,9 @@ void level_destroy (levelp *plevel, uint8_t keep_player)
 
     level->is_being_destroyed = true;
 
-    if (keep_player) {
-        LEVEL_LOG(level, "Destroy level but keep player");
-    } else {
-        LEVEL_LOG(level, "Destroy level and kill player too");
-    }
-
-    /*
-     * Kill all humans!
-     */
-    things_level_destroyed(level, keep_player);
-
     *plevel = 0;
 
-    thing tmp;
-    if (keep_player) {
-        thing_leave_level(level, player);
-        memcpy(&tmp, player, sizeof(tmp));
-    }
-
     memset(level, 0, sizeof(*level));
-
-    if (keep_player) {
-        memcpy(player, &tmp, sizeof(tmp));
-        LOG("Level freed %p but kept player %p", level, player);
-
-        THING_LOG(player, "Player lives on beyond end of level");
-    } else {
-        LOG("Level freed %p", level);
-    }
 
     oldptr(level);
 
@@ -236,19 +210,6 @@ levelp level_finished (levelp level, int keep_player)
     } else {
         LEVEL_LOG(level, "Finish level and kill player");
     }
-
-    thingp t;
-
-    /*
-     * Force the death of all things on the level.
-     */
-    FOR_ALL_THINGS(level, t) {
-        if (!thing_is_player(t)) {
-            thing_leave_level(level, t);
-            thing_set_is_dead(t, true);
-        }
-    }
-    FOR_ALL_THINGS_END
 
     wid_detach_from_grid(game.wid_grid);
     wid_destroy_grid(game.wid_grid);

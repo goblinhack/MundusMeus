@@ -25,6 +25,9 @@ class Thing:
 
         self.level.all_things[self.thing_id] = self
 
+        self.name =  "{0}:{1}".format(self.thing_id, self.name)
+        mm.thing_load(self)
+
     def __str__(self):
         return "{0}: id[{1}]:{2}".format(self.level, self.thing_id, self.name)
 

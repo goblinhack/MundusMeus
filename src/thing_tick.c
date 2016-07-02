@@ -43,21 +43,6 @@ static int thing_tick_all_things (levelp level)
             verify(w);
         }
 
-        /*
-         * Thing has croaked it?
-         */
-        if (thing_is_dead(t)) {
-            /*
-             * Keep the player around until we restart the level.
-             */
-            if (!thing_is_player(t) &&
-                !thing_is_monst(t)) {
-                thing_destroy(level, t, "died");
-            }
-
-            continue;
-        }
-
 #if 0
         /*
          * If a projectile, move it by the delta
