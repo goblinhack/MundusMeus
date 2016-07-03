@@ -22,7 +22,7 @@ class Game:
         
         for i in range(0,200):
             t = thing.Thing(level=l, tp_name="grass1")
-            t.push(10 + i, 10 + i)
+            t.push(i, i)
 
 #        w.destroy()
 

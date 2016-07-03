@@ -64,7 +64,6 @@ static void wid_dead_replay_callback_yes (widp wid)
     wid_destroy(&wid_replay_game_yes_no);
     wid_dead_destroy();
 
-    game.level_no = 0;
     wid_game_map_init();
 }
 

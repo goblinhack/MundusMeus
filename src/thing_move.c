@@ -69,55 +69,6 @@ void thing_wid_move (thingp t,
     }
 
     /*
-     * Now the tile itself has a shadow that is 1/4 of the pixels.
-     * The center is 24x24 and with shadow it is 32x32. We need to
-     * stretch the tile so it overlaps so the inner 24x24 if seamless.
-     */
-#if 0
-    double tile_width = ((br.x - tl.x) / 
-                         (double)TILE_PIX_WIDTH) * 
-                            (double)TILE_PIX_WITH_SHADOW_WIDTH;
-
-    double tile_height = ((br.y - tl.y) / 
-                         (double)TILE_PIX_HEIGHT) * 
-                            (double)TILE_PIX_WITH_SHADOW_HEIGHT;
-    double tile_width = (br.x - tl.x);
-    double tile_height = (br.y - tl.y);
-
-    tile_width *= 0.50;
-    tile_height *= 0.50;
-#endif
-
-#if 0
-    double tile_width = (br.x - tl.x);
-    double tile_height = (br.y - tl.y);
-#endif
-
-#if 0
-    if (thing_is_wall(t) || thing_is_door(t)) {
-        tl.y -= game.tile_height / 3.0;
-        br.x += game.tile_width / 3.0;
-    }
-#endif
-
-#if 0
-    if (scale_x == 1) {
-        tl.y -= tile_height / 4.0;
-        br.x += tile_width / 4.0;
-    }
-#endif
-
-#if 0
-    /*
-     * Stretch vertically a bit and then recented. Don't do this. Overlapping 
-     * wall pixels with shadows mess up.
-     */
-    tl.y -= tile_height / 8.0;
-    tl.y += tile_height / 16.0;
-    br.y += tile_height / 16.0;
-#endif
-
-    /*
      * Off the map? Perhaps between levels.
      */
     if (!w) {
@@ -150,10 +101,10 @@ void thing_wid_move (thingp t,
 
     double bounce_ms = 300;
 
-    wid_bounce_to_pct_in(w, 0.1, 0.9, bounce_ms, 4);
-
     if (thing_is_player(t) || 
         thing_is_monst(t)) {
+
+        wid_bounce_to_pct_in(w, 0.1, 0.9, bounce_ms, 4);
 
         {
             if (!w->bouncing) {

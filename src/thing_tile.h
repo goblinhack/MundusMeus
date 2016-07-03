@@ -92,10 +92,7 @@ typedef struct thing_tile_ {
     uint8_t has_dir_anim:1;
 } thing_tile;
 
-void demarshal_thing_tiles(demarshal_p, tpp);
-void marshal_thing_tiles(marshal_p, tpp);
 void thing_tile_free(thing_tilep);
-
 const char *thing_tile_name(thing_tilep);
 uint32_t thing_tile_delay_ms(thing_tilep);
 uint32_t thing_tile_move(thing_tilep);

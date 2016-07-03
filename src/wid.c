@@ -7555,6 +7555,7 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
 #endif
 
     if (wid_light_count >= MAX_LIGHTS) {
+        ERR("too many light sources");
         return;
     }
 
@@ -7666,6 +7667,12 @@ static void wid_display_fast (widp w,
     if (pass == 0) {
         int light_source = false;
 
+        double light_radius = tp_get_light_radius(tp);
+
+        if (light_radius > 0.0) {
+            light_source = true;
+        }
+
         if (light_source) {
             fpoint light_pos;
 
@@ -7681,11 +7688,7 @@ static void wid_display_fast (widp w,
                 light_pos.y = otly + wid_get_height(w) / 2;
             }
 
-            double light_radius = tp_get_light_radius(tp);
-
-            if (light_radius > 0.0) {
-                wid_light_add(w, light_pos, light_radius, tp_light_color(tp));
-            }
+            wid_light_add(w, light_pos, light_radius, tp_light_color(tp));
         }
     }
 
@@ -7856,13 +7859,15 @@ static void wid_display_fast (widp w,
         gl_blitline(mx, my, mx + vx, my + vy);
 
     }
+#endif
 
-    if (0 && unlikely(debug && t)) {
+    if (unlikely(debug && t)) {
         double mx, my;
 
-        thing_real_to_map(t, &mx, &my);
+        mx = t->x;
+        my = t->y;
 
-        int distance = dmap_distance_to_player(mx, my);
+        int distance = 1; // dmap_distance_to_player(mx, my);
 
         char tmp[80];
 
@@ -7885,7 +7890,7 @@ static void wid_display_fast (widp w,
             ttf_puts_no_fmt(vsmall_font, tmp,
                             (otlx + obrx) / 2, (otly + obry) / 2, 1.0, 1.0, true);
 
-            if (thing_is_dungeon_floor(t)) {
+            if (1) { // thing_is_dungeon_floor(t)) {
                 glcolor(WHITE);
                 sprintf(tmp, "%d,%d",(int)(t->x), (int)(t->y));
                 ttf_puts_no_fmt(vsmall_font, tmp, otlx, otly, 1.0, 1.0, true);
@@ -7897,7 +7902,6 @@ static void wid_display_fast (widp w,
 
         }
     }
-#endif
 }
 
 static void map_light_add_ray_depth (fpoint p,
@@ -9188,9 +9192,10 @@ static void wid_display (widp w,
 
         blit_flush();
 
+            if (0)
         if ((w->grid) && !debug) {
             /*
-             * Light soure.
+             * Light source.
              */
             glBindFramebuffer_EXT(GL_FRAMEBUFFER, fbo_id1);
 
@@ -9257,114 +9262,6 @@ static void wid_display (widp w,
              * in front of the wall decos. So skip this.
              */
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-#ifdef ENABLE_REDRAW_LIGHT_SOURCES
-            {
-                /*
-                 * Redraw light sources on top of the light they cast.
-                 */
-                blit_init();
-
-                /*
-                 * Need to keep track of lit cells as a lava block at the 
-                 * bottom of the z depth must also lit all things sitting on 
-                 * top of it.
-                 */
-#ifdef ENABLE_LIGHT_ALL_UNDER_LIGHT_SOURCE
-                static uint32_t cell_lit[MAP_WIDTH][MAP_HEIGHT];
-                static uint32_t cell_lit_value;
-
-                cell_lit_value++;
-#endif
-                for (x = maxx - 1; x >= minx; x--) {
-                    for (y = miny; y < maxy; y++) {
-                        for (z = 0; z < MAP_DEPTH; z++) {
-                            tree_root **tree = 
-                                w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
-                            widgridnode *node;
-
-                            TREE_WALK_REVERSE_UNSAFE_INLINE(
-                                                *tree, 
-                                                node,
-                                                tree_prev_tree_wid_compare_func_fast) {
-
-                                widp w = node->wid;
-                                thingp t = w->thing;
-                                levelp level = wid_get_level(w);
-
-#ifdef ENABLE_LIGHT_ALL_UNDER_LIGHT_SOURCE
-                                uint8_t lit = (cell_lit[x][y] == cell_lit_value);
-#else
-                                uint8_t lit = 0;
-#endif
-
-                                if (t) {
-                                    if (thing_is_player_or_owned_by_player(level, t)) {
-                                        /*
-                                         * So player standing one tile below a 
-                                         * light source like rock do not have 
-                                         * the rock overlaid over their heads!
-                                         */
-                                        lit = 0;
-                                    } else if (thing_is_light_source(t)) {
-                                        if (thing_is_monst(t)       ||
-                                            thing_is_lava(t)        ||
-                                            thing_is_projectile(t)  ||
-                                            thing_is_teleport(t)    ||
-                                            thing_is_torch(t)       ||
-                                            thing_is_acid(t)) {
-                                            double sx, sy;
-                                            thing_real_to_map(t, &sx, &sy);
-
-                                            int distance = dmap_distance_to_player(sx, sy);
-                                            if (distance != -1) {
-                                                lit = 1;
-                                            }
-                                        }
-                                    } else if ((t->lit == 0) && 
-                                        (t->torch_light_radius == 0) &&
-                                        thing_is_cats_eyes(t)) {
-                                        lit = 1;
-                                    }
-                                }
-
-                                if (lit || w->text[0]) {
-                                    if (unlikely(wid_this_is_hidden(node->wid))) {
-                                    } else if (unlikely(w->text[0])) {
-                                        uint8_t child_updated_scissors = false;
-            
-                                        wid_display(w, true, 
-                                                    &child_updated_scissors);
-                                    } else if (unlikely(w->rotating || w->rotated)) {
-                                        uint8_t child_updated_scissors = false;
-                                        blit_flush();
-                                        wid_display(w, true, &child_updated_scissors);
-                                        blit_init();
-
-                                    } else {
-                                        /*
-                                         * Doesn't look that great as a torch 
-                                         * with red light has a base that is 
-                                         * colored white.
-                                         */
-#ifdef ENABLE_LIGHT_ALL_UNDER_LIGHT_SOURCE
-                                        cell_lit[x][y] = cell_lit_value;
-#endif
-
-                                        wid_display_fast(node->wid, 
-                                                        shake_x,
-                                                        shake_y,
-                                                        1, black_and_white);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                blit_flush();
-            }
-#endif
 
 #if 0
             if (0) {

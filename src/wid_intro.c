@@ -215,6 +215,10 @@ static uint8_t wid_menu_quick_start_selected (widp w,
     wid_intro_menu_destroy();
     wid_intro_hide();
 
+    if (game.wid_grid) {
+        return (true);
+    }
+
     wid_game_map_init();
 
     py_call_void_module_void("hooks", "hook_new_game");
