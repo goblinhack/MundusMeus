@@ -69,6 +69,7 @@ class Thing:
 
         self.on_map = True
         self.level.on_map[x][y].append(self)
+        mm.thing_push(self, x, y)
 
     def pop (self):
         if not self.on_map:
@@ -76,4 +77,5 @@ class Thing:
             return
 
         self.level.on_map[self.x][self.y].remove(self)
+        mm.thing_pop(self)
         self.on_map = False

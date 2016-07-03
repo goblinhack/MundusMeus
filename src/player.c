@@ -181,7 +181,7 @@ uint8_t player_move (levelp level)
         jump_speed = 0.20;
     }
 
-    thing_move(level, player, x, y, up, down, left, right, fire);
+    thing_move_dir(level, player, x, y, up, down, left, right, fire);
 
     /*
      * If no key then we allow the console.

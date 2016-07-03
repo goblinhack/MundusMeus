@@ -16,15 +16,15 @@
 /*
  * This is movement on the client of the player initiated by the player.
  */
-int thing_move (levelp level,
-                thingp t,
-                double x,
-                double y,
-                const uint8_t up,
-                const uint8_t down,
-                const uint8_t left,
-                const uint8_t right,
-                const uint8_t fire)
+int thing_move_dir (levelp level,
+                    thingp t,
+                    double x,
+                    double y,
+                    const uint8_t up,
+                    const uint8_t down,
+                    const uint8_t left,
+                    const uint8_t right,
+                    const uint8_t fire)
 {
     int rc = true;
 
