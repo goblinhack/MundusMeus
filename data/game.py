@@ -24,6 +24,7 @@ class Game:
             t = thing.Thing(level=l, tp_name="grass1")
             t.push(10 + 1, 10 + 1)
 
+        w.destroy()
+
 def game_new():
-    mm.con("new game")
     g = Game()

@@ -14,7 +14,7 @@
 
 uint8_t thing_init(void);
 void thing_fini(void);
-thingp thing_load(const char *name);
+thingp thing_new(const char *name);
 thingp thing_find(const char *name);
 void thing_sanity(levelp, thingp);
 int thing_tick_all(levelp level);
