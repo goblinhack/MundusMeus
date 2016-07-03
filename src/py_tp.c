@@ -45,7 +45,7 @@ PyObject *tp_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
-#define TP_BODY_STRING(__field__)                                               \
+#define TP_BODY_SET_STRING(__field__)                                               \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
@@ -75,7 +75,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("%s(%s -> \"%s\")", __FUNCTION__, tp_name, value);	                \
+    LOG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, tp_name, value);	        \
 	                                                                        \
     tpp tp = tp_find(tp_name);	                                                \
     if (!tp) {	                                                                \
@@ -94,7 +94,7 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define TP_BODY_STRING_FN(__field__, __fn__)                                    \
+#define TP_BODY_SET_STRING_FN(__field__, __fn__)                                    \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
@@ -124,7 +124,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("%s(%s -> \"%s\")", __FUNCTION__, tp_name, value);	                \
+    LOG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, tp_name, value);	        \
 	                                                                        \
     tpp tp = tp_find(tp_name);	                                                \
     if (!tp) {	                                                                \
@@ -144,7 +144,7 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define TP_BODY_ENUM(__field__, __str2val__)                                    \
+#define TP_BODY_SET_ENUM(__field__, __str2val__)                                \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
@@ -186,7 +186,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("%s(%s -> \"%s\"[%d])", __FUNCTION__, tp_name, value, tp->__field__);	\
+    LOG("python-to-c: %s(%s -> \"%s\"[%d])", __FUNCTION__, tp_name, value, tp->__field__);	\
 	                                                                        \
     value = 0;	                                                                \
 	                                                                        \
@@ -198,7 +198,7 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define TP_BODY_INT(__field__)                                                  \
+#define TP_BODY_SET_INT(__field__)                                                  \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
@@ -223,7 +223,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("%s(%s -> %d)", __FUNCTION__, tp_name, value);	                        \
+    LOG("python-to-c: %s(%s -> %d)", __FUNCTION__, tp_name, value);	        \
 	                                                                        \
     tpp tp = tp_find(tp_name);	                                                \
     if (!tp) {	                                                                \
@@ -241,7 +241,7 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define TP_BODY_DOUBLE(__field__)                                               \
+#define TP_BODY_SET_DOUBLE(__field__)                                               \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
@@ -266,7 +266,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("%s(%s -> %g)", __FUNCTION__, tp_name, value);	                        \
+    LOG("python-to-c: %s(%s -> %g)", __FUNCTION__, tp_name, value);	        \
 	                                                                        \
     tpp tp = tp_find(tp_name);	                                                \
     if (!tp) {	                                                                \
@@ -283,65 +283,6 @@ done:	                                                                        \
 	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
-
-TP_BODY_DOUBLE(light_radius)
-TP_BODY_DOUBLE(scale)
-ENUM_DEF_C(MAP_DEPTH_ENUMS, map_depth)
-TP_BODY_ENUM(z_depth, map_depth_str2val)
-TP_BODY_INT(z_order)
-ENUM_DEF_C(WORLD_DEPTH_ENUMS, world_depth)
-TP_BODY_ENUM(world_depth, world_depth_str2val)
-TP_BODY_INT(speed)
-TP_BODY_INT(blit_top_off)
-TP_BODY_INT(blit_bot_off)
-TP_BODY_INT(blit_left_off)
-TP_BODY_INT(blit_right_off)
-TP_BODY_STRING(short_name)
-TP_BODY_STRING(raw_name)
-static void light_tint_fixup (tpp t)
-{
-    if (t->light_tint) {
-        t->light_color = color_find(t->light_tint);
-    } else {
-        t->light_color = WHITE;
-    }
-}
-TP_BODY_STRING_FN(light_tint, light_tint_fixup)
-TP_BODY_INT(is_animated)
-TP_BODY_INT(is_animated_no_dir)
-TP_BODY_INT(is_animation)
-TP_BODY_INT(is_candle_light)
-TP_BODY_INT(is_cats_eyes)
-TP_BODY_INT(is_shadow_caster)
-TP_BODY_INT(is_shadow_caster_soft)
-TP_BODY_INT(is_door)
-TP_BODY_INT(is_effect_fade_in_out)
-TP_BODY_INT(is_effect_pulse)
-TP_BODY_INT(is_effect_rotate_2way)
-TP_BODY_INT(is_effect_sway)
-TP_BODY_INT(is_explosion)
-TP_BODY_INT(is_food)
-TP_BODY_INT(is_hidden)
-TP_BODY_INT(is_monst)
-TP_BODY_INT(is_player)
-TP_BODY_INT(is_rrr1)
-TP_BODY_INT(is_rrr2)
-TP_BODY_INT(is_rrr3)
-TP_BODY_INT(is_rrr4)
-TP_BODY_INT(is_rrr5)
-TP_BODY_INT(is_rrr6)
-TP_BODY_INT(is_rrr7)
-TP_BODY_INT(is_rrr8)
-TP_BODY_INT(is_rrr9)
-TP_BODY_INT(is_rrr10)
-TP_BODY_INT(is_rrr11)
-TP_BODY_INT(is_rrr12)
-TP_BODY_INT(is_rrr13)
-TP_BODY_INT(is_rrr14)
-TP_BODY_INT(is_rrr15)
-TP_BODY_INT(is_rrr16)
-TP_BODY_INT(is_sleeping)
-TP_BODY_INT(is_wall)
 
 PyObject *tp_set_tile (PyObject *obj, PyObject *args, PyObject *keywds)
 {	
@@ -603,7 +544,7 @@ PyObject *tp_set_tile (PyObject *obj, PyObject *args, PyObject *keywds)
         goto done;	
     }	
 	
-    LOG("%s(%s -> \"%s\")", __FUNCTION__, tp_name, tile);	
+    LOG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, tp_name, tile);	
 	
     tpp tp = tp_find(tp_name);	
     if (!tp) {	
@@ -749,3 +690,62 @@ done:
 	
     Py_RETURN_NONE;	
 }	
+
+TP_BODY_SET_DOUBLE(light_radius)
+TP_BODY_SET_DOUBLE(scale)
+ENUM_DEF_C(MAP_DEPTH_ENUMS, map_depth)
+TP_BODY_SET_ENUM(z_depth, map_depth_str2val)
+TP_BODY_SET_INT(z_order)
+ENUM_DEF_C(WORLD_DEPTH_ENUMS, world_depth)
+TP_BODY_SET_ENUM(world_depth, world_depth_str2val)
+TP_BODY_SET_INT(speed)
+TP_BODY_SET_INT(blit_top_off)
+TP_BODY_SET_INT(blit_bot_off)
+TP_BODY_SET_INT(blit_left_off)
+TP_BODY_SET_INT(blit_right_off)
+TP_BODY_SET_STRING(short_name)
+TP_BODY_SET_STRING(raw_name)
+static void light_tint_fixup (tpp t)
+{
+    if (t->light_tint) {
+        t->light_color = color_find(t->light_tint);
+    } else {
+        t->light_color = WHITE;
+    }
+}
+TP_BODY_SET_STRING_FN(light_tint, light_tint_fixup)
+TP_BODY_SET_INT(is_animated)
+TP_BODY_SET_INT(is_animated_no_dir)
+TP_BODY_SET_INT(is_animation)
+TP_BODY_SET_INT(is_candle_light)
+TP_BODY_SET_INT(is_cats_eyes)
+TP_BODY_SET_INT(is_shadow_caster)
+TP_BODY_SET_INT(is_shadow_caster_soft)
+TP_BODY_SET_INT(is_door)
+TP_BODY_SET_INT(is_effect_fade_in_out)
+TP_BODY_SET_INT(is_effect_pulse)
+TP_BODY_SET_INT(is_effect_rotate_2way)
+TP_BODY_SET_INT(is_effect_sway)
+TP_BODY_SET_INT(is_explosion)
+TP_BODY_SET_INT(is_food)
+TP_BODY_SET_INT(is_hidden)
+TP_BODY_SET_INT(is_monst)
+TP_BODY_SET_INT(is_player)
+TP_BODY_SET_INT(is_rrr1)
+TP_BODY_SET_INT(is_rrr2)
+TP_BODY_SET_INT(is_rrr3)
+TP_BODY_SET_INT(is_rrr4)
+TP_BODY_SET_INT(is_rrr5)
+TP_BODY_SET_INT(is_rrr6)
+TP_BODY_SET_INT(is_rrr7)
+TP_BODY_SET_INT(is_rrr8)
+TP_BODY_SET_INT(is_rrr9)
+TP_BODY_SET_INT(is_rrr10)
+TP_BODY_SET_INT(is_rrr11)
+TP_BODY_SET_INT(is_rrr12)
+TP_BODY_SET_INT(is_rrr13)
+TP_BODY_SET_INT(is_rrr14)
+TP_BODY_SET_INT(is_rrr15)
+TP_BODY_SET_INT(is_rrr16)
+TP_BODY_SET_INT(is_sleeping)
+TP_BODY_SET_INT(is_wall)

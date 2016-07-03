@@ -16,7 +16,8 @@ class Level:
         self.log("Destroying level {")
         for key,value in self.all_things.items():
             value.destroy()
-            self.all_things.pop(key)
+
+        self.all_things = {}
         self.log("} Destroyed level")
         del self
 

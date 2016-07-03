@@ -8,15 +8,24 @@
 
 #include <Python.h>
 
-PyObject *thing_load_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *thing_new_(PyObject *obj, PyObject *args, PyObject *keywds);
 
-#define THING_PROTO(__field__)                                                     \
+#define THING_SET_PROTO(__field__)                                              \
 PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds);
 
-#define THING_DECL(__field__)                                                   \
+#define THING_PROTO(__field__)                                                  \
+PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds);
+
+#define THING_SET_DECL(__field__)                                               \
     {"thing_set_" #__field__,                                                   \
         (PyCFunction)thing_set_ ## __field__,                                   \
         METH_VARARGS | METH_KEYWORDS,                                           \
         "set a " #__field__ " in a thing"},                                     \
 
-//THING_PROTO(thing_id)
+#define THING_DECL(__field__)                                                   \
+    {"thing_" #__field__,                                                       \
+        (PyCFunction)thing_ ## __field__,                                       \
+        METH_VARARGS | METH_KEYWORDS,                                           \
+        "call " #__field__ " in a thing"},                                      \
+
+THING_PROTO(destroyed)

@@ -36,7 +36,7 @@ void thing_fini (void)
     }
 }
 
-thingp thing_load (const char *name)
+thingp thing_new (const char *name)
 {
     thingp t;
 
