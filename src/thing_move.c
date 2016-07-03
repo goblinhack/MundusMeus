@@ -64,7 +64,6 @@ int thing_move (levelp level,
     }
 
     if (up || down || left || right) {
-        thing_wid_update(level, t, x, y, true, false /* is new */);
     }
 
     /*
@@ -223,15 +222,4 @@ void thing_wid_move (levelp level,
             }
         }
     }
-}
-
-void thing_wid_update (levelp level,
-                       thingp t, 
-                       double x, double y, 
-                       uint8_t smooth,
-                       uint8_t is_new)
-{
-    verify(t);
-
-    thing_wid_move(level, t, x, y, smooth);
 }
