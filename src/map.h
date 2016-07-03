@@ -67,15 +67,6 @@ static inline int map_ok (int x, int y)
     return (true);
 }
 
-static inline int world (int x, int y)
-{
-    if ((x >= WORLD_WIDTH) || (x < 0) || (y >= WORLD_HEIGHT) || (y < 0)) {
-        return (false);
-    }
-
-    return (true);
-}
-
 thingp map_thing_is_x_at(levelp level,
                          int32_t x, int32_t y,
                          map_is_at_callback callback);

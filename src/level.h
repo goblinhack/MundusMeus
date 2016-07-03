@@ -10,6 +10,15 @@
 #include "thing.h"
 #include "map.h"
 
+enum {
+    DMAP_MAP_NONE,
+    DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_PASSABLE,
+    DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_WALLS,
+};
+
+#define DMAP_MAP_MAX 8
+
+void set_game_video_pix_width(int width);
 typedef struct {
     int8_t walls[MAP_WIDTH][MAP_HEIGHT];
 } level_walls;
@@ -22,8 +31,6 @@ typedef struct level_t_ {
     /*
      * All things on this level.
      */
-    thing things[MAX_THINGS_PER_LEVEL];
-
     level_walls dmap[DMAP_MAP_MAX];
     level_walls walls;
     level_walls doors;

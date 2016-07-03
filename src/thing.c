@@ -11,8 +11,8 @@
 #include "timer.h"
 #include "tile.h"
 #include "thing_tile.h"
-#include "player.h"
 #include "time_util.h"
+#include "wid_game_map.h"
 
 tree_root *things;
 
@@ -31,17 +31,18 @@ void thing_fini (void)
     if (thing_init_done) {
         thing_init_done = false;
 
+CON("destroy");
         tree_destroy(&things,
             (tree_destroy_func)thing_destroy_internal);
     }
 }
 
-thingp thing_new (const char *name)
+thingp thing_new (const char *name, const char *tp_name)
 {
     thingp t;
 
     if (thing_find(name)) {
-        ERR("thing template name [%s] already used", name);
+        ERR("thing name [%s] already used", name);
     }
 
     if (!things) {
@@ -53,16 +54,28 @@ thingp thing_new (const char *name)
     t->tree.key = dupstr(name, "TREE KEY: thing");
 
     if (!tree_insert(things, &t->tree.node)) {
-        ERR("thing template insert name [%s] failed", name);
+        ERR("thing insert name [%s] failed", name);
+    }
+
+    t->tp = tp_find(tp_name);
+    if (!t->tp) {
+        THING_ERR(t, "thing [%s] not found", tp_name);
     }
 
     THING_LOG(t, "Created thing");
+
+    verify(t);
 
     return (t);
 }
 
 static void thing_destroy_internal (thingp t)
 {
+    if (t->wid) {
+        wid_set_thing(t->wid, 0);
+        wid_destroy_nodelay(&t->wid);
+    }
+
     myfree(t);
 }
 
@@ -74,7 +87,7 @@ void thing_destroyed_ (thingp t, const char *reason)
 
     tree_remove_found_node(things, &t->tree.node);
 
-    myfree(t);
+    thing_destroy_internal(t);
 }
 
 void thing_move_ (thingp t, double x, double y)
@@ -85,6 +98,8 @@ void thing_move_ (thingp t, double x, double y)
 void thing_push_ (thingp t, double x, double y)
 {
     verify(t);
+
+    t->wid = wid_game_map_replace_tile(x, y, t);
 }
 
 void thing_pop_ (thingp t)
@@ -162,7 +177,7 @@ widp thing_wid (thingp t)
     return (t->wid);
 }
 
-void thing_set_wid (levelp level, thingp t, widp w)
+void thing_set_wid (thingp t, widp w)
 {
     verify(t);
 
@@ -174,7 +189,7 @@ void thing_set_wid (levelp level, thingp t, widp w)
          */
         if (t->wid) {
             verify(t->wid);
-            wid_set_thing(t->wid, 0, 0);
+            wid_set_thing(t->wid, 0);
             wid_fade_out(t->wid, 100);
             wid_destroy_in(t->wid, 100);
         }
@@ -252,8 +267,7 @@ void thing_move_to (thingp t, double x, double y)
     t->y = y;
 }
 
-void thing_move_set_dir (levelp level,
-                         thingp t,
+void thing_move_set_dir (thingp t,
                          double *x,
                          double *y,
                          uint8_t up,
@@ -298,29 +312,28 @@ void thing_move_set_dir (levelp level,
 
     if (up) {
         if (left) {
-            thing_set_dir_tl(level, t);
+            thing_set_dir_tl(t);
         } else if (right) {
-            thing_set_dir_tr(level, t);
+            thing_set_dir_tr(t);
         } else {
-            thing_set_dir_up(level, t);
+            thing_set_dir_up(t);
         }
     } else if (down) {
         if (left) {
-            thing_set_dir_bl(level, t);
+            thing_set_dir_bl(t);
         } else if (right) {
-            thing_set_dir_br(level, t);
+            thing_set_dir_br(t);
         } else {
-            thing_set_dir_down(level, t);
+            thing_set_dir_down(t);
         }
     } else if (left) {
-        thing_set_dir_left(level, t);
+        thing_set_dir_left(t);
     } else if (right) {
-        thing_set_dir_right(level, t);
+        thing_set_dir_right(t);
     }
 }
 
-void thing_dead (levelp level, 
-                 thingp t, 
+void thing_dead (thingp t, 
                  thingp killer, 
                  const char *reason, ...)
 {

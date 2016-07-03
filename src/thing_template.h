@@ -206,9 +206,9 @@ static inline tpp id_to_tp (int id)
         return (0);
     }
 
-    extern thing_template thing_templates_chunk[THING_MAX];
+    extern thing_template thing_templates_chunk[TP_MAX];
 
-    if (id >= THING_MAX) {
+    if (id >= TP_MAX) {
         DIE("overflow, bad template id %08X", id);
     }
 

@@ -38,7 +38,6 @@ uint32_t tile_height;
 
 static void wid_game_map_wid_destroy(int keep_player);
 
-#if 0
 static void wid_game_map_set_thing_template (widp w, tpp t)
 {
     wid_set_thing_template(w, t);
@@ -55,7 +54,6 @@ static void wid_game_map_set_thing_template (widp w, tpp t)
         wid_fade_in_out(w, 4000, 99999, 1);
     }
 }
-#endif
 
 void wid_game_map_fini (void)
 {
@@ -65,7 +63,7 @@ void wid_game_map_fini (void)
 void wid_game_map_init (void)
 {
     if (game.wid_grid) {
-        DIE("Asking to recreate the map when it's already created");
+        return;
     }
 
     LOG("Create new map");
@@ -292,14 +290,11 @@ void wid_game_map_wid_create (void)
  * Replace or place a tile.
  */
 widp
-wid_game_map_replace_tile (levelp level,
-                           double x, double y,
-                           thingp t,
-                           tpp tp)
+wid_game_map_replace_tile (double x, double y, thingp t)
 {
-#if 0
     tree_rootp thing_tiles;
     const char *tilename;
+    tpp tp = thing_tp(t);
     tilep tile = 0;
     widp child;
 
@@ -320,7 +315,7 @@ wid_game_map_replace_tile (levelp level,
      * Grow tl and br to fit the template thing. Use the first tile.
      */
     if (!tp) {
-        ERR("no thing template to place on server map");
+        ERR("no thing template to place thing");
         return (0);
     }
 
@@ -361,13 +356,7 @@ wid_game_map_replace_tile (levelp level,
      */
     wid_set_thing_template(child, tp);
 
-    if (!t) {
-        t = thing_new(level, tp_name(tp), x, y);
-    } else {
-        thing_reinit(level, t, x, y);
-    }
-
-    wid_set_thing(child, level, t);
+    wid_set_thing(child, t);
     if (tile) {
         wid_set_tile(child, tile);
     }
@@ -386,16 +375,14 @@ wid_game_map_replace_tile (levelp level,
         wid_scaling_blit_to_pct_in(child, scale, scale, 500, 9999999);
     }
 
-    thing_wid_update(level,
-                     t, 
-                     x + dx, y + dy, false /* smooth */, true /* is new */);
+    thing_wid_update(t, x + dx, y + dy, false /* smooth */);
 
     /*
      * If this is a pre-existing thing perhaps being recreated ona new level
      * then it will have a direction already. Update it.
      */
     if (tp_is_animated(thing_tp(t))) {
-        thing_animate(level, t);
+        thing_animate(t);
     }
 
     /*
@@ -414,8 +401,6 @@ wid_game_map_replace_tile (levelp level,
     wid_update(child);
 
     return (child);
-#endif
-    return (0);
 }
 
 static void wid_game_map_wid_destroy (int keep_player)

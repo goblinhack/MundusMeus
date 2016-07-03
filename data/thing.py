@@ -31,7 +31,7 @@ class Thing:
 
         self.level.all_things[self.thing_id] = self
 
-        mm.thing_new(self)
+        mm.thing_new(self, tp_name)
 
     def __str__(self):
         return "{0}:{1}".format(self.thing_id, self.tp_name)

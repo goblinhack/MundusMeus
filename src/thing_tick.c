@@ -22,10 +22,6 @@ static int thing_tick_all_things (levelp level)
         tpp tp;
         widp w;
 
-        /*
-         * Sanity checks.
-         */
-        THING_SANITY(level, t);
         tp = thing_tp(t);
 
         if ((t->x >= MAP_WIDTH) ||
@@ -66,7 +62,7 @@ static int thing_tick_all_things (levelp level)
                     (t->y <= 0) || 
                     (t->x >= MAP_WIDTH - 1) ||
                     (t->y >= MAP_HEIGHT - 1)) {
-                    thing_dead(level, t, 0, "missile at edge of level"); 
+                    thing_dead(t, 0, "missile at edge of level"); 
                     continue;
                 }
 
@@ -176,30 +172,6 @@ int thing_tick_all (levelp level)
     return (true);
 }
 
-/*
- * Things like shop prices that respawn occasionally.
- */
-static void thing_animate_slow (levelp level)
-{
-    int slow_tick = false;
-
-    if (!slow_tick) {
-        return;
-    }
-
-    thingp t;
-
-    FOR_ALL_THINGS(level, t) {
-
-        /*
-         * Sanity checks.
-         */
-        THING_SANITY(level, t);
-    }
-
-    FOR_ALL_THINGS_END
-}
-
 void thing_animate_all (levelp level)
 {
     thingp t;
@@ -210,14 +182,10 @@ void thing_animate_all (levelp level)
 
     FOR_ALL_THINGS(level, t) {
 
-        THING_SANITY(level, t);
-
         if (t->wid && tp_is_animated(thing_tp(t))) {
-            thing_animate(level, t);
+            thing_animate(t);
         }
     }
 
     FOR_ALL_THINGS_END
-
-    thing_animate_slow(level);
 }

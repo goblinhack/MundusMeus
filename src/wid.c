@@ -2038,11 +2038,6 @@ thingp wid_get_thing (widp w)
     return (w->thing);
 }
 
-levelp wid_get_level (widp w)
-{
-    return (w->level);
-}
-
 tpp wid_get_thing_template (widp w)
 {
     fast_verify(w);
@@ -2195,22 +2190,18 @@ uint8_t wid_get_z_depth (widp w)
     return (w->tree.z_depth);
 }
 
-void wid_set_thing (widp w, levelp level, thingp t)
+void wid_set_thing (widp w, thingp t)
 {
     tree_rootp tiles;
     thing_tilep tile;
 
     fast_verify(w);
 
-    if (level) {
-    }
-
     if (t) {
         fast_verify(t);
     }
 
     w->thing = t;
-    w->level = level;
     if (!t) {
         return;
     }
@@ -2235,7 +2226,7 @@ void wid_set_thing (widp w, levelp level, thingp t)
 
     wid_set_name(w, thing_logname(t));
 
-    thing_set_wid(level, t, w);
+    thing_set_wid(t, w);
 }
 
 void wid_set_thing_template (widp w, tpp t)

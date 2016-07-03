@@ -14,49 +14,49 @@
 
 uint8_t thing_init(void);
 void thing_fini(void);
-thingp thing_new(const char *name);
+thingp thing_new(const char *name, const char *tp_name);
 void thing_destroyed_(thingp t, const char *reason);
 thingp thing_find(const char *name);
 void thing_move_(thingp t, double x, double y);
 void thing_push_(thingp t, double x, double y);
 void thing_pop_(thingp t);
-void thing_sanity(levelp, thingp);
+void thing_sanity(thingp);
 int thing_tick_all(levelp level);
 void thing_animate_all(levelp level);
-void thing_wake(levelp, thingp t);
-void thing_dead(levelp, thingp, thingp killer,
-                const char *fmt, ...) __attribute__ ((format (printf, 4, 5)));
-void thing_set_wid(levelp, thingp, widp);
+void thing_wake(thingp t);
+void thing_dead(thingp, thingp killer,
+                const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
+void thing_set_wid(thingp, widp);
 widp thing_wid(thingp);
 const char *thing_logname(thingp);
 uint8_t thing_z_depth(thingp);
 uint8_t thing_z_order(thingp);
 tree_rootp thing_tile_tiles(thingp);
-void thing_animate(levelp, thingp);
+void thing_animate(thingp);
 typedef uint8_t (*thing_is_fn)(thingp t);
 
 uint8_t thing_is_light_source(thingp t);
 uint8_t thing_is_candle_light(thingp t);
 uint8_t thing_is_explosion(thingp t);
 
-void thing_set_dir_none(levelp, thingp t);
+void thing_set_dir_none(thingp t);
 uint8_t thing_is_dir_none(thingp t);
-void thing_set_dir_down(levelp, thingp t);
+void thing_set_dir_down(thingp t);
 uint8_t thing_is_dir_down(thingp t);
-void thing_set_dir_up(levelp, thingp t);
+void thing_set_dir_up(thingp t);
 uint8_t thing_is_dir_up(thingp t);
-void thing_set_dir_left(levelp, thingp t);
+void thing_set_dir_left(thingp t);
 uint8_t thing_is_dir_left(thingp t);
-void thing_set_dir_right(levelp, thingp t);
+void thing_set_dir_right(thingp t);
 uint8_t thing_is_dir_right(thingp t);
 
-void thing_set_dir_tl(levelp, thingp t);
+void thing_set_dir_tl(thingp t);
 uint8_t thing_is_dir_tl(thingp t);
-void thing_set_dir_bl(levelp, thingp t);
+void thing_set_dir_bl(thingp t);
 uint8_t thing_is_dir_bl(thingp t);
-void thing_set_dir_tr(levelp, thingp t);
+void thing_set_dir_tr(thingp t);
 uint8_t thing_is_dir_tr(thingp t);
-void thing_set_dir_br(levelp, thingp t);
+void thing_set_dir_br(thingp t);
 uint8_t thing_is_dir_br(thingp t);
 
 void thing_set_opened_exit(thingp t, uint8_t val);
@@ -91,7 +91,7 @@ typedef struct thing_ {
     /*
      * Pointer to common settings for this thing.
      */
-    uint16_t tp_id;
+    tpp tp;
 
     /*
      * Widget for displaying thing.
@@ -189,7 +189,7 @@ static inline tpp thing_tp (thingp t)
 {
     verify(t);
 
-    return (id_to_tp(t->tp_id));
+    return (t->tp);
 }
 
 static inline uint8_t thing_is_monst (thingp t)
@@ -242,10 +242,9 @@ static inline uint8_t thing_is_joinable (thingp t)
 }
 
 /*
- * thing_move.c
+ * thing.c
  */
-void thing_move_set_dir(levelp,
-                        thingp t,
+void thing_move_set_dir(thingp t,
                         double *x,
                         double *y,
                         uint8_t up,
@@ -253,20 +252,7 @@ void thing_move_set_dir(levelp,
                         uint8_t left,
                         uint8_t right);
 
-/*
- * thing.c
- */
-uint8_t thing_player_move(levelp,
-                          thingp t,
-                          double x,
-                          double y,
-                          const uint8_t up,
-                          const uint8_t down,
-                          const uint8_t left,
-                          const uint8_t right,
-                          const uint8_t fire);
-int thing_move_dir(levelp,
-                   thingp t,
+int thing_move_dir(thingp t,
                    double x,
                    double y,
                    const uint8_t up,
@@ -277,11 +263,17 @@ int thing_move_dir(levelp,
 
 void thing_move_to(thingp t, double x, double y);
 
-void thing_wid_move(levelp level,
-                    thingp t, 
+/*
+ * thing_move.c
+ */
+void thing_wid_move(thingp t, 
                     double x, 
                     double y, 
                     uint8_t smooth);
+
+void thing_wid_update(thingp t, 
+                      double x, double y, 
+                      uint8_t smooth);
 
 /*
  * thing_dir.c

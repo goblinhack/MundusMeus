@@ -16,7 +16,7 @@
 /*
  * Using static memory as these things never change once made.
  */
-thing_template thing_templates_chunk[THING_MAX];
+thing_template thing_templates_chunk[TP_MAX];
 
 tree_root *thing_templates;
 tree_root *thing_templates_create_order;
@@ -195,7 +195,7 @@ tpp tp_load (int id, const char *name)
                                    "TREE ROOT: thing create order");
     }
 
-    if (id >= THING_MAX - 1) {
+    if (id >= TP_MAX - 1) {
         ERR("too many thing templates");
     }
 

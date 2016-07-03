@@ -10,7 +10,7 @@ class Level:
         self.all_things = {}
 
     def __str__(self):
-        return "xyz:{0}".format(str(self.xyz))
+        return "l{0}".format(str(self.xyz))
 
     def destroy (self):
         self.log("Destroying level {")
@@ -35,7 +35,7 @@ class Level:
     def save (self):
         self.log("Save level")
 
-        with open(str(self), 'wb') as f:
+        with open(str(self.world) + str(self), 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
 
     def set_dim (self, w, h):

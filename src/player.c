@@ -165,24 +165,6 @@ uint8_t player_move (levelp level)
         last_tick = time_get_time_ms();
     }
 
-    double x = player->x;
-    double y = player->y;
-
-    double max_momentum = 0.5;
-    double move_momentum = 0.012;
-    double jump_speed = 0.15;
-
-    /*
-     * run?
-     */
-    if (sdl_shift_held) {
-        max_momentum = 1.0;
-        move_momentum = 0.020;
-        jump_speed = 0.20;
-    }
-
-    thing_move_dir(level, player, x, y, up, down, left, right, fire);
-
     /*
      * If no key then we allow the console.
      */

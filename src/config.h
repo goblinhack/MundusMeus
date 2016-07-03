@@ -6,11 +6,11 @@
 
 #pragma once
 
-#undef ENABLE_LEAKCHECK           // Memory leak check
-#undef ENABLE_PTRCHECK           // Check validity of pointers too
-#undef ENABLE_PTRCHECK_HISTORY   // Slower
-#undef ENABLE_WID_PTRCHECK       // Check validity of pointers too
-#undef ENABLE_THING_SANITY       // Check what things carry
+#define ENABLE_LEAKCHECK           // Memory leak check
+#define ENABLE_PTRCHECK           // Check validity of pointers too
+#define ENABLE_PTRCHECK_HISTORY   // Slower
+#define ENABLE_WID_PTRCHECK       // Check validity of pointers too
+#define ENABLE_THING_SANITY       // Check what things carry
 
 #undef ENABLE_MAZE_DEBUG          // Print it as generating
 #undef ENABLE_MAP_SANITY          // Extra map checks
@@ -92,32 +92,8 @@
 /*
  * Map. How many tiles across and down.
  */
-#define LEVELS_ACROSS               10
-#define LEVELS_DOWN                 10
-#define TEST_LEVEL                  101
-
-/*
- * How many tiles per map
- */
-#define JIGPIECE_WIDTH              10
-#define JIGPIECE_HEIGHT             8
-
-#define MAP_JIGSAW_PIECES_ACROSS    4
-#define MAP_JIGSAW_PIECES_DOWN      4
-#define MAP_BORDER                  4
-
-#define MAP_WIDTH                   (((MAP_JIGSAW_PIECES_ACROSS)*JIGPIECE_WIDTH)+4)
-#define MAP_HEIGHT                  (((MAP_JIGSAW_PIECES_DOWN)*JIGPIECE_HEIGHT)+4)
-
-#define WORLD_WIDTH                 1024
-#define WORLD_HEIGHT                1024
-
-#define FLUID_RESOLUTION            8
-#define FLUID_VISIBLE_SCALE         1.0
-#define FLUID_WIDTH                 (MAP_WIDTH * FLUID_RESOLUTION)
-#define FLUID_HEIGHT                (MAP_HEIGHT * FLUID_RESOLUTION)
-#define FLUID_MAX_MASS              64
-#define MAX_FLUID_TILES             64 /* tiles of animation */
+#define MAP_WIDTH                   256
+#define MAP_HEIGHT                  256
 
 /*
  * The number of tiles per screen.
@@ -209,55 +185,13 @@
 /*
  * Messages.
  */
-#define MAX_HISCORES                10
 #define SMALL_STRING_LEN_MAX        30
-#define PLAYER_MSG_MAX              100
 
 /*
  * Maximum number of thing types. This cannot be exceeded without changing
  * the message format in tx updates.
  */
-#define THING_MAX                   1024
-
-/*
- * We will not spawn any monsters above this limit; to keep the game fast.
- */
-#define THING_MAX_MONSTS_SPAWN_LIMIT 300
-
-#ifdef ENABLE_THING_SANITY
-#define THING_SANITY(level, t) thing_sanity(level, t)
-#else
-#define THING_SANITY(level, t)
-#endif
-
-/*
- * Thumb in air. Needs to be big enough so wrap arounds and id reuse is less 
- * common.
- */
-#define MAX_THINGS_PER_LEVEL        0x1fff
-#define THING_ID_RAND_MASK          0xffff0000
-#define MAX_TIMERS_PER_LEVEL        1000
-
-/*
- * Timers
- */
-#define DELAY_TENTHS_THING_COLLISION_TEST                   1
-
-/*
- * How often we look at the keyboards
- */
-#define DELAY_THOUSANDTHS_PLAYER_POLL                       15
-
-#define DELAY_LEVEL_END_HIDE                                (ONESEC * 1)
-#define DELAY_LEVEL_END_DESTROY                             (ONESEC * 2)
-
-enum {
-    DMAP_MAP_NONE,
-    DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_PASSABLE,
-    DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_WALLS,
-};
-
-#define DMAP_MAP_MAX 8
+#define TP_MAX                      10000
 
 void set_game_video_pix_width(int width);
 int get_game_video_pix_width(void);
