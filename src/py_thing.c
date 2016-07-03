@@ -330,9 +330,4 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-static void thing_destroyed_ (thingp t, const char *reason)
-{
-    CON("%s",reason);
-}
-
 THING_BODY_STRING_FN(destroyed, thing_destroyed_)

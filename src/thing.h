@@ -15,6 +15,7 @@
 uint8_t thing_init(void);
 void thing_fini(void);
 thingp thing_new(const char *name);
+void thing_destroyed_(thingp t, const char *reason);
 thingp thing_find(const char *name);
 void thing_sanity(levelp, thingp);
 int thing_tick_all(levelp level);
@@ -66,53 +67,7 @@ const char *thing_tooltip(thingp);
 uint8_t thing_z_depth(thingp);
 uint8_t thing_z_order(thingp);
 tree_rootp thing_tiles(thingp);
-
 thing_tilep thing_current_tile(thingp t);
-void thing_place_timed(levelp,
-                       tpp t, 
-                       double x,
-                       double y,
-                       uint32_t ms, 
-                       uint32_t jitter);
-void thing_place_and_destroy_timed(levelp,
-                                   tpp t, 
-                                   thingp owner,
-                                   double x,
-                                   double y,
-                                   uint32_t ms, 
-                                   uint32_t destroy_in, 
-                                   uint32_t jitter,
-                                   uint8_t is_epicenter);
-void thing_wid_update(levelp,
-                      thingp t, 
-                      double x, double y, 
-                      uint8_t smooth, 
-                      uint8_t is_new);
-uint8_t thing_use(thingp t, uint32_t id);
-
-typedef struct {
-    /*
-     * First expiry
-     */
-    int16_t fire_in;
-
-    /*
-     * Second expiry
-     */
-    int16_t destroy_in;
-
-    tpp tp;
-    float x;
-    float y;
-
-    uint32_t owner_id;
-
-    /*
-     * Center of an explosion.
-     */
-    uint8_t is_epicenter:1;
-
-} thing_place_context_t;
 
 enum {
     THING_DIR_NONE,

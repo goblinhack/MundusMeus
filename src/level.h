@@ -24,10 +24,6 @@ typedef struct level_t_ {
      */
     thing things[MAX_THINGS_PER_LEVEL];
 
-    thing_place_context_t timers[MAX_TIMERS_PER_LEVEL];
-
-    uint32_t next_thing_id;
-
     level_walls dmap[DMAP_MAP_MAX];
     level_walls walls;
     level_walls doors;

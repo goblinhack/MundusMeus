@@ -39,14 +39,14 @@ class Thing:
     def destroy (self, reason="no reason"):
         if self.on_map:
             self.pop()
-        self.log("} " + "Destroying thing, {0}".format(reason))
+        self.log("Destroying thing, {0}".format(reason) + " {")
 
         if self.thing_id in self.level.all_things:
             self.level.all_things[self.thing_id] = []
 
         mm.thing_destroyed(self, reason)
 
-        self.log("Destroyed thing, {0}".format(reason) + " {")
+        self.log("} " + "Destroyed thing, {0}".format(reason))
         del self
 
     def log (self, msg):
