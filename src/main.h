@@ -166,7 +166,6 @@ uint32_t strlcat(char *dst, const char *src, uint32_t maxlen);
 /*
  * Globals:
  */
-typedef struct net_ *netp;
 typedef struct font *fontp;
 typedef struct wid_console *wid_consolep;
 typedef struct game_ *gamep;
@@ -182,11 +181,8 @@ typedef struct action_init_fn_ *init_fnp;
 typedef struct tp_ *tpp;
 typedef struct thing_tile_ *thing_tilep;
 typedef struct tokens_t_ *tokenp;
-typedef struct tree_demarshal_ *demarshal_p;
-typedef struct tree_marshal_ *marshal_p;
 typedef struct tokens_t_ *tokensp;
 typedef struct level_t_ *levelp;
-typedef struct map_t_ *mapp;
 
 extern thingp player;
 extern fontp vsmall_font;
@@ -364,7 +360,6 @@ uint8_t miniz_test(int32_t argc, char *argv[]);
 uint8_t mzip_file_test(int32_t argc, char *argv[]);
 uint8_t dir_test(int32_t argc, char *argv[]);
 uint8_t string_test(int32_t argc, char *argv[]);
-uint8_t marshal_test(int32_t argc, char *argv[]);
 uint8_t enum_test(int32_t argc, char *argv[]);
 uint8_t ptrcheck_test(int32_t argc, char *argv[]);
 
@@ -399,14 +394,6 @@ extern int debug;
 struct game_ {
     level_t level;
 
-    /*
-     * Current level.
-     */
-    uint32_t level_no;
-
-    /*
-     * Current game tick.
-     */
     uint32_t tick;
 
     widp wid_map;
@@ -452,6 +439,3 @@ static inline levelp thing_levelp (uint32_t id)
 
     return(level);
 }
-
-#define SOUND_MAX 20
-

@@ -34,8 +34,8 @@ static int thing_tick_all_things (levelp level)
 
 //    count++;
         w = t->wid;
-        if (likely(w != 0)) {
-            verify(w);
+        if (!w) {
+            continue;
         }
 
 #if 0

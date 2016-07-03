@@ -6,11 +6,11 @@
 
 #pragma once
 
-#define ENABLE_LEAKCHECK           // Memory leak check
-#define ENABLE_PTRCHECK           // Check validity of pointers too
-#define ENABLE_PTRCHECK_HISTORY   // Slower
-#define ENABLE_WID_PTRCHECK       // Check validity of pointers too
-#define ENABLE_THING_SANITY       // Check what things carry
+#undef ENABLE_LEAKCHECK           // Memory leak check
+#undef ENABLE_PTRCHECK           // Check validity of pointers too
+#undef ENABLE_PTRCHECK_HISTORY   // Slower
+#undef ENABLE_WID_PTRCHECK       // Check validity of pointers too
+#undef ENABLE_THING_SANITY       // Check what things carry
 
 #undef ENABLE_MAZE_DEBUG          // Print it as generating
 #undef ENABLE_MAP_SANITY          // Extra map checks
@@ -208,3 +208,5 @@ int get_game_full_screen(void);
 void set_game_fps_counter(int fps_counter);
 int get_game_fps_counter(void);
 void save_game_config(void);
+
+#define SOUND_MAX                   20

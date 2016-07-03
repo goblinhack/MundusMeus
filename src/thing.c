@@ -31,7 +31,6 @@ void thing_fini (void)
     if (thing_init_done) {
         thing_init_done = false;
 
-CON("destroy");
         tree_destroy(&things,
             (tree_destroy_func)thing_destroy_internal);
     }
@@ -75,8 +74,6 @@ static void thing_destroy_internal (thingp t)
         wid_set_thing(t->wid, 0);
         wid_destroy_nodelay(&t->wid);
     }
-
-    myfree(t);
 }
 
 void thing_destroyed_ (thingp t, const char *reason)
@@ -88,6 +85,8 @@ void thing_destroyed_ (thingp t, const char *reason)
     tree_remove_found_node(things, &t->tree.node);
 
     thing_destroy_internal(t);
+
+    myfree(t);
 }
 
 void thing_move_ (thingp t, double x, double y)

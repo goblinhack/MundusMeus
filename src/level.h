@@ -36,7 +36,6 @@ typedef struct level_t_ {
     level_walls doors;
 
     uint8_t is_being_destroyed:1;
-
 } level_t;
 
 uint8_t level_init(void);
@@ -60,8 +59,6 @@ levelp level_load_random(uint32_t level,
                          int is_editor, 
                          int is_map_editor);
 void level_update_slow(levelp);
-void marshal_level(marshal_p ctx, levelp);
-uint8_t demarshal_level(demarshal_p ctx, levelp l);
 const char *level_get_title(levelp);
 void level_set_title(levelp, const char *val);
 const char *level_get_destroy_reason(levelp);

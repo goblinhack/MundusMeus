@@ -5,6 +5,7 @@ x = tpp("grass1");
 x.set_short_name("grass");
 x.set_is_land(True);
 x.set_is_grass(True);
+x.set_light_radius(6);
 x.set_world_depth("land");
 
 mm.tp_set_tile(x, tile="grass1.1");
