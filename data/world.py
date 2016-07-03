@@ -36,7 +36,7 @@ class World:
         del self
 
     def __str__(self):
-        return "{0}".format(self.world_id)
+        return "w{0}".format(self.world_id)
 
     def log (self, msg):
         mm.log("p-world: {0}: {1}".format(str(self), msg))

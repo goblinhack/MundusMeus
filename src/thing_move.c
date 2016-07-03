@@ -13,68 +13,7 @@
 #include "time_util.h"
 #include "player.h"
 
-/*
- * This is movement on the client of the player initiated by the player.
- */
-int thing_move_dir (levelp level,
-                    thingp t,
-                    double x,
-                    double y,
-                    const uint8_t up,
-                    const uint8_t down,
-                    const uint8_t left,
-                    const uint8_t right,
-                    const uint8_t fire)
-{
-    int rc = true;
-
-    if (thing_is_dead(t)) {
-        return (false);;
-    }
-
-#if 0
-    if (t->wid) {
-        if (thing_hit_solid_obstacle(level, t, x, y)) {
-            if (!thing_hit_solid_obstacle(level, t, x, t->y)) {
-                y = t->y;
-            } else if (!thing_hit_solid_obstacle(level, t, t->x, y)) {
-                x = t->x;
-            } else {
-                x = t->x;
-                y = t->y;
-
-                rc = false;
-            }
-        } else if ((x != 0) && (y != 0)) {
-            if (thing_hit_solid_obstacle(level, t, x, t->y)) {
-                x = t->x;
-            } 
-
-            if (thing_hit_solid_obstacle(level, t, t->x, y)) {
-                y = t->y;
-            }
-        }
-    }
-#endif
-
-    thing_move_set_dir(level, t, &x, &y, up, down, left, right);
-
-    if (!t->wid) {
-        return (false);
-    }
-
-    if (up || down || left || right) {
-    }
-
-    /*
-    thing_handle_collisions(level, t);
-     */
-
-    return (rc);
-}
-
-void thing_wid_move (levelp level,
-                     thingp t, 
+void thing_wid_move (thingp t, 
                      double x, 
                      double y, 
                      uint8_t smooth)
@@ -222,4 +161,13 @@ void thing_wid_move (levelp level,
             }
         }
     }
+}
+
+void thing_wid_update (thingp t, 
+                       double x, double y, 
+                       uint8_t smooth)
+{
+    verify(t);
+
+    thing_wid_move(t, x, y, smooth);
 }

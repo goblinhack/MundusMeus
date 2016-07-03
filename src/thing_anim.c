@@ -13,7 +13,7 @@
 #include "time_util.h"
 #include "command.h"
 
-void thing_animate (levelp level, thingp t)
+void thing_animate (thingp t)
 {
     thing_tilep tile;
     thing_tilep otile;
@@ -46,7 +46,7 @@ void thing_animate (levelp level, thingp t)
         if (thing_tile_is_end_of_anim(tile)) {
 
             if (thing_tile_is_dead_on_end_of_anim(tile)) {
-                thing_dead(level, t, 0, "end of anim");
+                thing_dead(t, 0, "end of anim");
             }
 
             return;

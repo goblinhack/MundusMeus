@@ -163,11 +163,7 @@ typedef void(*on_tick_t)(widp);
 typedef void(*on_display_top_level_t)(widp);
 typedef void(*on_display_t)(widp, fpoint tl, fpoint br);
 
-typedef widp (*level_replace_thing_t)(levelp,
-                                   double x,
-                                   double y,
-                                   thingp, 
-                                   tpp);
+typedef widp (*level_replace_thing_t)(double x, double y, thingp, tpp);
 
 /*
  * Client.
@@ -241,7 +237,6 @@ texp wid_get_tex(widp, fsize *size);
 tilep wid_get_tile(widp);
 tilep wid_get_tile2(widp);
 thingp wid_get_thing(widp);
-levelp wid_get_level(widp);
 tpp wid_get_thing_template(widp);
 thingp wid_get_thing(widp);
 uint32_t wid_get_cursor(widp);
@@ -390,7 +385,7 @@ void wid_set_tile(widp, tilep);
 void wid_set_tile2(widp, tilep);
 void wid_set_z_depth(widp, uint8_t);
 uint8_t wid_get_z_depth(widp);
-void wid_set_thing(widp, levelp, thingp);
+void wid_set_thing(widp, thingp);
 void wid_set_thing_template(widp, tpp);
 void wid_set_tl_br(widp, fpoint tl, fpoint br);
 void wid_set_tl_br_pct(widp, fpoint tl, fpoint br);
@@ -417,8 +412,6 @@ widp wid_grid_find_tp_is(widp parent,
                                   uint32_t x,
                                   uint32_t y,
                                   tpp);
-void marshal_wid_grid(marshal_p ctx, widp);
-uint8_t demarshal_wid_grid(levelp, demarshal_p ctx, widp, level_replace_thing_t);
 uint8_t wid_is_hidden(widp w);
 uint8_t wid_this_is_hidden(widp w);
 uint8_t wid_is_scaling(widp w);
@@ -653,7 +646,6 @@ typedef struct wid_ {
      * Thing related.
      */
     thingp thing;
-    levelp level;
 
     tilep tile_eyes;
     tpp tp;

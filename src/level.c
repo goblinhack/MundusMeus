@@ -65,8 +65,6 @@ void level_destroy (levelp *plevel, uint8_t keep_player)
 
     memset(level, 0, sizeof(*level));
 
-    oldptr(level);
-
     level = 0;
 }
 
@@ -199,21 +197,10 @@ static void level_set_walls (levelp level)
 }
 
 /*
- * Clean up the level. It's over! the exit was reached and a delay passed to 
- * warn the other player.
+ * Clean up the level.
  */
 levelp level_finished (levelp level, int keep_player)
 {
-    if (keep_player) {
-        LEVEL_LOG(level, "Finish level but keep player");
-    } else {
-        LEVEL_LOG(level, "Finish level and kill player");
-    }
-
-    wid_detach_from_grid(game.wid_grid);
-    wid_destroy_grid(game.wid_grid);
-    wid_destroy(&game.wid_grid);
-
     level_destroy(&level, keep_player);
 
     /*

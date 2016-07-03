@@ -8,7 +8,7 @@
 #include "thing.h"
 #include "math_util.h"
 
-void thing_set_dir_none (levelp level, thingp t)
+void thing_set_dir_none (thingp t)
 {
     verify(t);
 
@@ -28,7 +28,7 @@ uint8_t thing_is_dir_none (thingp t)
     return (t->dir == THING_DIR_NONE);
 }
 
-void thing_set_dir_down (levelp level, thingp t)
+void thing_set_dir_down (thingp t)
 {
     verify(t);
 
@@ -48,7 +48,7 @@ uint8_t thing_is_dir_down (thingp t)
     return (t->dir == THING_DIR_DOWN);
 }
 
-void thing_set_dir_up (levelp level, thingp t)
+void thing_set_dir_up (thingp t)
 {
     verify(t);
 
@@ -68,7 +68,7 @@ uint8_t thing_is_dir_up (thingp t)
     return (t->dir == THING_DIR_UP);
 }
 
-void thing_set_dir_left (levelp level, thingp t)
+void thing_set_dir_left (thingp t)
 {
     verify(t);
 
@@ -88,7 +88,7 @@ uint8_t thing_is_dir_left (thingp t)
     return (t->dir == THING_DIR_LEFT);
 }
 
-void thing_set_dir_right (levelp level, thingp t)
+void thing_set_dir_right (thingp t)
 {
     verify(t);
 
@@ -108,7 +108,7 @@ uint8_t thing_is_dir_right (thingp t)
     return (t->dir == THING_DIR_RIGHT);
 }
 
-void thing_set_dir_tl (levelp level, thingp t)
+void thing_set_dir_tl (thingp t)
 {
     verify(t);
 
@@ -128,7 +128,7 @@ uint8_t thing_is_dir_tl (thingp t)
     return (t->dir == THING_DIR_TL);
 }
 
-void thing_set_dir_bl (levelp level, thingp t)
+void thing_set_dir_bl (thingp t)
 {
     verify(t);
 
@@ -148,7 +148,7 @@ uint8_t thing_is_dir_bl (thingp t)
     return (t->dir == THING_DIR_BL);
 }
 
-void thing_set_dir_tr (levelp level, thingp t)
+void thing_set_dir_tr (thingp t)
 {
     verify(t);
 
@@ -168,7 +168,7 @@ uint8_t thing_is_dir_tr (thingp t)
     return (t->dir == THING_DIR_TR);
 }
 
-void thing_set_dir_br (levelp level, thingp t)
+void thing_set_dir_br (thingp t)
 {
     verify(t);
 
