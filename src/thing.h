@@ -17,6 +17,9 @@ void thing_fini(void);
 thingp thing_new(const char *name);
 void thing_destroyed_(thingp t, const char *reason);
 thingp thing_find(const char *name);
+void thing_move_(thingp t, double x, double y);
+void thing_push_(thingp t, double x, double y);
+void thing_pop_(thingp t);
 void thing_sanity(levelp, thingp);
 int thing_tick_all(levelp level);
 void thing_animate_all(levelp level);
@@ -262,15 +265,15 @@ uint8_t thing_player_move(levelp,
                           const uint8_t left,
                           const uint8_t right,
                           const uint8_t fire);
-int thing_move(levelp,
-               thingp t,
-               double x,
-               double y,
-               const uint8_t up,
-               const uint8_t down,
-               const uint8_t left,
-               const uint8_t right,
-               const uint8_t fire);
+int thing_move_dir(levelp,
+                   thingp t,
+                   double x,
+                   double y,
+                   const uint8_t up,
+                   const uint8_t down,
+                   const uint8_t left,
+                   const uint8_t right,
+                   const uint8_t fire);
 
 void thing_move_to(thingp t, double x, double y);
 

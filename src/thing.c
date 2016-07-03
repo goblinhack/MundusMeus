@@ -77,6 +77,21 @@ void thing_destroyed_ (thingp t, const char *reason)
     myfree(t);
 }
 
+void thing_move_ (thingp t, double x, double y)
+{
+    verify(t);
+}
+
+void thing_push_ (thingp t, double x, double y)
+{
+    verify(t);
+}
+
+void thing_pop_ (thingp t)
+{
+    verify(t);
+}
+
 /*
  * Find an existing thing.
  */
