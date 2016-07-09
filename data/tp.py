@@ -214,15 +214,6 @@ class tpp:
     def set_is_mountain (self, value):
         self.is_mountain = value;
 
-    def set_is_northern_mountain (self, value):
-        self.is_northern_mountain = value;
-
-    def set_is_northern_rock (self, value):
-        self.is_northern_rock = value;
-
-    def set_is_northern_settlement (self, value):
-        self.is_northern_settlement = value;
-
     def set_is_rock (self, value):
         self.is_rock = value;
 
@@ -234,13 +225,3 @@ class tpp:
 
     def set_is_settlement (self, value):
         self.is_settlement = value;
-
-    def set_is_snow (self, value):
-        self.is_snow = value;
-
-    def set_is_snow_castle (self, value):
-        self.is_snow_castle = value;
-
-    def set_is_snow_settlement (self, value):
-        self.is_snow_settlement = value;
-
