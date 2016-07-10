@@ -85,8 +85,9 @@ class Game:
 
                 if is_grass is True:
                     t = thing.Thing(level=l, tp_name="grass1")
-
-                    print(t)
+                    t.push(x, y)
+                if is_forest is True:
+                    t = thing.Thing(level=l, tp_name="forest1")
                     t.push(x, y)
     #        w.destroy()
         print("done")
