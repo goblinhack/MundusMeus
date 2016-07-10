@@ -10,17 +10,17 @@ class Game:
     def __init__ (self):
         w = self.world = world.World(0)
 
+        (width, height) = mm.tex_size("map")
+
         p = util.Xyz(0,0,0)
         w.push_level(p)
         l = w.get_level()
-        l.set_dim(256, 256)
+        l.set_dim(width, height)
         
         p2 = util.Xyz(0,0,1)
         w.push_level(p2)
         l = w.get_level()
-        l.set_dim(256, 256)
-        
-        (width, height) = mm.tex_size("map")
+        l.set_dim(width, height)
 
         for y in range(0, height):
             for x in range(0, width):
@@ -86,7 +86,13 @@ class Game:
                 if is_grass is True:
                     t = thing.Thing(level=l, tp_name="grass1")
                     t.push(x, y)
-                if is_forest is True:
+                elif is_forest is True:
+                    t = thing.Thing(level=l, tp_name="forest1")
+                    t.push(x, y)
+                elif is_sea is True:
+                    t = thing.Thing(level=l, tp_name="sea1")
+                    t.push(x, y)
+                else:
                     t = thing.Thing(level=l, tp_name="forest1")
                     t.push(x, y)
     #        w.destroy()

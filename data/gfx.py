@@ -14,7 +14,7 @@ def init_tiles_hex ():
             width=64, 
             height=64);
 
-    hex_tiles = [
+    tiles = [
         "grass1.1",
         "forest1.1",
         "forest1.2",
@@ -54,7 +54,7 @@ def init_tiles_hex ():
             tex_name = "hex",
             tex_name_black_and_white = "",
             width = 64, height = 64,
-            arr = hex_tiles);
+            arr = tiles);
 
 def init_tiles_chars ():
 
@@ -64,7 +64,7 @@ def init_tiles_chars ():
             width=16, 
             height=16);
 
-    chars_tiles = [
+    tiles = [
         "player1",
         "player2",
         "player3",
@@ -135,8 +135,90 @@ def init_tiles_chars ():
             tex_name = "chars",
             tex_name_black_and_white = "",
             width = 16, height = 16,
-            arr = chars_tiles);
+            arr = tiles);
+
+def init_tiles_hex_sea ():
+
+    mm.tex_load_tiled(
+            file="data/gfx/sea.tga", 
+            name="sea", 
+            width=64, 
+            height=64);
+
+    tiles = [
+        "sea1.1",
+        "sea1.2",
+        "sea1.3",
+        "sea1.4",
+        "sea1.5",
+        "sea1.6",
+        "sea1.7",
+        "sea1.8",
+        "sea1.9",
+        "sea1.10",
+        "sea1.11",
+        "sea1.12",
+        "sea1.13",
+        "sea1.14",
+        "sea1.15",
+        "sea1.16",
+        "sea1.17",
+        "sea1.18",
+        "sea1.19",
+        "sea1.20",
+        "sea1.21",
+        "sea1.22",
+        "sea1.23",
+        "sea1.24",
+        "sea1.25",
+        "sea1.26",
+        "sea1.27",
+        "sea1.28",
+        "sea1.29",
+        "sea1.30",
+        "sea1.31",
+        "sea1.32",
+        "sea1.33",
+        "sea1.34",
+        "sea1.35",
+        "sea1.36",
+        "sea1.37",
+        "sea1.38",
+        "sea1.39",
+        "sea1.40",
+        "sea1.41",
+        "sea1.42",
+        "sea1.43",
+        "sea1.44",
+        "sea1.45",
+        "sea1.46",
+        "sea1.47",
+        "sea1.48",
+        "sea1.49",
+        "sea1.50",
+        "sea1.51",
+        "sea1.52",
+        "sea1.53",
+        "sea1.54",
+        "sea1.55",
+        "sea1.56",
+        "sea1.57",
+        "sea1.58",
+        "sea1.59",
+        "sea1.60",
+        "sea1.61",
+        "sea1.62",
+        "sea1.63",
+        "sea1.64",
+    ];
+
+    mm.tile_load_arr(
+            tex_name = "sea",
+            tex_name_black_and_white = "",
+            width = 64, height = 64,
+            arr = tiles);
 
 init_tex();
 init_tiles_hex();
+init_tiles_hex_sea();
 init_tiles_chars();
