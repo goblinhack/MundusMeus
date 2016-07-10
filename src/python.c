@@ -481,6 +481,16 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "load a texture"},
 
+    {"tex_size",
+        (PyCFunction)tex_size_,
+        METH_VARARGS | METH_KEYWORDS,
+        "tex info"},
+
+    {"tex_pixel",
+        (PyCFunction)tex_pixel_,
+        METH_VARARGS | METH_KEYWORDS,
+        "get pixels"},
+
     {"tile_load_arr",
         (PyCFunction)tile_load_arr_,
         METH_VARARGS | METH_KEYWORDS,
