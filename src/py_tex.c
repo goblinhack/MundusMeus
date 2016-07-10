@@ -11,6 +11,7 @@
 #include "frameobject.h"
 #include "tex.h"
 #include "tile.h"
+#include "pixel.h"
 #include "thing_template.h"
 
 PyObject *tex_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
@@ -21,23 +22,69 @@ PyObject *tex_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
     static char *kwlist[] = {"file", "name", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "ss", kwlist, &a, &b)) {
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!a) {
         ERR("tex_load, missing file attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!b) {
         ERR("tex_load, missing name attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
     LOG("tex_load(file=%s, name=%s)", a, b);
     tex_load(a, b);
 
     Py_RETURN_NONE;
+}
+
+PyObject *tex_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    char *tex = "unset tex";
+
+    static char *kwlist[] = {"tex", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "s", kwlist, &tex)) {
+        Py_RETURN_NONE;
+    }
+
+    texp t = tex_find(tex);
+
+    if (!tex) {
+        ERR("tex_load, missing file attr");
+        Py_RETURN_NONE;
+    }
+
+    return (Py_BuildValue("(ii)", tex_get_width(t), tex_get_height(t)));
+}
+
+PyObject *tex_pixel_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    char *tex = "unset tex";
+    int x = 0;
+    int y = 0;
+
+    static char *kwlist[] = {"tex", "x", "y", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "sii", kwlist, &tex, &x, &y)) {
+        Py_RETURN_NONE;
+    }
+
+    texp t = tex_find(tex);
+
+    if (!tex) {
+        ERR("tex_load, missing file attr");
+        Py_RETURN_NONE;
+    }
+
+    color c;
+
+    c = getPixel(tex_get_surface(t), x, y);
+
+    return (Py_BuildValue("(iiii)", c.r, c.g, c.b, c.a));
 }
 
 PyObject *tex_load_tiled_ (PyObject *obj, PyObject *args, PyObject *keywds)
@@ -50,27 +97,27 @@ PyObject *tex_load_tiled_ (PyObject *obj, PyObject *args, PyObject *keywds)
     static char *kwlist[] = {"file", "name", "width", "height", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "ssii", kwlist, &a, &b, &c, &d)) {
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!a) {
         ERR("tex_load, missing file attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!b) {
         ERR("tex_load, missing name attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!c) {
         ERR("tex_load, missing width attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!d) {
         ERR("tex_load, missing height attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
 
@@ -91,32 +138,32 @@ PyObject *tile_load_arr_ (PyObject *obj, PyObject *args, PyObject *keywds)
     static char *kwlist[] = {"tex_name", "tex_name_black_and_white", "width", "height", "arr", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "ssiiO", kwlist, &tex_name, &tex_name_black_and_white, &width, &height, &e)) {
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!tex_name) {
         ERR("tile_load_arr, missing tex_name attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!tex_name_black_and_white) {
         ERR("tile_load_arr, missing tex_name_black_and_white attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!width) {
         ERR("tile_load_arr, missing width attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!height) {
         ERR("tile_load_arr, missing height attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
     if (!e) {
         ERR("tile_load_arr, missing arr attr");
-        return (0);
+        Py_RETURN_NONE;
     }
 
     int numLines = PyList_Size(e);
