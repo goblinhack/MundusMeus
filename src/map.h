@@ -53,8 +53,9 @@ ENUM_DEF_H(MAP_DEPTH_ENUMS, map_depth)
 #define WORLD_DEPTH_ENUMS(list_macro)                           \
     list_macro(WORLD_DEPTH_LAND = 0,        "land"),            \
     list_macro(WORLD_DEPTH_PLACE,           "place"),           \
+    list_macro(WORLD_DEPTH_PLAYER,          "player"),          \
 
-#define WORLD_DEPTH 2
+#define WORLD_DEPTH 3
 
 ENUM_DEF_H(WORLD_DEPTH_ENUMS, world_depth)
 
