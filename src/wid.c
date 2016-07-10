@@ -4129,9 +4129,13 @@ widp wid_grid_find_first (widp parent, uint32_t x, uint32_t y,
     widgrid *grid;
     widp w;
 
+    if (!parent) {
+        return (0);
+    }
+
     grid = parent->grid;
     if (!grid) {
-        ERR("no grid wid in wid_grid_find_first");
+        return (0);
     }
 
     if (x >= grid->width) {

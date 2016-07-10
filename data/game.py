@@ -20,9 +20,10 @@ class Game:
         l = w.get_level()
         l.set_dim(256, 256)
         
-        for i in range(0,200):
-            t = thing.Thing(level=l, tp_name="grass1")
-            t.push(i, i)
+        for x in range(0,40):
+            for y in range(0,40):
+                t = thing.Thing(level=l, tp_name="grass1")
+                t.push(x, y)
 
 #        w.destroy()
 
