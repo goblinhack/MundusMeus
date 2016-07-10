@@ -22,6 +22,7 @@ class Game:
         l = w.get_level()
         l.set_dim(width, height)
 
+        c = 0
         for y in range(0, height):
             for x in range(0, width):
 
@@ -94,6 +95,16 @@ class Game:
                     t.push(x, y)
                 else:
                     t = thing.Thing(level=l, tp_name="forest1")
+                    t.push(x, y)
+
+                if x == 0 and y == 0:
+                    t = thing.Thing(level=l, tp_name="player1")
+                    t.push(x, y)
+
+                c = c + 1
+                if c == 201:
+                    c = 0
+                    t = thing.Thing(level=l, tp_name="player1")
                     t.push(x, y)
     #        w.destroy()
         print("done")

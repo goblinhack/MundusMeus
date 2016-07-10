@@ -8423,6 +8423,11 @@ static void wid_lighting_render (widp w,
     double alpha = ((double)c.a) / 255.0;
     double light_delta = 1.5;
 
+    if ((red == 0.0) && (green == 0.0) && (blue == 0.0)) {
+        red = 1.0;
+        green = 1.0;
+        blue = 1.0;
+    }
     alpha = 0.0;
 
     if (thing_is_candle_light(t)) {
@@ -9148,7 +9153,6 @@ static void wid_display (widp w,
             black_and_white = 1;
         }
 #endif
-
         wid_light_init();
 
         /*
@@ -9196,7 +9200,6 @@ static void wid_display (widp w,
 
         blit_flush();
 
-            if (0)
         if ((w->grid) && !debug) {
             /*
              * Light source.
