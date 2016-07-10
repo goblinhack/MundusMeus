@@ -84,16 +84,15 @@ class Game:
                 elif r == 255 and g == 255 and b == 255: 
                     is_snow = True
 
-                if x == 0 and y == 0:
-                    if (x % 9) == 0 and (y % 9) == 0:
-                        t = thing.Thing(level=l, tp_name="sea1")
-                        t.push(x, y)
+                if (x % 9) == 0 and (y % 9) == 0:
+                    t = thing.Thing(level=l, tp_name="sea1")
+                    t.push(x, y)
                     
                 if x == width / 2 and y == height / 2:
                     t = thing.Thing(level=l, tp_name="bigmap")
                     t.push(x, y)
 
-                if  random.randint(1, 1000) < 3:
+                if  random.randint(1, 1000) < 30:
                     t = thing.Thing(level=l, tp_name="player1")
                     t.push(x, y)
     #        w.destroy()

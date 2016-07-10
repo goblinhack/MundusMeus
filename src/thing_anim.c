@@ -82,7 +82,11 @@ void thing_animate (thingp t)
             thing_tilep new_tile;
 
             {
-                new_tile = thing_tile_first(tiles);
+                new_tile = thing_tile_next(tiles, tile);
+                if (!new_tile) {
+                    new_tile = thing_tile_first(tiles);
+                }
+
                 while (new_tile) {
                     if (thing_tile_is_dir_none(new_tile)) {
                         chose_tile = true;
@@ -100,12 +104,6 @@ void thing_animate (thingp t)
         }
     }
 
-    if (tile) {
-CON("%s", thing_tile_name(tile));
-            tile = thing_tile_next(tiles, tile);
-CON(" -> %s", thing_tile_name(tile));
-chose_tile = 1;
-    }
     /*
      * Find a tile that matches the things current mode.
      */
