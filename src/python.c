@@ -515,6 +515,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(light_radius)
     TP_SET_DECL(z_depth)
     TP_SET_DECL(z_order)
+    TP_SET_DECL(scale)
     TP_SET_DECL(world_depth)
     TP_SET_DECL(speed)
     TP_SET_DECL(blit_top_off)

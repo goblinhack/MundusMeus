@@ -3,6 +3,7 @@ import level
 import thing
 import util
 import mm
+import random
 
 global g
 
@@ -22,7 +23,6 @@ class Game:
         l = w.get_level()
         l.set_dim(width, height)
 
-        c = 0
         for y in range(0, height):
             for x in range(0, width):
 
@@ -84,26 +84,16 @@ class Game:
                 elif r == 255 and g == 255 and b == 255: 
                     is_snow = True
 
-                if is_grass is True:
-                    t = thing.Thing(level=l, tp_name="grass1")
-                    t.push(x, y)
-                elif is_forest is True:
-                    t = thing.Thing(level=l, tp_name="forest1")
-                    t.push(x, y)
-                elif is_sea is True:
-                    t = thing.Thing(level=l, tp_name="sea1")
-                    t.push(x, y)
-                else:
-                    t = thing.Thing(level=l, tp_name="forest1")
-                    t.push(x, y)
-
                 if x == 0 and y == 0:
-                    t = thing.Thing(level=l, tp_name="player1")
+                    if (x % 9) == 0 and (y % 9) == 0:
+                        t = thing.Thing(level=l, tp_name="sea1")
+                        t.push(x, y)
+                    
+                if x == width / 2 and y == height / 2:
+                    t = thing.Thing(level=l, tp_name="bigmap")
                     t.push(x, y)
 
-                c = c + 1
-                if c == 201:
-                    c = 0
+                if  random.randint(1, 1000) < 3:
                     t = thing.Thing(level=l, tp_name="player1")
                     t.push(x, y)
     #        w.destroy()
