@@ -5,6 +5,25 @@ def init_tex ():
     mm.tex_load(file="data/gfx/sword.tga",      name="sword");
     mm.tex_load(file="data/gfx/title.tga",      name="main_title");
     mm.tex_load(file="data/gfx/map.tga",        name="map");
+    mm.tex_load(file="data/gfx/bigmap.tga",     name="bigmap");
+
+def init_tiles_bigmap ():
+
+    mm.tex_load_tiled(
+            file="data/gfx/bigmap.tga", 
+            name="hex", 
+            width=4096, 
+            height=4096);
+
+    tiles = [
+        "bigmap",
+    ];
+
+    mm.tile_load_arr(
+            tex_name = "bigmap",
+            tex_name_black_and_white = "",
+            width = 4096, height = 4096,
+            arr = tiles);
 
 def init_tiles_hex ():
 
@@ -142,8 +161,8 @@ def init_tiles_hex_sea ():
     mm.tex_load_tiled(
             file="data/gfx/sea.tga", 
             name="sea", 
-            width=64, 
-            height=64);
+            width=256, 
+            height=256);
 
     tiles = [
         "sea1.1",
@@ -215,10 +234,11 @@ def init_tiles_hex_sea ():
     mm.tile_load_arr(
             tex_name = "sea",
             tex_name_black_and_white = "",
-            width = 64, height = 64,
+            width = 256, height = 256,
             arr = tiles);
 
 init_tex();
+init_tiles_bigmap();
 init_tiles_hex();
 init_tiles_hex_sea();
 init_tiles_chars();

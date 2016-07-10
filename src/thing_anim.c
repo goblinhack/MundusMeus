@@ -100,6 +100,12 @@ void thing_animate (thingp t)
         }
     }
 
+    if (tile) {
+CON("%s", thing_tile_name(tile));
+            tile = thing_tile_next(tiles, tile);
+CON(" -> %s", thing_tile_name(tile));
+chose_tile = 1;
+    }
     /*
      * Find a tile that matches the things current mode.
      */

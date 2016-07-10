@@ -35,18 +35,14 @@ void thing_wid_move (thingp t,
        odd = true;
     }
 
-    double height = game.tile_height * 0.75;
-    double width = game.tile_width * 0.85;
+    double height = game.tile_height;
+    double width = game.tile_width;
 
     x *= width;
     y *= height;
 
     x += width / 2;
     y += height / 2;
-
-    if (odd) {
-        x += width / 2;
-    }
 
     fpoint tl = { x, y };
     fpoint br = { x, y };
