@@ -12,8 +12,8 @@ def init_tiles_bigmap ():
     mm.tex_load_tiled(
             file="data/gfx/bigmap.tga", 
             name="hex", 
-            width=4096, 
-            height=4096);
+            width=2048, 
+            height=2048);
 
     tiles = [
         "bigmap",
@@ -22,7 +22,7 @@ def init_tiles_bigmap ():
     mm.tile_load_arr(
             tex_name = "bigmap",
             tex_name_black_and_white = "",
-            width = 4096, height = 4096,
+            width = 2048, height = 2048,
             arr = tiles);
 
 def init_tiles_hex ():
