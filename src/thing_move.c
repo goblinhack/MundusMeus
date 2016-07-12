@@ -67,6 +67,11 @@ void thing_wid_move (thingp t,
         double tile_height = game.tile_height;
 
         if (scale_x > 1) {
+            br.x -= tile_width / 2.0;
+            br.y -= tile_height / 2.0;
+            tl.x -= tile_width / 2.0;
+            tl.y -= tile_height / 2.0;
+
             tile_width *= scale_x;
             tile_height *= scale_y;
         }

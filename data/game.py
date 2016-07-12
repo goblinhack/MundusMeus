@@ -92,7 +92,7 @@ class Game:
                     t = thing.Thing(level=l, tp_name="bigmap")
                     t.push(x, y)
 
-                if  random.randint(1, 1000) < 30:
+                if  random.randint(1, 1000) < 50:
                     t = thing.Thing(level=l, tp_name="player1")
                     t.push(x, y)
     #        w.destroy()
