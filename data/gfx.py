@@ -1,37 +1,38 @@
-import mm;
+import mm
 
-def init_tex ():
 
-    mm.tex_load(file="data/gfx/sword.tga",      name="sword");
-    mm.tex_load(file="data/gfx/title.tga",      name="main_title");
-    mm.tex_load(file="data/gfx/map.tga",        name="map");
-    mm.tex_load(file="data/gfx/bigmap.tga",     name="bigmap");
+def init_tex():
 
-def init_tiles_bigmap ():
+    mm.tex_load(file="data/gfx/sword.tga",      name="sword")
+    mm.tex_load(file="data/gfx/title.tga",      name="main_title")
+    mm.tex_load(file="data/gfx/map.tga",        name="map")
+    mm.tex_load(file="data/gfx/bigmap.tga",     name="bigmap")
+
+
+def init_tiles_bigmap():
 
     mm.tex_load_tiled(
-            file="data/gfx/bigmap.tga", 
-            name="hex", 
-            width=2048, 
-            height=2048);
+            file="data/gfx/bigmap.tga",
+            name="hex",
+            width=2048,
+            height=2048)
 
     tiles = [
         "bigmap",
-    ];
+    ]
 
-    mm.tile_load_arr(
-            tex_name = "bigmap",
-            tex_name_black_and_white = "",
-            width = 2048, height = 2048,
-            arr = tiles);
+    mm.tile_load_arr(tex_name="bigmap",
+                     tex_name_black_and_white="",
+                     width=2048, height=2048,
+                     arr=tiles)
 
-def init_tiles_hex ():
 
-    mm.tex_load_tiled(
-            file="data/gfx/hex.tga", 
-            name="hex", 
-            width=64, 
-            height=64);
+def init_tiles_hex():
+
+    mm.tex_load_tiled(file="data/gfx/hex.tga",
+                      name="hex",
+                      width=64,
+                      height=64)
 
     tiles = [
         "grass1.1",
@@ -67,21 +68,22 @@ def init_tiles_hex ():
         "grass1.19",
         "grass1.20",
         #
-    ];
+    ]
 
     mm.tile_load_arr(
-            tex_name = "hex",
-            tex_name_black_and_white = "",
-            width = 64, height = 64,
-            arr = tiles);
+            tex_name="hex",
+            tex_name_black_and_white="",
+            width=64, height=64,
+            arr=tiles)
 
-def init_tiles_chars ():
+
+def init_tiles_chars():
 
     mm.tex_load_tiled(
-            file="data/gfx/chars.tga", 
-            name="chars", 
-            width=16, 
-            height=16);
+            file="data/gfx/chars.tga",
+            name="chars",
+            width=16,
+            height=16)
 
     tiles = [
         "player1",
@@ -148,21 +150,22 @@ def init_tiles_chars ():
         "player62",
         "player63",
         "player64",
-    ];
+    ]
 
     mm.tile_load_arr(
-            tex_name = "chars",
-            tex_name_black_and_white = "",
-            width = 16, height = 16,
-            arr = tiles);
+            tex_name="chars",
+            tex_name_black_and_white="",
+            width=16, height=16,
+            arr=tiles)
 
-def init_tiles_hex_sea ():
+
+def init_tiles_hex_sea():
 
     mm.tex_load_tiled(
-            file="data/gfx/sea.tga", 
-            name="sea", 
-            width=256, 
-            height=256);
+            file="data/gfx/sea.tga",
+            name="sea",
+            width=256,
+            height=256)
 
     tiles = [
         "sea1.1",
@@ -229,16 +232,16 @@ def init_tiles_hex_sea ():
         "sea1.62",
         "sea1.63",
         "sea1.64",
-    ];
+    ]
 
     mm.tile_load_arr(
-            tex_name = "sea",
-            tex_name_black_and_white = "",
-            width = 256, height = 256,
-            arr = tiles);
+            tex_name="sea",
+            tex_name_black_and_white="",
+            width=256, height=256,
+            arr=tiles)
 
-init_tex();
-init_tiles_bigmap();
-init_tiles_hex();
-init_tiles_hex_sea();
-init_tiles_chars();
+init_tex()
+init_tiles_bigmap()
+init_tiles_hex()
+init_tiles_hex_sea()
+init_tiles_chars()

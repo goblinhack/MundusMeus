@@ -1,13 +1,14 @@
 from tp import tpp
 import mm
 
+
 def init():
     x = tpp("sea1")
     x.set_short_name("sea")
     x.set_is_sea(True)
     x.set_world_depth("sea")
     x.set_is_animated(True)
-    x.set_scale(3*0.75)
+    x.set_scale(1*0.25)
 
     mm.tp_set_tile(x, tile="sea1.1", delay_ms=50)
     mm.tp_set_tile(x, tile="sea1.2", delay_ms=50)

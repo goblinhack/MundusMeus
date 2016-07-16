@@ -4,12 +4,14 @@ import fnmatch
 from os.path import dirname, basename
 import imp
 
+
 def find_plugins(directory, pattern):
     for root, dirs, files in os.walk(directory):
-        for basename in files:
-            if fnmatch.fnmatch(basename, pattern):
-                filename = os.path.join(root, basename)
+        for f in files:
+            if fnmatch.fnmatch(f, pattern):
+                filename = os.path.join(root, f)
                 yield filename
+
 
 def load_one_plugin(filepath):
     if basename(filepath) == "init.py":
@@ -18,7 +20,7 @@ def load_one_plugin(filepath):
     if basename(filepath) == "tp.py":
         return
 
-    mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
+    mod_name, file_ext = os.path.splitext(os.path.split(filepath)[-1])
 
     if file_ext.lower() == '.py':
         py_mod = imp.load_source(mod_name, filepath)
@@ -42,20 +44,21 @@ def load_one_plugin(filepath):
         global game
         game = py_mod
 
+
 def load_all_plugins():
     for filename in find_plugins(dirname(__file__), '*.py'):
-        mm.con("Loading " + filename);
-        load_one_plugin(filename);
+        mm.con("Loading " + filename)
+        load_one_plugin(filename)
+
 
 def load_plugin(plugin):
     for filename in find_plugins(os.getcwd(), plugin):
-        mm.con("Loading " + filename);
-        load_one_plugin(filename);
+        mm.con("Loading " + filename)
+        load_one_plugin(filename)
+
 
 def init1():
-    #
-    # Defaults
-    #
+    """ game defaults """
     mm.game_video_pix_width = 0
     mm.game_video_pix_height = 0
     mm.game_sound_volume = 10
@@ -67,6 +70,7 @@ def init1():
     load_plugin('config.py')
     load_plugin('mundusmeus-config.py')
     config.save_game_config()
+
 
 def init2():
     load_all_plugins()
