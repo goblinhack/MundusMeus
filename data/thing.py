@@ -1,11 +1,11 @@
-import pickle
 import traceback
 import mm
 import tp
-import util
+
 
 class Thing:
-    def __init__ (self, level, tp_name):
+
+    def __init__(self, level, tp_name):
         self.level = level
         self.tp_name = tp_name
 
@@ -13,7 +13,7 @@ class Thing:
         self.thing_id = level.world.max_thing_id
         self.name = "{0}:{1}".format(self.thing_id, self.tp_name)
 
-        if not tp_name in tp.all_tps:
+        if tp_name not in tp.all_tps:
             self.err("Thing template {0} does not exist".format(tp_name))
 
         self.tp = tp.all_tps[tp_name]
@@ -36,7 +36,7 @@ class Thing:
     def __str__(self):
         return "{0}:{1}".format(self.thing_id, self.tp_name)
 
-    def destroy (self, reason="no reason"):
+    def destroy(self, reason="no reason"):
         if self.on_map:
             self.pop()
         self.log("Destroying thing, {0}".format(reason) + " {")
@@ -49,17 +49,17 @@ class Thing:
         self.log("} " + "Destroyed thing, {0}".format(reason))
         del self
 
-    def log (self, msg):
+    def log(self, msg):
         mm.log("p-thing {0}: {1}".format(str(self), msg))
 
-    def err (self, msg):
+    def err(self, msg):
         mm.err("p-thing {0}: ERROR: {1}".format(self.name, msg))
         traceback.print_stack()
 
-    def dump (self):
+    def dump(self):
         self.log("@ {0},{1}".format(self.x, self.y))
 
-    def push (self, x, y):
+    def push(self, x, y):
         self.x = x
         self.y = y
 
@@ -71,7 +71,7 @@ class Thing:
         self.level.on_map[x][y].append(self)
         mm.thing_push(self, x, y)
 
-    def pop (self):
+    def pop(self):
         if not self.on_map:
             self.err("Is not on the map")
             return
