@@ -40,7 +40,7 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     wid = wid_new_container(parent, name);
 
-    return (Py_BuildValue("(K)", (uintptr_t) wid));
+    return (Py_BuildValue("K", (uintptr_t) wid));
 }
 
 PyObject *wid_destroy_ (PyObject *obj, PyObject *args, PyObject *keywds)

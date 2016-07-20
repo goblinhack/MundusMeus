@@ -320,7 +320,7 @@ err_out:
 
 uint64_t py_obj_to_uint64 (PyObject *py_obj)
 {
-    int val;
+    uint64_t val;
 
     val = 0;
 
