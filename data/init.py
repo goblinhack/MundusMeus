@@ -28,6 +28,9 @@ def load_one_plugin(filepath):
     elif file_ext.lower() == '.pyc':
         py_mod = imp.load_compiled(mod_name, filepath)
 
+    #
+    # Make aliases for imports so we can reference their functions
+    #
     if basename(filepath) == "config.py":
         global config
         config = py_mod
@@ -44,6 +47,9 @@ def load_one_plugin(filepath):
         global game
         game = py_mod
 
+    if basename(filepath) == "wid.py":
+        global wid
+        wid = py_mod
 
 def load_all_plugins():
     for filename in find_plugins(dirname(__file__), '*.py'):
@@ -74,5 +80,7 @@ def init1():
 
 def init2():
     load_all_plugins()
+    w = wid.Wid(name="test")
+    w.destroy()
 
 init1()

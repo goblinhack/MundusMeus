@@ -24,7 +24,11 @@ void py_call_void(const char *name);
 void py_err(void);
 char *py_obj_to_str(const PyObject *py_str);
 int py_obj_to_int(PyObject *py_obj);
+uint64_t py_obj_to_uint64(PyObject *py_obj);
+
 char *py_obj_attr_str(const PyObject *py_obj, const char *attr);
+int py_obj_attr_int(const PyObject *py_obj, const char *attr);
+uint64_t py_obj_attr_uint64(const PyObject *py_obj, const char *attr);
 
 PyObject *tex_load_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *tex_size_(PyObject *obj, PyObject *args, PyObject *keywds);
