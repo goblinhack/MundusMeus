@@ -7,6 +7,7 @@
 #include "python.h"
 #include "py_tp.h"
 #include "py_thing.h"
+#include "py_wid.h"
 #include "main.h"
 #include "string_util.h"
 #include "string_ext.h"
@@ -317,6 +318,100 @@ err_out:
     return (val);
 }
 
+uint64_t py_obj_to_uint64 (PyObject *py_obj)
+{
+    int val;
+
+    val = 0;
+
+    if (!PyLong_Check((PyObject *)py_obj)) {
+        ERR("Object is a %s, not a uint64 object.",
+            Py_TYPE((PyObject *)py_obj)->tp_name);
+        goto err_out;
+    }
+
+    val = PyLong_AsUnsignedLongLong(py_obj);
+    if (!val) {
+        goto err_out;
+    }
+
+err_out:
+
+    if (PyErr_Occurred()) {
+        ERR("int conversion failed");
+    }
+
+    return (val);
+}
+
+int py_obj_attr_int (const PyObject *py_obj, const char *attr)
+{
+    PyObject *py_encstr;
+    char *str;
+    int i = 0;
+
+    py_encstr = 0;
+    str = 0;
+
+    if (!PyObject_HasAttrString((PyObject *)py_obj, attr)) {
+        ERR("Object is a %s, not a string object.",
+            Py_TYPE((PyObject *)py_obj)->tp_name);
+        goto err_out;
+    }
+
+    py_encstr = PyObject_GetAttrString((PyObject *)py_obj, attr);
+    if (!py_encstr) {
+        goto err_out;
+    }
+
+    i = py_obj_to_int(py_encstr);
+
+err_out:
+    if (py_encstr) {
+        Py_XDECREF(py_encstr);
+    }
+
+    if (PyErr_Occurred()) {
+        ERR("int conversion failed");
+    }
+
+    return (i);
+}
+
+uint64_t py_obj_attr_uint64 (const PyObject *py_obj, const char *attr)
+{
+    PyObject *py_encstr;
+    char *str;
+    uint64_t i = 0;
+
+    py_encstr = 0;
+    str = 0;
+
+    if (!PyObject_HasAttrString((PyObject *)py_obj, attr)) {
+        ERR("Object is a %s, not a string object.",
+            Py_TYPE((PyObject *)py_obj)->tp_name);
+        goto err_out;
+    }
+
+    py_encstr = PyObject_GetAttrString((PyObject *)py_obj, attr);
+    if (!py_encstr) {
+        goto err_out;
+    }
+
+    i = py_obj_to_uint64(py_encstr);
+
+err_out:
+    if (py_encstr) {
+        Py_XDECREF(py_encstr);
+    }
+
+    if (PyErr_Occurred()) {
+        ERR("int conversion failed");
+    }
+
+    return (i);
+}
+
 char *py_obj_attr_str (const PyObject *py_obj, const char *attr)
 {
     PyObject *py_encstr;
@@ -510,6 +605,16 @@ static PyMethodDef python_c_METHODS[] =
     THING_DECL(move)
     THING_DECL(push)
     THING_DECL(pop)
+
+    {"wid_new",
+        (PyCFunction)wid_new_,
+        METH_VARARGS | METH_KEYWORDS,
+        "create a wid"},
+
+    {"wid_destroy",
+        (PyCFunction)wid_destroy_,
+        METH_VARARGS | METH_KEYWORDS,
+        "destroy a wid"},
 
     TP_SET_DECL(tile)
     TP_SET_DECL(light_radius)
