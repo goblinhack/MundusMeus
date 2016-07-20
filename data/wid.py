@@ -8,11 +8,11 @@ class Wid:
         self.parent = parent
         self.name = name
         self.wid_id = mm.wid_new(self, parent, name)
-        self.name = "{0}:{1}".format(self.wid_id, self.name)
+        self.name = "{0:x}:{1}".format(self.wid_id, self.name)
         self.log("Created wid")
 
     def __str__(self):
-        return "{0}:{1}".format(self.wid_id, self.name)
+        return "{0}".format(self.name)
 
     def destroy(self):
         self.log("Destroying wid")
