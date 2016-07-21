@@ -24,6 +24,7 @@
 #include "thing_template.h"
 #include "sound.h"
 #include "player.h"
+#include "python.h"
 
 double last_playery;
 double last_playerx;
@@ -57,6 +58,8 @@ static void wid_game_map_set_thing_template (widp w, tpp t)
 
 void wid_game_map_fini (void)
 {
+    py_call_void_module_void("hooks", "hook_destroy_game");
+
     wid_game_map_wid_destroy(false /* keep player */);
 }
 

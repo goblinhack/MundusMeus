@@ -40,6 +40,8 @@ void wid_intro_about_fini (void)
 
 void wid_intro_about_hide (void)
 {
+    LOG("Hide intro screen");
+
     wid_intro_about_destroy();
 
     wid_intro_visible();

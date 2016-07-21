@@ -437,7 +437,7 @@ char *py_obj_attr_str (const PyObject *py_obj, const char *attr)
         goto err_out;
     }
 
-    outstr = dupstr(str, __FUNCTION__);
+    outstr = str;
 
 err_out:
 

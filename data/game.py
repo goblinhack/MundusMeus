@@ -98,6 +98,10 @@ class Game:
     #        w.destroy()
         print("done")
 
+    def destroy(self):
+        self.world.destroy()
+
+g = None
 
 def game_new():
     global g

@@ -264,6 +264,8 @@ static uint8_t wid_intro_settings_back_mouse_event (widp w,
                                                     int32_t x, int32_t y,
                                                     uint32_t button)
 {
+    LOG("Setttings back event");
+
     wid_intro_settings_save();
 
     wid_intro_settings_destroy();
@@ -283,6 +285,8 @@ static void wid_intro_help_destroy (void)
 
 static void wid_intro_help_hide (void)
 {
+    LOG("Hide settings screen");
+
     wid_intro_help_destroy();
 
     wid_intro_visible();
@@ -290,16 +294,22 @@ static void wid_intro_help_hide (void)
 
 static void wid_intro_help_visible (void)
 {
+    LOG("Settings visible");
+    
     wid_intro_help_create();
 }
 
 static void wid_intro_help_callback_close (widp wid)
 {
+    LOG("Settings close");
+
     wid_intro_help_hide();
 }
 
 static void wid_intro_help_create (void)
 {
+    LOG("Settings create");
+
     if (wid_intro_help) {
         return;
     }
@@ -607,6 +617,7 @@ static uint8_t wid_intro_restart_selected (void)
     }
 
     if (!wid_intro_settings_restart_needed) {
+        wid_intro_visible();
         return (false);
     }
 

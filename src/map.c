@@ -26,7 +26,7 @@ thingp map_is_tp_at (levelp level, int32_t x, int32_t y, tpp tp)
 
     grid_wid = level_get_map(level);
     if (!grid_wid) {
-        ERR("no grid wid");
+        DIE("no grid wid");
     }
 
     /*
@@ -66,7 +66,7 @@ static tpp map_is_x_at (levelp level,
 
     grid_wid = level_get_map(level);
     if (!grid_wid) {
-        ERR("no grid wid");
+        DIE("no grid wid");
     }
 
     uint8_t z;
@@ -111,7 +111,7 @@ uint8_t map_count_x_at (levelp level,
 
     grid_wid = level_get_map(level);
     if (!grid_wid) {
-        ERR("no grid wid");
+        DIE("no grid wid");
     }
 
     /*
@@ -166,7 +166,7 @@ thingp map_thing_is_x_at (levelp level,
 
     grid_wid = level_get_map(level);
     if (!grid_wid) {
-        ERR("no grid wid");
+        DIE("no grid wid");
     }
 
     /*
@@ -212,7 +212,7 @@ tree_rootp map_all_things_is_x_at (levelp level,
 
     grid_wid = level_get_map(level);
     if (!grid_wid) {
-        ERR("no grid wid");
+        DIE("no grid wid");
     }
 
     /*
@@ -487,6 +487,11 @@ if (level != level)
 
 void map_fixup (levelp level)
 {
+    widp grid_wid = level_get_map(level);
+    if (!grid_wid) {
+        return;
+    }
+
     map_fixup1(level);
 }
 
@@ -505,7 +510,7 @@ tree_rootp map_all_things_is_x (levelp level,
 
     grid_wid = level_get_map(level);
     if (!grid_wid) {
-        ERR("no grid wid");
+        DIE("no grid wid");
     }
 
     uint8_t z;
