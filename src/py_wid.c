@@ -44,9 +44,6 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
         w = wid_new_window(name);
     }
 
-    wid_set_font(w, small_font);
-    wid_set_text_outline(w, true);
-
     return (Py_BuildValue("K", (uintptr_t) w));
 }
 
