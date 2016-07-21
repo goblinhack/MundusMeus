@@ -616,6 +616,26 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "destroy a wid"},
 
+    {"wid_set_shape",
+        (PyCFunction)wid_set_shape_,
+        METH_VARARGS | METH_KEYWORDS,
+        "set wid shape"},
+
+    {"wid_set_tl_br",
+        (PyCFunction)wid_set_tl_br_,
+        METH_VARARGS | METH_KEYWORDS,
+        "set bounds"},
+
+    {"wid_set_tl_br_pct",
+        (PyCFunction)wid_set_tl_br_pct_,
+        METH_VARARGS | METH_KEYWORDS,
+        "set bounds in percent"},
+
+    {"wid_set_text",
+        (PyCFunction)wid_set_text_,
+        METH_VARARGS | METH_KEYWORDS,
+        "set text"},
+
     TP_SET_DECL(tile)
     TP_SET_DECL(light_radius)
     TP_SET_DECL(z_depth)

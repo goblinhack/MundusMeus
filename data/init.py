@@ -81,6 +81,8 @@ def init1():
 def init2():
     load_all_plugins()
     w = wid.Wid(name="test")
-    w.destroy()
+    w.set_shape(square=True)
+    w.set_tl_br_pct(x1=0.2, y1=0.2, x2=0.8, y2=0.8)
+    w.set_text(text="hello")
 
 init1()

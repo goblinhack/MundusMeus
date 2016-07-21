@@ -20,7 +20,7 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
     uintptr_t i_parent = 0;
     widp parent;
     char *name = 0;
-    widp wid;
+    widp w;
 
     static char *kwlist[] = {"wid", "parent", "name", 0};
 
@@ -38,9 +38,16 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     parent = (widp) i_parent;
 
-    wid = wid_new_container(parent, name);
+    if (parent) {
+        w = wid_new_container(parent, name);
+    } else {
+        w = wid_new_window(name);
+    }
 
-    return (Py_BuildValue("K", (uintptr_t) wid));
+    wid_set_font(w, small_font);
+    wid_set_text_outline(w, true);
+
+    return (Py_BuildValue("K", (uintptr_t) w));
 }
 
 PyObject *wid_destroy_ (PyObject *obj, PyObject *args, PyObject *keywds)
@@ -59,7 +66,164 @@ PyObject *wid_destroy_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     wid_destroy(&w);
 
-    Py_RETURN_NONE;	                                                        \
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_shape_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int shape_none = 0;
+    int shape_rounded_small = 0;
+    int shape_rounded_large = 0;
+    int shape_square = 0;
+    int shape_square_outline = 0;
+
+    static char *kwlist[] = {"wid", 
+        "none",
+        "rounded_small",
+        "rounded_large",
+        "square",
+        "square_outline",
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|iiiii", kwlist, 
+                                     &py_class,
+                                     &shape_none,
+                                     &shape_rounded_small,
+                                     &shape_rounded_large,
+                                     &shape_square,
+                                     &shape_square_outline)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    if (shape_none) {
+        wid_set_no_shape(w);
+    } else if (shape_rounded_small) {
+        wid_set_rounded_small(w);
+    } else if (shape_rounded_large) {
+        wid_set_rounded_small(w);
+    } else if (shape_square) {
+        wid_set_square(w);
+    } else if (shape_square_outline) {
+        wid_set_square_outline(w);
+    } else {
+        DIE("no wid shape type set");
+    }
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_tl_br_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    double x1 = 0;
+    double y1 = 0;
+    double x2 = 0;
+    double y2 = 0;
+
+    static char *kwlist[] = {"wid", 
+        "x1",
+        "y1",
+        "x2",
+        "y2",
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dddd", kwlist, 
+                                     &py_class,
+                                     &x1,
+                                     &y1,
+                                     &x2,
+                                     &y2)) {
+        return (0);
+    }
+
+    fpoint tl;
+    fpoint br;
+
+    tl.x = x1;
+    tl.y = y1;
+    br.x = x2;
+    br.y = y2;
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_tl_br(w, tl, br);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_tl_br_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    double x1 = 0;
+    double y1 = 0;
+    double x2 = 0;
+    double y2 = 0;
+
+    static char *kwlist[] = {"wid", 
+        "x1",
+        "y1",
+        "x2",
+        "y2",
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dddd", kwlist, 
+                                     &py_class,
+                                     &x1,
+                                     &y1,
+                                     &x2,
+                                     &y2)) {
+        return (0);
+    }
+
+    fpoint tl;
+    fpoint br;
+
+    tl.x = x1;
+    tl.y = y1;
+    br.x = x2;
+    br.y = y2;
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_tl_br_pct(w, tl, br);
+
+    wid_update(w);
+    wid_raise(w);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_text_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    char *text = 0;
+
+    static char *kwlist[] = {"wid", 
+        "text",
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+                                     &py_class,
+                                     &text)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_text(w, text);
+
+    Py_RETURN_NONE;
 }
 
 #define WID_BODY_SET_STRING(__field__)                                               \
