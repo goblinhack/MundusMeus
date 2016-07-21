@@ -10,6 +10,10 @@
 
 PyObject *wid_new_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_destroy_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_set_shape_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_set_tl_br_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_set_tl_br_pct_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_set_text_(PyObject *obj, PyObject *args, PyObject *keywds);
 
 #define WID_SET_PROTO(__field__)                                              \
 PyObject *wid_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds);
