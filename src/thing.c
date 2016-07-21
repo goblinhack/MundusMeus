@@ -74,6 +74,11 @@ static void thing_destroy_internal (thingp t)
         wid_set_thing(t->wid, 0);
         wid_destroy_nodelay(&t->wid);
     }
+
+    if (t->tree.key) {
+        myfree(t->tree.key);
+        t->tree.key = 0;
+    }
 }
 
 void thing_destroyed_ (thingp t, const char *reason)
@@ -119,7 +124,7 @@ thingp thing_find (const char *name)
     }
 
     // memset(&target, 0, sizeof(target)); intentional for speed
-    target.tree.key = (char*) dupstr(name, "thing name");
+    target.tree.key = (char*) name;
 
     result = (typeof(result)) tree_find(things, &target.tree.node);
     if (!result) {

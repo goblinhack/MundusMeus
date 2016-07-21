@@ -3936,7 +3936,7 @@ widp wid_grid_find (widp parent, fpoint tl, fpoint br,
 
     grid = parent->grid;
     if (!grid) {
-        ERR("no grid wid in wid_grid_find");
+        DIE("no grid wid in wid_grid_find");
     }
 
     /*
@@ -4015,7 +4015,7 @@ widp wid_grid_find_thing_template (widp parent,
 
     grid = parent->grid;
     if (!grid) {
-        ERR("no grid wid in wid_grid_find_thing_template");
+        DIE("no grid wid in wid_grid_find_thing_template");
     }
 
     /*
@@ -4077,7 +4077,7 @@ widp wid_grid_find_tp_is (widp parent,
 
     grid = parent->grid;
     if (!grid) {
-        ERR("no grid wid in wid_grid_find_tp_is");
+        DIE("no grid wid in wid_grid_find_tp_is");
     }
 
     /*
@@ -4185,7 +4185,7 @@ widp wid_grid_find_next (widp parent, widp w, uint32_t x, uint32_t y,
 
     grid = parent->grid;
     if (!grid) {
-        ERR("no grid wid in wid_grid_find_next");
+        DIE("no grid wid in wid_grid_find_next");
     }
 
     if (x >= grid->width) {
