@@ -48,6 +48,7 @@ static int saved_focus = 0;
 uint8_t wid_intro_init (void)
 {
     if (!wid_intro_init_done) {
+// XXX
 //        wid_intro_create();
     }
 
