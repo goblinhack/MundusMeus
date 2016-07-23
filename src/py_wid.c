@@ -12,7 +12,7 @@
 #include "tex.h"
 #include "tile.h"
 #include "py_wid.h"
-#include "thing.h"
+#include "string_ext.h"
 
 PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
@@ -204,19 +204,46 @@ PyObject *wid_set_text_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
     char *text = 0;
+    const char *font = 0;
+    int outline = 0;
+    char *color_name = 0;
 
     static char *kwlist[] = {"wid", 
         "text",
+        "font",
+        "outline",
+        "color",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ssis", kwlist, 
                                      &py_class,
-                                     &text)) {
+                                     &text,
+                                     &font,
+                                     &outline,
+                                     &color_name)) {
         return (0);
     }
 
     w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
     verify(w);
+
+    if (font) {
+        fontp f = string2font(&font);
+        if (f) {
+            wid_set_font(w, f);
+        } else {
+            ERR("font %s not found", font);
+        }
+    }
+
+    if (color_name) {
+        color c = color_find(color_name);
+        wid_set_color(w, WID_COLOR_TEXT, c);
+    }
+
+    if (outline) {
+        wid_set_text_outline(w, true);
+    }
 
     wid_set_text(w, text);
 
