@@ -49,7 +49,7 @@ uint8_t wid_intro_init (void)
 {
     if (!wid_intro_init_done) {
 // XXX
-//        wid_intro_create();
+        wid_intro_create();
     }
 
     wid_intro_init_done = true;
@@ -180,8 +180,8 @@ static void wid_intro_quit_selected (void)
 
     wid_intro_quit_popup = 
         wid_menu(0,
-                 vvlarge_font,
-                 large_font,
+                 small_font,
+                 vsmall_font,
                  0,
                  0.5, /* x */
                  0.5, /* y */
@@ -301,7 +301,7 @@ static void wid_intro_menu_create (void)
     wid_intro_menu = 
         wid_menu(0,
                  vvlarge_font,
-                 vlarge_font,
+                 large_font,
                  0, // on_update
                  0.5, /* x */
                  0.55, /* y */

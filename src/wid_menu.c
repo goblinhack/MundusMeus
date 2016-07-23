@@ -124,7 +124,7 @@ static void wid_menu_update (widp w)
                     wid_set_color(w, WID_COLOR_BG, WHITE);
                     wid_set_color(w, WID_COLOR_BR, RED);
                     wid_set_color(w, WID_COLOR_BLIT, WHITE);
-                    wid_set_text_outline(w, true);
+                    wid_set_text_outline(w, false);
                     wid_move_to_horiz_vert_pct_in(w, 0.3, tl.y, 200);
 
                     static double last;
@@ -155,7 +155,7 @@ static void wid_menu_update (widp w)
                 wid_set_color(b, WID_COLOR_TL, transparent);
                 wid_set_color(b, WID_COLOR_BR, transparent);
                 wid_set_font(b, font);
-                wid_set_text_outline(b, true);
+                wid_set_text_outline(b, false);
             }
 
             wid_set_mode(b, WID_MODE_NORMAL);
@@ -672,7 +672,7 @@ static void wid_menu_tick (widp w)
                 wid_set_no_shape(b);
                 wid_set_mode(b, mode);
                 wid_set_color(b, WID_COLOR_TEXT, c);
-                wid_set_text_outline(b, true);
+                wid_set_text_outline(b, false);
             }
 
             wid_set_mode(b, old_mode);

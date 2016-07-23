@@ -9036,7 +9036,7 @@ static void wid_display (widp w,
         /*
          * Outline text in black
          */
-        if (wid_get_text_outline(w)) {
+        if (1 /* wid_get_text_outline(w) */) {
             glcolor(col_text_outline);
 
 #ifdef ENABLE_LARGE_TEXT_OUTLINE
@@ -9045,29 +9045,28 @@ static void wid_display (widp w,
             if (font == fixed_font) {
                 outline = 1.0;
             } else if (font == vsmall_font) {
-                outline = 1.0;
-            } else if (font == small_font) {
-                outline = 1.0;
-            } else if (font == med_font) {
-                outline = 1.5;
-            } else if (font == large_font) {
                 outline = 3.0;
+            } else if (font == small_font) {
+                outline = 3.0;
+            } else if (font == med_font) {
+                outline = 4.5;
+            } else if (font == large_font) {
+                outline = 5.0;
             } else if (font == vlarge_font) {
-                outline = 4.0;
+                outline = 5.0;
             } else if (font == vvlarge_font) {
                 outline = 5.0;
             } else {
                 ERR("unhandled text outline case");
             }
-                outline = 2.0;
 
             double dx;
+            double a = (wid_get_fade_amount(w) * 255.0);
 
-            col_text_outline.a = (int)(wid_get_fade_amount(w) * 255.0);
-
-            for (dx = 0.5; dx < outline; dx += 0.5) {
+            for (dx = 0.1; dx < outline; dx += 0.5) {
                 glcolor(col_text_outline);
-                col_text_outline.a = (col_text_outline.a * 2) / 8;
+                col_text_outline.a = (int)a;
+                a *= 0.30;
 
                 ttf_puts_no_fmt(font, text,
                                 x - dx * scaling,
@@ -9084,6 +9083,20 @@ static void wid_display (widp w,
                 ttf_puts_no_fmt(font, text,
                                 x + dx * scaling,
                                 y - dx * scaling, scaling, advance,
+                                fixed_width);
+            }
+
+            double dy;
+            a = (wid_get_fade_amount(w) * 255.0);
+
+            for (dy = 0.5; dy < outline * 2; dy += 0.5) {
+                glcolor(col_text_outline);
+                col_text_outline.a = (int)a;
+                a *= 0.70;
+
+                ttf_puts_no_fmt(font, text,
+                                x,
+                                y + dy * scaling, scaling, advance,
                                 fixed_width);
             }
 #else
