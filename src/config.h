@@ -166,20 +166,20 @@
 #undef ENABLE_GENERATE_TTF         // Edit RUNME to add -lSDL_ttf
 
 #define FIXED_FONT                  "data/ttf/monaco.ttf"
-#define VSMALL_FONT                 "data/ttf/monaco.ttf"
-#define SMALL_FONT                  "data/ttf/tekton.ttf"
-#define MED_FONT                    "data/ttf/tekton.ttf"
-#define LARGE_FONT                  "data/ttf/tekton.ttf"
-#define VLARGE_FONT                 "data/ttf/tekton.ttf"
-#define VVLARGE_FONT                "data/ttf/tekton.ttf"
+#define VSMALL_FONT                 "data/ttf/Metamorphous-Regular.ttf"
+#define SMALL_FONT                  "data/ttf/Metamorphous-Regular.ttf"
+#define MED_FONT                    "data/ttf/Metamorphous-Regular.ttf"
+#define LARGE_FONT                  "data/ttf/Metamorphous-Regular.ttf"
+#define VLARGE_FONT                 "data/ttf/Metamorphous-Regular.ttf"
+#define VVLARGE_FONT                "data/ttf/Metamorphous-Regular.ttf"
 
-#define VSMALL_FONT_SIZE            14
-#define SMALL_FONT_SIZE             16
-#define FIXED_FONT_SIZE             16
-#define MED_FONT_SIZE               20
+#define FIXED_FONT_SIZE             20
+#define VSMALL_FONT_SIZE            16
+#define SMALL_FONT_SIZE             20
+#define MED_FONT_SIZE               22
 #define LARGE_FONT_SIZE             24
 #define VLARGE_FONT_SIZE            32
-#define VVLARGE_FONT_SIZE           36
+#define VVLARGE_FONT_SIZE           34
 #define MAX_FONT_SIZE               60
 
 /*
