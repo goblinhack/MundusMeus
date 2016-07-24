@@ -3,10 +3,30 @@ import mm
 
 def init_tex():
 
+    mm.tex_load(file="data/gfx/wid1.tga",       name="wid1")
     mm.tex_load(file="data/gfx/sword.tga",      name="sword")
     mm.tex_load(file="data/gfx/title.tga",      name="main_title")
     mm.tex_load(file="data/gfx/map.tga",        name="map")
     mm.tex_load(file="data/gfx/bigmap.tga",     name="bigmap")
+
+
+def init_tiles_wid1():
+
+    mm.tex_load_tiled(
+            file="data/gfx/wid1.tga",
+            name="chars",
+            width=32,
+            height=32)
+
+    tiles = [
+        "wid1-tl",
+    ]
+
+    mm.tile_load_arr(
+            tex_name="wid1",
+            tex_name_black_and_white="",
+            width=32, height=32,
+            arr=tiles)
 
 
 def init_tiles_bigmap():
@@ -25,56 +45,6 @@ def init_tiles_bigmap():
                      tex_name_black_and_white="",
                      width=2048, height=2048,
                      arr=tiles)
-
-
-def init_tiles_hex():
-
-    mm.tex_load_tiled(file="data/gfx/hex.tga",
-                      name="hex",
-                      width=64,
-                      height=64)
-
-    tiles = [
-        "grass1.1",
-        "forest1.1",
-        "forest1.2",
-        "forest1.3",
-        "forest1.4",
-        "forest1.5",
-        "forest1.6",
-        "forest2.1",
-        "forest2.2",
-        "forest2.3",
-        "forest2.4",
-        "forest2.5",
-        "forest2.6",
-        "grass1.2",
-        "grass1.3",
-        "grass1.4",
-        "grass1.5",
-        "grass1.6",
-        "grass1.7",
-        "grass1.8",
-        "grass1.9",
-        "grass1.10",
-        "grass1.11",
-        "grass1.12",
-        "grass1.13",
-        "grass1.14",
-        "grass1.15",
-        "grass1.16",
-        "grass1.17",
-        "grass1.18",
-        "grass1.19",
-        "grass1.20",
-        #
-    ]
-
-    mm.tile_load_arr(
-            tex_name="hex",
-            tex_name_black_and_white="",
-            width=64, height=64,
-            arr=tiles)
 
 
 def init_tiles_chars():
@@ -159,7 +129,7 @@ def init_tiles_chars():
             arr=tiles)
 
 
-def init_tiles_hex_sea():
+def init_tiles_sea():
 
     mm.tex_load_tiled(
             file="data/gfx/sea.tga",
@@ -241,7 +211,7 @@ def init_tiles_hex_sea():
             arr=tiles)
 
 init_tex()
+init_tiles_wid1()
 init_tiles_bigmap()
-init_tiles_hex()
-init_tiles_hex_sea()
+init_tiles_sea()
 init_tiles_chars()
