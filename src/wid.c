@@ -9063,33 +9063,44 @@ static void wid_display (widp w,
             double dx;
             double a = (wid_get_fade_amount(w) * 255.0);
 
-            for (dx = 0.1; dx < outline; dx += 0.5) {
+            /*
+             * Top outline
+             */
+            glcolor(col_text_outline);
+            col_text_outline.a = (int)a;
+            ttf_puts_no_fmt(font, text,
+                            x,
+                            y - 0.5 * scaling,
+                            scaling, advance,
+                            fixed_width);
+
+            /*
+             * Side outlines
+             */
+            for (dx = 0.5; dx < outline; dx += 0.5) {
                 glcolor(col_text_outline);
                 col_text_outline.a = (int)a;
                 a *= 0.30;
 
                 ttf_puts_no_fmt(font, text,
                                 x - dx * scaling,
-                                y + dx * scaling, scaling, advance,
+                                y,
+                                scaling, advance,
                                 fixed_width);
                 ttf_puts_no_fmt(font, text,
                                 x + dx * scaling,
-                                y + dx * scaling, scaling, advance,
-                                fixed_width);
-                ttf_puts_no_fmt(font, text,
-                                x - dx * scaling,
-                                y - dx * scaling, scaling, advance,
-                                fixed_width);
-                ttf_puts_no_fmt(font, text,
-                                x + dx * scaling,
-                                y - dx * scaling, scaling, advance,
+                                y,
+                                scaling, advance,
                                 fixed_width);
             }
 
+            /*
+             * Shadow
+             */
             double dy;
             a = (wid_get_fade_amount(w) * 255.0);
 
-            for (dy = 0.5; dy < outline * 2; dy += 0.5) {
+            for (dy = 0.5; dy < outline * 2; dy += 1.0) {
                 glcolor(col_text_outline);
                 col_text_outline.a = (int)a;
                 a *= 0.70;
