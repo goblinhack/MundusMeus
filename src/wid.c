@@ -3282,8 +3282,9 @@ widp wid_new_window (const char *name)
     wid_set_font(w, small_font);
     wid_set_name(w, name);
 
-    color col = BLACK;
-    col.a = 0;
+// XXX
+    color col = WHITE;
+    col.a = 255;
     glcolor(col);
 
     wid_set_mode(w, WID_MODE_NORMAL);
@@ -7813,58 +7814,6 @@ static void wid_display_fast (widp w,
         }
     }
 
-#if 0
-    if (0 && t && thing_can_roll(t)) {
-        glcolor(YELLOW);
-        char tmp[80];
-        sprintf(tmp, "%.6f,%.6f",t->momentum, t->fall_speed);
-        ttf_puts_no_fmt(vsmall_font, tmp, (otlx + obrx) / 2, (otly + obry) / 2, 1.0, 1.0, true);
-
-        fpoint P0, P1, P2, P3;
-        thing_to_coords(t, &P0, &P1, &P2, &P3);
-        widp p = w->parent;
-
-        P0.x += p->offset.x;
-        P0.y += p->offset.y;
-        P1.x += p->offset.x;
-        P1.y += p->offset.y;
-        P2.x += p->offset.x;
-        P2.y += p->offset.y;
-        P3.x += p->offset.x;
-        P3.y += p->offset.y;
-
-        glcolor(GREEN);
-        gl_blitline(P0.x, P0.y, P1.x, P1.y);
-        gl_blitline(P1.x, P1.y, P2.x, P2.y);
-        gl_blitline(P2.x, P2.y, P3.x, P3.y);
-        gl_blitline(P3.x, P3.y, P0.x, P0.y);
-
-        double scale = 10000;
-
-        double mx = (P0.x + P2.x) / 2;
-        double my = (P0.y + P2.y) / 2;
-
-        fpoint v = thing_velocity(t);
-        double vx = v.x * scale;
-        double vy = v.y * scale;
-        glcolor(WHITE);
-        gl_blitline(mx, my, mx + vx, my + vy);
-
-        v = t->normal_velocity;
-        vx = v.x * scale;
-        vy = v.y * scale;
-        glcolor(CYAN);
-        gl_blitline(mx, my, mx + vx, my + vy);
-
-        v = t->tangent_velocity;
-        vx = v.x * scale;
-        vy = v.y * scale;
-        glcolor(GREEN);
-        gl_blitline(mx, my, mx + vx, my + vy);
-
-    }
-#endif
-
     if (unlikely(debug && t)) {
         double mx, my;
 
@@ -8923,9 +8872,235 @@ static void wid_display (widp w,
                 tl, br, tex, tex_tl, tex_br,
                 texuv, col_tl, col, col_br, bevel);
         } else {
+#if 0
             gl_list_square(tl, br, tex, tex_tl, tex_br,
                 texuv, col_tl, col, col_br);
+#endif
+
+typedef struct {
+    int across;
+    int down;
+    int tile_w;
+    int tile_h;
+    tilep tile[32][32];
+} wid_tiles_t;
+
+{
+static wid_tiles_t wid1_tiles;
+wid_tiles_t *wid_tiles;
+
+static int first = true;
+if (first) {
+    first = 0;
+    const char *name = "wid1";
+    wid_tiles = &wid1_tiles;
+    char tmp[32];
+
+    snprintf(tmp, sizeof(tmp) - 1, "%s-tl", name);
+    tilep tile = tile_find(tmp);
+    if (!tile) {
+        DIE("did not find wid %s tile %s", name, tmp);
+    }
+
+    texp tex = tile_get_tex(tile);
+
+    double tile_w = tile_get_width(tile);
+    double tile_h = tile_get_height(tile);
+    double tex_w = tex_get_width(tex);
+    double tex_h = tex_get_height(tex);
+
+    memset(wid_tiles, 0, sizeof(wid_tiles_t));
+    wid_tiles->across = tex_w / tile_w;
+    wid_tiles->down = tex_h / tile_h;
+    wid_tiles->tile_w = tile_w;
+    wid_tiles->tile_h = tile_h;
+
+    int i, j, c;
+
+    c = 1;
+    for (i = 1; i < wid_tiles->across - 1; i++) {
+        for (j = 1; j < wid_tiles->down - 1; j++) {
+            snprintf(tmp, sizeof(tmp) - 1, "%s-%d", name, c);
+            tilep tile = tile_find(tmp);
+            if (!tile) {
+                DIE("did not find wid %s tile %s", name, tmp);
+            }
+            wid_tiles->tile[i][j] = tile;
+            c++;
         }
+    }
+
+    c = 1;
+    for (i = 1; i < wid_tiles->across - 1; i++) {
+        j = 0;
+        snprintf(tmp, sizeof(tmp) - 1, "%s-top%d", name, c);
+        tilep tile = tile_find(tmp);
+        if (!tile) {
+            DIE("did not find wid %s tile %s", name, tmp);
+        }
+
+        wid_tiles->tile[i][j] = tile;
+        c++;
+    }
+
+    c = 1;
+    for (i = 1; i < wid_tiles->across - 1; i++) {
+        j = wid_tiles->down - 1;;
+        snprintf(tmp, sizeof(tmp) - 1, "%s-bot%d", name, c);
+        tilep tile = tile_find(tmp);
+        if (!tile) {
+            DIE("did not find wid %s tile %s", name, tmp);
+        }
+
+        wid_tiles->tile[i][j] = tile;
+        c++;
+    }
+
+    c = 1;
+    for (j = 1; j < wid_tiles->down - 1; j++) {
+        i = 0;
+        snprintf(tmp, sizeof(tmp) - 1, "%s-left%d", name, c);
+        tilep tile = tile_find(tmp);
+        if (!tile) {
+            DIE("did not find wid %s tile %s", name, tmp);
+        }
+
+        wid_tiles->tile[i][j] = tile;
+        c++;
+    }
+
+    c = 1;
+    for (j = 1; j < wid_tiles->down - 1; j++) {
+        i = wid_tiles->across - 1;
+        snprintf(tmp, sizeof(tmp) - 1, "%s-right%d", name, c);
+        tilep tile = tile_find(tmp);
+        if (!tile) {
+            DIE("did not find wid %s tile %s", name, tmp);
+        }
+
+        wid_tiles->tile[i][j] = tile;
+        c++;
+    }
+
+    i = 0;
+    j = 0;
+    snprintf(tmp, sizeof(tmp) - 1, "%s-tl", name);
+    tile = tile_find(tmp);
+    if (!tile) {
+        DIE("did not find wid %s tile %s", name, tmp);
+    }
+
+    wid_tiles->tile[i][j] = tile;
+
+    i = 0;
+    j = wid_tiles->down - 1;
+    snprintf(tmp, sizeof(tmp) - 1, "%s-bl", name);
+    tile = tile_find(tmp);
+    if (!tile) {
+        DIE("did not find wid %s tile %s", name, tmp);
+    }
+
+    wid_tiles->tile[i][j] = tile;
+
+    i = wid_tiles->across - 1;
+    j = 0;
+    snprintf(tmp, sizeof(tmp) - 1, "%s-tr", name);
+    tile = tile_find(tmp);
+    if (!tile) {
+        DIE("did not find wid %s tile %s", name, tmp);
+    }
+
+    wid_tiles->tile[i][j] = tile;
+
+    i = wid_tiles->across - 1;
+    j = wid_tiles->down - 1;
+    snprintf(tmp, sizeof(tmp) - 1, "%s-br", name);
+    tile = tile_find(tmp);
+    if (!tile) {
+        DIE("did not find wid %s tile %s", name, tmp);
+    }
+
+    wid_tiles->tile[i][j] = tile;
+}
+
+wid_tiles = &wid1_tiles;
+
+glcolor(WHITE);
+{
+double wid_w = br.x - tl.x;
+double wid_h = br.y - tl.y;
+int tiles_across = (wid_w / wid_tiles->tile_w);
+int tiles_down = (wid_h / wid_tiles->tile_h);
+int tile_x, tile_y;
+
+point p, q;
+
+for (tile_x = 0; tile_x < tiles_across; tile_x++) {
+    for (tile_y = 0; tile_y < tiles_down; tile_y++) {
+
+        int tx = 0;
+        int ty = 0;
+
+        if (tile_x == 0) {
+            tx = 0;
+            if (tile_y == 0) {
+                ty = 0;
+            } else if (tile_y == tiles_down - 1) {
+                ty = wid_tiles->down - 1;;
+            } else {
+                ty = tile_y % (wid_tiles->down - 2) + 1;
+            }
+        } else if (tile_x == tiles_across - 1) {
+            tx = wid_tiles->across - 1;;
+            if (tile_y == 0) {
+                ty = 0;
+            } else if (tile_y == tiles_down - 1) {
+                ty = wid_tiles->down - 1;;
+            } else {
+                ty = tile_y % (wid_tiles->down - 2) + 1;
+            }
+        } else if (tile_y == 0) {
+            ty = 0;
+            if (tile_x == 0) {
+                tx = 0;
+            } else if (tile_x == tiles_across - 1) {
+                tx = wid_tiles->across - 1;;
+            } else {
+                tx = tile_x % (wid_tiles->across - 2) + 1; 
+            }
+        } else if (tile_y == tiles_down - 1) {
+            ty = wid_tiles->across - 1;;
+            if (tile_x == 0) {
+                tx = 0;
+            } else if (tile_x == tiles_across - 1) {
+                tx = wid_tiles->across - 1;;
+            } else {
+                tx = tile_x % (wid_tiles->across - 2) + 1;
+            }
+        } else {
+            tx = (tile_x % (wid_tiles->across - 2)) + 1;
+            ty = (tile_y % (wid_tiles->down - 2)) + 1;
+        }
+
+        tilep tile = wid_tiles->tile[tx][ty];
+        if (!tile) {
+            DIE("no tile at tile_x,y %d %d tx,t %d %d", tile_x, tile_y, tx, ty);
+        }
+
+        p.x = tl.x + wid_tiles->tile_w * (double) tile_x;
+        p.y = tl.y + wid_tiles->tile_h * (double) tile_y;
+        q.x = p.x + wid_tiles->tile_w;
+        q.y = p.y + wid_tiles->tile_h;
+
+        swap(p.y, q.y);
+        tile_blit_at(tile, 0, p, q);
+    }
+}
+        glBindTexture(GL_TEXTURE_2D, 0);
+}
+}
+        }
+
     } else if (wid_get_square_outline(w)) {
         gl_list_square_outline_bevelled_plain(
             tl, br, tex, tex_tl, tex_br,
