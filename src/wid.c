@@ -8692,7 +8692,7 @@ static void wid_display (widp w,
         } else {
             wid_tilesp wid_tiles = w->wid_tiles;
             if (wid_tiles) {
-                glcolor(WHITE);
+                glcolor(col);
 
                 double wid_w = br.x - tl.x;
                 double wid_h = br.y - tl.y;

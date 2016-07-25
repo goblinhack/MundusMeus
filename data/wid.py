@@ -28,6 +28,9 @@ class Wid:
     def set_tl_br_pct(self, **kw):
         mm.wid_set_tl_br_pct(self, **kw)
 
+    def set_color(self, **kw):
+        mm.wid_set_color(self, **kw)
+
     def set_text(self, **kw):
         mm.wid_set_text(self, **kw)
 
