@@ -81,12 +81,11 @@ def init1():
 def init2():
     load_all_plugins()
     w = wid.Wid(name="test", tiles="wid1")
-    w.set_shape(square=True)
     w.set_tl_br_pct(x1=0.2, y1=0.2, x2=0.8, y2=0.8)
     w.set_text(text="hello", font="vsmall", color="red")
+    w.set_color(bg=True, tl=True, br=True, name="white", alpha=0.4)
 
-    w = wid.Wid(name="test", tiles="wid1")
-    w.set_shape(square=True)
+    w = wid.Wid(name="test2", tiles="wid1")
     w.set_tl_br_pct(x1=0.5, y1=0.2, x2=0.9, y2=0.3)
     w.set_text(text="%%fg=green$hello there you%%fg=red$...", font="vsmall", color="red")
 
