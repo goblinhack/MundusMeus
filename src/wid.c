@@ -8918,8 +8918,8 @@ if (first) {
     int i, j, c;
 
     c = 1;
-    for (i = 1; i < wid_tiles->across - 1; i++) {
-        for (j = 1; j < wid_tiles->down - 1; j++) {
+    for (j = 1; j < wid_tiles->down - 1; j++) {
+        for (i = 1; i < wid_tiles->across - 1; i++) {
             snprintf(tmp, sizeof(tmp) - 1, "%s-%d", name, c);
             tilep tile = tile_find(tmp);
             if (!tile) {
@@ -9029,8 +9029,10 @@ glcolor(WHITE);
 {
 double wid_w = br.x - tl.x;
 double wid_h = br.y - tl.y;
-int tiles_across = (wid_w / wid_tiles->tile_w);
-int tiles_down = (wid_h / wid_tiles->tile_h);
+double tile_w = 32;
+double tile_h = 32;
+int tiles_across = (wid_w / tile_w);
+int tiles_down = (wid_h / tile_h);
 int tile_x, tile_y;
 
 point p, q;
@@ -9087,10 +9089,10 @@ for (tile_x = 0; tile_x < tiles_across; tile_x++) {
             DIE("no tile at tile_x,y %d %d tx,t %d %d", tile_x, tile_y, tx, ty);
         }
 
-        p.x = tl.x + wid_tiles->tile_w * (double) tile_x;
-        p.y = tl.y + wid_tiles->tile_h * (double) tile_y;
-        q.x = p.x + wid_tiles->tile_w;
-        q.y = p.y + wid_tiles->tile_h;
+        p.x = tl.x + tile_w * (double) tile_x;
+        p.y = tl.y + tile_h * (double) tile_y;
+        q.x = p.x + tile_w;
+        q.y = p.y + tile_h;
 
         swap(p.y, q.y);
         tile_blit_at(tile, 0, p, q);

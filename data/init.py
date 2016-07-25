@@ -87,7 +87,7 @@ def init2():
 
     w = wid.Wid(name="test")
     w.set_shape(square=True)
-    w.set_tl_br_pct(x1=0.5, y1=0.5, x2=0.9, y2=0.6)
+    w.set_tl_br_pct(x1=0.5, y1=0.2, x2=0.9, y2=0.6)
     w.set_text(text="there", font="vsmall", color="red")
 
 init1()
