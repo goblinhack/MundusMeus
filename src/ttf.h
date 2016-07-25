@@ -27,7 +27,7 @@ void ttf_puts_no_fmt(fontp, const char *text, double x, double y, double scaling
               double advance,
               uint8_t fixed_width);
 void ttf2tga(void);
-fontp ttf_read_tga(char *name, int32_t pointsize);
+fontp ttf_read_tga(fontp, const char *name, int32_t pointsize);
 fontp ttf_write_tga(char *name, int32_t pointsize);
 
 #define TTF_CURSOR_CHAR 127

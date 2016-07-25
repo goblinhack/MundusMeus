@@ -82,6 +82,7 @@ GAME_OBJECTS=				\
     $(OBJDIR)/py_tex.o 			\
     $(OBJDIR)/wid_tiles.o 		\
     $(OBJDIR)/py_wid_tiles.o 		\
+    $(OBJDIR)/py_ttf.o 			\
 
 #
 # compile

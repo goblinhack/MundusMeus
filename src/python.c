@@ -571,6 +571,11 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "load a block of wid tiles"},
 
+    {"text_size",
+        (PyCFunction)ttf_text_size_,
+        METH_VARARGS | METH_KEYWORDS,
+        "text size in pixels"},
+
     {"tex_load",
         (PyCFunction)tex_load_,
         METH_VARARGS | METH_KEYWORDS,

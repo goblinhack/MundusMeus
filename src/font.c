@@ -19,46 +19,76 @@ fontp large_font;
 fontp vlarge_font;
 fontp vvlarge_font;
 
+static tree_root *font_all;
+
+static void font_destroy (fontp *t)
+{
+}
+
 void font_fini (void)
 {
     if (font_inited) {
         font_inited = false;
 
-        if (fixed_font) {
-            ttf_free(fixed_font);
-            fixed_font = 0;
-        }
-
-        if (vsmall_font) {
-            ttf_free(vsmall_font);
-            vsmall_font = 0;
-        }
-
-        if (small_font) {
-            ttf_free(small_font);
-            small_font = 0;
-        }
-
-        if (med_font) {
-            ttf_free(med_font);
-            med_font = 0;
-        }
-
-        if (large_font) {
-            ttf_free(large_font);
-            large_font = 0;
-        }
-
-        if (vlarge_font) {
-            ttf_free(vlarge_font);
-            vlarge_font = 0;
-        }
-
-        if (vvlarge_font) {
-            ttf_free(vvlarge_font);
-            vvlarge_font = 0;
-        }
+        fixed_font = 0;
+        vsmall_font = 0;
+        small_font = 0;
+        med_font = 0;
+        large_font = 0;
+        vlarge_font = 0;
+        vvlarge_font = 0;
     }
+
+    tree_destroy(&font_all, (tree_destroy_func)font_destroy);
+}
+
+static fontp font_load (const char *name, const char *file, int size)
+{
+    fontp t = font_find(name);
+
+    if (t) {
+        return (t);
+    }
+
+    if (!name) {
+        DIE("no name for font");
+        return (0);
+    }
+
+    if (!font_all) {
+        font_all = tree_alloc(TREE_KEY_STRING, "TREE ROOT: font");
+    }
+
+    t = (typeof(t)) myzalloc(sizeof(font), "TREE NODE: font");
+    t->tree.key = dupstr(name, "TREE KEY: font");
+
+    if (!tree_insert(font_all, &t->tree.node)) {
+        DIE("font insert name [%s] failed", name);
+    }
+
+    ttf_read_tga(t, file, size);
+
+    return (t);
+}
+
+fontp font_find (const char *file)
+{
+    font target;
+    font *result;
+
+    if (!file) {
+        DIE("no filename given for font find");
+    }
+
+    memset(&target, 0, sizeof(target));
+    target.tree.key = (char*) file;
+
+    result = (typeof(result)) tree_find(font_all, &target.tree.node);
+    if (!result) {
+        return (0);
+    }
+
+    return (result);
 }
 
 uint8_t font_init (void)
@@ -146,13 +176,20 @@ uint8_t font_init (void)
     }
 #endif
 
-    fixed_font = ttf_read_tga((char*)FIXED_FONT, fixed_font_size & ~1);
-    vsmall_font = ttf_read_tga((char*)VSMALL_FONT, vsmall_font_size & ~1);
-    small_font  = ttf_read_tga((char*)SMALL_FONT, small_font_size & ~1);
-    med_font    = ttf_read_tga((char*)MED_FONT, med_font_size & ~1);
-    large_font  = ttf_read_tga((char*)LARGE_FONT, large_font_size & ~1);
-    vlarge_font = ttf_read_tga((char*)VLARGE_FONT, vlarge_font_size & ~1);
-    vvlarge_font = ttf_read_tga((char*)VVLARGE_FONT, vvlarge_font_size & ~1);
+    fixed_font = font_load("font",
+                           (char*)FIXED_FONT, fixed_font_size & ~1);
+    vsmall_font = font_load("vsmall",
+                            (char*)VSMALL_FONT, vsmall_font_size & ~1);
+    small_font  = font_load("small",
+                            (char*)SMALL_FONT, small_font_size & ~1);
+    med_font    = font_load("med",
+                            (char*)MED_FONT, med_font_size & ~1);
+    large_font  = font_load("large",
+                            (char*)LARGE_FONT, large_font_size & ~1);
+    vlarge_font = font_load("vlarge",
+                            (char*)VLARGE_FONT, vlarge_font_size & ~1);
+    vvlarge_font = font_load("vvlarge",
+                             (char*)VVLARGE_FONT, vvlarge_font_size & ~1);
 
     return (true);
 }

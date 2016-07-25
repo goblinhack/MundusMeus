@@ -21,46 +21,7 @@
 #include "time_util.h"
 #include "string_ext.h"
 #include "string_util.h"
-
-#define TTF_FIXED_WIDTH_CHAR '0'
-#define TTF_GLYPH_MIN ' '
-#define TTF_GLYPH_MAX 126
-#define TTF_TABSTOP 80.0
-
-/*
- * Enable this to generate the font bitmaps.
- */
-#define nTTF2TGA
-
-#ifdef ENABLE_GENERATE_TTF
-#include "SDL_ttf.h"
-#endif
-
-typedef struct {
-    double width;
-    double height;
-    double minx;
-    double maxx;
-    double miny;
-    double maxy;
-    double advance;
-    double texMinX;
-    double texMaxX;
-    double texMinY;
-    double texMaxY;
-} glyph;
-
-typedef struct {
-    SDL_Surface *image;
-    uint32_t tex;
-} glyphtex;
-
-typedef struct font {
-    glyph glyphs[TTF_GLYPH_MAX+1];
-    glyphtex tex[TTF_GLYPH_MAX+1];
-    SDL_Color foreground;
-    SDL_Color background;
-} font;
+#include "font.h"
 
 #ifdef ENABLE_GENERATE_TTF
 static void ttf_create_tex_from_char(TTF_Font *ttf, const char *name,
@@ -129,15 +90,6 @@ font *ttf_new (const char *name, int32_t pointSize, int32_t style)
     return (f);
 }
 #endif
-
-void ttf_free (font *f)
-{
-    if (!f) {
-        return;
-    }
-
-    myfree(f);
-}
 
 /*
  * Return a SDL rectangle with the size of the font
@@ -642,12 +594,11 @@ ttf_create_tex_from_char (TTF_Font *ttf, const char *name, font *f, uint8_t c)
 #endif
 
 font *
-ttf_read_tga (char *name, int32_t pointsize)
+ttf_read_tga (fontp f, const char *name, int32_t pointsize)
 {
     char filename[MAXSTR];
     uint32_t c;
     texp tex;
-    font *f;
 
     if (pointsize < 0) {
         ERR("nutso font size %d", pointsize);
@@ -655,11 +606,6 @@ ttf_read_tga (char *name, int32_t pointsize)
 
     if (pointsize > 100) {
         ERR("nutso font size %d", pointsize);
-    }
-
-    f = (typeof(f)) myzalloc(sizeof(*f), "TTF font");
-    if (!f) {
-        ERR("could not alloc font %s", name);
     }
 
     /*
