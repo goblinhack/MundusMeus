@@ -24,7 +24,11 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
     char *tiles = 0;
     widp w;
 
-    static char *kwlist[] = {"wid", "parent", "name", "tiles", 0};
+    static char *kwlist[] = {"wid", 
+        "parent", 
+        "name", 
+        "tiles", 
+        0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|Kss", kwlist, 
                                      &py_class,
@@ -53,6 +57,7 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
             if (!w->wid_tiles) {
                 ERR("did not find wid %s tiles %s", name, tiles);
             }
+
         }
     }
 

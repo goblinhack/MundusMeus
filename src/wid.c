@@ -1544,17 +1544,11 @@ void wid_set_font (widp w, fontp val)
     w->cfg[wid_get_mode(w)].font = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_focusable (widp w)
 {
     return (w->focus_order);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_focusable (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1562,17 +1556,11 @@ void wid_set_focusable (widp w, uint8_t val)
     w->focus_order = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_show_cursor (widp w)
 {
     return (w->show_cursor);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_show_cursor (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1580,17 +1568,11 @@ void wid_set_show_cursor (widp w, uint8_t val)
     w->show_cursor = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_do_not_raise (widp w)
 {
     return (w->do_not_raise);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_do_not_raise (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1598,17 +1580,11 @@ void wid_set_do_not_raise (widp w, uint8_t val)
     w->do_not_raise = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_do_not_lower (widp w)
 {
     return (w->do_not_lower);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_do_not_lower (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1616,9 +1592,6 @@ void wid_set_do_not_lower (widp w, uint8_t val)
     w->do_not_lower = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_movable (widp w)
 {
     if (w->movable_set) {
@@ -1628,9 +1601,6 @@ uint8_t wid_get_movable (widp w)
     return (false);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_movable (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1642,9 +1612,6 @@ void wid_set_movable (widp w, uint8_t val)
     wid_set_movable_vert(w, val);
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_movable_horiz (widp w)
 {
     if (w->movable_horiz_set) {
@@ -1654,9 +1621,6 @@ uint8_t wid_get_movable_horiz (widp w)
     return (false);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_movable_horiz (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1665,9 +1629,6 @@ void wid_set_movable_horiz (widp w, uint8_t val)
     w->movable_horiz_set = true;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_movable_vert (widp w)
 {
     if (w->movable_vert_set) {
@@ -1677,9 +1638,6 @@ uint8_t wid_get_movable_vert (widp w)
     return (false);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_movable_vert (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1688,9 +1646,6 @@ void wid_set_movable_vert (widp w, uint8_t val)
     w->movable_vert_set = true;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_movable_bounded (widp w)
 {
     if (w->movable_bounded_set) {
@@ -1700,9 +1655,6 @@ uint8_t wid_get_movable_bounded (widp w)
     return (false);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_movable_bounded (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1711,17 +1663,11 @@ void wid_set_movable_bounded (widp w, uint8_t val)
     w->movable_bounded_set = true;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_text_lhs (widp w)
 {
     return (w->text_lhs);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_lhs (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1729,17 +1675,11 @@ void wid_set_text_lhs (widp w, uint8_t val)
     w->text_lhs = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_text_rhs (widp w)
 {
     return (w->text_rhs);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_rhs (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1747,17 +1687,11 @@ void wid_set_text_rhs (widp w, uint8_t val)
     w->text_rhs = true;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_text_centerx (widp w)
 {
     return (w->text_centerx);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_centerx (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1765,17 +1699,11 @@ void wid_set_text_centerx (widp w, uint8_t val)
     w->text_centerx = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_text_top (widp w)
 {
     return (w->text_top);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_top (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1783,17 +1711,11 @@ void wid_set_text_top (widp w, uint8_t val)
     w->text_top = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_text_bot (widp w)
 {
     return (w->text_bot);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_bot (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1801,17 +1723,11 @@ void wid_set_text_bot (widp w, uint8_t val)
     w->text_bot = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_text_centery (widp w)
 {
     return (w->text_centery);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_centery (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1819,9 +1735,6 @@ void wid_set_text_centery (widp w, uint8_t val)
     w->text_centery = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_text_pos (widp w, double *x, double *y)
 {
     if (w->text_pos_set) {
@@ -1834,9 +1747,6 @@ uint8_t wid_get_text_pos (widp w, double *x, double *y)
     return (false);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_pos (widp w, uint8_t val, double x, double y)
 {
     fast_verify(w);
@@ -1846,17 +1756,11 @@ void wid_set_text_pos (widp w, uint8_t val, double x, double y)
     w->text_pos_set = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_text_outline (widp w)
 {
     return (w->text_outline);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_outline (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1864,25 +1768,16 @@ void wid_set_text_outline (widp w, uint8_t val)
     w->text_outline = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 double wid_get_bevel (widp w)
 {
     return (w->bevel);
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 double wid_get_mode_bevel (widp w)
 {
     return (w->bevel);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_bevel (widp w, double val)
 {
     fast_verify(w);
@@ -1897,17 +1792,11 @@ void wid_set_blit_y_offset (widp w, double val)
     w->blit_y_offset = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 double wid_get_text_scaling (widp w)
 {
     return (w->text_scaling + wid_get_scaling_w(w));
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_scaling (widp w, double val)
 {
     fast_verify(w);
@@ -1915,9 +1804,6 @@ void wid_set_text_scaling (widp w, double val)
     w->text_scaling = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 double wid_get_text_advance (widp w)
 {
     if (w->text_advance != 0) {
@@ -1927,9 +1813,6 @@ double wid_get_text_advance (widp w)
     return (1.0f);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_advance (widp w, double val)
 {
     fast_verify(w);
@@ -1937,17 +1820,11 @@ void wid_set_text_advance (widp w, double val)
     w->text_advance = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_text_fixed_width (widp w)
 {
     return (w->text_fixed_width);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_text_fixed_width (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -1955,17 +1832,11 @@ void wid_set_text_fixed_width (widp w, uint8_t val)
     w->text_fixed_width = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 int32_t wid_get_sides (widp w)
 {
     return (w->sides);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_sides (widp w, int32_t val)
 {
     fast_verify(w);
@@ -1973,9 +1844,6 @@ void wid_set_sides (widp w, int32_t val)
     w->sides = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 texp wid_get_tex (widp w, fsize *size)
 {
     if (size) {
@@ -2016,17 +1884,11 @@ void wid_set_tex_sz (widp w, fsize uv)
     w->texuv = uv;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 tilep wid_get_tile (widp w)
 {
     return (w->tile);
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 static tilep wid_get_tile_eyes (widp w)
 {
     return (w->tile_eyes);
@@ -2262,9 +2124,6 @@ void wid_set_thing_template (widp w, tpp t)
     wid_set_name(w, tp_name(t));
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 fsize wid_get_tex_tl (widp w)
 {
     if (w->tex_tl_set) {
@@ -2275,9 +2134,6 @@ fsize wid_get_tex_tl (widp w)
     return (nosize);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_tex_tl (widp w, fsize val)
 {
     fast_verify(w);
@@ -2286,9 +2142,6 @@ void wid_set_tex_tl (widp w, fsize val)
     w->tex_tl = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 fsize wid_get_tex_br (widp w)
 {
     if (w->tex_br_set) {
@@ -2299,9 +2152,6 @@ fsize wid_get_tex_br (widp w)
     return (size);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_tex_br (widp w, fsize val)
 {
     fast_verify(w);
@@ -2310,9 +2160,6 @@ void wid_set_tex_br (widp w, fsize val)
     w->tex_br = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 fsize wid_get_radius (widp w)
 {
     if (w->radius_set) {
@@ -2323,9 +2170,6 @@ fsize wid_get_radius (widp w)
     return (nosize);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_radius (widp w, fsize val)
 {
     fast_verify(w);
@@ -2385,17 +2229,11 @@ void wid_set_color (widp w, wid_color col, color val)
     w->cfg[wid_get_mode(w)].color_set[col] = true;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_bevelled (widp w)
 {
     return (w->bevelled);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_bevelled (widp w, uint8_t val)
 {
     fast_verify(w);
@@ -2403,17 +2241,11 @@ void wid_set_bevelled (widp w, uint8_t val)
     w->bevelled = val;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_rounded (widp w)
 {
     return (w->rounded);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_rounded_large (widp w)
 {
     fast_verify(w);
@@ -2427,9 +2259,6 @@ void wid_set_rounded_large (widp w)
     wid_set_sides(w, 8);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_rounded_small (widp w)
 {
     fast_verify(w);
@@ -2443,17 +2272,11 @@ void wid_set_rounded_small (widp w)
     wid_set_sides(w, 4);
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_square (widp w)
 {
     return (w->square);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_square (widp w)
 {
     fast_verify(w);
@@ -2463,17 +2286,11 @@ void wid_set_square (widp w)
     w->square_outline = false;
 }
 
-/*
- * Look at all the wid modes and return the most relevent setting
- */
 uint8_t wid_get_square_outline (widp w)
 {
     return (w->square_outline);
 }
 
-/*
- * Look at all the widset modes and return the most relevent setting
- */
 void wid_set_square_outline (widp w)
 {
     fast_verify(w);
@@ -3283,9 +3100,8 @@ widp wid_new_window (const char *name)
     wid_set_font(w, small_font);
     wid_set_name(w, name);
 
-// XXX
     color col = WHITE;
-    col.a = 255;
+    col.a = 0;
     glcolor(col);
 
     wid_set_mode(w, WID_MODE_NORMAL);
@@ -3293,6 +3109,7 @@ widp wid_new_window (const char *name)
     wid_set_color(w, WID_COLOR_BR, col);
     wid_set_color(w, WID_COLOR_BG, col);
     wid_set_color(w, WID_COLOR_TEXT, WHITE);
+    wid_set_movable(w, true);
 
     return (w);
 }
