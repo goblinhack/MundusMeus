@@ -96,6 +96,12 @@ def init2():
 
     wid_intro_bg_create()
 
+    t = "%%fg=green$hello hello there you%%fg=red$..."
+    for i in t.split():
+        mm.con("{0}".format(i))
+        w, h = mm.text_size(font="small", text=i)
+        mm.con("{0} {1} ".format(w, h))
+
     w = wid.Wid(name="test", tiles="wid1")
     w.set_tl_br_pct(x1=0.2, y1=0.2, x2=0.8, y2=0.8)
     w.set_text(text="hello", font="vsmall", color="red")
