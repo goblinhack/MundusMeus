@@ -90,6 +90,10 @@ def init_tiles_wid1():
             width=64, height=64,
             arr=tiles)
 
+    mm.wid_tiles_load(
+            name="wid1",
+            scale=0.5)
+
 
 def init_tiles_bigmap():
 

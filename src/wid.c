@@ -25,6 +25,7 @@
 #include "level.h"
 #include "thing.h"
 #include "python.h"
+#include "wid_tiles.h"
 
 #ifdef ENABLE_WID_PTRCHECK
 #undef fast_verify
@@ -8872,235 +8873,87 @@ static void wid_display (widp w,
                 tl, br, tex, tex_tl, tex_br,
                 texuv, col_tl, col, col_br, bevel);
         } else {
-#if 0
-            gl_list_square(tl, br, tex, tex_tl, tex_br,
-                texuv, col_tl, col, col_br);
-#endif
+            wid_tilesp wid_tiles = w->wid_tiles;
+            if (wid_tiles) {
+                glcolor(WHITE);
 
-typedef struct {
-    int across;
-    int down;
-    int tile_w;
-    int tile_h;
-    tilep tile[32][32];
-} wid_tiles_t;
+                double wid_w = br.x - tl.x;
+                double wid_h = br.y - tl.y;
+                double tile_w = wid_tiles->tile_w * wid_tiles->scale;
+                double tile_h = wid_tiles->tile_h * wid_tiles->scale;
+                int tiles_across = (wid_w / tile_w);
+                int tiles_down = (wid_h / tile_h);
+                int tile_x, tile_y;
 
-{
-static wid_tiles_t wid1_tiles;
-wid_tiles_t *wid_tiles;
+                point p, q;
 
-static int first = true;
-if (first) {
-    first = 0;
-    const char *name = "wid1";
-    wid_tiles = &wid1_tiles;
-    char tmp[32];
+                for (tile_x = 0; tile_x < tiles_across; tile_x++) {
+                    for (tile_y = 0; tile_y < tiles_down; tile_y++) {
 
-    snprintf(tmp, sizeof(tmp) - 1, "%s-tl", name);
-    tilep tile = tile_find(tmp);
-    if (!tile) {
-        DIE("did not find wid %s tile %s", name, tmp);
-    }
+                        int tx = 0;
+                        int ty = 0;
 
-    texp tex = tile_get_tex(tile);
+                        if (tile_x == 0) {
+                            tx = 0;
+                            if (tile_y == 0) {
+                                ty = 0;
+                            } else if (tile_y == tiles_down - 1) {
+                                ty = wid_tiles->down - 1;;
+                            } else {
+                                ty = tile_y % (wid_tiles->down - 2) + 1;
+                            }
+                        } else if (tile_x == tiles_across - 1) {
+                            tx = wid_tiles->across - 1;;
+                            if (tile_y == 0) {
+                                ty = 0;
+                            } else if (tile_y == tiles_down - 1) {
+                                ty = wid_tiles->down - 1;;
+                            } else {
+                                ty = tile_y % (wid_tiles->down - 2) + 1;
+                            }
+                        } else if (tile_y == 0) {
+                            ty = 0;
+                            if (tile_x == 0) {
+                                tx = 0;
+                            } else if (tile_x == tiles_across - 1) {
+                                tx = wid_tiles->across - 1;;
+                            } else {
+                                tx = tile_x % (wid_tiles->across - 2) + 1; 
+                            }
+                        } else if (tile_y == tiles_down - 1) {
+                            ty = wid_tiles->across - 1;;
+                            if (tile_x == 0) {
+                                tx = 0;
+                            } else if (tile_x == tiles_across - 1) {
+                                tx = wid_tiles->across - 1;;
+                            } else {
+                                tx = tile_x % (wid_tiles->across - 2) + 1;
+                            }
+                        } else {
+                            tx = (tile_x % (wid_tiles->across - 2)) + 1;
+                            ty = (tile_y % (wid_tiles->down - 2)) + 1;
+                        }
 
-    double tile_w = tile_get_width(tile);
-    double tile_h = tile_get_height(tile);
-    double tex_w = tex_get_width(tex);
-    double tex_h = tex_get_height(tex);
+                        tilep tile = wid_tiles->tile[tx][ty];
+                        if (!tile) {
+                            DIE("no tile at tile_x,y %d %d tx,t %d %d", tile_x, tile_y, tx, ty);
+                        }
 
-    memset(wid_tiles, 0, sizeof(wid_tiles_t));
-    wid_tiles->across = tex_w / tile_w;
-    wid_tiles->down = tex_h / tile_h;
-    wid_tiles->tile_w = tile_w;
-    wid_tiles->tile_h = tile_h;
+                        p.x = tl.x + tile_w * (double) tile_x;
+                        p.y = tl.y + tile_h * (double) tile_y;
+                        q.x = p.x + tile_w;
+                        q.y = p.y + tile_h;
 
-    int i, j, c;
+                        swap(p.y, q.y);
+                        tile_blit_at(tile, 0, p, q);
+                    }
+                }
 
-    c = 1;
-    for (j = 1; j < wid_tiles->down - 1; j++) {
-        for (i = 1; i < wid_tiles->across - 1; i++) {
-            snprintf(tmp, sizeof(tmp) - 1, "%s-%d", name, c);
-            tilep tile = tile_find(tmp);
-            if (!tile) {
-                DIE("did not find wid %s tile %s", name, tmp);
-            }
-            wid_tiles->tile[i][j] = tile;
-            c++;
-        }
-    }
-
-    c = 1;
-    for (i = 1; i < wid_tiles->across - 1; i++) {
-        j = 0;
-        snprintf(tmp, sizeof(tmp) - 1, "%s-top%d", name, c);
-        tilep tile = tile_find(tmp);
-        if (!tile) {
-            DIE("did not find wid %s tile %s", name, tmp);
-        }
-
-        wid_tiles->tile[i][j] = tile;
-        c++;
-    }
-
-    c = 1;
-    for (i = 1; i < wid_tiles->across - 1; i++) {
-        j = wid_tiles->down - 1;;
-        snprintf(tmp, sizeof(tmp) - 1, "%s-bot%d", name, c);
-        tilep tile = tile_find(tmp);
-        if (!tile) {
-            DIE("did not find wid %s tile %s", name, tmp);
-        }
-
-        wid_tiles->tile[i][j] = tile;
-        c++;
-    }
-
-    c = 1;
-    for (j = 1; j < wid_tiles->down - 1; j++) {
-        i = 0;
-        snprintf(tmp, sizeof(tmp) - 1, "%s-left%d", name, c);
-        tilep tile = tile_find(tmp);
-        if (!tile) {
-            DIE("did not find wid %s tile %s", name, tmp);
-        }
-
-        wid_tiles->tile[i][j] = tile;
-        c++;
-    }
-
-    c = 1;
-    for (j = 1; j < wid_tiles->down - 1; j++) {
-        i = wid_tiles->across - 1;
-        snprintf(tmp, sizeof(tmp) - 1, "%s-right%d", name, c);
-        tilep tile = tile_find(tmp);
-        if (!tile) {
-            DIE("did not find wid %s tile %s", name, tmp);
-        }
-
-        wid_tiles->tile[i][j] = tile;
-        c++;
-    }
-
-    i = 0;
-    j = 0;
-    snprintf(tmp, sizeof(tmp) - 1, "%s-tl", name);
-    tile = tile_find(tmp);
-    if (!tile) {
-        DIE("did not find wid %s tile %s", name, tmp);
-    }
-
-    wid_tiles->tile[i][j] = tile;
-
-    i = 0;
-    j = wid_tiles->down - 1;
-    snprintf(tmp, sizeof(tmp) - 1, "%s-bl", name);
-    tile = tile_find(tmp);
-    if (!tile) {
-        DIE("did not find wid %s tile %s", name, tmp);
-    }
-
-    wid_tiles->tile[i][j] = tile;
-
-    i = wid_tiles->across - 1;
-    j = 0;
-    snprintf(tmp, sizeof(tmp) - 1, "%s-tr", name);
-    tile = tile_find(tmp);
-    if (!tile) {
-        DIE("did not find wid %s tile %s", name, tmp);
-    }
-
-    wid_tiles->tile[i][j] = tile;
-
-    i = wid_tiles->across - 1;
-    j = wid_tiles->down - 1;
-    snprintf(tmp, sizeof(tmp) - 1, "%s-br", name);
-    tile = tile_find(tmp);
-    if (!tile) {
-        DIE("did not find wid %s tile %s", name, tmp);
-    }
-
-    wid_tiles->tile[i][j] = tile;
-}
-
-wid_tiles = &wid1_tiles;
-
-glcolor(WHITE);
-{
-double wid_w = br.x - tl.x;
-double wid_h = br.y - tl.y;
-double tile_w = 32;
-double tile_h = 32;
-int tiles_across = (wid_w / tile_w);
-int tiles_down = (wid_h / tile_h);
-int tile_x, tile_y;
-
-point p, q;
-
-for (tile_x = 0; tile_x < tiles_across; tile_x++) {
-    for (tile_y = 0; tile_y < tiles_down; tile_y++) {
-
-        int tx = 0;
-        int ty = 0;
-
-        if (tile_x == 0) {
-            tx = 0;
-            if (tile_y == 0) {
-                ty = 0;
-            } else if (tile_y == tiles_down - 1) {
-                ty = wid_tiles->down - 1;;
+                glBindTexture(GL_TEXTURE_2D, 0);
             } else {
-                ty = tile_y % (wid_tiles->down - 2) + 1;
+                gl_list_square(tl, br, tex, tex_tl, tex_br,
+                    texuv, col_tl, col, col_br);
             }
-        } else if (tile_x == tiles_across - 1) {
-            tx = wid_tiles->across - 1;;
-            if (tile_y == 0) {
-                ty = 0;
-            } else if (tile_y == tiles_down - 1) {
-                ty = wid_tiles->down - 1;;
-            } else {
-                ty = tile_y % (wid_tiles->down - 2) + 1;
-            }
-        } else if (tile_y == 0) {
-            ty = 0;
-            if (tile_x == 0) {
-                tx = 0;
-            } else if (tile_x == tiles_across - 1) {
-                tx = wid_tiles->across - 1;;
-            } else {
-                tx = tile_x % (wid_tiles->across - 2) + 1; 
-            }
-        } else if (tile_y == tiles_down - 1) {
-            ty = wid_tiles->across - 1;;
-            if (tile_x == 0) {
-                tx = 0;
-            } else if (tile_x == tiles_across - 1) {
-                tx = wid_tiles->across - 1;;
-            } else {
-                tx = tile_x % (wid_tiles->across - 2) + 1;
-            }
-        } else {
-            tx = (tile_x % (wid_tiles->across - 2)) + 1;
-            ty = (tile_y % (wid_tiles->down - 2)) + 1;
-        }
-
-        tilep tile = wid_tiles->tile[tx][ty];
-        if (!tile) {
-            DIE("no tile at tile_x,y %d %d tx,t %d %d", tile_x, tile_y, tx, ty);
-        }
-
-        p.x = tl.x + tile_w * (double) tile_x;
-        p.y = tl.y + tile_h * (double) tile_y;
-        q.x = p.x + tile_w;
-        q.y = p.y + tile_h;
-
-        swap(p.y, q.y);
-        tile_blit_at(tile, 0, p, q);
-    }
-}
-        glBindTexture(GL_TEXTURE_2D, 0);
-}
-}
         }
 
     } else if (wid_get_square_outline(w)) {

@@ -172,6 +172,7 @@ typedef struct game_ *gamep;
 typedef struct wid_ *widp;
 typedef struct tree_root_ *tree_rootp;
 typedef struct tex_ *texp;
+typedef struct wid_tiles_ *wid_tilesp;
 typedef struct music_ *musicp;
 typedef struct sound_ *soundp;
 typedef struct tile_ *tilep;
