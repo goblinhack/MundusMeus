@@ -84,16 +84,12 @@ def wid_intro_bg_create():
 
     if wid_intro_title is None:
         wid_intro_title = w = wid.Wid(name="intro bg")
-
         w.set_tl_br_pct(x1=0.0, y1=0.1, x2=1.0, y2=0.9)
-
         w.set_tex(name="main_title");
-
         w.set_color(tl=True, bg=True, br=True, name="white")
-
-#        wid_lower(wid);
-#        wid_update(wid);
-#        wid_set_do_not_raise(wid, true);
+        w.to_back()
+        w.update();
+        w.set_do_not_raise(value=True);
 
 def init2():
     load_all_plugins()

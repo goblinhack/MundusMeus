@@ -364,3 +364,287 @@ PyObject *wid_set_tex_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     Py_RETURN_NONE;
 }
+
+PyObject *wid_set_raise_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+
+    static char *kwlist[] = {"wid_id", 
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+                                     &py_class)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_raise(w);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_lower_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+
+    static char *kwlist[] = {"wid_id", 
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+                                     &py_class)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_lower(w);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_update_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+
+    static char *kwlist[] = {"wid_id", 
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+                                     &py_class)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_update(w);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_bevel_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    double value = 0.0;
+
+    static char *kwlist[] = {"wid_id", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|d", kwlist, 
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_bevel(w, value);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_bevelled_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int value = 0;
+
+    static char *kwlist[] = {"wid_id", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_bevelled(w, value);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_cursor_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int value = 0;
+
+    static char *kwlist[] = {"wid_id", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_cursor(w, value);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_do_not_lower_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int value = 0;
+
+    static char *kwlist[] = {"wid_id", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_do_not_lower(w, value);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_do_not_raise_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int value = 0;
+
+    static char *kwlist[] = {"wid_id", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_do_not_raise(w, value);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_focusable_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int value = 0;
+
+    static char *kwlist[] = {"wid_id", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_focusable(w, value);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_movable_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int value = 0;
+
+    static char *kwlist[] = {"wid_id", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_movable(w, value);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_movable_bounded_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int value = 0;
+
+    static char *kwlist[] = {"wid_id", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_movable_bounded(w, value);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_movable_horiz_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int value = 0;
+
+    static char *kwlist[] = {"wid_id", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_movable_horiz(w, value);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_set_movable_vert_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int value = 0;
+
+    static char *kwlist[] = {"wid_id", "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_movable_vert(w, value);
+
+    Py_RETURN_NONE;
+}
+

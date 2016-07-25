@@ -651,6 +651,71 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "set texture"},
 
+    {"wid_raise",
+        (PyCFunction)wid_set_raise_,
+        METH_VARARGS | METH_KEYWORDS,
+        "raise wid"},
+
+    {"wid_lower",
+        (PyCFunction)wid_set_lower_,
+        METH_VARARGS | METH_KEYWORDS,
+        "lower wid"},
+
+    {"wid_update",
+        (PyCFunction)wid_set_update_,
+        METH_VARARGS | METH_KEYWORDS,
+        "update wid"},
+
+    {"wid_set_bevel",
+        (PyCFunction)wid_set_bevel_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_bevel"},
+
+    {"wid_set_bevelled",
+        (PyCFunction)wid_set_bevelled_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_bevelled"},
+
+    {"wid_set_cursor",
+        (PyCFunction)wid_set_cursor_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_cursor"},
+
+    {"wid_set_do_not_lower",
+        (PyCFunction)wid_set_do_not_lower_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_do_not_lower"},
+
+    {"wid_set_do_not_raise",
+        (PyCFunction)wid_set_do_not_raise_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_do_not_raise"},
+
+    {"wid_set_focusable",
+        (PyCFunction)wid_set_focusable_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_focusable"},
+
+    {"wid_set_movable",
+        (PyCFunction)wid_set_movable_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_movable"},
+
+    {"wid_set_movable_bounded",
+        (PyCFunction)wid_set_movable_bounded_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_movable_bounded"},
+
+    {"wid_set_movable_horiz",
+        (PyCFunction)wid_set_movable_horiz_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_movable_horiz"},
+
+    {"wid_set_movable_vert",
+        (PyCFunction)wid_set_movable_vert_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_movable_vert"},
+
     TP_SET_DECL(tile)
     TP_SET_DECL(light_radius)
     TP_SET_DECL(z_depth)

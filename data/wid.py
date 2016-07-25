@@ -37,6 +37,45 @@ class Wid:
     def set_tex(self, **kw):
         mm.wid_set_tex(self, **kw)
 
+    def to_back(self):
+        mm.wid_lower(self)
+
+    def to_front(self):
+        mm.wid_raise(self)
+
+    def update(self):
+        mm.wid_update(self)
+
+    def set_bevel(self, **kw):
+        mm.wid_set_bevel(self, **kw)
+
+    def set_bevelled(self, **kw):
+        mm.wid_set_bevelled(self, **kw)
+
+    def set_cursor(self, **kw):
+        mm.wid_set_cursor(self, **kw)
+
+    def set_do_not_lower(self, **kw):
+        mm.wid_set_do_not_lower(self, **kw)
+
+    def set_do_not_raise(self, **kw):
+        mm.wid_set_do_not_raise(self, **kw)
+
+    def set_focusable(self, **kw):
+        mm.wid_set_focusable(self, **kw)
+
+    def set_movable(self, **kw):
+        mm.wid_set_movable(self, **kw)
+
+    def set_movable_bounded(self, **kw):
+        mm.wid_set_movable_bounded(self, **kw)
+
+    def set_movable_horiz(self, **kw):
+        mm.wid_set_movable_horiz(self, **kw)
+
+    def set_movable_vert(self, **kw):
+        mm.wid_set_movable_vert(self, **kw)
+
     def log(self, msg):
         mm.log("p-wid {0}: {1}".format(str(self), msg))
 
