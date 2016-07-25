@@ -4,10 +4,10 @@ import mm
 
 class Wid:
 
-    def __init__(self, name, parent=0):
+    def __init__(self, name, parent=0, **kw):
         self.parent = parent
         self.name = name
-        self.wid_id = mm.wid_new(self, parent, name)
+        self.wid_id = mm.wid_new(self, parent, name, **kw)
         self.name = "{0:x}:{1}".format(self.wid_id, self.name)
         self.log("Created wid")
 

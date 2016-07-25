@@ -566,6 +566,11 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS,
         "exit game with error"},
 
+    {"wid_tiles_load",
+        (PyCFunction)wid_tiles_load_,
+        METH_VARARGS | METH_KEYWORDS,
+        "load a block of wid tiles"},
+
     {"tex_load",
         (PyCFunction)tex_load_,
         METH_VARARGS | METH_KEYWORDS,

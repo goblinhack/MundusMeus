@@ -18,6 +18,7 @@
 #include "font.h"
 #include "math_util.h"
 #include "tex.h"
+#include "wid_tiles.h"
 #include "music.h"
 #include "sound.h"
 #include "tile.h"
@@ -86,6 +87,7 @@ void quit (void)
     ttf_fini();
     font_fini();
     tex_fini();
+    wid_tiles_fini();
     music_fini();
     sound_fini();
     tile_fini();
@@ -505,6 +507,10 @@ int32_t main (int32_t argc, char *argv[])
 
     if (!tex_init()) {
 	ERR("tex init");
+    }
+
+    if (!wid_tiles_init()) {
+	ERR("wid tiles init");
     }
 
     if (!music_init()) {

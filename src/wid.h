@@ -556,6 +556,11 @@ typedef struct wid_ {
     tree_rootp gridtree;
 
     /*
+     * Tiles widget
+     */
+    wid_tilesp wid_tiles;
+
+    /*
      * Sorted for display onto the screen.
      */
     tree_root *children_display_sorted;

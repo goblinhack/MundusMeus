@@ -13,6 +13,7 @@
 #include "tile.h"
 #include "py_wid.h"
 #include "string_ext.h"
+#include "wid_tiles.h"
 
 PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
@@ -20,14 +21,16 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
     uintptr_t i_parent = 0;
     widp parent;
     char *name = 0;
+    char *tiles = 0;
     widp w;
 
-    static char *kwlist[] = {"wid", "parent", "name", 0};
+    static char *kwlist[] = {"wid", "parent", "name", "tiles", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|Ks", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|Kss", kwlist, 
                                      &py_class,
                                      &i_parent,
-                                     &name)) {
+                                     &name,
+                                     &tiles)) {
         return (0);
     }
 
@@ -42,6 +45,15 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
         w = wid_new_container(parent, name);
     } else {
         w = wid_new_window(name);
+    }
+
+    if (w) {
+        if (tiles) {
+            w->wid_tiles = wid_tiles_find(tiles);
+            if (!w->wid_tiles) {
+                ERR("did not find wid %s tiles %s", name, tiles);
+            }
+        }
     }
 
     return (Py_BuildValue("K", (uintptr_t) w));
