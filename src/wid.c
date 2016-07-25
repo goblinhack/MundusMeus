@@ -3101,7 +3101,7 @@ widp wid_new_window (const char *name)
     wid_set_name(w, name);
 
     color col = WHITE;
-    col.a = 0;
+    col.a = 255;
     glcolor(col);
 
     wid_set_mode(w, WID_MODE_NORMAL);
@@ -8698,8 +8698,8 @@ static void wid_display (widp w,
                 double wid_h = br.y - tl.y;
                 double tile_w = wid_tiles->tile_w * wid_tiles->scale;
                 double tile_h = wid_tiles->tile_h * wid_tiles->scale;
-                int tiles_across = (wid_w / tile_w);
-                int tiles_down = (wid_h / tile_h);
+                int tiles_across = ceil(wid_w / tile_w);
+                int tiles_down = ceil(wid_h / tile_h);
                 int tile_x, tile_y;
 
                 point p, q;
@@ -8709,6 +8709,8 @@ static void wid_display (widp w,
 
                         int tx = 0;
                         int ty = 0;
+                        int edge_y = 0;
+                        int edge_x = 0;
 
                         if (tile_x == 0) {
                             tx = 0;
@@ -8716,15 +8718,18 @@ static void wid_display (widp w,
                                 ty = 0;
                             } else if (tile_y == tiles_down - 1) {
                                 ty = wid_tiles->down - 1;;
+                                edge_y = true;
                             } else {
                                 ty = tile_y % (wid_tiles->down - 2) + 1;
                             }
                         } else if (tile_x == tiles_across - 1) {
                             tx = wid_tiles->across - 1;;
+                            edge_x = true;
                             if (tile_y == 0) {
                                 ty = 0;
                             } else if (tile_y == tiles_down - 1) {
                                 ty = wid_tiles->down - 1;;
+                                edge_y = true;
                             } else {
                                 ty = tile_y % (wid_tiles->down - 2) + 1;
                             }
@@ -8734,15 +8739,19 @@ static void wid_display (widp w,
                                 tx = 0;
                             } else if (tile_x == tiles_across - 1) {
                                 tx = wid_tiles->across - 1;;
+                                edge_x = true;
                             } else {
                                 tx = tile_x % (wid_tiles->across - 2) + 1; 
                             }
                         } else if (tile_y == tiles_down - 1) {
                             ty = wid_tiles->across - 1;;
+                            edge_y = true;
                             if (tile_x == 0) {
                                 tx = 0;
+                                edge_x = true;
                             } else if (tile_x == tiles_across - 1) {
                                 tx = wid_tiles->across - 1;;
+                                edge_x = true;
                             } else {
                                 tx = tile_x % (wid_tiles->across - 2) + 1;
                             }
@@ -8756,8 +8765,18 @@ static void wid_display (widp w,
                             DIE("no tile at tile_x,y %d %d tx,t %d %d", tile_x, tile_y, tx, ty);
                         }
 
-                        p.x = tl.x + tile_w * (double) tile_x;
-                        p.y = tl.y + tile_h * (double) tile_y;
+                        if (edge_x) {
+                            p.x = br.x - tile_w;
+                        } else {
+                            p.x = tl.x + tile_w * (double) tile_x;
+                        }
+
+                        if (edge_y) {
+                            p.y = br.y - tile_h;
+                        } else {
+                            p.y = tl.y + tile_h * (double) tile_y;
+                        }
+
                         q.x = p.x + tile_w;
                         q.y = p.y + tile_h;
 
