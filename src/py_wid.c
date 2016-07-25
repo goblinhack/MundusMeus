@@ -11,6 +11,7 @@
 #include "frameobject.h"
 #include "tex.h"
 #include "tile.h"
+#include "wid.h"
 #include "py_wid.h"
 #include "string_ext.h"
 #include "wid_tiles.h"
@@ -340,3 +341,26 @@ PyObject *wid_set_color_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
+PyObject *wid_set_tex_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    char *name = 0;
+
+    static char *kwlist[] = {"wid_id", 
+        "name",
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+                                     &py_class,
+                                     &name)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_tex(w, 0, name);
+
+    Py_RETURN_NONE;
+}

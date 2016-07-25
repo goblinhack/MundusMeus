@@ -646,6 +646,11 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "set color"},
 
+    {"wid_set_tex",
+        (PyCFunction)wid_set_tex_,
+        METH_VARARGS | METH_KEYWORDS,
+        "set texture"},
+
     TP_SET_DECL(tile)
     TP_SET_DECL(light_radius)
     TP_SET_DECL(z_depth)

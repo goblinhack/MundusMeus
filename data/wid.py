@@ -33,6 +33,9 @@ class Wid:
 
     def set_text(self, **kw):
         mm.wid_set_text(self, **kw)
+        
+    def set_tex(self, **kw):
+        mm.wid_set_tex(self, **kw)
 
     def log(self, msg):
         mm.log("p-wid {0}: {1}".format(str(self), msg))
