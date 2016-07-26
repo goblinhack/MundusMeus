@@ -47,7 +47,7 @@ class WidText(wid.Wid):
                 print("{0} ---{1}---".format(x, word))
                 child = wid.Wid(name="wid text child", parent=self.wid_id)
                 child.set_tl_br_pct(x, y, x + w, y + h)
-                child.set_text(text=word, font=font)
+                child.set_text(text=word, lhs=True, font=font)
 
                 x = x + w
 

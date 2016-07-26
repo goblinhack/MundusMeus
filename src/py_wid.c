@@ -225,20 +225,48 @@ PyObject *wid_set_text_ (PyObject *obj, PyObject *args, PyObject *keywds)
     const char *font = 0;
     int outline = 0;
     char *color_name = 0;
+    double advance = -1;
+    int bot = -1;
+    int centerx = -1;
+    int centery = -1;
+    int fixed_width = -1;
+    int lhs = -1;
+    int rhs = -1;
+    double scaling = -1;
+    int top = -1;
 
     static char *kwlist[] = {"wid", 
         "text",
         "font",
         "outline",
         "color",
+        "advance",
+        "bot",
+        "centerx",
+        "centery",
+        "fixed_width",
+        "lhs",
+        "rhs",
+        "scaling",
+        "top",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ssis", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ssisdiiiiiidi", kwlist, 
                                      &py_class,
                                      &text,
                                      &font,
                                      &outline,
-                                     &color_name)) {
+                                     &color_name,
+                                     &advance,
+                                     &bot,
+                                     &centerx,
+                                     &centery,
+                                     &fixed_width,
+                                     &lhs,
+                                     &rhs,
+                                     &scaling,
+                                     &top
+                                     )) {
         return (0);
     }
 
@@ -261,6 +289,34 @@ PyObject *wid_set_text_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     if (outline) {
         wid_set_text_outline(w, true);
+    }
+
+    if (advance != -1) {
+        wid_set_text_advance(w, advance);
+    }
+    if (bot != -1) {
+        wid_set_text_bot(w, bot);
+    }
+    if (centerx != -1) {
+        wid_set_text_centerx(w, centerx);
+    }
+    if (centery != -1) {
+        wid_set_text_centery(w, centery);
+    }
+    if (fixed_width != -1) {
+        wid_set_text_fixed_width(w, fixed_width);
+    }
+    if (lhs != -1) {
+        wid_set_text_lhs(w, lhs);
+    }
+    if (rhs != -1) {
+        wid_set_text_rhs(w, rhs);
+    }
+    if (scaling != -1) {
+        wid_set_text_scaling(w, scaling);
+    }
+    if (top != -1) {
+        wid_set_text_top(w, top);
     }
 
     wid_set_text(w, text);
