@@ -37,6 +37,9 @@ PyObject *tex_load_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *tex_size_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *tex_pixel_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *tex_load_tiled_(PyObject *obj, PyObject *args, PyObject *keywds);
+
 PyObject *tile_load_arr_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *tile_get_size_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *tile_get_size_pct_(PyObject *obj, PyObject *args, PyObject *keywds);
 
 PyObject *wid_tiles_load_(PyObject *obj, PyObject *args, PyObject *keywds);

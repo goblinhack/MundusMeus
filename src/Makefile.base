@@ -80,6 +80,7 @@ GAME_OBJECTS=				\
     $(OBJDIR)/py_thing.o 		\
     $(OBJDIR)/py_wid.o 			\
     $(OBJDIR)/py_tex.o 			\
+    $(OBJDIR)/py_tile.o 		\
     $(OBJDIR)/wid_tiles.o 		\
     $(OBJDIR)/py_wid_tiles.o 		\
     $(OBJDIR)/py_ttf.o 			\

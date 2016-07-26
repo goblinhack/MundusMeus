@@ -606,6 +606,16 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "load a tile array"},
 
+    {"tile_size",
+        (PyCFunction)tile_get_size_,
+        METH_VARARGS | METH_KEYWORDS,
+        "tile size in pixels"},
+
+    {"tile_size_pct",
+        (PyCFunction)tile_get_size_pct_,
+        METH_VARARGS | METH_KEYWORDS,
+        "tile size in pct"},
+
     {"tp_load",
         (PyCFunction)tp_load_,
         METH_VARARGS | METH_KEYWORDS,

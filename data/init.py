@@ -104,7 +104,7 @@ def init2():
 
     w = wid_text.WidText(name="test", 
                          tiles="wid1", 
-                         text="%%fg=green$hello there you%%fg=red$... a b c dddd ee fff gggg hh\nline2",
+                         text="%%fg=green$hello there you%%fg=red$... a b c dddd ee fff gggg hh   _  iiiiiiiiiii jjjjjjjjjjjjjjjj kkkkkkk lllllll mmmmmmmmmmmm nnnnnnn ooooooooooooop            ppppppppppp qqqqqqqqq rrrrrr ssssss\nline2\nmmmmmmmmmmmmmmmm",
                          font="vsmall", 
                          x1=0.2, y1=0.2, x2=0.8, y2=0.8)
 
