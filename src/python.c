@@ -736,6 +736,16 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "wid_set_movable_vert"},
 
+    {"wid_get_size",
+        (PyCFunction)wid_get_size_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_get_size"},
+
+    {"wid_get_size_pct",
+        (PyCFunction)wid_get_size_pct_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_get_size_pct"},
+
     TP_SET_DECL(tile)
     TP_SET_DECL(light_radius)
     TP_SET_DECL(z_depth)
