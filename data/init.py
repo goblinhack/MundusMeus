@@ -51,6 +51,10 @@ def load_one_plugin(filepath):
         global wid
         wid = py_mod
 
+    if basename(filepath) == "wid_text.py":
+        global wid_text
+        wid_text = py_mod
+
 def load_all_plugins():
     for filename in find_plugins(dirname(__file__), '*.py'):
         mm.con("Loading " + filename)
@@ -79,6 +83,7 @@ def init1():
 
 wid_intro_title = None
 
+
 def wid_intro_bg_create():
     global wid_intro_title
 
@@ -91,24 +96,21 @@ def wid_intro_bg_create():
         w.update();
         w.set_do_not_raise(value=True);
 
+
 def init2():
     load_all_plugins()
 
     wid_intro_bg_create()
 
-    t = "%%fg=green$hello hello there you%%fg=red$..."
-    for i in t.split():
-        mm.con("{0}".format(i))
-        w, h = mm.text_size(font="small", text=i)
-        mm.con("{0} {1} ".format(w, h))
+    w = wid_text.WidText(name="test", 
+                         tiles="wid1", 
+                         text="%%fg=green$hello there you%%fg=red$... a b c dddd ee fff gggg hh\nline2",
+                         font="vsmall", 
+                         x1=0.2, y1=0.2, x2=0.8, y2=0.8)
 
-    w = wid.Wid(name="test", tiles="wid1")
-    w.set_tl_br_pct(x1=0.2, y1=0.2, x2=0.8, y2=0.8)
     w.set_text(text="hello", font="vsmall", color="red")
-    w.set_color(bg=True, tl=True, br=True, name="white", alpha=0.4)
 
-    w = wid.Wid(name="test2", tiles="wid1")
-    w.set_tl_br_pct(x1=0.5, y1=0.2, x2=0.9, y2=0.3)
-    w.set_text(text="%%fg=green$hello there you%%fg=red$...", font="vsmall", color="red")
+#    w = wid.Wid(name="test2", tiles="wid1")
+#    w.set_tl_br_pct(x1=0.5, y1=0.2, x2=0.9, y2=0.3)
 
 init1()

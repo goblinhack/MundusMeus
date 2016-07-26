@@ -576,6 +576,11 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "text size in pixels"},
 
+    {"text_size_pct",
+        (PyCFunction)ttf_text_size_pct_,
+        METH_VARARGS | METH_KEYWORDS,
+        "text size in percent"},
+
     {"tex_load",
         (PyCFunction)tex_load_,
         METH_VARARGS | METH_KEYWORDS,
