@@ -648,3 +648,61 @@ PyObject *wid_set_movable_vert_ (PyObject *obj, PyObject *args, PyObject *keywds
     Py_RETURN_NONE;
 }
 
+PyObject *wid_get_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+
+    static char *kwlist[] = {"wid_id", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+                                     &py_class)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    int32_t tlx;
+    int32_t tly;
+    int32_t brx;
+    int32_t bry;
+
+    wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+    double width = brx - tlx;
+    double height = bry - tly;
+
+    return (Py_BuildValue("dd", width, height));
+}
+
+PyObject *wid_get_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+
+    static char *kwlist[] = {"wid_id", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+                                     &py_class)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    int32_t tlx;
+    int32_t tly;
+    int32_t brx;
+    int32_t bry;
+
+    wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+    double width = brx - tlx;
+    double height = bry - tly;
+
+    width = width / ((double) game.video_gl_width);
+    height = height / ((double) game.video_gl_height);
+
+    return (Py_BuildValue("dd", width, height));
+}

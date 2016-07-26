@@ -7,48 +7,41 @@ class WidText(wid.Wid):
 
     def __init__(self, name, 
                  x1, y1, x2, y2, 
-                 tiles,
                  text, 
+                 pad_w=0, 
+                 pad_h=0,
                  font="small",
                  parent=0, 
                  **kw):
         self.parent = parent
         self.name = name
 
-        super().__init__(name, tiles=tiles, parent=parent)
+        super().__init__(name, parent=parent)
         self.set_tl_br_pct(x1, y1, x2, y2)
 
-        self.log("Created wid")
-
         self.children = []
-        self.width = x2 - x1
-        self.height = y2 - y1
+        self.width, self.height = self.get_size_pct()
 
-        self.tile_size = mm.tile_size_pct(tiles + "-tl")
-        self.tile_width = self.tile_size[0]
-        self.tile_height = self.tile_size[1]
-
-        mm.con("{0}".format(self.tile_width))
-
-        self.usable_width = self.width - self.tile_width
-        self.usable_height = self.height - self.tile_height
+        self.usable_w = self.width - pad_w
+        self.usable_h = self.height - pad_h
+        self.update()
 
         lines = text.split("\n")
-        y = self.tile_height * 0.5
+        y = pad_h
 
         for line in lines:
 
             words = line.split()
-            x = self.tile_width * 0.5
+            x = pad_w
 
             for word in words:
                 w, h = mm.text_size_pct(font=font, text=word + " ")
 
-                w = w / self.usable_width
-                h = h / self.usable_height
+                w = w / self.usable_w
+                h = h / self.usable_h
 
-                if x + w > 1.0 - self.tile_width * 0.5 :
-                    x = self.tile_width * 0.5
+                if x + w > 1.0 - pad_w:
+                    x = pad_w
                     y = y + h
 
                 print("{0} ---{1}---".format(x, word))
