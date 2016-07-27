@@ -58,7 +58,6 @@ PyObject *ttf_text_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
     const char *c = 0;
     ttf_text_size(&f, text, &w, &h, 0, &c, scale, advance, fixed_width);
 
-if (c){ CON("c [%s]",c); }
     return (Py_BuildValue("dds", w, h, c ? c : "none"));
 }
 
@@ -109,6 +108,5 @@ PyObject *ttf_text_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     w = w / ((double) game.video_gl_width);
     h = h / ((double) game.video_gl_height);
 
-if (c){ CON("c [%s]",c); }
     return (Py_BuildValue("dds", w, h, c ? c : "none"));
 }

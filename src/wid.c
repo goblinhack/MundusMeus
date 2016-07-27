@@ -8786,6 +8786,8 @@ static void wid_display (widp w,
                 }
 
                 glBindTexture(GL_TEXTURE_2D, 0);
+
+                blit_flush();
             } else {
                 gl_list_square(tl, br, tex, tex_tl, tex_br,
                     texuv, col_tl, col, col_br);

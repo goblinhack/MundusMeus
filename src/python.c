@@ -641,6 +641,11 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "destroy a wid"},
 
+    {"wid_new_scrollbar",
+        (PyCFunction)wid_new_scrollbar_,
+        METH_VARARGS | METH_KEYWORDS,
+        "create scrollbars"},
+
     {"wid_set_shape",
         (PyCFunction)wid_set_shape_,
         METH_VARARGS | METH_KEYWORDS,

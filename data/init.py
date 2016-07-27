@@ -86,13 +86,17 @@ def init1():
     config.save_game_config()
 
 wid_intro_title = None
+wid_intro_menu = None
+wid_quit_menu = None
 
 
 def wid_intro_bg_create():
     global wid_intro_title
 
     if wid_intro_title is None:
-        wid_intro_title = w = wid.Wid(name="intro bg")
+        w = wid.Wid(name="intro bg")
+        wid_intro_title = w
+
         w.set_tl_br_pct(x1=0.0, y1=0.1, x2=1.0, y2=0.9)
         w.set_tex(name="main_title");
         w.set_color(tl=True, bg=True, br=True, name="white")
@@ -101,20 +105,39 @@ def wid_intro_bg_create():
         w.set_do_not_raise(value=True);
 
 
+def wid_intro_menu_create():
+    global wid_intro_menu
+
+    if wid_intro_menu is None:
+        w = wid_popup.WidPopup(name="test", 
+                            text="%%fg=green$a) %%fg=white$new game\n" +
+                            "%%fg=green$q) %%fg=white$quit\n",
+                            font="vlarge", 
+                            x1=0.2, y1=0.2, x2=0.8, y2=0.8)
+        wid_intro_menu = w
+
+        w.set_color(bg=True, tl=True, br=True, name="red", alpha=0)
+
+
+def wid_quit_create():
+    global wid_quit_menu
+
+    if wid_quit_menu is None:
+        w = wid_popup.WidPopup(name="test", 
+                            text="Quit the game?\n" + 
+                            "%%fg=green$a) %%fg=white$quit\n" +
+                            "%%fg=green$b) %%fg=white$nope, keep on going\n",
+                            font="vlarge", 
+                            tiles="wid1",
+                            x1=0.2, y1=0.2, x2=0.8, y2=0.8)
+        wid_quit_menu = w
+
+
 def init2():
     load_all_plugins()
 
     wid_intro_bg_create()
-
-    w = wid_popup.WidPopup(name="test", 
-                         text="%%fg=green$hello there you%%fg=red$... a b c dddd%%fg=white$ee fff gggg hh   _  iiiiiiiiiii jjjjjjjjjjjjjjjj kkkkkkk lllllll mmmmmmmmmmmm nnnnnnn ooooooooooooop            ppppppppppp qqqqqqqqq rrrrrr ssssss\nline2\nmmmmmmmmmmmmmmmm",
-                         font="vsmall", 
-                         tiles="wid1",
-                         x1=0.2, y1=0.2, x2=0.8, y2=0.8)
-
-    w.set_text(text="hello", font="vsmall", color="red")
-
-#    w = wid.Wid(name="test2", tiles="wid1")
-#    w.set_tl_br_pct(x1=0.5, y1=0.2, x2=0.9, y2=0.3)
+#    wid_intro_menu_create()
+    wid_quit_create()
 
 init1()
