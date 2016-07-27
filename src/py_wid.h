@@ -10,6 +10,7 @@
 
 PyObject *wid_new_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_destroy_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_new_scrollbar_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_shape_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_tl_br_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_tl_br_pct_(PyObject *obj, PyObject *args, PyObject *keywds);

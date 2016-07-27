@@ -45,6 +45,7 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
     }
 
     parent = (widp) i_parent;
+    verify(parent);
 
     if (parent) {
         w = wid_new_container(parent, name);
@@ -80,6 +81,46 @@ PyObject *wid_destroy_ (PyObject *obj, PyObject *args, PyObject *keywds)
     w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
 
     wid_destroy(&w);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *wid_new_scrollbar_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    uintptr_t i_parent = 0;
+    uintptr_t i_owner = 0;
+    widp parent;
+    widp owner;
+    int horiz = false;
+    int vert = false;
+
+    static char *kwlist[] = {
+        "parent", 
+        "owner", 
+        "horiz", 
+        "vert", 
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "KK|ii", kwlist, 
+                                     &i_parent,
+                                     &i_owner,
+                                     &horiz,
+                                     &vert)) {
+        return (0);
+    }
+
+    parent = (widp) i_parent;
+    verify(parent);
+    owner = (widp) i_owner;
+    verify(owner);
+
+    if (horiz) {
+        wid_new_horiz_scroll_bar(parent, owner);
+    }
+
+    if (vert) {
+        wid_new_vert_scroll_bar(parent, owner);
+    }
 
     Py_RETURN_NONE;
 }

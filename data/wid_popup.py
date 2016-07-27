@@ -17,19 +17,26 @@ class WidPopup(wid.Wid):
         self.parent = parent
         self.name = name
 
-        super().__init__(name, tiles=tiles, parent=parent)
-        self.set_tl_br_pct(x1, y1, x2, y2)
+        if tiles != None:
+            super().__init__(name, tiles=tiles, parent=parent)
+            tile_size = mm.tile_size_pct(tiles + "-tl")
+            pad_w = tile_size[0] * 0.5
+            pad_h = tile_size[1] * 0.5
+        else:
+            super().__init__(name, parent=parent)
+            pad_w = 0
+            pad_h = 0
 
-        tile_size = mm.tile_size_pct(tiles + "-tl")
-        pad_w = tile_size[0] * 0.5
-        pad_h = tile_size[1] * 0.5
+        self.set_tl_br_pct(x1, y1, x2, y2)
 
         w = wid_text.WidText(name="textbox", 
                              text=text,
-                             pad_w=pad_w,
-                             pad_h=pad_w,
                              font=font,
                              parent=self.wid_id,
-                             x1=0, y1=0, x2=1, y2=1)
+                             x1=pad_w, 
+                             y1=pad_h, 
+                             x2=1.0 - pad_w, 
+                             y2=1.0 - pad_h)
 
+        mm.wid_new_scrollbar(vert=True, parent=self.wid_id, owner=w.wid_id)
 
