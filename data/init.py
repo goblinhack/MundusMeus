@@ -111,7 +111,7 @@ def wid_intro_menu_create():
     if wid_intro_menu is None:
         w = wid_popup.WidPopup(name="test", 
                                font="vlarge", 
-                               x1=0.2, y1=0.2, x2=0.8, y2=0.8)
+                               x1=0.2, y1=0.5)
         wid_intro_menu = w
 
         w.add_text(text="%%fg=green$a) %%fg=white$new game\n")
@@ -126,7 +126,8 @@ def wid_quit_create():
         w = wid_popup.WidPopup(name="test",
                                font="vlarge", 
                                tiles="wid1",
-                               x1=0.2, y1=0.2, x2=0.8, y2=0.8)
+                               x1=0.2, y1=0.2,
+                               width=0.5)
         wid_quit_menu = w
 
         w.add_text(text="Quit the game?\n")

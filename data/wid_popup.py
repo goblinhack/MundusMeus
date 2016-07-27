@@ -7,7 +7,8 @@ import wid_text
 class WidPopup(wid.Wid):
 
     def __init__(self, name, 
-                 x1, y1, x2, y2, 
+                 x1, y1, 
+                 width=0.0,
                  font="small",
                  tiles=None,
                  parent=0, 
@@ -32,8 +33,7 @@ class WidPopup(wid.Wid):
 
         self.x1 = x1
         self.y1 = y1
-        self.x2 = x2
-        self.y2 = y2
+        self.width = width
 
     def add_text(self, text):
 
@@ -44,8 +44,12 @@ class WidPopup(wid.Wid):
 
         text_w, text_h = wid_text.text_size_pct(text=self.all_text, font=self.font)
 
-        self.w = text_w + self.pad_w * 2
         self.h = text_h + self.pad_h * 2
+
+        if self.width != 0.0:
+            self.w = self.width + self.pad_w * 2
+        else:
+            self.w = text_w + self.pad_w * 2
 
         self.set_tl_br_pct(self.x1, self.y1, 
                            self.x1 + self.w,
