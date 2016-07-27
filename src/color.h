@@ -13,6 +13,7 @@ void color_init(void);
 void glcolor_save(void);
 void glcolor_restore(void);
 color string2color(const char **s);
+const char *string2colorname(const char **s);
 color color_find(const char *s);
 const char *color_find_name(const char *s);
 const char *color_find_nth(int nth);

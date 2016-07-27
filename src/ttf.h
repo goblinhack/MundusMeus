@@ -16,6 +16,7 @@ void ttf_text_size(fontp *, const char *text,
                    double *w, 
                    double *h,
                    enum_fmt *fmt,
+                   const char **c,
                    double scaling,
                    double advance,
                    uint8_t fixed_width);

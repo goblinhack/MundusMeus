@@ -107,7 +107,7 @@ def init2():
     wid_intro_bg_create()
 
     w = wid_popup.WidPopup(name="test", 
-                         text="%%fg=green$hello there you%%fg=red$... a b c dddd ee fff gggg hh   _  iiiiiiiiiii jjjjjjjjjjjjjjjj kkkkkkk lllllll mmmmmmmmmmmm nnnnnnn ooooooooooooop            ppppppppppp qqqqqqqqq rrrrrr ssssss\nline2\nmmmmmmmmmmmmmmmm",
+                         text="%%fg=green$hello there you%%fg=red$... a b c dddd%%fg=white$ee fff gggg hh   _  iiiiiiiiiii jjjjjjjjjjjjjjjj kkkkkkk lllllll mmmmmmmmmmmm nnnnnnn ooooooooooooop            ppppppppppp qqqqqqqqq rrrrrr ssssss\nline2\nmmmmmmmmmmmmmmmm",
                          font="vsmall", 
                          tiles="wid1",
                          x1=0.2, y1=0.2, x2=0.8, y2=0.8)

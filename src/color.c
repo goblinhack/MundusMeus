@@ -1507,8 +1507,8 @@ void color_init (void)
     color_set(1 /* include in palette */, "yellow", &YELLOW, 255, 255, 0, 255);
 }
 
-color gl_save_color;
-color gl_last_color;
+color gl_save_color = { 255, 255, 255, 255 };
+color gl_last_color = { 255, 255, 255, 255 };
 
 void glcolor_save (void)
 {
@@ -1562,6 +1562,47 @@ color string2color (const char **s)
     }
 
     return (target->c);
+}
+
+const char *string2colorname (const char **s)
+{
+    static char tmp[MAXSTR];
+    static const char *eo_tmp = tmp + MAXSTR;
+    const char *c = *s;
+    char *t = tmp;
+
+    while (t < eo_tmp) {
+        if ((*c == '\0') || (*c == '$')) {
+            break;
+        }
+
+        *t++ = *c++;
+    }
+
+    if (c == eo_tmp) {
+        return (0);
+    }
+
+    *t++ = '\0';
+    *s += (t - tmp);
+
+    if (!strcasecmp(tmp, "reset")) {
+        return (color_find_col(gl_save_color));
+    }
+
+    tree_color_val find;
+    tree_color_val *target;
+
+    memset(&find, 0, sizeof(find));
+    find.tree.key = tmp;
+
+    target = (typeof(target)) tree_find(colors, &find.tree.node);
+    if (!target) {
+        ERR("Unknown color [%s]", tmp);
+        return (0);
+    }
+
+    return (tmp);
 }
 
 color color_find (const char *s)

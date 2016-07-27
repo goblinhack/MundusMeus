@@ -594,7 +594,7 @@ widp wid_dirlist (const char *dir,
 
         fontp font = large_font;
         ttf_text_size(&font,
-                      "TITLE", &w, &title_h, 0, 1.0f, 1.0f,
+                      "TITLE", &w, &title_h, 0, 0, 1.0f, 1.0f,
                       false /* fixed width */);
 
         toth += title_h;
@@ -607,7 +607,7 @@ widp wid_dirlist (const char *dir,
         fontp font = small_font;
         ttf_text_size(&font,
                       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                      &w, &h, 0, 1.0f, 1.0f,
+                      &w, &h, 0, 0, 1.0f, 1.0f,
                       false /* fixed width */);
 
         context->maxw = max(w, context->maxw);
@@ -620,7 +620,7 @@ widp wid_dirlist (const char *dir,
 
         fontp font = small_font;
         ttf_text_size(&font,
-                      n->tree.key, &w, &h, 0, 1.0f, 1.0f,
+                      n->tree.key, &w, &h, 0, 0, 1.0f, 1.0f,
                       false /* fixed width */);
 
         context->maxw = max(w, context->maxw);
@@ -679,7 +679,7 @@ widp wid_dirlist (const char *dir,
             }
 
             fontp font = med_font;
-            ttf_text_size(&font, button_name, &w, &h, 0, 1.0f, 1.0f,
+            ttf_text_size(&font, button_name, &w, &h, 0, 0, 1.0f, 1.0f,
                           false /* fixed width */);
 
             w += BUTTON_PAD_X;
@@ -855,7 +855,7 @@ widp wid_dirlist (const char *dir,
             fontp font = med_font;
 
             const char *button_name = button_names[n];
-            ttf_text_size(&font, button_name, &w, &h, 0, 1.0f, 1.0f,
+            ttf_text_size(&font, button_name, &w, &h, 0, 0, 1.0f, 1.0f,
                           false /* fixed width */);
 
             widp child;

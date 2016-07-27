@@ -98,6 +98,7 @@ void ttf_text_size (font **f, const char *text_in,
                     double *w, 
                     double *h,
                     enum_fmt *fmt,
+                    const char **col,
                     double scaling,
                     double advance,
                     uint8_t fixed_width)
@@ -128,7 +129,11 @@ void ttf_text_size (font **f, const char *text_in,
 	    if (c == '%') {
 		if (!strncmp(text, "fg=", 3)) {
 		    text += 3;
-                    (void) string2color(&text);
+                    if (col) {
+                        *col = string2colorname(&text);
+                    } else {
+                        (void) string2color(&text);
+                    }
 		    found_format_string = false;
 		    continue;
 		} else if (!strncmp(text, "fmt=", 4)) {

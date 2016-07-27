@@ -8855,8 +8855,10 @@ static void wid_display (widp w,
          * Manually specified text position.
          */
         fmt = ENUM_FMT_NONE;
-        ttf_text_size(&font, text, &width, &height, &fmt, scaling, advance,
-                        fixed_width);
+        ttf_text_size(&font, text, &width, &height, &fmt, 
+                      0,
+                      scaling, advance,
+                      fixed_width);
 
         w->ttf_width = width;
         w->ttf_height = height;
