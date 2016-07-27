@@ -119,6 +119,11 @@ void ttf_text_size (font **f, const char *text_in,
     *w = 0;
     *h = (*f)->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].height * scaling;
 
+    /*
+     * To account for shadows that are not included in the glyph.
+     */
+    *h *= 1.1;
+
     while ((c = *text++) != '\0') {
 	if (!found_format_string) {
 	    if (c == '%') {
