@@ -1046,11 +1046,11 @@ widp wid_menu (widp parent,
      */
     double unused;
     ttf_text_size(&focus_font, "X", &unused, 
-                  &ctx->focus_height, 0, 1.0f, 1.0f,
+                  &ctx->focus_height, 0, 0, 1.0f, 1.0f,
                   false /* fixed width */);
 
     ttf_text_size(&normal_font, "X", &unused, 
-                  &ctx->normal_height, 0, 1.0f, 1.0f,
+                  &ctx->normal_height, 0, 0, 1.0f, 1.0f,
                   false /* fixed width */);
 
     /*

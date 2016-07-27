@@ -232,7 +232,7 @@ static void wid_console_wid_create (void)
 
         ttf_text_size(&font,
                       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                      &w, &h, 0, 1.0f, 1.0f,
+                      &w, &h, 0, 0, 1.0f, 1.0f,
                       true /* fixed width */);
 
         wid_console_max_line_height =

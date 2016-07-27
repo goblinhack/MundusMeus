@@ -55,10 +55,11 @@ PyObject *ttf_text_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
     }
 
     double w, h;
+    const char *c = 0;
+    ttf_text_size(&f, text, &w, &h, 0, &c, scale, advance, fixed_width);
 
-    ttf_text_size(&f, text, &w, &h, 0, scale, advance, fixed_width);
-
-    return (Py_BuildValue("dd", w, h));
+if (c){ CON("c [%s]",c); }
+    return (Py_BuildValue("dds", w, h, c ? c : "none"));
 }
 
 PyObject *ttf_text_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
@@ -102,11 +103,12 @@ PyObject *ttf_text_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     }
 
     double w, h;
-
-    ttf_text_size(&f, text, &w, &h, 0, scale, advance, fixed_width);
+    const char *c = 0;
+    ttf_text_size(&f, text, &w, &h, 0, &c, scale, advance, fixed_width);
 
     w = w / ((double) game.video_gl_width);
     h = h / ((double) game.video_gl_height);
 
-    return (Py_BuildValue("dd", w, h));
+if (c){ CON("c [%s]",c); }
+    return (Py_BuildValue("dds", w, h, c ? c : "none"));
 }

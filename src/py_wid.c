@@ -294,27 +294,35 @@ PyObject *wid_set_text_ (PyObject *obj, PyObject *args, PyObject *keywds)
     if (advance != -1) {
         wid_set_text_advance(w, advance);
     }
+
     if (bot != -1) {
         wid_set_text_bot(w, bot);
     }
+
     if (centerx != -1) {
         wid_set_text_centerx(w, centerx);
     }
+
     if (centery != -1) {
         wid_set_text_centery(w, centery);
     }
+
     if (fixed_width != -1) {
         wid_set_text_fixed_width(w, fixed_width);
     }
+
     if (lhs != -1) {
         wid_set_text_lhs(w, lhs);
     }
+
     if (rhs != -1) {
         wid_set_text_rhs(w, rhs);
     }
+
     if (scaling != -1) {
         wid_set_text_scaling(w, scaling);
     }
+
     if (top != -1) {
         wid_set_text_top(w, top);
     }

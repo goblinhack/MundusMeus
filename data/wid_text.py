@@ -29,13 +29,17 @@ class WidText(wid.Wid):
         lines = text.split("\n")
         y = pad_h
 
+        color = None
+
         for line in lines:
 
             words = line.split()
             x = pad_w
 
             for word in words:
-                w, h = mm.text_size_pct(font=font, text=word + " ")
+                w, h, c = mm.text_size_pct(font=font, text=word + " ")
+                if c != "none":
+                    color = c
 
                 w = w / self.usable_w
                 h = h / self.usable_h
@@ -44,10 +48,13 @@ class WidText(wid.Wid):
                     x = pad_w
                     y = y + h
 
-                print("{0} ---{1}---".format(x, word))
                 child = wid.Wid(name="wid text child", parent=self.wid_id)
                 child.set_tl_br_pct(x, y, x + w, y + h)
-                child.set_text(text=word, lhs=True, font=font)
+
+                if color != None:
+                    child.set_text(text=word, lhs=True, font=font, color=color)
+                else:
+                    child.set_text(text=word, lhs=True, font=font)
 
                 x = x + w
 
