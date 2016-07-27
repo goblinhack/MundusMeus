@@ -54,6 +54,8 @@ class WidText(wid.Wid):
                 else:
                     child.set_text(text=word, lhs=True, font=font)
 
+                self.children.append(child)
+
                 x = x + w
 
             y = y + h
