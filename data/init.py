@@ -110,34 +110,36 @@ def wid_intro_menu_create():
 
     if wid_intro_menu is None:
         w = wid_popup.WidPopup(name="test", 
-                            text="%%fg=green$a) %%fg=white$new game\n" +
-                            "%%fg=green$q) %%fg=white$quit\n",
-                            font="vlarge", 
-                            x1=0.2, y1=0.2, x2=0.8, y2=0.8)
+                               font="vlarge", 
+                               x1=0.2, y1=0.2, x2=0.8, y2=0.8)
         wid_intro_menu = w
 
+        w.add_text(text="%%fg=green$a) %%fg=white$new game\n")
         w.set_color(bg=True, tl=True, br=True, name="red", alpha=0)
+        w.update()
 
 
 def wid_quit_create():
     global wid_quit_menu
 
     if wid_quit_menu is None:
-        w = wid_popup.WidPopup(name="test", 
-                            text="Quit the game?\n" + 
-                            "%%fg=green$a) %%fg=white$quit\n" +
-                            "%%fg=green$b) %%fg=white$nope, keep on going\n",
-                            font="vlarge", 
-                            tiles="wid1",
-                            x1=0.2, y1=0.2, x2=0.8, y2=0.8)
+        w = wid_popup.WidPopup(name="test",
+                               font="vlarge", 
+                               tiles="wid1",
+                               x1=0.2, y1=0.2, x2=0.8, y2=0.8)
         wid_quit_menu = w
+
+        w.add_text(text="Quit the game?\n")
+        w.add_text(text="%%fg=green$a) %%fg=white$quit\n")
+        w.add_text(text="%%fg=green$b) %%fg=white$nope, keep on going\n")
+        w.update()
 
 
 def init2():
     load_all_plugins()
 
     wid_intro_bg_create()
-#    wid_intro_menu_create()
+    wid_intro_menu_create()
     wid_quit_create()
 
 init1()
