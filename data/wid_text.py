@@ -10,6 +10,9 @@ class WidText(wid.Wid):
                  row_text, 
                  row_font, 
                  row_color, 
+                 row_center, 
+                 row_rhs, 
+                 row_width, 
                  parent=0, 
                  **kw):
 
@@ -26,18 +29,30 @@ class WidText(wid.Wid):
         self.usable_h = self.height
 
         y = 0
+        print(row_width)
         for row in range(0, len(row_text)):
             text = row_text[row]
             font = row_font[row]
             color = row_color[row]
+            width = row_width[row]
+            center = row_center[row]
+            rhs = row_rhs[row]
 
             lines = text.split("\n")
 
             for line in lines:
 
-                print("line %s" % line)
                 words = line.split()
                 x = 0
+
+                if center is True:
+                    x = self.usable_w - width
+                    x = x / self.usable_w
+                    x /= 2.0
+
+                if rhs is True:
+                    x = self.usable_w - width
+                    x = x / self.usable_w
 
                 for word in words:
                     w, h, c = mm.text_size_pct(font=font, text=word + " ")
@@ -70,10 +85,13 @@ class WidText(wid.Wid):
 
 def text_size_pct(row_text, row_font):
 
+    row_width = []
+
     y = 0
     for row in range(0, len(row_text)):
         text = row_text[row]
         font = row_font[row]
+        row_width.append(0)
 
         lines = text.split("\n")
         max_w = 0
@@ -103,4 +121,6 @@ def text_size_pct(row_text, row_font):
             if words != []:
                 y = y + max_h
 
-    return max_w, y
+            row_width[row] = max_w
+
+    return max_w, y, row_width

@@ -128,8 +128,7 @@ def wid_quit_create():
                                width=0.5)
         wid_quit_menu = w
 
-        w.add_text(font="vlarge", color="white", text="Quit the game?")
-        w.add_text(font="small", color="red", text="01234")
+        w.add_text(center=True, font="vlarge", color="white", text="Quit the game?")
         w.add_text(font="small", color="yellow", text="01234")
         w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
         w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
