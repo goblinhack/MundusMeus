@@ -19,6 +19,117 @@
 
 static PyObject *mymod;
 
+#define PY_BODY_DOUBLE_DOUBLE_INT_FN(__fn__, n1, n2, n3)                        \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    double d1 = 0;                                                              \
+    double d2 = 0;                                                              \
+    int i1 = 0;                                                                 \
+	                                                                        \
+    static char *kwlist[] = {#n1, #n2, #n3, 0};                                 \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ddi", kwlist,               \
+                                     &d1, &d2, &i1)) {	                        \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    (__fn__)(d1, d2, i1);                                                       \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+#define PY_BODY_DOUBLE_DOUBLE_FN(__fn__, n1, n2)                                \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    double d1 = 0;                                                              \
+    double d2 = 0;                                                              \
+	                                                                        \
+    static char *kwlist[] = {#n1, #n2, 0};                                      \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "dd", kwlist,                \
+                                     &d1, &d2)) {	                        \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    (__fn__)(d1, d2);                                                           \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+#define PY_BODY_DOUBLE_FN(__fn__, n1)                                           \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    double d1 = 0;                                                              \
+	                                                                        \
+    static char *kwlist[] = {"wid_id", #n1, 0};                                 \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "d", kwlist,                 \
+                                     &d1)) {	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    (__fn__)(d1);                                                               \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+#define PY_BODY_INT_INT_INT_FN(__fn__, n1, n2, n3)                              \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    int n1 = 0;                                                                 \
+    int n2 = 0;                                                                 \
+    int n3 = 0;                                                                 \
+	                                                                        \
+    static char *kwlist[] = {#n1, #n2, #n3, 0};                                 \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "iii", kwlist,               \
+                                     &n1, &n2, &n3)) {	                        \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    (__fn__)(n1, n2, n3);                                                       \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+#define PY_BODY_INT_FN(__fn__, n1)                                              \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    int n1 = 0;                                                                 \
+	                                                                        \
+    static char *kwlist[] = {#n1, 0};                                           \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist,                 \
+                                     &n1)) {	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    (__fn__)(n1);                                                               \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+#define PY_BODY_VOID_FN(__fn__)                                                 \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    (__fn__)();                                                                 \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+PY_PROTO(wid_mouse_hide)
+PY_BODY_INT_FN(wid_mouse_hide, value)
+
 void py_call_void_module_int (const char *module, const char *name, int val1)
 {
     LOG("c-to-python: %s.%s(%d)", module, name, val1);
@@ -452,30 +563,6 @@ err_out:
     return (outstr);
 }
 
-static PyObject *hello (PyObject *obj, PyObject *args, PyObject *keywds)
-{
-    int a = 9;
-    char *b = "def b";
-    char *c = "def c";
-    char *d = "def d";
-
-    static char *kwlist[] = {"a", "b", "c", "d", 0};
-
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "i|sss", kwlist,
-                                     &a, &b, &c, &d)) {
-        return (0);
-    }
-
-    LOG("a %d",a);
-    LOG("b %s",b);
-    LOG("c %s",c);
-    LOG("d %s",d);
-
-    char *s = "hello back";
-
-    return (Py_BuildValue("s", s));
-}
-
 static PyObject *con_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     char *a = 0;
@@ -538,10 +625,6 @@ static PyObject *die_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
 static PyMethodDef python_c_METHODS[] =
 {
-    {"hello",
-        (PyCFunction)hello,
-        METH_VARARGS | METH_KEYWORDS,
-        "help text"},
     /*
      * The cast of the function is necessary since PyCFunction values
      * only take two PyObject *parameters, and some take three.
@@ -565,6 +648,8 @@ static PyMethodDef python_c_METHODS[] =
         (PyCFunction)die_,
         METH_VARARGS,
         "exit game with error"},
+
+    PY_DECL(wid_mouse_hide)
 
     {"wid_tiles_load",
         (PyCFunction)wid_tiles_load_,
@@ -782,6 +867,10 @@ static PyMethodDef python_c_METHODS[] =
     WID_DECL(wid_fade_in)
     WID_DECL(wid_fade_out)
     WID_DECL(wid_fade_in_out)
+    WID_DECL(wid_visible)
+    WID_DECL(wid_hide)
+    WID_DECL(wid_toggle_hidden)
+    WID_DECL(wid_mouse_hide)
 
     WID_DECL(wid_destroy_grid)
     WID_DECL(wid_detach_from_grid)

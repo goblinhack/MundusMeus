@@ -138,6 +138,9 @@ def wid_quit_create():
         w.move_to_top()
         w.fade_in_out(delay=500, repeat=10)
         w.destroy_in(delay=5000)
+        wid.mouse_hide(value=True)
+        wid.mouse_hide(value=False)
+        wid.mouse_hide(value=True)
 
 
 def init2():

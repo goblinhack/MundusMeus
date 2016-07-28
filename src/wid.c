@@ -9353,10 +9353,17 @@ void wid_tick_all (void)
 static int saved_mouse_x;
 static int saved_mouse_y;
 
-void wid_mouse_hide (int visible)
+void wid_mouse_hide (int value)
 {
+    int visible = !value;
+
     if (visible != wid_mouse_visible) {
         wid_mouse_visible = visible;
+#if 0
+        /*
+         * SDL spinning beach ball of doom
+         */
+        SDL_ShowCursor(visible);
 
         if (visible) {
             sdl_mouse_warp(saved_mouse_x, saved_mouse_y);
@@ -9364,6 +9371,7 @@ void wid_mouse_hide (int visible)
             saved_mouse_x = mouse_x;
             saved_mouse_y = mouse_y;
         }
+#endif
     }
 }
 
