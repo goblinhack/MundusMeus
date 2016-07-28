@@ -8,7 +8,8 @@ import math
 class WidPopup(wid.Wid):
 
     def __init__(self, name, 
-                 x1, y1, 
+                 x1=0.0,
+                 y1=0.0, 
                  width=0.0,
                  tiles=None,
                  parent=0, 

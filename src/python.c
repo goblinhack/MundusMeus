@@ -751,6 +751,16 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "wid_get_size_pct"},
 
+    WID_DECL(wid_move_to_horiz_vert_pct_in)
+    WID_DECL(wid_move_to_abs_centered_in)
+    WID_DECL(wid_move_to_centered_in)
+    WID_DECL(wid_move_delta_pct_in)
+    WID_DECL(wid_move_to_abs_in)
+    WID_DECL(wid_move_delta_in)
+    WID_DECL(wid_move_to_pct_centered_in)
+    WID_DECL(wid_move_to_abs_poffset_in)
+    WID_DECL(wid_move_to_pct_in)
+
     TP_SET_DECL(tile)
     TP_SET_DECL(light_radius)
     TP_SET_DECL(z_depth)
