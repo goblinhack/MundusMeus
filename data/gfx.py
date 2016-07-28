@@ -14,7 +14,7 @@ def init_tiles_wid1():
 
     mm.tex_load_tiled(
             file="data/gfx/wid1.tga",
-            name="chars",
+            name="wid1",
             width=64, height=64)
 
     tiles = [
