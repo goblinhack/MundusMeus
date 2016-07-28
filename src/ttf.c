@@ -163,19 +163,13 @@ void ttf_text_size (font **f, const char *text_in,
                     x += tex_get_width(tex) * scaling * advance;
 		    continue;
 		} else if (!strncmp(text, "tile=", 5)) {
+
 		    text += 5;
+                    (void)string2tile(&text);
+
+                    x += (*f)->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+
 		    found_format_string = false;
-
-                    /*
-                     * Skip the formatting text
-                     */
-                    (void) string2tile(&text);
-
-                    double a_width = (*f)->glyphs['a'].width * scaling * advance;
-                    x += a_width;
-                    x += a_width;
-                    x += a_width;
-                    x += a_width;
 		    continue;
 		}
 	    }
@@ -364,32 +358,19 @@ static void ttf_puts_internal (font *f, const char *text,
 		    text += 5;
                     tile = string2tile(&text);
 
-                    x += f->glyphs['a'].width * scaling * advance;
-                    x += f->glyphs['a'].width * scaling * advance;
-
                     point tl;
                     point br;
 
                     tl.x = (x);
                     tl.y = (y);
-                    br.x = (x + f->glyphs['a'].width * scaling);
-                    br.y = (y + f->glyphs['a'].height * (scaling));
-
-                    double width = br.x - tl.x;
-                    double height = br.y - tl.y;
-
-                    tl.x -= width;
-                    tl.y -= height / 2;
-
-                    br.x += width;
-                    br.y += height / 2;
+                    br.x = (x + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling);
+                    br.y = (y + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].height * (scaling));
 
                     swap(br.y, tl.y);
 
                     tile_blit_at(tile, 0, tl, br);
 
-                    x += f->glyphs['a'].width * scaling * advance;
-                    x += f->glyphs['a'].width * scaling * advance;
+                    x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
 
 		    found_format_string = false;
 		    continue;

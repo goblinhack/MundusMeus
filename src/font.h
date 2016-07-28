@@ -6,7 +6,7 @@
 
 #pragma once
 
-#define TTF_FIXED_WIDTH_CHAR '0'
+#define TTF_FIXED_WIDTH_CHAR 'Q'
 #define TTF_GLYPH_MIN ' '
 #define TTF_GLYPH_MAX 126
 #define TTF_TABSTOP 80.0
