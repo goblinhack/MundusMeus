@@ -761,6 +761,23 @@ static PyMethodDef python_c_METHODS[] =
     WID_DECL(wid_move_to_abs_poffset_in)
     WID_DECL(wid_move_to_pct_in)
 
+    WID_DECL(wid_move_delta)
+    WID_DECL(wid_move_to_abs)
+    WID_DECL(wid_move_to_abs_centered)
+    WID_DECL(wid_move_to_pct)
+    WID_DECL(wid_move_to_pct_centered)
+    WID_DECL(wid_move_to_vert_pct_in)
+    WID_DECL(wid_move_to_horiz_pct_in)
+
+    WID_DECL(wid_move_to_vert_pct)
+    WID_DECL(wid_move_to_horiz_pct)
+
+    WID_DECL(wid_move_to_bottom)
+    WID_DECL(wid_move_to_left)
+    WID_DECL(wid_move_to_right)
+    WID_DECL(wid_move_to_top)
+    WID_DECL(wid_move_end)
+
     TP_SET_DECL(tile)
     TP_SET_DECL(light_radius)
     TP_SET_DECL(z_depth)
