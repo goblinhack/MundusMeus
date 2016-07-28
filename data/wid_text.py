@@ -29,7 +29,6 @@ class WidText(wid.Wid):
         self.usable_h = self.height
 
         y = 0
-        print(row_width)
         for row in range(0, len(row_text)):
             text = row_text[row]
             font = row_font[row]

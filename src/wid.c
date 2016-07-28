@@ -8698,8 +8698,8 @@ static void wid_display (widp w,
                 double wid_h = br.y - tl.y;
                 double tile_w = wid_tiles->tile_w * wid_tiles->scale;
                 double tile_h = wid_tiles->tile_h * wid_tiles->scale;
-                int tiles_across = ceil(wid_w / tile_w);
-                int tiles_down = ceil(wid_h / tile_h);
+                int tiles_across = floor(wid_w / tile_w);
+                int tiles_down = floor(wid_h / tile_h);
                 int tile_x, tile_y;
 
                 point p, q;
@@ -8779,6 +8779,17 @@ static void wid_display (widp w,
 
                         q.x = p.x + tile_w;
                         q.y = p.y + tile_h;
+
+                        /*
+                         * Account for widgets that are now quite as wide as 
+                         * the tiles. Stretch the last tiles.
+                         */
+                        if (tile_y == tiles_down - 2) {
+                            q.y = br.y - tile_h;
+                        }
+                        if (tile_x == tiles_across - 2) {
+                            q.x = br.x - tile_w;
+                        }
 
                         swap(p.y, q.y);
                         tile_blit_at(tile, 0, p, q);

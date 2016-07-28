@@ -132,6 +132,7 @@ def wid_quit_create():
         w.add_text(font="small", color="yellow", text="01234")
         w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
         w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
+        w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
         w.update()
 
 
