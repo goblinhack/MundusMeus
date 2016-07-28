@@ -6149,17 +6149,29 @@ void wid_move_delta (widp w, double dx, double dy)
 
 void wid_move_to_bottom (widp w)
 {
-    wid_move_delta(w, 0, wid_get_br_y(w->parent) - wid_get_br_y(w));
+    if (w->parent) {
+        wid_move_delta(w, 0, wid_get_br_y(w->parent) - wid_get_br_y(w));
+    } else {
+        wid_move_delta(w, 0, game.video_gl_height - wid_get_br_y(w));
+    }
 }
 
 void wid_move_to_left (widp w)
 {
-    wid_move_delta(w, wid_get_tl_x(w->parent) - wid_get_tl_x(w), 0);
+    if (w->parent) {
+        wid_move_delta(w, wid_get_tl_x(w->parent) - wid_get_tl_x(w), 0);
+    } else {
+        wid_move_delta(w, - wid_get_tl_x(w), 0);
+    }
 }
 
 void wid_move_to_right (widp w)
 {
-    wid_move_delta(w, wid_get_br_x(w->parent) - wid_get_br_x(w), 0);
+    if (w->parent) {
+        wid_move_delta(w, wid_get_br_x(w->parent) - wid_get_br_x(w), 0);
+    } else {
+        wid_move_delta(w, game.video_gl_width - wid_get_br_x(w), 0);
+    }
 }
 
 void wid_move_to_vert_pct (widp w, double pct)
@@ -6245,7 +6257,11 @@ void wid_move_to_horiz_vert_pct_in (widp w, double x, double y, double in)
 
 void wid_move_to_top (widp w)
 {
-    wid_move_delta(w, 0, wid_get_tl_y(w->parent) - wid_get_tl_y(w));
+    if (w->parent) {
+        wid_move_delta(w, 0, wid_get_tl_y(w->parent) - wid_get_tl_y(w));
+    } else {
+        wid_move_delta(w, 0, - wid_get_tl_y(w));
+    }
 }
 
 static widp wid_joy_down_handler (int32_t x, int32_t y)

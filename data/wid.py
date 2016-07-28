@@ -92,7 +92,7 @@ class Wid:
     def dump(self):
         self.log("@ {0},{1}".format(self.x, self.y))
 
-    def wid_move_to_horiz_vert_pct_in(self, **kw):
+    def move_to_horiz_vert_pct_in(self, **kw):
         mm.wid_move_to_horiz_vert_pct_in(self, **kw)
 
     def move_to_abs_centered_in(self, **kw):
@@ -118,4 +118,47 @@ class Wid:
 
     def move_to_pct_in(self, **kw):
         mm.wid_move_to_pct_in(self, **kw)
+
+    def move_delta(self, **kw):
+        mm.wid_move_delta(self, **kw)
+
+    def move_to_abs(self, **kw):
+        mm.wid_move_to_abs(self, **kw)
+
+    def move_to_abs_centered(self, **kw):
+        mm.wid_move_to_abs_centered(self, **kw)
+
+    def move_to_pct(self, **kw):
+        mm.wid_move_to_pct(self, **kw)
+
+    def move_to_pct_centered(self, **kw):
+        mm.wid_move_to_pct_centered(self, **kw)
+
+    def move_to_vert_pct_in(self, **kw):
+        mm.wid_move_to_vert_pct_in(self, **kw)
+
+    def move_to_horiz_pct_in(self, **kw):
+        mm.wid_move_to_horiz_pct_in(self, **kw)
+
+    def move_to_vert_pct(self, **kw):
+        mm.wid_move_to_vert_pct(self, **kw)
+
+    def move_to_horiz_pct(self, **kw):
+        mm.wid_move_to_horiz_pct(self, **kw)
+
+    def move_to_bottom(self, **kw):
+        mm.wid_move_to_bottom(self, **kw)
+
+    def move_to_left(self, **kw):
+        mm.wid_move_to_left(self, **kw)
+
+    def move_to_right(self, **kw):
+        mm.wid_move_to_right(self, **kw)
+
+    def move_to_top(self, **kw):
+        mm.wid_move_to_top(self, **kw)
+
+    def move_end(self, **kw):
+        mm.wid_move_end(self, **kw)
+
 

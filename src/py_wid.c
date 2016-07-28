@@ -45,8 +45,6 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
     }
 
     parent = (widp) i_parent;
-    verify(parent);
-
     if (parent) {
         w = wid_new_container(parent, name);
     } else {
@@ -841,6 +839,86 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
+#define WID_BODY_DOUBLE_DOUBLE_FN(__fn__, n1, n2)                               \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    PyObject *py_class = 0;	                                                \
+    widp w;                                                                     \
+    double d1 = 0;                                                              \
+    double d2 = 0;                                                              \
+	                                                                        \
+    static char *kwlist[] = {"wid_id", #n1, #n2, 0};                            \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dd", kwlist, &py_class,   \
+                                     &d1, &d2)) {	                        \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");              \
+    verify(w);                                                                  \
+	                                                                        \
+    (__fn__)(w, d1, d2);                                                        \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+#define WID_BODY_DOUBLE_FN(__fn__, n1)                                          \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    PyObject *py_class = 0;	                                                \
+    widp w;                                                                     \
+    double d1 = 0;                                                              \
+	                                                                        \
+    static char *kwlist[] = {"wid_id", #n1, 0};                                 \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|d", kwlist, &py_class,    \
+                                     &d1)) {	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");              \
+    verify(w);                                                                  \
+	                                                                        \
+    (__fn__)(w, d1);                                                            \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+#define WID_BODY_VOID_FN(__fn__)                                                \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    PyObject *py_class = 0;	                                                \
+    widp w;                                                                     \
+	                                                                        \
+    static char *kwlist[] = {"wid_id", 0};                                      \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, &py_class)) {	\
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");              \
+    verify(w);                                                                  \
+	                                                                        \
+    (__fn__)(w);                                                                \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
 WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_horiz_vert_pct_in, x, y, delay)
 WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_abs_centered_in, x, y, delay)
 WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_centered_in, x, y, delay)
@@ -850,19 +928,20 @@ WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_delta_in, x, y, delay)
 WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_pct_centered_in, x, y, delay)
 WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_abs_poffset_in, x, y, delay)
 WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_pct_in, x, y, delay)
-#if 0
-void wid_move_delta(widp, double x, double y);
-void wid_move_to_abs(widp, double x, double y);
-void wid_move_to_abs_centered(widp, double x, double y);
-void wid_move_to_pct(widp, double x, double y);
-void wid_move_to_pct_centered(widp, double x, double y);
-void wid_move_to_vert_pct(widp, double pct);
-void wid_move_to_horiz_pct(widp, double pct);
-void wid_move_to_vert_pct_in(widp, double pct, double delay);
-void wid_move_to_horiz_pct_in(widp, double pct, double delay);
-void wid_move_to_bottom(widp);
-void wid_move_to_left(widp);
-void wid_move_to_right(widp);
-void wid_move_to_top(widp);
-void wid_move_end(widp);
-#endif
+
+WID_BODY_DOUBLE_DOUBLE_FN(wid_move_delta, x, y)
+WID_BODY_DOUBLE_DOUBLE_FN(wid_move_to_abs, x, y)
+WID_BODY_DOUBLE_DOUBLE_FN(wid_move_to_abs_centered, x, y)
+WID_BODY_DOUBLE_DOUBLE_FN(wid_move_to_pct, x, y)
+WID_BODY_DOUBLE_DOUBLE_FN(wid_move_to_pct_centered, x, y)
+WID_BODY_DOUBLE_DOUBLE_FN(wid_move_to_vert_pct_in, pct, delay)
+WID_BODY_DOUBLE_DOUBLE_FN(wid_move_to_horiz_pct_in, pct, delay)
+
+WID_BODY_DOUBLE_FN(wid_move_to_vert_pct, pct)
+WID_BODY_DOUBLE_FN(wid_move_to_horiz_pct, pct)
+
+WID_BODY_VOID_FN(wid_move_to_bottom)
+WID_BODY_VOID_FN(wid_move_to_left)
+WID_BODY_VOID_FN(wid_move_to_right)
+WID_BODY_VOID_FN(wid_move_to_top)
+WID_BODY_VOID_FN(wid_move_end)
