@@ -24,6 +24,15 @@ class Wid:
         mm.wid_destroy_in(self, **kw)
         del self
 
+    def fade_in(self, **kw):
+        mm.wid_fade_in(self, **kw)
+
+    def fade_out(self, **kw):
+        mm.wid_fade_out(self, **kw)
+
+    def fade_in_out(self, **kw):
+        mm.wid_fade_in_out(self, **kw)
+
     def set_shape(self, **kw):
         mm.wid_set_shape(self, **kw)
 

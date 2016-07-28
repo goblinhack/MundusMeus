@@ -252,7 +252,7 @@ void wid_set_context3(widp w, void *context);
 void wid_fade_in(widp, uint32_t delay);
 void wid_fade_out(widp, uint32_t delay);
 void wid_fade_in_out(widp w, uint32_t delay, uint32_t repeat, 
-                     uint8_t fade_in_firs);
+                     uint8_t fade_in_first);
 void wid_get_children_size(widp, double *width, double *height);
 void wid_get_offset(widp, fpoint *offset);
 void wid_get_tl_br(widp, fpoint *tl, fpoint *br);

@@ -894,17 +894,19 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define WID_BODY_INT_FN(__fn__, n1)                                             \
+#define WID_BODY_INT_INT_INT_FN(__fn__, n1, n2, n3)                             \
 PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
     widp w;                                                                     \
-    int d1 = 0;                                                                 \
+    int n1 = 0;                                                                 \
+    int n2 = 0;                                                                 \
+    int n3 = 0;                                                                 \
 	                                                                        \
-    static char *kwlist[] = {"wid_id", #n1, 0};                                 \
+    static char *kwlist[] = {"wid_id", #n1, #n2, #n3, 0};                       \
 	                                                                        \
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, &py_class,    \
-                                     &d1)) {	                                \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|iii", kwlist, &py_class,  \
+                                     &n1, &n2, &n3)) {	                        \
         return (0);	                                                        \
     }	                                                                        \
 	                                                                        \
@@ -916,7 +918,34 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");              \
     verify(w);                                                                  \
 	                                                                        \
-    (__fn__)(w, d1);                                                            \
+    (__fn__)(w, n1, n2, n3);                                                    \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+#define WID_BODY_INT_FN(__fn__, n1)                                             \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    PyObject *py_class = 0;	                                                \
+    widp w;                                                                     \
+    int n1 = 0;                                                                 \
+	                                                                        \
+    static char *kwlist[] = {"wid_id", #n1, 0};                                 \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, &py_class,    \
+                                     &n1)) {	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");              \
+    verify(w);                                                                  \
+	                                                                        \
+    (__fn__)(w, n1);                                                            \
 	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
@@ -968,6 +997,9 @@ WID_BODY_DOUBLE_FN(wid_move_to_vert_pct, pct)
 WID_BODY_DOUBLE_FN(wid_move_to_horiz_pct, pct)
 
 WID_BODY_INT_FN(wid_destroy_in, delay)
+WID_BODY_INT_FN(wid_fade_in, delay)
+WID_BODY_INT_FN(wid_fade_out, delay)
+WID_BODY_INT_INT_INT_FN(wid_fade_in_out, delay, repeat, fade_in_first)
 
 WID_BODY_VOID_FN(wid_move_to_bottom)
 WID_BODY_VOID_FN(wid_move_to_left)

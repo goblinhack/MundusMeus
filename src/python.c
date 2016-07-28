@@ -779,6 +779,9 @@ static PyMethodDef python_c_METHODS[] =
     WID_DECL(wid_move_end)
 
     WID_DECL(wid_destroy_in)
+    WID_DECL(wid_fade_in)
+    WID_DECL(wid_fade_out)
+    WID_DECL(wid_fade_in_out)
 
     WID_DECL(wid_destroy_grid)
     WID_DECL(wid_detach_from_grid)
