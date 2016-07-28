@@ -161,4 +161,43 @@ class Wid:
     def move_end(self, **kw):
         mm.wid_move_end(self, **kw)
 
+    def destroy_grid(self, **kw):
+        mm.wid_destroy_grid(self, **kw)
+
+    def detach_from_grid(self, **kw):
+        mm.wid_detach_from_grid(self, **kw)
+
+    def attach_to_grid(self, **kw):
+        mm.wid_attach_to_grid(self, **kw)
+
+    def empty_grid(self, **kw):
+        mm.wid_empty_grid(self, **kw)
+
+    def scroll_text(self, **kw):
+        mm.wid_scroll_text(self, **kw)
+
+    def set_focus(self, **kw):
+        mm.wid_set_focus(self, **kw)
+
+    def focus_lock(self, **kw):
+        mm.wid_focus_lock(self, **kw)
+
+    def effect_pulses(self, **kw):
+        mm.wid_effect_pulses(self, **kw)
+
+    def effect_pulse_forever(self, **kw):
+        mm.wid_effect_pulse_forever(self, **kw)
+
+    def effect_pulse_stop(self, **kw):
+        mm.wid_effect_pulse_stop(self, **kw)
+
+    def blit_effect_pulses(self, **kw):
+        mm.wid_blit_effect_pulses(self, **kw)
+
+    def effect_sways(self, **kw):
+        mm.wid_effect_sways(self, **kw)
+
+    def animate(self, **kw):
+        mm.wid_animate(self, **kw)
+
 

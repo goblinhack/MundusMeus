@@ -136,7 +136,6 @@ def wid_quit_create():
         w.move_to_pct_centered_in(x=0.5, y=0.5, delay=100)
         w.move_end()
         w.move_to_top()
-        w.move_to_left()
 
 
 def init2():
