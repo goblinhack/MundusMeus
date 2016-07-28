@@ -2,6 +2,7 @@ import traceback
 import mm
 import wid
 import wid_text
+import math
 
 
 class WidPopup(wid.Wid):
@@ -18,11 +19,12 @@ class WidPopup(wid.Wid):
 
         if tiles != None:
             super().__init__(name, tiles=tiles, parent=parent)
-            tile_size = mm.tile_size_pct(tiles + "-tl")
-            self.pad_w = tile_size[0] * 0.5
-            self.pad_h = tile_size[1] * 0.5
+            self.tile_size = mm.tile_size_pct(tiles + "-tl")
+            self.pad_w = self.tile_size[0] * 0.5
+            self.pad_h = self.tile_size[1] * 0.5
         else:
             super().__init__(name, parent=parent)
+            self.tile_size = None
             self.pad_w = 0
             self.pad_h = 0
 
@@ -53,13 +55,14 @@ class WidPopup(wid.Wid):
 
         text_w, text_h, self.row_width = wid_text.text_size_pct(row_text=self.row_text,
                                                                 row_font=self.row_font)
-
-        self.h = text_h + self.pad_h * 2
-
         if self.width != 0.0:
-            self.w = self.width + self.pad_w * 2
+            self.w = self.width
         else:
-            self.w = text_w + self.pad_w * 2
+            self.w = text_w
+        self.h = text_h
+
+        self.w += self.pad_w * 2
+        self.h += self.pad_h * 2
 
         self.set_tl_br_pct(self.x1, self.y1, 
                            self.x1 + self.w,
@@ -71,7 +74,7 @@ class WidPopup(wid.Wid):
         inner_pad_h *= 1.0 / self.h
 
         textbox_x1 = inner_pad_w
-        textbox_y1 = inner_pad_h * 0.8 # to account for the widget shadow
+        textbox_y1 = inner_pad_h * 0.9 # to account for the widget shadow
         textbox_x2 = 1.0 - inner_pad_w
         textbox_y2 = 1.0 - inner_pad_h * 0.9 # again, shadow padding
 
