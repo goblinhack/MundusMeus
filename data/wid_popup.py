@@ -9,14 +9,12 @@ class WidPopup(wid.Wid):
     def __init__(self, name, 
                  x1, y1, 
                  width=0.0,
-                 font="small",
                  tiles=None,
                  parent=0, 
                  **kw):
 
         self.parent = parent
         self.name = name
-        self.font = font
 
         if tiles != None:
             super().__init__(name, tiles=tiles, parent=parent)
@@ -28,21 +26,28 @@ class WidPopup(wid.Wid):
             self.pad_w = 0
             self.pad_h = 0
 
-        self.text_index = 0
+        self.row_count = 0
         self.all_text = ""
 
         self.x1 = x1
         self.y1 = y1
         self.width = width
+        self.row_font = []
+        self.row_color = []
+        self.row_text = []
 
-    def add_text(self, text):
+    def add_text(self, text, font="small", color="white"):
 
-        self.text_index += 1
         self.all_text += text
+        self.row_text.append(text)
+        self.row_font.append(font)
+        self.row_color.append(color)
+        self.row_count += 1
 
     def update(self):
 
-        text_w, text_h = wid_text.text_size_pct(text=self.all_text, font=self.font)
+        text_w, text_h = wid_text.text_size_pct(row_text=self.row_text, 
+                                                row_font=self.row_font)
 
         self.h = text_h + self.pad_h * 2
 
@@ -60,14 +65,18 @@ class WidPopup(wid.Wid):
         inner_pad_w *= 1.0 / self.w
         inner_pad_h *= 1.0 / self.h
 
+        textbox_x1 = inner_pad_w
+        textbox_y1 = inner_pad_h * 0.8 # to account for the widget shadow
+        textbox_x2 = 1.0 - inner_pad_w
+        textbox_y2 = 1.0 - inner_pad_h * 0.9 # again, shadow padding
+
         self.text_box = wid_text.WidText(name="textbox", 
-                                         text=self.all_text,
-                                         font=self.font,
+                                         row_text=self.row_text,
+                                         row_font=self.row_font,
+                                         row_color=self.row_color,
                                          parent=self.wid_id,
-                                         x1=inner_pad_w,
-                                         y1=inner_pad_h,
-                                         x2=1.0 - inner_pad_w,
-                                         y2=1.0 - inner_pad_h)
+                                         x1=textbox_x1, y1=textbox_y1, 
+                                         x2=textbox_x2, y2=textbox_y2)
 
         super().update()
 

@@ -110,7 +110,6 @@ def wid_intro_menu_create():
 
     if wid_intro_menu is None:
         w = wid_popup.WidPopup(name="test", 
-                               font="vlarge", 
                                x1=0.2, y1=0.5)
         wid_intro_menu = w
 
@@ -124,15 +123,16 @@ def wid_quit_create():
 
     if wid_quit_menu is None:
         w = wid_popup.WidPopup(name="test",
-                               font="vlarge", 
                                tiles="wid1",
                                x1=0.2, y1=0.2,
                                width=0.5)
         wid_quit_menu = w
 
-        w.add_text(text="Quit the game?\n")
-        w.add_text(text="%%fg=green$a) %%fg=white$quit\n")
-        w.add_text(text="%%fg=green$b) %%fg=white$nope, keep on going\n")
+        w.add_text(font="vlarge", color="white", text="Quit the game?")
+        w.add_text(font="small", color="red", text="01234")
+        w.add_text(font="small", color="yellow", text="01234")
+        w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
+        w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
         w.update()
 
 
