@@ -32,22 +32,27 @@ class WidPopup(wid.Wid):
         self.x1 = x1
         self.y1 = y1
         self.width = width
+        self.row_text = []
         self.row_font = []
         self.row_color = []
-        self.row_text = []
+        self.row_center = []
+        self.row_rhs = []
+        self.row_width = []
 
-    def add_text(self, text, font="small", color="white"):
+    def add_text(self, text, font="small", color="white", center=False, rhs=False):
 
         self.all_text += text
         self.row_text.append(text)
         self.row_font.append(font)
         self.row_color.append(color)
+        self.row_center.append(center)
+        self.row_rhs.append(rhs)
         self.row_count += 1
 
     def update(self):
 
-        text_w, text_h = wid_text.text_size_pct(row_text=self.row_text, 
-                                                row_font=self.row_font)
+        text_w, text_h, self.row_width = wid_text.text_size_pct(row_text=self.row_text,
+                                                                row_font=self.row_font)
 
         self.h = text_h + self.pad_h * 2
 
@@ -74,6 +79,9 @@ class WidPopup(wid.Wid):
                                          row_text=self.row_text,
                                          row_font=self.row_font,
                                          row_color=self.row_color,
+                                         row_center=self.row_center,
+                                         row_rhs=self.row_rhs,
+                                         row_width=self.row_width,
                                          parent=self.wid_id,
                                          x1=textbox_x1, y1=textbox_y1, 
                                          x2=textbox_x2, y2=textbox_y2)
