@@ -71,6 +71,9 @@ WID_PROTO(wid_move_to_top)
 WID_PROTO(wid_move_end)
 
 WID_PROTO(wid_destroy_in)
+WID_PROTO(wid_fade_in)
+WID_PROTO(wid_fade_out)
+WID_PROTO(wid_fade_in_out)
 
 WID_PROTO(wid_destroy_grid)
 WID_PROTO(wid_detach_from_grid)
