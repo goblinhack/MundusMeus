@@ -778,6 +778,8 @@ static PyMethodDef python_c_METHODS[] =
     WID_DECL(wid_move_to_top)
     WID_DECL(wid_move_end)
 
+    WID_DECL(wid_destroy_in)
+
     WID_DECL(wid_destroy_grid)
     WID_DECL(wid_detach_from_grid)
     WID_DECL(wid_attach_to_grid)

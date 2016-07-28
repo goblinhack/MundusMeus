@@ -19,6 +19,11 @@ class Wid:
         mm.wid_destroy(self)
         del self
 
+    def destroy_in(self, **kw):
+        self.log("Destroying delay")
+        mm.wid_destroy_in(self, **kw)
+        del self
+
     def set_shape(self, **kw):
         mm.wid_set_shape(self, **kw)
 
