@@ -43,3 +43,13 @@ PyObject *tile_get_size_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *tile_get_size_pct_(PyObject *obj, PyObject *args, PyObject *keywds);
 
 PyObject *wid_tiles_load_(PyObject *obj, PyObject *args, PyObject *keywds);
+
+#define PY_PROTO(__fn__)                                                    \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds);
+
+#define PY_DECL(__fn__)                                                     \
+    {#__fn__,                                                               \
+     (PyCFunction)__fn__ ## _,                                              \
+     METH_VARARGS | METH_KEYWORDS,                                          \
+     "call " #__fn__ " "},                                                  \
+

@@ -33,6 +33,18 @@ class Wid:
     def fade_in_out(self, **kw):
         mm.wid_fade_in_out(self, **kw)
 
+    def visible(seld, **kw):
+        mm.wid_visible(self, **kw)
+
+    def hide(seld, **kw):
+        mm.wid_hide(self, **kw)
+
+    def toggle_hidden(seld, **kw):
+        mm.wid_toggle_hidden(self, **kw)
+
+    def mouse_hide(seld, **kw):
+        mm.wid_mouse_hide(self, **kw)
+
     def set_shape(self, **kw):
         mm.wid_set_shape(self, **kw)
 
@@ -214,4 +226,6 @@ class Wid:
     def animate(self, **kw):
         mm.wid_animate(self, **kw)
 
+def mouse_hide(**kw):
+    mm.wid_mouse_hide(**kw)
 
