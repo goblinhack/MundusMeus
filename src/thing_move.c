@@ -108,7 +108,7 @@ void thing_wid_move (thingp t,
     }
 
     if (smooth) {
-        wid_move_to_abs_poffset_in(w, tl, ms);
+        wid_move_to_abs_poffset_in(w, tl.x, tl.y, ms);
     } else {
         wid_set_tl_br(w, tl, br);
     }

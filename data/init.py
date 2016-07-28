@@ -124,7 +124,6 @@ def wid_quit_create():
     if wid_quit_menu is None:
         w = wid_popup.WidPopup(name="test",
                                tiles="wid1",
-                               x1=0.2, y1=0.2,
                                width=0.5)
         wid_quit_menu = w
 
@@ -134,6 +133,7 @@ def wid_quit_create():
         w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
         w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
         w.update()
+        w.move_to_pct_centered_in(x=0.5, y=0.5, delay=100)
 
 
 def init2():

@@ -9950,7 +9950,7 @@ void wid_move_to_abs_in (widp w, double x, double y, uint32_t ms)
     wid_move_enqueue(w, wid_get_tl_x(w), wid_get_tl_y(w), x, y, ms);
 }
 
-void wid_move_to_abs_poffset_in (widp w, fpoint tl, uint32_t ms)
+void wid_move_to_abs_poffset_in (widp w, double x, double y, uint32_t ms)
 {
     fast_verify(w);
 
@@ -9959,11 +9959,11 @@ void wid_move_to_abs_poffset_in (widp w, fpoint tl, uint32_t ms)
      */
     widp p = w->parent;
     if (p) {
-        tl.x += wid_get_tl_x(p);
-        tl.y += wid_get_tl_y(p);
+        x += wid_get_tl_x(p);
+        y += wid_get_tl_y(p);
     }
 
-    wid_move_enqueue(w, wid_get_tl_x(w), wid_get_tl_y(w), tl.x, tl.y, ms);
+    wid_move_enqueue(w, wid_get_tl_x(w), wid_get_tl_y(w), x, y, ms);
 }
 
 void wid_move_delta_in (widp w, double dx, double dy, uint32_t ms)

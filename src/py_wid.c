@@ -811,3 +811,58 @@ PyObject *wid_get_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     return (Py_BuildValue("dd", width, height));
 }
+
+#define WID_BODY_DOUBLE_DOUBLE_INT_FN(__fn__, n1, n2, n3)                       \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    PyObject *py_class = 0;	                                                \
+    widp w;                                                                     \
+    double d1 = 0;                                                              \
+    double d2 = 0;                                                              \
+    int i1 = 0;                                                                 \
+	                                                                        \
+    static char *kwlist[] = {"wid_id", #n1, #n2, #n3, 0};                       \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ddi", kwlist, &py_class,  \
+                                     &d1, &d2, &i1)) {	                        \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");              \
+    verify(w);                                                                  \
+	                                                                        \
+    (__fn__)(w, d1, d2, i1);                                                    \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_horiz_vert_pct_in, x, y, delay)
+WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_abs_centered_in, x, y, delay)
+WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_centered_in, x, y, delay)
+WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_delta_pct_in, x, y, delay)
+WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_abs_in, x, y, delay)
+WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_delta_in, x, y, delay)
+WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_pct_centered_in, x, y, delay)
+WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_abs_poffset_in, x, y, delay)
+WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_pct_in, x, y, delay)
+#if 0
+void wid_move_delta(widp, double x, double y);
+void wid_move_to_abs(widp, double x, double y);
+void wid_move_to_abs_centered(widp, double x, double y);
+void wid_move_to_pct(widp, double x, double y);
+void wid_move_to_pct_centered(widp, double x, double y);
+void wid_move_to_vert_pct(widp, double pct);
+void wid_move_to_horiz_pct(widp, double pct);
+void wid_move_to_vert_pct_in(widp, double pct, double delay);
+void wid_move_to_horiz_pct_in(widp, double pct, double delay);
+void wid_move_to_bottom(widp);
+void wid_move_to_left(widp);
+void wid_move_to_right(widp);
+void wid_move_to_top(widp);
+void wid_move_end(widp);
+#endif

@@ -279,7 +279,7 @@ void wid_move_to_horiz_pct(widp w, double pct);
 void wid_move_to_vert_pct_in(widp w, double pct, double in);
 void wid_move_to_horiz_pct_in(widp w, double pct, double in);
 void wid_move_to_horiz_vert_pct_in(widp w, double x, double y, double in);
-void wid_move_to_abs_poffset_in(widp w, fpoint tl, uint32_t delay);
+void wid_move_to_abs_poffset_in(widp w, double x, double y, uint32_t delay);
 void wid_get_move_interpolated_progress(widp w, double *dx, double *dy);
 
 double wid_get_scaling_w(widp);

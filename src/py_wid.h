@@ -33,3 +33,22 @@ PyObject *wid_set_movable_horiz_(PyObject *obj, PyObject *args, PyObject *keywds
 PyObject *wid_set_movable_vert_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_get_size_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_get_size_pct_(PyObject *obj, PyObject *args, PyObject *keywds);
+
+#define WID_PROTO(__fn__)                                                   \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds);
+
+#define WID_DECL(__fn__)                                                    \
+    {#__fn__,                                                               \
+     (PyCFunction)__fn__ ## _,                                              \
+     METH_VARARGS | METH_KEYWORDS,                                          \
+     "call " #__fn__ " in a wid"},                                          \
+
+WID_PROTO(wid_move_to_horiz_vert_pct_in)
+WID_PROTO(wid_move_to_abs_centered_in)
+WID_PROTO(wid_move_to_centered_in)
+WID_PROTO(wid_move_delta_pct_in)
+WID_PROTO(wid_move_to_abs_in)
+WID_PROTO(wid_move_delta_in)
+WID_PROTO(wid_move_to_pct_centered_in)
+WID_PROTO(wid_move_to_abs_poffset_in)
+WID_PROTO(wid_move_to_pct_in)
