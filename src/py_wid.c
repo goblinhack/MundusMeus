@@ -975,96 +975,177 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-static void wid_set_on_tooltip_callback (widp w, widp o)
+static void wid_set_on_tooltip_callback (widp w, widp tooltip)
 {
-    CON("wid_set_on_tooltip_callback");
+    py_call_void_module_ptr_ptr("wid", 
+                                "on_tooltip_callback", 
+                                w,
+                                tooltip);
 }
 
 static void wid_set_on_mouse_focus_begin_callback (widp w)
 {
-    CON("wid_set_on_mouse_focus_begin_callback");
+    py_call_void_module_ptr("wid", 
+                            "on_focus_begin_callback", 
+                            w);
 }
 
 static void wid_set_on_mouse_focus_end_callback (widp w)
 {
-    CON("wid_set_on_mouse_focus_end_callback");
+    py_call_void_module_ptr("wid", 
+                            "on_focus_end_callback", 
+                            w);
 }
 
 static void wid_set_on_mouse_over_begin_callback (widp w, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
 {
-    CON("wid_set_on_mouse_over_begin_callback");
+    py_call_void_module_ptr_iiii("wid", 
+                                 "on_mouse_over_begin_callback", 
+                                 w,
+                                 relx, rely,
+                                 wheelx, wheely);
 }
 
 static void wid_set_on_mouse_over_end_callback (widp w)
 {
-    CON("wid_set_on_mouse_over_end_callback");
+    py_call_void_module_ptr("wid", 
+                            "on_mouse_over_end_callback", 
+                            w);
 }
 
 static uint8_t wid_set_on_joy_button_callback (widp w, int32_t x, int32_t y)
 {
-    CON("wid_set_on_joy_button_callback");
-    return (false);
+    int button_a = sdl_joy_buttons[SDL_JOY_BUTTON_A] ? 1 : 0;
+    int button_b = sdl_joy_buttons[SDL_JOY_BUTTON_B] ? 1 : 0;
+    int button_x = sdl_joy_buttons[SDL_JOY_BUTTON_X] ? 1 : 0;
+    int button_y = sdl_joy_buttons[SDL_JOY_BUTTON_Y] ? 1 : 0;
+    int button_top_left = sdl_joy_buttons[SDL_JOY_BUTTON_TOP_LEFT] ? 1 : 0;
+    int button_top_right = sdl_joy_buttons[SDL_JOY_BUTTON_TOP_RIGHT] ? 1 : 0;
+    int button_left_stick_down = sdl_joy_buttons[SDL_JOY_BUTTON_LEFT_STICK_DOWN] ? 1 : 0;
+    int button_right_stick_down = sdl_joy_buttons[SDL_JOY_BUTTON_RIGHT_STICK_DOWN] ? 1 : 0;
+    int button_start = sdl_joy_buttons[SDL_JOY_BUTTON_START] ? 1 : 0;
+    int button_xbox = sdl_joy_buttons[SDL_JOY_BUTTON_XBOX] ? 1 : 0;
+    int button_back = sdl_joy_buttons[SDL_JOY_BUTTON_BACK] ? 1 : 0;
+    int button_up = sdl_joy_buttons[SDL_JOY_BUTTON_UP] ? 1 : 0;
+    int button_down = sdl_joy_buttons[SDL_JOY_BUTTON_DOWN] ? 1 : 0;
+    int button_left = sdl_joy_buttons[SDL_JOY_BUTTON_LEFT] ? 1 : 0;
+    int button_right = sdl_joy_buttons[SDL_JOY_BUTTON_RIGHT] ? 1 : 0;
+    int button_left_fire = sdl_joy_buttons[SDL_JOY_BUTTON_LEFT_FIRE] ? 1 : 0;
+    int button_right_fire = sdl_joy_buttons[SDL_JOY_BUTTON_RIGHT_FIRE] ? 1 : 0;
+
+    py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii("wid", 
+                                    "on_joy_button_callback", 
+                                    w,
+                                    x, y,
+                                    button_a,
+                                    button_b,
+                                    button_x,
+                                    button_y,
+                                    button_top_left,
+                                    button_top_right,
+                                    button_left_stick_down,
+                                    button_right_stick_down,
+                                    button_start,
+                                    button_xbox,
+                                    button_back,
+                                    button_up,
+                                    button_down,
+                                    button_left,
+                                    button_right,
+                                    button_left_fire,
+                                    button_right_fire);
+    return (true);
 }
 
 static uint8_t wid_set_on_mouse_down_callback (widp w, int32_t x, int32_t y, uint32_t button)
 {
-    CON("wid_set_on_mouse_down_callback");
-    return (false);
+    int ret;
+
+    ret = py_call_int_module_ptr_iii("wid", 
+                                     "on_mouse_down_callback", 
+                                     w,
+                                     x, y, button);
+    return (ret);
 }
 
 static uint8_t wid_set_on_mouse_up_callback (widp w, int32_t x, int32_t y, uint32_t button)
 {
-    CON("wid_set_on_mouse_up_callback");
-    return (false);
+    int ret;
+
+    ret = py_call_int_module_ptr_iii("wid", 
+                                     "on_mouse_up_callback", 
+                                     w,
+                                     x, y, button);
+    return (ret);
 }
 
 static uint8_t wid_set_on_mouse_motion_callback (widp w, int32_t x, int32_t y, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
 {
     int ret = 
         py_call_int_module_ptr_iiiiii("wid", 
-                                                       "on_mouse_motion_callback", 
-                                                       w,
-                                                       x, y,
-                                                       relx, rely,
-                                                       wheelx, wheely);
+                                      "on_mouse_motion_callback", 
+                                      w,
+                                      x, y,
+                                      relx, rely,
+                                      wheelx, wheely);
     return (ret);
 }
 
 static uint8_t wid_set_on_key_down_callback (widp w, const struct SDL_KEYSYM *k)
 {
-    CON("wid_set_on_key_down_callback");
-    return (false);
+    int ret;
+
+    ret = py_call_int_module_ptr_ii("wid", 
+                                    "on_key_down_callback", 
+                                    w,
+                                    k->sym, k->mod);
+    return (ret);
 }
 
 static uint8_t wid_set_on_key_up_callback (widp w, const struct SDL_KEYSYM *k)
 {
-    CON("wid_set_on_key_up_callback");
-    return (false);
+    int ret;
+
+    ret = py_call_int_module_ptr_ii("wid", 
+                                    "on_key_up_callback", 
+                                    w,
+                                    k->sym, k->mod);
+    return (ret);
 }
 
 static void wid_set_on_destroy_callback (widp w)
 {
-    CON("wid_set_on_destroy_callback");
+    py_call_void_module_ptr("wid", 
+                            "on_destroy_callback", 
+                            w);
 }
 
 static void wid_set_on_destroy_begin_callback (widp w)
 {
-    CON("wid_set_on_destroy_begin_callback");
+    py_call_void_module_ptr("wid", 
+                            "on_destroy_begin_callback", 
+                            w);
 }
 
 static void wid_set_on_tick_callback (widp w)
 {
-    CON("wid_set_on_tick_callback");
+    py_call_void_module_ptr("wid", 
+                            "on_tick_callback", 
+                            w);
 }
 
 static void wid_set_on_display_top_level_callback (widp w)
 {
-    CON("wid_set_on_display_top_level_callback");
+    py_call_void_module_ptr("wid", 
+                            "on_display_top_level_callback", 
+                            w);
 }
 
 static void wid_set_on_display_callback (widp w, fpoint tl, fpoint br)
 {
-    CON("wid_set_on_display_callback");
+    py_call_void_module_ptr("wid", 
+                            "on_display_callback", 
+                            w);
 }
 
 #define WID_BODY_ON_CALLBACK_FN(__fn__)                                         \
