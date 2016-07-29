@@ -132,7 +132,6 @@ PY_BODY_INT_FN(wid_mouse_hide, value)
 
 void py_call_void_module_int (const char *module, const char *name, int val1)
 {
-    LOG("c-to-python: %s.%s(%d)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -171,7 +170,6 @@ void py_call_void_module_int (const char *module, const char *name, int val1)
 
 void py_call_void_int (const char *name, int val1)
 {
-    LOG("c-to-python: %s(%d)", name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -193,7 +191,6 @@ void py_call_void_int (const char *name, int val1)
 
 void py_call_void (const char *name)
 {
-    LOG("c-to-python: %s()", name);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -215,7 +212,6 @@ int py_call_int_module_ptr_iiiiii (const char *module, const char *name, void *v
 {
     int ret = -1;
 
-    LOG("c-to-python: %s.%s(%p)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -260,7 +256,6 @@ int py_call_int_module_ptr_iiiii (const char *module, const char *name, void *va
 {
     int ret = -1;
 
-    LOG("c-to-python: %s.%s(%p)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -305,7 +300,6 @@ int py_call_int_module_ptr_iiii (const char *module, const char *name, void *val
 {
     int ret = -1;
 
-    LOG("c-to-python: %s.%s(%p)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -350,7 +344,6 @@ int py_call_int_module_ptr_iii (const char *module, const char *name, void *val1
 {
     int ret = -1;
 
-    LOG("c-to-python: %s.%s(%p)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -395,7 +388,6 @@ int py_call_int_module_ptr_ii (const char *module, const char *name, void *val1,
 {
     int ret = -1;
 
-    LOG("c-to-python: %s.%s(%p)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -440,7 +432,6 @@ int py_call_int_module_ptr_int (const char *module, const char *name, void *val1
 {
     int ret = -1;
 
-    LOG("c-to-python: %s.%s(%p)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -481,11 +472,331 @@ int py_call_int_module_ptr_int (const char *module, const char *name, void *val1
     return (ret);
 }
 
+void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii (const char *module, 
+                                                  const char *name, 
+                                                  void *val1, 
+                                                  int val2,
+                                                  int val3,
+                                                  int val4,
+                                                  int val5,
+                                                  int val6,
+                                                  int val7,
+                                                  int val8,
+                                                  int val9,
+                                                  int val10,
+                                                  int val11,
+                                                  int val12,
+                                                  int val13,
+                                                  int val14,
+                                                  int val15,
+                                                  int val16,
+                                                  int val17,
+                                                  int val18,
+                                                  int val19,
+                                                  int val20)
+{
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(Kiiiiiiiiiiiiiiiiiii)", 
+                                        (uintptr_t) val1, 
+                                        val2,
+                                        val3,
+                                        val4,
+                                        val5,
+                                        val6,
+                                        val7,
+                                        val8,
+                                        val9,
+                                        val10,
+                                        val11,
+                                        val12,
+                                        val13,
+                                        val14,
+                                        val15,
+                                        val16,
+                                        val17,
+                                        val18,
+                                        val19,
+                                        val20);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return;
+}
+
+void py_call_void_module_ptr_iiiiii (const char *module, const char *name, void *val1, int val2, int val3, int val4, int val5, int val6, int val7)
+{
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(Kiiiiii)", (uintptr_t) val1, val2, val3, val4, val5, val6, val7);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return;
+}
+
+void py_call_void_module_ptr_iiiii (const char *module, const char *name, void *val1, int val2, int val3, int val4, int val5, int val6)
+{
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(Kiiiii)", (uintptr_t) val1, val2, val3, val4, val5, val6);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return;
+}
+
+void py_call_void_module_ptr_iiii (const char *module, const char *name, void *val1, int val2, int val3, int val4, int val5)
+{
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(Kiiii)", (uintptr_t) val1, val2, val3, val4, val5);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return;
+}
+
+void py_call_void_module_ptr_iii (const char *module, const char *name, void *val1, int val2, int val3, int val4)
+{
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(Kiii)", (uintptr_t) val1, val2, val3, val4);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return;
+}
+
+void py_call_void_module_ptr_ii (const char *module, const char *name, void *val1, int val2, int val3)
+{
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(Kii)", (uintptr_t) val1, val2, val3);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return;
+}
+
+void py_call_void_module_ptr_int (const char *module, const char *name, void *val1, int val2)
+{
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(Ki)", (uintptr_t) val1, val2);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return;
+}
+
 int py_call_int_module_ptr (const char *module, const char *name, void *val1)
 {
     int ret = -1;
 
-    LOG("c-to-python: %s.%s(%p)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -526,11 +837,138 @@ int py_call_int_module_ptr (const char *module, const char *name, void *val1)
     return (ret);
 }
 
+void py_call_void_module_ptr (const char *module, const char *name, void *val1)
+{
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(K)", (uintptr_t) val1);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return;
+}
+
+int py_call_int_module_ptr_ptr (const char *module, const char *name, void *val1, void *val2)
+{
+    int ret = -1;
+
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return (ret);
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return (ret);
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return (ret);
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(KK)", 
+                                        (uintptr_t) val1,
+                                        (uintptr_t) val2);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            ret = py_obj_to_int(pValue);
+
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return (ret);
+}
+
+void py_call_void_module_ptr_ptr (const char *module, const char *name, void *val1, void *val2)
+{
+    if (!mymod) {
+        DIE("python module not inited yet");
+    }
+
+    PyObject *v = PyObject_GetAttrString(mymod, module);
+    if (!v) {
+        ERR("cannot find python module %s", module);
+        return;
+    }
+
+    PyObject *dict = PyModule_GetDict(v);
+    if (!dict) {
+        ERR("cannot find python module %s dict", module);
+        return;
+    }
+
+    PyObject *fn = PyDict_GetItemString(dict, name);
+    if (!fn) {
+        ERR("cannot find python module %s fn %s", module, name);
+        return;
+    }
+
+    if (PyCallable_Check(fn)) {
+        PyObject *pArgs = Py_BuildValue("(KK)", 
+                                        (uintptr_t) val1,
+                                        (uintptr_t) val2);
+        PyObject *pValue = PyObject_CallObject(fn, pArgs);
+        Py_DECREF(pArgs);
+        if (pValue != NULL) {
+            Py_DECREF(pValue);
+        }
+    } else {
+        ERR("cannot call python module %s fn %s", module, name);
+    }
+
+    py_err();
+
+    return;
+}
+
 int py_call_int_module_int (const char *module, const char *name, int val1)
 {
     int ret = -1;
 
-    LOG("c-to-python: %s.%s(%d)", module, name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -575,7 +1013,6 @@ int py_call_int_module_void (const char *module, const char *name)
 {
     int ret = -1;
 
-    LOG("c-to-python: %s.%s()", module, name);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -616,7 +1053,6 @@ int py_call_int_module_void (const char *module, const char *name)
 
 void py_call_void_module_void (const char *module, const char *name)
 {
-    LOG("c-to-python: %s.%s()", module, name);
     if (!mymod) {
         DIE("python module not inited yet");
     }
@@ -655,7 +1091,6 @@ int py_call_ii (const char *name, int val1)
 {
     int ret = -1;
 
-    LOG("c-to-python: %s(%d)", name, val1);
     if (!mymod) {
         DIE("python module not inited yet");
     }

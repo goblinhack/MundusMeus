@@ -19,6 +19,29 @@ void py_call_void_module_int(const char *module, const char *name, int val1);
 int py_call_int_module_int(const char *module, const char *name, int val1);
 int py_call_int_module_void(const char *module, const char *name);
 void py_call_void_module_void(const char *module, const char *name);
+
+void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii(const char *module, 
+                                                 const char *name, 
+                                                 void *val1, 
+                                                 int val2,
+                                                 int val3,
+                                                 int val4,
+                                                 int val5,
+                                                 int val6,
+                                                 int val7,
+                                                 int val8,
+                                                 int val9,
+                                                 int val10,
+                                                 int val11,
+                                                 int val12,
+                                                 int val13,
+                                                 int val14,
+                                                 int val15,
+                                                 int val16,
+                                                 int val17,
+                                                 int val18,
+                                                 int val19,
+                                                 int val20);
 int py_call_int_module_ptr_iiiiii(const char *module, const char *name, void *val1, int, int, int, int, int, int);
 int py_call_int_module_ptr_iiiii(const char *module, const char *name, void *val1, int, int, int, int, int);
 int py_call_int_module_ptr_iiii(const char *module, const char *name, void *val1, int, int, int, int);
@@ -26,6 +49,17 @@ int py_call_int_module_ptr_iii(const char *module, const char *name, void *val1,
 int py_call_int_module_ptr_ii(const char *module, const char *name, void *val1, int, int);
 int py_call_int_module_ptr_int(const char *module, const char *name, void *val1, int);
 int py_call_int_module_ptr(const char *module, const char *name, void *val1);
+int py_call_int_module_ptr_ptr(const char *module, const char *name, void *val1, void *val2);
+
+void py_call_void_module_ptr_iiiiii(const char *module, const char *name, void *val1, int, int, int, int, int, int);
+void py_call_void_module_ptr_iiiii(const char *module, const char *name, void *val1, int, int, int, int, int);
+void py_call_void_module_ptr_iiii(const char *module, const char *name, void *val1, int, int, int, int);
+void py_call_void_module_ptr_iii(const char *module, const char *name, void *val1, int, int, int);
+void py_call_void_module_ptr_ii(const char *module, const char *name, void *val1, int, int);
+void py_call_void_module_ptr_int(const char *module, const char *name, void *val1, int);
+void py_call_void_module_ptr(const char *module, const char *name, void *val1);
+void py_call_void_module_ptr_ptr(const char *module, const char *name, void *val1, void *val2);
+
 void py_call_void(const char *name);
 
 void py_err(void);
