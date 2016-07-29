@@ -1020,8 +1020,14 @@ static uint8_t wid_set_on_mouse_up_callback (widp w, int32_t x, int32_t y, uint3
 
 static uint8_t wid_set_on_mouse_motion_callback (widp w, int32_t x, int32_t y, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
 {
-    CON("wid_set_on_mouse_motion_callback %d %d", x, y);
-    return (false);
+    int ret = 
+        py_call_int_module_ptr_iiiiii("wid", 
+                                                       "on_mouse_motion_callback", 
+                                                       w,
+                                                       x, y,
+                                                       relx, rely,
+                                                       wheelx, wheely);
+    return (ret);
 }
 
 static uint8_t wid_set_on_key_down_callback (widp w, const struct SDL_KEYSYM *k)

@@ -118,6 +118,11 @@ def wid_intro_menu_create():
         w.update()
 
 
+def wid_quit_callback(wid, x, y, relx, rely, wheelx, wheely):
+    wid.log("wid_set_on_mouse_motion {0} {1} {2} {3} {4} {5}".format(x,y,relx,rely,wheelx,wheely))
+    mm.con("wid_quit_callback")
+    return True
+
 def wid_quit_create():
     global wid_quit_menu
 
@@ -133,15 +138,8 @@ def wid_quit_create():
         w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
         w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
         w.update()
-        w.move_to_pct_centered_in(x=0.5, y=0.5, delay=100)
-        w.move_end()
-        w.move_to_top()
-        w.fade_in_out(delay=500, repeat=10)
-        w.destroy_in(delay=5000)
-        w.set_on_mouse_motion()
-        wid.mouse_hide(value=True)
-        wid.mouse_hide(value=False)
-        wid.mouse_hide(value=True)
+        w.move_to_pct_centered(x=0.5, y=0.5)
+        w.set_on_mouse_motion(wid_quit_callback)
 
 
 def init2():
