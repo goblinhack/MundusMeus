@@ -1,6 +1,7 @@
 import traceback
 import mm
 
+all_wids = {}
 
 class Wid:
 
@@ -11,17 +12,38 @@ class Wid:
         self.name = "{0:x}:{1}".format(self.wid_id, self.name)
         self.log("Created wid")
 
+        all_wids[self.wid_id] = self
+
+        self.callback_on_tooltip = None
+        self.callback_on_key_down = None
+        self.callback_on_key_up = None
+        self.callback_on_joy_down = None
+        self.callback_on_mouse_down = None
+        self.callback_on_mouse_motion = None
+        self.callback_on_mouse_focus_begin = None
+        self.callback_on_mouse_focus_end = None
+        self.callback_on_mouse_over_begin = None
+        self.callback_on_mouse_over_end = None
+        self.callback_on_mouse_up = None
+        self.callback_on_destroy = None
+        self.callback_on_destroy_begin = None
+        self.callback_on_tick = None
+        self.callback_on_display = None
+        self.callback_on_display_top_level = None
+
     def __str__(self):
         return "{0}".format(self.name)
 
     def destroy(self):
         self.log("Destroying wid")
         mm.wid_destroy(self)
+        all_wids[self.wid_id] = None
         del self
 
     def destroy_in(self, **kw):
         self.log("Destroying delay")
         mm.wid_destroy_in(self, **kw)
+        all_wids[self.wid_id] = None
         del self
 
     def fade_in(self, **kw):
@@ -226,55 +248,130 @@ class Wid:
     def animate(self, **kw):
         mm.wid_animate(self, **kw)
 
-    def set_on_tooltip(self, **kw):
-        mm.wid_set_on_tooltip(self, **kw)
+    def set_on_tooltip(self, callback):
+        self.callback_on_tooltip = callback
+        mm.wid_set_on_tooltip(self)
 
-    def set_on_key_down(self, **kw):
-        mm.wid_set_on_key_down(self, **kw)
+    def set_on_key_down(self, callback):
+        self.callback_on_key_down = callback
+        mm.wid_set_on_key_down(self)
 
-    def set_on_key_up(self, **kw):
-        mm.wid_set_on_key_up(self, **kw)
+    def set_on_key_up(self, callback):
+        self.callback_on_key_up = callback
+        mm.wid_set_on_key_up(self)
 
-    def set_on_joy_down(self, **kw):
-        mm.wid_set_on_joy_down(self, **kw)
+    def set_on_joy_down(self, callback):
+        self.callback_on_joy_down = callback
+        mm.wid_set_on_joy_down(self)
 
-    def set_on_mouse_down(self, **kw):
-        mm.wid_set_on_mouse_down(self, **kw)
+    def set_on_mouse_down(self, callback):
+        self.callback_on_mouse_down = callback
+        mm.wid_set_on_mouse_down(self)
 
-    def set_on_mouse_motion(self, **kw):
-        mm.wid_set_on_mouse_motion(self, **kw)
+    def set_on_mouse_motion(self, callback):
+        self.callback_on_mouse_motion = callback
+        mm.wid_set_on_mouse_motion(self)
 
-    def set_on_mouse_focus_begin(self, **kw):
-        mm.wid_set_on_mouse_focus_begin(self, **kw)
+    def set_on_mouse_focus_begin(self, callback):
+        self.callback_on_mouse_focus_begin = callback
+        mm.wid_set_on_mouse_focus_begin(self)
 
-    def set_on_mouse_focus_end(self, **kw):
-        mm.wid_set_on_mouse_focus_end(self, **kw)
+    def set_on_mouse_focus_end(self, callback):
+        self.callback_on_mouse_focus_end = callback
+        mm.wid_set_on_mouse_focus_end(self)
 
-    def set_on_mouse_over_begin(self, **kw):
-        mm.wid_set_on_mouse_over_begin(self, **kw)
+    def set_on_mouse_over_begin(self, callback):
+        self.callback_on_mouse_over_begin = callback
+        mm.wid_set_on_mouse_over_begin(self)
 
-    def set_on_mouse_over_end(self, **kw):
-        mm.wid_set_on_mouse_over_end(self, **kw)
+    def set_on_mouse_over_end(self, callback):
+        self.callback_on_mouse_over_end = callback
+        mm.wid_set_on_mouse_over_end(self)
 
-    def set_on_mouse_up(self, **kw):
-        mm.wid_set_on_mouse_up(self, **kw)
+    def set_on_mouse_up(self, callback):
+        self.callback_on_mouse_up = callback
+        mm.wid_set_on_mouse_up(self)
 
-    def set_on_destroy(self, **kw):
-        mm.wid_set_on_destroy(self, **kw)
+    def set_on_destroy(self, callback):
+        self.callback_on_destroy = callback
+        mm.wid_set_on_destroy(self)
 
-    def set_on_destroy_begin(self, **kw):
-        mm.wid_set_on_destroy_begin(self, **kw)
+    def set_on_destroy_begin(self, callback):
+        self.callback_on_destroy_begin = callback
+        mm.wid_set_on_destroy_begin(self)
 
-    def set_on_tick(self, **kw):
-        mm.wid_set_on_tick(self, **kw)
+    def set_on_tick(self, callback):
+        self.callback_on_tick = callback
+        mm.wid_set_on_tick(self)
 
-    def set_on_display(self, **kw):
-        mm.wid_set_on_display(self, **kw)
+    def set_on_display(self, callback):
+        self.callback_on_display = callback
+        mm.wid_set_on_display(self)
 
-    def set_on_display_top_level(self, **kw):
-        mm.wid_set_on_display_top_level(self, **kw)
+    def set_on_display_top_level(self, callback):
+        self.callback_on_display_top_level = callback
+        mm.wid_set_on_display_top_level(self)
+
+    def on_tooltip(self, **kw):
+        mm.con("wid_set_on_tooltip")
+
+    def on_key_down(self, **kw):
+        mm.con("wid_set_on_key_down")
+
+    def on_key_up(self, **kw):
+        mm.con("wid_set_on_key_up")
+
+    def on_joy_down(self, **kw):
+        mm.con("wid_set_on_joy_down")
+
+    def on_mouse_down(self, **kw):
+        mm.con("wid_set_on_mouse_down")
+
+    def on_mouse_motion(self, x, y, relx, rely, wheelx, wheely):
+        if self.callback_on_mouse_motion != None:
+            return self.callback_on_mouse_motion(self, x, y, relx, rely, wheelx, wheely)
+        self.err("wid_set_on_mouse_motion {0} {1} {2} {3} {4} {5} not handled".format(x,y,relx,rely,wheelx,wheely))
+        return False
+
+    def on_mouse_focus_begin(self, **kw):
+        mm.con("wid_set_on_mouse_focus_begin")
+
+    def on_mouse_focus_end(self, **kw):
+        mm.con("wid_set_on_mouse_focus_end")
+
+    def on_mouse_over_begin(self, **kw):
+        mm.con("wid_set_on_mouse_over_begin")
+
+    def on_mouse_over_end(self, **kw):
+        mm.con("wid_set_on_mouse_over_end")
+
+    def on_mouse_up(self, **kw):
+        mm.con("wid_set_on_mouse_up")
+
+    def on_destroy(self, **kw):
+        mm.con("wid_set_on_destroy")
+
+    def on_destroy_begin(self, **kw):
+        mm.con("wid_set_on_destroy_begin")
+
+    def on_tick(self, **kw):
+        mm.con("wid_set_on_tick")
+
+    def on_display(self, **kw):
+        mm.con("wid_set_on_display")
+
+    def on_display_top_level(self, **kw):
+        mm.con("wid_set_on_display_top_level")
 
 
 def mouse_hide(**kw):
     mm.wid_mouse_hide(**kw)
+    
+
+def on_mouse_motion_callback(wid_id, x, y, relx, rely, wheelx, wheely):
+    wid = all_wids[wid_id]
+    if wid != None:
+        return wid.on_mouse_motion(x, y, relx, rely, wheelx, wheely)
+    mm.err("Widget not found for on_mouse_motion_callback, id {0:x}".format(wid_id))
+    return False
 
