@@ -187,7 +187,7 @@ void wid_game_map_grid_create (void)
         wid_set_on_key_down(game.wid_grid, 
                             player_key);
 
-        wid_set_on_joy_down(game.wid_grid, 
+        wid_set_on_joy_button(game.wid_grid, 
                             player_joy);
 
         LOG("Created map container window");
@@ -265,7 +265,7 @@ void wid_game_map_wid_create (void)
         wid_set_on_key_down(game.wid_map, 
                             player_key);
 
-        wid_set_on_joy_down(game.wid_map, 
+        wid_set_on_joy_button(game.wid_map, 
                             player_joy);
     }
 

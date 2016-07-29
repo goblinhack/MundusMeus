@@ -470,7 +470,7 @@ static uint8_t wid_numpad_button_key_event (widp w, const SDL_KEYSYM *key)
     return (false);
 }
 
-static uint8_t wid_numpad_button_joy_down_event (widp w, 
+static uint8_t wid_numpad_button_joy_button_event (widp w, 
                                                      int32_t x, int32_t y)
 {
     wid_numpad_ctx *ctx = wid_get_context(w);
@@ -733,7 +733,7 @@ widp wid_numpad (const char *text,
 
         wid_set_on_destroy_begin(window, wid_numpad_destroy_begin);
         wid_set_on_key_down(window, wid_numpad_parent_key_down);
-        wid_set_on_joy_down(window, wid_numpad_parent_joy_button);
+        wid_set_on_joy_button(window, wid_numpad_parent_joy_button);
         wid_set_on_destroy(window, wid_numpad_destroy);
         wid_set_context(window, ctx);
     }
@@ -821,7 +821,7 @@ widp wid_numpad (const char *text,
             wid_set_text_outline(b, true);
             wid_set_on_mouse_over_begin(b, wid_numpad_mouse_over);
             wid_set_on_key_down(b, wid_numpad_button_key_event);
-            wid_set_on_joy_down(b, wid_numpad_button_joy_down_event);
+            wid_set_on_joy_button(b, wid_numpad_button_joy_button_event);
             wid_set_on_mouse_down(b, wid_numpad_button_mouse_event);
 
             wid_set_color(b, WID_COLOR_BG, GRAY20);
