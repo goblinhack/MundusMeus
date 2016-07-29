@@ -130,6 +130,9 @@ class Wid:
     def set_movable_vert(self, **kw):
         mm.wid_set_movable_vert(self, **kw)
 
+    def con(self, msg):
+        mm.con("p-wid {0}: {1}".format(str(self), msg))
+
     def log(self, msg):
         mm.log("p-wid {0}: {1}".format(str(self), msg))
 
@@ -391,7 +394,6 @@ class Wid:
         mm.err("wid_set_on_mouse_focus_end not handled")
 
     def on_mouse_over_begin(self, relx, rely, wheelx, wheely):
-        mm.con("wid_set_on_mouse_over_begin")
         if self.callback_on_mouse_over_begin != None:
             return self.callback_on_mouse_over_begin(self, relx, rely, wheelx, wheely)
         self.err("wid_set_on_mouse_over_begin not handled")

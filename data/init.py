@@ -119,20 +119,19 @@ def wid_intro_menu_create():
 
 
 def wid_on_mouse_motion_callback(wid, x, y, relx, rely, wheelx, wheely):
-    wid.log("wid_set_on_mouse_motion {0} {1} {2} {3} {4} {5}".format(x,y,relx,rely,wheelx,wheely))
-    mm.con("wid_on_mouse_motion_callback")
+    wid.con("wid_set_on_mouse_motion {0} {1} {2} {3} {4} {5}".format(x,y,relx,rely,wheelx,wheely))
     return False
 
 def wid_on_tooltip_callback(wid, tooltip):
-    wid.log("wid_on_tooltip_callback")
+    wid.con("wid_on_tooltip_callback")
     return
 
 def wid_on_key_down_callback(wid, sym, mod):
-    wid.log("wid_on_key_down_callback {0} {1}".format(sym, mod))
+    wid.con("wid_on_key_down_callback {0} {1}".format(sym, mod))
     return False
 
 def wid_on_key_up_callback(wid, sym, mod):
-    wid.log("wid_on_key_up_callback {0} {1}".format(sym, mod))
+    wid.con("wid_on_key_up_callback {0} {1}".format(sym, mod))
     return False
 
 def wid_on_joy_button_callback(wid,
@@ -153,50 +152,50 @@ def wid_on_joy_button_callback(wid,
                              button_right,
                              button_left_fire,
                              button_right_fire):
-    wid.log("wid_on_joy_button_callback")
+    wid.con("wid_on_joy_button_callback")
 
 def wid_on_mouse_down_callback(wid, x, y, button):
-    wid.log("wid_on_mouse_down_callback {0} {1} {2}".format(x, y, button))
+    wid.con("wid_on_mouse_down_callback {0} {1} {2}".format(x, y, button))
     return False
 
 def wid_on_mouse_focus_begin_callback(wid):
-    wid.log("wid_on_mouse_focus_begin_callback")
+    wid.con("wid_on_mouse_focus_begin_callback")
     return
 
 def wid_on_mouse_focus_end_callback(wid):
-    wid.log("wid_on_mouse_focus_end_callback")
+    wid.con("wid_on_mouse_focus_end_callback")
     return
 
 def wid_on_mouse_over_begin_callback(wid, relx, rely, wheelx, wheely):
-    wid.log("wid_on_mouse_over_begin_callback {0} {1} {2} {3}".format(relx, rely, wheelx, wheely))
+    wid.con("wid_on_mouse_over_begin_callback {0} {1} {2} {3}".format(relx, rely, wheelx, wheely))
     return
 
 def wid_on_mouse_over_end_callback(wid):
-    wid.log("wid_on_mouse_over_end_callback")
+    wid.con("wid_on_mouse_over_end_callback")
     return
 
 def wid_on_mouse_up_callback(wid, x, y, button):
-    wid.log("wid_on_mouse_up_callback {0} {1} {2}".format(x, y, button))
+    wid.con("wid_on_mouse_up_callback {0} {1} {2}".format(x, y, button))
     return False
 
 def wid_on_destroy_callback(wid):
-    wid.log("wid_on_destroy_callback")
+    wid.con("wid_on_destroy_callback")
     return
 
 def wid_on_destroy_begin_callback(wid):
-    wid.log("wid_on_destroy_begin_callback")
+    wid.con("wid_on_destroy_begin_callback")
     return
 
 def wid_on_tick_callback(wid):
-    wid.log("wid_on_tick_callback")
+    wid.con("wid_on_tick_callback")
     return
 
 def wid_on_display_callback(wid):
-    wid.log("wid_on_display_callback")
+    wid.con("wid_on_display_callback")
     return
 
 def wid_on_display_top_level_callback(wid):
-    wid.log("wid_on_display_top_level_callback")
+    wid.con("wid_on_display_top_level_callback")
     return
 
 def wid_quit_create():
@@ -214,23 +213,25 @@ def wid_quit_create():
         w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
         w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
         w.update()
+        w.set_focus()
         w.move_to_pct_centered(x=0.5, y=0.5)
-        w.set_on_mouse_motion(wid_on_mouse_motion_callback)
-        w.set_on_tooltip(wid_on_tooltip_callback)
-        w.set_on_key_down(wid_on_key_down_callback)
-        w.set_on_key_up(wid_on_key_up_callback)
-        w.set_on_joy_button(wid_on_joy_button_callback)
-        w.set_on_mouse_down(wid_on_mouse_down_callback)
-        w.set_on_mouse_focus_begin(wid_on_mouse_focus_begin_callback)
-        w.set_on_mouse_focus_end(wid_on_mouse_focus_end_callback)
-        w.set_on_mouse_over_begin(wid_on_mouse_over_begin_callback)
-        w.set_on_mouse_over_end(wid_on_mouse_over_end_callback)
-        w.set_on_mouse_up(wid_on_mouse_up_callback)
-        w.set_on_destroy(wid_on_destroy_callback)
-        w.set_on_destroy_begin(wid_on_destroy_begin_callback)
-        w.set_on_tick(wid_on_tick_callback)
-        w.set_on_display(wid_on_display_callback)
-        w.set_on_display_top_level(wid_on_display_top_level_callback)
+#        w.set_on_mouse_motion(wid_on_mouse_motion_callback)
+#        w.set_on_tooltip(wid_on_tooltip_callback)
+#        w.set_on_key_down(wid_on_key_down_callback)
+#        w.set_on_key_up(wid_on_key_up_callback)
+#        w.set_on_joy_button(wid_on_joy_button_callback)
+#        w.set_on_mouse_down(wid_on_mouse_down_callback)
+#        w.set_on_mouse_focus_begin(wid_on_mouse_focus_begin_callback)
+#        w.set_on_mouse_focus_end(wid_on_mouse_focus_end_callback)
+#        w.set_on_mouse_over_begin(wid_on_mouse_over_begin_callback)
+#        w.set_on_mouse_over_end(wid_on_mouse_over_end_callback)
+#        w.set_on_mouse_up(wid_on_mouse_up_callback)
+#        w.set_on_destroy(wid_on_destroy_callback)
+#        w.set_on_destroy_begin(wid_on_destroy_begin_callback)
+#        w.set_on_tick(wid_on_tick_callback)
+#        w.set_on_display(wid_on_display_callback)
+#        w.set_on_display_top_level(wid_on_display_top_level_callback)
+#        w.destroy_in(delay=1000)
 
 
 def init2():
