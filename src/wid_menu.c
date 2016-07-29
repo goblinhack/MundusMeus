@@ -241,7 +241,7 @@ static uint8_t wid_menu_parent_mouse_event (widp w,
     return (wid_menu_mouse_event(w, item, 0, x, y, button));
 }
 
-static uint8_t wid_menu_joy_down_event (widp w,
+static uint8_t wid_menu_joy_button_event (widp w,
                                         int32_t x, int32_t y)
 {
     wid_menu_ctx *ctx = wid_get_context(w);
@@ -327,16 +327,16 @@ static uint8_t wid_menu_joy_down_event (widp w,
     return (true);
 }
 
-static uint8_t wid_menu_button_joy_down_event (widp w,
+static uint8_t wid_menu_button_joy_button_event (widp w,
                                             int32_t x, int32_t y)
 {
-    return (wid_menu_joy_down_event(w, x, y));
+    return (wid_menu_joy_button_event(w, x, y));
 }
 
-static uint8_t wid_menu_parent_joy_down_event (widp w,
+static uint8_t wid_menu_parent_joy_button_event (widp w,
                                             int32_t x, int32_t y)
 {
-    return (wid_menu_joy_down_event(w, x, y));
+    return (wid_menu_joy_button_event(w, x, y));
 }
 
 static void wid_menu_next_focus (wid_menu_ctx *ctx)
@@ -1086,7 +1086,7 @@ widp wid_menu (widp parent,
         wid_set_context(wrapper, ctx);
         wid_set_on_key_down(wrapper, wid_menu_parent_key_event);
         wid_set_on_mouse_down(wrapper, wid_menu_parent_mouse_event);
-        wid_set_on_joy_down(wrapper, wid_menu_parent_joy_down_event);
+        wid_set_on_joy_button(wrapper, wid_menu_parent_joy_button_event);
         ctx->w = wrapper;
     }
 
@@ -1158,7 +1158,7 @@ widp wid_menu (widp parent,
 
             wid_set_on_key_down(b, wid_menu_button_key_event);
             wid_set_on_mouse_down(b, wid_menu_button_mouse_event);
-            wid_set_on_joy_down(b, wid_menu_button_joy_down_event);
+            wid_set_on_joy_button(b, wid_menu_button_joy_button_event);
             wid_set_on_mouse_over_begin(b, wid_menu_mouse_over);
 
             wid_set_context(b, ctx);
@@ -1179,7 +1179,7 @@ widp wid_menu (widp parent,
 
                     wid_set_on_key_down(bar, wid_menu_button_key_event);
                     wid_set_on_mouse_down(bar, wid_menu_button_mouse_event);
-                    wid_set_on_joy_down(bar, wid_menu_button_joy_down_event);
+                    wid_set_on_joy_button(bar, wid_menu_button_joy_button_event);
                     wid_set_on_mouse_over_begin(bar, wid_menu_mouse_over);
 
                     wid_set_context(bar, ctx);

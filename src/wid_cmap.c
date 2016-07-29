@@ -389,7 +389,7 @@ static uint8_t wid_cmap_button_key_event (widp w, const SDL_KEYSYM *key)
     return (false);
 }
 
-static uint8_t wid_cmap_button_joy_down_event (widp w, 
+static uint8_t wid_cmap_button_joy_button_event (widp w, 
                                                      int32_t x, int32_t y)
 {
     wid_cmap_ctx *ctx = wid_get_context(w);
@@ -680,7 +680,7 @@ widp wid_cmap (const char *title,
 
         wid_set_on_destroy_begin(window, wid_cmap_destroy_begin);
         wid_set_on_key_down(window, wid_cmap_parent_key_down);
-        wid_set_on_joy_down(window, wid_cmap_parent_joy_button);
+        wid_set_on_joy_button(window, wid_cmap_parent_joy_button);
         wid_set_on_destroy(window, wid_cmap_destroy);
     }
 
@@ -731,7 +731,7 @@ widp wid_cmap (const char *title,
 
             wid_set_on_mouse_over_begin(b, wid_cmap_mouse_over);
             wid_set_on_key_down(b, wid_cmap_button_key_event);
-            wid_set_on_joy_down(b, wid_cmap_button_joy_down_event);
+            wid_set_on_joy_button(b, wid_cmap_button_joy_button_event);
             wid_set_on_mouse_down(b, wid_cmap_button_mouse_event);
             wid_set_bevel(b, 0);
 

@@ -2371,7 +2371,7 @@ void wid_set_on_key_up (widp w, on_key_up_t fn)
     w->on_key_up = fn;
 }
 
-void wid_set_on_joy_down (widp w, on_joy_button_t fn)
+void wid_set_on_joy_button (widp w, on_joy_button_t fn)
 {
     fast_verify(w);
 
@@ -5671,7 +5671,7 @@ static widp wid_key_up_handler_at (widp w, int32_t x, int32_t y,
     return (0);
 }
 
-static widp wid_joy_down_handler_at (widp w, int32_t x, int32_t y,
+static widp wid_joy_button_handler_at (widp w, int32_t x, int32_t y,
                                      uint8_t strict)
 {
     widp child;
@@ -5701,7 +5701,7 @@ static widp wid_joy_down_handler_at (widp w, int32_t x, int32_t y,
             continue;
         }
 
-        widp closer_match = wid_joy_down_handler_at(child, x, y,
+        widp closer_match = wid_joy_button_handler_at(child, x, y,
                                                     true /* strict */);
         if (closer_match) {
             return (closer_match);
@@ -6264,7 +6264,7 @@ void wid_move_to_top (widp w)
     }
 }
 
-static widp wid_joy_down_handler (int32_t x, int32_t y)
+static widp wid_joy_button_handler (int32_t x, int32_t y)
 {
     widp w;
 
@@ -6276,7 +6276,7 @@ static widp wid_joy_down_handler (int32_t x, int32_t y)
             continue;
         }
 
-        w = wid_joy_down_handler_at(w, x, y, false /* strict */);
+        w = wid_joy_button_handler_at(w, x, y, false /* strict */);
         if (!w) {
             continue;
         }
@@ -6775,7 +6775,7 @@ void wid_joy_button (int32_t x, int32_t y)
 
     sound_play_click();
 
-    w = wid_joy_down_handler(x, y);
+    w = wid_joy_button_handler(x, y);
     if (!w) {
         wid_fake_joy_button(x, y);
         return;

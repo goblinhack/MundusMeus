@@ -975,6 +975,117 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
+static void wid_set_on_tooltip_callback (widp w, widp o)
+{
+    CON("wid_set_on_tooltip_callback");
+}
+
+static void wid_set_on_mouse_focus_begin_callback (widp w)
+{
+    CON("wid_set_on_mouse_focus_begin_callback");
+}
+
+static void wid_set_on_mouse_focus_end_callback (widp w)
+{
+    CON("wid_set_on_mouse_focus_end_callback");
+}
+
+static void wid_set_on_mouse_over_begin_callback (widp w, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
+{
+    CON("wid_set_on_mouse_over_begin_callback");
+}
+
+static void wid_set_on_mouse_over_end_callback (widp w)
+{
+    CON("wid_set_on_mouse_over_end_callback");
+}
+
+static uint8_t wid_set_on_joy_button_callback (widp w, int32_t x, int32_t y)
+{
+    CON("wid_set_on_joy_button_callback");
+    return (false);
+}
+
+static uint8_t wid_set_on_mouse_down_callback (widp w, int32_t x, int32_t y, uint32_t button)
+{
+    CON("wid_set_on_mouse_down_callback");
+    return (false);
+}
+
+static uint8_t wid_set_on_mouse_up_callback (widp w, int32_t x, int32_t y, uint32_t button)
+{
+    CON("wid_set_on_mouse_up_callback");
+    return (false);
+}
+
+static uint8_t wid_set_on_mouse_motion_callback (widp w, int32_t x, int32_t y, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
+{
+    CON("wid_set_on_mouse_motion_callback %d %d", x, y);
+    return (false);
+}
+
+static uint8_t wid_set_on_key_down_callback (widp w, const struct SDL_KEYSYM *k)
+{
+    CON("wid_set_on_key_down_callback");
+    return (false);
+}
+
+static uint8_t wid_set_on_key_up_callback (widp w, const struct SDL_KEYSYM *k)
+{
+    CON("wid_set_on_key_up_callback");
+    return (false);
+}
+
+static void wid_set_on_destroy_callback (widp w)
+{
+    CON("wid_set_on_destroy_callback");
+}
+
+static void wid_set_on_destroy_begin_callback (widp w)
+{
+    CON("wid_set_on_destroy_begin_callback");
+}
+
+static void wid_set_on_tick_callback (widp w)
+{
+    CON("wid_set_on_tick_callback");
+}
+
+static void wid_set_on_display_top_level_callback (widp w)
+{
+    CON("wid_set_on_display_top_level_callback");
+}
+
+static void wid_set_on_display_callback (widp w, fpoint tl, fpoint br)
+{
+    CON("wid_set_on_display_callback");
+}
+
+#define WID_BODY_ON_CALLBACK_FN(__fn__)                                         \
+PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
+{	                                                                        \
+    PyObject *py_class = 0;	                                                \
+    widp w;                                                                     \
+	                                                                        \
+    static char *kwlist[] = {"wid_id", 0};                                      \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, &py_class)) {	\
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");              \
+    verify(w);                                                                  \
+	                                                                        \
+    (__fn__)(w, __fn__ ## _callback);                                           \
+	                                                                        \
+    Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
 WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_horiz_vert_pct_in, x, y, delay)
 WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_abs_centered_in, x, y, delay)
 WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_centered_in, x, y, delay)
@@ -1026,3 +1137,19 @@ WID_BODY_VOID_FN(wid_blit_effect_pulses)
 WID_BODY_VOID_FN(wid_effect_sways)
 WID_BODY_VOID_FN(wid_animate)
 
+WID_BODY_ON_CALLBACK_FN(wid_set_on_tooltip);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_key_down);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_key_up);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_joy_button);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_down);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_motion);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_focus_begin);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_focus_end);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_over_begin);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_over_end);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_up);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_destroy);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_destroy_begin);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_tick);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_display);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_display_top_level);

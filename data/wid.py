@@ -33,16 +33,16 @@ class Wid:
     def fade_in_out(self, **kw):
         mm.wid_fade_in_out(self, **kw)
 
-    def visible(seld, **kw):
+    def visible(self, **kw):
         mm.wid_visible(self, **kw)
 
-    def hide(seld, **kw):
+    def hide(self, **kw):
         mm.wid_hide(self, **kw)
 
-    def toggle_hidden(seld, **kw):
+    def toggle_hidden(self, **kw):
         mm.wid_toggle_hidden(self, **kw)
 
-    def mouse_hide(seld, **kw):
+    def mouse_hide(self, **kw):
         mm.wid_mouse_hide(self, **kw)
 
     def set_shape(self, **kw):
@@ -225,6 +225,55 @@ class Wid:
 
     def animate(self, **kw):
         mm.wid_animate(self, **kw)
+
+    def set_on_tooltip(self, **kw):
+        mm.wid_set_on_tooltip(self, **kw)
+
+    def set_on_key_down(self, **kw):
+        mm.wid_set_on_key_down(self, **kw)
+
+    def set_on_key_up(self, **kw):
+        mm.wid_set_on_key_up(self, **kw)
+
+    def set_on_joy_down(self, **kw):
+        mm.wid_set_on_joy_down(self, **kw)
+
+    def set_on_mouse_down(self, **kw):
+        mm.wid_set_on_mouse_down(self, **kw)
+
+    def set_on_mouse_motion(self, **kw):
+        mm.wid_set_on_mouse_motion(self, **kw)
+
+    def set_on_mouse_focus_begin(self, **kw):
+        mm.wid_set_on_mouse_focus_begin(self, **kw)
+
+    def set_on_mouse_focus_end(self, **kw):
+        mm.wid_set_on_mouse_focus_end(self, **kw)
+
+    def set_on_mouse_over_begin(self, **kw):
+        mm.wid_set_on_mouse_over_begin(self, **kw)
+
+    def set_on_mouse_over_end(self, **kw):
+        mm.wid_set_on_mouse_over_end(self, **kw)
+
+    def set_on_mouse_up(self, **kw):
+        mm.wid_set_on_mouse_up(self, **kw)
+
+    def set_on_destroy(self, **kw):
+        mm.wid_set_on_destroy(self, **kw)
+
+    def set_on_destroy_begin(self, **kw):
+        mm.wid_set_on_destroy_begin(self, **kw)
+
+    def set_on_tick(self, **kw):
+        mm.wid_set_on_tick(self, **kw)
+
+    def set_on_display(self, **kw):
+        mm.wid_set_on_display(self, **kw)
+
+    def set_on_display_top_level(self, **kw):
+        mm.wid_set_on_display_top_level(self, **kw)
+
 
 def mouse_hide(**kw):
     mm.wid_mouse_hide(**kw)
