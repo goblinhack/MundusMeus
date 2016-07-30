@@ -33,6 +33,8 @@ PyObject *wid_set_movable_horiz_(PyObject *obj, PyObject *args, PyObject *keywds
 PyObject *wid_set_movable_vert_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_get_size_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_get_size_pct_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_get_parent_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_get_top_parent_(PyObject *obj, PyObject *args, PyObject *keywds);
 
 #define WID_PROTO(__fn__)                                                   \
 PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds);

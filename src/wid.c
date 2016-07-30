@@ -3416,7 +3416,7 @@ static widp wid_new_scroll_bar (widp parent, widp scrollbar_owner,
 
     wid_set_mode(w, WID_MODE_ACTIVE); {
         c = RED;
-        c.a = 200;
+        c.a = 100;
         wid_set_color(w, WID_COLOR_BG, c);
 
         tl = GRAY70;
@@ -3489,9 +3489,9 @@ widp wid_new_vert_scroll_bar (widp parent, widp scrollbar_owner)
     wid_get_abs_coords(parent, &ptlx, &ptly, &pbrx, &pbry);
     wid_get_abs_coords(scrollbar_owner, &tlx, &tly, &brx, &bry);
 
-    tl.x = tlx - ptlx;
+    tl.x = pbrx - 20;
     tl.y = tly - ptly;
-    br.x = tl.x + 20;
+    br.x = pbrx;
     br.y = tl.y + wid_get_br_y(scrollbar_owner) - wid_get_tl_y(scrollbar_owner);
 
     widp trough = wid_new_scroll_trough(parent);
@@ -3506,7 +3506,12 @@ widp wid_new_vert_scroll_bar (widp parent, widp scrollbar_owner)
     wid_set_tl_br_pct(scrollbar, tl, br);
 
     wid_update_internal(scrollbar);
+#if 0
     wid_hide(scrollbar->parent, 0);
+#else
+    wid_visible(wid_get_parent(scrollbar), 0);
+    wid_visible(scrollbar, 0);
+#endif
 
     return (scrollbar);
 }
@@ -8676,7 +8681,7 @@ static void wid_display (widp w,
     }
 
     if (wid_get_rounded(w)) {
-#if 1
+#if 0
         /*
          * A bit faster, but ugly.
          */

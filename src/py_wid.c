@@ -810,6 +810,44 @@ PyObject *wid_get_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     return (Py_BuildValue("dd", width, height));
 }
 
+PyObject *wid_get_parent_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+
+    static char *kwlist[] = {"wid_id", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+                                     &py_class)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    w = wid_get_parent(w);
+    return (Py_BuildValue("K", (uintptr_t) w));
+}
+
+PyObject *wid_get_top_parent_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+
+    static char *kwlist[] = {"wid_id", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+                                     &py_class)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    w = wid_get_top_parent(w);
+    return (Py_BuildValue("K", (uintptr_t) w));
+}
+
 #define WID_BODY_DOUBLE_DOUBLE_INT_FN(__fn__, n1, n2, n3)                       \
 PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
 {	                                                                        \
