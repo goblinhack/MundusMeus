@@ -13,6 +13,22 @@ class WidText(wid.Wid):
                  row_center, 
                  row_rhs, 
                  row_width, 
+                 row_on_tooltip,
+                 row_on_key_down,
+                 row_on_key_up,
+                 row_on_joy_button,
+                 row_on_mouse_down,
+                 row_on_mouse_up,
+                 row_on_mouse_motion,
+                 row_on_mouse_focus_begin,
+                 row_on_mouse_focus_end,
+                 row_on_mouse_over_begin,
+                 row_on_mouse_over_end,
+                 row_on_destroy,
+                 row_on_destroy_begin,
+                 row_on_tick,
+                 row_on_display,
+                 row_on_display_top_level,
                  parent=0, 
                  **kw):
 
@@ -67,6 +83,23 @@ class WidText(wid.Wid):
 
                     child = wid.Wid(name="wid text child", parent=self.wid_id)
                     child.set_tl_br_pct(x, y, x + w, y + h)
+
+                    child.set_on_tooltip(row_on_tooltip[row])
+                    child.set_on_key_down(row_on_key_down[row])
+                    child.set_on_key_up(row_on_key_up[row])
+                    child.set_on_joy_button(row_on_joy_button[row])
+                    child.set_on_mouse_down(row_on_mouse_down[row])
+                    child.set_on_mouse_up(row_on_mouse_up[row])
+                    child.set_on_mouse_motion(row_on_mouse_motion[row])
+                    child.set_on_mouse_focus_begin(row_on_mouse_focus_begin[row])
+                    child.set_on_mouse_focus_end(row_on_mouse_focus_end[row])
+                    child.set_on_mouse_over_begin(row_on_mouse_over_begin[row])
+                    child.set_on_mouse_over_end(row_on_mouse_over_end[row])
+                    child.set_on_destroy(row_on_destroy[row])
+                    child.set_on_destroy_begin(row_on_destroy_begin[row])
+                    child.set_on_tick(row_on_tick[row])
+                    child.set_on_display(row_on_display[row])
+                    child.set_on_display_top_level(row_on_display_top_level[row])
 
                     if color != None:
                         child.set_text(text=word, lhs=True, font=font, color=color)

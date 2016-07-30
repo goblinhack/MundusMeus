@@ -1,5 +1,6 @@
 import mm
 import os
+import sys
 import fnmatch
 from os.path import dirname, basename
 import imp
@@ -58,6 +59,7 @@ def load_one_plugin(filepath):
     if basename(filepath) == "wid_popup.py":
         global wid_popup
         wid_popup = py_mod
+
 
 def load_all_plugins():
     for filename in find_plugins(dirname(__file__), '*.py'):
@@ -198,20 +200,52 @@ def wid_on_display_top_level_callback(wid):
     wid.con("wid_on_display_top_level_callback")
     return
 
+def wid_quit_on_key_down(wid, sym, mod):
+    parent = wid.get_top_parent()
+    if parent is None:
+        return False
+
+    if sym == SDLK_q:
+        parent.destroy()
+        mm.die("User exit request")
+        return True
+
+    if sym == SDLK_a:
+        parent.destroy()
+        return True
+
+    return False
+
 def wid_quit_create():
     global wid_quit_menu
 
     if wid_quit_menu is None:
         w = wid_popup.WidPopup(name="test",
                                tiles="wid1",
-                               width=0.5)
+                               width=0.5,
+                               height=0.5)
         wid_quit_menu = w
 
-        w.add_text(center=True, font="vlarge", color="white", text="%%tile=player4$ Quit the game?")
-        w.add_text(font="small", color="yellow", text="01234")
-        w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
-        w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
-        w.add_text(font="small", text="%%fg=green$b) %%fg=white$nope, keep on going")
+        w.add_text(center=True, 
+                   font="vlarge", 
+                   color="white", 
+                   text="%%tile=player4$ Quit the game?")
+
+        w.add_text(font="small", 
+                   on_key_down=wid_quit_on_key_down, 
+                   text="%%fg=green$a) %%fg=white$quit")
+
+        w.add_text(font="small", 
+                   on_key_down=wid_quit_on_key_down, 
+                   text="%%fg=green$a) %%fg=white$quit")
+
+        w.add_text(font="small", 
+                   on_key_down=wid_quit_on_key_down, 
+                   text="%%fg=green$a) %%fg=white$quit")
+
+        w.add_text(font="small", 
+                   on_key_down=wid_quit_on_key_down, 
+                   text="%%fg=green$b) %%fg=white$nope, keep on going with lots of lots shshiohwo gowhgowhgowh oghwog wog owh gowh roghwoighowhgoiw h qhehghwhgoh odhgoshogshioghsoh iosos ob hsobh osfhboishboish oshf obis foihbsoih boishboishoibsh boshoib sfoshso ")
         w.update()
         w.set_focus()
         w.move_to_pct_centered(x=0.5, y=0.5)

@@ -94,6 +94,22 @@ class Wid:
     def update(self):
         mm.wid_update(self)
 
+    def get_top_parent(self):
+        wid_id = mm.wid_get_top_parent(self)
+        if wid_id is not None:
+            wid = all_wids[wid_id]
+            if wid != None:
+                return wid
+        return None
+
+    def get_parent(self):
+        wid_id = mm.wid_get_parent(self)
+        if wid_id is not None:
+            wid = all_wids[wid_id]
+            if wid != None:
+                return wid
+        return None
+
     def get_size(self):
         return mm.wid_get_size(self)
 
@@ -253,62 +269,92 @@ class Wid:
 
     def set_on_tooltip(self, callback):
         self.callback_on_tooltip = callback
+        if callback is None:
+            return
         mm.wid_set_on_tooltip(self)
 
     def set_on_key_down(self, callback):
         self.callback_on_key_down = callback
+        if callback is None:
+            return
         mm.wid_set_on_key_down(self)
 
     def set_on_key_up(self, callback):
         self.callback_on_key_up = callback
+        if callback is None:
+            return
         mm.wid_set_on_key_up(self)
 
     def set_on_joy_button(self, callback):
         self.callback_on_joy_button = callback
+        if callback is None:
+            return
         mm.wid_set_on_joy_button(self)
 
     def set_on_mouse_down(self, callback):
         self.callback_on_mouse_down = callback
+        if callback is None:
+            return
         mm.wid_set_on_mouse_down(self)
 
     def set_on_mouse_motion(self, callback):
         self.callback_on_mouse_motion = callback
+        if callback is None:
+            return
         mm.wid_set_on_mouse_motion(self)
 
     def set_on_mouse_focus_begin(self, callback):
         self.callback_on_mouse_focus_begin = callback
+        if callback is None:
+            return
         mm.wid_set_on_mouse_focus_begin(self)
 
     def set_on_mouse_focus_end(self, callback):
         self.callback_on_mouse_focus_end = callback
+        if callback is None:
+            return
         mm.wid_set_on_mouse_focus_end(self)
 
     def set_on_mouse_over_begin(self, callback):
         self.callback_on_mouse_over_begin = callback
+        if callback is None:
+            return
         mm.wid_set_on_mouse_over_begin(self)
 
     def set_on_mouse_over_end(self, callback):
         self.callback_on_mouse_over_end = callback
+        if callback is None:
+            return
         mm.wid_set_on_mouse_over_end(self)
 
     def set_on_mouse_up(self, callback):
         self.callback_on_mouse_up = callback
+        if callback is None:
+            return
         mm.wid_set_on_mouse_up(self)
 
     def set_on_destroy(self, callback):
         self.callback_on_destroy = callback
+        if callback is None:
+            return
         mm.wid_set_on_destroy(self)
 
     def set_on_destroy_begin(self, callback):
         self.callback_on_destroy_begin = callback
+        if callback is None:
+            return
         mm.wid_set_on_destroy_begin(self)
 
     def set_on_tick(self, callback):
         self.callback_on_tick = callback
+        if callback is None:
+            return
         mm.wid_set_on_tick(self)
 
     def set_on_display(self, callback):
         self.callback_on_display = callback
+        if callback is None:
+            return
         mm.wid_set_on_display(self)
 
     def set_on_display_top_level(self, callback):

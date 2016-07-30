@@ -1586,6 +1586,16 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "wid_get_size_pct"},
 
+    {"wid_get_parent",
+        (PyCFunction)wid_get_parent_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_get_parent"},
+
+    {"wid_get_top_parent",
+        (PyCFunction)wid_get_top_parent_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_get_top_parent"},
+
     WID_DECL(wid_move_to_horiz_vert_pct_in)
     WID_DECL(wid_move_to_abs_centered_in)
     WID_DECL(wid_move_to_centered_in)
@@ -1866,6 +1876,155 @@ static void py_add_to_path (const char *path)
     myfree(wc_new_path);
 }
 
+static void python_add_consts (void)
+{
+    PyModule_AddIntConstant(mymod, "KMOD_LSHIFT", KMOD_LSHIFT);
+    PyModule_AddIntConstant(mymod, "KMOD_RSHIFT", KMOD_RSHIFT);
+    PyModule_AddIntConstant(mymod, "KMOD_LALT", KMOD_LALT);
+    PyModule_AddIntConstant(mymod, "KMOD_RALT", KMOD_RALT);
+    PyModule_AddIntConstant(mymod, "KMOD_LCTRL", KMOD_LCTRL);
+    PyModule_AddIntConstant(mymod, "KMOD_RCTRL", KMOD_RCTRL);
+
+    PyModule_AddIntConstant(mymod, "SDLK_0", SDLK_0);
+    PyModule_AddIntConstant(mymod, "SDLK_1", SDLK_1);
+    PyModule_AddIntConstant(mymod, "SDLK_2", SDLK_2);
+    PyModule_AddIntConstant(mymod, "SDLK_3", SDLK_3);
+    PyModule_AddIntConstant(mymod, "SDLK_4", SDLK_4);
+    PyModule_AddIntConstant(mymod, "SDLK_5", SDLK_5);
+    PyModule_AddIntConstant(mymod, "SDLK_6", SDLK_6);
+    PyModule_AddIntConstant(mymod, "SDLK_7", SDLK_7);
+    PyModule_AddIntConstant(mymod, "SDLK_8", SDLK_8);
+    PyModule_AddIntConstant(mymod, "SDLK_9", SDLK_9);
+    PyModule_AddIntConstant(mymod, "SDLK_AMPERSAND", SDLK_AMPERSAND);
+    PyModule_AddIntConstant(mymod, "SDLK_ASTERISK", SDLK_ASTERISK);
+    PyModule_AddIntConstant(mymod, "SDLK_AT", SDLK_AT);
+    PyModule_AddIntConstant(mymod, "SDLK_BACKQUOTE", SDLK_BACKQUOTE);
+    PyModule_AddIntConstant(mymod, "SDLK_BACKSLASH", SDLK_BACKSLASH);
+    PyModule_AddIntConstant(mymod, "SDLK_BACKSPACE", SDLK_BACKSPACE);
+    PyModule_AddIntConstant(mymod, "SDLK_CARET", SDLK_CARET);
+    PyModule_AddIntConstant(mymod, "SDLK_COLON", SDLK_COLON);
+    PyModule_AddIntConstant(mymod, "SDLK_COMMA", SDLK_COMMA);
+    PyModule_AddIntConstant(mymod, "SDLK_DELETE", SDLK_DELETE);
+    PyModule_AddIntConstant(mymod, "SDLK_DOLLAR", SDLK_DOLLAR);
+    PyModule_AddIntConstant(mymod, "SDLK_EQUALS", SDLK_EQUALS);
+    PyModule_AddIntConstant(mymod, "SDLK_ESCAPE", SDLK_ESCAPE);
+    PyModule_AddIntConstant(mymod, "SDLK_EXCLAIM", SDLK_EXCLAIM);
+    PyModule_AddIntConstant(mymod, "SDLK_GREATER", SDLK_GREATER);
+    PyModule_AddIntConstant(mymod, "SDLK_HASH", SDLK_HASH);
+    PyModule_AddIntConstant(mymod, "SDLK_LEFTBRACKET", SDLK_LEFTBRACKET);
+    PyModule_AddIntConstant(mymod, "SDLK_LEFTPAREN", SDLK_LEFTPAREN);
+    PyModule_AddIntConstant(mymod, "SDLK_LESS", SDLK_LESS);
+    PyModule_AddIntConstant(mymod, "SDLK_MINUS", SDLK_MINUS);
+    PyModule_AddIntConstant(mymod, "SDLK_PERIOD", SDLK_PERIOD);
+    PyModule_AddIntConstant(mymod, "SDLK_PLUS", SDLK_PLUS);
+    PyModule_AddIntConstant(mymod, "SDLK_QUESTION", SDLK_QUESTION);
+    PyModule_AddIntConstant(mymod, "SDLK_QUOTE", SDLK_QUOTE);
+    PyModule_AddIntConstant(mymod, "SDLK_QUOTEDBL", SDLK_QUOTEDBL);
+    PyModule_AddIntConstant(mymod, "SDLK_RETURN", SDLK_RETURN);
+    PyModule_AddIntConstant(mymod, "SDLK_RIGHTBRACKET", SDLK_RIGHTBRACKET);
+    PyModule_AddIntConstant(mymod, "SDLK_RIGHTPAREN", SDLK_RIGHTPAREN);
+    PyModule_AddIntConstant(mymod, "SDLK_SEMICOLON", SDLK_SEMICOLON);
+    PyModule_AddIntConstant(mymod, "SDLK_SLASH", SDLK_SLASH);
+    PyModule_AddIntConstant(mymod, "SDLK_SPACE", SDLK_SPACE);
+    PyModule_AddIntConstant(mymod, "SDLK_TAB", SDLK_TAB);
+    PyModule_AddIntConstant(mymod, "SDLK_UNDERSCORE", SDLK_UNDERSCORE);
+    PyModule_AddIntConstant(mymod, "SDLK_a", SDLK_a);
+    PyModule_AddIntConstant(mymod, "SDLK_b", SDLK_b);
+    PyModule_AddIntConstant(mymod, "SDLK_c", SDLK_c);
+    PyModule_AddIntConstant(mymod, "SDLK_d", SDLK_d);
+    PyModule_AddIntConstant(mymod, "SDLK_e", SDLK_e);
+    PyModule_AddIntConstant(mymod, "SDLK_f", SDLK_f);
+    PyModule_AddIntConstant(mymod, "SDLK_g", SDLK_g);
+    PyModule_AddIntConstant(mymod, "SDLK_h", SDLK_h);
+    PyModule_AddIntConstant(mymod, "SDLK_i", SDLK_i);
+    PyModule_AddIntConstant(mymod, "SDLK_j", SDLK_j);
+    PyModule_AddIntConstant(mymod, "SDLK_k", SDLK_k);
+    PyModule_AddIntConstant(mymod, "SDLK_l", SDLK_l);
+    PyModule_AddIntConstant(mymod, "SDLK_m", SDLK_m);
+    PyModule_AddIntConstant(mymod, "SDLK_n", SDLK_n);
+    PyModule_AddIntConstant(mymod, "SDLK_o", SDLK_o);
+    PyModule_AddIntConstant(mymod, "SDLK_p", SDLK_p);
+    PyModule_AddIntConstant(mymod, "SDLK_q", SDLK_q);
+    PyModule_AddIntConstant(mymod, "SDLK_r", SDLK_r);
+    PyModule_AddIntConstant(mymod, "SDLK_s", SDLK_s);
+    PyModule_AddIntConstant(mymod, "SDLK_t", SDLK_t);
+    PyModule_AddIntConstant(mymod, "SDLK_u", SDLK_u);
+    PyModule_AddIntConstant(mymod, "SDLK_v", SDLK_v);
+    PyModule_AddIntConstant(mymod, "SDLK_w", SDLK_w);
+    PyModule_AddIntConstant(mymod, "SDLK_x", SDLK_x);
+    PyModule_AddIntConstant(mymod, "SDLK_y", SDLK_y);
+    PyModule_AddIntConstant(mymod, "SDLK_z", SDLK_z);
+
+#if SDL_MAJOR_VERSION == 1 /* { */
+    PyModule_AddIntConstant(mymod, "SDLK_KP0", SDLK_KP0);
+    PyModule_AddIntConstant(mymod, "SDLK_KP1", SDLK_KP1);
+    PyModule_AddIntConstant(mymod, "SDLK_KP2", SDLK_KP2);
+    PyModule_AddIntConstant(mymod, "SDLK_KP3", SDLK_KP3);
+    PyModule_AddIntConstant(mymod, "SDLK_KP4", SDLK_KP4);
+    PyModule_AddIntConstant(mymod, "SDLK_KP5", SDLK_KP5);
+    PyModule_AddIntConstant(mymod, "SDLK_KP6", SDLK_KP6);
+    PyModule_AddIntConstant(mymod, "SDLK_KP7", SDLK_KP7);
+    PyModule_AddIntConstant(mymod, "SDLK_KP8", SDLK_KP8);
+    PyModule_AddIntConstant(mymod, "SDLK_KP9", SDLK_KP9);
+#else
+    PyModule_AddIntConstant(mymod, "SDLK_KP_0", SDLK_KP_0);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_1", SDLK_KP_1);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_2", SDLK_KP_2);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_3", SDLK_KP_3);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_4", SDLK_KP_4);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_5", SDLK_KP_5);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_6", SDLK_KP_6);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_7", SDLK_KP_7);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_8", SDLK_KP_8);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_9", SDLK_KP_9);
+#endif
+
+    PyModule_AddIntConstant(mymod, "SDLK_KP_PERIOD", SDLK_KP_PERIOD);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_DIVIDE", SDLK_KP_DIVIDE);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_MULTIPLY", SDLK_KP_MULTIPLY);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_MINUS", SDLK_KP_MINUS);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_PLUS", SDLK_KP_PLUS);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_ENTER", SDLK_KP_ENTER);
+    PyModule_AddIntConstant(mymod, "SDLK_KP_EQUALS", SDLK_KP_EQUALS);
+    PyModule_AddIntConstant(mymod, "SDLK_UP", SDLK_UP);
+    PyModule_AddIntConstant(mymod, "SDLK_DOWN", SDLK_DOWN);
+    PyModule_AddIntConstant(mymod, "SDLK_RIGHT", SDLK_RIGHT);
+    PyModule_AddIntConstant(mymod, "SDLK_LEFT", SDLK_LEFT);
+    PyModule_AddIntConstant(mymod, "SDLK_INSERT", SDLK_INSERT);
+    PyModule_AddIntConstant(mymod, "SDLK_HOME", SDLK_HOME);
+    PyModule_AddIntConstant(mymod, "SDLK_END", SDLK_END);
+    PyModule_AddIntConstant(mymod, "SDLK_PAGEUP", SDLK_PAGEUP);
+    PyModule_AddIntConstant(mymod, "SDLK_PAGEDOWN", SDLK_PAGEDOWN);
+    PyModule_AddIntConstant(mymod, "SDLK_F1", SDLK_F1);
+    PyModule_AddIntConstant(mymod, "SDLK_F2", SDLK_F2);
+    PyModule_AddIntConstant(mymod, "SDLK_F3", SDLK_F3);
+    PyModule_AddIntConstant(mymod, "SDLK_F4", SDLK_F4);
+    PyModule_AddIntConstant(mymod, "SDLK_F5", SDLK_F5);
+    PyModule_AddIntConstant(mymod, "SDLK_F6", SDLK_F6);
+    PyModule_AddIntConstant(mymod, "SDLK_F7", SDLK_F7);
+    PyModule_AddIntConstant(mymod, "SDLK_F8", SDLK_F8);
+    PyModule_AddIntConstant(mymod, "SDLK_F9", SDLK_F9);
+    PyModule_AddIntConstant(mymod, "SDLK_F10", SDLK_F10);
+    PyModule_AddIntConstant(mymod, "SDLK_F11", SDLK_F11);
+    PyModule_AddIntConstant(mymod, "SDLK_F12", SDLK_F12);
+    PyModule_AddIntConstant(mymod, "SDLK_F13", SDLK_F13);
+    PyModule_AddIntConstant(mymod, "SDLK_F14", SDLK_F14);
+    PyModule_AddIntConstant(mymod, "SDLK_F15", SDLK_F15);
+    PyModule_AddIntConstant(mymod, "SDLK_CAPSLOCK", SDLK_CAPSLOCK);
+    PyModule_AddIntConstant(mymod, "SDLK_RSHIFT", SDLK_RSHIFT);
+    PyModule_AddIntConstant(mymod, "SDLK_LSHIFT", SDLK_LSHIFT);
+    PyModule_AddIntConstant(mymod, "SDLK_RCTRL", SDLK_RCTRL);
+    PyModule_AddIntConstant(mymod, "SDLK_LCTRL", SDLK_LCTRL);
+    PyModule_AddIntConstant(mymod, "SDLK_RALT", SDLK_RALT);
+    PyModule_AddIntConstant(mymod, "SDLK_LALT", SDLK_LALT);
+    PyModule_AddIntConstant(mymod, "SDLK_MODE", SDLK_MODE);
+    PyModule_AddIntConstant(mymod, "SDLK_HELP", SDLK_HELP);
+    PyModule_AddIntConstant(mymod, "SDLK_SYSREQ", SDLK_SYSREQ);
+    PyModule_AddIntConstant(mymod, "SDLK_MENU", SDLK_MENU);
+    PyModule_AddIntConstant(mymod, "SDLK_POWER", SDLK_POWER);
+    PyModule_AddIntConstant(mymod, "SDLK_UNDO", SDLK_UNDO);
+}
+
 void python_init (void)
 {
     PyImport_AppendInittab("mm", python_my_module_create);
@@ -1883,6 +2042,8 @@ void python_init (void)
         py_err();
         DIE("module import failed");
     }
+
+    python_add_consts();
 }
 
 void python_fini (void)
