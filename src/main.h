@@ -346,7 +346,7 @@ extern FILE *LOG_STDERR;
 extern char *EXEC_FULL_PATH_AND_NAME;
 extern char *EXEC_DIR;
 extern char *DATA_PATH;
-extern char *CLASSES_PATH;
+extern char *PYTHON_PATH;
 extern char *LEVELS_PATH;
 extern char *WORLD_PATH;
 extern char *GFX_PATH;

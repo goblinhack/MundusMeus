@@ -2035,7 +2035,7 @@ void python_init (void)
     py_add_to_path(LEVELS_PATH);
     py_add_to_path(WORLD_PATH);
     py_add_to_path(DATA_PATH);
-    py_add_to_path(CLASSES_PATH);
+    py_add_to_path(PYTHON_PATH);
 
     mymod = PyImport_ImportModule("init");
     if (!mymod) {

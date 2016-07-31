@@ -42,9 +42,9 @@ static char **ARGV;
 char *EXEC_FULL_PATH_AND_NAME;
 char *EXEC_DIR;
 char *DATA_PATH;
-char *CLASSES_PATH;
 char *LEVELS_PATH;
 char *WORLD_PATH;
+char *PYTHON_PATH;
 char *TTF_PATH;
 char *GFX_PATH;
 int debug;
@@ -110,9 +110,9 @@ void quit (void)
         DATA_PATH = 0;
     }
 
-    if (CLASSES_PATH) {
-        myfree(CLASSES_PATH);
-        CLASSES_PATH = 0;
+    if (PYTHON_PATH) {
+        myfree(PYTHON_PATH);
+        PYTHON_PATH = 0;
     }
 
     if (LEVELS_PATH) {
@@ -332,18 +332,18 @@ static void find_data_dir (void)
 }
 
 /*
- * Hunt down the classes/ dir.
+ * Hunt down the python/ dir.
  */
-static void find_classes_dir (void)
+static void find_python_dir (void)
 {
-    CLASSES_PATH = dynprintf("%sdata" DSEP "py" DSEP, EXEC_DIR);
-    if (dir_exists(CLASSES_PATH)) {
+    PYTHON_PATH = dynprintf("%spython" DSEP, EXEC_DIR);
+    if (dir_exists(PYTHON_PATH)) {
         return;
     }
 
-    myfree(CLASSES_PATH);
+    myfree(PYTHON_PATH);
 
-    CLASSES_PATH = dupstr(EXEC_DIR, __FUNCTION__);
+    PYTHON_PATH = dupstr(EXEC_DIR, __FUNCTION__);
 }
 
 /*
@@ -413,7 +413,7 @@ static void find_file_locations (void)
 {
     find_exec_dir();
     find_data_dir();
-    find_classes_dir();
+    find_python_dir();
     find_level_dir();
     find_world_dir();
     find_ttf_dir();
