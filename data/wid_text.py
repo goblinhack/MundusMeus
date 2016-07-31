@@ -115,7 +115,7 @@ class WidText(wid.Wid):
         self.update()
 
 
-def text_size_pct(row_text, row_font):
+def text_size_pct(row_text, row_font, width):
 
     row_width = []
 
@@ -137,10 +137,12 @@ def text_size_pct(row_text, row_font):
             for word in words:
                 w, h, c = mm.text_size_pct(font=font, text=word + " ")
 
-                if x + w > 1.0:
+                if x + w > width:
                     x = 0
-                    y = y + h
-                    max_w = 1.0
+                    y = y + max_h
+                    max_h = 0
+                    max_w = width 
+                    print(y)
 
                 x = x + w
 
@@ -152,6 +154,7 @@ def text_size_pct(row_text, row_font):
 
             if words != []:
                 y = y + max_h
+                print(y)
 
             row_width[row] = max_w
 

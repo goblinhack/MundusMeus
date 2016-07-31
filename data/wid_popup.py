@@ -10,7 +10,8 @@ class WidPopup(wid.Wid):
     def __init__(self, name, 
                  x1=0.0,
                  y1=0.0, 
-                 width=0.0,
+                 width=0.5,
+                 height=0.0,
                  tiles=None,
                  parent=0, 
                  **kw):
@@ -35,6 +36,7 @@ class WidPopup(wid.Wid):
         self.x1 = x1
         self.y1 = y1
         self.width = width
+        self.height = height
         self.row_text = []
         self.row_font = []
         self.row_color = []
@@ -111,24 +113,23 @@ class WidPopup(wid.Wid):
     def update(self):
 
         text_w, text_h, self.row_width = wid_text.text_size_pct(row_text=self.row_text,
-                                                                row_font=self.row_font)
-        if self.width != 0.0:
-            self.w = self.width
-        else:
-            self.w = text_w
-        self.h = text_h
+                                                                row_font=self.row_font,
+                                                                width=self.width)
+        self.width = self.width
+        if self.height == 0:
+            self.height = text_h
 
-        self.w += self.pad_w * 2
-        self.h += self.pad_h * 2
+        self.width += self.pad_w * 2
+        self.height += self.pad_h * 2
 
         self.set_tl_br_pct(self.x1, self.y1, 
-                           self.x1 + self.w,
-                           self.y1 + self.h)
+                           self.x1 + self.width,
+                           self.y1 + self.height)
 
         inner_pad_w = self.pad_w
         inner_pad_h = self.pad_h
-        inner_pad_w *= 1.0 / self.w
-        inner_pad_h *= 1.0 / self.h
+        inner_pad_w *= 1.0 / self.width
+        inner_pad_h *= 1.0 / self.height
 
         textbox_x1 = inner_pad_w
         textbox_y1 = inner_pad_h * 0.9 # to account for the widget shadow
