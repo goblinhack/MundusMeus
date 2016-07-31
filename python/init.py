@@ -272,7 +272,7 @@ def init2():
     load_all_plugins()
 
     wid_intro_bg_create()
-#    wid_intro_menu_create()
+    wid_intro_menu_create()
     wid_quit_create()
 
 init1()
