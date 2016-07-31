@@ -142,7 +142,6 @@ def text_size_pct(row_text, row_font, width):
                     y = y + max_h
                     max_h = 0
                     max_w = width 
-                    print(y)
 
                 x = x + w
 
@@ -154,7 +153,6 @@ def text_size_pct(row_text, row_font, width):
 
             if words != []:
                 y = y + max_h
-                print(y)
 
             row_width[row] = max_w
 

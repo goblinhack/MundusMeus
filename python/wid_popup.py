@@ -165,5 +165,6 @@ class WidPopup(wid.Wid):
 
         super().update()
 
-        mm.wid_new_scrollbar(vert=True, parent=self.wid_id, owner=self.text_box.wid_id)
+        if text_h > self.height:
+            mm.wid_new_scrollbar(vert=True, parent=self.wid_id, owner=self.text_box.wid_id)
 
