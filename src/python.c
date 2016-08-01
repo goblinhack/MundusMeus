@@ -1753,6 +1753,10 @@ void py_err (void)
     char *py_str;
 
     PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+    PyErr_NormalizeException(&ptype, &pvalue, &ptraceback);
+    PyErr_Display(ptype, pvalue, ptraceback);
+    PyTraceBack_Print(ptraceback, pvalue);
+
     pyobj_str = PyObject_Str(pvalue);
     py_str = py_obj_to_str(pyobj_str);
     ERR("%s", py_str);

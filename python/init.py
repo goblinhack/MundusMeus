@@ -229,9 +229,15 @@ def wid_quit_create():
         w.add_text(center=True, 
                    font="vlarge", 
                    color="white", 
+                   title="true",
                    text="%%tile=player4$ Quit the game?")
+        w.add_text(center=True, 
+                   font="vsmall", 
+                   color="white", 
+                   title="true",
+                   text="---")
 
-        w.add_text(font="small", 
+        w.add_text(font="vlarge", 
                    on_key_down=wid_quit_on_key_down, 
                    text="%%fg=green$a) %%fg=white$quit")
 
@@ -272,7 +278,7 @@ def init2():
     load_all_plugins()
 
     wid_intro_bg_create()
-    wid_intro_menu_create()
+#    wid_intro_menu_create()
     wid_quit_create()
 
 init1()
