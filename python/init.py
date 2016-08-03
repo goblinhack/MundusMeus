@@ -223,7 +223,7 @@ def wid_quit_create():
         w = wid_popup.WidPopup(name="test",
                                tiles="wid1",
                                width=0.5,
-                               height=0.0)
+                               height=0.2)
         wid_quit_menu = w
 
         w.add_text(center=True, 
