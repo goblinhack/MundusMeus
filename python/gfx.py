@@ -4,6 +4,7 @@ import mm
 def init_tex():
 
     mm.tex_load(file="data/gfx/wid1.tga",       name="wid1")
+    mm.tex_load(file="data/gfx/wid2.tga",       name="wid2")
     mm.tex_load(file="data/gfx/sword.tga",      name="sword")
     mm.tex_load(file="data/gfx/title.tga",      name="main_title")
     mm.tex_load(file="data/gfx/map.tga",        name="map")
@@ -92,6 +93,176 @@ def init_tiles_wid1():
 
     mm.wid_tiles_load(
             name="wid1",
+            scale=0.5)
+
+
+def init_tiles_wid2():
+
+    mm.tex_load_tiled(
+            file="data/gfx/wid2.tga",
+            name="wid2",
+            width=64, height=64)
+
+    tiles = [
+        "wid2-tl",
+        "wid2-top1",
+        "wid2-top2",
+        "wid2-top3",
+        "wid2-top4",
+        "wid2-top5",
+        "wid2-top6",
+        "wid2-tr",
+        "wid2-left1",
+        "wid2-1",
+        "wid2-2",
+        "wid2-3",
+        "wid2-4",
+        "wid2-5",
+        "wid2-6",
+        "wid2-right1",
+        "wid2-left2",
+        "wid2-7",
+        "wid2-8",
+        "wid2-9",
+        "wid2-10",
+        "wid2-11",
+        "wid2-12",
+        "wid2-right2",
+        "wid2-left3",
+        "wid2-13",
+        "wid2-14",
+        "wid2-15",
+        "wid2-16",
+        "wid2-17",
+        "wid2-18",
+        "wid2-right3",
+        "wid2-left4",
+        "wid2-19",
+        "wid2-20",
+        "wid2-21",
+        "wid2-22",
+        "wid2-23",
+        "wid2-24",
+        "wid2-right4",
+        "wid2-left5",
+        "wid2-25",
+        "wid2-26",
+        "wid2-27",
+        "wid2-28",
+        "wid2-29",
+        "wid2-30",
+        "wid2-right5",
+        "wid2-left6",
+        "wid2-31",
+        "wid2-32",
+        "wid2-33",
+        "wid2-34",
+        "wid2-35",
+        "wid2-36",
+        "wid2-right6",
+        "wid2-bl",
+        "wid2-bot1",
+        "wid2-bot2",
+        "wid2-bot3",
+        "wid2-bot4",
+        "wid2-bot5",
+        "wid2-bot6",
+        "wid2-br",
+    ]
+
+    mm.tile_load_arr(
+            tex_name="wid2",
+            tex_name_black_and_white="",
+            width=64, height=64,
+            arr=tiles)
+
+    mm.wid_tiles_load(
+            name="wid2",
+            scale=0.5)
+
+
+def init_tiles_wid3():
+
+    mm.tex_load_tiled(
+            file="data/gfx/wid3.tga",
+            name="wid3",
+            width=64, height=64)
+
+    tiles = [
+        "wid3-tl",
+        "wid3-top1",
+        "wid3-top2",
+        "wid3-top3",
+        "wid3-top4",
+        "wid3-top5",
+        "wid3-top6",
+        "wid3-tr",
+        "wid3-left1",
+        "wid3-1",
+        "wid3-2",
+        "wid3-3",
+        "wid3-4",
+        "wid3-5",
+        "wid3-6",
+        "wid3-right1",
+        "wid3-left2",
+        "wid3-7",
+        "wid3-8",
+        "wid3-9",
+        "wid3-10",
+        "wid3-11",
+        "wid3-12",
+        "wid3-right2",
+        "wid3-left3",
+        "wid3-13",
+        "wid3-14",
+        "wid3-15",
+        "wid3-16",
+        "wid3-17",
+        "wid3-18",
+        "wid3-right3",
+        "wid3-left4",
+        "wid3-19",
+        "wid3-20",
+        "wid3-21",
+        "wid3-22",
+        "wid3-23",
+        "wid3-24",
+        "wid3-right4",
+        "wid3-left5",
+        "wid3-25",
+        "wid3-26",
+        "wid3-27",
+        "wid3-28",
+        "wid3-29",
+        "wid3-30",
+        "wid3-right5",
+        "wid3-left6",
+        "wid3-31",
+        "wid3-32",
+        "wid3-33",
+        "wid3-34",
+        "wid3-35",
+        "wid3-36",
+        "wid3-right6",
+        "wid3-bl",
+        "wid3-bot1",
+        "wid3-bot2",
+        "wid3-bot3",
+        "wid3-bot4",
+        "wid3-bot5",
+        "wid3-bot6",
+        "wid3-br",
+    ]
+
+    mm.tile_load_arr(
+            tex_name="wid3",
+            tex_name_black_and_white="",
+            width=64, height=64,
+            arr=tiles)
+
+    mm.wid_tiles_load(
+            name="wid3",
             scale=0.5)
 
 
@@ -278,6 +449,8 @@ def init_tiles_sea():
 
 init_tex()
 init_tiles_wid1()
+init_tiles_wid2()
+init_tiles_wid3()
 init_tiles_bigmap()
 init_tiles_sea()
 init_tiles_chars()

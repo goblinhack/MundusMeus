@@ -30,13 +30,20 @@ class WidText(wid.Wid):
                  row_on_display,
                  row_on_display_top_level,
                  parent=0, 
+                 tiles=None,
                  **kw):
 
         self.parent = parent
         self.name = name
 
-        super().__init__(name, parent=parent)
+        if tiles != None:
+            super().__init__(name, parent=parent, tiles=tiles, **kw)
+            self.set_color(tl=True, bg=True, br=True, name="white")
+        else:
+            super().__init__(name, parent=parent, **kw)
+
         self.set_tl_br_pct(x1, y1, x2, y2)
+
 
         self.children = []
         self.width, self.height = self.get_size_pct()
@@ -81,7 +88,9 @@ class WidText(wid.Wid):
                         x = 0
                         y = y + h
 
-                    child = wid.Wid(name="wid text child", parent=self.wid_id)
+                    child = wid.Wid(name="wid text child", 
+                                    parent=self.wid_id)
+
                     child.set_tl_br_pct(x, y, x + w, y + h)
 
                     child.set_on_tooltip(row_on_tooltip[row])
@@ -102,7 +111,8 @@ class WidText(wid.Wid):
                     child.set_on_display_top_level(row_on_display_top_level[row])
 
                     if color != None:
-                        child.set_text(text=word, lhs=True, font=font, color=color)
+                        child.set_text(text=word, lhs=True, font=font, 
+                                       color=color)
                     else:
                         child.set_text(text=word, lhs=True, font=font)
 

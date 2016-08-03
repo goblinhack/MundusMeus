@@ -193,10 +193,9 @@ class WidPopup(wid.Wid):
         title_h *= 1.0 / self.height
         body_h *= 1.0 / self.height
 
-        textbox_x1 = inner_pad_w
-        textbox_x2 = 1.0 - inner_pad_w
-
         if self.title_count > 0:
+            textbox_x1 = inner_pad_w
+            textbox_x2 = 1.0 - inner_pad_w
             textbox_y1 = inner_pad_h * 0.9 # to account for the widget shadow
             textbox_y2 = textbox_y1 + title_h
 
@@ -229,6 +228,23 @@ class WidPopup(wid.Wid):
 
         if self.row_count > 0:
 
+            textbox_x1 = inner_pad_w * 0.4
+            textbox_x2 = 1.0 - inner_pad_w * 0.4
+            textbox_y1 = inner_pad_h * 0.4 # to account for the widget shadow
+            textbox_y1 += title_h
+            textbox_y2 = 1.0 - inner_pad_h * 0.4 # again, shadow padding
+
+            w = wid.Wid(name="textbox", 
+                        tiles="wid2",
+                        parent=self.wid_id)
+
+            w.set_color(tl=True, bg=True, br=True, name="white")
+
+            w.set_tl_br_pct(x1=textbox_x1, y1=textbox_y1,
+                            x2=textbox_x2, y2=textbox_y2)
+
+            textbox_x1 = inner_pad_w
+            textbox_x2 = 1.0 - inner_pad_w
             textbox_y1 = inner_pad_h * 0.9 # to account for the widget shadow
             textbox_y1 += title_h
             textbox_y2 = 1.0 - inner_pad_h * 0.9 # again, shadow padding
