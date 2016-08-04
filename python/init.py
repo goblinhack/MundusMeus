@@ -222,20 +222,17 @@ def wid_quit_create():
     if wid_quit_menu is None:
         w = wid_popup.WidPopup(name="test",
                                tiles="wid1",
+                               title_tiles="wid3",
+                               body_tiles="wid2",
                                width=0.5,
-                               height=0.2)
+                               height=0.3)
         wid_quit_menu = w
 
         w.add_text(center=True, 
                    font="vlarge", 
                    color="white", 
                    title="true",
-                   text="%%tile=player4$ Quit the game?")
-        w.add_text(center=True, 
-                   font="vsmall", 
-                   color="white", 
-                   title="true",
-                   text="---")
+                   text="%%tile=player4$ Quit the game?\nReally man?")
 
         w.add_text(font="vlarge", 
                    on_key_down=wid_quit_on_key_down, 
@@ -248,6 +245,22 @@ def wid_quit_create():
         w.add_text(font="small", 
                    on_key_down=wid_quit_on_key_down, 
                    text="%%fg=green$a) %%fg=white$quit")
+
+        w.add_text(font="small", 
+                   on_key_down=wid_quit_on_key_down, 
+                   text="%%fg=green$a) %%fg=white$bla")
+
+        w.add_text(font="small", 
+                   on_key_down=wid_quit_on_key_down, 
+                   text="%%fg=green$a) %%fg=white$bla")
+
+        w.add_text(font="small", 
+                   on_key_down=wid_quit_on_key_down, 
+                   text="%%fg=green$a) %%fg=white$bla")
+
+        w.add_text(font="small", 
+                   on_key_down=wid_quit_on_key_down, 
+                   text="%%fg=green$a) %%fg=white$bla")
 
         w.add_text(font="small", 
                    on_key_down=wid_quit_on_key_down, 
