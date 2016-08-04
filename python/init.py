@@ -205,20 +205,29 @@ def wid_quit_on_key_down(wid, sym, mod):
     if parent is None:
         return False
 
-    if sym == SDLK_q:
-        parent.destroy()
-        mm.die("User exit request")
+    if sym == SDLK_a:
+        mm.con("key_a")
+#        parent.destroy()
+#        mm.die("User exit request")
         return True
 
-    if sym == SDLK_a:
-        parent.destroy()
+    if sym == SDLK_b:
+        mm.con("key_b")
+#        parent.destroy()
         return True
 
     return False
 
-def wid_quit_on_mouse_down(wid, x, y, button):
-    print("click")
+def wid_quit_on_mouse_down_a(wid, x, y, button):
+    mm.con("click_a")
+    return True
 
+def wid_quit_on_mouse_down_b(wid, x, y, button):
+    mm.con("click_b")
+    return True
+
+def wid_quit_on_mouse_down_c(wid, x, y, button):
+    mm.con("click_c")
     return True
 
 def wid_quit_create():
@@ -231,7 +240,6 @@ def wid_quit_create():
                                body_tiles="wid2",
                                width=0.5,
                                height=0.3,
-                               row_on_mouse_down=wid_quit_on_mouse_down,
                                row_on_key_down=wid_quit_on_key_down)
         wid_quit_menu = w
 
@@ -242,29 +250,16 @@ def wid_quit_create():
                    text="%%tile=player4$ Quit the game?\nReally man?")
 
         w.add_text(font="vlarge", 
-                   on_mouse_down=wid_quit_on_mouse_down,
+                   on_mouse_down=wid_quit_on_mouse_down_a,
                    text="%%fg=green$a) %%fg=white$quit")
 
         w.add_text(font="small", 
-                   text="%%fg=green$a) %%fg=white$quit")
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   text="%%fg=green$b) %%fg=white$bla")
 
         w.add_text(font="small", 
-                   text="%%fg=green$a) %%fg=white$quit")
-
-        w.add_text(font="small", 
-                   text="%%fg=green$a) %%fg=white$bla")
-
-        w.add_text(font="small", 
-                   text="%%fg=green$a) %%fg=white$bla")
-
-        w.add_text(font="small", 
-                   text="%%fg=green$a) %%fg=white$bla")
-
-        w.add_text(font="small", 
-                   text="%%fg=green$a) %%fg=white$bla")
-
-        w.add_text(font="small", 
-                   text="%%fg=green$b) %%fg=white$nope, keep on going with lots of lots shshiohwo gowhgowhgowh oghwog wog owh gowh roghwoighowhgoiw h qhehghwhgoh odhgoshogshioghsoh iosos ob hsobh osfhboishboish oshf obis foihbsoih boishboishoibsh boshoib sfoshso ")
+                   on_mouse_down=wid_quit_on_mouse_down_c,
+                   text="%%fg=green$c) %%fg=white$nope, keep on going with lots of lots shshiohwo gowhgowhgowh oghwog wog owh gowh roghwoighowhgoiw h qhehghwhgoh odhgoshogshioghsoh iosos ob hsobh osfhboishboish oshf obis foihbsoih boishboishoibsh boshoib sfoshso ")
         w.update()
         w.set_focus()
         w.move_to_pct_centered(x=0.5, y=0.5)
