@@ -44,6 +44,7 @@ class WidPopup(wid.Wid):
         self.row_center = []
         self.row_rhs = []
         self.row_width = []
+        self.line_width = []
         self.row_on_tooltip = []
         self.row_on_key_down = []
         self.row_on_key_up = []
@@ -68,6 +69,7 @@ class WidPopup(wid.Wid):
         self.title_center = []
         self.title_rhs = []
         self.title_width = []
+        self.title_line_width = []
         self.title_on_tooltip = []
         self.title_on_key_down = []
         self.title_on_key_up = []
@@ -162,18 +164,22 @@ class WidPopup(wid.Wid):
     def update(self):
 
         if self.title_count > 0:
-            title_w, title_h, self.title_width = wid_text.text_size_pct(row_text=self.title_text,
-                                                                        row_font=self.title_font,
-                                                                        width=self.width)
+            title_w, title_h, self.title_width, self.title_line_width =  \
+                wid_text.text_size_pct(row_text=self.title_text,
+                                       row_font=self.title_font,
+                                       width=self.width)
         else:
-            title_w, title_h, self.title_width = 0, 0, 0
+            title_w, title_h, self.title_width, self.title_line_width =  \
+                0, 0, 0, 0
 
         if self.row_count > 0:
-            body_w, body_h, self.row_width = wid_text.text_size_pct(row_text=self.row_text,
-                                                                    row_font=self.row_font,
-                                                                    width=self.width)
+            body_w, body_h, self.row_width, self.line_width =  \
+                wid_text.text_size_pct(row_text=self.row_text,
+                                       row_font=self.row_font,
+                                       width=self.width)
         else:
-            body_w, body_h, self.row_width = 0, 0, 0
+            body_w, body_h, self.row_width, self.line_width =  \
+                0, 0, 0, 0
 
         self.width = self.width
         if self.height == 0:
@@ -228,6 +234,7 @@ class WidPopup(wid.Wid):
                                              row_center=self.row_center,
                                              row_rhs=self.row_rhs,
                                              row_width=self.row_width,
+                                             line_width=self.line_width,
                                              row_on_tooltip=self.row_on_tooltip,
                                              row_on_key_down=self.row_on_key_down,
                                              row_on_key_up=self.row_on_key_up,
@@ -281,6 +288,7 @@ class WidPopup(wid.Wid):
                                              row_center=self.title_center,
                                              row_rhs=self.title_rhs,
                                              row_width=self.title_width,
+                                             line_width=self.title_line_width,
                                              row_on_tooltip=self.title_on_tooltip,
                                              row_on_key_down=self.title_on_key_down,
                                              row_on_key_up=self.title_on_key_up,
