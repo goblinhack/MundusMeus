@@ -97,23 +97,6 @@ class WidText(wid.Wid):
 
                     child.set_tl_br_pct(x, y, x + w, y + h)
 
-                    child.set_on_tooltip(row_on_tooltip[row])
-                    child.set_on_key_down(row_on_key_down[row])
-                    child.set_on_key_up(row_on_key_up[row])
-                    child.set_on_joy_button(row_on_joy_button[row])
-                    child.set_on_mouse_down(row_on_mouse_down[row])
-                    child.set_on_mouse_up(row_on_mouse_up[row])
-                    child.set_on_mouse_motion(row_on_mouse_motion[row])
-                    child.set_on_mouse_focus_begin(row_on_mouse_focus_begin[row])
-                    child.set_on_mouse_focus_end(row_on_mouse_focus_end[row])
-                    child.set_on_mouse_over_begin(row_on_mouse_over_begin[row])
-                    child.set_on_mouse_over_end(row_on_mouse_over_end[row])
-                    child.set_on_destroy(row_on_destroy[row])
-                    child.set_on_destroy_begin(row_on_destroy_begin[row])
-                    child.set_on_tick(row_on_tick[row])
-                    child.set_on_display(row_on_display[row])
-                    child.set_on_display_top_level(row_on_display_top_level[row])
-
                     if color != None:
                         child.set_text(text=word, lhs=True, font=font, 
                                        color=color)
@@ -127,14 +110,38 @@ class WidText(wid.Wid):
                 y = y + h
                 l += 1
 
+            w = wid.Wid(name="wid text multi line box", parent=self.wid_id)
+            w.row = row
+            w.set_tl_br_pct(0, begin_y, 1, y)
+
             if row_on_key_down[row] != None:
-                w = wid.Wid(name="wid text child", parent=self.wid_id)
-                w.row = row
                 wid_text_colorize_row(w)
                 w.set_on_mouse_over_begin(wid_text_on_mouse_over_begin_callback)
                 w.set_on_mouse_over_end(wid_text_on_mouse_over_end_callback)
-                w.set_tl_br_pct(0, begin_y, 1, y)
-                w.to_back()
+
+            w.set_on_mouse_down(row_on_mouse_down[row])
+            w.set_on_tooltip(row_on_tooltip[row])
+            w.set_on_key_down(row_on_key_down[row])
+            w.set_on_key_up(row_on_key_up[row])
+            w.set_on_joy_button(row_on_joy_button[row])
+            w.set_on_mouse_up(row_on_mouse_up[row])
+            w.set_on_mouse_motion(row_on_mouse_motion[row])
+            w.set_on_mouse_focus_begin(row_on_mouse_focus_begin[row])
+            w.set_on_mouse_focus_end(row_on_mouse_focus_end[row])
+
+            if row_on_mouse_over_begin[row] != None:
+                w.set_on_mouse_over_begin(row_on_mouse_over_begin[row])
+
+            if row_on_mouse_over_end[row] != None:
+                w.set_on_mouse_over_end(row_on_mouse_over_end[row])
+
+            w.set_on_destroy(row_on_destroy[row])
+            w.set_on_destroy_begin(row_on_destroy_begin[row])
+            w.set_on_tick(row_on_tick[row])
+            w.set_on_display(row_on_display[row])
+            w.set_on_display_top_level(row_on_display_top_level[row])
+
+            w.to_back()
 
         self.update()
 
