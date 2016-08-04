@@ -13,6 +13,7 @@ class WidText(wid.Wid):
                  row_center, 
                  row_rhs, 
                  row_width, 
+                 line_width, 
                  row_on_tooltip,
                  row_on_key_down,
                  row_on_key_up,
@@ -62,9 +63,11 @@ class WidText(wid.Wid):
             lines = text.split("\n")
 
             begin_y = y
+            l = 0
 
             for line in lines:
 
+                width = line_width[l]
                 words = line.split()
                 x = 0
 
@@ -122,6 +125,7 @@ class WidText(wid.Wid):
                     x = x + w
 
                 y = y + h
+                l += 1
 
             if row_on_key_down[row] != None:
                 w = wid.Wid(name="wid text child", parent=self.wid_id)
@@ -149,8 +153,11 @@ def wid_text_on_mouse_over_end_callback(w):
 def text_size_pct(row_text, row_font, width):
 
     row_width = []
+    line_width = []
 
     y = 0
+    l = 0
+
     for row in range(0, len(row_text)):
         text = row_text[row]
         font = row_font[row]
@@ -169,6 +176,9 @@ def text_size_pct(row_text, row_font, width):
                 w, h, c = mm.text_size_pct(font=font, text=word + " ")
 
                 if x + w > width:
+                    line_width.append(0)
+                    line_width[l] = x
+                    l += 1
                     x = 0
                     y = y + max_h
                     max_h = 0
@@ -185,6 +195,10 @@ def text_size_pct(row_text, row_font, width):
             if words != []:
                 y = y + max_h
 
+            line_width.append(0)
+            line_width[l] = x
+            l += 1
+
             row_width[row] = max_w
 
-    return max_w, y, row_width
+    return max_w, y, row_width, line_width
