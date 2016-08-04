@@ -599,6 +599,8 @@ def on_mouse_up_callback(wid_id, x, y, button):
 def on_destroy_callback(wid_id):
     wid = all_wids[wid_id]
     if wid != None:
+        if wid.on_destroy is None:
+            mm.die("no callback set")
         wid.on_destroy()
         return
     mm.err("Widget not found for on_destroy, id {0:x}".format(wid_id))
