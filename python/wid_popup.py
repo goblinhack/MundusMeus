@@ -13,6 +13,8 @@ class WidPopup(wid.Wid):
                  width=0.5,
                  height=0.0,
                  tiles=None,
+                 title_tiles=None,
+                 body_tiles=None,
                  parent=0, 
                  **kw):
 
@@ -82,6 +84,9 @@ class WidPopup(wid.Wid):
         self.title_on_tick = []
         self.title_on_display = []
         self.title_on_display_top_level = []
+
+        self.title_tiles = title_tiles
+        self.body_tiles = body_tiles
 
     def add_text(self, 
                  text, 
@@ -193,55 +198,22 @@ class WidPopup(wid.Wid):
         title_h *= 1.0 / self.height
         body_h *= 1.0 / self.height
 
-        if self.title_count > 0:
-            textbox_x1 = inner_pad_w
-            textbox_x2 = 1.0 - inner_pad_w
-            textbox_y1 = inner_pad_h * 0.9 # to account for the widget shadow
-            textbox_y2 = textbox_y1 + title_h
-
-            self.text_box = wid_text.WidText(name="textbox", 
-                                             row_text=self.title_text,
-                                             row_font=self.title_font,
-                                             row_color=self.title_color,
-                                             row_center=self.title_center,
-                                             row_rhs=self.title_rhs,
-                                             row_width=self.title_width,
-                                             row_on_tooltip=self.title_on_tooltip,
-                                             row_on_key_down=self.title_on_key_down,
-                                             row_on_key_up=self.title_on_key_up,
-                                             row_on_joy_button=self.title_on_joy_button,
-                                             row_on_mouse_down=self.title_on_mouse_down,
-                                             row_on_mouse_up=self.title_on_mouse_up,
-                                             row_on_mouse_motion=self.title_on_mouse_motion,
-                                             row_on_mouse_focus_begin=self.title_on_mouse_focus_begin,
-                                             row_on_mouse_focus_end=self.title_on_mouse_focus_end,
-                                             row_on_mouse_over_begin=self.title_on_mouse_over_begin,
-                                             row_on_mouse_over_end=self.title_on_mouse_over_end,
-                                             row_on_destroy=self.title_on_destroy,
-                                             row_on_destroy_begin=self.title_on_destroy_begin,
-                                             row_on_tick=self.title_on_tick,
-                                             row_on_display=self.title_on_display,
-                                             row_on_display_top_level=self.title_on_display_top_level,
-                                             parent=self.wid_id,
-                                             x1=textbox_x1, y1=textbox_y1, 
-                                             x2=textbox_x2, y2=textbox_y2)
-
         if self.row_count > 0:
 
-            textbox_x1 = inner_pad_w * 0.4
-            textbox_x2 = 1.0 - inner_pad_w * 0.4
-            textbox_y1 = inner_pad_h * 0.4 # to account for the widget shadow
-            textbox_y1 += title_h
-            textbox_y2 = 1.0 - inner_pad_h * 0.4 # again, shadow padding
+            if self.body_tiles != None:
+                textbox_x1 = inner_pad_w * 0.4
+                textbox_x2 = 1.0 - inner_pad_w * 0.4
+                textbox_y1 = inner_pad_h * 0.4 # to account for the widget shadow
+                textbox_y1 += title_h
+                textbox_y2 = 1.0 - inner_pad_h * 0.4 # again, shadow padding
 
-            w = wid.Wid(name="textbox", 
-                        tiles="wid2",
-                        parent=self.wid_id)
+                w = wid.Wid(name="textbox", 
+                            tiles=self.body_tiles,
+                            parent=self.wid_id)
 
-            w.set_color(tl=True, bg=True, br=True, name="white")
-
-            w.set_tl_br_pct(x1=textbox_x1, y1=textbox_y1,
-                            x2=textbox_x2, y2=textbox_y2)
+                w.set_color(tl=True, bg=True, br=True, name="white")
+                w.set_tl_br_pct(x1=textbox_x1, y1=textbox_y1,
+                                x2=textbox_x2, y2=textbox_y2)
 
             textbox_x1 = inner_pad_w
             textbox_x2 = 1.0 - inner_pad_w
@@ -281,3 +253,50 @@ class WidPopup(wid.Wid):
         if need_scrollbar is True:
             mm.wid_new_scrollbar(vert=True, parent=self.wid_id, owner=self.text_box.wid_id)
 
+        if self.title_count > 0:
+
+            if self.title_tiles != None:
+                textbox_x1 = inner_pad_w * 0.4
+                textbox_x2 = 1.0 - inner_pad_w * 0.4
+                textbox_y1 = inner_pad_h * 0.2 # to account for the widget shadow
+                textbox_y2 = inner_pad_h * 1.0 + title_h
+
+                w = wid.Wid(name="textbox", 
+                            tiles=self.title_tiles,
+                            parent=self.wid_id)
+
+                w.set_color(tl=True, bg=True, br=True, name="white")
+                w.set_tl_br_pct(x1=textbox_x1, y1=textbox_y1,
+                                x2=textbox_x2, y2=textbox_y2)
+
+            textbox_x1 = inner_pad_w
+            textbox_x2 = 1.0 - inner_pad_w
+            textbox_y1 = inner_pad_h * 0.6 # to account for the widget shadow
+            textbox_y2 = textbox_y1 + title_h
+
+            self.text_box = wid_text.WidText(name="textbox", 
+                                             row_text=self.title_text,
+                                             row_font=self.title_font,
+                                             row_color=self.title_color,
+                                             row_center=self.title_center,
+                                             row_rhs=self.title_rhs,
+                                             row_width=self.title_width,
+                                             row_on_tooltip=self.title_on_tooltip,
+                                             row_on_key_down=self.title_on_key_down,
+                                             row_on_key_up=self.title_on_key_up,
+                                             row_on_joy_button=self.title_on_joy_button,
+                                             row_on_mouse_down=self.title_on_mouse_down,
+                                             row_on_mouse_up=self.title_on_mouse_up,
+                                             row_on_mouse_motion=self.title_on_mouse_motion,
+                                             row_on_mouse_focus_begin=self.title_on_mouse_focus_begin,
+                                             row_on_mouse_focus_end=self.title_on_mouse_focus_end,
+                                             row_on_mouse_over_begin=self.title_on_mouse_over_begin,
+                                             row_on_mouse_over_end=self.title_on_mouse_over_end,
+                                             row_on_destroy=self.title_on_destroy,
+                                             row_on_destroy_begin=self.title_on_destroy_begin,
+                                             row_on_tick=self.title_on_tick,
+                                             row_on_display=self.title_on_display,
+                                             row_on_display_top_level=self.title_on_display_top_level,
+                                             parent=self.wid_id,
+                                             x1=textbox_x1, y1=textbox_y1, 
+                                             x2=textbox_x2, y2=textbox_y2)

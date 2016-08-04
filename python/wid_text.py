@@ -44,7 +44,6 @@ class WidText(wid.Wid):
 
         self.set_tl_br_pct(x1, y1, x2, y2)
 
-
         self.children = []
         self.width, self.height = self.get_size_pct()
 
@@ -61,6 +60,8 @@ class WidText(wid.Wid):
             rhs = row_rhs[row]
 
             lines = text.split("\n")
+
+            begin_y = y
 
             for line in lines:
 
@@ -122,8 +123,28 @@ class WidText(wid.Wid):
 
                 y = y + h
 
+            if row_on_key_down[row] != None:
+                w = wid.Wid(name="wid text child", parent=self.wid_id)
+                w.row = row
+                wid_text_colorize_row(w)
+                w.set_on_mouse_over_begin(wid_text_on_mouse_over_begin_callback)
+                w.set_on_mouse_over_end(wid_text_on_mouse_over_end_callback)
+                w.set_tl_br_pct(0, begin_y, 1, y)
+                w.to_back()
+
         self.update()
 
+def wid_text_colorize_row(w):
+    if w.row % 2 == 0:
+        w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.0)
+    else:
+        w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.05)
+
+def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
+    w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.2)
+
+def wid_text_on_mouse_over_end_callback(w):
+    wid_text_colorize_row(w)
 
 def text_size_pct(row_text, row_font, width):
 
