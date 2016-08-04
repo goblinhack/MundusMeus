@@ -16,10 +16,90 @@ class WidPopup(wid.Wid):
                  title_tiles=None,
                  body_tiles=None,
                  parent=0, 
+                 row_font=None,
+                 row_color=None,
+                 row_center=None,
+                 row_rhs=None,
+                 row_on_tooltip=None,
+                 row_on_key_down=None,
+                 row_on_key_up=None,
+                 row_on_joy_button=None,
+                 row_on_mouse_down=None,
+                 row_on_mouse_up=None,
+                 row_on_mouse_motion=None,
+                 row_on_mouse_focus_begin=None,
+                 row_on_mouse_focus_end=None,
+                 row_on_mouse_over_begin=None,
+                 row_on_mouse_over_end=None,
+                 row_on_destroy=None,
+                 row_on_destroy_begin=None,
+                 row_on_tick=None,
+                 row_on_display=None,
+                 row_on_display_top_level=None,
+                 title_font=None,
+                 title_color=None,
+                 title_center=None,
+                 title_rhs=None,
+                 title_on_tooltip=None,
+                 title_on_key_down=None,
+                 title_on_key_up=None,
+                 title_on_joy_button=None,
+                 title_on_mouse_down=None,
+                 title_on_mouse_up=None,
+                 title_on_mouse_motion=None,
+                 title_on_mouse_focus_begin=None,
+                 title_on_mouse_focus_end=None,
+                 title_on_mouse_over_begin=None,
+                 title_on_mouse_over_end=None,
+                 title_on_destroy=None,
+                 title_on_destroy_begin=None,
+                 title_on_tick=None,
+                 title_on_display=None,
+                 title_on_display_top_level=None,
                  **kw):
 
         self.parent = parent
         self.name = name
+        self.global_row_font=row_font
+        self.global_row_color=row_color
+        self.global_row_center=row_center
+        self.global_row_rhs=row_rhs
+        self.global_row_on_tooltip=row_on_tooltip
+        self.global_row_on_key_down=row_on_key_down
+        self.global_row_on_key_up=row_on_key_up
+        self.global_row_on_joy_button=row_on_joy_button
+        self.global_row_on_mouse_down=row_on_mouse_down
+        self.global_row_on_mouse_up=row_on_mouse_up
+        self.global_row_on_mouse_motion=row_on_mouse_motion
+        self.global_row_on_mouse_focus_begin=row_on_mouse_focus_begin
+        self.global_row_on_mouse_focus_end=row_on_mouse_focus_end
+        self.global_row_on_mouse_over_begin=row_on_mouse_over_begin
+        self.global_row_on_mouse_over_end=row_on_mouse_over_end
+        self.global_row_on_destroy=row_on_destroy
+        self.global_row_on_destroy_begin=row_on_destroy_begin
+        self.global_row_on_tick=row_on_tick
+        self.global_row_on_display=row_on_display
+        self.global_row_on_display_top_level=row_on_display_top_level
+        self.global_title_font=title_font
+        self.global_title_color=title_color
+        self.global_title_center=title_center
+        self.global_title_rhs=title_rhs
+        self.global_title_on_tooltip=title_on_tooltip
+        self.global_title_on_key_down=title_on_key_down
+        self.global_title_on_key_up=title_on_key_up
+        self.global_title_on_joy_button=title_on_joy_button
+        self.global_title_on_mouse_down=title_on_mouse_down
+        self.global_title_on_mouse_up=title_on_mouse_up
+        self.global_title_on_mouse_motion=title_on_mouse_motion
+        self.global_title_on_mouse_focus_begin=title_on_mouse_focus_begin
+        self.global_title_on_mouse_focus_end=title_on_mouse_focus_end
+        self.global_title_on_mouse_over_begin=title_on_mouse_over_begin
+        self.global_title_on_mouse_over_end=title_on_mouse_over_end
+        self.global_title_on_destroy=title_on_destroy
+        self.global_title_on_destroy_begin=title_on_destroy_begin
+        self.global_title_on_tick=title_on_tick
+        self.global_title_on_display=title_on_display
+        self.global_title_on_display_top_level=title_on_display_top_level
 
         if tiles != None:
             super().__init__(name, tiles=tiles, parent=parent)
@@ -115,6 +195,47 @@ class WidPopup(wid.Wid):
                  rhs=False):
 
         if title is False:
+            if font is None:
+                font = self.global_row_font
+            if color is None:
+                color = self.global_row_color
+            if center is None:
+                row_center = self.global_row_center
+            if rhs is None:
+                rhs = self.global_row_rhs
+            if on_tooltip is None:
+                on_tooltip = self.global_row_on_tooltip
+            if on_key_down is None:
+                on_key_down = self.global_row_on_key_down
+            if on_key_up is None:
+                on_key_up = self.global_row_on_key_up
+            if on_joy_button is None:
+                on_joy_button = self.global_row_on_joy_button
+            if on_mouse_down is None:
+                on_mouse_down = self.global_row_on_mouse_down
+            if on_mouse_up is None:
+                on_mouse_up = self.global_row_on_mouse_up
+            if on_mouse_motion is None:
+                on_mouse_motion = self.global_row_on_mouse_motion
+            if on_mouse_focus_begin is None:
+                on_mouse_focus_begin = self.global_row_on_mouse_focus_begin
+            if on_mouse_focus_end is None:
+                on_mouse_focus_end = self.global_row_on_mouse_focus_end
+            if on_mouse_over_begin is None:
+                on_mouse_over_begin = self.global_row_on_mouse_over_begin
+            if on_mouse_over_end is None:
+                on_mouse_over_end = self.global_row_on_mouse_over_end
+            if on_destroy is None:
+                on_destroy = self.global_row_on_destroy
+            if on_destroy_begin is None:
+                on_destroy_begin = self.global_row_on_destroy_begin
+            if on_tick is None:
+                on_tick = self.global_row_on_tick
+            if on_display is None:
+                on_display = self.global_row_on_display
+            if on_display_top_level is None:
+                on_display_top_level = self.global_row_on_display_top_level
+
             self.row_text.append(text)
             self.row_font.append(font)
             self.row_color.append(color)
@@ -137,7 +258,48 @@ class WidPopup(wid.Wid):
             self.row_on_display.append(on_display)
             self.row_on_display_top_level.append(on_display_top_level)
             self.row_count += 1
+
         else:
+
+            if font is None:
+                font = self.global_title_font
+            if color is None:
+                color = self.global_title_color
+            if center is None:
+                center = self.global_title_center
+            if rhs is None:
+                rhs = self.global_title_rhs
+            if on_tooltip is None:
+                on_tooltip = self.global_title_on_tooltip
+            if on_key_down is None:
+                on_key_down = self.global_title_on_key_down
+            if on_key_up is None:
+                on_key_up = self.global_title_on_key_up
+            if on_joy_button is None:
+                on_joy_button = self.global_title_on_joy_button
+            if on_mouse_down is None:
+                on_mouse_down = self.global_title_on_mouse_down
+            if on_mouse_up is None:
+                on_mouse_up = self.global_title_on_mouse_up
+            if on_mouse_motion is None:
+                on_mouse_motion = self.global_title_on_mouse_motion
+            if on_mouse_focus_begin is None:
+                on_mouse_focus_begin = self.global_title_on_mouse_focus_begin
+            if on_mouse_focus_end is None:
+                on_mouse_focus_end = self.global_title_on_mouse_focus_end
+            if on_mouse_over_begin is None:
+                on_mouse_over_begin = self.global_title_on_mouse_over_begin
+            if on_mouse_over_end is None:
+                on_mouse_over_end = self.global_title_on_mouse_over_end
+            if on_destroy is None:
+                on_destroy = self.global_title_on_destroy
+            if on_destroy_begin is None:
+                on_destroy_begin = self.global_title_on_destroy_begin
+            if on_tick is None:
+                on_tick = self.global_title_on_tick
+            if on_display is None:
+                on_display = self.global_title_on_display
+
             self.title_text.append(text)
             self.title_font.append(font)
             self.title_color.append(color)

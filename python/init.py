@@ -216,6 +216,11 @@ def wid_quit_on_key_down(wid, sym, mod):
 
     return False
 
+def wid_quit_on_mouse_down(wid, x, y, button):
+    print("click")
+
+    return True
+
 def wid_quit_create():
     global wid_quit_menu
 
@@ -225,7 +230,9 @@ def wid_quit_create():
                                title_tiles="wid3",
                                body_tiles="wid2",
                                width=0.5,
-                               height=0.3)
+                               height=0.3,
+                               row_on_mouse_down=wid_quit_on_mouse_down,
+                               row_on_key_down=wid_quit_on_key_down)
         wid_quit_menu = w
 
         w.add_text(center=True, 
@@ -235,35 +242,28 @@ def wid_quit_create():
                    text="%%tile=player4$ Quit the game?\nReally man?")
 
         w.add_text(font="vlarge", 
-                   on_key_down=wid_quit_on_key_down, 
+                   on_mouse_down=wid_quit_on_mouse_down,
                    text="%%fg=green$a) %%fg=white$quit")
 
         w.add_text(font="small", 
-                   on_key_down=wid_quit_on_key_down, 
                    text="%%fg=green$a) %%fg=white$quit")
 
         w.add_text(font="small", 
-                   on_key_down=wid_quit_on_key_down, 
                    text="%%fg=green$a) %%fg=white$quit")
 
         w.add_text(font="small", 
-                   on_key_down=wid_quit_on_key_down, 
                    text="%%fg=green$a) %%fg=white$bla")
 
         w.add_text(font="small", 
-                   on_key_down=wid_quit_on_key_down, 
                    text="%%fg=green$a) %%fg=white$bla")
 
         w.add_text(font="small", 
-                   on_key_down=wid_quit_on_key_down, 
                    text="%%fg=green$a) %%fg=white$bla")
 
         w.add_text(font="small", 
-                   on_key_down=wid_quit_on_key_down, 
                    text="%%fg=green$a) %%fg=white$bla")
 
         w.add_text(font="small", 
-                   on_key_down=wid_quit_on_key_down, 
                    text="%%fg=green$b) %%fg=white$nope, keep on going with lots of lots shshiohwo gowhgowhgowh oghwog wog owh gowh roghwoighowhgoiw h qhehghwhgoh odhgoshogshioghsoh iosos ob hsobh osfhboishboish oshf obis foihbsoih boishboishoibsh boshoib sfoshso ")
         w.update()
         w.set_focus()
