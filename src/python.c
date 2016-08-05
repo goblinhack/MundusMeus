@@ -1586,6 +1586,16 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "wid_get_size_pct"},
 
+    {"wid_get_pos",
+        (PyCFunction)wid_get_pos_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_get_pos"},
+
+    {"wid_get_pos_pct",
+        (PyCFunction)wid_get_pos_pct_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_get_pos_pct"},
+
     {"wid_get_parent",
         (PyCFunction)wid_get_parent_,
         METH_VARARGS | METH_KEYWORDS,

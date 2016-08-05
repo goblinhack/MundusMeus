@@ -145,7 +145,10 @@ class WidText(wid.Wid):
 
         self.update()
 
+wid_focus = None
+
 def wid_text_colorize_row(w):
+
     if w.row % 2 == 0:
         w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.0)
     else:
@@ -153,6 +156,21 @@ def wid_text_colorize_row(w):
 
 def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
     w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.2)
+
+    global wid_focus
+
+    if wid_focus == None:
+        wid_focus = wid.Wid(name="wid focus")
+        wid_focus.set_tl_br_pct(0, 0, 0.1, 0.05)
+        wid_focus.set_color(tl=True, bg=True, br=True, name="white")
+        wid_focus.set_tex(name="sword")
+
+    tlx, tly, brx, bry = w.get_pos_pct()
+    y = (tly + bry) / 2
+    x = tlx - 0.05
+    wid_focus.move_to_pct_centered_in(x=x, y=y, delay=50)
+    wid_focus.to_front()
+    wid_focus.set_do_not_lower(value=True)
 
 def wid_text_on_mouse_over_end_callback(w):
     wid_text_colorize_row(w)

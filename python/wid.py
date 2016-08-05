@@ -116,6 +116,12 @@ class Wid:
     def get_size_pct(self):
         return mm.wid_get_size_pct(self)
 
+    def get_pos(self):
+        return mm.wid_get_pos(self)
+
+    def get_pos_pct(self):
+        return mm.wid_get_pos_pct(self)
+
     def set_bevel(self, **kw):
         mm.wid_set_bevel(self, **kw)
 
