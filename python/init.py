@@ -200,23 +200,36 @@ def wid_on_display_top_level_callback(wid):
     wid.con("wid_on_display_top_level_callback")
     return
 
-def wid_quit_on_key_down(wid, sym, mod):
+def wid_quit_on_key_any_down(wid, sym, mod):
+    mm.con("any key handler")
     parent = wid.get_top_parent()
     if parent is None:
         return False
 
     if sym == SDLK_a:
-        mm.con("key_a")
+        mm.con("any key_a")
 #        parent.destroy()
 #        mm.die("User exit request")
         return True
 
     if sym == SDLK_b:
-        mm.con("key_b")
+        mm.con("any key_b")
 #        parent.destroy()
         return True
 
     return False
+
+def wid_quit_on_key_down_a(wid, sym, mod):
+    mm.con("key_a")
+    return True
+
+def wid_quit_on_key_down_b(wid, sym, mod):
+    mm.con("key_b")
+    return True
+
+def wid_quit_on_key_down_c(wid, sym, mod):
+    mm.con("key_c")
+    return True
 
 def wid_quit_on_mouse_down_a(wid, x, y, button):
     mm.con("click_a")
@@ -240,7 +253,7 @@ def wid_quit_create():
                                body_tiles="wid2",
                                width=0.5,
                                height=0.3,
-                               row_on_key_down=wid_quit_on_key_down)
+                               row_on_key_down=wid_quit_on_key_any_down)
         wid_quit_menu = w
 
         w.add_text(center=True, 
@@ -251,10 +264,20 @@ def wid_quit_create():
 
         w.add_text(font="vlarge", 
                    on_mouse_down=wid_quit_on_mouse_down_a,
+                   on_key_down=wid_quit_on_key_down_a,
+                   on_key_sym=SDLK_a,
+                   text="%%fg=green$a) %%fg=white$quit")
+
+        w.add_text(font="vlarge", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_b,
                    text="%%fg=green$a) %%fg=white$quit")
 
         w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_c,
+                   on_key_down=wid_quit_on_key_down_c,
+                   on_key_sym=SDLK_c,
                    text="%%fg=green$c) %%fg=white$nope, keep on going with lots of lots shshiohwo gowhgowhgowh oghwog wog owh gowh roghwoighowhgoiw h qhehghwhgoh odhgoshogshioghsoh iosos ob hsobh osfhboishboish oshf obis foihbsoih boishboishoibsh boshoib sfoshso ")
         w.update()
         w.set_focus()

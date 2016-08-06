@@ -22,6 +22,8 @@ class WidPopup(wid.Wid):
                  row_rhs=None,
                  row_on_tooltip=None,
                  row_on_key_down=None,
+                 row_on_key_sym=None,
+                 row_on_key_mod=None,
                  row_on_key_up=None,
                  row_on_joy_button=None,
                  row_on_mouse_down=None,
@@ -42,6 +44,8 @@ class WidPopup(wid.Wid):
                  title_rhs=None,
                  title_on_tooltip=None,
                  title_on_key_down=None,
+                 title_on_key_sym=None,
+                 title_on_key_mod=None,
                  title_on_key_up=None,
                  title_on_joy_button=None,
                  title_on_mouse_down=None,
@@ -66,6 +70,8 @@ class WidPopup(wid.Wid):
         self.global_row_rhs=row_rhs
         self.global_row_on_tooltip=row_on_tooltip
         self.global_row_on_key_down=row_on_key_down
+        self.global_row_on_key_sym=row_on_key_sym
+        self.global_row_on_key_mod=row_on_key_mod
         self.global_row_on_key_up=row_on_key_up
         self.global_row_on_joy_button=row_on_joy_button
         self.global_row_on_mouse_down=row_on_mouse_down
@@ -86,6 +92,8 @@ class WidPopup(wid.Wid):
         self.global_title_rhs=title_rhs
         self.global_title_on_tooltip=title_on_tooltip
         self.global_title_on_key_down=title_on_key_down
+        self.global_title_on_key_sym=title_on_key_sym
+        self.global_title_on_key_mod=title_on_key_mod
         self.global_title_on_key_up=title_on_key_up
         self.global_title_on_joy_button=title_on_joy_button
         self.global_title_on_mouse_down=title_on_mouse_down
@@ -127,6 +135,8 @@ class WidPopup(wid.Wid):
         self.line_width = []
         self.row_on_tooltip = []
         self.row_on_key_down = []
+        self.row_on_key_sym = []
+        self.row_on_key_mod = []
         self.row_on_key_up = []
         self.row_on_joy_button = []
         self.row_on_mouse_down = []
@@ -152,6 +162,8 @@ class WidPopup(wid.Wid):
         self.title_line_width = []
         self.title_on_tooltip = []
         self.title_on_key_down = []
+        self.title_on_key_sym = []
+        self.title_on_key_mod = []
         self.title_on_key_up = []
         self.title_on_joy_button = []
         self.title_on_mouse_down = []
@@ -174,6 +186,8 @@ class WidPopup(wid.Wid):
                  text, 
                  on_tooltip=None,
                  on_key_down=None,
+                 on_key_sym=None,
+                 on_key_mod=None,
                  on_key_up=None,
                  on_joy_button=None,
                  on_mouse_down=None,
@@ -207,6 +221,10 @@ class WidPopup(wid.Wid):
                 on_tooltip = self.global_row_on_tooltip
             if on_key_down is None:
                 on_key_down = self.global_row_on_key_down
+            if on_key_sym is None:
+                on_key_sym = self.global_row_on_key_sym
+            if on_key_mod is None:
+                on_key_mod = self.global_row_on_key_mod
             if on_key_up is None:
                 on_key_up = self.global_row_on_key_up
             if on_joy_button is None:
@@ -243,6 +261,8 @@ class WidPopup(wid.Wid):
             self.row_rhs.append(rhs)
             self.row_on_tooltip.append(on_tooltip)
             self.row_on_key_down.append(on_key_down)
+            self.row_on_key_sym.append(on_key_sym)
+            self.row_on_key_mod.append(on_key_mod)
             self.row_on_key_up.append(on_key_up)
             self.row_on_joy_button.append(on_joy_button)
             self.row_on_mouse_down.append(on_mouse_down)
@@ -273,6 +293,10 @@ class WidPopup(wid.Wid):
                 on_tooltip = self.global_title_on_tooltip
             if on_key_down is None:
                 on_key_down = self.global_title_on_key_down
+            if on_key_sym is None:
+                on_key_sym = self.global_title_on_key_sym
+            if on_key_mod is None:
+                on_key_mod = self.global_title_on_key_mod
             if on_key_up is None:
                 on_key_up = self.global_title_on_key_up
             if on_joy_button is None:
@@ -307,6 +331,8 @@ class WidPopup(wid.Wid):
             self.title_rhs.append(rhs)
             self.title_on_tooltip.append(on_tooltip)
             self.title_on_key_down.append(on_key_down)
+            self.title_on_key_sym.append(on_key_sym)
+            self.title_on_key_mod.append(on_key_mod)
             self.title_on_key_up.append(on_key_up)
             self.title_on_joy_button.append(on_joy_button)
             self.title_on_mouse_down.append(on_mouse_down)
@@ -399,6 +425,8 @@ class WidPopup(wid.Wid):
                                              line_width=self.line_width,
                                              row_on_tooltip=self.row_on_tooltip,
                                              row_on_key_down=self.row_on_key_down,
+                                             row_on_key_sym=self.row_on_key_sym,
+                                             row_on_key_mod=self.row_on_key_mod,
                                              row_on_key_up=self.row_on_key_up,
                                              row_on_joy_button=self.row_on_joy_button,
                                              row_on_mouse_down=self.row_on_mouse_down,
@@ -453,6 +481,8 @@ class WidPopup(wid.Wid):
                                              line_width=self.title_line_width,
                                              row_on_tooltip=self.title_on_tooltip,
                                              row_on_key_down=self.title_on_key_down,
+                                             row_on_key_sym=self.title_on_key_sym,
+                                             row_on_key_mod=self.title_on_key_mod,
                                              row_on_key_up=self.title_on_key_up,
                                              row_on_joy_button=self.title_on_joy_button,
                                              row_on_mouse_down=self.title_on_mouse_down,

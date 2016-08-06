@@ -16,6 +16,8 @@ class WidText(wid.Wid):
                  line_width,
                  row_on_tooltip,
                  row_on_key_down,
+                 row_on_key_sym,
+                 row_on_key_mod,
                  row_on_key_up,
                  row_on_joy_button,
                  row_on_mouse_down,
@@ -50,6 +52,7 @@ class WidText(wid.Wid):
 
         self.usable_w = self.width
         self.usable_h = self.height
+        self.text_wids = []
 
         y = 0
         for row in range(0, len(row_text)):
@@ -116,29 +119,31 @@ class WidText(wid.Wid):
             w.to_back()
             w.set_do_not_raise()
 
-            w.row_text = row_text
-            w.row_font = row_font
-            w.row_color = row_color
-            w.row_center = row_center
-            w.row_rhs = row_rhs
-            w.row_width = row_width
-            w.line_width = line_width
+            w.row_text = row_text[row]
+            w.row_font = row_font[row]
+            w.row_color = row_color[row]
+            w.row_center = row_center[row]
+            w.row_rhs = row_rhs[row]
+            w.row_width = row_width[row]
+            w.line_width = line_width[row]
             w.row_on_tooltip = row_on_tooltip
-            w.row_on_key_down = row_on_key_down
-            w.row_on_key_up = row_on_key_up
-            w.row_on_joy_button = row_on_joy_button
-            w.row_on_mouse_down = row_on_mouse_down
-            w.row_on_mouse_up = row_on_mouse_up
-            w.row_on_mouse_motion = row_on_mouse_motion
-            w.row_on_mouse_focus_begin = row_on_mouse_focus_begin
-            w.row_on_mouse_focus_end = row_on_mouse_focus_end
-            w.row_on_mouse_over_begin = row_on_mouse_over_begin
-            w.row_on_mouse_over_end = row_on_mouse_over_end
-            w.row_on_destroy = row_on_destroy
-            w.row_on_destroy_begin = row_on_destroy_begin
-            w.row_on_tick = row_on_tick
-            w.row_on_display = row_on_display
-            w.row_on_display_top_level = row_on_display_top_level
+            w.row_on_key_down = row_on_key_down[row]
+            w.row_on_key_sym = row_on_key_sym[row]
+            w.row_on_key_mod = row_on_key_mod[row]
+            w.row_on_key_up = row_on_key_up[row]
+            w.row_on_joy_button = row_on_joy_button[row]
+            w.row_on_mouse_down = row_on_mouse_down[row]
+            w.row_on_mouse_up = row_on_mouse_up[row]
+            w.row_on_mouse_motion = row_on_mouse_motion[row]
+            w.row_on_mouse_focus_begin = row_on_mouse_focus_begin[row]
+            w.row_on_mouse_focus_end = row_on_mouse_focus_end[row]
+            w.row_on_mouse_over_begin = row_on_mouse_over_begin[row]
+            w.row_on_mouse_over_end = row_on_mouse_over_end[row]
+            w.row_on_destroy = row_on_destroy[row]
+            w.row_on_destroy_begin = row_on_destroy_begin[row]
+            w.row_on_tick = row_on_tick[row]
+            w.row_on_display = row_on_display[row]
+            w.row_on_display_top_level = row_on_display_top_level[row]
 
             if row_on_key_down[row] != None:
                 wid_text_colorize_row(w)
@@ -146,10 +151,14 @@ class WidText(wid.Wid):
                 w.set_on_mouse_over_end(wid_text_on_mouse_over_end_callback)
 
             w.set_on_tooltip(row_on_tooltip[row])
-            w.set_on_key_down(row_on_key_down[row])
-            w.set_on_key_up(row_on_key_up[row])
             w.set_on_joy_button(row_on_joy_button[row])
             w.set_on_mouse_motion(row_on_mouse_motion[row])
+
+            if row_on_key_up[row] != None:
+                w.set_on_key_up(wid_text_on_key_up_callback)
+
+            if row_on_key_down[row] != None:
+                w.set_on_key_down(wid_text_on_key_down_callback)
 
             if row_on_mouse_up[row] != None:
                 w.set_on_mouse_up(wid_text_on_mouse_up_callback)
@@ -168,6 +177,8 @@ class WidText(wid.Wid):
             w.set_on_tick(row_on_tick[row])
             w.set_on_display(row_on_display[row])
             w.set_on_display_top_level(row_on_display_top_level[row])
+
+            self.text_wids.append(w)
 
         self.update()
 
@@ -198,26 +209,80 @@ def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
     wid_focus.to_front()
     wid_focus.set_do_not_lower(value=True)
 
-    if w.row_on_mouse_over_begin[w.row] != None:
-        w.row_on_mouse_over_begin[w.row](w)
+    if w.row_on_mouse_over_begin != None:
+        w.row_on_mouse_over_begin(w)
 
 def wid_text_on_mouse_over_end_callback(w):
     wid_text_colorize_row(w)
 
-    if w.row_on_mouse_over_end[w.row] != None:
-        w.row_on_mouse_over_end[w.row](w)
+    if w.row_on_mouse_over_end != None:
+        w.row_on_mouse_over_end(w)
 
 def wid_text_on_mouse_up_callback(w, x, y, button):
-
-    if w.row_on_mouse_up[w.row] != None:
-        return w.row_on_mouse_up[w.row](w, x, y, button)
+    if w.row_on_mouse_up != None:
+        return w.row_on_mouse_up(w, x, y, button)
 
 def wid_text_on_mouse_down_callback(w, x, y, button):
+    print("active 1")
     w.set_active()
     w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
 
-    if w.row_on_mouse_down[w.row] != None:
-        return w.row_on_mouse_down[w.row](w, x, y, button)
+    if w.row_on_mouse_down != None:
+        return w.row_on_mouse_down(w, x, y, button)
+
+def wid_text_on_key_up_callback(w, sym, mod):
+    if w.row_on_key_up != None:
+        return w.row_on_key_up(w, sym, mod)
+
+def wid_text_on_key_down_callback(w, sym, mod):
+    rc = False
+    if w.row_on_key_sym != None:
+        if w.row_on_key_sym == sym:
+            if w.row_on_key_mod != None:
+                if w.row_on_key_mod == mod:
+                    mm.con("match mod")
+                    rc = w.row_on_key_down(w, sym, mod)
+            else:
+                mm.con("match sym")
+                rc = w.row_on_key_down(w, sym, mod)
+    else:
+        if w.row_on_key_down != None:
+            rc = w.row_on_key_down(w, sym, mod)
+
+    if rc is True:
+        print("active 2")
+        w.set_active()
+        w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
+    else:
+        parent = w.get_parent()
+        for w in parent.text_wids:
+            rc = False
+
+            if w.row_on_key_sym != None:
+                if w.row_on_key_sym == sym:
+                    if w.row_on_key_mod != None:
+                        if w.row_on_key_mod == mod:
+                            mm.con("match mod")
+                            rc = w.row_on_key_down(w, sym, mod)
+                    else:
+                        mm.con("match sym")
+                        rc = w.row_on_key_down(w, sym, mod)
+
+            if rc is True:
+                print("active 3")
+                w.set_active()
+                w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
+                break
+
+    print(" ")
+    print(" ")
+    print(" ")
+    print(" ")
+    print(" ")
+    print(" ")
+    print(" ")
+    print(" ")
+    return rc
 
 def text_size_pct(row_text, row_font, width):
 

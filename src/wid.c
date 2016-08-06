@@ -7034,13 +7034,6 @@ void wid_key_down (const struct SDL_KEYSYM *key, int32_t x, int32_t y)
         fast_verify(wid_focus);
 
         if ((wid_focus->on_key_down)(wid_focus, key)) {
-
-            if (wid_focus) {
-                fast_verify(wid_focus);
-
-                wid_set_mode(wid_focus, WID_MODE_ACTIVE);
-            }
-
             /*
              * Do not raise, gets in the way of popups the callback creates.
              */
@@ -7062,10 +7055,6 @@ void wid_key_down (const struct SDL_KEYSYM *key, int32_t x, int32_t y)
     }
 
     if ((w->on_key_down)(w, key)) {
-        fast_verify(w);
-
-        wid_set_mode(w, WID_MODE_ACTIVE);
-
         /*
          * Do not raise, gets in the way of popups the callback creates.
          */
@@ -7082,10 +7071,6 @@ try_parent:
     while (w) {
         if (w->on_key_down) {
             if ((w->on_key_down)(w, key)) {
-                fast_verify(w);
-
-                wid_set_mode(w, WID_MODE_ACTIVE);
-
                 /*
                  * Do not raise, gets in the way of popups the callback
                  * creates.
