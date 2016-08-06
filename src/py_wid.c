@@ -535,7 +535,7 @@ PyObject *wid_set_bevel_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;
     widp w;
-    double value = 0.0;
+    double value = 1.0;
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
@@ -557,7 +557,7 @@ PyObject *wid_set_bevelled_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;
     widp w;
-    int value = 0;
+    int value = 1;
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
@@ -579,7 +579,7 @@ PyObject *wid_set_cursor_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;
     widp w;
-    int value = 0;
+    int value = 1;
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
@@ -601,7 +601,7 @@ PyObject *wid_set_do_not_lower_ (PyObject *obj, PyObject *args, PyObject *keywds
 {
     PyObject *py_class = 0;
     widp w;
-    int value = 0;
+    int value = 1;
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
@@ -623,7 +623,7 @@ PyObject *wid_set_do_not_raise_ (PyObject *obj, PyObject *args, PyObject *keywds
 {
     PyObject *py_class = 0;
     widp w;
-    int value = 0;
+    int value = 1;
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
@@ -645,7 +645,7 @@ PyObject *wid_set_focusable_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;
     widp w;
-    int value = 0;
+    int value = 1;
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
@@ -667,7 +667,7 @@ PyObject *wid_set_movable_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;
     widp w;
-    int value = 0;
+    int value = 1;
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
@@ -689,7 +689,7 @@ PyObject *wid_set_movable_bounded_ (PyObject *obj, PyObject *args, PyObject *key
 {
     PyObject *py_class = 0;
     widp w;
-    int value = 0;
+    int value = 1;
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
@@ -711,7 +711,7 @@ PyObject *wid_set_movable_horiz_ (PyObject *obj, PyObject *args, PyObject *keywd
 {
     PyObject *py_class = 0;
     widp w;
-    int value = 0;
+    int value = 1;
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
@@ -733,7 +733,7 @@ PyObject *wid_set_movable_vert_ (PyObject *obj, PyObject *args, PyObject *keywds
 {
     PyObject *py_class = 0;
     widp w;
-    int value = 0;
+    int value = 1;
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
@@ -1308,6 +1308,7 @@ WID_BODY_VOID_FN(wid_update)
 WID_BODY_VOID_FN(wid_raise)
 WID_BODY_VOID_FN(wid_lower)
 WID_BODY_VOID_FN(wid_scroll_text)
+WID_BODY_VOID_FN(wid_set_active)
 WID_BODY_VOID_FN(wid_set_focus)
 WID_BODY_VOID_FN(wid_focus_lock)
 WID_BODY_VOID_FN(wid_effect_pulses)

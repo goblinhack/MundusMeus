@@ -5,15 +5,15 @@ import wid
 
 class WidText(wid.Wid):
 
-    def __init__(self, name, 
-                 x1, y1, x2, y2, 
-                 row_text, 
-                 row_font, 
-                 row_color, 
-                 row_center, 
-                 row_rhs, 
-                 row_width, 
-                 line_width, 
+    def __init__(self, name,
+                 x1, y1, x2, y2,
+                 row_text,
+                 row_font,
+                 row_color,
+                 row_center,
+                 row_rhs,
+                 row_width,
+                 line_width,
                  row_on_tooltip,
                  row_on_key_down,
                  row_on_key_up,
@@ -30,7 +30,7 @@ class WidText(wid.Wid):
                  row_on_tick,
                  row_on_display,
                  row_on_display_top_level,
-                 parent=0, 
+                 parent=0,
                  tiles=None,
                  **kw):
 
@@ -92,13 +92,13 @@ class WidText(wid.Wid):
                         x = 0
                         y = y + h
 
-                    child = wid.Wid(name="wid text child", 
+                    child = wid.Wid(name="wid text child",
                                     parent=self.wid_id)
 
                     child.set_tl_br_pct(x, y, x + w, y + h)
 
                     if color != None:
-                        child.set_text(text=word, lhs=True, font=font, 
+                        child.set_text(text=word, lhs=True, font=font,
                                        color=color)
                     else:
                         child.set_text(text=word, lhs=True, font=font)
@@ -113,35 +113,61 @@ class WidText(wid.Wid):
             w = wid.Wid(name="wid text multi line box", parent=self.wid_id)
             w.row = row
             w.set_tl_br_pct(0, begin_y, 1, y)
+            w.to_back()
+            w.set_do_not_raise()
+
+            w.row_text = row_text
+            w.row_font = row_font
+            w.row_color = row_color
+            w.row_center = row_center
+            w.row_rhs = row_rhs
+            w.row_width = row_width
+            w.line_width = line_width
+            w.row_on_tooltip = row_on_tooltip
+            w.row_on_key_down = row_on_key_down
+            w.row_on_key_up = row_on_key_up
+            w.row_on_joy_button = row_on_joy_button
+            w.row_on_mouse_down = row_on_mouse_down
+            w.row_on_mouse_up = row_on_mouse_up
+            w.row_on_mouse_motion = row_on_mouse_motion
+            w.row_on_mouse_focus_begin = row_on_mouse_focus_begin
+            w.row_on_mouse_focus_end = row_on_mouse_focus_end
+            w.row_on_mouse_over_begin = row_on_mouse_over_begin
+            w.row_on_mouse_over_end = row_on_mouse_over_end
+            w.row_on_destroy = row_on_destroy
+            w.row_on_destroy_begin = row_on_destroy_begin
+            w.row_on_tick = row_on_tick
+            w.row_on_display = row_on_display
+            w.row_on_display_top_level = row_on_display_top_level
 
             if row_on_key_down[row] != None:
                 wid_text_colorize_row(w)
                 w.set_on_mouse_over_begin(wid_text_on_mouse_over_begin_callback)
                 w.set_on_mouse_over_end(wid_text_on_mouse_over_end_callback)
 
-            w.set_on_mouse_down(row_on_mouse_down[row])
             w.set_on_tooltip(row_on_tooltip[row])
             w.set_on_key_down(row_on_key_down[row])
             w.set_on_key_up(row_on_key_up[row])
             w.set_on_joy_button(row_on_joy_button[row])
-            w.set_on_mouse_up(row_on_mouse_up[row])
             w.set_on_mouse_motion(row_on_mouse_motion[row])
-            w.set_on_mouse_focus_begin(row_on_mouse_focus_begin[row])
-            w.set_on_mouse_focus_end(row_on_mouse_focus_end[row])
+
+            if row_on_mouse_up[row] != None:
+                w.set_on_mouse_up(wid_text_on_mouse_up_callback)
+
+            if row_on_mouse_down[row] != None:
+                w.set_on_mouse_down(wid_text_on_mouse_down_callback)
 
             if row_on_mouse_over_begin[row] != None:
-                w.set_on_mouse_over_begin(row_on_mouse_over_begin[row])
+                w.set_on_mouse_over_begin(wid_text_on_mouse_over_begin_callback)
 
             if row_on_mouse_over_end[row] != None:
-                w.set_on_mouse_over_end(row_on_mouse_over_end[row])
+                w.set_on_mouse_over_end(wid_text_on_mouse_over_end_callback)
 
             w.set_on_destroy(row_on_destroy[row])
             w.set_on_destroy_begin(row_on_destroy_begin[row])
             w.set_on_tick(row_on_tick[row])
             w.set_on_display(row_on_display[row])
             w.set_on_display_top_level(row_on_display_top_level[row])
-
-            w.to_back()
 
         self.update()
 
@@ -150,7 +176,7 @@ wid_focus = None
 def wid_text_colorize_row(w):
 
     if w.row % 2 == 0:
-        w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.0)
+        w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.02)
     else:
         w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.05)
 
@@ -172,8 +198,26 @@ def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
     wid_focus.to_front()
     wid_focus.set_do_not_lower(value=True)
 
+    if w.row_on_mouse_over_begin[w.row] != None:
+        w.row_on_mouse_over_begin[w.row](w)
+
 def wid_text_on_mouse_over_end_callback(w):
     wid_text_colorize_row(w)
+
+    if w.row_on_mouse_over_end[w.row] != None:
+        w.row_on_mouse_over_end[w.row](w)
+
+def wid_text_on_mouse_up_callback(w, x, y, button):
+
+    if w.row_on_mouse_up[w.row] != None:
+        return w.row_on_mouse_up[w.row](w, x, y, button)
+
+def wid_text_on_mouse_down_callback(w, x, y, button):
+    w.set_active()
+    w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
+
+    if w.row_on_mouse_down[w.row] != None:
+        return w.row_on_mouse_down[w.row](w, x, y, button)
 
 def text_size_pct(row_text, row_font, width):
 
@@ -207,7 +251,7 @@ def text_size_pct(row_text, row_font, width):
                     x = 0
                     y = y + max_h
                     max_h = 0
-                    max_w = width 
+                    max_w = width
 
                 x = x + w
 

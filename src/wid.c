@@ -2343,6 +2343,11 @@ void wid_set_focus (widp w)
     wid_mouse_focus_begin(w);
 }
 
+void wid_set_active (widp w)
+{
+    wid_set_mode(w, WID_MODE_ACTIVE);
+}
+
 void wid_focus_lock (widp w)
 {
     WID_DBG(w, "focus locked");
