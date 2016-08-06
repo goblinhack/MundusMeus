@@ -170,6 +170,7 @@ typedef widp (*level_replace_thing_t)(double x, double y, thingp, tpp);
  * Client.
  */
 void wid_set_focus(widp);
+void wid_set_active(widp);
 void wid_focus_lock(widp);
 uint8_t wid_get_bevelled(widp);
 uint8_t wid_get_do_not_lower(widp);

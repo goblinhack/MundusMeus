@@ -252,6 +252,9 @@ class Wid:
     def set_focus(self, **kw):
         mm.wid_set_focus(self, **kw)
 
+    def set_active(self, **kw):
+        mm.wid_set_active(self, **kw)
+
     def focus_lock(self, **kw):
         mm.wid_focus_lock(self, **kw)
 

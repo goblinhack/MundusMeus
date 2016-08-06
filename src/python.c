@@ -1668,6 +1668,7 @@ static PyMethodDef python_c_METHODS[] =
     WID_DECL(wid_lower)
     WID_DECL(wid_scroll_text)
     WID_DECL(wid_set_focus)
+    WID_DECL(wid_set_active)
     WID_DECL(wid_focus_lock)
     WID_DECL(wid_effect_pulses)
     WID_DECL(wid_effect_pulse_forever)

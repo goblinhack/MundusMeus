@@ -254,26 +254,6 @@ def wid_quit_create():
                    text="%%fg=green$a) %%fg=white$quit")
 
         w.add_text(font="small", 
-                   on_mouse_down=wid_quit_on_mouse_down_b,
-                   text="%%fg=green$b) %%fg=white$bla")
-
-        w.add_text(font="small", 
-                   on_mouse_down=wid_quit_on_mouse_down_b,
-                   text="%%fg=green$b) %%fg=white$bla")
-
-        w.add_text(font="small", 
-                   on_mouse_down=wid_quit_on_mouse_down_b,
-                   text="%%fg=green$b) %%fg=white$bla")
-        w.add_text(font="small", 
-                   on_mouse_down=wid_quit_on_mouse_down_b,
-                   text="%%fg=green$b) %%fg=white$bla")
-
-        w.add_text(font="small", 
-                   on_mouse_down=wid_quit_on_mouse_down_b,
-                   text="%%fg=green$b) %%fg=white$bla")
-
-
-        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_c,
                    text="%%fg=green$c) %%fg=white$nope, keep on going with lots of lots shshiohwo gowhgowhgowh oghwog wog owh gowh roghwoighowhgoiw h qhehghwhgoh odhgoshogshioghsoh iosos ob hsobh osfhboishboish oshf obis foihbsoih boishboishoibsh boshoib sfoshso ")
         w.update()
