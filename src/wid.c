@@ -6157,6 +6157,20 @@ void wid_move_delta (widp w, double dx, double dy)
     }
 }
 
+void wid_move_delta_pct (widp w, double dx, double dy)
+{
+    dx *= (double) game.video_gl_width;
+    dy *= (double) game.video_gl_height;
+
+    fast_verify(w);
+
+    wid_move_delta_internal(w, dx, dy);
+
+    if (!w->grid) {
+        wid_update_internal(w);
+    }
+}
+
 void wid_move_to_bottom (widp w)
 {
     if (w->parent) {
@@ -7209,6 +7223,52 @@ void wid_get_abs_coords (widp w,
 
         if (pbry < *bry) {
             *bry = pbry;
+        }
+
+        p = p->parent;
+    }
+
+    w->abs_tl.x = *tlx;
+    w->abs_tl.y = *tly;
+    w->abs_br.x = *brx;
+    w->abs_br.y = *bry;
+}
+
+/*
+ * Get the onscreen co-ords of the widget, no clipping
+ */
+void wid_get_abs_coords_unclipped (widp w,
+                                   int32_t *tlx,
+                                   int32_t *tly,
+                                   int32_t *brx,
+                                   int32_t *bry)
+{
+    widp p;
+
+    *tlx = wid_get_tl_x(w);
+    *tly = wid_get_tl_y(w);
+    *brx = wid_get_br_x(w);
+    *bry = wid_get_br_y(w);
+
+    p = w->parent;
+    if (p) {
+        *tlx += p->offset.x;
+        *tly += p->offset.y;
+        *brx += p->offset.x;
+        *bry += p->offset.y;
+    }
+
+    while (p) {
+        int32_t ptlx = wid_get_tl_x(p);
+        int32_t ptly = wid_get_tl_y(p);
+        int32_t pbrx = wid_get_br_x(p);
+        int32_t pbry = wid_get_br_y(p);
+
+        if (p->parent) {
+            ptlx += p->parent->offset.x;
+            ptly += p->parent->offset.y;
+            pbrx += p->parent->offset.x;
+            pbry += p->parent->offset.y;
         }
 
         p = p->parent;

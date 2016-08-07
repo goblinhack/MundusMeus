@@ -401,7 +401,7 @@ class WidPopup(wid.Wid):
                 textbox_y1 += title_h
                 textbox_y2 = 1.0 - inner_pad_h * 0.4 # again, shadow padding
 
-                w = wid.Wid(name="textbox", 
+                w = wid.Wid(name="textbox tiles", 
                             tiles=self.body_tiles,
                             parent=self.wid_id)
 
@@ -448,8 +448,11 @@ class WidPopup(wid.Wid):
         super().update()
 
         if need_scrollbar is True:
-            mm.wid_new_scrollbar(vert=True, parent=self.wid_id, owner=self.text_box.wid_id)
-
+            self.scrollbar = wid.Wid(name="wid popup scroll",
+                                     is_scrollbar=True,
+                                     vert=True,
+                                     parent=self.wid_id, 
+                                     owner=self.text_box.wid_id)
         if self.title_count > 0:
 
             if self.title_tiles != None:
@@ -500,3 +503,12 @@ class WidPopup(wid.Wid):
                                              parent=self.wid_id,
                                              x1=textbox_x1, y1=textbox_y1, 
                                              x2=textbox_x2, y2=textbox_y2)
+
+    def scroll_up(self):
+        if self.scrollbar != None:
+            self.scrollbar.move_delta_pct(x=0, y=-0.05)
+
+    def scroll_down(self):
+        if self.scrollbar != None:
+            self.scrollbar.move_delta_pct(x=0, y=0.05)
+
