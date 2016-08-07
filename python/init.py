@@ -225,7 +225,6 @@ def wid_quit_on_key_any_down(w, sym, mod):
 def wid_quit_on_key_down_a(w, sym, mod):
     parent = w.get_top_parent()
     parent.destroy()
-    mm.con("key_a")
     return True
 
 def wid_quit_on_key_down_b(w, sym, mod):

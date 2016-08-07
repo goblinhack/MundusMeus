@@ -49,14 +49,11 @@ def clear_focus(w):
     global wid_focus
     global wid_focus_parent
 
-    print("curr {0}".format(wid_focus_parent))
     if wid_focus == None:
         return
 
     p = w.get_top_parent()
-    print("   p {0}".format(p))
 
     if wid_focus_parent == p:
-        print("   MATCH")
         wid_focus.hide()
         wid_focus_parent = None
