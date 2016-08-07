@@ -146,21 +146,27 @@ class WidText(wid.Wid):
             w.row_on_display = row_on_display[row]
             w.row_on_display_top_level = row_on_display_top_level[row]
 
-            if row_on_key_down[row] != None:
-                wid_text_colorize_row(w)
-                w.set_on_mouse_over_begin(wid_text_on_mouse_over_begin_callback)
-                w.set_on_mouse_over_end(wid_text_on_mouse_over_end_callback)
-
             w.set_on_tooltip(row_on_tooltip[row])
             w.set_on_joy_button(row_on_joy_button[row])
             w.set_on_mouse_motion(row_on_mouse_motion[row])
 
-            w.set_on_key_up(wid_text_on_key_up_callback)
-            w.set_on_key_down(wid_text_on_key_down_callback)
-            w.set_on_mouse_up(wid_text_on_mouse_up_callback)
-            w.set_on_mouse_down(wid_text_on_mouse_down_callback)
-            w.set_on_mouse_over_begin(wid_text_on_mouse_over_begin_callback)
-            w.set_on_mouse_over_end(wid_text_on_mouse_over_end_callback)
+            if row_on_key_down[row] != None:
+                wid_text_colorize_row(w)
+
+                w.set_on_key_up(wid_text_on_key_up_callback)
+                w.set_on_key_down(wid_text_on_key_down_callback)
+                w.set_on_mouse_up(wid_text_on_mouse_up_callback)
+                w.set_on_mouse_down(wid_text_on_mouse_down_callback)
+                w.set_on_mouse_over_begin(wid_text_on_mouse_over_begin_callback)
+                w.set_on_mouse_over_end(wid_text_on_mouse_over_end_callback)
+            else:
+                w.set_on_key_up(row_on_key_up[row])
+                w.set_on_key_down(row_on_key_down[row])
+                w.set_on_mouse_up(row_on_mouse_up[row])
+                w.set_on_mouse_down(row_on_mouse_down[row])
+                w.set_on_mouse_over_begin(row_on_mouse_over_begin[row])
+                w.set_on_mouse_over_end(row_on_mouse_over_end[row])
+
             w.set_on_destroy(row_on_destroy[row])
             w.set_on_destroy_begin(wid_text_on_destroy)
             w.set_on_tick(row_on_tick[row])
