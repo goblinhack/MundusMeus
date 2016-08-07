@@ -161,8 +161,8 @@ class WidText(wid.Wid):
             w.set_on_mouse_down(wid_text_on_mouse_down_callback)
             w.set_on_mouse_over_begin(wid_text_on_mouse_over_begin_callback)
             w.set_on_mouse_over_end(wid_text_on_mouse_over_end_callback)
+            w.set_on_destroy(row_on_destroy[row])
             w.set_on_destroy_begin(wid_text_on_destroy)
-#            w.set_on_destroy_begin(row_on_destroy_begin[row])
             w.set_on_tick(row_on_tick[row])
             w.set_on_display(row_on_display[row])
             w.set_on_display_top_level(row_on_display_top_level[row])
@@ -172,16 +172,13 @@ class WidText(wid.Wid):
         self.update()
 
 def wid_text_colorize_row(w):
-
     if w.row % 2 == 0:
         w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.02)
     else:
         w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.05)
 
 def wid_text_on_destroy(w):
-    print("on des")
     wid_focus.clear_focus(w)
-    print("on des done")
 
 def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
     wid_focus.set_focus(w)
@@ -200,6 +197,7 @@ def wid_text_on_mouse_over_end_callback(w):
 def wid_text_on_mouse_up_callback(w, x, y, button):
     if w.row_on_mouse_up != None:
         return w.row_on_mouse_up(w, x, y, button)
+    return False
 
 def wid_text_on_mouse_down_callback(w, x, y, button):
     wid_focus.set_focus(w)
@@ -209,10 +207,12 @@ def wid_text_on_mouse_down_callback(w, x, y, button):
 
     if w.row_on_mouse_down != None:
         return w.row_on_mouse_down(w, x, y, button)
+    return False
 
 def wid_text_on_key_up_callback(w, sym, mod):
     if w.row_on_key_up != None:
         return w.row_on_key_up(w, sym, mod)
+    return False
 
 def wid_text_on_key_down_callback(w, sym, mod):
     rc = False
