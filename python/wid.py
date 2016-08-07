@@ -5,10 +5,15 @@ all_wids = {}
 
 class Wid:
 
-    def __init__(self, name, parent=0, **kw):
+    def __init__(self, name, parent=0, is_scrollbar=False, **kw):
         self.parent = parent
         self.name = name
-        self.wid_id = mm.wid_new(self, parent, name, **kw)
+
+        if is_scrollbar is True:
+            self.wid_id = mm.wid_new_scrollbar(self, parent, **kw)
+        else:
+            self.wid_id = mm.wid_new(self, parent, name, **kw)
+
         self.name = "{0:x}:{1}".format(self.wid_id, self.name)
         self.log("Created wid")
 
@@ -194,6 +199,9 @@ class Wid:
 
     def move_delta(self, **kw):
         mm.wid_move_delta(self, **kw)
+
+    def move_delta_pct(self, **kw):
+        mm.wid_move_delta_pct(self, **kw)
 
     def move_to_abs(self, **kw):
         mm.wid_move_to_abs(self, **kw)
@@ -649,4 +657,3 @@ def on_display_top_level_callback(wid_id):
 
 def mouse_hide(**kw):
     mm.wid_mouse_hide(**kw)
-

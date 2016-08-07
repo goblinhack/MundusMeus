@@ -25,7 +25,8 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
     char *tiles = 0;
     widp w;
 
-    static char *kwlist[] = {"wid", 
+    static char *kwlist[] = {
+        "wid", 
         "parent", 
         "name", 
         "tiles", 
@@ -64,6 +65,51 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
     return (Py_BuildValue("K", (uintptr_t) w));
 }
 
+PyObject *wid_new_scrollbar_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    uintptr_t i_parent = 0;
+    uintptr_t i_owner = 0;
+    widp parent;
+    widp owner;
+    int horiz = false;
+    int vert = false;
+
+    static char *kwlist[] = {
+        "wid", 
+        "parent", 
+        "owner", 
+        "horiz", 
+        "vert", 
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "OKK|ii", kwlist, 
+                                     &py_class,
+                                     &i_parent,
+                                     &i_owner,
+                                     &horiz,
+                                     &vert)) {
+        return (0);
+    }
+
+    parent = (widp) i_parent;
+    verify(parent);
+    owner = (widp) i_owner;
+    verify(owner);
+
+    widp w = 0;
+
+    if (horiz) {
+        w = wid_new_horiz_scroll_bar(parent, owner);
+    }
+
+    if (vert) {
+        w = wid_new_vert_scroll_bar(parent, owner);
+    }
+
+    return (Py_BuildValue("K", (uintptr_t) w));
+}
+
 PyObject *wid_destroy_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;
@@ -79,46 +125,6 @@ PyObject *wid_destroy_ (PyObject *obj, PyObject *args, PyObject *keywds)
     w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
 
     wid_destroy(&w);
-
-    Py_RETURN_NONE;
-}
-
-PyObject *wid_new_scrollbar_ (PyObject *obj, PyObject *args, PyObject *keywds)
-{
-    uintptr_t i_parent = 0;
-    uintptr_t i_owner = 0;
-    widp parent;
-    widp owner;
-    int horiz = false;
-    int vert = false;
-
-    static char *kwlist[] = {
-        "parent", 
-        "owner", 
-        "horiz", 
-        "vert", 
-        0};
-
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "KK|ii", kwlist, 
-                                     &i_parent,
-                                     &i_owner,
-                                     &horiz,
-                                     &vert)) {
-        return (0);
-    }
-
-    parent = (widp) i_parent;
-    verify(parent);
-    owner = (widp) i_owner;
-    verify(owner);
-
-    if (horiz) {
-        wid_new_horiz_scroll_bar(parent, owner);
-    }
-
-    if (vert) {
-        wid_new_vert_scroll_bar(parent, owner);
-    }
 
     Py_RETURN_NONE;
 }
@@ -830,7 +836,7 @@ PyObject *wid_get_pos_ (PyObject *obj, PyObject *args, PyObject *keywds)
     int32_t brx = 0;
     int32_t bry = 0;
 
-    wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+    wid_get_abs_coords_unclipped(w, &tlx, &tly, &brx, &bry);
 
     return (Py_BuildValue("dddd", tlx, tly, brx, bry));
 }
@@ -855,7 +861,7 @@ PyObject *wid_get_pos_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     int32_t brx = 0;
     int32_t bry = 0;
 
-    wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+    wid_get_abs_coords_unclipped(w, &tlx, &tly, &brx, &bry);
 
     double ptlx = ((double)tlx) / ((double) game.video_gl_width);
     double ptly = ((double)tly) / ((double) game.video_gl_height);
@@ -1277,6 +1283,7 @@ WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_abs_poffset_in, x, y, delay)
 WID_BODY_DOUBLE_DOUBLE_INT_FN(wid_move_to_pct_in, x, y, delay)
 
 WID_BODY_DOUBLE_DOUBLE_FN(wid_move_delta, x, y)
+WID_BODY_DOUBLE_DOUBLE_FN(wid_move_delta_pct, x, y)
 WID_BODY_DOUBLE_DOUBLE_FN(wid_move_to_abs, x, y)
 WID_BODY_DOUBLE_DOUBLE_FN(wid_move_to_abs_centered, x, y)
 WID_BODY_DOUBLE_DOUBLE_FN(wid_move_to_pct, x, y)

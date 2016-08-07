@@ -1617,6 +1617,7 @@ static PyMethodDef python_c_METHODS[] =
     WID_DECL(wid_move_to_pct_in)
 
     WID_DECL(wid_move_delta)
+    WID_DECL(wid_move_delta_pct)
     WID_DECL(wid_move_to_abs)
     WID_DECL(wid_move_to_abs_centered)
     WID_DECL(wid_move_to_pct)

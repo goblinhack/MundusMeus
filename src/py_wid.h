@@ -58,6 +58,7 @@ WID_PROTO(wid_move_to_abs_poffset_in)
 WID_PROTO(wid_move_to_pct_in)
 
 WID_PROTO(wid_move_delta)
+WID_PROTO(wid_move_delta_pct)
 WID_PROTO(wid_move_to_abs)
 WID_PROTO(wid_move_to_abs_centered)
 WID_PROTO(wid_move_to_pct)

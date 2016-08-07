@@ -271,13 +271,53 @@ def wid_quit_create():
         w.add_text(font="vlarge", 
                    on_mouse_down=wid_quit_on_mouse_down_b,
                    on_key_down=wid_quit_on_key_down_b,
-                   on_key_sym=SDLK_b,
-                   text="%%fg=green$a) %%fg=white$quit")
+                   on_key_sym=SDLK_1,
+                   text="%%fg=green$1) %%fg=white$quit")
+        w.add_text(font="vlarge", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_2,
+                   text="%%fg=green$2) %%fg=white$quit")
+        w.add_text(font="vlarge", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_3,
+                   text="%%fg=green$3) %%fg=white$quit")
+        w.add_text(font="vlarge", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_4,
+                   text="%%fg=green$4) %%fg=white$quit")
+        w.add_text(font="vlarge", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_5,
+                   text="%%fg=green$5) %%fg=white$quit")
+        w.add_text(font="vlarge", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_6,
+                   text="%%fg=green$6) %%fg=white$quit")
+        w.add_text(font="vlarge", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="vlarge", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_8,
+                   text="%%fg=green$8) %%fg=white$quit")
+        w.add_text(font="vlarge", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_9,
+                   text="%%fg=green$9) %%fg=white$quit")
 
         w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_c,
                    on_key_down=wid_quit_on_key_down_c,
-                   on_key_sym=SDLK_c,
+                   on_key_sym=SDLK_7,
                    text="%%fg=green$c) %%fg=white$nope, keep on going with lots of lots shshiohwo gowhgowhgowh oghwog wog owh gowh roghwoighowhgoiw h qhehghwhgoh odhgoshogshioghsoh iosos ob hsobh osfhboishboish oshf obis foihbsoih boishboishoibsh boshoib sfoshso ")
         w.update()
         w.set_focus()

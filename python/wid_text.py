@@ -191,9 +191,7 @@ def wid_text_colorize_row(w):
     else:
         w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.05)
 
-def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
-    w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.2)
-
+def wid_text_set_focus(w, recurse=0):
     global wid_focus
 
     if wid_focus == None:
@@ -202,12 +200,37 @@ def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
         wid_focus.set_color(tl=True, bg=True, br=True, name="white")
         wid_focus.set_tex(name="sword")
 
+    p = w.get_parent()
+    ptlx, ptly, pbrx, pbry = p.get_pos_pct()
+
     tlx, tly, brx, bry = w.get_pos_pct()
     y = (tly + bry) / 2
     x = tlx - 0.05
+
     wid_focus.move_to_pct_centered_in(x=x, y=y, delay=50)
     wid_focus.to_front()
     wid_focus.set_do_not_lower(value=True)
+
+    p2 = p.get_parent()
+
+    if recurse > 100:
+        mm.con("gave up")
+        return
+
+    if tly < ptly:
+        mm.con("scroll up")
+        p2.scroll_up()
+        wid_text_set_focus(w, recurse + 1)
+
+    if bry > pbry:
+        mm.con("scroll down")
+        p2.scroll_down()
+        wid_text_set_focus(w, recurse + 1)
+
+def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
+    wid_text_set_focus(w)
+
+    w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.2)
 
     if w.row_on_mouse_over_begin != None:
         w.row_on_mouse_over_begin(w)
@@ -223,7 +246,9 @@ def wid_text_on_mouse_up_callback(w, x, y, button):
         return w.row_on_mouse_up(w, x, y, button)
 
 def wid_text_on_mouse_down_callback(w, x, y, button):
-    print("active 1")
+
+    wid_text_set_focus(w)
+
     w.set_active()
     w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
 
@@ -240,17 +265,14 @@ def wid_text_on_key_down_callback(w, sym, mod):
         if w.row_on_key_sym == sym:
             if w.row_on_key_mod != None:
                 if w.row_on_key_mod == mod:
-                    mm.con("match mod")
                     rc = w.row_on_key_down(w, sym, mod)
             else:
-                mm.con("match sym")
                 rc = w.row_on_key_down(w, sym, mod)
     else:
         if w.row_on_key_down != None:
             rc = w.row_on_key_down(w, sym, mod)
 
     if rc is True:
-        print("active 2")
         w.set_active()
         w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
     else:
@@ -262,26 +284,18 @@ def wid_text_on_key_down_callback(w, sym, mod):
                 if w.row_on_key_sym == sym:
                     if w.row_on_key_mod != None:
                         if w.row_on_key_mod == mod:
-                            mm.con("match mod")
                             rc = w.row_on_key_down(w, sym, mod)
                     else:
-                        mm.con("match sym")
                         rc = w.row_on_key_down(w, sym, mod)
 
             if rc is True:
-                print("active 3")
                 w.set_active()
                 w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
                 break
 
-    print(" ")
-    print(" ")
-    print(" ")
-    print(" ")
-    print(" ")
-    print(" ")
-    print(" ")
-    print(" ")
+    if rc is True:
+        wid_text_set_focus(w)
+
     return rc
 
 def text_size_pct(row_text, row_font, width):
