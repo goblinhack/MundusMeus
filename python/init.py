@@ -60,6 +60,10 @@ def load_one_plugin(filepath):
         global wid_popup
         wid_popup = py_mod
 
+    if basename(filepath) == "wid_focus.py":
+        global wid_focus
+        wid_focus = py_mod
+
 
 def load_all_plugins():
     for filename in find_plugins(dirname(__file__), '*.py'):
@@ -120,95 +124,94 @@ def wid_intro_menu_create():
         w.update()
 
 
-def wid_on_mouse_motion_callback(wid, x, y, relx, rely, wheelx, wheely):
-    wid.con("wid_set_on_mouse_motion {0} {1} {2} {3} {4} {5}".format(x,y,relx,rely,wheelx,wheely))
+def wid_on_mouse_motion_callback(w, x, y, relx, rely, wheelx, wheely):
+    w.con("wid_set_on_mouse_motion {0} {1} {2} {3} {4} {5}".format(x,y,relx,rely,wheelx,wheely))
     return False
 
-def wid_on_tooltip_callback(wid, tooltip):
-    wid.con("wid_on_tooltip_callback")
+def wid_on_tooltip_callback(w, tooltip):
+    w.con("wid_on_tooltip_callback")
     return
 
-def wid_on_key_down_callback(wid, sym, mod):
-    wid.con("wid_on_key_down_callback {0} {1}".format(sym, mod))
+def wid_on_key_down_callback(w, sym, mod):
+    w.con("wid_on_key_down_callback {0} {1}".format(sym, mod))
     return False
 
-def wid_on_key_up_callback(wid, sym, mod):
-    wid.con("wid_on_key_up_callback {0} {1}".format(sym, mod))
+def wid_on_key_up_callback(w, sym, mod):
+    w.con("wid_on_key_up_callback {0} {1}".format(sym, mod))
     return False
 
-def wid_on_joy_button_callback(wid,
-                             button_a,
-                             button_b,
-                             button_x,
-                             button_y,
-                             button_top_left,
-                             button_top_right,
-                             button_left_stick_down,
-                             button_right_stick_down,
-                             button_start,
-                             button_xbox,
-                             button_back,
-                             button_up,
-                             button_down,
-                             button_left,
-                             button_right,
-                             button_left_fire,
-                             button_right_fire):
+def wid_on_joy_button_callback(w,
+                               button_a,
+                               button_b,
+                               button_x,
+                               button_y,
+                               button_top_left,
+                               button_top_right,
+                               button_left_stick_down,
+                               button_right_stick_down,
+                               button_start,
+                               button_xbox,
+                               button_back,
+                               button_up,
+                               button_down,
+                               button_left,
+                               button_right,
+                               button_left_fire,
+                               button_right_fire):
     wid.con("wid_on_joy_button_callback")
 
-def wid_on_mouse_down_callback(wid, x, y, button):
+def wid_on_mouse_down_callback(w, x, y, button):
     wid.con("wid_on_mouse_down_callback {0} {1} {2}".format(x, y, button))
     return False
 
-def wid_on_mouse_focus_begin_callback(wid):
+def wid_on_mouse_focus_begin_callback(w):
     wid.con("wid_on_mouse_focus_begin_callback")
     return
 
-def wid_on_mouse_focus_end_callback(wid):
+def wid_on_mouse_focus_end_callback(w):
     wid.con("wid_on_mouse_focus_end_callback")
     return
 
-def wid_on_mouse_over_begin_callback(wid, relx, rely, wheelx, wheely):
+def wid_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
     wid.con("wid_on_mouse_over_begin_callback {0} {1} {2} {3}".format(relx, rely, wheelx, wheely))
     return
 
-def wid_on_mouse_over_end_callback(wid):
+def wid_on_mouse_over_end_callback(w):
     wid.con("wid_on_mouse_over_end_callback")
     return
 
-def wid_on_mouse_up_callback(wid, x, y, button):
+def wid_on_mouse_up_callback(w, x, y, button):
     wid.con("wid_on_mouse_up_callback {0} {1} {2}".format(x, y, button))
     return False
 
-def wid_on_destroy_callback(wid):
+def wid_on_destroy_callback(w):
     wid.con("wid_on_destroy_callback")
     return
 
-def wid_on_destroy_begin_callback(wid):
+def wid_on_destroy_begin_callback(w):
     wid.con("wid_on_destroy_begin_callback")
     return
 
-def wid_on_tick_callback(wid):
+def wid_on_tick_callback(w):
     wid.con("wid_on_tick_callback")
     return
 
-def wid_on_display_callback(wid):
+def wid_on_display_callback(w):
     wid.con("wid_on_display_callback")
     return
 
-def wid_on_display_top_level_callback(wid):
+def wid_on_display_top_level_callback(w):
     wid.con("wid_on_display_top_level_callback")
     return
 
-def wid_quit_on_key_any_down(wid, sym, mod):
+def wid_quit_on_key_any_down(w, sym, mod):
     mm.con("any key handler")
-    parent = wid.get_top_parent()
+    parent = w.get_top_parent()
     if parent is None:
         return False
 
     if sym == SDLK_a:
         mm.con("any key_a")
-#        parent.destroy()
 #        mm.die("User exit request")
         return True
 
@@ -219,27 +222,29 @@ def wid_quit_on_key_any_down(wid, sym, mod):
 
     return False
 
-def wid_quit_on_key_down_a(wid, sym, mod):
+def wid_quit_on_key_down_a(w, sym, mod):
+    parent = w.get_top_parent()
+    parent.destroy()
     mm.con("key_a")
     return True
 
-def wid_quit_on_key_down_b(wid, sym, mod):
+def wid_quit_on_key_down_b(w, sym, mod):
     mm.con("key_b")
     return True
 
-def wid_quit_on_key_down_c(wid, sym, mod):
+def wid_quit_on_key_down_c(w, sym, mod):
     mm.con("key_c")
     return True
 
-def wid_quit_on_mouse_down_a(wid, x, y, button):
+def wid_quit_on_mouse_down_a(w, x, y, button):
     mm.con("click_a")
     return True
 
-def wid_quit_on_mouse_down_b(wid, x, y, button):
+def wid_quit_on_mouse_down_b(w, x, y, button):
     mm.con("click_b")
     return True
 
-def wid_quit_on_mouse_down_c(wid, x, y, button):
+def wid_quit_on_mouse_down_c(w, x, y, button):
     mm.con("click_c")
     return True
 
@@ -252,7 +257,7 @@ def wid_quit_create():
                                title_tiles="wid3",
                                body_tiles="wid2",
                                width=0.5,
-                               height=0.3,
+                               height=0.8,
                                row_on_key_down=wid_quit_on_key_any_down)
         wid_quit_menu = w
 
@@ -262,53 +267,138 @@ def wid_quit_create():
                    title="true",
                    text="%%tile=player4$ Quit the game?\nReally man?")
 
-        w.add_text(font="vlarge", 
+        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_a,
                    on_key_down=wid_quit_on_key_down_a,
                    on_key_sym=SDLK_a,
                    text="%%fg=green$a) %%fg=white$quit")
 
-        w.add_text(font="vlarge", 
+        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_b,
                    on_key_down=wid_quit_on_key_down_b,
                    on_key_sym=SDLK_1,
                    text="%%fg=green$1) %%fg=white$quit")
-        w.add_text(font="vlarge", 
+        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_b,
                    on_key_down=wid_quit_on_key_down_b,
                    on_key_sym=SDLK_2,
                    text="%%fg=green$2) %%fg=white$quit")
-        w.add_text(font="vlarge", 
+        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_b,
                    on_key_down=wid_quit_on_key_down_b,
                    on_key_sym=SDLK_3,
                    text="%%fg=green$3) %%fg=white$quit")
-        w.add_text(font="vlarge", 
+        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_b,
                    on_key_down=wid_quit_on_key_down_b,
                    on_key_sym=SDLK_4,
                    text="%%fg=green$4) %%fg=white$quit")
-        w.add_text(font="vlarge", 
+        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_b,
                    on_key_down=wid_quit_on_key_down_b,
                    on_key_sym=SDLK_5,
                    text="%%fg=green$5) %%fg=white$quit")
-        w.add_text(font="vlarge", 
+        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_b,
                    on_key_down=wid_quit_on_key_down_b,
                    on_key_sym=SDLK_6,
                    text="%%fg=green$6) %%fg=white$quit")
-        w.add_text(font="vlarge", 
+        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_b,
                    on_key_down=wid_quit_on_key_down_b,
                    on_key_sym=SDLK_7,
                    text="%%fg=green$7) %%fg=white$quit")
-        w.add_text(font="vlarge", 
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_c,
+                   on_key_down=wid_quit_on_key_down_c,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$c) %%fg=white$nope, keep on going with lots of lots shshiohwo gowhgowhgowh oghwog wog owh gowh roghwoighowhgoiw h qhehghwhgoh odhgoshogshioghsoh iosos ob hsobh osfhboishboish oshf obis foihbsoih boishboishoibsh boshoib sfoshso ")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
+                   on_mouse_down=wid_quit_on_mouse_down_b,
+                   on_key_down=wid_quit_on_key_down_b,
+                   on_key_sym=SDLK_7,
+                   text="%%fg=green$7) %%fg=white$quit")
+        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_b,
                    on_key_down=wid_quit_on_key_down_b,
                    on_key_sym=SDLK_8,
                    text="%%fg=green$8) %%fg=white$quit")
-        w.add_text(font="vlarge", 
+        w.add_text(font="small", 
                    on_mouse_down=wid_quit_on_mouse_down_b,
                    on_key_down=wid_quit_on_key_down_b,
                    on_key_sym=SDLK_9,
