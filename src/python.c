@@ -17,7 +17,7 @@
 #include "thing_template.h"
 #include "config.h"
 
-static PyObject *mymod;
+static PyObject *mm_mod;
 
 #define PY_BODY_DOUBLE_DOUBLE_INT_FN(__fn__, n1, n2, n3)                        \
 PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
@@ -132,11 +132,11 @@ PY_BODY_INT_FN(wid_mouse_hide, value)
 
 void py_call_void_module_int (const char *module, const char *name, int val1)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -170,11 +170,11 @@ void py_call_void_module_int (const char *module, const char *name, int val1)
 
 void py_call_void_int (const char *name, int val1)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *pFunc = PyObject_GetAttrString(mymod, name);
+    PyObject *pFunc = PyObject_GetAttrString(mm_mod, name);
     if (PyCallable_Check(pFunc)) {
         PyObject *pArgs = Py_BuildValue("(i)", val1);
         PyObject *pValue = PyObject_CallObject(pFunc, pArgs);
@@ -191,11 +191,11 @@ void py_call_void_int (const char *name, int val1)
 
 void py_call_void (const char *name)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *pFunc = PyObject_GetAttrString(mymod, name);
+    PyObject *pFunc = PyObject_GetAttrString(mm_mod, name);
     if (PyCallable_Check(pFunc)) {
         PyObject *pValue = PyObject_CallObject(pFunc, 0);
         if (pValue != NULL) {
@@ -212,11 +212,11 @@ int py_call_int_module_ptr_iiiiii (const char *module, const char *name, void *v
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return (ret);
@@ -256,11 +256,11 @@ int py_call_int_module_ptr_iiiii (const char *module, const char *name, void *va
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return (ret);
@@ -300,11 +300,11 @@ int py_call_int_module_ptr_iiii (const char *module, const char *name, void *val
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return (ret);
@@ -344,11 +344,11 @@ int py_call_int_module_ptr_iii (const char *module, const char *name, void *val1
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return (ret);
@@ -388,11 +388,11 @@ int py_call_int_module_ptr_ii (const char *module, const char *name, void *val1,
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return (ret);
@@ -432,11 +432,11 @@ int py_call_int_module_ptr_int (const char *module, const char *name, void *val1
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return (ret);
@@ -495,11 +495,11 @@ void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii (const char *module,
                                                   int val19,
                                                   int val20)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -555,11 +555,11 @@ void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii (const char *module,
 
 void py_call_void_module_ptr_iiiiii (const char *module, const char *name, void *val1, int val2, int val3, int val4, int val5, int val6, int val7)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -595,11 +595,11 @@ void py_call_void_module_ptr_iiiiii (const char *module, const char *name, void 
 
 void py_call_void_module_ptr_iiiii (const char *module, const char *name, void *val1, int val2, int val3, int val4, int val5, int val6)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -635,11 +635,11 @@ void py_call_void_module_ptr_iiiii (const char *module, const char *name, void *
 
 void py_call_void_module_ptr_iiii (const char *module, const char *name, void *val1, int val2, int val3, int val4, int val5)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -675,11 +675,11 @@ void py_call_void_module_ptr_iiii (const char *module, const char *name, void *v
 
 void py_call_void_module_ptr_iii (const char *module, const char *name, void *val1, int val2, int val3, int val4)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -715,11 +715,11 @@ void py_call_void_module_ptr_iii (const char *module, const char *name, void *va
 
 void py_call_void_module_ptr_ii (const char *module, const char *name, void *val1, int val2, int val3)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -755,11 +755,11 @@ void py_call_void_module_ptr_ii (const char *module, const char *name, void *val
 
 void py_call_void_module_ptr_int (const char *module, const char *name, void *val1, int val2)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -797,11 +797,11 @@ int py_call_int_module_ptr (const char *module, const char *name, void *val1)
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return (ret);
@@ -839,11 +839,11 @@ int py_call_int_module_ptr (const char *module, const char *name, void *val1)
 
 void py_call_void_module_ptr (const char *module, const char *name, void *val1)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -881,11 +881,11 @@ int py_call_int_module_ptr_ptr (const char *module, const char *name, void *val1
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return (ret);
@@ -925,11 +925,11 @@ int py_call_int_module_ptr_ptr (const char *module, const char *name, void *val1
 
 void py_call_void_module_ptr_ptr (const char *module, const char *name, void *val1, void *val2)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -969,11 +969,11 @@ int py_call_int_module_int (const char *module, const char *name, int val1)
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return (ret);
@@ -1013,11 +1013,11 @@ int py_call_int_module_void (const char *module, const char *name)
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return (ret);
@@ -1053,11 +1053,11 @@ int py_call_int_module_void (const char *module, const char *name)
 
 void py_call_void_module_void (const char *module, const char *name)
 {
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *v = PyObject_GetAttrString(mymod, module);
+    PyObject *v = PyObject_GetAttrString(mm_mod, module);
     if (!v) {
         ERR("cannot find python module %s", module);
         return;
@@ -1091,11 +1091,11 @@ int py_call_ii (const char *name, int val1)
 {
     int ret = -1;
 
-    if (!mymod) {
+    if (!mm_mod) {
         DIE("python module not inited yet");
     }
 
-    PyObject *pFunc = PyObject_GetAttrString(mymod, name);
+    PyObject *pFunc = PyObject_GetAttrString(mm_mod, name);
     if (PyCallable_Check(pFunc)) {
         PyObject *pArgs = Py_BuildValue("(i)", val1);
         PyObject *pValue = PyObject_CallObject(pFunc, pArgs);
@@ -1894,151 +1894,151 @@ static void py_add_to_path (const char *path)
 
 static void python_add_consts (void)
 {
-    PyModule_AddIntConstant(mymod, "KMOD_LSHIFT", KMOD_LSHIFT);
-    PyModule_AddIntConstant(mymod, "KMOD_RSHIFT", KMOD_RSHIFT);
-    PyModule_AddIntConstant(mymod, "KMOD_LALT", KMOD_LALT);
-    PyModule_AddIntConstant(mymod, "KMOD_RALT", KMOD_RALT);
-    PyModule_AddIntConstant(mymod, "KMOD_LCTRL", KMOD_LCTRL);
-    PyModule_AddIntConstant(mymod, "KMOD_RCTRL", KMOD_RCTRL);
+    PyModule_AddIntConstant(mm_mod, "KMOD_LSHIFT", KMOD_LSHIFT);
+    PyModule_AddIntConstant(mm_mod, "KMOD_RSHIFT", KMOD_RSHIFT);
+    PyModule_AddIntConstant(mm_mod, "KMOD_LALT", KMOD_LALT);
+    PyModule_AddIntConstant(mm_mod, "KMOD_RALT", KMOD_RALT);
+    PyModule_AddIntConstant(mm_mod, "KMOD_LCTRL", KMOD_LCTRL);
+    PyModule_AddIntConstant(mm_mod, "KMOD_RCTRL", KMOD_RCTRL);
 
-    PyModule_AddIntConstant(mymod, "SDLK_0", SDLK_0);
-    PyModule_AddIntConstant(mymod, "SDLK_1", SDLK_1);
-    PyModule_AddIntConstant(mymod, "SDLK_2", SDLK_2);
-    PyModule_AddIntConstant(mymod, "SDLK_3", SDLK_3);
-    PyModule_AddIntConstant(mymod, "SDLK_4", SDLK_4);
-    PyModule_AddIntConstant(mymod, "SDLK_5", SDLK_5);
-    PyModule_AddIntConstant(mymod, "SDLK_6", SDLK_6);
-    PyModule_AddIntConstant(mymod, "SDLK_7", SDLK_7);
-    PyModule_AddIntConstant(mymod, "SDLK_8", SDLK_8);
-    PyModule_AddIntConstant(mymod, "SDLK_9", SDLK_9);
-    PyModule_AddIntConstant(mymod, "SDLK_AMPERSAND", SDLK_AMPERSAND);
-    PyModule_AddIntConstant(mymod, "SDLK_ASTERISK", SDLK_ASTERISK);
-    PyModule_AddIntConstant(mymod, "SDLK_AT", SDLK_AT);
-    PyModule_AddIntConstant(mymod, "SDLK_BACKQUOTE", SDLK_BACKQUOTE);
-    PyModule_AddIntConstant(mymod, "SDLK_BACKSLASH", SDLK_BACKSLASH);
-    PyModule_AddIntConstant(mymod, "SDLK_BACKSPACE", SDLK_BACKSPACE);
-    PyModule_AddIntConstant(mymod, "SDLK_CARET", SDLK_CARET);
-    PyModule_AddIntConstant(mymod, "SDLK_COLON", SDLK_COLON);
-    PyModule_AddIntConstant(mymod, "SDLK_COMMA", SDLK_COMMA);
-    PyModule_AddIntConstant(mymod, "SDLK_DELETE", SDLK_DELETE);
-    PyModule_AddIntConstant(mymod, "SDLK_DOLLAR", SDLK_DOLLAR);
-    PyModule_AddIntConstant(mymod, "SDLK_EQUALS", SDLK_EQUALS);
-    PyModule_AddIntConstant(mymod, "SDLK_ESCAPE", SDLK_ESCAPE);
-    PyModule_AddIntConstant(mymod, "SDLK_EXCLAIM", SDLK_EXCLAIM);
-    PyModule_AddIntConstant(mymod, "SDLK_GREATER", SDLK_GREATER);
-    PyModule_AddIntConstant(mymod, "SDLK_HASH", SDLK_HASH);
-    PyModule_AddIntConstant(mymod, "SDLK_LEFTBRACKET", SDLK_LEFTBRACKET);
-    PyModule_AddIntConstant(mymod, "SDLK_LEFTPAREN", SDLK_LEFTPAREN);
-    PyModule_AddIntConstant(mymod, "SDLK_LESS", SDLK_LESS);
-    PyModule_AddIntConstant(mymod, "SDLK_MINUS", SDLK_MINUS);
-    PyModule_AddIntConstant(mymod, "SDLK_PERIOD", SDLK_PERIOD);
-    PyModule_AddIntConstant(mymod, "SDLK_PLUS", SDLK_PLUS);
-    PyModule_AddIntConstant(mymod, "SDLK_QUESTION", SDLK_QUESTION);
-    PyModule_AddIntConstant(mymod, "SDLK_QUOTE", SDLK_QUOTE);
-    PyModule_AddIntConstant(mymod, "SDLK_QUOTEDBL", SDLK_QUOTEDBL);
-    PyModule_AddIntConstant(mymod, "SDLK_RETURN", SDLK_RETURN);
-    PyModule_AddIntConstant(mymod, "SDLK_RIGHTBRACKET", SDLK_RIGHTBRACKET);
-    PyModule_AddIntConstant(mymod, "SDLK_RIGHTPAREN", SDLK_RIGHTPAREN);
-    PyModule_AddIntConstant(mymod, "SDLK_SEMICOLON", SDLK_SEMICOLON);
-    PyModule_AddIntConstant(mymod, "SDLK_SLASH", SDLK_SLASH);
-    PyModule_AddIntConstant(mymod, "SDLK_SPACE", SDLK_SPACE);
-    PyModule_AddIntConstant(mymod, "SDLK_TAB", SDLK_TAB);
-    PyModule_AddIntConstant(mymod, "SDLK_UNDERSCORE", SDLK_UNDERSCORE);
-    PyModule_AddIntConstant(mymod, "SDLK_a", SDLK_a);
-    PyModule_AddIntConstant(mymod, "SDLK_b", SDLK_b);
-    PyModule_AddIntConstant(mymod, "SDLK_c", SDLK_c);
-    PyModule_AddIntConstant(mymod, "SDLK_d", SDLK_d);
-    PyModule_AddIntConstant(mymod, "SDLK_e", SDLK_e);
-    PyModule_AddIntConstant(mymod, "SDLK_f", SDLK_f);
-    PyModule_AddIntConstant(mymod, "SDLK_g", SDLK_g);
-    PyModule_AddIntConstant(mymod, "SDLK_h", SDLK_h);
-    PyModule_AddIntConstant(mymod, "SDLK_i", SDLK_i);
-    PyModule_AddIntConstant(mymod, "SDLK_j", SDLK_j);
-    PyModule_AddIntConstant(mymod, "SDLK_k", SDLK_k);
-    PyModule_AddIntConstant(mymod, "SDLK_l", SDLK_l);
-    PyModule_AddIntConstant(mymod, "SDLK_m", SDLK_m);
-    PyModule_AddIntConstant(mymod, "SDLK_n", SDLK_n);
-    PyModule_AddIntConstant(mymod, "SDLK_o", SDLK_o);
-    PyModule_AddIntConstant(mymod, "SDLK_p", SDLK_p);
-    PyModule_AddIntConstant(mymod, "SDLK_q", SDLK_q);
-    PyModule_AddIntConstant(mymod, "SDLK_r", SDLK_r);
-    PyModule_AddIntConstant(mymod, "SDLK_s", SDLK_s);
-    PyModule_AddIntConstant(mymod, "SDLK_t", SDLK_t);
-    PyModule_AddIntConstant(mymod, "SDLK_u", SDLK_u);
-    PyModule_AddIntConstant(mymod, "SDLK_v", SDLK_v);
-    PyModule_AddIntConstant(mymod, "SDLK_w", SDLK_w);
-    PyModule_AddIntConstant(mymod, "SDLK_x", SDLK_x);
-    PyModule_AddIntConstant(mymod, "SDLK_y", SDLK_y);
-    PyModule_AddIntConstant(mymod, "SDLK_z", SDLK_z);
+    PyModule_AddIntConstant(mm_mod, "SDLK_0", SDLK_0);
+    PyModule_AddIntConstant(mm_mod, "SDLK_1", SDLK_1);
+    PyModule_AddIntConstant(mm_mod, "SDLK_2", SDLK_2);
+    PyModule_AddIntConstant(mm_mod, "SDLK_3", SDLK_3);
+    PyModule_AddIntConstant(mm_mod, "SDLK_4", SDLK_4);
+    PyModule_AddIntConstant(mm_mod, "SDLK_5", SDLK_5);
+    PyModule_AddIntConstant(mm_mod, "SDLK_6", SDLK_6);
+    PyModule_AddIntConstant(mm_mod, "SDLK_7", SDLK_7);
+    PyModule_AddIntConstant(mm_mod, "SDLK_8", SDLK_8);
+    PyModule_AddIntConstant(mm_mod, "SDLK_9", SDLK_9);
+    PyModule_AddIntConstant(mm_mod, "SDLK_AMPERSAND", SDLK_AMPERSAND);
+    PyModule_AddIntConstant(mm_mod, "SDLK_ASTERISK", SDLK_ASTERISK);
+    PyModule_AddIntConstant(mm_mod, "SDLK_AT", SDLK_AT);
+    PyModule_AddIntConstant(mm_mod, "SDLK_BACKQUOTE", SDLK_BACKQUOTE);
+    PyModule_AddIntConstant(mm_mod, "SDLK_BACKSLASH", SDLK_BACKSLASH);
+    PyModule_AddIntConstant(mm_mod, "SDLK_BACKSPACE", SDLK_BACKSPACE);
+    PyModule_AddIntConstant(mm_mod, "SDLK_CARET", SDLK_CARET);
+    PyModule_AddIntConstant(mm_mod, "SDLK_COLON", SDLK_COLON);
+    PyModule_AddIntConstant(mm_mod, "SDLK_COMMA", SDLK_COMMA);
+    PyModule_AddIntConstant(mm_mod, "SDLK_DELETE", SDLK_DELETE);
+    PyModule_AddIntConstant(mm_mod, "SDLK_DOLLAR", SDLK_DOLLAR);
+    PyModule_AddIntConstant(mm_mod, "SDLK_EQUALS", SDLK_EQUALS);
+    PyModule_AddIntConstant(mm_mod, "SDLK_ESCAPE", SDLK_ESCAPE);
+    PyModule_AddIntConstant(mm_mod, "SDLK_EXCLAIM", SDLK_EXCLAIM);
+    PyModule_AddIntConstant(mm_mod, "SDLK_GREATER", SDLK_GREATER);
+    PyModule_AddIntConstant(mm_mod, "SDLK_HASH", SDLK_HASH);
+    PyModule_AddIntConstant(mm_mod, "SDLK_LEFTBRACKET", SDLK_LEFTBRACKET);
+    PyModule_AddIntConstant(mm_mod, "SDLK_LEFTPAREN", SDLK_LEFTPAREN);
+    PyModule_AddIntConstant(mm_mod, "SDLK_LESS", SDLK_LESS);
+    PyModule_AddIntConstant(mm_mod, "SDLK_MINUS", SDLK_MINUS);
+    PyModule_AddIntConstant(mm_mod, "SDLK_PERIOD", SDLK_PERIOD);
+    PyModule_AddIntConstant(mm_mod, "SDLK_PLUS", SDLK_PLUS);
+    PyModule_AddIntConstant(mm_mod, "SDLK_QUESTION", SDLK_QUESTION);
+    PyModule_AddIntConstant(mm_mod, "SDLK_QUOTE", SDLK_QUOTE);
+    PyModule_AddIntConstant(mm_mod, "SDLK_QUOTEDBL", SDLK_QUOTEDBL);
+    PyModule_AddIntConstant(mm_mod, "SDLK_RETURN", SDLK_RETURN);
+    PyModule_AddIntConstant(mm_mod, "SDLK_RIGHTBRACKET", SDLK_RIGHTBRACKET);
+    PyModule_AddIntConstant(mm_mod, "SDLK_RIGHTPAREN", SDLK_RIGHTPAREN);
+    PyModule_AddIntConstant(mm_mod, "SDLK_SEMICOLON", SDLK_SEMICOLON);
+    PyModule_AddIntConstant(mm_mod, "SDLK_SLASH", SDLK_SLASH);
+    PyModule_AddIntConstant(mm_mod, "SDLK_SPACE", SDLK_SPACE);
+    PyModule_AddIntConstant(mm_mod, "SDLK_TAB", SDLK_TAB);
+    PyModule_AddIntConstant(mm_mod, "SDLK_UNDERSCORE", SDLK_UNDERSCORE);
+    PyModule_AddIntConstant(mm_mod, "SDLK_a", SDLK_a);
+    PyModule_AddIntConstant(mm_mod, "SDLK_b", SDLK_b);
+    PyModule_AddIntConstant(mm_mod, "SDLK_c", SDLK_c);
+    PyModule_AddIntConstant(mm_mod, "SDLK_d", SDLK_d);
+    PyModule_AddIntConstant(mm_mod, "SDLK_e", SDLK_e);
+    PyModule_AddIntConstant(mm_mod, "SDLK_f", SDLK_f);
+    PyModule_AddIntConstant(mm_mod, "SDLK_g", SDLK_g);
+    PyModule_AddIntConstant(mm_mod, "SDLK_h", SDLK_h);
+    PyModule_AddIntConstant(mm_mod, "SDLK_i", SDLK_i);
+    PyModule_AddIntConstant(mm_mod, "SDLK_j", SDLK_j);
+    PyModule_AddIntConstant(mm_mod, "SDLK_k", SDLK_k);
+    PyModule_AddIntConstant(mm_mod, "SDLK_l", SDLK_l);
+    PyModule_AddIntConstant(mm_mod, "SDLK_m", SDLK_m);
+    PyModule_AddIntConstant(mm_mod, "SDLK_n", SDLK_n);
+    PyModule_AddIntConstant(mm_mod, "SDLK_o", SDLK_o);
+    PyModule_AddIntConstant(mm_mod, "SDLK_p", SDLK_p);
+    PyModule_AddIntConstant(mm_mod, "SDLK_q", SDLK_q);
+    PyModule_AddIntConstant(mm_mod, "SDLK_r", SDLK_r);
+    PyModule_AddIntConstant(mm_mod, "SDLK_s", SDLK_s);
+    PyModule_AddIntConstant(mm_mod, "SDLK_t", SDLK_t);
+    PyModule_AddIntConstant(mm_mod, "SDLK_u", SDLK_u);
+    PyModule_AddIntConstant(mm_mod, "SDLK_v", SDLK_v);
+    PyModule_AddIntConstant(mm_mod, "SDLK_w", SDLK_w);
+    PyModule_AddIntConstant(mm_mod, "SDLK_x", SDLK_x);
+    PyModule_AddIntConstant(mm_mod, "SDLK_y", SDLK_y);
+    PyModule_AddIntConstant(mm_mod, "SDLK_z", SDLK_z);
 
 #if SDL_MAJOR_VERSION == 1 /* { */
-    PyModule_AddIntConstant(mymod, "SDLK_KP0", SDLK_KP0);
-    PyModule_AddIntConstant(mymod, "SDLK_KP1", SDLK_KP1);
-    PyModule_AddIntConstant(mymod, "SDLK_KP2", SDLK_KP2);
-    PyModule_AddIntConstant(mymod, "SDLK_KP3", SDLK_KP3);
-    PyModule_AddIntConstant(mymod, "SDLK_KP4", SDLK_KP4);
-    PyModule_AddIntConstant(mymod, "SDLK_KP5", SDLK_KP5);
-    PyModule_AddIntConstant(mymod, "SDLK_KP6", SDLK_KP6);
-    PyModule_AddIntConstant(mymod, "SDLK_KP7", SDLK_KP7);
-    PyModule_AddIntConstant(mymod, "SDLK_KP8", SDLK_KP8);
-    PyModule_AddIntConstant(mymod, "SDLK_KP9", SDLK_KP9);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP0", SDLK_KP0);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP1", SDLK_KP1);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP2", SDLK_KP2);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP3", SDLK_KP3);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP4", SDLK_KP4);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP5", SDLK_KP5);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP6", SDLK_KP6);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP7", SDLK_KP7);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP8", SDLK_KP8);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP9", SDLK_KP9);
 #else
-    PyModule_AddIntConstant(mymod, "SDLK_KP_0", SDLK_KP_0);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_1", SDLK_KP_1);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_2", SDLK_KP_2);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_3", SDLK_KP_3);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_4", SDLK_KP_4);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_5", SDLK_KP_5);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_6", SDLK_KP_6);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_7", SDLK_KP_7);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_8", SDLK_KP_8);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_9", SDLK_KP_9);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_0", SDLK_KP_0);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_1", SDLK_KP_1);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_2", SDLK_KP_2);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_3", SDLK_KP_3);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_4", SDLK_KP_4);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_5", SDLK_KP_5);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_6", SDLK_KP_6);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_7", SDLK_KP_7);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_8", SDLK_KP_8);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_9", SDLK_KP_9);
 #endif
 
-    PyModule_AddIntConstant(mymod, "SDLK_KP_PERIOD", SDLK_KP_PERIOD);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_DIVIDE", SDLK_KP_DIVIDE);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_MULTIPLY", SDLK_KP_MULTIPLY);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_MINUS", SDLK_KP_MINUS);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_PLUS", SDLK_KP_PLUS);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_ENTER", SDLK_KP_ENTER);
-    PyModule_AddIntConstant(mymod, "SDLK_KP_EQUALS", SDLK_KP_EQUALS);
-    PyModule_AddIntConstant(mymod, "SDLK_UP", SDLK_UP);
-    PyModule_AddIntConstant(mymod, "SDLK_DOWN", SDLK_DOWN);
-    PyModule_AddIntConstant(mymod, "SDLK_RIGHT", SDLK_RIGHT);
-    PyModule_AddIntConstant(mymod, "SDLK_LEFT", SDLK_LEFT);
-    PyModule_AddIntConstant(mymod, "SDLK_INSERT", SDLK_INSERT);
-    PyModule_AddIntConstant(mymod, "SDLK_HOME", SDLK_HOME);
-    PyModule_AddIntConstant(mymod, "SDLK_END", SDLK_END);
-    PyModule_AddIntConstant(mymod, "SDLK_PAGEUP", SDLK_PAGEUP);
-    PyModule_AddIntConstant(mymod, "SDLK_PAGEDOWN", SDLK_PAGEDOWN);
-    PyModule_AddIntConstant(mymod, "SDLK_F1", SDLK_F1);
-    PyModule_AddIntConstant(mymod, "SDLK_F2", SDLK_F2);
-    PyModule_AddIntConstant(mymod, "SDLK_F3", SDLK_F3);
-    PyModule_AddIntConstant(mymod, "SDLK_F4", SDLK_F4);
-    PyModule_AddIntConstant(mymod, "SDLK_F5", SDLK_F5);
-    PyModule_AddIntConstant(mymod, "SDLK_F6", SDLK_F6);
-    PyModule_AddIntConstant(mymod, "SDLK_F7", SDLK_F7);
-    PyModule_AddIntConstant(mymod, "SDLK_F8", SDLK_F8);
-    PyModule_AddIntConstant(mymod, "SDLK_F9", SDLK_F9);
-    PyModule_AddIntConstant(mymod, "SDLK_F10", SDLK_F10);
-    PyModule_AddIntConstant(mymod, "SDLK_F11", SDLK_F11);
-    PyModule_AddIntConstant(mymod, "SDLK_F12", SDLK_F12);
-    PyModule_AddIntConstant(mymod, "SDLK_F13", SDLK_F13);
-    PyModule_AddIntConstant(mymod, "SDLK_F14", SDLK_F14);
-    PyModule_AddIntConstant(mymod, "SDLK_F15", SDLK_F15);
-    PyModule_AddIntConstant(mymod, "SDLK_CAPSLOCK", SDLK_CAPSLOCK);
-    PyModule_AddIntConstant(mymod, "SDLK_RSHIFT", SDLK_RSHIFT);
-    PyModule_AddIntConstant(mymod, "SDLK_LSHIFT", SDLK_LSHIFT);
-    PyModule_AddIntConstant(mymod, "SDLK_RCTRL", SDLK_RCTRL);
-    PyModule_AddIntConstant(mymod, "SDLK_LCTRL", SDLK_LCTRL);
-    PyModule_AddIntConstant(mymod, "SDLK_RALT", SDLK_RALT);
-    PyModule_AddIntConstant(mymod, "SDLK_LALT", SDLK_LALT);
-    PyModule_AddIntConstant(mymod, "SDLK_MODE", SDLK_MODE);
-    PyModule_AddIntConstant(mymod, "SDLK_HELP", SDLK_HELP);
-    PyModule_AddIntConstant(mymod, "SDLK_SYSREQ", SDLK_SYSREQ);
-    PyModule_AddIntConstant(mymod, "SDLK_MENU", SDLK_MENU);
-    PyModule_AddIntConstant(mymod, "SDLK_POWER", SDLK_POWER);
-    PyModule_AddIntConstant(mymod, "SDLK_UNDO", SDLK_UNDO);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_PERIOD", SDLK_KP_PERIOD);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_DIVIDE", SDLK_KP_DIVIDE);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_MULTIPLY", SDLK_KP_MULTIPLY);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_MINUS", SDLK_KP_MINUS);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_PLUS", SDLK_KP_PLUS);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_ENTER", SDLK_KP_ENTER);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP_EQUALS", SDLK_KP_EQUALS);
+    PyModule_AddIntConstant(mm_mod, "SDLK_UP", SDLK_UP);
+    PyModule_AddIntConstant(mm_mod, "SDLK_DOWN", SDLK_DOWN);
+    PyModule_AddIntConstant(mm_mod, "SDLK_RIGHT", SDLK_RIGHT);
+    PyModule_AddIntConstant(mm_mod, "SDLK_LEFT", SDLK_LEFT);
+    PyModule_AddIntConstant(mm_mod, "SDLK_INSERT", SDLK_INSERT);
+    PyModule_AddIntConstant(mm_mod, "SDLK_HOME", SDLK_HOME);
+    PyModule_AddIntConstant(mm_mod, "SDLK_END", SDLK_END);
+    PyModule_AddIntConstant(mm_mod, "SDLK_PAGEUP", SDLK_PAGEUP);
+    PyModule_AddIntConstant(mm_mod, "SDLK_PAGEDOWN", SDLK_PAGEDOWN);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F1", SDLK_F1);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F2", SDLK_F2);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F3", SDLK_F3);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F4", SDLK_F4);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F5", SDLK_F5);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F6", SDLK_F6);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F7", SDLK_F7);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F8", SDLK_F8);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F9", SDLK_F9);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F10", SDLK_F10);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F11", SDLK_F11);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F12", SDLK_F12);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F13", SDLK_F13);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F14", SDLK_F14);
+    PyModule_AddIntConstant(mm_mod, "SDLK_F15", SDLK_F15);
+    PyModule_AddIntConstant(mm_mod, "SDLK_CAPSLOCK", SDLK_CAPSLOCK);
+    PyModule_AddIntConstant(mm_mod, "SDLK_RSHIFT", SDLK_RSHIFT);
+    PyModule_AddIntConstant(mm_mod, "SDLK_LSHIFT", SDLK_LSHIFT);
+    PyModule_AddIntConstant(mm_mod, "SDLK_RCTRL", SDLK_RCTRL);
+    PyModule_AddIntConstant(mm_mod, "SDLK_LCTRL", SDLK_LCTRL);
+    PyModule_AddIntConstant(mm_mod, "SDLK_RALT", SDLK_RALT);
+    PyModule_AddIntConstant(mm_mod, "SDLK_LALT", SDLK_LALT);
+    PyModule_AddIntConstant(mm_mod, "SDLK_MODE", SDLK_MODE);
+    PyModule_AddIntConstant(mm_mod, "SDLK_HELP", SDLK_HELP);
+    PyModule_AddIntConstant(mm_mod, "SDLK_SYSREQ", SDLK_SYSREQ);
+    PyModule_AddIntConstant(mm_mod, "SDLK_MENU", SDLK_MENU);
+    PyModule_AddIntConstant(mm_mod, "SDLK_POWER", SDLK_POWER);
+    PyModule_AddIntConstant(mm_mod, "SDLK_UNDO", SDLK_UNDO);
 }
 
 void python_init (void)
@@ -2053,13 +2053,19 @@ void python_init (void)
     py_add_to_path(DATA_PATH);
     py_add_to_path(PYTHON_PATH);
 
-    mymod = PyImport_ImportModule("init");
-    if (!mymod) {
+    mm_mod = PyImport_ImportModule("mm");
+    if (!mm_mod) {
         py_err();
-        DIE("module import failed");
+        DIE("module mm import failed");
     }
 
     python_add_consts();
+
+    mm_mod = PyImport_ImportModule("init");
+    if (!mm_mod) {
+        py_err();
+        DIE("module init import failed");
+    }
 }
 
 void python_fini (void)
