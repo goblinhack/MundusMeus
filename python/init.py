@@ -68,9 +68,9 @@ def load_one_plugin(filepath):
         global wid_quit
         wid_quit = py_mod
 
-    if basename(filepath) == "wid_intro.py":
-        global wid_intro
-        wid_intro = py_mod
+    if basename(filepath) == "wid_intro_menu.py":
+        global wid_intro_menu
+        wid_intro_menu = py_mod
 
     if basename(filepath) == "wid_intro_bg.py":
         global wid_intro_bg
@@ -103,46 +103,13 @@ def init1():
     load_plugin('mundusmeus-config.py')
     config.save_game_config()
 
-wid_intro_title = None
-wid_intro_menu = None
-
-
-def wid_intro_bg_create():
-    global wid_intro_title
-
-    if wid_intro_title is None:
-        w = wid.Wid(name="intro bg")
-        wid_intro_title = w
-
-        w.set_tl_br_pct(x1=0.0, y1=0.1, x2=1.0, y2=0.9)
-        w.set_tex(name="main_title");
-        w.set_color(tl=True, bg=True, br=True, name="white")
-        w.to_back()
-        w.update();
-        w.set_do_not_raise(value=True);
-
-
-def wid_intro_menu_create():
-    global wid_intro_menu
-
-    if wid_intro_menu is None:
-        w = wid_popup.WidPopup(name="test", 
-                               x1=0.2, y1=0.5)
-        wid_intro_menu = w
-
-        w.add_text(text="%%fg=green$a) %%fg=white$new game\n")
-        w.set_color(bg=True, tl=True, br=True, name="red", alpha=0)
-        w.update()
-
-global fred
-fred=1
 
 def init2():
 
     load_all_plugins()
 
-    wid_intro_bg_create()
-    wid_intro_menu_create()
+    wid_intro_bg.create()
+    wid_intro_menu.create()
     global fred
     fred = 1
     wid_quit.wid_quit_create()

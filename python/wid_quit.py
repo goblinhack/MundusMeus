@@ -1,7 +1,7 @@
 import mm
 import wid
 import wid_popup
-import init
+import sys
 
 wid_quit_menu = None
 
@@ -10,7 +10,7 @@ def wid_quit_common():
 
 def wid_quit_yes():
     wid_quit_common()
-    mm.die("exit game")
+    mm.die("exit game from {0}".format(sys._getframe().f_code.co_name))
     return False
 
 def wid_quit_no():
