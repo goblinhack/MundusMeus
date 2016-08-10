@@ -74,11 +74,6 @@ static void thing_destroy_internal (thingp t)
         wid_set_thing(t->wid, 0);
         wid_destroy_nodelay(&t->wid);
     }
-
-    if (t->tree.key) {
-        myfree(t->tree.key);
-        t->tree.key = 0;
-    }
 }
 
 void thing_destroyed_ (thingp t, const char *reason)

@@ -13,6 +13,9 @@ class tpp:
 
         all_tps[name] = self
 
+    def set_description(self, value):
+        self.description = value
+
     def set_short_name(self, value):
         self.short_name = value
         mm.tp_set_short_name(self, value)
