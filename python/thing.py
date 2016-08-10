@@ -32,6 +32,9 @@ class Thing:
 
         mm.thing_new(self, tp_name)
 
+        if self.tp.thing_init is not None:
+            self.tp.thing_init(self)
+
     def __str__(self):
         return "{0}:{1}".format(self.thing_id, self.tp_name)
 
@@ -78,3 +81,6 @@ class Thing:
         self.level.on_map[self.x][self.y].remove(self)
         mm.thing_pop(self)
         self.on_map = False
+
+    def set_description(self, value=""):
+        self.description = value
