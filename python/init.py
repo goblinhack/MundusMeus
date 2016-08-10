@@ -4,6 +4,10 @@ import sys
 import fnmatch
 from os.path import dirname, basename
 import imp
+import thing
+import level
+import world
+import util
 
 
 def find_plugins(directory, pattern):
@@ -110,8 +114,16 @@ def init2():
 
     wid_intro_bg.create()
     wid_intro_menu.create()
-    global fred
-    fred = 1
     wid_quit.wid_quit_create()
+
+    w = world.World(0)
+
+    p = util.Xyz(0, 0, 0)
+    w.push_level(p)
+
+    l = w.get_level()
+    l.set_dim(10, 10)
+
+    t = thing.Thing(level=l, tp_name="player1")
 
 init1()

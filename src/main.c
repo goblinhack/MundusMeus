@@ -67,34 +67,58 @@ void quit (void)
      */
     config_save();
 
+    LOG("sdl_exit()");
     sdl_exit();
 
+    LOG("wid_game_map_fini()");
     wid_game_map_fini();
 
+    LOG("level_fini()");
     level_fini();
+    LOG("player_fini()");
     player_fini();
+    LOG("tp_fini()");
     tp_fini();
+    LOG("thing_fini()");
     thing_fini();
 
+    LOG("wid_console_fini()");
     wid_console_fini();
+    LOG("wid_intro_fini()");
     wid_intro_fini();
+    LOG("wid_intro_about_fini()");
     wid_intro_about_fini();
+    LOG("wid_intro_settings_fini()");
     wid_intro_settings_fini();
 
+    LOG("command_fini()");
     command_fini();
 
+    LOG("wid_fini()");
     wid_fini();
+    LOG("ttf_fini()");
     ttf_fini();
+    LOG("font_fini()");
     font_fini();
+    LOG("tex_fini()");
     tex_fini();
+    LOG("wid_tiles_fini()");
     wid_tiles_fini();
+    LOG("music_fini()");
     music_fini();
+    LOG("sound_fini()");
     sound_fini();
+    LOG("tile_fini()");
     tile_fini();
+    LOG("sdl_fini()");
     sdl_fini();
+    LOG("config_fini()");
     config_fini();
+    LOG("enum_fmt_destroy()");
     enum_fmt_destroy();
+    LOG("enum_font_destroy()");
     enum_font_destroy();
+    LOG("blit_fini()");
     blit_fini();
 #if 0
     miniz_fini();
