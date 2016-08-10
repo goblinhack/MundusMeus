@@ -3,9 +3,10 @@ import mm
 
 def thing_init(t):
     t.set_description("A grumbly little creature of dark intent")
-#    x.add_damage("fists", hitdice=1, d=6)
-#    x.add_damage("bite", hitdice=1, d=6)
-    return
+#    t.set_attack(total=1)
+#    t.add_damage(what="weapon", dice="1d4+1", chance=100, priority=1)
+#    t.add_damage(what="fists",  dice="1d4+1", chance=50, priority=1)
+#    t.add_damage(what="bite",   dice="1d4+2", chance=50, priority=2)
 
 def init():
     x = tpp("player1")
