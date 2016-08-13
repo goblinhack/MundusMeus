@@ -47,24 +47,6 @@ def wid_quit_create():
                            height=0.0)
     wid_quit_menu = w
 
-    button_events=( 
-            { 
-                "on_mouse_down":wid_quit_on_mouse_down_yes, 
-                "tiles":"button1", 
-            },
-            { 
-                "on_mouse_down":wid_quit_on_mouse_down_yes, 
-                "tiles":"button2", 
-            },
-        )
-
-    w.add_text(center=True, 
-               font="vlarge", 
-               color="white", 
-               title="true",
-               text="%%tile=player4$  [a] [b] [c] [d] Quit the game?",
-               on_button_list=button_events)
-
     w.add_text(center=True, 
                font="vlarge", 
                color="white", 

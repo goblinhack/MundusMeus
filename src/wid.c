@@ -9003,15 +9003,15 @@ static void wid_display (widp w,
             if (font == fixed_font) {
                 outline = 1.0;
             } else if (font == vsmall_font) {
-                outline = 3.0;
+                outline = 1.0;
             } else if (font == small_font) {
-                outline = 3.0;
+                outline = 2.0;
             } else if (font == med_font) {
-                outline = 4.5;
+                outline = 3.0;
             } else if (font == large_font) {
-                outline = 5.0;
+                outline = 3.0;
             } else if (font == vlarge_font) {
-                outline = 5.0;
+                outline = 3.0;
             } else if (font == vvlarge_font) {
                 outline = 5.0;
             } else {

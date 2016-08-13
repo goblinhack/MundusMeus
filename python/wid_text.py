@@ -106,22 +106,23 @@ class WidText(wid.Wid):
                         #
                         button_tiles="button1"
                         button_event_list = row_on_button_list[row]
-                        if button_count < len(button_event_list):
-                            d = button_event_list[button_count]
-                            if d != None:
-                                event = d["on_mouse_down"]
-                                if event != None:
-                                    child.set_on_mouse_down(event)
+                        set_on_mouse_down = None
+                        if button_event_list != None:
+                            if button_count < len(button_event_list):
+                                d = button_event_list[button_count]
+                                if d != None:
+                                    event = d["on_mouse_down"]
+                                    if event != None:
+                                        set_on_mouse_down = event
 
-                                if "tiles" in d:
-                                    button_tiles = d["tiles"]
-                        else:
-                            mm.err("missing callback "
-                                   "for button {0} text {1}".format(
-                                   button_count, line))
+                                    if "tiles" in d:
+                                        button_tiles = d["tiles"]
+                            else:
+                                mm.err("missing callback "
+                                    "for button {0} text {1}".format(
+                                    button_count, line))
 
-                        button_count += 1
-                        print("tile {0}".format(button_tiles))
+                            button_count += 1
 
                         #
                         # Now make the button 
@@ -132,6 +133,9 @@ class WidText(wid.Wid):
                                         tiles=button_tiles,
                                         parent=self.wid_id)
                         child.set_color(tl=True, bg=True, br=True, name="grey")
+
+                        if set_on_mouse_down != None:
+                            child.set_on_mouse_down(set_on_mouse_down)
 
                         child.set_on_mouse_over_begin(
                                 wid_text_button_on_mouse_over_begin_callback)
@@ -336,8 +340,14 @@ def text_size_pct(row_text, row_font, width):
             x = 0
             max_h = 0
 
+            count = len(words)
+            cnt = 0
             for word in words:
-                w, h, c = mm.text_size_pct(font=font, text=word + " ")
+                if cnt == count - 1:
+                    w, h, c = mm.text_size_pct(font=font, text=word)
+                else:
+                    w, h, c = mm.text_size_pct(font=font, text=word + " ")
+                cnt += 1
 
                 if x + w > width:
                     line_width.append(0)

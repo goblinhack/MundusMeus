@@ -72,6 +72,10 @@ def load_one_plugin(filepath):
         global wid_quit
         wid_quit = py_mod
 
+    if basename(filepath) == "wid_tp.py":
+        global wid_tp
+        wid_tp = py_mod
+
     if basename(filepath) == "wid_intro_menu.py":
         global wid_intro_menu
         wid_intro_menu = py_mod
@@ -115,6 +119,7 @@ def init2():
     wid_intro_bg.create()
     wid_intro_menu.create()
     wid_quit.wid_quit_create()
+    wid_tp.wid_tp_create()
 
     w = world.World(0)
 
