@@ -100,10 +100,36 @@ class WidText(wid.Wid):
                         y = y + h
 
                     if word[:1] == "[":
+
+                        #
+                        # Grab the next button event
+                        #
+                        button_tiles="button1"
+                        button_event_list = row_on_button_list[row]
+                        if button_count < len(button_event_list):
+                            d = button_event_list[button_count]
+                            if d != None:
+                                event = d["on_mouse_down"]
+                                if event != None:
+                                    child.set_on_mouse_down(event)
+
+                                if "tiles" in d:
+                                    button_tiles = d["tiles"]
+                        else:
+                            mm.err("missing callback "
+                                   "for button {0} text {1}".format(
+                                   button_count, line))
+
+                        button_count += 1
+                        print("tile {0}".format(button_tiles))
+
+                        #
+                        # Now make the button 
+                        #
                         new_word = " " + word[1:-1] + " "
                         word = new_word.replace("_"," ")
                         child = wid.Wid(name="wid text child",
-                                        tiles="button1",
+                                        tiles=button_tiles,
                                         parent=self.wid_id)
                         child.set_color(tl=True, bg=True, br=True, name="grey")
 
@@ -112,19 +138,6 @@ class WidText(wid.Wid):
                         child.set_on_mouse_over_end(
                                 wid_text_button_on_mouse_over_end_callback)
 
-                        #
-                        # Grab the next button event
-                        #
-                        button_event_list = row_on_button_list[row]
-                        if button_count < len(button_event_list):
-                            child.set_on_mouse_down(
-                                    button_event_list[button_count])
-                        else:
-                            mm.err("missing callback "
-                                   "for button {0} text {1}".format(
-                                   button_count, line))
-
-                        button_count += 1
                     else:
                         child = wid.Wid(name="wid text child",
                                         parent=self.wid_id)
