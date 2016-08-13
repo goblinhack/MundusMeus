@@ -47,23 +47,40 @@ def wid_quit_create():
                            height=0.0)
     wid_quit_menu = w
 
+    button_events=( 
+            wid_quit_on_mouse_down_no,
+            )
+
     w.add_text(center=True, 
                font="vlarge", 
                color="white", 
                title="true",
-               text="%%tile=player4$ Quit the game?")
+               text="%%tile=player4$  [a] [b] [c] [d] Quit the game?",
+               on_button_list=button_events)
+
+    button_events=( 
+            wid_quit_on_mouse_down_yes, 
+            wid_quit_on_mouse_down_yes,
+            wid_quit_on_mouse_down_yes)
 
     w.add_text(font="vlarge", 
                on_mouse_down=wid_quit_on_mouse_down_yes,
                on_key_down=wid_quit_on_key_down_yes,
                on_key_sym=mm.SDLK_y,
-               text="%%fg=red$y) %%fg=white$Yep, quit")
+               text="%%fg=red$y) %%fg=white$Yep, [_______yes] [a] [b] quit",
+               on_button_list=button_events)
+
+    button_events=( 
+            wid_quit_on_mouse_down_no,
+            wid_quit_on_mouse_down_no
+            )
 
     w.add_text(font="vlarge", 
                on_mouse_down=wid_quit_on_mouse_down_no,
                on_key_down=wid_quit_on_key_down_no,
                on_key_sym=mm.SDLK_n,
-               text="%%fg=green$n) %%fg=white$Nope, persevere")
+               text="%%fg=green$n) %%fg=white$Nope, [______no] [%%tile=player4$] persevere",
+               on_button_list=button_events)
 
     w.update()
     w.set_focus()
