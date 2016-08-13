@@ -36,6 +36,7 @@ class WidPopup(wid.Wid):
                  row_on_destroy=None,
                  row_on_destroy_begin=None,
                  row_on_tick=None,
+                 row_on_button_list=None,
                  row_on_display=None,
                  row_on_display_top_level=None,
                  title_font=None,
@@ -58,6 +59,7 @@ class WidPopup(wid.Wid):
                  title_on_destroy=None,
                  title_on_destroy_begin=None,
                  title_on_tick=None,
+                 title_on_button_list=None,
                  title_on_display=None,
                  title_on_display_top_level=None,
                  **kw):
@@ -84,6 +86,7 @@ class WidPopup(wid.Wid):
         self.global_row_on_destroy=row_on_destroy
         self.global_row_on_destroy_begin=row_on_destroy_begin
         self.global_row_on_tick=row_on_tick
+        self.global_row_on_button_list=row_on_button_list
         self.global_row_on_display=row_on_display
         self.global_row_on_display_top_level=row_on_display_top_level
         self.global_title_font=title_font
@@ -106,6 +109,7 @@ class WidPopup(wid.Wid):
         self.global_title_on_destroy=title_on_destroy
         self.global_title_on_destroy_begin=title_on_destroy_begin
         self.global_title_on_tick=title_on_tick
+        self.global_title_on_button_list=title_on_button_list
         self.global_title_on_display=title_on_display
         self.global_title_on_display_top_level=title_on_display_top_level
 
@@ -149,6 +153,7 @@ class WidPopup(wid.Wid):
         self.row_on_destroy = []
         self.row_on_destroy_begin = []
         self.row_on_tick = []
+        self.row_on_button_list = []
         self.row_on_display = []
         self.row_on_display_top_level = []
 
@@ -176,6 +181,7 @@ class WidPopup(wid.Wid):
         self.title_on_destroy = []
         self.title_on_destroy_begin = []
         self.title_on_tick = []
+        self.title_on_button_list = []
         self.title_on_display = []
         self.title_on_display_top_level = []
 
@@ -200,6 +206,7 @@ class WidPopup(wid.Wid):
                  on_destroy=None,
                  on_destroy_begin=None,
                  on_tick=None,
+                 on_button_list=None,
                  on_display=None,
                  on_display_top_level=None,
                  title=False,
@@ -249,6 +256,8 @@ class WidPopup(wid.Wid):
                 on_destroy_begin = self.global_row_on_destroy_begin
             if on_tick is None:
                 on_tick = self.global_row_on_tick
+            if on_button_list is None:
+                on_button_list = self.global_row_on_button_list
             if on_display is None:
                 on_display = self.global_row_on_display
             if on_display_top_level is None:
@@ -275,6 +284,7 @@ class WidPopup(wid.Wid):
             self.row_on_destroy.append(on_destroy)
             self.row_on_destroy_begin.append(on_destroy_begin)
             self.row_on_tick.append(on_tick)
+            self.row_on_button_list.append(on_button_list)
             self.row_on_display.append(on_display)
             self.row_on_display_top_level.append(on_display_top_level)
             self.row_count += 1
@@ -321,6 +331,8 @@ class WidPopup(wid.Wid):
                 on_destroy_begin = self.global_title_on_destroy_begin
             if on_tick is None:
                 on_tick = self.global_title_on_tick
+            if on_button_list is None:
+                on_button_list = self.global_title_on_button_list
             if on_display is None:
                 on_display = self.global_title_on_display
 
@@ -345,6 +357,7 @@ class WidPopup(wid.Wid):
             self.title_on_destroy.append(on_destroy)
             self.title_on_destroy_begin.append(on_destroy_begin)
             self.title_on_tick.append(on_tick)
+            self.title_on_button_list.append(on_button_list)
             self.title_on_display.append(on_display)
             self.title_on_display_top_level.append(on_display_top_level)
             self.title_count += 1
@@ -439,6 +452,7 @@ class WidPopup(wid.Wid):
                                              row_on_destroy=self.row_on_destroy,
                                              row_on_destroy_begin=self.row_on_destroy_begin,
                                              row_on_tick=self.row_on_tick,
+                                             row_on_button_list=self.row_on_button_list,
                                              row_on_display=self.row_on_display,
                                              row_on_display_top_level=self.row_on_display_top_level,
                                              parent=self.wid_id,
@@ -498,6 +512,7 @@ class WidPopup(wid.Wid):
                                              row_on_destroy=self.title_on_destroy,
                                              row_on_destroy_begin=self.title_on_destroy_begin,
                                              row_on_tick=self.title_on_tick,
+                                             row_on_button_list=self.title_on_button_list,
                                              row_on_display=self.title_on_display,
                                              row_on_display_top_level=self.title_on_display_top_level,
                                              parent=self.wid_id,

@@ -8862,6 +8862,12 @@ static void wid_display (widp w,
                             q.x = br.x - tile_w;
                         }
 
+                        /*
+                         * Account for fractional pixels in small tiles.
+                         */
+                        q.x++;
+                        q.y++;
+
                         swap(p.y, q.y);
                         tile_blit_at(tile, 0, p, q);
                     }

@@ -31,6 +31,7 @@ class WidText(wid.Wid):
                  row_on_destroy,
                  row_on_destroy_begin,
                  row_on_tick,
+                 row_on_button_list,
                  row_on_display,
                  row_on_display_top_level,
                  parent=0,
@@ -69,6 +70,8 @@ class WidText(wid.Wid):
             begin_y = y
             l = 0
 
+            button_count = 0
+
             for line in lines:
 
                 width = line_width[l]
@@ -85,7 +88,7 @@ class WidText(wid.Wid):
                     x = x / self.usable_w
 
                 for word in words:
-                    w, h, c = mm.text_size_pct(font=font, text=word + " ")
+                    w, h, c = mm.text_size_pct(font=font, text=word)
                     if c != "none":
                         color = c
 
@@ -96,8 +99,35 @@ class WidText(wid.Wid):
                         x = 0
                         y = y + h
 
-                    child = wid.Wid(name="wid text child",
-                                    parent=self.wid_id)
+                    if word[:1] == "[":
+                        new_word = " " + word[1:-1] + " "
+                        word = new_word.replace("_"," ")
+                        child = wid.Wid(name="wid text child",
+                                        tiles="button1",
+                                        parent=self.wid_id)
+                        child.set_color(tl=True, bg=True, br=True, name="grey")
+
+                        child.set_on_mouse_over_begin(
+                                wid_text_button_on_mouse_over_begin_callback)
+                        child.set_on_mouse_over_end(
+                                wid_text_button_on_mouse_over_end_callback)
+
+                        #
+                        # Grab the next button event
+                        #
+                        button_event_list = row_on_button_list[row]
+                        if button_count < len(button_event_list):
+                            child.set_on_mouse_down(
+                                    button_event_list[button_count])
+                        else:
+                            mm.err("missing callback "
+                                   "for button {0} text {1}".format(
+                                   button_count, line))
+
+                        button_count += 1
+                    else:
+                        child = wid.Wid(name="wid text child",
+                                        parent=self.wid_id)
 
                     child.set_tl_br_pct(x, y, x + w, y + h)
 
@@ -108,6 +138,10 @@ class WidText(wid.Wid):
                         child.set_text(text=word, lhs=True, font=font)
 
                     self.children.append(child)
+
+                    x = x + w
+
+                    w, unused1, unused2 = mm.text_size_pct(font=font, text=" ")
 
                     x = x + w
 
@@ -143,6 +177,7 @@ class WidText(wid.Wid):
             w.row_on_destroy = row_on_destroy[row]
             w.row_on_destroy_begin = row_on_destroy_begin[row]
             w.row_on_tick = row_on_tick[row]
+            w.row_on_button_list = row_on_button_list[row]
             w.row_on_display = row_on_display[row]
             w.row_on_display_top_level = row_on_display_top_level[row]
 
@@ -258,6 +293,13 @@ def wid_text_on_key_down_callback(w, sym, mod):
         wid_focus.set_focus(w)
 
     return rc
+
+def wid_text_button_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
+    w.set_color(tl=True, bg=True, br=True, name="white", alpha=1.0)
+    wid_focus.set_focus(w)
+
+def wid_text_button_on_mouse_over_end_callback(w):
+    w.set_color(tl=True, bg=True, br=True, name="gray", alpha=1.0)
 
 def text_size_pct(row_text, row_font, width):
 
