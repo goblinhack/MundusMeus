@@ -188,6 +188,8 @@ class WidPopup(wid.Wid):
         self.title_tiles = title_tiles
         self.body_tiles = body_tiles
 
+        self.scrollbar = None
+
     def add_text(self, 
                  text, 
                  on_tooltip=None,
