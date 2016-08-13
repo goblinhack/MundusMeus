@@ -10,6 +10,7 @@ class tpp:
         self.name = name
         mm.tp_load(self)
         self.set_raw_name(name)
+        self.is_player = False
 
         all_tps[name] = self
 

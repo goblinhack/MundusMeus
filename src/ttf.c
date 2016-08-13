@@ -28,6 +28,7 @@ static void ttf_create_tex_from_char(TTF_Font *ttf, const char *name,
                                      font *f, uint8_t c);
 #endif
 
+static double tile_stretch = 1.4;
 static uint8_t ttf_init_done;
 
 uint8_t ttf_init (void)
@@ -167,7 +168,7 @@ void ttf_text_size (font **f, const char *text_in,
 		    text += 5;
                     (void)string2tile(&text);
 
-                    x += (*f)->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+                    x += (*f)->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance * tile_stretch;
 
 		    found_format_string = false;
 		    continue;
@@ -361,16 +362,18 @@ static void ttf_puts_internal (font *f, const char *text,
                     point tl;
                     point br;
 
+                    x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (0.125);
+
                     tl.x = (x);
                     tl.y = (y);
-                    br.x = (x + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling);
+                    br.x = (x + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling * tile_stretch);
                     br.y = (y + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].height * (scaling));
 
                     swap(br.y, tl.y);
 
                     tile_blit_at(tile, 0, tl, br);
 
-                    x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+                    x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (tile_stretch - 0.125);
 
 		    found_format_string = false;
 		    continue;
