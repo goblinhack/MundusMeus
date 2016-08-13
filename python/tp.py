@@ -10,9 +10,65 @@ class tpp:
         self.name = name
         mm.tp_load(self)
         self.set_raw_name(name)
-        self.is_player = False
-
         all_tps[name] = self
+
+        self.description = None
+        self.short_name = None
+        self.raw_name = None
+        self.light_radius = None
+        self.scale = None
+        self.z_depth = None
+        self.z_order = None
+        self.world_depth = None
+        self.speed = None
+        self.blit_top_off = None
+        self.blit_bot_off = None
+        self.blit_left_off = None
+        self.light_tint = None
+        self.is_animated = False
+        self.is_animated_no_dir = False
+        self.is_animation = False
+        self.is_candle_light = False
+        self.is_cats_eyes = False
+        self.is_door = False
+        self.is_effect_fade_in_out = False
+        self.is_effect_pulse = False
+        self.is_effect_rotate_2way = False
+        self.is_effect_sway = False
+        self.is_explosion = False
+        self.is_joinable = False
+        self.is_light_source = False
+        self.is_monst = False
+        self.is_player = False
+        self.is_rrr1 = False
+        self.is_rrr2 = False
+        self.is_rrr3 = False
+        self.is_rrr4 = False
+        self.is_rrr5 = False
+        self.is_rrr6 = False
+        self.is_rrr7 = False
+        self.is_rrr8 = False
+        self.is_rrr9 = False
+        self.is_rrr10 = False
+        self.is_rrr11 = False
+        self.is_rrr12 = False
+        self.is_rrr13 = False
+        self.is_rrr14 = False
+        self.is_rrr15 = False
+        self.is_rrr16 = False
+        self.is_shadow_caster = False
+        self.is_shadow_caster_soft = False
+        self.is_sleeping = False
+        self.is_wall = False
+        self.is_castle = False
+        self.is_forest = False
+        self.is_grass = False
+        self.is_land = False
+        self.is_mountain = False
+        self.is_rock = False
+        self.is_sand = False
+        self.is_sea = False
+        self.is_settlement = False
 
     def set_description(self, value):
         self.description = value
