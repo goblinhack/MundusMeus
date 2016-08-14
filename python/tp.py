@@ -40,6 +40,7 @@ class tpp:
         self.is_light_source = False
         self.is_monst = False
         self.is_player = False
+        self.is_food = False
         self.is_rrr1 = False
         self.is_rrr2 = False
         self.is_rrr3 = False
@@ -180,6 +181,10 @@ class tpp:
     def set_is_player(self, value):
         self.is_player = value
         mm.tp_set_is_player(self, value)
+
+    def set_is_food(self, value):
+        self.is_food = value
+        mm.tp_set_is_food(self, value)
 
     def set_is_rrr1(self, value):
         self.is_rrr1 = value
