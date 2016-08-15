@@ -1607,6 +1607,7 @@ def init_tiles_icon1():
         "icon-shield",
         "icon-heal",
         "icon-food",
+        "icon-star",
     ]
 
     mm.tile_load_arr(

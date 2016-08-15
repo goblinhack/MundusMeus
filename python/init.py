@@ -119,7 +119,22 @@ def init2():
     wid_intro_bg.create()
     wid_intro_menu.create()
     wid_quit.wid_quit_create()
-    wid_tp.wid_tp_create()
+
+    w = wid_tp.WidTp(name="tp window",
+                 tiles="wid1",
+                 body_tiles="wid2",
+                 width=0.18,
+                 height=0.4)
+    print(w)
+    w.move_to_pct_centered(x=0.90, y=0.25)
+
+    w = wid_tp.WidTp(name="tp window",
+                 tiles="wid1",
+                 body_tiles="wid2",
+                 width=0.18,
+                 height=0.4)
+
+    w.move_to_pct_centered(x=0.20, y=0.25)
 
     w = world.World(0)
 
