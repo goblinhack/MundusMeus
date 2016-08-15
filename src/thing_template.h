@@ -132,6 +132,7 @@ typedef struct tp_ {
     uint8_t is_effect_rotate_2way:1;
     uint8_t is_effect_sway:1;
     uint8_t is_food:1;
+    uint8_t is_weapon:1;
     uint8_t is_joinable:1;
     uint8_t is_light_source:1;
     uint8_t is_monst:1;
@@ -243,6 +244,11 @@ static inline uint8_t tp_is_sleeping (tpp t)
 static inline uint8_t tp_is_food (tpp t)
 {
     return (t->is_food);
+}
+
+static inline uint8_t tp_is_weapon (tpp t)
+{
+    return (t->is_weapon);
 }
 
 static inline uint8_t tp_is_monst (tpp t)

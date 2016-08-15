@@ -2,7 +2,7 @@ from tp import tpp
 import mm
 
 def thing_init(t):
-    t.set_description("A grumbly little creature of dark intent")
+    t.set_description("Some food")
 
 def food_init(name, short_name):
     x = tpp(name)
@@ -37,6 +37,5 @@ def init():
     food_init(name="green-apple",    short_name="Green apple")
     food_init(name="bread-and-wine", short_name="Bread and wine")
     food_init(name="cheese",         short_name="Cheese")
-    return
 
 init()
