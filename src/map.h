@@ -6,8 +6,6 @@
 
 #pragma once
 
-tpp map_is_exit_at(levelp, int32_t x, int32_t y, widp *);
-tpp map_is_food_at(levelp, int32_t x, int32_t y, widp *);
 tpp map_is_monst_at(levelp, int32_t x, int32_t y, widp *);
 tpp map_is_player_at(levelp, int32_t x, int32_t y, widp *);
 tpp map_is_wall_at(levelp, int32_t x, int32_t y, widp *);

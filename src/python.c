@@ -1703,6 +1703,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_effect_sway)
     TP_SET_DECL(is_explosion)
     TP_SET_DECL(is_food)
+    TP_SET_DECL(is_weapon)
     TP_SET_DECL(is_hidden)
     TP_SET_DECL(is_monst)
     TP_SET_DECL(is_player)

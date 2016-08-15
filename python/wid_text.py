@@ -128,7 +128,7 @@ class WidText(wid.Wid):
                         # Now make the button 
                         #
                         new_word = " " + word[1:-1] + " "
-                        word = new_word.replace("_"," ")
+                        word = new_word
                         child = wid.Wid(name="wid text child",
                                         tiles=button_tiles,
                                         parent=self.wid_id)
