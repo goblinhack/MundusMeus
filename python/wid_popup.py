@@ -461,8 +461,6 @@ class WidPopup(wid.Wid):
                                              x1=textbox_x1, y1=textbox_y1, 
                                              x2=textbox_x2, y2=textbox_y2)
 
-        super().update()
-
         if need_scrollbar is True:
             self.scrollbar = wid.Wid(name="wid popup scroll",
                                      is_scrollbar=True,

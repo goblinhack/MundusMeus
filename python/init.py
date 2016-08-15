@@ -121,19 +121,19 @@ def init2():
     wid_quit.wid_quit_create()
 
     w = wid_tp.WidTp(name="tp window",
-                     tiles="wid1",
-                     body_tiles="wid2",
-                     width=0.18,
-                     height=0.4,
-                     x=0.90,
-                     y=0.25)
-    w = wid_tp.WidTp(name="tp window",
                      tiles="wid2",
                      body_tiles="wid1",
-                     width=0.18,
+                     width=0.20,
                      height=0.4,
-                     x=0.20,
+                     x=0.92,
                      y=0.25)
+#    w = wid_tp.WidTp(name="tp window",
+##                     tiles="wid2",
+#                     body_tiles="wid1",
+#                     width=0.18,
+#                     height=0.4,
+#                     x=0.20,
+#                     y=0.25)
 
     w = world.World(0)
 

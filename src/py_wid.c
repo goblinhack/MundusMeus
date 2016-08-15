@@ -256,9 +256,6 @@ PyObject *wid_set_tl_br_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     wid_set_tl_br_pct(w, tl, br);
 
-    wid_update(w);
-    wid_raise(w);
-
     Py_RETURN_NONE;
 }
 

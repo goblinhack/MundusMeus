@@ -14,8 +14,8 @@ class Wid:
         else:
             self.wid_id = mm.wid_new(self, parent, name, **kw)
 
-        self.name = "{0:x}:{1}".format(self.wid_id, self.name)
-        self.log("Created wid")
+#        self.name = "{0:x}:{1}".format(self.wid_id, self.name)
+#        self.log("Created wid")
 
         all_wids[self.wid_id] = self
 
@@ -40,13 +40,13 @@ class Wid:
         return "{0}".format(self.name)
 
     def destroy(self):
-        self.log("Destroying wid")
+#        self.log("Destroying wid")
         mm.wid_destroy(self)
         all_wids[self.wid_id] = None
         del self
 
     def destroy_in(self, **kw):
-        self.log("Destroying delay")
+#        self.log("Destroying delay")
         mm.wid_destroy_in(self, **kw)
         all_wids[self.wid_id] = None
         del self

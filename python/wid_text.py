@@ -48,6 +48,7 @@ class WidText(wid.Wid):
             super().__init__(name, parent=parent, **kw)
 
         self.set_tl_br_pct(x1, y1, x2, y2)
+        self.to_front()
 
         self.children = []
         self.width, self.height = self.get_size_pct()
