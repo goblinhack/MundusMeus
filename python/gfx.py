@@ -1521,113 +1521,113 @@ def init_tiles_sea():
             width=256, height=256,
             arr=tiles)
 
-def init_tiles_button1():
+def init_tiles_button_plain():
 
     mm.tex_load_tiled(
-            file="data/gfx/button1.tga",
-            name="button1",
+            file="data/gfx/button_plain.tga",
+            name="button_plain",
             width=64, height=64)
 
     tiles = [
-        "button1-tl",
-        "button1-top1",
-        "button1-top2",
-        "button1-tr",
-        "button1-left1",
-        "button1-1",
-        "button1-2",
-        "button1-right1",
-        "button1-left2",
-        "button1-3",
-        "button1-4",
-        "button1-right2",
-        "button1-bl",
-        "button1-bot1",
-        "button1-bot2",
-        "button1-br",
+        "button_plain-tl",
+        "button_plain-top1",
+        "button_plain-top2",
+        "button_plain-tr",
+        "button_plain-left1",
+        "button_plain-1",
+        "button_plain-2",
+        "button_plain-right1",
+        "button_plain-left2",
+        "button_plain-3",
+        "button_plain-4",
+        "button_plain-right2",
+        "button_plain-bl",
+        "button_plain-bot1",
+        "button_plain-bot2",
+        "button_plain-br",
     ]
 
     mm.tile_load_arr(
-            tex_name="button1",
+            tex_name="button_plain",
             tex_name_black_and_white="",
             width=6, height=6,
             arr=tiles)
 
     mm.wid_tiles_load(
-            name="button1",
+            name="button_plain",
             scale=0.5)
 
 
-def init_tiles_button2():
+def init_tiles_button_green():
 
     mm.tex_load_tiled(
-            file="data/gfx/button2.tga",
-            name="button2",
+            file="data/gfx/button_green.tga",
+            name="button_green",
             width=24, height=24)
 
     tiles = [
-        "button2-tl",
-        "button2-top1",
-        "button2-top2",
-        "button2-tr",
-        "button2-left1",
-        "button2-1",
-        "button2-2",
-        "button2-right1",
-        "button2-left2",
-        "button2-3",
-        "button2-4",
-        "button2-right2",
-        "button2-bl",
-        "button2-bot1",
-        "button2-bot2",
-        "button2-br",
+        "button_green-tl",
+        "button_green-top1",
+        "button_green-top2",
+        "button_green-tr",
+        "button_green-left1",
+        "button_green-1",
+        "button_green-2",
+        "button_green-right1",
+        "button_green-left2",
+        "button_green-3",
+        "button_green-4",
+        "button_green-right2",
+        "button_green-bl",
+        "button_green-bot1",
+        "button_green-bot2",
+        "button_green-br",
     ]
 
     mm.tile_load_arr(
-            tex_name="button2",
+            tex_name="button_green",
             tex_name_black_and_white="",
             width=6, height=6,
             arr=tiles)
 
     mm.wid_tiles_load(
-            name="button2",
+            name="button_green",
             scale=0.5)
 
-def init_tiles_button3():
+def init_tiles_button_red():
 
     mm.tex_load_tiled(
-            file="data/gfx/button3.tga",
-            name="button3",
+            file="data/gfx/button_red.tga",
+            name="button_red",
             width=24, height=24)
 
     tiles = [
-        "button3-tl",
-        "button3-top1",
-        "button3-top2",
-        "button3-tr",
-        "button3-left1",
-        "button3-1",
-        "button3-2",
-        "button3-right1",
-        "button3-left2",
-        "button3-3",
-        "button3-4",
-        "button3-right2",
-        "button3-bl",
-        "button3-bot1",
-        "button3-bot2",
-        "button3-br",
+        "button_red-tl",
+        "button_red-top1",
+        "button_red-top2",
+        "button_red-tr",
+        "button_red-left1",
+        "button_red-1",
+        "button_red-2",
+        "button_red-right1",
+        "button_red-left2",
+        "button_red-3",
+        "button_red-4",
+        "button_red-right2",
+        "button_red-bl",
+        "button_red-bot1",
+        "button_red-bot2",
+        "button_red-br",
     ]
 
     mm.tile_load_arr(
-            tex_name="button3",
+            tex_name="button_red",
             tex_name_black_and_white="",
             width=6, height=6,
             arr=tiles)
 
     mm.wid_tiles_load(
-            name="button3",
+            name="button_red",
             scale=0.5)
 
 def init_tiles_icon1():
@@ -1837,8 +1837,8 @@ init_tex()
 init_tiles_wid1()
 init_tiles_wid2()
 init_tiles_wid3()
-init_tiles_button1()
-init_tiles_button2()
+init_tiles_button_plain()
+init_tiles_button_green()
 init_tiles_icon1()
 init_tiles_bigmap()
 init_tiles_sea()
