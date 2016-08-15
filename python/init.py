@@ -121,18 +121,17 @@ def init2():
     wid_quit.wid_quit_create()
 
     w = wid_tp.WidTp(name="tp window",
-                 tiles="wid1",
-                 body_tiles="wid2",
-                 width=0.18,
-                 height=0.4)
-    print(w)
+                     tiles="wid1",
+                     body_tiles="wid2",
+                     width=0.18,
+                     height=0.4)
     w.move_to_pct_centered(x=0.90, y=0.25)
 
     w = wid_tp.WidTp(name="tp window",
-                 tiles="wid1",
-                 body_tiles="wid2",
-                 width=0.18,
-                 height=0.4)
+                     tiles="wid2",
+                     body_tiles="wid1",
+                     width=0.18,
+                     height=0.4)
 
     w.move_to_pct_centered(x=0.20, y=0.25)
 

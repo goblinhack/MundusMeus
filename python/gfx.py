@@ -1594,6 +1594,42 @@ def init_tiles_button2():
             name="button2",
             scale=0.5)
 
+def init_tiles_button3():
+
+    mm.tex_load_tiled(
+            file="data/gfx/button3.tga",
+            name="button3",
+            width=24, height=24)
+
+    tiles = [
+        "button3-tl",
+        "button3-top1",
+        "button3-top2",
+        "button3-tr",
+        "button3-left1",
+        "button3-1",
+        "button3-2",
+        "button3-right1",
+        "button3-left2",
+        "button3-3",
+        "button3-4",
+        "button3-right2",
+        "button3-bl",
+        "button3-bot1",
+        "button3-bot2",
+        "button3-br",
+    ]
+
+    mm.tile_load_arr(
+            tex_name="button3",
+            tex_name_black_and_white="",
+            width=6, height=6,
+            arr=tiles)
+
+    mm.wid_tiles_load(
+            name="button3",
+            scale=0.5)
+
 def init_tiles_icon1():
 
     mm.tex_load_tiled(
