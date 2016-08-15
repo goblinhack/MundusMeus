@@ -125,7 +125,7 @@ void tile_load_arr (const char *tex_name,
             t->pct_width = fw;
             t->pct_height = fh;
 
-            LOG("Tile: %-10s %ux%u (%u, %u)", name, width, height, x, y);
+            DBG("Tile: %-10s %ux%u (%u, %u)", name, width, height, x, y);
 
             SDL_Surface *s = tex_get_surface(tex);
 
