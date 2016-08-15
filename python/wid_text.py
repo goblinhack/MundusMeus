@@ -104,7 +104,7 @@ class WidText(wid.Wid):
                         #
                         # Grab the next button event
                         #
-                        button_tiles="button1"
+                        button_tiles="button_plain"
                         button_event_list = row_on_button_list[row]
                         set_on_mouse_down = None
                         if button_event_list != None:
