@@ -124,16 +124,16 @@ def init2():
                      tiles="wid1",
                      body_tiles="wid2",
                      width=0.18,
-                     height=0.4)
-    w.move_to_pct_centered(x=0.90, y=0.25)
-
+                     height=0.4,
+                     x=0.90,
+                     y=0.25)
     w = wid_tp.WidTp(name="tp window",
                      tiles="wid2",
                      body_tiles="wid1",
                      width=0.18,
-                     height=0.4)
-
-    w.move_to_pct_centered(x=0.20, y=0.25)
+                     height=0.4,
+                     x=0.20,
+                     y=0.25)
 
     w = world.World(0)
 
