@@ -108,6 +108,8 @@ class WidText(wid.Wid):
                         button_tiles="button_plain"
                         button_event_list = row_on_button_list[row]
                         set_on_mouse_down = None
+                        tooltip = None
+
                         if button_event_list != None:
                             if button_count < len(button_event_list):
                                 d = button_event_list[button_count]
@@ -118,6 +120,8 @@ class WidText(wid.Wid):
 
                                     if "tiles" in d:
                                         button_tiles = d["tiles"]
+
+                                    tooltip = d["tooltip"]
                             else:
                                 mm.err("missing callback "
                                     "for button {0} text {1}".format(
@@ -137,6 +141,8 @@ class WidText(wid.Wid):
 
                         if set_on_mouse_down != None:
                             child.set_on_mouse_down(set_on_mouse_down)
+                        if tooltip != None:
+                            child.set_tooltip(text=tooltip)
 
                         child.set_on_mouse_over_begin(
                                 wid_text_button_on_mouse_over_begin_callback)
