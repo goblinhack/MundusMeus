@@ -157,9 +157,9 @@ typedef struct tp_ {
     uint8_t is_rrr11:1;
     uint8_t is_rrr12:1;
     uint8_t is_rrr13:1;
-    uint8_t is_rrr14:1;
-    uint8_t is_rrr15:1;
-    uint8_t is_rrr16:1;
+    uint8_t is_healing:1;
+    uint8_t is_armor:1;
+    uint8_t is_magical:1;
 
     thing_tilep tilep_join[IS_JOIN_MAX][IS_JOIN_ALT_MAX];
     tilep tilep_join_tile[IS_JOIN_MAX][IS_JOIN_ALT_MAX];
@@ -366,19 +366,19 @@ static inline uint8_t tp_is_rrr13 (tpp t)
     return (t->is_rrr13);
 }
 
-static inline uint8_t tp_is_rrr14 (tpp t)
+static inline uint8_t tp_is_healing (tpp t)
 {
-    return (t->is_rrr14);
+    return (t->is_healing);
 }
 
-static inline uint8_t tp_is_rrr15 (tpp t)
+static inline uint8_t tp_is_armor (tpp t)
 {
-    return (t->is_rrr15);
+    return (t->is_armor);
 }
 
-static inline uint8_t tp_is_rrr16 (tpp t)
+static inline uint8_t tp_is_magical (tpp t)
 {
-    return (t->is_rrr16);
+    return (t->is_magical);
 }
 
 static inline uint8_t tp_is_not_light_blocking (tpp t)
