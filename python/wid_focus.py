@@ -35,14 +35,17 @@ def set_focus(w, recurse=0):
     if recurse > 100:
         return
 
-    if p2 != None:
-        if tly < ptly:
-            p2.scroll_up()
-            set_focus(w, recurse + 1)
-
-        if bry > pbry:
-            p2.scroll_down()
-            set_focus(w, recurse + 1)
+    #
+    # Auto scroll is kind of annoying
+    #
+#    if p2 != None:
+#        if tly < ptly:
+#            p2.scroll_up()
+#            set_focus(w, recurse + 1)
+#
+#        if bry > pbry:
+#            p2.scroll_down()
+#            set_focus(w, recurse + 1)
 
 def clear_focus(w):
 
