@@ -21,6 +21,7 @@ class WidPopup(wid.Wid):
                  row_center=False,
                  row_rhs=False,
                  row_on_tooltip=None,
+                 row_tooltip=None,
                  row_on_key_down=None,
                  row_on_key_sym=None,
                  row_on_key_mod=None,
@@ -44,6 +45,7 @@ class WidPopup(wid.Wid):
                  title_center=False,
                  title_rhs=False,
                  title_on_tooltip=None,
+                 title_tooltip=None,
                  title_on_key_down=None,
                  title_on_key_sym=None,
                  title_on_key_mod=None,
@@ -71,6 +73,7 @@ class WidPopup(wid.Wid):
         self.global_row_center=row_center
         self.global_row_rhs=row_rhs
         self.global_row_on_tooltip=row_on_tooltip
+        self.global_row_tooltip=row_tooltip
         self.global_row_on_key_down=row_on_key_down
         self.global_row_on_key_sym=row_on_key_sym
         self.global_row_on_key_mod=row_on_key_mod
@@ -94,6 +97,7 @@ class WidPopup(wid.Wid):
         self.global_title_center=title_center
         self.global_title_rhs=title_rhs
         self.global_title_on_tooltip=title_on_tooltip
+        self.global_title_tooltip=title_tooltip
         self.global_title_on_key_down=title_on_key_down
         self.global_title_on_key_sym=title_on_key_sym
         self.global_title_on_key_mod=title_on_key_mod
@@ -138,6 +142,7 @@ class WidPopup(wid.Wid):
         self.row_width = []
         self.line_width = []
         self.row_on_tooltip = []
+        self.row_tooltip = []
         self.row_on_key_down = []
         self.row_on_key_sym = []
         self.row_on_key_mod = []
@@ -166,6 +171,7 @@ class WidPopup(wid.Wid):
         self.title_width = []
         self.title_line_width = []
         self.title_on_tooltip = []
+        self.title_tooltip = []
         self.title_on_key_down = []
         self.title_on_key_sym = []
         self.title_on_key_mod = []
@@ -193,6 +199,7 @@ class WidPopup(wid.Wid):
     def add_text(self, 
                  text, 
                  on_tooltip=None,
+                 tooltip=None,
                  on_key_down=None,
                  on_key_sym=None,
                  on_key_mod=None,
@@ -228,6 +235,8 @@ class WidPopup(wid.Wid):
                 rhs = self.global_row_rhs
             if on_tooltip is None:
                 on_tooltip = self.global_row_on_tooltip
+            if tooltip is None:
+                tooltip = self.global_row_tooltip
             if on_key_down is None:
                 on_key_down = self.global_row_on_key_down
             if on_key_sym is None:
@@ -271,6 +280,7 @@ class WidPopup(wid.Wid):
             self.row_center.append(center)
             self.row_rhs.append(rhs)
             self.row_on_tooltip.append(on_tooltip)
+            self.row_tooltip.append(tooltip)
             self.row_on_key_down.append(on_key_down)
             self.row_on_key_sym.append(on_key_sym)
             self.row_on_key_mod.append(on_key_mod)
@@ -303,6 +313,8 @@ class WidPopup(wid.Wid):
                 rhs = self.global_title_rhs
             if on_tooltip is None:
                 on_tooltip = self.global_title_on_tooltip
+            if tooltip is None:
+                tooltip = self.global_title_tooltip
             if on_key_down is None:
                 on_key_down = self.global_title_on_key_down
             if on_key_sym is None:
@@ -344,6 +356,7 @@ class WidPopup(wid.Wid):
             self.title_center.append(center)
             self.title_rhs.append(rhs)
             self.title_on_tooltip.append(on_tooltip)
+            self.title_tooltip.append(tooltip)
             self.title_on_key_down.append(on_key_down)
             self.title_on_key_sym.append(on_key_sym)
             self.title_on_key_mod.append(on_key_mod)
@@ -439,6 +452,7 @@ class WidPopup(wid.Wid):
                                              row_width=self.row_width,
                                              line_width=self.line_width,
                                              row_on_tooltip=self.row_on_tooltip,
+                                             row_tooltip=self.row_tooltip,
                                              row_on_key_down=self.row_on_key_down,
                                              row_on_key_sym=self.row_on_key_sym,
                                              row_on_key_mod=self.row_on_key_mod,
@@ -497,6 +511,7 @@ class WidPopup(wid.Wid):
                                              row_width=self.title_width,
                                              line_width=self.title_line_width,
                                              row_on_tooltip=self.title_on_tooltip,
+                                             row_tooltip=self.title_tooltip,
                                              row_on_key_down=self.title_on_key_down,
                                              row_on_key_sym=self.title_on_key_sym,
                                              row_on_key_mod=self.title_on_key_mod,

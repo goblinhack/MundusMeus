@@ -57,6 +57,7 @@ def wid_quit_create():
                on_mouse_down=wid_quit_on_mouse_down_yes,
                on_key_down=wid_quit_on_key_down_yes,
                on_key_sym=mm.SDLK_y,
+               tooltip="bob",
                text="%%fg=red$y) %%fg=white$Yep, quit")
 
     w.add_text(font="vlarge", 

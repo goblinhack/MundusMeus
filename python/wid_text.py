@@ -16,6 +16,7 @@ class WidText(wid.Wid):
                  row_width,
                  line_width,
                  row_on_tooltip,
+                 row_tooltip,
                  row_on_key_down,
                  row_on_key_sym,
                  row_on_key_mod,
@@ -186,6 +187,7 @@ class WidText(wid.Wid):
             w.row_width = row_width[row]
             w.line_width = line_width[row]
             w.row_on_tooltip = row_on_tooltip
+            w.row_tooltip = row_tooltip
             w.row_on_key_down = row_on_key_down[row]
             w.row_on_key_sym = row_on_key_sym[row]
             w.row_on_key_mod = row_on_key_mod[row]
@@ -206,6 +208,8 @@ class WidText(wid.Wid):
             w.row_on_display_top_level = row_on_display_top_level[row]
 
             w.set_on_tooltip(row_on_tooltip[row])
+            if row_tooltip[row] != None:
+                w.set_tooltip(text=row_tooltip[row])
             w.set_on_joy_button(row_on_joy_button[row])
             w.set_on_mouse_motion(row_on_mouse_motion[row])
 
