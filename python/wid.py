@@ -75,6 +75,9 @@ class Wid:
     def set_shape(self, **kw):
         mm.wid_set_shape(self, **kw)
 
+    def set_tooltip(self, **kw):
+        mm.wid_set_tooltip(self, **kw)
+
     def set_tl_br(self, **kw):
         mm.wid_set_tl_br(self, **kw)
 

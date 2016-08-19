@@ -61,7 +61,7 @@ static tree_root *wid_top_level5;
  * Mouse movement
  */
 static widp wid_popup_tooltip;
-static char *wid_tooltip_string;
+char *wid_tooltip_string;
 
 /*
  * Scope the focus to children of this widget and do not change it.
@@ -948,6 +948,14 @@ static void wid_mouse_over_end (void)
     }
 }
 
+static void wid_tooltip_destroy (widp w)
+{
+    if (wid_tooltip_string) {
+        myfree(wid_tooltip_string);
+        wid_tooltip_string = 0;
+    }
+}
+
 static uint8_t wid_mouse_over_begin (widp w, uint32_t x, uint32_t y,
                                      int32_t relx, int32_t rely,
                                      int32_t wheelx, int32_t wheely)
@@ -1011,7 +1019,10 @@ static uint8_t wid_mouse_over_begin (widp w, uint32_t x, uint32_t y,
 
         wid_tooltip_string = dupstr(w->tooltip, "tooltop str");
 
-        wid_popup_tooltip = wid_tooltip(w->tooltip, 0.5, 0.0, 
+        /*
+         * Move off screen - just use tooltip at the bottom of the screen
+         */
+        wid_popup_tooltip = wid_tooltip(w->tooltip, 2.5, 0.0, 
                                         w->tooltip_font ? 
                                         w->tooltip_font : small_font);
 
@@ -1053,8 +1064,10 @@ static uint8_t wid_mouse_over_begin (widp w, uint32_t x, uint32_t y,
             atx = 0.75;
         }
 
+#if 0
         wid_move_to_pct_centered(wid_popup_tooltip, atx, -0.5);
         wid_move_to_pct_centered_in(wid_popup_tooltip, atx, 0.2, 10);
+#endif
 
         wid_destroy_ptr_in(&wid_popup_tooltip, 1500);
 #endif
@@ -1062,6 +1075,8 @@ static uint8_t wid_mouse_over_begin (widp w, uint32_t x, uint32_t y,
         if (w->on_tooltip) {
             (w->on_tooltip)(w, wid_popup_tooltip);
         }
+
+        wid_set_on_destroy_begin(wid_popup_tooltip, wid_tooltip_destroy);
     }
 
     return (true);

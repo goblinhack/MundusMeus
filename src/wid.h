@@ -996,4 +996,4 @@ extern const int32_t wid_hide_delay;
 extern const int32_t wid_swipe_delay;
 extern const int32_t wid_pulse_delay;
 extern const int32_t wid_scaling_forever_delay;
-
+extern char *wid_tooltip_string;

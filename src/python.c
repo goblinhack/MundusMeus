@@ -1486,6 +1486,11 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "set wid shape"},
 
+    {"wid_set_tooltip",
+        (PyCFunction)wid_set_tooltip_,
+        METH_VARARGS | METH_KEYWORDS,
+        "set wid tooltip"},
+
     {"wid_set_tl_br",
         (PyCFunction)wid_set_tl_br_,
         METH_VARARGS | METH_KEYWORDS,
