@@ -55,9 +55,9 @@ class tpp:
         self.is_rrr11 = False
         self.is_rrr12 = False
         self.is_rrr13 = False
-        self.is_rrr14 = False
-        self.is_rrr15 = False
-        self.is_rrr16 = False
+        self.is_healing = False
+        self.is_armor = False
+        self.is_magical = False
         self.is_shadow_caster = False
         self.is_shadow_caster_soft = False
         self.is_sleeping = False
@@ -243,17 +243,17 @@ class tpp:
         self.is_rrr13 = value
         mm.tp_set_is_rrr13(self, value)
 
-    def set_is_rrr14(self, value):
-        self.is_rrr14 = value
-        mm.tp_set_is_rrr14(self, value)
+    def set_is_healing(self, value):
+        self.is_healing = value
+        mm.tp_set_is_healing(self, value)
 
-    def set_is_rrr15(self, value):
-        self.is_rrr15 = value
-        mm.tp_set_is_rrr15(self, value)
+    def set_is_armor(self, value):
+        self.is_armor = value
+        mm.tp_set_is_armor(self, value)
 
-    def set_is_rrr16(self, value):
-        self.is_rrr16 = value
-        mm.tp_set_is_rrr16(self, value)
+    def set_is_magical(self, value):
+        self.is_magical = value
+        mm.tp_set_is_magical(self, value)
 
     def set_is_shadow_caster(self, value):
         self.is_shadow_caster = value

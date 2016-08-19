@@ -24,8 +24,8 @@ static widp wid_console_horiz_scroll;
 
 widp wid_console_input_line;
 
-static float wid_console_line_height = 0.025f;
-static float wid_console_max_line_height = 0.025f;
+static float wid_console_line_height = 0.055f;
+static float wid_console_max_line_height = 0.055f;
 static tree_root *tree_wid_console;
 
 widp wid_console_window;
@@ -192,7 +192,7 @@ static void wid_console_wid_create (void)
 
     {
         fpoint tl = {0.0f, 0.0f};
-        fpoint br = {1.0f, 1.0f};
+        fpoint br = {1.0f, 0.5f};
         color c;
 
         wid_console_window = wid_new_square_window("wid_console");
@@ -259,8 +259,8 @@ static void wid_console_wid_create (void)
             };
 
             if (row != 0) {
-                tl.y -= wid_console_max_line_height * 0.4;
-                br.y -= wid_console_max_line_height * 0.4;
+                tl.y -= wid_console_max_line_height * 0.2;
+                br.y -= wid_console_max_line_height * 0.2;
             } else {
                 tl.y -= wid_console_max_line_height;
             }
