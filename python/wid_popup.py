@@ -18,8 +18,8 @@ class WidPopup(wid.Wid):
                  parent=0, 
                  row_font=None,
                  row_color=None,
-                 row_center=None,
-                 row_rhs=None,
+                 row_center=False,
+                 row_rhs=False,
                  row_on_tooltip=None,
                  row_on_key_down=None,
                  row_on_key_sym=None,
@@ -41,8 +41,8 @@ class WidPopup(wid.Wid):
                  row_on_display_top_level=None,
                  title_font=None,
                  title_color=None,
-                 title_center=None,
-                 title_rhs=None,
+                 title_center=False,
+                 title_rhs=False,
                  title_on_tooltip=None,
                  title_on_key_down=None,
                  title_on_key_sym=None,
@@ -222,7 +222,7 @@ class WidPopup(wid.Wid):
                 font = self.global_row_font
             if color is None:
                 color = self.global_row_color
-            if center is None:
+            if center is False:
                 row_center = self.global_row_center
             if rhs is None:
                 rhs = self.global_row_rhs
@@ -297,7 +297,7 @@ class WidPopup(wid.Wid):
                 font = self.global_title_font
             if color is None:
                 color = self.global_title_color
-            if center is None:
+            if center is False:
                 center = self.global_title_center
             if rhs is None:
                 rhs = self.global_title_rhs
@@ -518,6 +518,7 @@ class WidPopup(wid.Wid):
                                              parent=self.wid_id,
                                              x1=textbox_x1, y1=textbox_y1, 
                                              x2=textbox_x2, y2=textbox_y2)
+        self.to_front()
 
     def scroll_up(self):
         if self.scrollbar != None:

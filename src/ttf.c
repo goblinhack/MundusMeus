@@ -362,6 +362,8 @@ static void ttf_puts_internal (font *f, const char *text,
                     point tl;
                     point br;
 
+                    double bx = x;
+
                     x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (0.125);
 
                     tl.x = (x);
@@ -373,7 +375,8 @@ static void ttf_puts_internal (font *f, const char *text,
 
                     tile_blit_at(tile, 0, tl, br);
 
-                    x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (tile_stretch - 0.125);
+                    x = bx;
+                    x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance * tile_stretch;
 
 		    found_format_string = false;
 		    continue;

@@ -344,10 +344,7 @@ def text_size_pct(row_text, row_font, width):
             count = len(words)
             cnt = 0
             for word in words:
-                if cnt == count - 1:
-                    w, h, c = mm.text_size_pct(font=font, text=word)
-                else:
-                    w, h, c = mm.text_size_pct(font=font, text=word + " ")
+                w, h, c = mm.text_size_pct(font=font, text=word)
                 cnt += 1
 
                 if x + w > width:
