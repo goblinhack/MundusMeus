@@ -150,7 +150,7 @@ void thing_effect_power_up (levelp level, thingp t)
              (double)game.video_gl_height) / 10.0;
 
         widp power_up = wid_new_square_window("sparkle");
-        wid_set_tl_br_pct(power_up, tl, br);
+        wid_set_pos_pct(power_up, tl, br);
         wid_set_tilename(power_up, "powerup1.1");
 
         int delay = gaussrand(200, 500);

@@ -211,7 +211,7 @@ static void wid_console_wid_create (void)
 
         wid_set_text_bot(wid_console_window, true);
         wid_set_text_lhs(wid_console_window, true);
-        wid_set_tl_br_pct(wid_console_window, tl, br);
+        wid_set_pos_pct(wid_console_window, tl, br);
     }
 
     {
@@ -221,7 +221,7 @@ static void wid_console_wid_create (void)
         wid_console_container = wid_new_container(wid_console_window,
                                                   "wid console container");
 
-        wid_set_tl_br_pct(wid_console_container, tl, br);
+        wid_set_pos_pct(wid_console_container, tl, br);
         wid_set_text_lhs(wid_console_container, true);
         wid_set_text_bot(wid_console_container, true);
     }
@@ -267,7 +267,7 @@ static void wid_console_wid_create (void)
 
             child = wid_new_container(wid_console_container, "");
 
-            wid_set_tl_br_pct(child, tl, br);
+            wid_set_pos_pct(child, tl, br);
             wid_set_text_lhs(child, true);
             wid_set_text_bot(child, true);
             wid_set_text_fixed_width(child, true);
@@ -286,7 +286,7 @@ static void wid_console_wid_create (void)
                 wid_move_delta(child, 15, 0);
 
                 widp prefix = wid_new_container(wid_console_container, "");
-                wid_set_tl_br_pct(prefix, tl, br);
+                wid_set_pos_pct(prefix, tl, br);
                 wid_set_text_lhs(prefix, true);
                 wid_set_text_bot(prefix, true);
                 wid_set_text_fixed_width(prefix, true);

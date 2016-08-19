@@ -433,7 +433,7 @@ static void msg_ (uint32_t level,
         wid_get_tl_br(wid_thing, &tl, &br);
         widp w = wid_new_container(game.wid_map, "wid_tooltip");
 
-        wid_set_tl_br_no_relative_offset(w, tl, br);
+        wid_set_pos_no_relative_offset(w, tl, br);
         wid_set_text(w, buf);
         wid_set_text_outline(w, true);
         wid_set_font(w, med_font);

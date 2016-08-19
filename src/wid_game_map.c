@@ -182,7 +182,7 @@ void wid_game_map_grid_create (void)
         wid_set_on_mouse_motion(game.wid_grid,
                                 wid_game_map_receive_mouse_motion);
 
-        wid_set_tl_br_pct(game.wid_grid, tl, br);
+        wid_set_pos_pct(game.wid_grid, tl, br);
 
         wid_set_on_key_down(game.wid_grid, 
                             player_key);
@@ -260,7 +260,7 @@ void wid_game_map_wid_create (void)
         wid_set_do_not_raise(game.wid_map, true);
         wid_set_mode(game.wid_map, WID_MODE_NORMAL);
         wid_set_no_shape(game.wid_map);
-        wid_set_tl_br_pct(game.wid_map, tl, br);
+        wid_set_pos_pct(game.wid_map, tl, br);
 
         wid_set_on_key_down(game.wid_map, 
                             player_key);

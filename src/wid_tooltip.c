@@ -120,7 +120,7 @@ widp wid_tooltip (const char *text, float x, float y, fontp font)
         br.x += PAD_X;
         br.y += PAD_Y;
 
-        wid_set_tl_br(wid_tooltip_window, tl, br);
+        wid_set_pos(wid_tooltip_window, tl, br);
 
         wid_set_color(wid_tooltip_window, WID_COLOR_TL, STEELBLUE);
         wid_set_color(wid_tooltip_window, WID_COLOR_BR, STEELBLUE);
@@ -152,7 +152,7 @@ widp wid_tooltip (const char *text, float x, float y, fontp font)
 
         wid_tooltip_container = wid_new_container(wid_tooltip_window,
                                                   "wid tooltip container");
-        wid_set_tl_br(wid_tooltip_container, tl, br);
+        wid_set_pos(wid_tooltip_container, tl, br);
     }
 
     {
@@ -181,7 +181,7 @@ widp wid_tooltip (const char *text, float x, float y, fontp font)
 
             child = wid_new_container(wid_tooltip_container,
                                       "wid tooltip container2");
-            wid_set_tl_br(child, tl, br);
+            wid_set_pos(child, tl, br);
             wid_set_text(child, n->line);
             wid_set_text_outline(child, true);
             wid_set_font(child, font);

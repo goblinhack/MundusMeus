@@ -108,7 +108,7 @@ static widp wid_textbox_internal (widp parent,
         br.x += PAD_X;
         br.y += PAD_Y;
 
-        wid_set_tl_br(wid_textbox_window, tl, br);
+        wid_set_pos(wid_textbox_window, tl, br);
     }
 
     {
@@ -131,7 +131,7 @@ static widp wid_textbox_internal (widp parent,
         wid_textbox_container = wid_new_container(wid_textbox_window,
                                                   "wid textbox container");
         wid_set_no_shape(wid_textbox_container);
-        wid_set_tl_br(wid_textbox_container, tl, br);
+        wid_set_pos(wid_textbox_container, tl, br);
     }
 
     {
@@ -160,7 +160,7 @@ static widp wid_textbox_internal (widp parent,
 
             child = wid_new_container(wid_textbox_container,
                                       "wid textbox container2");
-            wid_set_tl_br(child, tl, br);
+            wid_set_pos(child, tl, br);
             wid_set_text_fixed_width(child, fixed_width);
             wid_set_text(child, n->line);
             wid_set_font(child, font);

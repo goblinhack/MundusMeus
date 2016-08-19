@@ -408,7 +408,7 @@ class WidPopup(wid.Wid):
         self.width += self.pad_w * 2
         self.height += self.pad_h * 2
 
-        self.set_tl_br_pct(self.x1, self.y1, 
+        self.set_pos_pct(self.x1, self.y1, 
                            self.x1 + self.width,
                            self.y1 + self.height)
 
@@ -434,7 +434,7 @@ class WidPopup(wid.Wid):
                             parent=self.wid_id)
 
                 w.set_color(tl=True, bg=True, br=True, name="white")
-                w.set_tl_br_pct(x1=textbox_x1, y1=textbox_y1,
+                w.set_pos_pct(x1=textbox_x1, y1=textbox_y1,
                                 x2=textbox_x2, y2=textbox_y2)
 
             textbox_x1 = inner_pad_w
@@ -494,7 +494,7 @@ class WidPopup(wid.Wid):
                             parent=self.wid_id)
 
                 w.set_color(tl=True, bg=True, br=True, name="white")
-                w.set_tl_br_pct(x1=textbox_x1, y1=textbox_y1,
+                w.set_pos_pct(x1=textbox_x1, y1=textbox_y1,
                                 x2=textbox_x2, y2=textbox_y2)
 
             textbox_x1 = inner_pad_w

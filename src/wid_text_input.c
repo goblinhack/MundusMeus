@@ -316,7 +316,7 @@ widp wid_text_input (const char *title, double x, double y, int32_t args, ...)
         button_y = br.y;
         br.y += maxbuttonh;
 
-        wid_set_tl_br(wid_text_input_window, tl, br);
+        wid_set_pos(wid_text_input_window, tl, br);
     }
 
     if (title) {
@@ -331,7 +331,7 @@ widp wid_text_input (const char *title, double x, double y, int32_t args, ...)
 
         wid_text_input_title = wid_new_container(wid_text_input_window,
                                               "wid text_input container1");
-        wid_set_tl_br(wid_text_input_title, tl, br);
+        wid_set_pos(wid_text_input_title, tl, br);
 
         wid_set_font(wid_text_input_title, large_font);
         wid_set_text(wid_text_input_title, title);
@@ -358,7 +358,7 @@ widp wid_text_input (const char *title, double x, double y, int32_t args, ...)
         wid_text_input_container =
                         wid_new_container(wid_text_input_window,
                                           wid_text_input_filelist_container_str);
-        wid_set_tl_br(wid_text_input_container, tl, br);
+        wid_set_pos(wid_text_input_container, tl, br);
     }
 
     {
@@ -396,7 +396,7 @@ widp wid_text_input (const char *title, double x, double y, int32_t args, ...)
 
         wid_set_mode(child, WID_MODE_NORMAL);
 
-        wid_set_tl_br(child, tl, br);
+        wid_set_pos(child, tl, br);
         wid_set_text_lhs(child, true);
         wid_set_font(child, small_font);
         wid_set_text_outline(child, true);
@@ -443,7 +443,7 @@ widp wid_text_input (const char *title, double x, double y, int32_t args, ...)
             tl.y -= BUTTON_PAD_Y/2;
             br.y -= BUTTON_PAD_Y/2;
 
-            wid_set_tl_br(child, tl, br);
+            wid_set_pos(child, tl, br);
             wid_set_text(child, button_name);
             wid_set_font(child, font);
 
@@ -622,7 +622,7 @@ widp wid_large_text_input (const char *title, double x, double y, int32_t args, 
         button_y = br.y;
         br.y += maxbuttonh;
 
-        wid_set_tl_br(wid_text_input_window, tl, br);
+        wid_set_pos(wid_text_input_window, tl, br);
     }
 
     if (title) {
@@ -636,7 +636,7 @@ widp wid_large_text_input (const char *title, double x, double y, int32_t args, 
 
         wid_text_input_title = wid_new_container(wid_text_input_window,
                                               "wid text_input container1");
-        wid_set_tl_br(wid_text_input_title, tl, br);
+        wid_set_pos(wid_text_input_title, tl, br);
 
         wid_set_font(wid_text_input_title, large_font);
         wid_set_text(wid_text_input_title, title);
@@ -663,7 +663,7 @@ widp wid_large_text_input (const char *title, double x, double y, int32_t args, 
         wid_text_input_container =
                         wid_new_container(wid_text_input_window,
                                           wid_text_input_filelist_container_str);
-        wid_set_tl_br(wid_text_input_container, tl, br);
+        wid_set_pos(wid_text_input_container, tl, br);
     }
 
     {
@@ -703,7 +703,7 @@ widp wid_large_text_input (const char *title, double x, double y, int32_t args, 
 
         wid_set_color(child, WID_COLOR_TEXT, GREEN);
 
-        wid_set_tl_br(child, tl, br);
+        wid_set_pos(child, tl, br);
         wid_set_font(child, large_font);
         wid_set_text_outline(child, true);
 
@@ -747,7 +747,7 @@ widp wid_large_text_input (const char *title, double x, double y, int32_t args, 
             x = tl.x;
             x -= BUTTON_PAD_X;
 
-            wid_set_tl_br(child, tl, br);
+            wid_set_pos(child, tl, br);
             wid_set_text(child, button_name);
             wid_set_font(child, med_font);
 

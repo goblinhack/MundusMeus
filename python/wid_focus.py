@@ -12,7 +12,7 @@ def set_focus(w, recurse=0):
 
     if wid_focus == None:
         wid_focus = wid.Wid(name="wid focus")
-        wid_focus.set_tl_br_pct(0, 0, 0.1, 0.05)
+        wid_focus.set_pos_pct(0, 0, 0.1, 0.05)
         wid_focus.set_color(tl=True, bg=True, br=True, name="white")
         wid_focus.set_tex(name="sword")
 

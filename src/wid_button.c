@@ -74,7 +74,7 @@ wid_button_internal (const char *text, float x, float y, fontp font,
         br.x += PAD_X;
         br.y += PAD_Y;
 
-        wid_set_tl_br(wid_button_window, tl, br);
+        wid_set_pos(wid_button_window, tl, br);
 
         if (text_scale) {
             wid_scale_immediate(wid_button_window, text_scale);
