@@ -194,7 +194,7 @@ static void wid_dead_create (const char *name,
     fpoint tl = { 0.0, 0.0 };
     fpoint br = { 0.30, 0.6 };
 
-    wid_set_tl_br_pct(w, tl, br);
+    wid_set_pos_pct(w, tl, br);
 
     wid_set_mode(w, WID_MODE_NORMAL);
     wid_set_color(w, WID_COLOR_TL, WHITE);
@@ -223,7 +223,7 @@ static void wid_dead_create (const char *name,
         {
             fpoint tl = { 0.0, 0.5 };
             fpoint br = { 1.0, 0.6 };
-            wid_set_tl_br_pct(w2, tl, br);
+            wid_set_pos_pct(w2, tl, br);
         }
     }
 
@@ -243,7 +243,7 @@ static void wid_dead_create (const char *name,
         {
             fpoint tl = { 0.0, 0.7 };
             fpoint br = { 1.0, 0.8 };
-            wid_set_tl_br_pct(w2, tl, br);
+            wid_set_pos_pct(w2, tl, br);
         }
     }
 

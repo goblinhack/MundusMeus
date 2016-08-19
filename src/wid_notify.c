@@ -89,7 +89,7 @@ wid_notify_internal (const char *text, uint32_t level)
             br.y += toth;
         }
 
-        wid_set_tl_br(wid_notify_window, tl, br);
+        wid_set_pos(wid_notify_window, tl, br);
     }
 
     {
@@ -137,7 +137,7 @@ wid_notify_internal (const char *text, uint32_t level)
 
         wid_notify_container = wid_new_container(wid_notify_window,
                                                  "wid notify container2");
-        wid_set_tl_br(wid_notify_container, tl, br);
+        wid_set_pos(wid_notify_container, tl, br);
     }
 
     {
@@ -168,7 +168,7 @@ wid_notify_internal (const char *text, uint32_t level)
             child = wid_new_container(wid_notify_container,
                                       "wid notify container3");
 
-            wid_set_tl_br(child, tl, br);
+            wid_set_pos(child, tl, br);
             wid_set_text(child, n->line);
             wid_set_text_lhs(child, true);
             wid_set_font(child, small_font);

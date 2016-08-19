@@ -303,7 +303,7 @@ widp wid_popup (const char *text, const char *title,
             button_y += maxh;
         }
 
-        wid_set_tl_br(wid_popup_window, tl, br);
+        wid_set_pos(wid_popup_window, tl, br);
     }
 
     if (title) {
@@ -318,7 +318,7 @@ widp wid_popup (const char *text, const char *title,
 
         wid_popup_title = wid_new_container(wid_popup_window,
                                             "wid popup container");
-        wid_set_tl_br(wid_popup_title, tl, br);
+        wid_set_pos(wid_popup_title, tl, br);
 
         wid_set_text(wid_popup_title, title);
         wid_set_font(wid_popup_title, title_font);
@@ -348,7 +348,7 @@ widp wid_popup (const char *text, const char *title,
 
         wid_popup_container = wid_new_container(wid_popup_window,
                                                 "wid popup container2");
-        wid_set_tl_br(wid_popup_container, tl, br);
+        wid_set_pos(wid_popup_container, tl, br);
 
         wid_set_color(wid_popup_container, WID_COLOR_TEXT, WHITE);
 
@@ -393,7 +393,7 @@ widp wid_popup (const char *text, const char *title,
                                           "wid popup container3");
 
             wid_set_no_shape(child);
-            wid_set_tl_br(child, tl, br);
+            wid_set_pos(child, tl, br);
             wid_set_text(child, "");
             wid_set_font(child, body_font);
             wid_set_text_outline(child, true);
@@ -413,7 +413,7 @@ widp wid_popup (const char *text, const char *title,
                                           "wid popup container3");
 
             wid_set_no_shape(child);
-            wid_set_tl_br(child, tl, br);
+            wid_set_pos(child, tl, br);
             wid_set_text(child, n->line);
             wid_set_font(child, body_font);
             wid_set_text_outline(child, true);
@@ -465,7 +465,7 @@ widp wid_popup (const char *text, const char *title,
             x = tl.x;
             x -= BUTTON_PAD_X;
 
-            wid_set_tl_br(child, tl, br);
+            wid_set_pos(child, tl, br);
             wid_set_text(child, button_name);
             wid_set_text_centerx(child, true);
             wid_set_font(child, button_font);

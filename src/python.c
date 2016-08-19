@@ -1491,13 +1491,13 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "set wid tooltip"},
 
-    {"wid_set_tl_br",
-        (PyCFunction)wid_set_tl_br_,
+    {"wid_set_pos",
+        (PyCFunction)wid_set_pos_,
         METH_VARARGS | METH_KEYWORDS,
         "set bounds"},
 
-    {"wid_set_tl_br_pct",
-        (PyCFunction)wid_set_tl_br_pct_,
+    {"wid_set_pos_pct",
+        (PyCFunction)wid_set_pos_pct_,
         METH_VARARGS | METH_KEYWORDS,
         "set bounds in percent"},
 

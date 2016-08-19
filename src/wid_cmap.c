@@ -88,7 +88,7 @@ static void wid_cmap_update_buttons (void)
             c = WHITE;
         }
 
-        wid_set_tl_br_pct(b, tl, br);
+        wid_set_pos_pct(b, tl, br);
         wid_set_color(b, WID_COLOR_TEXT, c);
         wid_set_font(b, font);
 
@@ -588,7 +588,7 @@ static void wid_cmap_bg_create (void)
         fpoint tl = { 0.0, 0.0 };
         fpoint br = { 1.0, f };
 
-        wid_set_tl_br_pct(wid, tl, br);
+        wid_set_pos_pct(wid, tl, br);
 
         wid_set_tex(wid, 0, "title5");
 
@@ -672,7 +672,7 @@ widp wid_cmap (const char *title,
         fpoint tl = { 0.0, 0.0};
         fpoint br = { 1.0, 1.0};
 
-        wid_set_tl_br_pct(window, tl, br);
+        wid_set_pos_pct(window, tl, br);
 
         color c = BLACK;
         c.a = 100;
@@ -694,7 +694,7 @@ widp wid_cmap (const char *title,
         fpoint tl = { 0.0, 0.0};
         fpoint br = { 1.0, 0.1};
 
-        wid_set_tl_br_pct(w, tl, br);
+        wid_set_pos_pct(w, tl, br);
         wid_set_text(w, title);
         wid_set_text_outline(w, true);
         wid_set_font(w, vvlarge_font);
@@ -713,7 +713,7 @@ widp wid_cmap (const char *title,
         fpoint tl = { 0.0, 0.1};
         fpoint br = { 1.0, 1.0};
 
-        wid_set_tl_br_pct(button_container, tl, br);
+        wid_set_pos_pct(button_container, tl, br);
         wid_set_context(button_container, ctx);
 
         /*

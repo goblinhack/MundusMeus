@@ -103,7 +103,7 @@ static void wid_menu_update (widp w)
 
             br.y = y;
 
-            wid_set_tl_br_pct(b, tl, br);
+            wid_set_pos_pct(b, tl, br);
 
             if (!c && (i == ctx->focus)) {
 
@@ -115,7 +115,7 @@ static void wid_menu_update (widp w)
                     tl.x = 0.1;
                     br.x = 0.3;
 
-                    wid_set_tl_br_pct(w, tl, br);
+                    wid_set_pos_pct(w, tl, br);
 
                     wid_set_font(w, font);
                     wid_set_color(w, WID_COLOR_TEXT, WHITE);
@@ -171,7 +171,7 @@ static void wid_menu_update (widp w)
                 br.y = 0.9;
 
                 wid_set_bevel(bar, 2);
-                wid_set_tl_br_pct(bar, tl, br);
+                wid_set_pos_pct(bar, tl, br);
                 wid_set_color(bar, WID_COLOR_BG, col);
 
                 wid_set_color(bar, WID_COLOR_TL, WHITE);
@@ -1071,7 +1071,7 @@ widp wid_menu (widp parent,
         fpoint tl = { 0.0, 0.0};
         fpoint br = { 1.0, 1.0};
 
-        wid_set_tl_br_pct(wrapper, tl, br);
+        wid_set_pos_pct(wrapper, tl, br);
 
 #if 0
         color c = BLACK;
@@ -1112,7 +1112,7 @@ widp wid_menu (widp parent,
          */
         br.y = total_height_needed * 1.2;
 
-        wid_set_tl_br(w, tl, br);
+        wid_set_pos(w, tl, br);
         wid_move_to_pct_centered(w, 0.5, 0.5);
     }
 
@@ -1212,7 +1212,7 @@ widp wid_menu (widp parent,
         tl.x = highlight;
         br.x = highlight + 0.2;
 
-        wid_set_tl_br_pct(h, tl, br);
+        wid_set_pos_pct(h, tl, br);
     }
 
     wid_move_to_pct_centered(wrapper, 0.5, 0.5);

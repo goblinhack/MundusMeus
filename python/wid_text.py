@@ -48,7 +48,7 @@ class WidText(wid.Wid):
         else:
             super().__init__(name, parent=parent, **kw)
 
-        self.set_tl_br_pct(x1, y1, x2, y2)
+        self.set_pos_pct(x1, y1, x2, y2)
         self.to_front()
 
         self.children = []
@@ -154,7 +154,7 @@ class WidText(wid.Wid):
                         child = wid.Wid(name="wid text child",
                                         parent=self.wid_id)
 
-                    child.set_tl_br_pct(x, y, x + w, y + h)
+                    child.set_pos_pct(x, y, x + w, y + h)
 
                     if color != None:
                         child.set_text(text=word, lhs=True, font=font,
@@ -175,7 +175,7 @@ class WidText(wid.Wid):
 
             w = wid.Wid(name="wid text multi line box", parent=self.wid_id)
             w.row = row
-            w.set_tl_br_pct(0, begin_y, 1, y)
+            w.set_pos_pct(0, begin_y, 1, y)
             w.to_back()
             w.set_do_not_raise()
 

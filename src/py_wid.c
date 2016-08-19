@@ -201,7 +201,7 @@ PyObject *wid_set_tooltip_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
-PyObject *wid_set_tl_br_ (PyObject *obj, PyObject *args, PyObject *keywds)
+PyObject *wid_set_pos_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;
     widp w;
@@ -237,12 +237,12 @@ PyObject *wid_set_tl_br_ (PyObject *obj, PyObject *args, PyObject *keywds)
     w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
     verify(w);
 
-    wid_set_tl_br(w, tl, br);
+    wid_set_pos(w, tl, br);
 
     Py_RETURN_NONE;
 }
 
-PyObject *wid_set_tl_br_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
+PyObject *wid_set_pos_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;
     widp w;
@@ -278,7 +278,7 @@ PyObject *wid_set_tl_br_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
     verify(w);
 
-    wid_set_tl_br_pct(w, tl, br);
+    wid_set_pos_pct(w, tl, br);
 
     Py_RETURN_NONE;
 }

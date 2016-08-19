@@ -729,7 +729,7 @@ static void wid_intro_settings_create (void)
     fpoint tl = {0.0, 0.0};
     fpoint br = {1.0, 1.0};
 
-    wid_set_tl_br_pct(w, tl, br);
+    wid_set_pos_pct(w, tl, br);
     wid_set_no_shape(w);
 
     char *keys[WID_INTRO_MAX_SETTINGS];

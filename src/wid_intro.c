@@ -134,7 +134,7 @@ static void wid_intro_bg_create (void)
         fpoint tl = { 0.0, 0.1 };
         fpoint br = { 1.0, 0.9 };
 
-        wid_set_tl_br_pct(wid, tl, br);
+        wid_set_pos_pct(wid, tl, br);
 
         wid_set_tex(wid, 0, "main_title");
 
@@ -251,7 +251,7 @@ static void wid_intro_create (void)
 
     fpoint tl = {0.0f, 0.0f};
     fpoint br = {1.0f, 1.0f};
-    wid_set_tl_br_pct(wid_intro, tl, br);
+    wid_set_pos_pct(wid_intro, tl, br);
 
     color col = BLACK;
     col.a = 0;

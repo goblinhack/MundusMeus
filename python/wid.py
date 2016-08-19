@@ -78,11 +78,11 @@ class Wid:
     def set_tooltip(self, **kw):
         mm.wid_set_tooltip(self, **kw)
 
-    def set_tl_br(self, **kw):
-        mm.wid_set_tl_br(self, **kw)
+    def set_pos(self, **kw):
+        mm.wid_set_pos(self, **kw)
 
-    def set_tl_br_pct(self, x1, y1, x2, y2):
-        mm.wid_set_tl_br_pct(self, x1, y1, x2, y2)
+    def set_pos_pct(self, x1, y1, x2, y2):
+        mm.wid_set_pos_pct(self, x1, y1, x2, y2)
 
     def set_color(self, **kw):
         mm.wid_set_color(self, **kw)

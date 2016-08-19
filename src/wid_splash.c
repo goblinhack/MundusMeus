@@ -59,7 +59,7 @@ void sdl_splashscreen_update (void)
 
     br.x = ((0.6 / (float)maxsize) * (float)(maxsize - size)) + 0.2;
 
-    wid_set_tl_br_pct(wid_splash, tl, br);
+    wid_set_pos_pct(wid_splash, tl, br);
     wid_set_text(wid_splash, "Glorping...");
     wid_set_font(wid_splash, med_font);
 
@@ -79,7 +79,7 @@ void sdl_splashscreen_update (void)
         fpoint tl = { 0.3, 0.15 };
         fpoint br = { 0.7, 0.7 };
 
-        wid_set_tl_br_pct(wid_icon, tl, br);
+        wid_set_pos_pct(wid_icon, tl, br);
 
         wid_set_tex(wid_icon, 0, "mundusmeus");
 
@@ -107,7 +107,7 @@ void sdl_splashscreen_update (void)
         fpoint tl = {0.2f, 0.70f};
         fpoint br = {0.8f, 0.90f};
 
-        wid_set_tl_br_pct(wid_production, tl, br);
+        wid_set_pos_pct(wid_production, tl, br);
         wid_set_text(wid_production, "A GoblinHack production");
 
         wid_set_color(wid_production, WID_COLOR_TEXT, WHITE);

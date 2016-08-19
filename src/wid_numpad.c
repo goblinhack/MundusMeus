@@ -111,7 +111,7 @@ static void wid_numpad_update_buttons (widp w)
             font = vvlarge_font;
         }
 
-        wid_set_tl_br_pct(b, tl, br);
+        wid_set_pos_pct(b, tl, br);
         wid_set_color(b, WID_COLOR_TEXT, c);
         wid_set_font(b, font);
     }
@@ -725,7 +725,7 @@ widp wid_numpad (const char *text,
         fpoint tl = { 0.0, 0.0};
         fpoint br = { 1.0, 1.0};
 
-        wid_set_tl_br_pct(window, tl, br);
+        wid_set_pos_pct(window, tl, br);
 
         color c = BLACK;
         c.a = 100;
@@ -748,7 +748,7 @@ widp wid_numpad (const char *text,
         fpoint tl = { 0.0, 0.1};
         fpoint br = { 1.0, 0.2};
 
-        wid_set_tl_br_pct(w, tl, br);
+        wid_set_pos_pct(w, tl, br);
         wid_set_text(w, title);
         wid_set_text_outline(w, true);
         wid_set_font(w, vvlarge_font);
@@ -767,7 +767,7 @@ widp wid_numpad (const char *text,
         fpoint tl = { 0.1, 0.2};
         fpoint br = { 0.9, 0.3};
 
-        wid_set_tl_br_pct(w, tl, br);
+        wid_set_pos_pct(w, tl, br);
         wid_set_text(w, text);
         wid_set_text_outline(w, true);
         wid_set_show_cursor(w, true);
@@ -802,7 +802,7 @@ widp wid_numpad (const char *text,
         fpoint tl = { 0.0, 0.35};
         fpoint br = { 1.0, 0.85};
 
-        wid_set_tl_br_pct(button_container, tl, br);
+        wid_set_pos_pct(button_container, tl, br);
         wid_set_context(button_container, ctx);
 
         /*

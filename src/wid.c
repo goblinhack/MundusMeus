@@ -445,7 +445,7 @@ void wid_get_tl_x_tl_y_br_x_br_y (widp w,
 /*
  * Set the wid new co-ords. Returns true if there is a change.
  */
-void wid_set_tl_br (widp w, fpoint tl, fpoint br)
+void wid_set_pos (widp w, fpoint tl, fpoint br)
 {
     fast_verify(w);
 
@@ -474,7 +474,7 @@ void wid_set_tl_br (widp w, fpoint tl, fpoint br)
 /*
  * Set the wid new co-ords. Returns true if there is a change.
  */
-void wid_set_tl_br_pct (widp w, fpoint tl, fpoint br)
+void wid_set_pos_pct (widp w, fpoint tl, fpoint br)
 {
     fast_verify(w);
 
@@ -590,7 +590,7 @@ void wid_get_tl_br (widp w, fpoint *tl, fpoint *br)
     *br = w->tree.br;
 }
 
-void wid_set_tl_br_no_relative_offset (widp w, fpoint tl, fpoint br)
+void wid_set_pos_no_relative_offset (widp w, fpoint tl, fpoint br)
 {
     wid_tree_detach(w);
 
@@ -3515,7 +3515,7 @@ widp wid_new_vert_scroll_bar (widp parent, widp scrollbar_owner)
     br.y = tl.y + wid_get_br_y(scrollbar_owner) - wid_get_tl_y(scrollbar_owner);
 
     widp trough = wid_new_scroll_trough(parent);
-    wid_set_tl_br(trough, tl, br);
+    wid_set_pos(trough, tl, br);
 
     tl.x = 0.0f;
     tl.y = 0.0f;
@@ -3523,7 +3523,7 @@ widp wid_new_vert_scroll_bar (widp parent, widp scrollbar_owner)
     br.y = 1.0f;
 
     widp scrollbar = wid_new_scroll_bar(trough, scrollbar_owner, true);
-    wid_set_tl_br_pct(scrollbar, tl, br);
+    wid_set_pos_pct(scrollbar, tl, br);
 
     wid_update_internal(scrollbar);
 #if 0
@@ -3566,7 +3566,7 @@ widp wid_new_horiz_scroll_bar (widp parent, widp scrollbar_owner)
     br.y = tl.y + 20;
 
     widp trough = wid_new_scroll_trough(parent);
-    wid_set_tl_br(trough, tl, br);
+    wid_set_pos(trough, tl, br);
 
     tl.x = 0.0f;
     tl.y = 0.0f;
@@ -3574,7 +3574,7 @@ widp wid_new_horiz_scroll_bar (widp parent, widp scrollbar_owner)
     br.y = 1.0f;
 
     widp scrollbar = wid_new_scroll_bar(trough, scrollbar_owner, false);
-    wid_set_tl_br_pct(scrollbar, tl, br);
+    wid_set_pos_pct(scrollbar, tl, br);
 
     wid_update_internal(scrollbar);
     wid_hide(scrollbar->parent, 0);

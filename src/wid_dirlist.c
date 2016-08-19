@@ -516,7 +516,7 @@ static void wid_dirlist_add_files (widp wid_dirlist_container,
         wid_set_mode(child, WID_MODE_NORMAL);
 
         wid_set_bevelled(child, false);
-        wid_set_tl_br(child, tl, br);
+        wid_set_pos(child, tl, br);
         wid_set_text(child, n->tree.key);
         wid_set_text_rhs(child, true);
         wid_set_font(child, small_font);
@@ -740,7 +740,7 @@ widp wid_dirlist (const char *dir,
             button_y += title_h;
         }
 
-        wid_set_tl_br(wid_dirlist_window, tl, br);
+        wid_set_pos(wid_dirlist_window, tl, br);
     }
 
     if (title) {
@@ -752,7 +752,7 @@ widp wid_dirlist (const char *dir,
 
         wid_dirlist_title = wid_new_container(wid_dirlist_window,
                                               "wid dirlist container1");
-        wid_set_tl_br(wid_dirlist_title, tl, br);
+        wid_set_pos(wid_dirlist_title, tl, br);
 
         wid_set_font(wid_dirlist_title, large_font);
         wid_set_text(wid_dirlist_title, title);
@@ -784,7 +784,7 @@ widp wid_dirlist (const char *dir,
         wid_dirlist_container =
                         wid_new_container(wid_dirlist_window,
                                           wid_dirlist_filelist_container_str);
-        wid_set_tl_br(wid_dirlist_container, tl, br);
+        wid_set_pos(wid_dirlist_container, tl, br);
     }
 
     /*
@@ -828,7 +828,7 @@ widp wid_dirlist (const char *dir,
 
         wid_set_mode(child, WID_MODE_NORMAL);
 
-        wid_set_tl_br(child, tl, br);
+        wid_set_pos(child, tl, br);
         wid_set_text_lhs(child, true);
         wid_set_font(child, small_font);
         wid_set_text_outline(child, true);
@@ -873,7 +873,7 @@ widp wid_dirlist (const char *dir,
             x = tl.x;
             x -= BUTTON_PAD_X;
 
-            wid_set_tl_br(child, tl, br);
+            wid_set_pos(child, tl, br);
             wid_set_text(child, button_name);
             wid_set_font(child, font);
 

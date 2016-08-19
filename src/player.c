@@ -346,7 +346,7 @@ void player_wid_update (levelp level)
 
             {
                 game.wid_hp_icon = wid_new_window("icon-hp");
-                wid_set_tl_br_pct(game.wid_hp_icon, tl, br);
+                wid_set_pos_pct(game.wid_hp_icon, tl, br);
 
                 if (thing_is_dead(player)) {
                     wid_set_tilename(game.wid_hp_icon, "icon-skull");
@@ -364,7 +364,7 @@ void player_wid_update (levelp level)
             if (player->hp > 0) {
 
                 game.wid_hp_text = wid_new_window("text-hp");
-                wid_set_tl_br_pct(game.wid_hp_text, tl, br2);
+                wid_set_pos_pct(game.wid_hp_text, tl, br2);
                 wid_set_no_shape(game.wid_hp_text);
                 wid_set_do_not_lower(game.wid_hp_text, true);
                 wid_move_to_pct_centered(game.wid_hp_text, x1 + dx, y2);
