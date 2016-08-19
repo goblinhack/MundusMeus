@@ -125,8 +125,8 @@ def init2():
                      body_tiles="wid1",
                      width=0.20,
                      height=0.4,
-                     x=0.92,
-                     y=0.25)
+                     x=0.82,
+                     y=0.35)
 #    w = wid_tp.WidTp(name="tp window",
 ##                     tiles="wid2",
 #                     body_tiles="wid1",
