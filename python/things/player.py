@@ -1,11 +1,11 @@
-from tp import tpp
+import tp
 import mm
 
 def thing_init(t):
     t.set_description("A grumbly little creature of dark intent")
 
 def player_init(name, short_name):
-    x = tpp(name)
+    x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_player(True)
     x.set_light_radius(6)

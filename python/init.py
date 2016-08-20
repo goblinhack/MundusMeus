@@ -72,9 +72,13 @@ def load_one_plugin(filepath):
         global wid_quit
         wid_quit = py_mod
 
-    if basename(filepath) == "wid_tp.py":
-        global wid_tp
-        wid_tp = py_mod
+    if basename(filepath) == "wid_tp_list.py":
+        global wid_tp_list
+        wid_tp_list = py_mod
+
+    if basename(filepath) == "wid_tp_detail.py":
+        global wid_tp_detail
+        wid_tp_detail = py_mod
 
     if basename(filepath) == "wid_intro_menu.py":
         global wid_intro_menu
@@ -120,20 +124,31 @@ def init2():
     wid_intro_menu.create()
     wid_quit.wid_quit_create()
 
-    w = wid_tp.WidTp(name="tp window",
-                     tiles="wid2",
-                     body_tiles="wid1",
-                     width=0.20,
-                     height=0.4,
-                     x=0.82,
-                     y=0.35)
-#    w = wid_tp.WidTp(name="tp window",
-##                     tiles="wid2",
-#                     body_tiles="wid1",
-#                     width=0.18,
-#                     height=0.4,
-#                     x=0.20,
-#                     y=0.25)
+    w = wid_tp_list.WidTpList(name="tp window",
+                              tiles="wid2",
+                              body_tiles="wid1",
+                              width=0.20,
+                              height=0.4,
+                              x=0.80,
+                              y=0.35)
+
+    w = wid_tp_detail.WidTpDetail(name="tp window",
+                                  tiles="wid2",
+                                  body_tiles="wid1",
+                                  width=0.20,
+                                  height=0.4,
+                                  x=0.60,
+                                  y=0.35,
+                                  tp_name="player1")
+
+    w = wid_tp_detail.WidTpDetail(name="tp window",
+                                  tiles="wid2",
+                                  body_tiles="wid1",
+                                  width=0.20,
+                                  height=0.4,
+                                  x=0.40,
+                                  y=0.35,
+                                  tp_name="player2")
 
     w = world.World(0)
 

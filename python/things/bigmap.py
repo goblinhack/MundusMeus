@@ -1,9 +1,9 @@
-from tp import tpp
+import tp
 import mm
 
 
 def init():
-    x = tpp("bigmap")
+    x = tp.Tp("bigmap")
     x.set_short_name("bigmap")
     x.set_world_depth("land")
     x.set_scale(4.0)

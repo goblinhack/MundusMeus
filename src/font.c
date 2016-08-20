@@ -182,7 +182,7 @@ uint8_t font_init (void)
                             (char*)VSMALL_FONT, vsmall_font_size & ~1);
     small_font  = font_load("small",
                             (char*)SMALL_FONT, small_font_size & ~1);
-    med_font    = font_load("med",
+    med_font    = font_load("medium",
                             (char*)MED_FONT, med_font_size & ~1);
     large_font  = font_load("large",
                             (char*)LARGE_FONT, large_font_size & ~1);
