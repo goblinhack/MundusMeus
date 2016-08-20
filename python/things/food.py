@@ -1,11 +1,11 @@
-from tp import tpp
+import tp
 import mm
 
 def thing_init(t):
     t.set_description("Some food")
 
 def food_init(name, short_name):
-    x = tpp(name)
+    x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_food(True)
     x.set_world_depth("player")

@@ -9016,9 +9016,9 @@ static void wid_display (widp w,
             double outline = 0;
 
             if (font == fixed_font) {
-                outline = 1.0;
+                outline = 2.0;
             } else if (font == vsmall_font) {
-                outline = 1.0;
+                outline = 2.0;
             } else if (font == small_font) {
                 outline = 2.0;
             } else if (font == med_font) {

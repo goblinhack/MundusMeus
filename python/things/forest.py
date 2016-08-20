@@ -1,9 +1,9 @@
-from tp import tpp
+import tp
 import mm
 
 
 def init():
-    x = tpp("forest1")
+    x = tp.Tp("forest1")
     x.set_short_name("forest")
     x.set_is_land(True)
     x.set_is_forest(True)

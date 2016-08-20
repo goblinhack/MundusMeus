@@ -3,7 +3,7 @@ import mm
 all_tps = {}
 
 
-class tpp:
+class Tp:
     """thing template"""
 
     def __init__(self, name):
