@@ -132,6 +132,8 @@ class WidPopup(wid.Wid):
         self.y1 = y1
         self.width = width
         self.height = height
+        self.inner_width = width - self.pad_w * 2
+        self.inner_height = height - self.pad_h * 2
 
         self.row_count = 0
         self.row_text = []
@@ -383,7 +385,7 @@ class WidPopup(wid.Wid):
             title_w, title_h, self.title_width, self.title_line_width =  \
                 wid_text.text_size_pct(row_text=self.title_text,
                                        row_font=self.title_font,
-                                       width=self.width)
+                                       width=self.inner_width)
         else:
             title_w, title_h, self.title_width, self.title_line_width =  \
                 0, 0, 0, 0
@@ -392,25 +394,22 @@ class WidPopup(wid.Wid):
             body_w, body_h, self.row_width, self.line_width =  \
                 wid_text.text_size_pct(row_text=self.row_text,
                                        row_font=self.row_font,
-                                       width=self.width)
+                                       width=self.inner_width)
         else:
             body_w, body_h, self.row_width, self.line_width =  \
                 0, 0, 0, 0
 
-        self.width = self.width
         if self.height == 0:
-            self.height = title_h + body_h
+            self.height = title_h + body_h + self.pad_h * 2
+            self.inner_height = title_h + body_h
 
         need_scrollbar = False
         if title_h + body_h > self.height:
             need_scrollbar = True
 
-        self.width += self.pad_w * 2
-        self.height += self.pad_h * 2
-
         self.set_pos_pct(self.x1, self.y1, 
-                           self.x1 + self.width,
-                           self.y1 + self.height)
+                         self.x1 + self.width,
+                         self.y1 + self.height)
 
         inner_pad_w = self.pad_w
         inner_pad_h = self.pad_h
@@ -435,7 +434,7 @@ class WidPopup(wid.Wid):
 
                 w.set_color(tl=True, bg=True, br=True, name="white")
                 w.set_pos_pct(x1=textbox_x1, y1=textbox_y1,
-                                x2=textbox_x2, y2=textbox_y2)
+                              x2=textbox_x2, y2=textbox_y2)
 
             textbox_x1 = inner_pad_w
             textbox_x2 = 1.0 - inner_pad_w
