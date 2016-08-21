@@ -86,9 +86,9 @@ def wid_tp_list_on_mouse_over_begin(w):
     p.tp_detail = wid_tp_detail.WidTpDetail(name="tp window",
                                   tiles="wid2",
                                   body_tiles="wid1",
-                                  width=0.2,
+                                  width=0.25,
                                   height=0.5,
-                                  x=0.55,
+                                  x=0.50,
                                   y=0.00,
                                   tp_name=tpp.name)
 
