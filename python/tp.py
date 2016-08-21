@@ -70,6 +70,11 @@ class Tp:
         self.is_sand = False
         self.is_sea = False
         self.is_settlement = False
+        self.tiles = []
+
+    def set_tile(self, tile=None, **kw):
+        self.tiles.append(tile)
+        mm.tp_set_tile(self, tile, **kw)
 
     def set_description(self, value):
         self.description = value

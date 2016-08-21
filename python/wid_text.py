@@ -250,12 +250,12 @@ def wid_text_on_destroy(w):
     wid_focus.clear_focus(w)
 
 def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
-    wid_focus.set_focus(w)
+    wid_focus.set_focus(w, auto_scroll=False)
 
     w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.2)
 
     if w.row_on_mouse_over_begin != None:
-        w.row_on_mouse_over_begin(w)
+        w.row_on_mouse_over_begin(w, relx, rely, wheelx, wheely)
 
 def wid_text_on_mouse_over_end_callback(w):
     wid_text_colorize_row(w)
@@ -269,7 +269,7 @@ def wid_text_on_mouse_up_callback(w, x, y, button):
     return False
 
 def wid_text_on_mouse_down_callback(w, x, y, button):
-    wid_focus.set_focus(w)
+    wid_focus.set_focus(w, auto_scroll=False)
 
     w.set_active()
     w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
@@ -318,13 +318,13 @@ def wid_text_on_key_down_callback(w, sym, mod):
                 break
 
     if rc is True:
-        wid_focus.set_focus(w)
+        wid_focus.set_focus(w, auto_scroll=True)
 
     return rc
 
 def wid_text_button_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
     w.set_color(tl=True, bg=True, br=True, name="white", alpha=1.0)
-    wid_focus.set_focus(w)
+    wid_focus.set_focus(w, auto_scroll=False)
 
 def wid_text_button_on_mouse_over_end_callback(w):
     w.set_color(tl=True, bg=True, br=True, name="gray", alpha=1.0)

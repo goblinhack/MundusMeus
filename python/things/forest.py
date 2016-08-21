@@ -9,6 +9,6 @@ def init():
     x.set_is_forest(True)
     x.set_world_depth("land")
 
-    mm.tp_set_tile(x, tile="forest1.1")
+    x.set_tile(tile="forest1.1")
 
 init()

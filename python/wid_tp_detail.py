@@ -29,12 +29,14 @@ class WidTpDetail(wid_popup.WidPopup):
                 },
         )
 
+        tile_name = tpp.tiles[0]
+
         w.add_text(
                 font="vlarge", 
                 color="white", 
                 title=True,
                 center=True,
-                text="%%tile=player1$ " + tpp.short_name)
+                text="%%tile=" + tile_name + "$ " + tpp.short_name)
 
         w.add_text(
                 font="small", 
