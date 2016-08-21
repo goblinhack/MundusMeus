@@ -39,4 +39,4 @@ class WidTpDetail(wid_popup.WidPopup):
 
         w.update()
         w.set_focus()
-        w.move_to_pct_centered(x=self.x, y=self.y)
+        w.move_to_pct(x=self.x, y=self.y)

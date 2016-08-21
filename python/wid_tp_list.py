@@ -4,6 +4,7 @@ import wid_popup
 import sys
 import tp
 import copy
+import wid_tp_detail
 from enum import Enum
 
 def wid_tp_list_common(w):
@@ -73,6 +74,34 @@ def wid_tp_list_on_key_down_no(w, sym, mod):
     wid_tp_list_no()
     return False # so focus does not select us after we are dead!
 
+def wid_tp_list_on_mouse_over_begin(w):
+    p = w.get_top_parent()
+
+    if p.tp_detail != None:
+        p.tp_detail.destroy()
+        p.tp_detail = None
+
+    tpp = p.tps[w.row]
+
+    p.tp_detail = wid_tp_detail.WidTpDetail(name="tp window",
+                                  tiles="wid2",
+                                  body_tiles="wid1",
+                                  width=0.2,
+                                  height=0.5,
+                                  x=0.55,
+                                  y=0.00,
+                                  tp_name=tpp.name)
+
+def wid_tp_list_on_mouse_over_end(w):
+
+    p = w.get_top_parent()
+
+    if p.tp_detail != None:
+        p.tp_detail.destroy()
+        p.tp_detail = None
+
+    return
+
 class WidTpList(wid_popup.WidPopup):
 
     def __init__(self, k=None, **kp):
@@ -93,6 +122,8 @@ class WidTpList(wid_popup.WidPopup):
             self.filter = self.which.value
             self.x = kp["x"]
             self.y = kp["y"]
+
+        self.tp_detail = None
 
         w = self
 
@@ -146,38 +177,40 @@ class WidTpList(wid_popup.WidPopup):
                      "[%%tile=icon-food$]"
                 )
 
+        self.tps = []
+
         count = 0
         added = 0
 
         for t in tp.all_tps:
-            obj = tp.all_tps[t]
+            tpp = tp.all_tps[t]
 
             add = False
 
             if self.filter == Item.all.value:
-                if obj.is_player is True or \
-                   obj.is_food is True or \
-                   obj.is_weapon is True:
+                if tpp.is_player is True or \
+                   tpp.is_food is True or \
+                   tpp.is_weapon is True:
                     add = True
 
             if self.filter == Item.weapon.value:
-                if obj.is_weapon is True:
+                if tpp.is_weapon is True:
                     add = True
 
             if self.filter == Item.magical.value:
-                if obj.is_magical is True:
+                if tpp.is_magical is True:
                     add = True
 
             if self.filter == Item.armor.value:
-                if obj.is_armor is True:
+                if tpp.is_armor is True:
                     add = True
 
             if self.filter == Item.healing.value:
-                if obj.is_healing is True:
+                if tpp.is_healing is True:
                     add = True
 
             if self.filter == Item.food.value:
-                if obj.is_food is True:
+                if tpp.is_food is True:
                     add = True
 
             if add is True:
@@ -188,13 +221,17 @@ class WidTpList(wid_popup.WidPopup):
                     key_str = "~"
                 count += 1
 
+                self.tps.append(tpp)
+
                 w.add_text(
                         on_key_down=wid_tp_list_on_key_down_yes,
                         on_key_sym=mm.SDLK_RETURN,
                         on_mouse_down=wid_tp_list_on_mouse_down_close,
+                        on_mouse_over_begin=wid_tp_list_on_mouse_over_begin,
+                        on_mouse_over_end=wid_tp_list_on_mouse_over_end,
                         font="small", 
                         color="white", 
-                        text="%%font=fixed$" + key_str + "%%tile=" + obj.name + "$~%%font=small$" + obj.short_name)
+                        text="%%font=fixed$" + key_str + "%%tile=" + tpp.name + "$~%%font=small$" + tpp.short_name)
                 added += 1
 
         if added == 0:
@@ -206,4 +243,4 @@ class WidTpList(wid_popup.WidPopup):
 
         w.update()
         w.set_focus()
-        w.move_to_pct_centered(x=self.x, y=self.y)
+        w.move_to_pct(x=self.x, y=self.y)

@@ -127,28 +127,10 @@ def init2():
     w = wid_tp_list.WidTpList(name="tp window",
                               tiles="wid2",
                               body_tiles="wid1",
-                              width=0.20,
-                              height=0.4,
-                              x=0.80,
-                              y=0.35)
-
-    w = wid_tp_detail.WidTpDetail(name="tp window",
-                                  tiles="wid2",
-                                  body_tiles="wid1",
-                                  width=0.20,
-                                  height=0.4,
-                                  x=0.60,
-                                  y=0.35,
-                                  tp_name="player1")
-
-    w = wid_tp_detail.WidTpDetail(name="tp window",
-                                  tiles="wid2",
-                                  body_tiles="wid1",
-                                  width=0.20,
-                                  height=0.4,
-                                  x=0.40,
-                                  y=0.35,
-                                  tp_name="player2")
+                              width=0.25,
+                              height=0.5,
+                              x=0.75,
+                              y=0.00)
 
     w = world.World(0)
 
