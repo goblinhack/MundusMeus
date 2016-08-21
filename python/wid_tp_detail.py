@@ -30,12 +30,18 @@ class WidTpDetail(wid_popup.WidPopup):
         )
 
         w.add_text(
-                font="small", 
+                font="large", 
                 color="white", 
                 title=True,
                 center=True,
+                text="%%tile=player1$ " + tpp.short_name)
+
+        w.add_text(
+                font="small", 
+                color="white", 
+                center=True,
                 on_button_list=button_events,
-                text=tpp.short_name)
+                text="x")
 
         w.update()
         w.set_focus()
