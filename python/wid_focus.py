@@ -5,7 +5,7 @@ import wid
 wid_focus = None
 wid_focus_parent = None
 
-def set_focus(w, recurse=0):
+def set_focus(w, recurse=0, auto_scroll=True):
 
     global wid_focus
     global wid_focus_parent
@@ -15,6 +15,7 @@ def set_focus(w, recurse=0):
         wid_focus.set_pos_pct(0, 0, 0.1, 0.05)
         wid_focus.set_color(tl=True, bg=True, br=True, name="white")
         wid_focus.set_tex(name="sword")
+    wid_focus.visible()
 
     p1 = w.get_parent()
     wid_focus_parent = p1
@@ -31,6 +32,9 @@ def set_focus(w, recurse=0):
     wid_focus.move_to_pct_centered_in(x=x, y=y, delay=50)
     wid_focus.to_front()
     wid_focus.set_do_not_lower(value=True)
+
+    if not auto_scroll:
+        return
 
     if recurse > 100:
         return

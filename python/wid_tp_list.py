@@ -7,20 +7,8 @@ import copy
 import wid_tp_detail
 from enum import Enum
 
-def wid_tp_list_common(w):
-    p = w.get_top_parent()
-    p.destroy()
-
-def wid_tp_list_yes(w):
-    wid_tp_list_common(w)
-    return False
-
-def wid_tp_list_no():
-    wid_tp_list_common(w)
-    return False
-
 def wid_tp_list_on_mouse_down_close(w, x, y, button):
-    wid_tp_list_common(w)
+    mm.con("TODO")
     return True
 
 def wid_tp_list_filter(w, f):
@@ -81,16 +69,16 @@ def wid_tp_list_common(w):
                                   x=0.50,
                                   y=0.00,
                                   tp_name=tpp.name)
+
 def wid_tp_list_on_key_down(w, sym, mod):
     wid_tp_list_common(w)
     return True
 
-def wid_tp_list_on_mouse_over_begin(w):
+def wid_tp_list_on_mouse_over_begin(w, relx, rely, wheelx, wheely):
     wid_tp_list_common(w)
     return True
 
 def wid_tp_list_on_mouse_over_end(w):
-
     p = w.get_top_parent()
 
     if p.tp_detail != None:
@@ -163,7 +151,6 @@ class WidTpList(wid_popup.WidPopup):
                 title=True,
                 center=True,
                 on_button_list=button_events,
-#                text="[x] [x] [x] [x] [x] [x]")
                 text="[%%tile=icon-star$] " +
                      "[%%tile=icon-sword$] " +
                      "[%%tile=icon-magic$] " +
@@ -222,13 +209,15 @@ class WidTpList(wid_popup.WidPopup):
                 key = chr(ord('a') + count)
                 key_str = "%%fg=green${0}%%fg=white$)~".format(key)
                 on_key_sym = mm.SDLK_a + count
+                on_key_down = wid_tp_list_on_key_down
             else:
                 key_str = ""
                 on_key_sym = None
+                on_key_down = None
 
             count += 1
 
-            w.add_text(on_key_down=wid_tp_list_on_key_down,
+            w.add_text(on_key_down=on_key_down,
                        on_key_sym=on_key_sym,
                        on_mouse_down=wid_tp_list_on_mouse_down_close,
                        on_mouse_over_begin=wid_tp_list_on_mouse_over_begin,

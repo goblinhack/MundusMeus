@@ -11,7 +11,7 @@ def player_init(name, short_name):
     x.set_light_radius(6)
     x.set_world_depth("player")
 
-    mm.tp_set_tile(x, tile=name)
+    x.set_tile(tile=name)
     x.thing_init = thing_init
 
 def init():
