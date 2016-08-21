@@ -181,6 +181,8 @@ void ttf_text_size (font **f, const char *text_in,
         if (c == '\t') {
             x = ((((x-x_start) / TTF_TABSTOP) + 1.0) * TTF_TABSTOP);
             x = x + x_start;
+        } else if (c == '~') {
+            x += (*f)->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
         } else {
             if (fixed_width) {
                 x += (*f)->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
@@ -389,6 +391,8 @@ static void ttf_puts_internal (font *f, const char *text,
         if (c == '\t') {
             x = ((((x-x_start) / TTF_TABSTOP) + 1) * TTF_TABSTOP);
             x = x + x_start;
+        } else if (c == '~') {
+            x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
         } else {
             double maxc = f->glyphs[TTF_FIXED_WIDTH_CHAR].width;
             double thisc = f->glyphs[c].width;

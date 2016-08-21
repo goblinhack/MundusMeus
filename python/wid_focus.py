@@ -36,16 +36,18 @@ def set_focus(w, recurse=0):
         return
 
     #
-    # Auto scroll is kind of annoying
+    # Auto scroll is kind of annoying but is needed for key presses 
+    # in menus that are beyond the visible window so we jump to the
+    # item
     #
-#    if p2 != None:
-#        if tly < ptly:
-#            p2.scroll_up()
-#            set_focus(w, recurse + 1)
-#
-#        if bry > pbry:
-#            p2.scroll_down()
-#            set_focus(w, recurse + 1)
+    if p2 != None:
+        if tly < ptly:
+            p2.scroll_up()
+            set_focus(w, recurse + 1)
+
+        if bry > pbry:
+            p2.scroll_down()
+            set_focus(w, recurse + 1)
 
 def clear_focus(w):
 

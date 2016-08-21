@@ -30,7 +30,7 @@ class WidTpDetail(wid_popup.WidPopup):
         )
 
         w.add_text(
-                font="large", 
+                font="vlarge", 
                 color="white", 
                 title=True,
                 center=True,

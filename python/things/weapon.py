@@ -15,7 +15,6 @@ def weapon_init(name, short_name):
 
 def init():
     weapon_init(name="axe1.1",             short_name="x")
-    weapon_init(name="axe1.10",            short_name="x")
     weapon_init(name="axe1.2",             short_name="x")
     weapon_init(name="axe1.3",             short_name="x")
     weapon_init(name="axe1.4",             short_name="x")
@@ -24,6 +23,7 @@ def init():
     weapon_init(name="axe1.7",             short_name="x")
     weapon_init(name="axe1.8",             short_name="x")
     weapon_init(name="axe1.9",             short_name="x")
+    weapon_init(name="axe1.10",            short_name="x")
     weapon_init(name="ball_chain1.1",      short_name="x")
     weapon_init(name="ball_chain1.2",      short_name="x")
     weapon_init(name="ball_chain1.3",      short_name="x")
