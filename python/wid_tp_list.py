@@ -62,26 +62,16 @@ def wid_tp_list_on_mouse_down_filter_6(w, x, y, button):
     wid_tp_list_filter(w, Item.food.value)
     return True
 
-def wid_tp_list_on_mouse_down_no(w, x, y, button):
-    wid_tp_list_no()
-    return False
-
-def wid_tp_list_on_key_down_yes(w, sym, mod):
-    wid_tp_list_yes(w)
-    return True
-
-def wid_tp_list_on_key_down_no(w, sym, mod):
-    wid_tp_list_no()
-    return False # so focus does not select us after we are dead!
-
-def wid_tp_list_on_mouse_over_begin(w):
+def wid_tp_list_common(w):
     p = w.get_top_parent()
 
     if p.tp_detail != None:
         p.tp_detail.destroy()
         p.tp_detail = None
 
-    tpp = p.tps[w.row]
+    name = p.tp_sorted_name_list[w.row]
+
+    tpp = tp.all_tps[name]
 
     p.tp_detail = wid_tp_detail.WidTpDetail(name="tp window",
                                   tiles="wid2",
@@ -91,6 +81,13 @@ def wid_tp_list_on_mouse_over_begin(w):
                                   x=0.50,
                                   y=0.00,
                                   tp_name=tpp.name)
+def wid_tp_list_on_key_down(w, sym, mod):
+    wid_tp_list_common(w)
+    return True
+
+def wid_tp_list_on_mouse_over_begin(w):
+    wid_tp_list_common(w)
+    return True
 
 def wid_tp_list_on_mouse_over_end(w):
 
@@ -99,8 +96,6 @@ def wid_tp_list_on_mouse_over_end(w):
     if p.tp_detail != None:
         p.tp_detail.destroy()
         p.tp_detail = None
-
-    return
 
 class WidTpList(wid_popup.WidPopup):
 
@@ -177,9 +172,8 @@ class WidTpList(wid_popup.WidPopup):
                      "[%%tile=icon-food$]"
                 )
 
-        self.tps = []
+        self.tp_sorted_name_list=[]
 
-        count = 0
         added = 0
 
         for t in tp.all_tps:
@@ -214,25 +208,34 @@ class WidTpList(wid_popup.WidPopup):
                     add = True
 
             if add is True:
-                if count < 26:
-                    key = chr(ord('a') + count)
-                    key_str = "{0})".format(key)
-                else:
-                    key_str = "~"
-                count += 1
-
-                self.tps.append(tpp)
-
-                w.add_text(
-                        on_key_down=wid_tp_list_on_key_down_yes,
-                        on_key_sym=mm.SDLK_RETURN,
-                        on_mouse_down=wid_tp_list_on_mouse_down_close,
-                        on_mouse_over_begin=wid_tp_list_on_mouse_over_begin,
-                        on_mouse_over_end=wid_tp_list_on_mouse_over_end,
-                        font="small", 
-                        color="white", 
-                        text="%%font=fixed$" + key_str + "%%tile=" + tpp.name + "$~%%font=small$" + tpp.short_name)
+                self.tp_sorted_name_list.append(tpp.name)
                 added += 1
+
+        self.tp_sorted_name_list.sort()
+
+        count = 0
+
+        for name in self.tp_sorted_name_list:
+            tpp = tp.all_tps[name]
+
+            if count < 26:
+                key = chr(ord('a') + count)
+                key_str = "%%fg=green${0}%%fg=white$)~".format(key)
+                on_key_sym = mm.SDLK_a + count
+            else:
+                key_str = ""
+                on_key_sym = None
+
+            count += 1
+
+            w.add_text(on_key_down=wid_tp_list_on_key_down,
+                       on_key_sym=on_key_sym,
+                       on_mouse_down=wid_tp_list_on_mouse_down_close,
+                       on_mouse_over_begin=wid_tp_list_on_mouse_over_begin,
+                       on_mouse_over_end=wid_tp_list_on_mouse_over_end,
+                       font="vsmall", 
+                       color="white", 
+                       text="%%font=fixed$" + key_str + "%%tile=" + tpp.name + "$%%font=vsmall$~" + tpp.short_name)
 
         if added == 0:
             w.add_text(

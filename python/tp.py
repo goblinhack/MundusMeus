@@ -2,7 +2,6 @@ import mm
 
 all_tps = {}
 
-
 class Tp:
     """thing template"""
 
