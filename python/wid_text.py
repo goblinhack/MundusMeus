@@ -89,7 +89,17 @@ class WidText(wid.Wid):
                     x = self.usable_w - width
                     x = x / self.usable_w
 
+                first = True
+
                 for word in words:
+                    #
+                    # Add space between words
+                    #
+                    if not first:
+                        w, h, c = mm.text_size_pct(font=font, text=" ")
+                        x += w
+                    first = False
+
                     w, h, c = mm.text_size_pct(font=font, text=word)
                     if c != "none":
                         color = c
@@ -213,7 +223,9 @@ class WidText(wid.Wid):
             w.set_on_joy_button(row_on_joy_button[row])
             w.set_on_mouse_motion(row_on_mouse_motion[row])
 
-            if row_on_key_down[row] != None:
+            if row_on_key_down[row] != None or \
+               row_on_mouse_down[row] != None or \
+               row_on_mouse_over_begin[row] != None:
                 wid_text_colorize_row(w)
 
                 w.set_on_key_up(wid_text_on_key_up_callback)
@@ -353,7 +365,17 @@ def text_size_pct(row_text, row_font, width):
 
             count = len(words)
             cnt = 0
+
+            first = True
             for word in words:
+                #
+                # Add space between words
+                #
+                if not first:
+                    w, h, c = mm.text_size_pct(font=font, text=" ")
+                    x += w
+                first = False
+
                 w, h, c = mm.text_size_pct(font=font, text=word)
                 cnt += 1
 

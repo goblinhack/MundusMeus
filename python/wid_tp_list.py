@@ -64,9 +64,9 @@ def wid_tp_list_common(w):
     p.tp_detail = wid_tp_detail.WidTpDetail(name="tp window",
                                   tiles="wid2",
                                   body_tiles="wid1",
-                                  width=0.30,
-                                  height=0.4,
-                                  x=0.45,
+                                  width=0.40,
+                                  height=0.3,
+                                  x=0.35,
                                   y=0.00,
                                   tp_name=tpp.name)
 
