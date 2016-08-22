@@ -71,11 +71,38 @@ class Tp:
         self.is_sea = False
         self.is_settlement = False
         self.tiles = []
+        self.damage = None
+        self.two_handed = False
 
     def set_tile(self, tile=None, **kw):
         self.tiles.append(tile)
         mm.tp_set_tile(self, tile, **kw)
 
+    def set_damage(self, value):
+        self.damage = value
+
+    def set_two_handed(self, value):
+        self.two_handed = value
+
+    def set_short_name(self, value):
+        self.short_name = value
+        mm.tp_set_short_name(self, value)
+
+    def set_raw_name(self, value):
+        self.raw_name = value
+        mm.tp_set_raw_name(self, value)
+
+    def set_light_radius(self, value):
+        self.light_radius = value
+        mm.tp_set_light_radius(self, value)
+
+    def set_scale(self, value):
+        self.scale = value
+        mm.tp_set_scale(self, value)
+
+    def set_z_depth(self, value):
+        self.z_depth = value
+        mm.tp_set_z_depth(self, value)
     def set_description(self, value):
         self.description = value
 
