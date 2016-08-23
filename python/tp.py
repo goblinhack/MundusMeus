@@ -72,17 +72,20 @@ class Tp:
         self.is_settlement = False
         self.tiles = []
         self.damage = None
-        self.two_handed = False
+        self.is_double_handed = False
 
     def set_tile(self, tile=None, **kw):
         self.tiles.append(tile)
         mm.tp_set_tile(self, tile, **kw)
 
+    def set_description(self, value):
+        self.description = value
+
     def set_damage(self, value):
         self.damage = value
 
-    def set_two_handed(self, value):
-        self.two_handed = value
+    def set_is_double_handed(self, value):
+        self.is_double_handed = value
 
     def set_short_name(self, value):
         self.short_name = value
@@ -103,8 +106,6 @@ class Tp:
     def set_z_depth(self, value):
         self.z_depth = value
         mm.tp_set_z_depth(self, value)
-    def set_description(self, value):
-        self.description = value
 
     def set_short_name(self, value):
         self.short_name = value

@@ -38,12 +38,16 @@ class WidTpDetail(wid_popup.WidPopup):
                 center=True,
                 text="%%tile=" + tile_name + "$ " + tpp.short_name)
 
-        w.add_text(
-                font="small", 
-                color="white", 
-                center=True,
-                on_button_list=button_events,
-                text="x")
+        if tpp.description != None:
+            w.add_text(tpp.description)
+
+        if tpp.is_weapon:
+            w.add_text(color="gray", 
+                       text="Damage %%fg=red$" + tpp.damage)
+
+            if tpp.is_double_handed:
+                w.add_text(color="green",
+                           text="This weapon requires two hands to use.")
 
         w.update()
         w.set_focus()
