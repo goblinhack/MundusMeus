@@ -7,14 +7,14 @@ import copy
 import wid_tp_detail
 from enum import Enum
 
-def wid_tp_list_on_mouse_down_close(w, x, y, button):
+def wid_tp_grid_on_mouse_down_close(w, x, y, button):
     mm.con("TODO")
     return True
 
-def wid_tp_list_filter(w, f):
+def wid_tp_grid_filter(w, f):
     p = w.get_top_parent()
     p.orig_args["filter"] = f
-    WidTpList(k=p.orig_args)
+    WidTpGrid(k=p.orig_args)
     p.destroy()
     return False
 
@@ -26,31 +26,31 @@ class Item(Enum):
      healing  = 5
      food     = 6
 
-def wid_tp_list_on_mouse_down_filter_1(w, x, y, button):
-    wid_tp_list_filter(w, Item.all.value)
+def wid_tp_grid_on_mouse_down_filter_1(w, x, y, button):
+    wid_tp_grid_filter(w, Item.all.value)
     return True
 
-def wid_tp_list_on_mouse_down_filter_2(w, x, y, button):
-    wid_tp_list_filter(w, Item.weapon.value)
+def wid_tp_grid_on_mouse_down_filter_2(w, x, y, button):
+    wid_tp_grid_filter(w, Item.weapon.value)
     return True
 
-def wid_tp_list_on_mouse_down_filter_3(w, x, y, button):
-    wid_tp_list_filter(w, Item.magical.value)
+def wid_tp_grid_on_mouse_down_filter_3(w, x, y, button):
+    wid_tp_grid_filter(w, Item.magical.value)
     return True
 
-def wid_tp_list_on_mouse_down_filter_4(w, x, y, button):
-    wid_tp_list_filter(w, Item.armor.value)
+def wid_tp_grid_on_mouse_down_filter_4(w, x, y, button):
+    wid_tp_grid_filter(w, Item.armor.value)
     return True
 
-def wid_tp_list_on_mouse_down_filter_5(w, x, y, button):
-    wid_tp_list_filter(w, Item.healing.value)
+def wid_tp_grid_on_mouse_down_filter_5(w, x, y, button):
+    wid_tp_grid_filter(w, Item.healing.value)
     return True
 
-def wid_tp_list_on_mouse_down_filter_6(w, x, y, button):
-    wid_tp_list_filter(w, Item.food.value)
+def wid_tp_grid_on_mouse_down_filter_6(w, x, y, button):
+    wid_tp_grid_filter(w, Item.food.value)
     return True
 
-def wid_tp_list_common(w):
+def wid_tp_grid_common(w):
     p = w.get_top_parent()
 
     if p.tp_detail != None:
@@ -70,22 +70,22 @@ def wid_tp_list_common(w):
                                             y=p.detail_y,
                                             tp_name=tpp.name)
 
-def wid_tp_list_on_key_down(w, sym, mod):
-    wid_tp_list_common(w)
+def wid_tp_grid_on_key_down(w, sym, mod):
+    wid_tp_grid_common(w)
     return True
 
-def wid_tp_list_on_mouse_over_begin(w, relx, rely, wheelx, wheely):
-    wid_tp_list_common(w)
+def wid_tp_grid_on_mouse_over_begin(w, relx, rely, wheelx, wheely):
+    wid_tp_grid_common(w)
     return True
 
-def wid_tp_list_on_mouse_over_end(w):
+def wid_tp_grid_on_mouse_over_end(w):
     p = w.get_top_parent()
 
     if p.tp_detail != None:
         p.tp_detail.destroy()
         p.tp_detail = None
 
-class WidTpList(wid_popup.WidPopup):
+class WidTpGrid(wid_popup.WidPopup):
 
     def __init__(self, k=None, **kp):
 
@@ -101,6 +101,7 @@ class WidTpList(wid_popup.WidPopup):
             self.detail_height  = k["detail_height"]
             self.detail_x       = k["detail_x"]
             self.detail_y       = k["detail_y"]
+            self.width          = k["width"]
         else:
             super().__init__(**kp)
             self.orig_args = copy.deepcopy(kp)
@@ -113,6 +114,7 @@ class WidTpList(wid_popup.WidPopup):
             self.detail_height  = kp["detail_height"]
             self.detail_x       = kp["detail_x"]
             self.detail_y       = kp["detail_y"]
+            self.width          = kp["width"]
 
         self.tp_detail = None
 
@@ -120,32 +122,32 @@ class WidTpList(wid_popup.WidPopup):
 
         button_events=( 
                 { 
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_1, 
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_1, 
                     "tiles":"button_green", 
                     "tooltip":"All items", 
                 },
                 { 
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_2, 
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_2, 
                     "tiles":"button_green", 
                     "tooltip":"weapon filter",
                 },
                 { 
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_3, 
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_3, 
                     "tiles":"button_green", 
                     "tooltip":"Magical items filter",
                 },
                 { 
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_4, 
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_4, 
                     "tiles":"button_green", 
                     "tooltip":"Defensive items filter",
                 },
                 { 
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_5, 
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_5, 
                     "tiles":"button_green", 
                     "tooltip":"Healing items filter",
                 },
                 { 
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_6, 
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_6, 
                     "tiles":"button_green", 
                     "tooltip":"Edible items filter",
                 },
@@ -208,31 +210,43 @@ class WidTpList(wid_popup.WidPopup):
 
         self.tp_sorted_name_list.sort()
 
-        count = 0
+        tile_width, _unused_h, _unused_c = mm.text_size_pct(font="vlarge", text="%%tile=player1$")
+        across = int(self.width / tile_width) - 2
+        down = int((added / across) + 1)
 
-        for name in self.tp_sorted_name_list:
-            tpp = tp.all_tps[name]
+        grid = [[0 for x in range(across)] for y in range(down)] 
 
-            if count < 26:
-                key = chr(ord('a') + count)
-                key_str = "%%fg=green${0}%%fg=white$)~".format(key)
-                on_key_sym = mm.SDLK_a + count
-                on_key_down = wid_tp_list_on_key_down
-            else:
-                key_str = ""
-                on_key_sym = None
-                on_key_down = None
+        for y in range(down):
+            button_events=[]
+            text=""
 
-            count += 1
+            for x in range(across):
+                index = (across * y) + x
+                if index >= added:
+                    break
 
-            w.add_text(on_key_down=on_key_down,
-                       on_key_sym=on_key_sym,
-                       on_mouse_down=wid_tp_list_on_mouse_down_close,
-                       on_mouse_over_begin=wid_tp_list_on_mouse_over_begin,
-                       on_mouse_over_end=wid_tp_list_on_mouse_over_end,
-                       font="vsmall", 
-                       color="white", 
-                       text="%%font=fixed$" + key_str + "%%tile=" + tpp.name + "$%%font=vsmall$~" + tpp.short_name)
+                name = self.tp_sorted_name_list[index]
+
+                tpp = tp.all_tps[name]
+
+                button_events.append(
+                        { 
+                            "on_mouse_down":wid_tp_grid_on_mouse_down_filter_1, 
+                            "tiles":"button_green", 
+                            "tooltip":name,
+                        },
+                    )
+
+                text += "%%tile=" + tpp.name + "$"
+
+            w.add_text(
+                    on_button_list=button_events,
+                    on_mouse_down=wid_tp_grid_on_mouse_down_close,
+                    on_mouse_over_begin=wid_tp_grid_on_mouse_over_begin,
+                    on_mouse_over_end=wid_tp_grid_on_mouse_over_end,
+                    font="vlarge", 
+                    color="white", 
+                    text=text)
 
         if added == 0:
             w.add_text(
