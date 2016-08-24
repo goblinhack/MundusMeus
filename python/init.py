@@ -76,6 +76,11 @@ def load_one_plugin(filepath):
         global wid_tp_list
         wid_tp_list = py_mod
 
+    if basename(filepath) == "wid_tp_grid.py":
+        global wid_tp_grid
+        wid_tp_grid = py_mod
+
+
     if basename(filepath) == "wid_tp_detail.py":
         global wid_tp_detail
         wid_tp_detail = py_mod
@@ -130,7 +135,23 @@ def init2():
                               width=0.25,
                               height=0.5,
                               x=0.75,
-                              y=0.00)
+                              y=0.00,
+                              detail_width=0.40,
+                              detail_height=0.3,
+                              detail_x=0.35,
+                              detail_y=0.00)
+
+    w = wid_tp_grid.WidTpGrid(name="tp window",
+                              tiles="wid2",
+                              body_tiles="wid1",
+                              width=0.25,
+                              height=0.5,
+                              x=0.35,
+                              y=0.00,
+                              detail_width=0.40,
+                              detail_height=0.3,
+                              detail_x=0.05,
+                              detail_y=0.50)
 
     w = world.World(0)
 
