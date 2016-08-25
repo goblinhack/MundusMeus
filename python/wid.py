@@ -78,6 +78,9 @@ class Wid:
     def set_tooltip(self, **kw):
         mm.wid_set_tooltip(self, **kw)
 
+    def set_tiles(self, **kw):
+        mm.wid_set_tiles(self, **kw)
+
     def set_pos(self, **kw):
         mm.wid_set_pos(self, **kw)
 

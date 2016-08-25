@@ -225,8 +225,13 @@ class WidTpList(wid_popup.WidPopup):
 
             count += 1
 
-            w.add_text(on_key_down=on_key_down,
-                       on_key_sym=on_key_sym,
+            #
+            # WIll use keys for parent events, like drop
+            #
+            key_str = ""
+#                       on_key_down=on_key_down,
+#                       on_key_sym=on_key_sym,
+            w.add_text(
                        on_mouse_down=wid_tp_list_on_mouse_down_close,
                        on_mouse_over_begin=wid_tp_list_on_mouse_over_begin,
                        on_mouse_over_end=wid_tp_list_on_mouse_over_end,

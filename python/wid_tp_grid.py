@@ -50,6 +50,14 @@ def wid_tp_grid_on_mouse_down_filter_6(w, x, y, button):
     wid_tp_grid_filter(w, Item.food.value)
     return True
 
+def wid_tp_grid_on_mouse_down(w, x, y, button):
+    mm.con("d")
+    return True
+
+def wid_tp_grid_on_mouse_over(w, x, y, button):
+    mm.con("o")
+    return True
+
 def wid_tp_grid_common(w):
     p = w.get_top_parent()
 
@@ -57,7 +65,8 @@ def wid_tp_grid_common(w):
         p.tp_detail.destroy()
         p.tp_detail = None
 
-    name = p.tp_sorted_name_list[w.row]
+    index = p.across * w.row + w.col
+    name = p.tp_sorted_name_list[index]
 
     tpp = tp.all_tps[name]
 
@@ -72,6 +81,7 @@ def wid_tp_grid_common(w):
 
 def wid_tp_grid_on_key_down(w, sym, mod):
     wid_tp_grid_common(w)
+    w.set_tiles(tiles="button_green")
     return True
 
 def wid_tp_grid_on_mouse_over_begin(w, relx, rely, wheelx, wheely):
@@ -210,18 +220,19 @@ class WidTpGrid(wid_popup.WidPopup):
 
         self.tp_sorted_name_list.sort()
 
-        tile_width, _unused_h, _unused_c = mm.text_size_pct(font="vlarge", text="%%tile=player1$")
-        across = int(self.width / tile_width) - 2
-        down = int((added / across) + 1)
+        font = "medium"
+        tile_width, _unused_h, _unused_c = mm.text_size_pct(font=font, text="[%%tile=player1$] ")
+        self.across = int(self.width / tile_width)
+        self.down = int((added / self.across) + 1)
 
-        grid = [[0 for x in range(across)] for y in range(down)] 
+        grid = [[0 for x in range(self.across)] for y in range(self.down)] 
 
-        for y in range(down):
+        for y in range(self.down):
             button_events=[]
             text=""
 
-            for x in range(across):
-                index = (across * y) + x
+            for x in range(self.across):
+                index = (self.across * y) + x
                 if index >= added:
                     break
 
@@ -231,20 +242,19 @@ class WidTpGrid(wid_popup.WidPopup):
 
                 button_events.append(
                         { 
-                            "on_mouse_down":wid_tp_grid_on_mouse_down_filter_1, 
-                            "tiles":"button_green", 
+                            "on_mouse_down":wid_tp_grid_on_mouse_down, 
+                            "on_mouse_over_begin":wid_tp_grid_on_mouse_over_begin, 
+                            "on_mouse_over_end":wid_tp_grid_on_mouse_over_end, 
+                            "tiles":"button_plain", 
                             "tooltip":name,
                         },
                     )
 
-                text += "%%tile=" + tpp.name + "$"
+                text += "[%%tile=" + tpp.name + "$] "
 
             w.add_text(
                     on_button_list=button_events,
-                    on_mouse_down=wid_tp_grid_on_mouse_down_close,
-                    on_mouse_over_begin=wid_tp_grid_on_mouse_over_begin,
-                    on_mouse_over_end=wid_tp_grid_on_mouse_over_end,
-                    font="vlarge", 
+                    font=font,
                     color="white", 
                     text=text)
 

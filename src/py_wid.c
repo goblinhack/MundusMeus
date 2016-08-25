@@ -201,6 +201,33 @@ PyObject *wid_set_tooltip_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
+PyObject *wid_set_tiles_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    char *tiles = 0;
+
+    static char *kwlist[] = {"wid", 
+        "tiles",
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+                                     &py_class,
+                                     &tiles)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    w->wid_tiles = wid_tiles_find(tiles);
+    if (!w->wid_tiles) {
+        ERR("did not find wid tiles %s", tiles);
+    }
+
+    Py_RETURN_NONE;
+}
+
 PyObject *wid_set_pos_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;

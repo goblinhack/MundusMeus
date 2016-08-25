@@ -73,6 +73,7 @@ class WidText(wid.Wid):
             l = 0
 
             button_count = 0
+            col = 0
 
             for line in lines:
 
@@ -116,23 +117,47 @@ class WidText(wid.Wid):
                         #
                         # Grab the next button event
                         #
-                        button_tiles="button_plain"
                         button_event_list = row_on_button_list[row]
-                        set_on_mouse_down = None
+                        button_tiles="button_plain"
                         tooltip = None
+                        set_on_mouse_down = None
+                        set_on_mouse_over_begin = None
+                        set_on_mouse_over_end = None
 
                         if button_event_list != None:
                             if button_count < len(button_event_list):
+                                #
+                                # Settings per button
+                                #
                                 d = button_event_list[button_count]
                                 if d != None:
-                                    event = d["on_mouse_down"]
-                                    if event != None:
-                                        set_on_mouse_down = event
-
-                                    if "tiles" in d:
+                                    try:
                                         button_tiles = d["tiles"]
+                                    except KeyError:
+                                        pass
 
-                                    tooltip = d["tooltip"]
+                                    try:
+                                        tooltip = d["tooltip"]
+                                    except KeyError:
+                                        pass
+
+                                    try:
+                                        event = d["on_mouse_down"]
+                                        set_on_mouse_down = event
+                                    except KeyError:
+                                        pass
+
+                                    try:
+                                        event = d["on_mouse_over_begin"]
+                                        set_on_mouse_over_begin = event
+                                    except KeyError:
+                                        pass
+
+                                    try:
+                                        event = d["on_mouse_over_end"]
+                                        set_on_mouse_over_end = event
+                                    except KeyError:
+                                        pass
                             else:
                                 mm.err("missing callback "
                                     "for button {0} text {1}".format(
@@ -152,8 +177,12 @@ class WidText(wid.Wid):
 
                         if set_on_mouse_down != None:
                             child.set_on_mouse_down(set_on_mouse_down)
+
                         if tooltip != None:
                             child.set_tooltip(text=tooltip)
+
+                        child.row_on_mouse_over_begin = set_on_mouse_over_begin
+                        child.row_on_mouse_over_end = set_on_mouse_over_end
 
                         child.set_on_mouse_over_begin(
                                 wid_text_button_on_mouse_over_begin_callback)
@@ -179,6 +208,11 @@ class WidText(wid.Wid):
                     w, unused1, unused2 = mm.text_size_pct(font=font, text=" ")
 
                     x = x + w
+
+                    child.row = row
+                    child.button = button_count
+                    child.col = col
+                    col += 1
 
                 y = y + h
                 l += 1
@@ -338,8 +372,14 @@ def wid_text_button_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
     w.set_color(tl=True, bg=True, br=True, name="white", alpha=1.0)
     wid_focus.set_focus(w, auto_scroll=False)
 
+    if w.row_on_mouse_over_begin != None:
+        w.row_on_mouse_over_begin(w, relx, rely, wheelx, wheely)
+
 def wid_text_button_on_mouse_over_end_callback(w):
     w.set_color(tl=True, bg=True, br=True, name="gray", alpha=1.0)
+
+    if w.row_on_mouse_over_end != None:
+        w.row_on_mouse_over_end(w)
 
 def text_size_pct(row_text, row_font, width):
 
