@@ -92,7 +92,7 @@ class Wid:
 
     def set_text(self, **kw):
         mm.wid_set_text(self, **kw)
-        
+
     def set_tex(self, **kw):
         mm.wid_set_tex(self, **kw)
 
@@ -669,7 +669,7 @@ def on_tick_callback(wid_id):
         wid.on_tick()
         return
     mm.err("Widget not found for on_tick, id {0:x}".format(wid_id))
-    return 
+    return
 
 def on_display_callback(wid_id):
     wid = all_wids[wid_id]
@@ -677,9 +677,9 @@ def on_display_callback(wid_id):
         if wid.on_display is None:
             return
         wid.on_display()
-        return 
+        return
     mm.err("Widget not found for on_display, id {0:x}".format(wid_id))
-    return 
+    return
 
 def on_display_top_level_callback(wid_id):
     wid = all_wids[wid_id]
@@ -687,7 +687,7 @@ def on_display_top_level_callback(wid_id):
         if wid.on_display_top_level is None:
             return
         wid.on_display_top_level()
-        return 
+        return
     mm.err("Widget not found for on_display_top_level, id {0:x}".format(wid_id))
     return
 

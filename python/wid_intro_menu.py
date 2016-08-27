@@ -9,7 +9,7 @@ def create():
     global wid_intro_menu
 
     if wid_intro_menu is None:
-        w = wid_popup.WidPopup(name="test", 
+        w = wid_popup.WidPopup(name="test",
                                x1=0.2, y1=0.5)
         wid_intro_menu = w
 

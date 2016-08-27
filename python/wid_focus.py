@@ -40,7 +40,7 @@ def set_focus(w, recurse=0, auto_scroll=True):
         return
 
     #
-    # Auto scroll is kind of annoying but is needed for key presses 
+    # Auto scroll is kind of annoying but is needed for key presses
     # in menus that are beyond the visible window so we jump to the
     # item
     #

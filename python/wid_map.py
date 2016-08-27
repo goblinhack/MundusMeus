@@ -16,7 +16,7 @@ class WidMap:
 
         self.wid = wid.Wid(name="wid game map")
         w = self.wid
-       
+
         w.to_back()
         w.set_movable(value=False)
         w.set_do_not_raise(value=True)

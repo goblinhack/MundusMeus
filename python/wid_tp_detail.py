@@ -21,19 +21,19 @@ class WidTpDetail(wid_popup.WidPopup):
 
         tpp = tp.all_tps[tp_name]
 
-        button_events=( 
-                { 
-                    "on_mouse_down":wid_tp_detail_on_mouse_down, 
-                    "tiles":"button_green", 
-                    "tooltip":"All items", 
+        button_events=(
+                {
+                    "on_mouse_down":wid_tp_detail_on_mouse_down,
+                    "tiles":"button_green",
+                    "tooltip":"All items",
                 },
         )
 
         tile_name = tpp.tiles[0]
 
         w.add_text(
-                font="vlarge", 
-                color="white", 
+                font="vlarge",
+                color="white",
                 title=True,
                 center=True,
                 text="%%tile=" + tile_name + "$ " + tpp.short_name)
@@ -42,7 +42,7 @@ class WidTpDetail(wid_popup.WidPopup):
             w.add_text(tpp.description)
 
         if tpp.is_weapon:
-            w.add_text(color="gray", 
+            w.add_text(color="gray",
                        text="Damage %%fg=red$" + tpp.damage)
 
             if tpp.is_double_handed:

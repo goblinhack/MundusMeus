@@ -7,15 +7,15 @@ import math
 
 class WidPopup(wid.Wid):
 
-    def __init__(self, name, 
+    def __init__(self, name,
                  x1=0.0,
-                 y1=0.0, 
+                 y1=0.0,
                  width=0.5,
                  height=0.0,
                  tiles=None,
                  title_tiles=None,
                  body_tiles=None,
-                 parent=0, 
+                 parent=0,
                  row_font=None,
                  row_color=None,
                  row_center=False,
@@ -198,8 +198,8 @@ class WidPopup(wid.Wid):
 
         self.scrollbar = None
 
-    def add_text(self, 
-                 text, 
+    def add_text(self,
+                 text,
                  on_tooltip=None,
                  tooltip=None,
                  on_key_down=None,
@@ -221,9 +221,9 @@ class WidPopup(wid.Wid):
                  on_display=None,
                  on_display_top_level=None,
                  title=False,
-                 font="small", 
-                 color="white", 
-                 center=False, 
+                 font="small",
+                 color="white",
+                 center=False,
                  rhs=False):
 
         if title is False:
@@ -407,7 +407,7 @@ class WidPopup(wid.Wid):
         if title_h + body_h > self.height:
             need_scrollbar = True
 
-        self.set_pos_pct(self.x1, self.y1, 
+        self.set_pos_pct(self.x1, self.y1,
                          self.x1 + self.width,
                          self.y1 + self.height)
 
@@ -428,7 +428,7 @@ class WidPopup(wid.Wid):
                 textbox_y1 += title_h
                 textbox_y2 = 1.0 - inner_pad_h * 0.4 # again, shadow padding
 
-                w = wid.Wid(name="textbox tiles", 
+                w = wid.Wid(name="textbox tiles",
                             tiles=self.body_tiles,
                             parent=self.wid_id)
 
@@ -442,7 +442,7 @@ class WidPopup(wid.Wid):
             textbox_y1 += title_h
             textbox_y2 = 1.0 - inner_pad_h * 0.9 # again, shadow padding
 
-            self.text_box = wid_text.WidText(name="textbox", 
+            self.text_box = wid_text.WidText(name="textbox",
                                              row_text=self.row_text,
                                              row_font=self.row_font,
                                              row_color=self.row_color,
@@ -471,14 +471,14 @@ class WidPopup(wid.Wid):
                                              row_on_display=self.row_on_display,
                                              row_on_display_top_level=self.row_on_display_top_level,
                                              parent=self.wid_id,
-                                             x1=textbox_x1, y1=textbox_y1, 
+                                             x1=textbox_x1, y1=textbox_y1,
                                              x2=textbox_x2, y2=textbox_y2)
 
         if need_scrollbar is True:
             self.scrollbar = wid.Wid(name="wid popup scroll",
                                      is_scrollbar=True,
                                      vert=True,
-                                     parent=self.wid_id, 
+                                     parent=self.wid_id,
                                      owner=self.text_box.wid_id)
         if self.title_count > 0:
 
@@ -488,7 +488,7 @@ class WidPopup(wid.Wid):
                 textbox_y1 = inner_pad_h * 0.2 # to account for the widget shadow
                 textbox_y2 = inner_pad_h * 1.0 + title_h
 
-                w = wid.Wid(name="textbox", 
+                w = wid.Wid(name="textbox",
                             tiles=self.title_tiles,
                             parent=self.wid_id)
 
@@ -501,7 +501,7 @@ class WidPopup(wid.Wid):
             textbox_y1 = inner_pad_h * 0.6 # to account for the widget shadow
             textbox_y2 = textbox_y1 + title_h
 
-            self.text_box = wid_text.WidText(name="textbox", 
+            self.text_box = wid_text.WidText(name="textbox",
                                              row_text=self.title_text,
                                              row_font=self.title_font,
                                              row_color=self.title_color,
@@ -530,7 +530,7 @@ class WidPopup(wid.Wid):
                                              row_on_display=self.title_on_display,
                                              row_on_display_top_level=self.title_on_display_top_level,
                                              parent=self.wid_id,
-                                             x1=textbox_x1, y1=textbox_y1, 
+                                             x1=textbox_x1, y1=textbox_y1,
                                              x2=textbox_x2, y2=textbox_y2)
         self.to_front()
 
