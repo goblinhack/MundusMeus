@@ -141,26 +141,20 @@ def init2():
 #                              detail_x=0.35,
 #                              detail_y=0.00)
 
-    w = wid_tp_grid.WidTpGrid(name="tp window",
-                              tiles="wid2",
-                              body_tiles="wid1",
-                              width=0.25,
-                              height=0.5,
-                              x=0.35,
-                              y=0.00,
-                              detail_width=0.40,
-                              detail_height=0.3,
-                              detail_x=0.05,
-                              detail_y=0.50)
+#    w = wid_tp_grid.WidTpGrid(name="tp window",
+#                              tiles="wid2",
+#                              body_tiles="wid1",
+#                              width=0.25,
+#                              height=0.5,
+#                              x=0.35,
+#                              y=0.00,
+#                              detail_width=0.40,
+#                              detail_height=0.3,
+#                              detail_x=0.05,
+#                              detail_y=0.50)
 
-    w = world.World(0)
 
-    p = util.Xyz(0, 0, 0)
-    w.push_level(p)
-
-    l = w.get_level()
-    l.set_dim(10, 10)
-
-    t = thing.Thing(level=l, tp_name="player1")
+    game.game_new()
+    game.g.map_wid_create()
 
 init1()
