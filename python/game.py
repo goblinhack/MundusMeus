@@ -3,6 +3,7 @@ import thing
 import util
 import mm
 import random
+import wid
 
 global g
 
@@ -24,6 +25,25 @@ class Game:
         l = w.get_level()
         l.set_dim(width, height)
 
+    def map_wid_create(self):
+
+        self.wid_map = wid.Wid(name="wid game map")
+        w = self.wid_map
+       
+        w.to_back()
+        w.set_movable(value=False)
+        w.set_do_not_raise(value=True)
+        w.set_do_not_raise(value=False)
+        w.set_shape(none=True)
+        w.set_pos_pct(x1=0.0, y1=0.0, x2=1.0, y2=1.0)
+
+#        wid_set_on_key_down(game.wid_map,
+#                            player_key);
+#
+#        wid_set_on_joy_button(game.wid_map,
+#                            player_joy);
+
+    def todo(self):
         for y in range(0, height):
             for x in range(0, width):
 
