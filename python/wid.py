@@ -3,6 +3,7 @@ import mm
 
 all_wids = {}
 
+
 class Wid:
 
     def __init__(self, name, parent=0, is_scrollbar=False, **kw):
@@ -40,13 +41,11 @@ class Wid:
         return "{0}".format(self.name)
 
     def destroy(self):
-#        self.log("Destroying wid")
         mm.wid_destroy(self)
         all_wids[self.wid_id] = None
         del self
 
     def destroy_in(self, **kw):
-#        self.log("Destroying delay")
         mm.wid_destroy_in(self, **kw)
         all_wids[self.wid_id] = None
         del self
@@ -401,42 +400,42 @@ class Wid:
         mm.err("wid_set_on_key_up not handled")
 
     def on_joy_button(self,
-                    button_a,
-                    button_b,
-                    button_x,
-                    button_y,
-                    button_top_left,
-                    button_top_right,
-                    button_left_stick_down,
-                    button_right_stick_down,
-                    button_start,
-                    button_xbox,
-                    button_back,
-                    button_up,
-                    button_down,
-                    button_left,
-                    button_right,
-                    button_left_fire,
-                    button_right_fire):
+                      button_a,
+                      button_b,
+                      button_x,
+                      button_y,
+                      button_top_left,
+                      button_top_right,
+                      button_left_stick_down,
+                      button_right_stick_down,
+                      button_start,
+                      button_xbox,
+                      button_back,
+                      button_up,
+                      button_down,
+                      button_left,
+                      button_right,
+                      button_left_fire,
+                      button_right_fire):
         if self.callback_on_joy_button is not None:
             self.callback_on_joy_button(self,
-                                      button_a,
-                                      button_b,
-                                      button_x,
-                                      button_y,
-                                      button_top_left,
-                                      button_top_right,
-                                      button_left_stick_down,
-                                      button_right_stick_down,
-                                      button_start,
-                                      button_xbox,
-                                      button_back,
-                                      button_up,
-                                      button_down,
-                                      button_left,
-                                      button_right,
-                                      button_left_fire,
-                                      button_right_fire)
+                                        button_a,
+                                        button_b,
+                                        button_x,
+                                        button_y,
+                                        button_top_left,
+                                        button_top_right,
+                                        button_left_stick_down,
+                                        button_right_stick_down,
+                                        button_start,
+                                        button_xbox,
+                                        button_back,
+                                        button_up,
+                                        button_down,
+                                        button_left,
+                                        button_right,
+                                        button_left_fire,
+                                        button_right_fire)
         mm.err("wid_set_on_joy_button not handled")
 
     def on_mouse_down(self, x, y, button):
@@ -446,8 +445,12 @@ class Wid:
 
     def on_mouse_motion(self, x, y, relx, rely, wheelx, wheely):
         if self.callback_on_mouse_motion is not None:
-            return self.callback_on_mouse_motion(self, x, y, relx, rely, wheelx, wheely)
-        self.err("wid_set_on_mouse_motion not handled".format(x,y,relx,rely,wheelx,wheely))
+            return self.callback_on_mouse_motion(self, x, y, relx, rely,
+                                                 wheelx,
+                                                 wheely)
+        self.err("wid_set_on_mouse_motion not handled".format(x, y,
+                                                              relx, rely,
+                                                              wheelx, wheely))
         return False
 
     def on_mouse_focus_begin(self):
@@ -464,7 +467,9 @@ class Wid:
 
     def on_mouse_over_begin(self, relx, rely, wheelx, wheely):
         if self.callback_on_mouse_over_begin is not None:
-            return self.callback_on_mouse_over_begin(self, relx, rely, wheelx, wheely)
+            return self.callback_on_mouse_over_begin(self,
+                                                     relx, rely,
+                                                     wheelx, wheely)
         self.err("wid_set_on_mouse_over_begin not handled")
 
     def on_mouse_over_end(self):
@@ -508,14 +513,17 @@ class Wid:
             return
         mm.err("wid_set_on_display_top_level not handled")
 
+
 def on_mouse_motion_callback(wid_id, x, y, relx, rely, wheelx, wheely):
     wid = all_wids[wid_id]
     if wid is not None:
         if wid.on_mouse_motion is None:
             return False
         return wid.on_mouse_motion(x, y, relx, rely, wheelx, wheely)
-    mm.err("Widget not found for on_mouse_motion_callback, id {0:x}".format(wid_id))
+    mm.err("Widget not found for" +
+           "on_mouse_motion_callback, id {0:x}".format(wid_id))
     return False
+
 
 def on_tooltip_callback(wid_id, tooltip):
     wid = all_wids[wid_id]
@@ -526,6 +534,7 @@ def on_tooltip_callback(wid_id, tooltip):
         return
     mm.err("Widget not found for on_tooltip, id {0:x}".format(wid_id))
 
+
 def on_key_down_callback(wid_id, sym, mod):
     wid = all_wids[wid_id]
     if wid is not None:
@@ -534,6 +543,7 @@ def on_key_down_callback(wid_id, sym, mod):
         return wid.on_key_down(sym, mod)
     mm.err("Widget not found for on_key_down, id {0:x}".format(wid_id))
     return False
+
 
 def on_key_up_callback(wid_id, sym, mod):
     wid = all_wids[wid_id]
@@ -544,48 +554,50 @@ def on_key_up_callback(wid_id, sym, mod):
     mm.err("Widget not found for on_key_up, id {0:x}".format(wid_id))
     return False
 
+
 def on_joy_button_callback(wid_id,
-                         button_a,
-                         button_b,
-                         button_x,
-                         button_y,
-                         button_top_left,
-                         button_top_right,
-                         button_left_stick_down,
-                         button_right_stick_down,
-                         button_start,
-                         button_xbox,
-                         button_back,
-                         button_up,
-                         button_down,
-                         button_left,
-                         button_right,
-                         button_left_fire,
-                         button_right_fire):
+                           button_a,
+                           button_b,
+                           button_x,
+                           button_y,
+                           button_top_left,
+                           button_top_right,
+                           button_left_stick_down,
+                           button_right_stick_down,
+                           button_start,
+                           button_xbox,
+                           button_back,
+                           button_up,
+                           button_down,
+                           button_left,
+                           button_right,
+                           button_left_fire,
+                           button_right_fire):
     wid = all_wids[wid_id]
     if wid is not None:
         if wid.on_joy_button is None:
             return False
         wid.on_joy_button(button_a,
-                        button_b,
-                        button_x,
-                        button_y,
-                        button_top_left,
-                        button_top_right,
-                        button_left_stick_down,
-                        button_right_stick_down,
-                        button_start,
-                        button_xbox,
-                        button_back,
-                        button_up,
-                        button_down,
-                        button_left,
-                        button_right,
-                        button_left_fire,
-                        button_right_fire);
+                          button_b,
+                          button_x,
+                          button_y,
+                          button_top_left,
+                          button_top_right,
+                          button_left_stick_down,
+                          button_right_stick_down,
+                          button_start,
+                          button_xbox,
+                          button_back,
+                          button_up,
+                          button_down,
+                          button_left,
+                          button_right,
+                          button_left_fire,
+                          button_right_fire)
         return
     mm.err("Widget not found for on_joy_button, id {0:x}".format(wid_id))
     return False
+
 
 def on_mouse_down_callback(wid_id, x, y, button):
     wid = all_wids[wid_id]
@@ -596,6 +608,7 @@ def on_mouse_down_callback(wid_id, x, y, button):
     mm.err("Widget not found for on_mouse_down, id {0:x}".format(wid_id))
     return False
 
+
 def on_mouse_focus_begin_callback(wid_id):
     wid = all_wids[wid_id]
     if wid is not None:
@@ -603,7 +616,9 @@ def on_mouse_focus_begin_callback(wid_id):
             return False
         wid.on_mouse_focus_begin()
         return
-    mm.err("Widget not found for on_mouse_focus_begin, id {0:x}".format(wid_id))
+    mm.err("Widget not found for " +
+           "on_mouse_focus_begin, id {0:x}".format(wid_id))
+
 
 def on_mouse_focus_end_callback(wid_id):
     wid = all_wids[wid_id]
@@ -614,6 +629,7 @@ def on_mouse_focus_end_callback(wid_id):
         return
     mm.err("Widget not found for on_mouse_focus_end, id {0:x}".format(wid_id))
 
+
 def on_mouse_over_begin_callback(wid_id, relx, rely, wheelx, wheely):
     wid = all_wids[wid_id]
     if wid is not None:
@@ -622,6 +638,7 @@ def on_mouse_over_begin_callback(wid_id, relx, rely, wheelx, wheely):
         return wid.on_mouse_over_begin(relx, rely, wheelx, wheely)
     mm.err("Widget not found for on_mouse_over_begin, id {0:x}".format(wid_id))
     return False
+
 
 def on_mouse_over_end_callback(wid_id):
     wid = all_wids[wid_id]
@@ -632,6 +649,7 @@ def on_mouse_over_end_callback(wid_id):
         return
     mm.err("Widget not found for on_mouse_over_end, id {0:x}".format(wid_id))
 
+
 def on_mouse_up_callback(wid_id, x, y, button):
     wid = all_wids[wid_id]
     if wid is not None:
@@ -640,6 +658,7 @@ def on_mouse_up_callback(wid_id, x, y, button):
         return wid.on_mouse_up(x, y, button)
     mm.err("Widget not found for on_mouse_up, id {0:x}".format(wid_id))
     return False
+
 
 def on_destroy_callback(wid_id):
     wid = all_wids[wid_id]
@@ -651,6 +670,7 @@ def on_destroy_callback(wid_id):
     mm.err("Widget not found for on_destroy, id {0:x}".format(wid_id))
     return
 
+
 def on_destroy_begin_callback(wid_id):
     wid = all_wids[wid_id]
     if wid is not None:
@@ -660,6 +680,7 @@ def on_destroy_begin_callback(wid_id):
         return
     mm.err("Widget not found for on_destroy_begin, id {0:x}".format(wid_id))
     return
+
 
 def on_tick_callback(wid_id):
     wid = all_wids[wid_id]
@@ -671,6 +692,7 @@ def on_tick_callback(wid_id):
     mm.err("Widget not found for on_tick, id {0:x}".format(wid_id))
     return
 
+
 def on_display_callback(wid_id):
     wid = all_wids[wid_id]
     if wid is not None:
@@ -681,6 +703,7 @@ def on_display_callback(wid_id):
     mm.err("Widget not found for on_display, id {0:x}".format(wid_id))
     return
 
+
 def on_display_top_level_callback(wid_id):
     wid = all_wids[wid_id]
     if wid is not None:
@@ -688,8 +711,10 @@ def on_display_top_level_callback(wid_id):
             return
         wid.on_display_top_level()
         return
-    mm.err("Widget not found for on_display_top_level, id {0:x}".format(wid_id))
+    mm.err("Widget not found for " +
+           "on_display_top_level, id {0:x}".format(wid_id))
     return
+
 
 def mouse_hide(**kw):
     mm.wid_mouse_hide(**kw)
