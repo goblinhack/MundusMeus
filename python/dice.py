@@ -1,5 +1,6 @@
 import random
 
+
 #
 # Create dice rolls that understands;
 #
@@ -28,4 +29,3 @@ def roll(s):
             tot += int(d[0])
 
     return tot
-

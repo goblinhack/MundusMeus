@@ -2,6 +2,7 @@ import mm
 
 all_tps = {}
 
+
 class Tp:
     """thing template"""
 
@@ -87,10 +88,6 @@ class Tp:
     def set_is_double_handed(self, value):
         self.is_double_handed = value
 
-    def set_short_name(self, value):
-        self.short_name = value
-        mm.tp_set_short_name(self, value)
-
     def set_raw_name(self, value):
         self.raw_name = value
         mm.tp_set_raw_name(self, value)
@@ -110,22 +107,6 @@ class Tp:
     def set_short_name(self, value):
         self.short_name = value
         mm.tp_set_short_name(self, value)
-
-    def set_raw_name(self, value):
-        self.raw_name = value
-        mm.tp_set_raw_name(self, value)
-
-    def set_light_radius(self, value):
-        self.light_radius = value
-        mm.tp_set_light_radius(self, value)
-
-    def set_scale(self, value):
-        self.scale = value
-        mm.tp_set_scale(self, value)
-
-    def set_z_depth(self, value):
-        self.z_depth = value
-        mm.tp_set_z_depth(self, value)
 
     def set_z_order(self, value):
         self.z_order = value
