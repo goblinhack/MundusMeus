@@ -59,6 +59,8 @@ class WidText(wid.Wid):
         self.text_wids = []
 
         y = 0
+        h = 0
+
         for row in range(0, len(row_text)):
             text = row_text[row]
             font = row_font[row]

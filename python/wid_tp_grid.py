@@ -51,7 +51,8 @@ def wid_tp_grid_on_mouse_down_filter_6(w, x, y, button):
     return True
 
 def wid_tp_grid_on_mouse_down(w, x, y, button):
-    mm.con("d")
+    wid_tp_grid_common(w)
+    w.set_tiles(tiles="button_green")
     return True
 
 def wid_tp_grid_on_mouse_over(w, x, y, button):
@@ -252,11 +253,12 @@ class WidTpGrid(wid_popup.WidPopup):
 
                 text += "[%%tile=" + tpp.name + "$] "
 
-            w.add_text(
-                    on_button_list=button_events,
-                    font=font,
-                    color="white", 
-                    text=text)
+            if text != "":
+                w.add_text(
+                        on_button_list=button_events,
+                        font=font,
+                        color="white", 
+                        text=text)
 
         if added == 0:
             w.add_text(
