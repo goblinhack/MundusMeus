@@ -21,7 +21,7 @@ def set_focus(w, recurse=0, auto_scroll=True):
     wid_focus_parent = p1
 
     p2 = p1.get_parent()
-    if p2 != None:
+    if p2 is not None:
         wid_focus_parent = p2
 
     ptlx, ptly, pbrx, pbry = p1.get_pos_pct()
@@ -44,7 +44,7 @@ def set_focus(w, recurse=0, auto_scroll=True):
     # in menus that are beyond the visible window so we jump to the
     # item
     #
-    if p2 != None:
+    if p2 is not None:
         if tly < ptly:
             p2.scroll_up()
             set_focus(w, recurse + 1)

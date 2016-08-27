@@ -42,7 +42,7 @@ class WidText(wid.Wid):
         self.parent = parent
         self.name = name
 
-        if tiles != None:
+        if tiles is not None:
             super().__init__(name, parent=parent, tiles=tiles, **kw)
             self.set_color(tl=True, bg=True, br=True, name="white")
         else:
@@ -104,7 +104,7 @@ class WidText(wid.Wid):
                     first = False
 
                     w, h, c = mm.text_size_pct(font=font, text=word)
-                    if c != "none":
+                    if c != "none": 
                         color = c
 
                     w = w / self.usable_w
@@ -114,7 +114,7 @@ class WidText(wid.Wid):
                         x = 0
                         y = y + h
 
-                    if word[:1] == "[":
+                    if word[:1] == "[": 
 
                         #
                         # Grab the next button event
@@ -126,13 +126,13 @@ class WidText(wid.Wid):
                         set_on_mouse_over_begin = None
                         set_on_mouse_over_end = None
 
-                        if button_event_list != None:
+                        if button_event_list is not None:
                             if button_count < len(button_event_list):
                                 #
                                 # Settings per button
                                 #
                                 d = button_event_list[button_count]
-                                if d != None:
+                                if d is not None:
                                     try:
                                         button_tiles = d["tiles"]
                                     except KeyError:
@@ -177,10 +177,10 @@ class WidText(wid.Wid):
                                         parent=self.wid_id)
                         child.set_color(tl=True, bg=True, br=True, name="grey")
 
-                        if set_on_mouse_down != None:
+                        if set_on_mouse_down is not None:
                             child.set_on_mouse_down(set_on_mouse_down)
 
-                        if tooltip != None:
+                        if tooltip is not None:
                             child.set_tooltip(text=tooltip)
 
                         child.row_on_mouse_over_begin = set_on_mouse_over_begin
@@ -197,7 +197,7 @@ class WidText(wid.Wid):
 
                     child.set_pos_pct(x, y, x + w, y + h)
 
-                    if color != None:
+                    if color is not None:
                         child.set_text(text=word, lhs=True, font=font,
                                        color=color)
                     else:
@@ -254,14 +254,14 @@ class WidText(wid.Wid):
             w.row_on_display_top_level = row_on_display_top_level[row]
 
             w.set_on_tooltip(row_on_tooltip[row])
-            if row_tooltip[row] != None:
+            if row_tooltip[row] is not None:
                 w.set_tooltip(text=row_tooltip[row])
             w.set_on_joy_button(row_on_joy_button[row])
             w.set_on_mouse_motion(row_on_mouse_motion[row])
 
-            if row_on_key_down[row] != None or \
-               row_on_mouse_down[row] != None or \
-               row_on_mouse_over_begin[row] != None:
+            if row_on_key_down[row] is not None or \
+               row_on_mouse_down[row] is not None or \
+               row_on_mouse_over_begin[row] is not None:
                 wid_text_colorize_row(w)
 
                 w.set_on_key_up(wid_text_on_key_up_callback)
@@ -302,17 +302,17 @@ def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
 
     w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.2)
 
-    if w.row_on_mouse_over_begin != None:
+    if w.row_on_mouse_over_begin is not None:
         w.row_on_mouse_over_begin(w, relx, rely, wheelx, wheely)
 
 def wid_text_on_mouse_over_end_callback(w):
     wid_text_colorize_row(w)
 
-    if w.row_on_mouse_over_end != None:
+    if w.row_on_mouse_over_end is not None:
         w.row_on_mouse_over_end(w)
 
 def wid_text_on_mouse_up_callback(w, x, y, button):
-    if w.row_on_mouse_up != None:
+    if w.row_on_mouse_up is not None:
         return w.row_on_mouse_up(w, x, y, button)
     return False
 
@@ -322,26 +322,26 @@ def wid_text_on_mouse_down_callback(w, x, y, button):
     w.set_active()
     w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
 
-    if w.row_on_mouse_down != None:
+    if w.row_on_mouse_down is not None:
         return w.row_on_mouse_down(w, x, y, button)
     return False
 
 def wid_text_on_key_up_callback(w, sym, mod):
-    if w.row_on_key_up != None:
+    if w.row_on_key_up is not None:
         return w.row_on_key_up(w, sym, mod)
     return False
 
 def wid_text_on_key_down_callback(w, sym, mod):
     rc = False
-    if w.row_on_key_sym != None:
+    if w.row_on_key_sym is not None:
         if w.row_on_key_sym == sym:
-            if w.row_on_key_mod != None:
+            if w.row_on_key_mod is not None:
                 if w.row_on_key_mod == mod:
                     rc = w.row_on_key_down(w, sym, mod)
             else:
                 rc = w.row_on_key_down(w, sym, mod)
     else:
-        if w.row_on_key_down != None:
+        if w.row_on_key_down is not None:
             rc = w.row_on_key_down(w, sym, mod)
 
     if rc is True:
@@ -352,9 +352,9 @@ def wid_text_on_key_down_callback(w, sym, mod):
         for w in parent.text_wids:
             rc = False
 
-            if w.row_on_key_sym != None:
+            if w.row_on_key_sym is not None:
                 if w.row_on_key_sym == sym:
-                    if w.row_on_key_mod != None:
+                    if w.row_on_key_mod is not None:
                         if w.row_on_key_mod == mod:
                             rc = w.row_on_key_down(w, sym, mod)
                     else:
@@ -374,13 +374,13 @@ def wid_text_button_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
     w.set_color(tl=True, bg=True, br=True, name="white", alpha=1.0)
     wid_focus.set_focus(w, auto_scroll=False)
 
-    if w.row_on_mouse_over_begin != None:
+    if w.row_on_mouse_over_begin is not None:
         w.row_on_mouse_over_begin(w, relx, rely, wheelx, wheely)
 
 def wid_text_button_on_mouse_over_end_callback(w):
     w.set_color(tl=True, bg=True, br=True, name="gray", alpha=1.0)
 
-    if w.row_on_mouse_over_end != None:
+    if w.row_on_mouse_over_end is not None:
         w.row_on_mouse_over_end(w)
 
 def text_size_pct(row_text, row_font, width):

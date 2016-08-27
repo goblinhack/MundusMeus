@@ -9,5 +9,5 @@ def hook_new_game():
 def hook_destroy_game():
     mm.con("Destroy game hook")
 
-    if game.g != None:
+    if game.g is not None:
         game.g.destroy()

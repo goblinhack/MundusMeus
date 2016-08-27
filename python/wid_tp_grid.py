@@ -62,7 +62,7 @@ def wid_tp_grid_on_mouse_over(w, x, y, button):
 def wid_tp_grid_common(w):
     p = w.get_top_parent()
 
-    if p.tp_detail != None:
+    if p.tp_detail is not None:
         p.tp_detail.destroy()
         p.tp_detail = None
 
@@ -92,7 +92,7 @@ def wid_tp_grid_on_mouse_over_begin(w, relx, rely, wheelx, wheely):
 def wid_tp_grid_on_mouse_over_end(w):
     p = w.get_top_parent()
 
-    if p.tp_detail != None:
+    if p.tp_detail is not None:
         p.tp_detail.destroy()
         p.tp_detail = None
 
@@ -100,7 +100,7 @@ class WidTpGrid(wid_popup.WidPopup):
 
     def __init__(self, k=None, **kp):
 
-        if k != None:
+        if k is not None:
             super().__init__(**k)
             self.orig_args = copy.deepcopy(k)
 
@@ -131,36 +131,36 @@ class WidTpGrid(wid_popup.WidPopup):
 
         w = self
 
-        button_events=(
+        button_events = (
                 {
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_1,
-                    "tiles":"button_green",
-                    "tooltip":"All items",
+                    "on_mouse_down": wid_tp_grid_on_mouse_down_filter_1,
+                    "tiles": "button_green",
+                    "tooltip": "All items",
                 },
                 {
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_2,
-                    "tiles":"button_green",
-                    "tooltip":"weapon filter",
+                    "on_mouse_down": wid_tp_grid_on_mouse_down_filter_2,
+                    "tiles": "button_green",
+                    "tooltip": "weapon filter",
                 },
                 {
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_3,
-                    "tiles":"button_green",
-                    "tooltip":"Magical items filter",
+                    "on_mouse_down": wid_tp_grid_on_mouse_down_filter_3,
+                    "tiles": "button_green",
+                    "tooltip": "Magical items filter",
                 },
                 {
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_4,
-                    "tiles":"button_green",
-                    "tooltip":"Defensive items filter",
+                    "on_mouse_down": wid_tp_grid_on_mouse_down_filter_4,
+                    "tiles": "button_green",
+                    "tooltip": "Defensive items filter",
                 },
                 {
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_5,
-                    "tiles":"button_green",
-                    "tooltip":"Healing items filter",
+                    "on_mouse_down": wid_tp_grid_on_mouse_down_filter_5,
+                    "tiles": "button_green",
+                    "tooltip": "Healing items filter",
                 },
                 {
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_6,
-                    "tiles":"button_green",
-                    "tooltip":"Edible items filter",
+                    "on_mouse_down": wid_tp_grid_on_mouse_down_filter_6,
+                    "tiles": "button_green",
+                    "tooltip": "Edible items filter",
                 },
             )
 
@@ -243,17 +243,17 @@ class WidTpGrid(wid_popup.WidPopup):
 
                 button_events.append(
                         {
-                            "on_mouse_down":wid_tp_grid_on_mouse_down,
-                            "on_mouse_over_begin":wid_tp_grid_on_mouse_over_begin,
-                            "on_mouse_over_end":wid_tp_grid_on_mouse_over_end,
-                            "tiles":"button_plain",
-                            "tooltip":name,
+                            "on_mouse_down": wid_tp_grid_on_mouse_down,
+                            "on_mouse_over_begin": wid_tp_grid_on_mouse_over_begin,
+                            "on_mouse_over_end": wid_tp_grid_on_mouse_over_end,
+                            "tiles": "button_plain",
+                            "tooltip": name,
                         },
                     )
 
                 text += "[%%tile=" + tpp.name + "$] "
 
-            if text != "":
+            if text != "": 
                 w.add_text(
                         on_button_list=button_events,
                         font=font,

@@ -109,7 +109,7 @@ class Wid:
         wid_id = mm.wid_get_top_parent(self)
         if wid_id is not None:
             wid = all_wids[wid_id]
-            if wid != None:
+            if wid is not None:
                 return wid
         return None
 
@@ -117,7 +117,7 @@ class Wid:
         wid_id = mm.wid_get_parent(self)
         if wid_id is not None:
             wid = all_wids[wid_id]
-            if wid != None:
+            if wid is not None:
                 return wid
         return None
 
@@ -385,18 +385,18 @@ class Wid:
         mm.wid_set_on_display_top_level(self)
 
     def on_tooltip(self, tooltip):
-        if self.callback_on_tooltip != None:
+        if self.callback_on_tooltip is not None:
             self.callback_on_tooltip(self, tooltip)
             return
         mm.err("wid_set_on_tooltip not handled")
 
     def on_key_down(self, sym, mod):
-        if self.callback_on_key_down != None:
+        if self.callback_on_key_down is not None:
             return self.callback_on_key_down(self, sym, mod)
         mm.err("wid_set_on_key_down not handled")
 
     def on_key_up(self, sym, mod):
-        if self.callback_on_key_up != None:
+        if self.callback_on_key_up is not None:
             return self.callback_on_key_up(self, sym, mod)
         mm.err("wid_set_on_key_up not handled")
 
@@ -418,7 +418,7 @@ class Wid:
                     button_right,
                     button_left_fire,
                     button_right_fire):
-        if self.callback_on_joy_button != None:
+        if self.callback_on_joy_button is not None:
             self.callback_on_joy_button(self,
                                       button_a,
                                       button_b,
@@ -440,77 +440,77 @@ class Wid:
         mm.err("wid_set_on_joy_button not handled")
 
     def on_mouse_down(self, x, y, button):
-        if self.callback_on_mouse_down != None:
+        if self.callback_on_mouse_down is not None:
             return self.callback_on_mouse_down(self, x, y, button)
         mm.err("wid_set_on_mouse_down not handled")
 
     def on_mouse_motion(self, x, y, relx, rely, wheelx, wheely):
-        if self.callback_on_mouse_motion != None:
+        if self.callback_on_mouse_motion is not None:
             return self.callback_on_mouse_motion(self, x, y, relx, rely, wheelx, wheely)
         self.err("wid_set_on_mouse_motion not handled".format(x,y,relx,rely,wheelx,wheely))
         return False
 
     def on_mouse_focus_begin(self):
-        if self.callback_on_mouse_focus_begin != None:
+        if self.callback_on_mouse_focus_begin is not None:
             self.callback_on_mouse_focus_begin(self)
             return
         mm.err("wid_set_on_mouse_focus_begin not handled")
 
     def on_mouse_focus_end(self):
-        if self.callback_on_mouse_focus_end != None:
+        if self.callback_on_mouse_focus_end is not None:
             self.callback_on_mouse_focus_end(self)
             return
         mm.err("wid_set_on_mouse_focus_end not handled")
 
     def on_mouse_over_begin(self, relx, rely, wheelx, wheely):
-        if self.callback_on_mouse_over_begin != None:
+        if self.callback_on_mouse_over_begin is not None:
             return self.callback_on_mouse_over_begin(self, relx, rely, wheelx, wheely)
         self.err("wid_set_on_mouse_over_begin not handled")
 
     def on_mouse_over_end(self):
-        if self.callback_on_mouse_over_end != None:
+        if self.callback_on_mouse_over_end is not None:
             self.callback_on_mouse_over_end(self)
             return
         mm.err("wid_set_on_mouse_over_end not handled")
 
     def on_mouse_up(self, x, y, button):
-        if self.callback_on_mouse_up != None:
+        if self.callback_on_mouse_up is not None:
             return self.callback_on_mouse_up(self, x, y, button)
         mm.err("wid_set_on_mouse_up not handled")
 
     def on_destroy(self):
-        if self.callback_on_destroy != None:
+        if self.callback_on_destroy is not None:
             self.callback_on_destroy(self)
             return
         mm.err("wid_set_on_destroy not handled")
 
     def on_destroy_begin(self):
-        if self.callback_on_destroy_begin != None:
+        if self.callback_on_destroy_begin is not None:
             self.callback_on_destroy_begin(self)
             return
         mm.err("wid_set_on_destroy_begin not handled")
 
     def on_tick(self):
-        if self.callback_on_tick != None:
+        if self.callback_on_tick is not None:
             self.callback_on_tick(self)
             return
         mm.err("wid_set_on_tick not handled")
 
     def on_display(self):
-        if self.callback_on_display != None:
+        if self.callback_on_display is not None:
             self.callback_on_display(self)
             return
         mm.err("wid_set_on_display not handled")
 
     def on_display_top_level(self):
-        if self.callback_on_display_top_level != None:
+        if self.callback_on_display_top_level is not None:
             self.callback_on_display_top_level(self)
             return
         mm.err("wid_set_on_display_top_level not handled")
 
 def on_mouse_motion_callback(wid_id, x, y, relx, rely, wheelx, wheely):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_mouse_motion is None:
             return False
         return wid.on_mouse_motion(x, y, relx, rely, wheelx, wheely)
@@ -519,7 +519,7 @@ def on_mouse_motion_callback(wid_id, x, y, relx, rely, wheelx, wheely):
 
 def on_tooltip_callback(wid_id, tooltip):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_tooltip is None:
             return False
         wid.on_tooltip(tooltip)
@@ -528,7 +528,7 @@ def on_tooltip_callback(wid_id, tooltip):
 
 def on_key_down_callback(wid_id, sym, mod):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_key_down is None:
             return False
         return wid.on_key_down(sym, mod)
@@ -537,7 +537,7 @@ def on_key_down_callback(wid_id, sym, mod):
 
 def on_key_up_callback(wid_id, sym, mod):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_key_up is None:
             return False
         return wid.on_key_up(sym, mod)
@@ -563,7 +563,7 @@ def on_joy_button_callback(wid_id,
                          button_left_fire,
                          button_right_fire):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_joy_button is None:
             return False
         wid.on_joy_button(button_a,
@@ -589,7 +589,7 @@ def on_joy_button_callback(wid_id,
 
 def on_mouse_down_callback(wid_id, x, y, button):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_mouse_down is None:
             return False
         return wid.on_mouse_down(x, y, button)
@@ -598,7 +598,7 @@ def on_mouse_down_callback(wid_id, x, y, button):
 
 def on_mouse_focus_begin_callback(wid_id):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_focus_begin is None:
             return False
         wid.on_mouse_focus_begin()
@@ -607,7 +607,7 @@ def on_mouse_focus_begin_callback(wid_id):
 
 def on_mouse_focus_end_callback(wid_id):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_focus_end is None:
             return False
         wid.on_mouse_focus_end()
@@ -616,7 +616,7 @@ def on_mouse_focus_end_callback(wid_id):
 
 def on_mouse_over_begin_callback(wid_id, relx, rely, wheelx, wheely):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_mouse_over_begin is None:
             return False
         return wid.on_mouse_over_begin(relx, rely, wheelx, wheely)
@@ -625,7 +625,7 @@ def on_mouse_over_begin_callback(wid_id, relx, rely, wheelx, wheely):
 
 def on_mouse_over_end_callback(wid_id):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_mouse_over_end is None:
             return False
         wid.on_mouse_over_end()
@@ -634,7 +634,7 @@ def on_mouse_over_end_callback(wid_id):
 
 def on_mouse_up_callback(wid_id, x, y, button):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_mouse_up is None:
             return False
         return wid.on_mouse_up(x, y, button)
@@ -643,7 +643,7 @@ def on_mouse_up_callback(wid_id, x, y, button):
 
 def on_destroy_callback(wid_id):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_destroy is None:
             return
         wid.on_destroy()
@@ -653,7 +653,7 @@ def on_destroy_callback(wid_id):
 
 def on_destroy_begin_callback(wid_id):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_destroy_begin is None:
             return
         wid.on_destroy_begin()
@@ -663,7 +663,7 @@ def on_destroy_begin_callback(wid_id):
 
 def on_tick_callback(wid_id):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_tick is None:
             return
         wid.on_tick()
@@ -673,7 +673,7 @@ def on_tick_callback(wid_id):
 
 def on_display_callback(wid_id):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_display is None:
             return
         wid.on_display()
@@ -683,7 +683,7 @@ def on_display_callback(wid_id):
 
 def on_display_top_level_callback(wid_id):
     wid = all_wids[wid_id]
-    if wid != None:
+    if wid is not None:
         if wid.on_display_top_level is None:
             return
         wid.on_display_top_level()

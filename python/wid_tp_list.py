@@ -1,15 +1,15 @@
 import mm
-import wid
 import wid_popup
-import sys
 import tp
 import copy
 import wid_tp_detail
 from enum import Enum
 
+
 def wid_tp_list_on_mouse_down_close(w, x, y, button):
     mm.con("TODO")
     return True
+
 
 def wid_tp_list_filter(w, f):
     p = w.get_top_parent()
@@ -19,41 +19,48 @@ def wid_tp_list_filter(w, f):
     return False
 
 class Item(Enum):
-     all      = 1
-     weapon   = 2
-     magical  = 3
-     armor    = 4
-     healing  = 5
-     food     = 6
+    all = 1
+    weapon = 2
+    magical  = 3
+    armor = 4
+    healing = 5
+    food = 6
+
 
 def wid_tp_list_on_mouse_down_filter_1(w, x, y, button):
     wid_tp_list_filter(w, Item.all.value)
     return True
 
+
 def wid_tp_list_on_mouse_down_filter_2(w, x, y, button):
     wid_tp_list_filter(w, Item.weapon.value)
     return True
+
 
 def wid_tp_list_on_mouse_down_filter_3(w, x, y, button):
     wid_tp_list_filter(w, Item.magical.value)
     return True
 
+
 def wid_tp_list_on_mouse_down_filter_4(w, x, y, button):
     wid_tp_list_filter(w, Item.armor.value)
     return True
+
 
 def wid_tp_list_on_mouse_down_filter_5(w, x, y, button):
     wid_tp_list_filter(w, Item.healing.value)
     return True
 
+
 def wid_tp_list_on_mouse_down_filter_6(w, x, y, button):
     wid_tp_list_filter(w, Item.food.value)
     return True
 
+
 def wid_tp_list_common(w):
     p = w.get_top_parent()
 
-    if p.tp_detail != None:
+    if p.tp_detail is not None:
         p.tp_detail.destroy()
         p.tp_detail = None
 
@@ -70,26 +77,30 @@ def wid_tp_list_common(w):
                                             y=p.detail_y,
                                             tp_name=tpp.name)
 
+
 def wid_tp_list_on_key_down(w, sym, mod):
     wid_tp_list_common(w)
     return True
+
 
 def wid_tp_list_on_mouse_over_begin(w, relx, rely, wheelx, wheely):
     wid_tp_list_common(w)
     return True
 
+
 def wid_tp_list_on_mouse_over_end(w):
     p = w.get_top_parent()
 
-    if p.tp_detail != None:
+    if p.tp_detail is not None:
         p.tp_detail.destroy()
         p.tp_detail = None
+
 
 class WidTpList(wid_popup.WidPopup):
 
     def __init__(self, k=None, **kp):
 
-        if k != None:
+        if k is not None:
             super().__init__(**k)
             self.orig_args = copy.deepcopy(k)
 
@@ -118,36 +129,36 @@ class WidTpList(wid_popup.WidPopup):
 
         w = self
 
-        button_events=(
+        button_events = (
                 {
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_1,
-                    "tiles":"button_green",
-                    "tooltip":"All items",
+                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_1,
+                    "tiles": "button_green",
+                    "tooltip": "All items",
                 },
                 {
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_2,
-                    "tiles":"button_green",
-                    "tooltip":"weapon filter",
+                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_2,
+                    "tiles": "button_green",
+                    "tooltip": "weapon filter",
                 },
                 {
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_3,
-                    "tiles":"button_green",
-                    "tooltip":"Magical items filter",
+                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_3,
+                    "tiles": "button_green",
+                    "tooltip": "Magical items filter",
                 },
                 {
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_4,
-                    "tiles":"button_green",
-                    "tooltip":"Defensive items filter",
+                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_4,
+                    "tiles": "button_green",
+                    "tooltip": "Defensive items filter",
                 },
                 {
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_5,
-                    "tiles":"button_green",
-                    "tooltip":"Healing items filter",
+                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_5,
+                    "tiles": "button_green",
+                    "tooltip": "Healing items filter",
                 },
                 {
-                    "on_mouse_down":wid_tp_list_on_mouse_down_filter_6,
-                    "tiles":"button_green",
-                    "tooltip":"Edible items filter",
+                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_6,
+                    "tiles": "button_green",
+                    "tooltip": "Edible items filter",
                 },
             )
 
