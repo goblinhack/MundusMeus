@@ -52,6 +52,10 @@ def load_one_plugin(filepath):
         global game
         game = py_mod
 
+    if basename(filepath) == "wid_map.py":
+        global wid_map
+        wid_map = py_mod
+
     if basename(filepath) == "wid.py":
         global wid
         wid = py_mod
