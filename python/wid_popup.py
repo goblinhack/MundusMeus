@@ -117,7 +117,7 @@ class WidPopup(wid.Wid):
         self.global_title_on_display=title_on_display
         self.global_title_on_display_top_level=title_on_display_top_level
 
-        if tiles != None:
+        if tiles is not None:
             super().__init__(name, tiles=tiles, parent=parent)
             self.tile_size = mm.tile_size_pct(tiles + "-tl")
             self.pad_w = self.tile_size[0] * 0.5
@@ -421,7 +421,7 @@ class WidPopup(wid.Wid):
 
         if self.row_count > 0:
 
-            if self.body_tiles != None:
+            if self.body_tiles is not None:
                 textbox_x1 = inner_pad_w * 0.4
                 textbox_x2 = 1.0 - inner_pad_w * 0.4
                 textbox_y1 = inner_pad_h * 0.4 # to account for the widget shadow
@@ -482,7 +482,7 @@ class WidPopup(wid.Wid):
                                      owner=self.text_box.wid_id)
         if self.title_count > 0:
 
-            if self.title_tiles != None:
+            if self.title_tiles is not None:
                 textbox_x1 = inner_pad_w * 0.4
                 textbox_x2 = 1.0 - inner_pad_w * 0.4
                 textbox_y1 = inner_pad_h * 0.2 # to account for the widget shadow
@@ -535,10 +535,10 @@ class WidPopup(wid.Wid):
         self.to_front()
 
     def scroll_up(self):
-        if self.scrollbar != None:
+        if self.scrollbar is not None:
             self.scrollbar.move_delta_pct(x=0, y=-0.05)
 
     def scroll_down(self):
-        if self.scrollbar != None:
+        if self.scrollbar is not None:
             self.scrollbar.move_delta_pct(x=0, y=0.05)
 

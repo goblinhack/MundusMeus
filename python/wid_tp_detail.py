@@ -21,11 +21,11 @@ class WidTpDetail(wid_popup.WidPopup):
 
         tpp = tp.all_tps[tp_name]
 
-        button_events=(
+        button_events = (
                 {
-                    "on_mouse_down":wid_tp_detail_on_mouse_down,
-                    "tiles":"button_green",
-                    "tooltip":"All items",
+                    "on_mouse_down": wid_tp_detail_on_mouse_down,
+                    "tiles": "button_green",
+                    "tooltip": "All items",
                 },
         )
 
@@ -38,7 +38,7 @@ class WidTpDetail(wid_popup.WidPopup):
                 center=True,
                 text="%%tile=" + tile_name + "$ " + tpp.short_name)
 
-        if tpp.description != None:
+        if tpp.description is not None:
             w.add_text(tpp.description)
 
         if tpp.is_weapon:
