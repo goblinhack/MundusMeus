@@ -168,7 +168,7 @@ class WidText(wid.Wid):
                             button_count += 1
 
                         #
-                        # Now make the button 
+                        # Now make the button
                         #
                         new_word = " " + word[1:-1] + " "
                         word = new_word

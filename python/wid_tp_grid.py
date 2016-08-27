@@ -131,35 +131,35 @@ class WidTpGrid(wid_popup.WidPopup):
 
         w = self
 
-        button_events=( 
-                { 
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_1, 
-                    "tiles":"button_green", 
-                    "tooltip":"All items", 
+        button_events=(
+                {
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_1,
+                    "tiles":"button_green",
+                    "tooltip":"All items",
                 },
-                { 
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_2, 
-                    "tiles":"button_green", 
+                {
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_2,
+                    "tiles":"button_green",
                     "tooltip":"weapon filter",
                 },
-                { 
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_3, 
-                    "tiles":"button_green", 
+                {
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_3,
+                    "tiles":"button_green",
                     "tooltip":"Magical items filter",
                 },
-                { 
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_4, 
-                    "tiles":"button_green", 
+                {
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_4,
+                    "tiles":"button_green",
                     "tooltip":"Defensive items filter",
                 },
-                { 
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_5, 
-                    "tiles":"button_green", 
+                {
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_5,
+                    "tiles":"button_green",
                     "tooltip":"Healing items filter",
                 },
-                { 
-                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_6, 
-                    "tiles":"button_green", 
+                {
+                    "on_mouse_down":wid_tp_grid_on_mouse_down_filter_6,
+                    "tiles":"button_green",
                     "tooltip":"Edible items filter",
                 },
             )
@@ -167,8 +167,8 @@ class WidTpGrid(wid_popup.WidPopup):
         button_events[self.filter-1]["tiles"] = "button_red"
 
         w.add_text(
-                font="small", 
-                color="white", 
+                font="small",
+                color="white",
                 title=True,
                 center=True,
                 on_button_list=button_events,
@@ -226,7 +226,7 @@ class WidTpGrid(wid_popup.WidPopup):
         self.across = int(self.width / tile_width)
         self.down = int((added / self.across) + 1)
 
-        grid = [[0 for x in range(self.across)] for y in range(self.down)] 
+        grid = [[0 for x in range(self.across)] for y in range(self.down)]
 
         for y in range(self.down):
             button_events=[]
@@ -242,11 +242,11 @@ class WidTpGrid(wid_popup.WidPopup):
                 tpp = tp.all_tps[name]
 
                 button_events.append(
-                        { 
-                            "on_mouse_down":wid_tp_grid_on_mouse_down, 
-                            "on_mouse_over_begin":wid_tp_grid_on_mouse_over_begin, 
-                            "on_mouse_over_end":wid_tp_grid_on_mouse_over_end, 
-                            "tiles":"button_plain", 
+                        {
+                            "on_mouse_down":wid_tp_grid_on_mouse_down,
+                            "on_mouse_over_begin":wid_tp_grid_on_mouse_over_begin,
+                            "on_mouse_over_end":wid_tp_grid_on_mouse_over_end,
+                            "tiles":"button_plain",
                             "tooltip":name,
                         },
                     )
@@ -257,14 +257,14 @@ class WidTpGrid(wid_popup.WidPopup):
                 w.add_text(
                         on_button_list=button_events,
                         font=font,
-                        color="white", 
+                        color="white",
                         text=text)
 
         if added == 0:
             w.add_text(
                     center=True,
-                    font="small", 
-                    color="white", 
+                    font="small",
+                    color="white",
                     text="--nothing--")
 
         w.update()
