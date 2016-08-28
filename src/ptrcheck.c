@@ -112,7 +112,7 @@ uint8_t ptrcheck_init (void)
 {
     ptrcheck_init_done = true;
 
-    command_add(ptrcheck_usage_print_command, 
+    command_add(ptrcheck_usage_print_command,
                 "show memory", "show current memory use");
 
     return (true);

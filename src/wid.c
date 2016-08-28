@@ -421,7 +421,7 @@ double wid_get_br_y (widp w)
     return (cy + ((w->tree.br.y - cy) * wid_get_scaling_h(w)));
 }
 
-void wid_get_tl_x_tl_y_br_x_br_y (widp w, 
+void wid_get_tl_x_tl_y_br_x_br_y (widp w,
                                   double *tl_x,
                                   double *tl_y,
                                   double *br_x,
@@ -1029,8 +1029,8 @@ static uint8_t wid_mover_b (widp w, uint32_t x, uint32_t y,
         /*
          * Move off screen - just use tooltip at the bottom of the screen
          */
-        wid_popup_tooltip = wid_tooltip(w->tooltip, 2.5, 0.0, 
-                                        w->tooltip_font ? 
+        wid_popup_tooltip = wid_tooltip(w->tooltip, 2.5, 0.0,
+                                        w->tooltip_font ?
                                         w->tooltip_font : small_font);
 
         /*
@@ -1954,15 +1954,15 @@ void wid_set_tilename (widp w, const char *name)
         tilep tile = tile_find(tmp);
         if (!tile) {
             /*
-             * knock off the last char off of the name so things like 
-             * warrior-right3 becomes warrior-right-eyes which might exist if 
+             * knock off the last char off of the name so things like
+             * warrior-right3 becomes warrior-right-eyes which might exist if
              * we do not need eyes for every tile.
              */
             snprintf(tmp + strlen(name) - 1, sizeof(tmp), "-eyes");
             tile = tile_find(tmp);
             if (!tile) {
                 /*
-                 * Not all tiles, like if the player is dying, need to have 
+                 * Not all tiles, like if the player is dying, need to have
                  * cats eyes.
                  *
                 ERR("failed to set wid tile %s for eyes", tmp);
@@ -1997,7 +1997,7 @@ void wid_set_tile (widp w, tilep tile)
             tile = tile_find(tmp);
             if (!tile) {
                 /*
-                 * Not all tiles, like if the player is dying, need to have 
+                 * Not all tiles, like if the player is dying, need to have
                  * cats eyes.
                  *
                 ERR("failed to set wid tile %s for eyes", tmp);
@@ -2010,15 +2010,15 @@ void wid_set_tile (widp w, tilep tile)
 }
 
 /*
- * Scale a tile defined by its corners and recenter it based on the graphics 
+ * Scale a tile defined by its corners and recenter it based on the graphics
  * in that tile.
  */
-static void wid_tile_scale (widp w, 
+static void wid_tile_scale (widp w,
                             fpoint tl,
                             fpoint br,
                             fpoint *new_tl,
                             fpoint *new_br,
-                            double scale) 
+                            double scale)
 {
 #ifdef TEST_SCALING
     static double dd = 0.5;
@@ -2098,7 +2098,7 @@ void wid_set_thing (widp w, thingp t)
         /*
          * Get the first tile and not random on purpose as animations will
          * use the first tile as a center. If the widget is remade again and
-         * again then the tile will appear to wobble as a new center is 
+         * again then the tile will appear to wobble as a new center is
          * chosen.* i.e. the inventory screen with a torch.
          */
         tile = (typeof(tile)) tree_root_first(tiles);
@@ -3077,7 +3077,7 @@ static void wid_destroy_delay (widp *wp, int32_t delay)
     }
 
     /*
-     * Make sure it stops ticking right now as client pointers this widget 
+     * Make sure it stops ticking right now as client pointers this widget
      * might use in the ticker may no longer be valid.
      */
     wid_tree5_ticking_wids_remove(w);
@@ -3191,7 +3191,7 @@ widp wid_new_plain (widp parent, const char *name)
 #else
     w->logname = dynprintf("%s[%p]", name, w);
 #endif
-    
+
     WID_DBG(w, "%s", __FUNCTION__);
 
     wid_set_no_shape(w);
@@ -3812,7 +3812,7 @@ widp wid_grid_find (widp parent, fpoint tl, fpoint br,
     /*
      * Now find the node in the (hopefully small) tree.
      */
-    tree_root **gridtree = grid->grid_of_trees[z_depth] + 
+    tree_root **gridtree = grid->grid_of_trees[z_depth] +
                     (y * grid->width) + x;
 
     /*
@@ -4051,7 +4051,7 @@ widp wid_grid_find_next (widp parent, widp w, uint32_t x, uint32_t y,
         /*
          * Now find the node in the (hopefully small) tree.
          */
-        tree_root **gridtree = 
+        tree_root **gridtree =
                         grid->grid_of_trees[depth] + (y * grid->width) + x;
 
         /*
@@ -4237,7 +4237,7 @@ void wid_raise (widp w_in)
     wid_find_top_focus();
 
     /*
-     * If we were hovering over a window and it was replaced, we need to fake 
+     * If we were hovering over a window and it was replaced, we need to fake
      * a mouse movement so we know we are still over it.
      */
     if (!w_in->parent && w_in->children_display_sorted) {
@@ -4286,7 +4286,7 @@ void wid_lower (widp w_in)
     wid_find_top_focus();
 
     /*
-     * If we were hovering over a window and it was replaced, we need to fake 
+     * If we were hovering over a window and it was replaced, we need to fake
      * a mouse movement so we know we are still over it.
      */
     if (!w_in->parent && w_in->children_display_sorted) {
@@ -4910,7 +4910,7 @@ static void wid_adjust_scrollbar (widp scrollbar, widp owner)
             if (trough_height - scrollbar_height == 0.0f) {
                 pct = 0.0f;
             } else {
-                pct = (wid_get_tl_y(scrollbar) - 
+                pct = (wid_get_tl_y(scrollbar) -
                        wid_get_tl_y(scrollbar->parent)) /
                         (trough_height - scrollbar_height);
             }
@@ -4938,7 +4938,7 @@ static void wid_adjust_scrollbar (widp scrollbar, widp owner)
             if (trough_width - scrollbar_width == 0.0f) {
                 pct = 0.0f;
             } else {
-                pct = (wid_get_tl_x(scrollbar) - 
+                pct = (wid_get_tl_x(scrollbar) -
                        wid_get_tl_x(scrollbar->parent)) /
                         (trough_width - scrollbar_width);
             }
@@ -5084,7 +5084,7 @@ static void wid_update_internal (widp w)
             for (gx = 0; gx < grid->width; gx++) {
                 for (gy = 0; gy < grid->height; gy++) {
                     for (z = 0; z < MAP_DEPTH; z++) {
-                        tree_root **gridtree = 
+                        tree_root **gridtree =
                                 grid->grid_of_trees[z] + (gy * grid->width) + gx;
 
                         /*
@@ -5141,7 +5141,7 @@ void wid_update (widp w)
     wid_update_internal(w);
 
     /*
-     * If we were hovering over a window and it was replaced, we need to fake 
+     * If we were hovering over a window and it was replaced, we need to fake
      * a mouse movement so we know we are still over it.
      */
     if (!w->parent && w->children_display_sorted) {
@@ -5152,7 +5152,7 @@ void wid_update (widp w)
 void wid_update_mouse (void)
 {
     /*
-     * So if we are now over a new widget that was created on top of the 
+     * So if we are now over a new widget that was created on top of the
      * mouse, we activate it.
      */
     int32_t x;
@@ -5931,11 +5931,11 @@ static widp wid_mouse_motion_handler_at (widp w, int32_t x, int32_t y,
         for (gx = 0; gx < grid->width; gx++) {
             for (gy = 0; gy < grid->height; gy++) {
                 /*
-                 * For the editor widget we only want to move the mouse over 
+                 * For the editor widget we only want to move the mouse over
                  * the grid on the bottom level.
                  */
                 z = 0; {
-                    tree_root **gridtree = 
+                    tree_root **gridtree =
                             grid->grid_of_trees[z] + (gy * grid->width) + gx;
 
                     /*
@@ -6137,7 +6137,7 @@ static void wid_move_delta_internal (widp w, double dx, double dy)
         for (z = 0; z < MAP_DEPTH; z++) {
             for (x = 0; x < MAP_WIDTH; x++) {
                 for (y = 0; y < MAP_HEIGHT; y++) {
-                    tree_root **tree = w->grid->grid_of_trees[z] + 
+                    tree_root **tree = w->grid->grid_of_trees[z] +
                                     (y * w->grid->width) + x;
                     widgridnode *node;
 
@@ -6225,7 +6225,7 @@ void wid_move_to_vert_pct (widp w, double pct)
     double pheight = wid_get_br_y(w->parent) - wid_get_tl_y(w->parent);
     double at = (wid_get_tl_y(w) - wid_get_tl_y(w->parent)) / pheight;
     double delta = (pct - at) * pheight;
-    
+
     wid_move_delta(w, 0, delta);
 }
 
@@ -6234,7 +6234,7 @@ void wid_move_to_horiz_pct (widp w, double pct)
     double pwidth = wid_get_br_x(w->parent) - wid_get_tl_x(w->parent);
     double at = (wid_get_tl_x(w) - wid_get_tl_x(w->parent)) / pwidth;
     double delta = (pct - at) * pwidth;
-    
+
     wid_move_delta(w, delta, 0);
 }
 
@@ -6251,7 +6251,7 @@ void wid_move_to_vert_pct_in (widp w, double pct, double in)
     double pheight = wid_get_br_y(w->parent) - wid_get_tl_y(w->parent);
     double at = (wid_get_tl_y(w) - wid_get_tl_y(w->parent)) / pheight;
     double delta = (pct - at) * pheight;
-    
+
     wid_move_to_abs_in(w, wid_get_tl_x(w), wid_get_tl_y(w) + delta, in);
 }
 
@@ -6268,7 +6268,7 @@ void wid_move_to_horiz_pct_in (widp w, double pct, double in)
     double pwidth = wid_get_br_x(w->parent) - wid_get_tl_x(w->parent);
     double at = (wid_get_tl_x(w) - wid_get_tl_x(w->parent)) / pwidth;
     double delta = (pct - at) * pwidth;
-    
+
     wid_move_to_abs_in(w, wid_get_tl_x(w) + delta, wid_get_tl_y(w), in);
 }
 
@@ -6293,7 +6293,7 @@ void wid_move_to_horiz_vert_pct_in (widp w, double x, double y, double in)
     double pheight = wid_get_br_y(w->parent) - wid_get_tl_y(w->parent);
     double aty = (wid_get_tl_y(w) - wid_get_tl_y(w->parent)) / pheight;
     double dy = (y - aty) * pheight;
-    
+
     double pwidth = wid_get_br_x(w->parent) - wid_get_tl_x(w->parent);
     double atx = (wid_get_tl_x(w) - wid_get_tl_x(w->parent)) / pwidth;
     double dx = (x - atx) * pwidth;
@@ -6507,26 +6507,26 @@ static widp wid_mouse_motion_handler (int32_t x, int32_t y,
  *
  * #42 0x00000001180a1233 in wid_update (w=0x11f0c0c00) at wid.c:5353
  *
- * #43 0x00000001180bf45d in map_editor_map_thing_replace_template 
- * 
- * #44 0x00000001180c1509 in map_editor_map_thing_replace (w=0x11f1dca00, x=5, 
- * 
- * #45 0x00000001180c0275 in map_editor_map_tile_mouse_motion (w=0x11f1dca00, 
- * 
- * #46 0x00000001180a170f in wid_mouse_motion (x=338, y=357, relx=0, rely=0, 
- * 
+ * #43 0x00000001180bf45d in map_editor_map_thing_replace_template
+ *
+ * #44 0x00000001180c1509 in map_editor_map_thing_replace (w=0x11f1dca00, x=5,
+ *
+ * #45 0x00000001180c0275 in map_editor_map_tile_mouse_motion (w=0x11f1dca00,
+ *
+ * #46 0x00000001180a170f in wid_mouse_motion (x=338, y=357, relx=0, rely=0,
+ *
  * #47 0x000000011809ff26 in wid_update_mouse () at wid.c:5371
  *
  * #48 0x00000001180a1233 in wid_update (w=0x11f0c0c00) at wid.c:5353
  *
- * #49 0x00000001180bf45d in map_editor_map_thing_replace_template 
- * 
- * #50 0x00000001180c1509 in map_editor_map_thing_replace (w=0x11f1dca00, x=5, 
- * 
- * #51 0x00000001180c0275 in map_editor_map_tile_mouse_motion (w=0x11f1dca00, 
- * 
- * #52 0x00000001180a170f in wid_mouse_motion (x=338, y=357, relx=0, rely=0, 
- * 
+ * #49 0x00000001180bf45d in map_editor_map_thing_replace_template
+ *
+ * #50 0x00000001180c1509 in map_editor_map_thing_replace (w=0x11f1dca00, x=5,
+ *
+ * #51 0x00000001180c0275 in map_editor_map_tile_mouse_motion (w=0x11f1dca00,
+ *
+ * #52 0x00000001180a170f in wid_mouse_motion (x=338, y=357, relx=0, rely=0,
+ *
  */
 static int wid_mouse_motion_recursion;
 
@@ -6631,7 +6631,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
         /*
          * Over a new wid.
          */
-        while (w && 
+        while (w &&
                !wid_mover_b(w, x, y, relx, rely, wheelx, wheely)) {
             w = w->parent;
         }
@@ -6644,7 +6644,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
              */
         } else {
             /*
-             * This widget reacted somehow when we went over it. i.e. popup ot 
+             * This widget reacted somehow when we went over it. i.e. popup ot
              * function.
              */
             over = true;
@@ -6670,7 +6670,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
             }
 
             /*
-             * If there is a tooltip then allow us to 'begin' on this wid so 
+             * If there is a tooltip then allow us to 'begin' on this wid so
              * that we pop up the tooltip. But if wheel scrolling then pass
              * it to the scrollbar instead.
              */
@@ -6714,7 +6714,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
                  */
                 w = w->parent;
             }
-        } 
+        }
 
         if (done) {
             break;
@@ -7355,7 +7355,7 @@ static void wid_gc (widp w)
          * If being destroyed, is it done fading ? We only do this for the top
          * level widgets. The childen inherit the fading from the parent.
          *
-         * Only do this for single shot fade count widgets, not those that 
+         * Only do this for single shot fade count widgets, not those that
          * pulse in and out.
          */
         if (!wid_exiting && wid_is_fading(w) && !w->fade_count) {
@@ -7428,7 +7428,7 @@ typedef struct wid_light_ {
     uint16_t max_light_rays;
     color col;
 } wid_light;
-        
+
 static wid_light wid_lights[MAX_LIGHTS];
 
 static void wid_light_init (void)
@@ -7446,10 +7446,10 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
 
 #if 0
     /*
-     * Do a quick dmap check so that lights that are enclosed in a room do not 
+     * Do a quick dmap check so that lights that are enclosed in a room do not
      * shine
      */
-    if (player && 
+    if (player &&
                !thing_is_player_or_owned_by_player(level, t)) {
         double sx, sy;
 
@@ -7506,10 +7506,10 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
 /*
  * Display one wid and its children
  */
-static void wid_display_fast (widp w, 
+static void wid_display_fast (widp w,
                               double shake_x,
                               double shake_y,
-                              uint8_t pass, 
+                              uint8_t pass,
                               uint8_t black_and_white)
 {
     double otlx;
@@ -7562,13 +7562,13 @@ static void wid_display_fast (widp w,
              * If the thing is not lit and it has cats eyes, let them shine.
              *
              * Another case is if you are a light source yet emit no light,
-             * like a player. Let the eyes shine in that case. But don't let 
-             * them shine when the torch light is on else you have glowing 
-             * eyes over the player and they look like a zombie! But don't let 
-             * them shine when the torch light is on else you have glowing 
+             * like a player. Let the eyes shine in that case. But don't let
+             * them shine when the torch light is on else you have glowing
+             * eyes over the player and they look like a zombie! But don't let
+             * them shine when the torch light is on else you have glowing
              * eyes over the player and they look like a zombie!
              */
-            if ((t->lit == 0) && 
+            if ((t->lit == 0) &&
                 tp_is_cats_eyes(thing_tp(t))) {
 
                 tile = wid_get_tile_eyes(w);
@@ -7648,7 +7648,7 @@ static void wid_display_fast (widp w,
         fpoint new_tl;
         fpoint new_br;
 
-        wid_tile_scale(w, 
+        wid_tile_scale(w,
                        tl,
                        br,
                        &new_tl,
@@ -7679,7 +7679,7 @@ static void wid_display_fast (widp w,
     br.y += w->blit_y_offset;
 
     /*
-     * Allow slime molds to look either way without bothering to create the 
+     * Allow slime molds to look either way without bothering to create the
      * animation for it! Lazy...
      */
     if (unlikely(w->flip_horiz)) {
@@ -7718,7 +7718,7 @@ static void wid_display_fast (widp w,
 #ifdef ENABLE_BLACK_AND_WHITE
         if (unlikely(black_and_white)) {
             tile_blit_fat_black_and_white(tp, tile, 0, tl, br);
-        } else 
+        } else
 #endif
         {
             tile_blit_fat(tp, tile, 0, tl, br);
@@ -7776,7 +7776,7 @@ static void map_light_add_ray_depth (fpoint p,
                                      int deg,
                                      int soft_shadow)
 {
-    double len = DISTANCE(light_pos.x, light_pos.y, 
+    double len = DISTANCE(light_pos.x, light_pos.y,
                           light_end.x, light_end.y);
 
     if (len > light->strength) {
@@ -7814,8 +7814,8 @@ static void map_light_add_ray_depth (fpoint p,
 /*
  * Display one wid and its children
  */
-static void wid_light_calculate_for_single_obstacle (widp w, 
-                                                     int z, 
+static void wid_light_calculate_for_single_obstacle (widp w,
+                                                     int z,
                                                      int light_index,
                                                      int pass)
 {
@@ -7978,7 +7978,7 @@ static void wid_light_calculate_for_single_obstacle (widp w,
          * Check if facing the light source.
          */
         fpoint light_dir = fsub(light_pos, P[k]);
-        double dot = normal[k].x * light_dir.x + normal[k].y * light_dir.y;   
+        double dot = normal[k].x * light_dir.x + normal[k].y * light_dir.y;
         if (dot <= 0.0f) {
             continue;
         }
@@ -8026,7 +8026,7 @@ static void wid_light_calculate_for_single_obstacle (widp w,
 
         /*
          * For each blocking radian, look at the distance to the light.
-         * If closer than what is blocking that radian curretly, then use 
+         * If closer than what is blocking that radian curretly, then use
          * this value.
          *
          * In essence, this is a depth buffer.
@@ -8047,7 +8047,7 @@ static void wid_light_calculate_for_single_obstacle (widp w,
              */
             fpoint intersect;
 
-            getIntersection(P[k], P[l], 
+            getIntersection(P[k], P[l],
                             light_pos, light_end,
                             &intersect);
 
@@ -8117,7 +8117,7 @@ static void wid_lighting_smooth (wid_light *light)
 /*
  * Walk all widgets next to this light source and find light intersections.
  */
-static void wid_lighting_calculate (widp w, 
+static void wid_lighting_calculate (widp w,
                                     const int light_index)
 {
     wid_light *light = &wid_lights[light_index];
@@ -8148,7 +8148,7 @@ static void wid_lighting_calculate (widp w,
 
     if (light_wid->blit_scaled_w || light_wid->blit_scaled_h ||
         light_wid->blit_scaling_w || light_wid->blit_scaling_h) {
-    
+
         light->strength *= wid_get_blit_scaling_w(light_wid);
     }
 
@@ -8195,7 +8195,7 @@ static void wid_lighting_calculate (widp w,
             for (x = maxx - 1; x >= minx; x--) {
                 for (y = miny; y < maxy; y++) {
 
-                    tree_root **tree = 
+                    tree_root **tree =
                         w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
 
                     widgridnode *node;
@@ -8223,7 +8223,7 @@ static void wid_lighting_calculate (widp w,
 /*
  * Walk all widgets next to this light source and find light intersections.
  */
-static void wid_lighting_render (widp w, 
+static void wid_lighting_render (widp w,
                                  const int light_index,
                                  const int light_level)
 {
@@ -8387,7 +8387,7 @@ static void wid_lighting_render (widp w,
  * Walk all widgets next to this light source and find light intersections.
  */
 #if 0
-static void wid_lighting_debug (widp w, 
+static void wid_lighting_debug (widp w,
                                  const int light_index,
                                  const int light_level)
 {
@@ -8652,7 +8652,7 @@ static void wid_display (widp w,
         /*
          * Text box needs clipping when the text gets too wide.
          */
-       if (w->grid || w->children_display_sorted || 
+       if (w->grid || w->children_display_sorted ||
            !w->parent || w->show_cursor) {
             /*
              * Tell the parent we are doing scissors so they can re-do
@@ -8708,7 +8708,7 @@ static void wid_display (widp w,
     /*
      * Do rotation and flipping.
      */
-    if (w->rotating || w->rotated || w->bouncing || 
+    if (w->rotating || w->rotated || w->bouncing ||
         w->flip_vert || w->flip_horiz) {
 
         did_push_matrix = true;
@@ -8834,7 +8834,7 @@ static void wid_display (widp w,
                                 tx = wid_tiles->across - 1;;
                                 edge_x = true;
                             } else {
-                                tx = tile_x % (wid_tiles->across - 2) + 1; 
+                                tx = tile_x % (wid_tiles->across - 2) + 1;
                             }
                         } else if (tile_y == tiles_down - 1) {
                             ty = wid_tiles->across - 1;;
@@ -8874,7 +8874,7 @@ static void wid_display (widp w,
                         q.y = p.y + tile_h;
 
                         /*
-                         * Account for widgets that are now quite as wide as 
+                         * Account for widgets that are now quite as wide as
                          * the tiles. Stretch the last tiles.
                          */
                         if (tile_y == tiles_down - 2) {
@@ -8915,12 +8915,12 @@ static void wid_display (widp w,
 
         if (w->blit_scaled_w || w->blit_scaled_h ||
             w->blit_scaling_w || w->blit_scaling_h) {
-        
+
             double scale = wid_get_blit_scaling_w(w);
             fpoint new_tl;
             fpoint new_br;
 
-            wid_tile_scale(w, 
+            wid_tile_scale(w,
                            tl,
                            br,
                            &new_tl,
@@ -8944,7 +8944,7 @@ static void wid_display (widp w,
         glBindTexture(GL_TEXTURE_2D, 0);
 
         /*
-         * If we are just blitting the occasional tile and this is not part of 
+         * If we are just blitting the occasional tile and this is not part of
          * the main map grid, then just flush the blit pipe.
          */
         if (!w->gridtree) {
@@ -8967,7 +8967,7 @@ static void wid_display (widp w,
          * Manually specified text position.
          */
         fmt = ENUM_FMT_NONE;
-        ttf_text_size(&font, text, &width, &height, &fmt, 
+        ttf_text_size(&font, text, &width, &height, &fmt,
                       0,
                       scaling, advance,
                       fixed_width);
@@ -9114,9 +9114,9 @@ static void wid_display (widp w,
         int16_t miny;
 
         if (player) {
-            const uint32_t visible_width = 
+            const uint32_t visible_width =
                     TILES_SCREEN_WIDTH / 2 + TILES_SCREEN_LIGHT_WIDTH_PAD;
-            const uint32_t visible_height = 
+            const uint32_t visible_height =
                     TILES_SCREEN_HEIGHT / 2 + TILES_SCREEN_LIGHT_HEIGHT_PAD;
 
             maxx = player->x + visible_width;
@@ -9172,17 +9172,17 @@ static void wid_display (widp w,
         for (z = 0; z < MAP_DEPTH; z++) {
             for (x = maxx - 1; x >= minx; x--) {
                 for (y = miny; y < maxy; y++) {
-                    tree_root **tree = 
+                    tree_root **tree =
                         w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
                     widgridnode *node;
 
                     TREE_WALK_REVERSE_UNSAFE_INLINE(
-                                        *tree, 
+                                        *tree,
                                         node,
                                         tree_prev_tree_wid_compare_func_fast) {
 
                         widp w = node->wid;
- 
+
                         if (unlikely(wid_this_is_hidden(w))) {
                             /*
                              * Skip
@@ -9259,7 +9259,7 @@ static void wid_display (widp w,
             double window_h = th;
 
             /*
-             * Stretch the shadow so when the screen shakes the borders are 
+             * Stretch the shadow so when the screen shakes the borders are
              * black as well. This is a bit of a hack but it also makes the
              * lights look nice with a kind of halo effect.
              */
@@ -9282,7 +9282,7 @@ static void wid_display (widp w,
                      */
                     wid_lighting_calculate(w, i);
                     /*
-                     * Draw the light sources. First pass is for solid 
+                     * Draw the light sources. First pass is for solid
                      * obstacles.
                      */
                     color c = RED;
@@ -9331,7 +9331,7 @@ static void wid_display (widp w,
         (w->on_display)(w, tl, br);
     }
 
-    
+
     /*
      * Undo any push we did earlier.
      */
@@ -9893,7 +9893,7 @@ static void wid_move_enqueue (widp w,
         return;
 #else
         /*
-         * If this is not a widget with a thing, then just zoom it to the 
+         * If this is not a widget with a thing, then just zoom it to the
          * destination. We don't need queues.
          */
         thingp t = wid_get_thing(w);
@@ -9908,7 +9908,7 @@ static void wid_move_enqueue (widp w,
         if (w->moving == WID_MAX_MOVE_QUEUE) {
             thingp t = wid_get_thing(w);
 
-            ERR("too many moves queued up for widget %s", 
+            ERR("too many moves queued up for widget %s",
                 wid_logname(w));
 
             if (t) {
@@ -9917,15 +9917,15 @@ static void wid_move_enqueue (widp w,
 
 #ifdef DEBUG_WID_MOVE
             int i;
-            CON("    [-] to %f,%f in %d", 
-                w->moving_end.x, w->moving_end.y, 
+            CON("    [-] to %f,%f in %d",
+                w->moving_end.x, w->moving_end.y,
                 w->timestamp_moving_end - wid_time);
 
             for (i = 0; i < w->moving - 1; i++) {
                 wid_move_t *c = &w->move[i];
 
-                CON("    [%d] to %f,%f in %d", i, 
-                    c->moving_end.x, c->moving_end.y, 
+                CON("    [%d] to %f,%f in %d", i,
+                    c->moving_end.x, c->moving_end.y,
                     c->timestamp_moving_end - wid_time);
             }
 #endif
@@ -10006,7 +10006,7 @@ void wid_move_to_pct_in (widp w, double x, double y, uint32_t ms)
 }
 
 /*
- * Return numbers in the 0 to 1 range indicating how far the move has 
+ * Return numbers in the 0 to 1 range indicating how far the move has
  * progressed from start to end.
  */
 void wid_get_move_interpolated_progress (widp w, double *dx, double *dy)
@@ -10021,7 +10021,7 @@ void wid_get_move_interpolated_progress (widp w, double *dx, double *dy)
 
     double x = wid_get_tl_x(w);
     double y = wid_get_tl_y(w);
-      
+
     double mx = (double)(x - w->moving_start.x);
     double my = (double)(y - w->moving_start.y);
     double wx = (double)(w->moving_end.x - w->moving_start.x);
@@ -10652,12 +10652,12 @@ void wid_get_shake (widp w, double *x, double *y)
     if (!w->shaking_set) {
         w->shaking_set = 1;
 
-        w->shake_x = wid_get_width(w) * 
-            (((double) (myrand() % 100)) / 100.0) * 
+        w->shake_x = wid_get_width(w) *
+            (((double) (myrand() % 100)) / 100.0) *
             w->shake_amount;
 
-        w->shake_y = wid_get_height(w) * 
-            (((double) (myrand() % 100)) / 100.0) * 
+        w->shake_y = wid_get_height(w) *
+            (((double) (myrand() % 100)) / 100.0) *
             w->shake_amount;
 
         if ((myrand() % 10) < 5) {
@@ -10680,7 +10680,7 @@ void wid_get_shake (widp w, double *x, double *y)
 uint8_t wids_overlap (widp A, widp B)
 {
     /*
-     * The rectangles don't overlap if one rectangle's minimum in some 
+     * The rectangles don't overlap if one rectangle's minimum in some
      * dimension is greater than the other's maximum in that dimension.
      */
     uint8_t no_overlap = (A->tree.tl.x > B->tree.br.x) ||

@@ -332,8 +332,8 @@ void thing_move_set_dir (thingp t,
     }
 }
 
-void thing_dead (thingp t, 
-                 thingp killer, 
+void thing_dead (thingp t,
+                 thingp killer,
                  const char *reason, ...)
 {
     ERR("thing dead TBD");

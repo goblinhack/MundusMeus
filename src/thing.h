@@ -116,7 +116,7 @@ typedef struct thing_ {
     uint16_t current_tile;
 
     /*
-     * Previous hop where we were. We use this to interpolate the real 
+     * Previous hop where we were. We use this to interpolate the real
      * position when moving.
      */
     float last_x;
@@ -266,13 +266,13 @@ void thing_move_to(thingp t, double x, double y);
 /*
  * thing_move.c
  */
-void thing_wid_move(thingp t, 
-                    double x, 
-                    double y, 
+void thing_wid_move(thingp t,
+                    double x,
+                    double y,
                     uint8_t smooth);
 
-void thing_wid_update(thingp t, 
-                      double x, double y, 
+void thing_wid_update(thingp t,
+                      double x, double y,
                       uint8_t smooth);
 
 /*

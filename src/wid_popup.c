@@ -534,7 +534,7 @@ widp wid_popup (const char *text, const char *title,
     wid_raise(wid_popup_window);
 
     /*
-     * If there are some buttons then lock the focus and this then makes stuff 
+     * If there are some buttons then lock the focus and this then makes stuff
      * fade out in the background.
      */
     if (args) {

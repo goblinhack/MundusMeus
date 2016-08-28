@@ -20,7 +20,7 @@ typedef struct {
 } triangle;
 
 /*
- * triangle_line_intersect(): find the 3D intersection of a line with a 
+ * triangle_line_intersect(): find the 3D intersection of a line with a
  * triangle
  *
  * -1 = triangle is degenerate (a segment or point)
@@ -37,7 +37,7 @@ triangle_line_intersect(const line ray,
  * true on intersection.
  */
 uint8_t
-cube_line_intersect(const line ray, 
+cube_line_intersect(const line ray,
                     const fpoint3d p0,
                     const fpoint3d p1,
                     const fpoint3d p2,
@@ -52,5 +52,5 @@ cube_line_intersect(const line ray,
 /*
  * true if perpendicular line from point is in line segment.
  */
-uint8_t 
+uint8_t
 dist_point_line(fpoint3d P0, fpoint3d L0, fpoint3d L1, float *dist);

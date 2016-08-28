@@ -245,8 +245,8 @@ static uint8_t wid_cmap_parent_key_down (widp w, const SDL_KEYSYM *key)
             (ctx->cancelled)(ctx->w);
             return (true);
 
-        case ' ': 
-        case SDLK_RETURN: 
+        case ' ':
+        case SDLK_RETURN:
             (ctx->selected)(ctx->w);
             return (true);
 
@@ -389,7 +389,7 @@ static uint8_t wid_cmap_button_key_event (widp w, const SDL_KEYSYM *key)
     return (false);
 }
 
-static uint8_t wid_cmap_button_joy_button_event (widp w, 
+static uint8_t wid_cmap_button_joy_button_event (widp w,
                                                      int32_t x, int32_t y)
 {
     wid_cmap_ctx *ctx = wid_get_context(w);
@@ -639,15 +639,15 @@ static void wid_cmap_load_colors (wid_cmap_ctx *ctx)
     } }
 }
 
-widp wid_cmap (const char *title, 
-               on_cmap_selected_t on_selected, 
+widp wid_cmap (const char *title,
+               on_cmap_selected_t on_selected,
                on_cmap_cancelled_t on_cancelled)
 {
     wid_cmap_event_t selected = wid_cmap_cell_selected;
     wid_cmap_event_t cancelled = wid_cmap_cell_cancelled;
 
     /*
-     * Create a context to hold button info so we can update it when the focus 
+     * Create a context to hold button info so we can update it when the focus
      * changes
      */
     wid_cmap_ctx *ctx = myzalloc(sizeof(*ctx), "wid map");
@@ -706,7 +706,7 @@ widp wid_cmap (const char *title,
      * Create the button container
      */
     {
-        widp button_container = wid_new_square_button(window, 
+        widp button_container = wid_new_square_button(window,
                                                       "wid map buttons");
         wid_set_no_shape(button_container);
 

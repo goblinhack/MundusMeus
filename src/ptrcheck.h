@@ -45,7 +45,7 @@ void *ptrcheck_alloc(const void *ptr, const char *what, const uint32_t size,
 uint8_t ptrcheck_verify(const void *ptr, const char *file, const char *func,
                         const uint32_t line);
 
-uint8_t ptrcheck_fast_verify(const void *ptr, 
+uint8_t ptrcheck_fast_verify(const void *ptr,
                              const char *file, const char *func,
                              const uint32_t line);
 

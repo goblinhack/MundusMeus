@@ -133,7 +133,7 @@ unsigned char *ramdisk_load (const char *filename, int32_t *outlen)
             myfree(alt_filename);
         }
 
-        uint8_t *copy = (typeof(copy)) 
+        uint8_t *copy = (typeof(copy))
                         mymalloc((int)ramfile->len + 1, "ramdisk load");
         if (!copy) {
             DBG("no memory for loading ramdisk copy, %s", filename);

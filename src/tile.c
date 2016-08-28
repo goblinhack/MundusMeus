@@ -39,14 +39,14 @@ void tile_fini (void)
     }
 }
 
-void tile_load_arr (const char *tex_name, 
+void tile_load_arr (const char *tex_name,
                     const char *tex_name_black_and_white,
                     uint32_t width, uint32_t height,
                     uint32_t nargs, const char *arr[])
 {
     texp tex = tex_load(0, tex_name);
     texp tex_black_and_white;
-    
+
     if (tex_name_black_and_white && *tex_name_black_and_white) {
         tex_black_and_white = tex_load(0, tex_name_black_and_white);
     } else {
@@ -98,7 +98,7 @@ void tile_load_arr (const char *tex_name,
             t->gl_surface_binding = tex_get_gl_binding(tex);
 
             if (tex_black_and_white) {
-                t->gl_surface_binding_black_and_white = 
+                t->gl_surface_binding_black_and_white =
                                 tex_get_gl_binding(tex_black_and_white);
             }
 
@@ -113,7 +113,7 @@ void tile_load_arr (const char *tex_name,
             t->oy2 = t->y2;
 
             /*
-             * Why? Texture atlas and GL_LINEAR will cause problems blending 
+             * Why? Texture atlas and GL_LINEAR will cause problems blending
              * with tiles adjacent in the atlas, so we trim 0.5 of a pixel
              * all around.
              */

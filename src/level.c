@@ -135,12 +135,12 @@ static void level_set_walls (levelp level)
         for (x = 0; x < MAP_WIDTH; x++) {
             for (y = 0; y < MAP_HEIGHT; y++) {
 
-                tree_root **tree = 
+                tree_root **tree =
                     w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
                 widgridnode *node;
 
                 TREE_WALK_REVERSE_UNSAFE_INLINE(
-                                    *tree, 
+                                    *tree,
                                     node,
                                     tree_prev_tree_wid_compare_func) {
 

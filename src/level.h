@@ -41,8 +41,8 @@ typedef struct level_t_ {
 uint8_t level_init(void);
 void level_fini(void);
 
-levelp level_reinit(uint32_t, 
-                 int is_editor, 
+levelp level_reinit(uint32_t,
+                 int is_editor,
                  int is_map_editor);
 void level_destroy(levelp *, uint8_t keep_player);
 levelp level_finished(levelp, int keep_player);
@@ -51,12 +51,12 @@ int level_tick(levelp);
 void level_update_now(levelp);
 levelp level_load_new(int level_no);
 levelp level_load(uint32_t,
-                  int is_editor, 
+                  int is_editor,
                   int is_map_editor);
 void level_pause(levelp);
 void level_resume(levelp);
-levelp level_load_random(uint32_t level, 
-                         int is_editor, 
+levelp level_load_random(uint32_t level,
+                         int is_editor,
                          int is_map_editor);
 void level_update_slow(levelp);
 const char *level_get_title(levelp);

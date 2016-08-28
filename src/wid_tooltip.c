@@ -44,7 +44,7 @@ widp wid_tooltip (const char *text, float x, float y, fontp font)
 
     if ((my >= (int32_t) ((game.video_gl_width / 7) * 2))) {
         /*
-         * Mouse at to 
+         * Mouse at to
          */
         y = 0.2;
     }

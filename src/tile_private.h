@@ -31,7 +31,7 @@ typedef struct tile_ {
     double ox2;
     double oy2;
     /*
-     * Percentage points that indicate the start of the pixels within the tile 
+     * Percentage points that indicate the start of the pixels within the tile
      * texture for use in collisions.
      */
     double pct_width;

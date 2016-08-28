@@ -98,7 +98,7 @@ static void term_core_init_terminal (void)
     if (!(term_core_buffer = (char*) malloc(term_core_buffer_size))) {
         ERR("no mem");
     }
-    
+
     t.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL|IXON);
     t.c_oflag &= ~OPOST;
     t.c_lflag &= ~(ECHO|ECHONL|ICANON|ISIG|IEXTEN);
@@ -370,7 +370,7 @@ static void term_put (term_cell *e)
         return;
     }
 
-    if (term_x >= TERM_MAX_SIZE) { 
+    if (term_x >= TERM_MAX_SIZE) {
         // not screen width so we can store long lines
         term_x++;
         return;
@@ -412,7 +412,7 @@ void term_putc (const char c)
 #ifndef _WIN32
     term_cell e = {0};
 
-    e.c = c; 
+    e.c = c;
     e.fg = term_fg_current;
     e.bg = term_bg_current;
 
@@ -846,7 +846,7 @@ void term_log (const char *buf)
 }
 
 /*
- * inquire actual terminal size (this it what the 
+ * inquire actual terminal size (this it what the
  * kernel thinks - not was the user on the over end
  * of the phone line has really).
  */

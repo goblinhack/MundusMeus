@@ -63,7 +63,7 @@ static void wid_intro_about_create (void)
         return;
     }
 
-    wid_intro_about = 
+    wid_intro_about =
         wid_menu(0,
                 vlarge_font,
                 large_font,
@@ -80,17 +80,17 @@ static void wid_intro_about_create (void)
                  */
                 (double) 0.25, (double) 0.25,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=gray$Code monkey #1",
-                "%%fg=white$Neil McGill", 
+                "%%fg=white$Neil McGill",
                 (void*) 0,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=gray$Music",
                 "%%fg=cyan$Deceased Senior Technician",
                 (void*) 0,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=gray$Music",
                 "%%fg=cyan$www.tannerhelland.com",
                 (void*) 0,
@@ -100,13 +100,13 @@ static void wid_intro_about_create (void)
                 "%%fg=cyan$  (nosoapradio.us)",
                 (void*) 0,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=gray$Support",
                 "%%fg=green$goblinhack@gmail.com",
                 (void*) 0,
 
-                (int) 'b', 
-                "%%fmt=left$Back", 
+                (int) 'b',
+                "%%fmt=left$Back",
                 (char*) 0,
                 wid_intro_about_callback_close);
 }

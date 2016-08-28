@@ -196,12 +196,12 @@ tree_rootp tp_get_tiles(tpp);
 extern tree_rootp thing_templates;
 extern tree_rootp thing_templates_create_order;
 
-static inline int tp_to_id (tpp t) 
+static inline int tp_to_id (tpp t)
 {
     return (t->tp_id);
 }
 
-static inline tpp id_to_tp (int id) 
+static inline tpp id_to_tp (int id)
 {
     if (!id) {
         return (0);

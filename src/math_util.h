@@ -97,7 +97,7 @@ static inline double fdot3d (const fpoint3d a, const fpoint3d b)
 {
     return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
- 
+
 static inline double fcross (const fpoint a, const fpoint b)
 {
     double c = a.x*b.y - a.y*b.x;
@@ -289,14 +289,14 @@ double fpoint_angle_clockwise(const fpoint A, const fpoint B);
 /*
  * true if perpendicular line from point is in line segment.
  */
-uint8_t 
+uint8_t
 fpoint_dist_line(fpoint P0, fpoint L0, fpoint L1, double *dist,
                  fpoint *intersect);
 
 /*
  * true if perpendicular line from point is in line segment.
  */
-int 
+int
 fpoint_dist_line2(fpoint P0, fpoint L0, fpoint L1, double *dist,
                  fpoint *intersect);
 
@@ -355,7 +355,7 @@ static inline void getIntersection (fpoint a0,
                 swap(a1, b1);
             }
 
-            // Now we know that the y-value of a["first"] is the 
+            // Now we know that the y-value of a["first"] is the
             // lowest of all 4 y values
             // this means, we are either in case (AAA):
             //   a: x--------------x
@@ -407,9 +407,9 @@ static inline void getIntersection (fpoint a0,
         tb = b0.y - mb*b0.x;
         if (ma == mb) {
             // Case (CA)
-            // both lines are in parallel. As we know that they 
+            // both lines are in parallel. As we know that they
             // intersect, the intersection could be a line
-            // when we rotated this, it would be the same situation 
+            // when we rotated this, it would be the same situation
             // as in case (AA)
 
             // Normalize

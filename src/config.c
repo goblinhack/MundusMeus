@@ -64,7 +64,7 @@ void set_game_video_pix_width (int width)
 
 int get_game_video_pix_width (void)
 {
-    game.video_pix_width = 
+    game.video_pix_width =
         py_call_int_module_void("config", "get_game_video_pix_width");
 
     return (game.video_pix_width);
@@ -79,7 +79,7 @@ void set_game_video_pix_height (int height)
 
 int get_game_video_pix_height (void)
 {
-    game.video_pix_height = 
+    game.video_pix_height =
         py_call_int_module_void("config", "get_game_video_pix_height");
 
     return (game.video_pix_height);
@@ -94,7 +94,7 @@ void set_game_sound_volume (int sound_volume)
 
 int get_game_sound_volume (void)
 {
-    game.sound_volume = 
+    game.sound_volume =
         py_call_int_module_void("config", "get_game_sound_volume");
 
     return (game.sound_volume);
@@ -109,7 +109,7 @@ void set_game_music_volume (int music_volume)
 
 int get_game_music_volume (void)
 {
-    game.music_volume = 
+    game.music_volume =
         py_call_int_module_void("config", "get_game_music_volume");
 
     return (game.music_volume);
@@ -124,7 +124,7 @@ void set_game_display_sync (int display_sync)
 
 int get_game_display_sync (void)
 {
-    game.display_sync = 
+    game.display_sync =
         py_call_int_module_void("config", "get_game_display_sync");
 
     return (game.display_sync);
@@ -139,7 +139,7 @@ void set_game_full_screen (int full_screen)
 
 int get_game_full_screen (void)
 {
-    game.full_screen = 
+    game.full_screen =
         py_call_int_module_void("config", "get_game_full_screen");
 
     return (game.full_screen);
@@ -154,7 +154,7 @@ void set_game_fps_counter (int fps_counter)
 
 int get_game_fps_counter (void)
 {
-    game.fps_counter = 
+    game.fps_counter =
         py_call_int_module_void("config", "get_game_fps_counter");
 
     return (game.fps_counter);

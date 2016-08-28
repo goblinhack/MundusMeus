@@ -258,7 +258,7 @@ void wid_set_context2(widp w, void *context);
 void wid_set_context3(widp w, void *context);
 void wid_fade_in(widp, uint32_t delay);
 void wid_fade_out(widp, uint32_t delay);
-void wid_fade_in_out(widp w, uint32_t delay, uint32_t repeat, 
+void wid_fade_in_out(widp w, uint32_t delay, uint32_t repeat,
                      uint8_t fade_in_first);
 void wid_get_children_size(widp, double *width, double *height);
 void wid_get_offset(widp, fpoint *offset);
@@ -431,7 +431,7 @@ void wid_get_grid_coord(widp w, int32_t *x, int32_t *y,
 void wid_get_grid_dim(widp w, uint32_t *x, uint32_t *y);
 uint8_t wids_overlap(widp A, widp B);
 void wid_animate(widp);
-void wid_get_tl_x_tl_y_br_x_br_y(widp w, 
+void wid_get_tl_x_tl_y_br_x_br_y(widp w,
                                  double *tl_x,
                                  double *tl_y,
                                  double *br_x,
@@ -494,7 +494,7 @@ typedef struct tree_wid_key_ {
 
 typedef struct widgridnode_ {
     tree_wid_key tree;
- 
+
     widp wid;
     uint32_t x;
     uint32_t y;
@@ -537,7 +537,7 @@ typedef struct wid_ {
      * A tree for moving things
      */
     tree_key_int tree3_moving_wids;
-    
+
     /*
      * A tree for things being destroyed.
      */
@@ -915,7 +915,7 @@ static inline uint8_t wid_is_moving (widp w)
     return (false);
 }
 
-static inline int8_t 
+static inline int8_t
 tree_wid_compare_func (const tree_node *a, const tree_node *b)
 {
     widp A = (typeof(A))a;
@@ -959,7 +959,7 @@ tree_wid_compare_func (const tree_node *a, const tree_node *b)
 /*
  * Used for tree grid widgets
  */
-static inline int8_t 
+static inline int8_t
 tree_wid_compare_func_fast (const tree_node *a, const tree_node *b)
 {
     widp A = (typeof(A))a;
@@ -984,8 +984,8 @@ tree_wid_compare_func_fast (const tree_node *a, const tree_node *b)
     return (0);
 }
 
-TREE_PREV_INLINE(tree_wid_compare_func) 
-TREE_PREV_INLINE(tree_wid_compare_func_fast) 
+TREE_PREV_INLINE(tree_wid_compare_func)
+TREE_PREV_INLINE(tree_wid_compare_func_fast)
 
 extern widp wid_mouse_template;
 

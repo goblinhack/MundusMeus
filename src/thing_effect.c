@@ -58,7 +58,7 @@ return;
          * Shake the screen.
          */
         if (thing_is_player(t)) {
-            wid_shake_to_pct_in(game.wid_grid, 
+            wid_shake_to_pct_in(game.wid_grid,
                                 0.01, 0.9, 100, 5);
 
             sdl_joy_rumble(1.0, 1000);
@@ -116,7 +116,7 @@ void thing_effect_hit_crit (levelp level, thingp t)
          * Shake the screen.
          */
         if (thing_is_player(t)) {
-            wid_shake_to_pct_in(game.wid_grid, 
+            wid_shake_to_pct_in(game.wid_grid,
                                 0.01, 0.9, 100, 5);
 
             sdl_joy_rumble(1.0, 1000);
@@ -145,7 +145,7 @@ void thing_effect_power_up (levelp level, thingp t)
         fpoint tl = {0.0, 0.0};
         fpoint br = {0.1, 0.1};
 
-        br.y = 
+        br.y =
             ((double)game.video_gl_width /
              (double)game.video_gl_height) / 10.0;
 
@@ -160,16 +160,16 @@ void thing_effect_power_up (levelp level, thingp t)
 
         double width = 0.05;
         px += fcos(rad) * width;
-        py += (fsin(rad) * width) * 
-                        ((double)game.video_gl_width / 
+        py += (fsin(rad) * width) *
+                        ((double)game.video_gl_width /
                          (double)game.video_gl_height);
 
         {
-            double width = wid_get_width(w) / 
+            double width = wid_get_width(w) /
                             (double)game.video_gl_width;
             px -= width / 8.0;
 
-            double height = wid_get_height(w) / 
+            double height = wid_get_height(w) /
                             (double)game.video_gl_height;
             py += height / 4.0;
         }

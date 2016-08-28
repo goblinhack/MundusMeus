@@ -329,9 +329,9 @@ static void sdl_init_joystick (void)
 
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
-    joy_index = 0; 
+    joy_index = 0;
 #if (SDL_MAJOR_VERSION == 2) /* { */
-    for (joy_index = 0; 
+    for (joy_index = 0;
          joy_index < SDL_NumJoysticks(); ++joy_index) {
 
         if (SDL_IsGameController(joy_index)) {
@@ -372,7 +372,7 @@ static void sdl_init_joystick (void)
 }
 
 #if 0
-static int 
+static int
 get_screensize (int *w, int *h)
 {
     SDL_SysWMinfo info;
@@ -488,11 +488,11 @@ uint8_t sdl_init (void)
         SDL_DisplayMode mode;
         SDL_GetCurrentDisplayMode(0, &mode);
         game.video_pix_width = mode.w;
-        game.video_pix_height = mode.h; 
+        game.video_pix_height = mode.h;
 #else
         const SDL_VideoInfo *info = SDL_GetVideoInfo();
         game.video_pix_width = info->current_w;
-        game.video_pix_height = info->current_h; 
+        game.video_pix_height = info->current_h;
 #endif
         VIDEO_WIDTH = game.video_pix_width;
         VIDEO_HEIGHT = game.video_pix_height;
@@ -842,7 +842,7 @@ static void sdl_event (SDL_Event * event)
         mouse_down = sdl_get_mouse();
 
         DBG("Mouse DOWN: button %d pressed at %d,%d state %x",
-            event->button.button, event->button.x, event->button.y, 
+            event->button.button, event->button.x, event->button.y,
             mouse_down);
 
         wid_mouse_visible = 1;
@@ -873,7 +873,7 @@ static void sdl_event (SDL_Event * event)
         mouse_down = sdl_get_mouse();
 
         DBG("Mouse UP: button %d released at %d,%d state %d",
-            event->button.button, event->button.x, event->button.y, 
+            event->button.button, event->button.x, event->button.y,
             mouse_down);
 
         wid_mouse_up(event->button.button, mouse_x, mouse_y);
@@ -1039,7 +1039,7 @@ void sdl_mouse_center (void)
 
     x = game.video_pix_width / 2;
     y = game.video_pix_height / 2;
-    
+
     sdl_mouse_warp(x, y);
 }
 
@@ -1192,7 +1192,7 @@ static void sdl_tick (void)
         if (y > game.video_pix_height - 1) {
             y = game.video_pix_height - 1;
         }
-        
+
         if (wid_mouse_visible) {
             sdl_mouse_warp(x, y);
         }
@@ -1402,7 +1402,7 @@ void sdl_loop (void)
             }
 
             /*
-             * Give up some CPU to allow events to arrive and time for the GPU 
+             * Give up some CPU to allow events to arrive and time for the GPU
              * to process the above.
              */
             timestamp_then = timestamp_now;
@@ -1446,7 +1446,7 @@ void sdl_loop (void)
             }
 
             /*
-             * SDL doesn't seem to like an immediate center. beachball hang if 
+             * SDL doesn't seem to like an immediate center. beachball hang if
              * we do this.
              */
             static int first = 0;
@@ -1546,7 +1546,7 @@ void sdl_loop (void)
             if (game.fps_counter) {
                 glcolor(YELLOW);
 
-                ttf_puts(small_font, fps_text, 
+                ttf_puts(small_font, fps_text,
                          0.90 * (double) game.video_pix_width,
                          0.97 * (double) game.video_pix_height,
                          1.0, 1.0, true);
@@ -1554,7 +1554,7 @@ void sdl_loop (void)
         }
 
         if (wid_tooltip_string) {
-                ttf_puts(small_font, wid_tooltip_string, 
+                ttf_puts(small_font, wid_tooltip_string,
                          0.00 * (double) game.video_pix_width,
                          0.97 * (double) game.video_pix_height,
                          1.0, 1.0, false);

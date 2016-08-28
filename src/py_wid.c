@@ -26,13 +26,13 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
 
     static char *kwlist[] = {
-        "wid", 
-        "parent", 
-        "name", 
-        "tiles", 
+        "wid",
+        "parent",
+        "name",
+        "tiles",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|Kss", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|Kss", kwlist,
                                      &py_class,
                                      &i_parent,
                                      &name,
@@ -76,14 +76,14 @@ PyObject *wid_new_scrollbar_ (PyObject *obj, PyObject *args, PyObject *keywds)
     int vert = false;
 
     static char *kwlist[] = {
-        "wid", 
-        "parent", 
-        "owner", 
-        "horiz", 
-        "vert", 
+        "wid",
+        "parent",
+        "owner",
+        "horiz",
+        "vert",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "OKK|ii", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "OKK|ii", kwlist,
                                      &py_class,
                                      &i_parent,
                                      &i_owner,
@@ -117,7 +117,7 @@ PyObject *wid_destroy_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
         return (0);
     }
@@ -139,7 +139,7 @@ PyObject *wid_set_shape_ (PyObject *obj, PyObject *args, PyObject *keywds)
     int shape_square = 0;
     int shape_square_outline = 0;
 
-    static char *kwlist[] = {"wid", 
+    static char *kwlist[] = {"wid",
         "none",
         "rounded_small",
         "rounded_large",
@@ -147,7 +147,7 @@ PyObject *wid_set_shape_ (PyObject *obj, PyObject *args, PyObject *keywds)
         "square_outline",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|iiiii", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|iiiii", kwlist,
                                      &py_class,
                                      &shape_none,
                                      &shape_rounded_small,
@@ -183,11 +183,11 @@ PyObject *wid_set_tooltip_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     char *text = 0;
 
-    static char *kwlist[] = {"wid", 
+    static char *kwlist[] = {"wid",
         "text",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
                                      &py_class,
                                      &text)) {
         return (0);
@@ -207,11 +207,11 @@ PyObject *wid_set_tiles_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     char *tiles = 0;
 
-    static char *kwlist[] = {"wid", 
+    static char *kwlist[] = {"wid",
         "tiles",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
                                      &py_class,
                                      &tiles)) {
         return (0);
@@ -237,14 +237,14 @@ PyObject *wid_set_pos_ (PyObject *obj, PyObject *args, PyObject *keywds)
     double x2 = 0;
     double y2 = 0;
 
-    static char *kwlist[] = {"wid", 
+    static char *kwlist[] = {"wid",
         "x1",
         "y1",
         "x2",
         "y2",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dddd", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dddd", kwlist,
                                      &py_class,
                                      &x1,
                                      &y1,
@@ -278,14 +278,14 @@ PyObject *wid_set_pos_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     double x2 = 0;
     double y2 = 0;
 
-    static char *kwlist[] = {"wid", 
+    static char *kwlist[] = {"wid",
         "x1",
         "y1",
         "x2",
         "y2",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dddd", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dddd", kwlist,
                                      &py_class,
                                      &x1,
                                      &y1,
@@ -328,7 +328,7 @@ PyObject *wid_set_text_ (PyObject *obj, PyObject *args, PyObject *keywds)
     double scaling = -1;
     int top = -1;
 
-    static char *kwlist[] = {"wid", 
+    static char *kwlist[] = {"wid",
         "text",
         "font",
         "outline",
@@ -344,7 +344,7 @@ PyObject *wid_set_text_ (PyObject *obj, PyObject *args, PyObject *keywds)
         "top",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ssisdiiiiiidi", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ssisdiiiiiidi", kwlist,
                                      &py_class,
                                      &text,
                                      &font,
@@ -437,7 +437,7 @@ PyObject *wid_set_color_ (PyObject *obj, PyObject *args, PyObject *keywds)
     int blit = 0;
     double alpha = -1;
 
-    static char *kwlist[] = {"wid", 
+    static char *kwlist[] = {"wid",
         "name",
         "bg",
         "tl",
@@ -447,7 +447,7 @@ PyObject *wid_set_color_ (PyObject *obj, PyObject *args, PyObject *keywds)
         "alpha",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|siiiiid", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|siiiiid", kwlist,
                                      &py_class,
                                      &color_name,
                                      &bg,
@@ -465,7 +465,7 @@ PyObject *wid_set_color_ (PyObject *obj, PyObject *args, PyObject *keywds)
     if (!color_name) {
         ERR("no color set");
     }
-        
+
     color c = color_find(color_name);
     if (bg) {
         wid_set_color(w, WID_COLOR_BG, c);
@@ -504,11 +504,11 @@ PyObject *wid_set_tex_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     char *name = 0;
 
-    static char *kwlist[] = {"wid_id", 
+    static char *kwlist[] = {"wid_id",
         "name",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
                                      &py_class,
                                      &name)) {
         return (0);
@@ -527,10 +527,10 @@ PyObject *wid_set_raise_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id", 
+    static char *kwlist[] = {"wid_id",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
                                      &py_class)) {
         return (0);
     }
@@ -548,10 +548,10 @@ PyObject *wid_set_lower_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id", 
+    static char *kwlist[] = {"wid_id",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
                                      &py_class)) {
         return (0);
     }
@@ -569,10 +569,10 @@ PyObject *wid_set_update_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id", 
+    static char *kwlist[] = {"wid_id",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
                                      &py_class)) {
         return (0);
     }
@@ -593,7 +593,7 @@ PyObject *wid_set_bevel_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|d", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|d", kwlist,
                                      &py_class,
                                      &value)) {
         return (0);
@@ -615,7 +615,7 @@ PyObject *wid_set_bevelled_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
                                      &value)) {
         return (0);
@@ -637,7 +637,7 @@ PyObject *wid_set_cursor_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
                                      &value)) {
         return (0);
@@ -659,7 +659,7 @@ PyObject *wid_set_do_not_lower_ (PyObject *obj, PyObject *args, PyObject *keywds
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
                                      &value)) {
         return (0);
@@ -681,7 +681,7 @@ PyObject *wid_set_do_not_raise_ (PyObject *obj, PyObject *args, PyObject *keywds
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
                                      &value)) {
         return (0);
@@ -703,7 +703,7 @@ PyObject *wid_set_focusable_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
                                      &value)) {
         return (0);
@@ -725,7 +725,7 @@ PyObject *wid_set_movable_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
                                      &value)) {
         return (0);
@@ -747,7 +747,7 @@ PyObject *wid_set_movable_bounded_ (PyObject *obj, PyObject *args, PyObject *key
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
                                      &value)) {
         return (0);
@@ -769,7 +769,7 @@ PyObject *wid_set_movable_horiz_ (PyObject *obj, PyObject *args, PyObject *keywd
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
                                      &value)) {
         return (0);
@@ -791,7 +791,7 @@ PyObject *wid_set_movable_vert_ (PyObject *obj, PyObject *args, PyObject *keywds
 
     static char *kwlist[] = {"wid_id", "value", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
                                      &value)) {
         return (0);
@@ -812,7 +812,7 @@ PyObject *wid_get_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
         return (0);
     }
@@ -840,7 +840,7 @@ PyObject *wid_get_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
         return (0);
     }
@@ -871,7 +871,7 @@ PyObject *wid_get_pos_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
         return (0);
     }
@@ -896,7 +896,7 @@ PyObject *wid_get_pos_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
         return (0);
     }
@@ -926,7 +926,7 @@ PyObject *wid_get_parent_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
         return (0);
     }
@@ -945,7 +945,7 @@ PyObject *wid_get_top_parent_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"wid_id", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
         return (0);
     }
@@ -1124,30 +1124,30 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
 
 static void wid_set_on_tooltip_callback (widp w, widp tooltip)
 {
-    py_call_void_module_ptr_ptr("wid", 
-                                "on_tooltip_callback", 
+    py_call_void_module_ptr_ptr("wid",
+                                "on_tooltip_callback",
                                 w,
                                 tooltip);
 }
 
 static void wid_set_on_m_focus_b_callback (widp w)
 {
-    py_call_void_module_ptr("wid", 
-                            "on_focus_b_callback", 
+    py_call_void_module_ptr("wid",
+                            "on_focus_b_callback",
                             w);
 }
 
 static void wid_set_on_m_focus_e_callback (widp w)
 {
-    py_call_void_module_ptr("wid", 
-                            "on_focus_e_callback", 
+    py_call_void_module_ptr("wid",
+                            "on_focus_e_callback",
                             w);
 }
 
 static void wid_set_on_m_over_b_callback (widp w, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
 {
-    py_call_void_module_ptr_iiii("wid", 
-                                 "on_m_over_b_callback", 
+    py_call_void_module_ptr_iiii("wid",
+                                 "on_m_over_b_callback",
                                  w,
                                  relx, rely,
                                  wheelx, wheely);
@@ -1155,8 +1155,8 @@ static void wid_set_on_m_over_b_callback (widp w, int32_t relx, int32_t rely, in
 
 static void wid_set_on_m_over_e_callback (widp w)
 {
-    py_call_void_module_ptr("wid", 
-                            "on_m_over_e_callback", 
+    py_call_void_module_ptr("wid",
+                            "on_m_over_e_callback",
                             w);
 }
 
@@ -1180,8 +1180,8 @@ static uint8_t wid_set_on_joy_button_callback (widp w, int32_t x, int32_t y)
     int button_left_fire = sdl_joy_buttons[SDL_JOY_BUTTON_LEFT_FIRE] ? 1 : 0;
     int button_right_fire = sdl_joy_buttons[SDL_JOY_BUTTON_RIGHT_FIRE] ? 1 : 0;
 
-    py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii("wid", 
-                                    "on_joy_button_callback", 
+    py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii("wid",
+                                    "on_joy_button_callback",
                                     w,
                                     x, y,
                                     button_a,
@@ -1208,8 +1208,8 @@ static uint8_t wid_set_on_m_down_callback (widp w, int32_t x, int32_t y, uint32_
 {
     int ret;
 
-    ret = py_call_int_module_ptr_iii("wid", 
-                                     "on_m_down_callback", 
+    ret = py_call_int_module_ptr_iii("wid",
+                                     "on_m_down_callback",
                                      w,
                                      x, y, button);
     return (ret);
@@ -1219,8 +1219,8 @@ static uint8_t wid_set_on_m_up_callback (widp w, int32_t x, int32_t y, uint32_t 
 {
     int ret;
 
-    ret = py_call_int_module_ptr_iii("wid", 
-                                     "on_m_up_callback", 
+    ret = py_call_int_module_ptr_iii("wid",
+                                     "on_m_up_callback",
                                      w,
                                      x, y, button);
     return (ret);
@@ -1228,9 +1228,9 @@ static uint8_t wid_set_on_m_up_callback (widp w, int32_t x, int32_t y, uint32_t 
 
 static uint8_t wid_set_on_m_motion_callback (widp w, int32_t x, int32_t y, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
 {
-    int ret = 
-        py_call_int_module_ptr_iiiiii("wid", 
-                                      "on_m_motion_callback", 
+    int ret =
+        py_call_int_module_ptr_iiiiii("wid",
+                                      "on_m_motion_callback",
                                       w,
                                       x, y,
                                       relx, rely,
@@ -1242,8 +1242,8 @@ static uint8_t wid_set_on_key_down_callback (widp w, const struct SDL_KEYSYM *k)
 {
     int ret;
 
-    ret = py_call_int_module_ptr_ii("wid", 
-                                    "on_key_down_callback", 
+    ret = py_call_int_module_ptr_ii("wid",
+                                    "on_key_down_callback",
                                     w,
                                     k->sym, k->mod);
     return (ret);
@@ -1253,8 +1253,8 @@ static uint8_t wid_set_on_key_up_callback (widp w, const struct SDL_KEYSYM *k)
 {
     int ret;
 
-    ret = py_call_int_module_ptr_ii("wid", 
-                                    "on_key_up_callback", 
+    ret = py_call_int_module_ptr_ii("wid",
+                                    "on_key_up_callback",
                                     w,
                                     k->sym, k->mod);
     return (ret);
@@ -1262,36 +1262,36 @@ static uint8_t wid_set_on_key_up_callback (widp w, const struct SDL_KEYSYM *k)
 
 static void wid_set_on_destroy_callback (widp w)
 {
-    py_call_void_module_ptr("wid", 
-                            "on_destroy_callback", 
+    py_call_void_module_ptr("wid",
+                            "on_destroy_callback",
                             w);
 }
 
 static void wid_set_on_destroy_b_callback (widp w)
 {
-    py_call_void_module_ptr("wid", 
-                            "on_destroy_b_callback", 
+    py_call_void_module_ptr("wid",
+                            "on_destroy_b_callback",
                             w);
 }
 
 static void wid_set_on_tick_callback (widp w)
 {
-    py_call_void_module_ptr("wid", 
-                            "on_tick_callback", 
+    py_call_void_module_ptr("wid",
+                            "on_tick_callback",
                             w);
 }
 
 static void wid_set_on_display_win_callback (widp w)
 {
-    py_call_void_module_ptr("wid", 
-                            "on_display_win_callback", 
+    py_call_void_module_ptr("wid",
+                            "on_display_win_callback",
                             w);
 }
 
 static void wid_set_on_display_callback (widp w, fpoint tl, fpoint br)
 {
-    py_call_void_module_ptr("wid", 
-                            "on_display_callback", 
+    py_call_void_module_ptr("wid",
+                            "on_display_callback",
                             w);
 }
 

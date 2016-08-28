@@ -117,7 +117,7 @@ static void wid_game_quit_create (void)
         return;
     }
 
-    wid_really_quit_game_yes_no = 
+    wid_really_quit_game_yes_no =
         wid_menu(0,
                  vvlarge_font,
                  large_font,

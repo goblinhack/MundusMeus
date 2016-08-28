@@ -22,7 +22,7 @@ PyObject *thing_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     static char *kwlist[] = {"thing", "tp", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
                                      &py_class,
                                      &tp_name)) {
         return (0);

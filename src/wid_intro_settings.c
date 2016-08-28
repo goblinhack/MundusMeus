@@ -36,7 +36,7 @@ static uint8_t wid_intro_settings_toggle_mouse_event(widp w,
 static int saved_focus;
 
 #define WID_INTRO_MAX_SETTINGS  5 // minus display sync
-#define WID_INTRO_MAX_VAL      30 
+#define WID_INTRO_MAX_VAL      30
 
 enum {
     WID_INTRO_SETTINGS_ROW_WINDOW,
@@ -62,7 +62,7 @@ static const char *wid_intro_button_name[WID_INTRO_MAX_SETTINGS] = {
 
 const char *wid_intro_button_value_string
                         [WID_INTRO_MAX_SETTINGS][WID_INTRO_MAX_VAL] = {
-    { 
+    {
         "640x480",
         "800x600",
         "1008x672",
@@ -72,53 +72,53 @@ const char *wid_intro_button_value_string
         "1280x1024",
         "1512x1008",
         "2880x1800",
-        0 
+        0
     },
-    { 
-        "Off", 
-        "1 VQuiet", 
-        "2 VQuiet", 
-        "3 VQuiet", 
-        "4 Quiet", 
-        "5 Quiet", 
-        "6 Quiet", 
-        "7 Quiet", 
-        "8 Med", 
-        "9 Med", 
-        "10 Med", 
-        "11 Med", 
-        "12 Med", 
-        "13 Med", 
-        "14 Med", 
-        "15 High", 
-        "16 High", 
-        "17 High", 
-        "18 High", 
-        "19 High", 
-        "20 Max", 
+    {
+        "Off",
+        "1 VQuiet",
+        "2 VQuiet",
+        "3 VQuiet",
+        "4 Quiet",
+        "5 Quiet",
+        "6 Quiet",
+        "7 Quiet",
+        "8 Med",
+        "9 Med",
+        "10 Med",
+        "11 Med",
+        "12 Med",
+        "13 Med",
+        "14 Med",
+        "15 High",
+        "16 High",
+        "17 High",
+        "18 High",
+        "19 High",
+        "20 Max",
         "1 Quiet", 0 },
-    { 
-        "Off", 
-        "1 VQuiet", 
-        "2 VQuiet", 
-        "3 VQuiet", 
-        "4 Quiet", 
-        "5 Quiet", 
-        "6 Quiet", 
-        "7 Quiet", 
-        "8 Med", 
-        "9 Med", 
-        "10 Med", 
-        "11 Med", 
-        "12 Med", 
-        "13 Med", 
-        "14 Med", 
-        "15 High", 
-        "16 High", 
-        "17 High", 
-        "18 High", 
-        "19 High", 
-        "20 Max", 
+    {
+        "Off",
+        "1 VQuiet",
+        "2 VQuiet",
+        "3 VQuiet",
+        "4 Quiet",
+        "5 Quiet",
+        "6 Quiet",
+        "7 Quiet",
+        "8 Med",
+        "9 Med",
+        "10 Med",
+        "11 Med",
+        "12 Med",
+        "13 Med",
+        "14 Med",
+        "15 High",
+        "16 High",
+        "17 High",
+        "18 High",
+        "19 High",
+        "20 Max",
         "1 Quiet", 0 },
 
     { "Off", "On", 0 },
@@ -177,11 +177,11 @@ static void wid_intro_settings_add_default_screen_modes (void)
     SDL_DisplayMode mode;
     SDL_GetCurrentDisplayMode(0, &mode);
     w = mode.w;
-    h = mode.h; 
+    h = mode.h;
 #else
     const SDL_VideoInfo *info = SDL_GetVideoInfo();
     w = info->current_w;
-    h = info->current_h; 
+    h = info->current_h;
 #endif
     char *tmp = dynprintf("%dx%d", w, h);
     int j;
@@ -260,7 +260,7 @@ void wid_intro_settings_visible (void)
     wid_intro_settings_create();
 }
 
-static uint8_t wid_intro_settings_back_mouse_event (widp w, 
+static uint8_t wid_intro_settings_back_mouse_event (widp w,
                                                     int32_t x, int32_t y,
                                                     uint32_t button)
 {
@@ -295,7 +295,7 @@ static void wid_intro_help_hide (void)
 static void wid_intro_help_visible (void)
 {
     LOG("Settings visible");
-    
+
     wid_intro_help_create();
 }
 
@@ -314,7 +314,7 @@ static void wid_intro_help_create (void)
         return;
     }
 
-    wid_intro_help = 
+    wid_intro_help =
         wid_menu(0,
                 vlarge_font,
                 large_font,
@@ -336,48 +336,48 @@ static void wid_intro_help_create (void)
                 "%%fg=purple$Fire",
                 (void*) 0,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=white$Movement",
-                "%%fg=purple$Cursor keys, shift to run", 
+                "%%fg=purple$Cursor keys, shift to run",
                 (void*) 0,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=white$Jump",
-                "%%fg=purple$z", 
+                "%%fg=purple$z",
                 (void*) 0,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=white$Drop bomb",
-                "%%fg=purple$b", 
+                "%%fg=purple$b",
                 (void*) 0,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=white$Fire rope",
-                "%%fg=purple$r", 
+                "%%fg=purple$r",
                 (void*) 0,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=white$Drop torch",
-                "%%fg=purple$t", 
+                "%%fg=purple$t",
                 (void*) 0,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=white$Pay in shop",
                 "%%fg=purple$p",
                 (void*) 0,
 
-                (int) '0', 
+                (int) '0',
                 "%%fmt=left$%%fg=white$Quit game",
                 "%%fg=purple$q",
                 (void*) 0,
 
-                (int) 'b', 
-                "%%fmt=left$Back", 
+                (int) 'b',
+                "%%fmt=left$Back",
                 (char*) 0,
                 wid_intro_help_callback_close);
 }
 
-static uint8_t wid_intro_settings_keys (widp w, 
+static uint8_t wid_intro_settings_keys (widp w,
                                         int32_t x, int32_t y,
                                         uint32_t button)
 {
@@ -621,7 +621,7 @@ static uint8_t wid_intro_restart_selected (void)
         return (false);
     }
 
-    wid_intro_restart_popup = 
+    wid_intro_restart_popup =
         wid_menu(0,
                  vvlarge_font,
                  large_font,
@@ -654,7 +654,7 @@ static void wid_intro_settings_save (void)
             &game.video_pix_width,
             &game.video_pix_height);
 
-    game.music_volume = 
+    game.music_volume =
         wid_intro_button_val[WID_INTRO_SETTINGS_ROW_MUSIC];
 
     game.sound_volume =
@@ -760,38 +760,38 @@ static void wid_intro_settings_create (void)
                  */
                 (double) 0.3, (double) 0.2,
 
-                (int) '1', 
-                keys[i], 
-                values[i], 
+                (int) '1',
+                keys[i],
+                values[i],
                 wid_intro_settings_mouse_event,
 
-                (int) '2', 
-                keys[i + 1], 
-                values[i + 1], 
+                (int) '2',
+                keys[i + 1],
+                values[i + 1],
                 wid_intro_settings_mouse_event,
 
-                (int) '3', 
-                keys[i + 2], 
-                values[i + 2], 
+                (int) '3',
+                keys[i + 2],
+                values[i + 2],
                 wid_intro_settings_mouse_event,
 
-                (int) '4', 
-                keys[i + 3], 
-                values[i + 3], 
+                (int) '4',
+                keys[i + 3],
+                values[i + 3],
                 wid_intro_settings_mouse_event,
 
-                (int) '5', 
-                keys[i + 4], 
-                values[i + 4], 
+                (int) '5',
+                keys[i + 4],
+                values[i + 4],
                 wid_intro_settings_mouse_event,
 
-                (int) 'k', 
-                "Keys", 
+                (int) 'k',
+                "Keys",
                 (char*) 0,
                 wid_intro_settings_keys,
 
-                (int) 'b', 
-                "Back", 
+                (int) 'b',
+                "Back",
                 (char*) 0,
                 wid_intro_settings_back_mouse_event);
 
@@ -810,7 +810,7 @@ static void wid_intro_settings_destroy (void)
         return;
     }
 
-    wid_menu_ctx *ctx = 
+    wid_menu_ctx *ctx =
                     (typeof(ctx)) wid_get_context(wid_intro_menu);
     verify(ctx);
 

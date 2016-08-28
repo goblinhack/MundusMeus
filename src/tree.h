@@ -170,7 +170,7 @@ tree_node *tree_next_ ## compare_func (tree_root *root, tree_node *node)    \
                                                                             \
     return (next);                                                          \
 }                                                                           \
-    
+
 #define TREE_PREV_INLINE(compare_func)                                      \
 static inline                                                               \
 tree_node *tree_prev_ ## compare_func (tree_root *root, tree_node *node)    \
@@ -275,7 +275,7 @@ tree_node *tree_prev_ ## compare_func (tree_root *root, tree_node *node)    \
          NEXT = (typeof(NODE))                                             \
          getnode2ctx((ROOT), (tree_node**) &(OUT),                         \
                      tree_next((ROOT), (tree_node*)(NODE))))               \
-                                                                            
+
 #define TREE_OFFSET_WALK_REVERSE_UNSAFE(ROOT, OUT)                         \
     typeof(OUT) PREV;                                                      \
     typeof(OUT) NODE;                                                      \

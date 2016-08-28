@@ -104,7 +104,7 @@ static uint8_t wid_game_map_receive_mouse_motion (
     return (true);
 }
 
-void wid_game_map_scroll_adjust (levelp level, uint8_t adjust) 
+void wid_game_map_scroll_adjust (levelp level, uint8_t adjust)
 {
     if (!player) {
         return;
@@ -153,7 +153,7 @@ void wid_game_map_scroll_adjust (levelp level, uint8_t adjust)
     }
 
     /*
-     * Lock the level scroll bar so we don't adjust the level size when 
+     * Lock the level scroll bar so we don't adjust the level size when
      * explosions or anything else leaks over the edge.
      */
     game.wid_grid->grid->bounds_locked = 1;
@@ -184,10 +184,10 @@ void wid_game_map_grid_create (void)
 
         wid_set_pos_pct(game.wid_grid, tl, br);
 
-        wid_set_on_key_down(game.wid_grid, 
+        wid_set_on_key_down(game.wid_grid,
                             player_key);
 
-        wid_set_on_joy_button(game.wid_grid, 
+        wid_set_on_joy_button(game.wid_grid,
                             player_joy);
 
         LOG("Created map container window");
@@ -262,10 +262,10 @@ void wid_game_map_wid_create (void)
         wid_set_no_shape(game.wid_map);
         wid_set_pos_pct(game.wid_map, tl, br);
 
-        wid_set_on_key_down(game.wid_map, 
+        wid_set_on_key_down(game.wid_map,
                             player_key);
 
-        wid_set_on_joy_button(game.wid_map, 
+        wid_set_on_joy_button(game.wid_map,
                             player_joy);
     }
 

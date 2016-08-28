@@ -158,7 +158,7 @@ static SDL_Surface *load_image (const char *filename)
     return (rv);
 }
 
-static int load_image_twice (const char *filename, 
+static int load_image_twice (const char *filename,
                              SDL_Surface **s1,
                              SDL_Surface **s2)
 {
@@ -714,7 +714,7 @@ static texp tex_black_and_white (SDL_Surface *in,
             color c;
 
             c = getPixel(in, ix, iy);
-            
+
             uint8_t avg = ((int)c.r + (int)c.g + (int)c.b) / 3;
             c.r = avg;
             c.g = avg;

@@ -668,7 +668,7 @@ void MESG (uint32_t level, const char *fmt, ...)
     va_start(args, fmt);
 
     msg_(level,
-         0, // thing 
+         0, // thing
          0, // x
          0, // y
          fmt, args);
@@ -742,7 +742,7 @@ static void sdl_msgerr_ (const char *fmt, va_list args)
     vsnprintf(buf + len, sizeof(buf) - len, fmt, args);
 
 #if SDL_MAJOR_VERSION >= 2
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, 
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
 	"MundusMeus", buf + ts_len, 0);
 #endif
 

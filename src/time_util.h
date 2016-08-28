@@ -39,7 +39,7 @@ static uint32_t time_update_time_milli(void);
 static inline uint32_t time_get_time_ms (void)
 {
     /*
-     * Do we really need to cache this? As it messes up timestamps when things 
+     * Do we really need to cache this? As it messes up timestamps when things
      * are blocking, like maze generation.
      */
     time_update_time_milli();
@@ -74,7 +74,7 @@ static inline uint32_t time_update_time_milli (void)
 
         gettimeofday(&tv, NULL);
 
-        uint32_t time_in_mill = 
+        uint32_t time_in_mill =
                 ((uint32_t)(tv.tv_sec) * 1000) + (tv.tv_usec) / 1000;
 
         if (!base_time_in_mill) {
@@ -97,7 +97,7 @@ static inline uint32_t time_get_time_milli (void)
 
     gettimeofday(&tv, NULL);
 
-    uint32_t time_in_mill = 
+    uint32_t time_in_mill =
             ((uint32_t)(tv.tv_sec) * 1000) + (tv.tv_usec) / 1000;
 
     if (!base_time_in_mill) {
