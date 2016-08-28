@@ -20,9 +20,9 @@ int py_call_int_module_int(const char *module, const char *name, int val1);
 int py_call_int_module_void(const char *module, const char *name);
 void py_call_void_module_void(const char *module, const char *name);
 
-void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii(const char *module, 
-                                                 const char *name, 
-                                                 void *val1, 
+void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii(const char *module,
+                                                 const char *name,
+                                                 void *val1,
                                                  int val2,
                                                  int val3,
                                                  int val4,

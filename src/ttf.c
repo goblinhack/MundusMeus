@@ -96,7 +96,7 @@ font *ttf_new (const char *name, int32_t pointSize, int32_t style)
  * Return a SDL rectangle with the size of the font
  */
 void ttf_text_size (font **f, const char *text_in,
-                    double *w, 
+                    double *w,
                     double *h,
                     enum_fmt *fmt,
                     const char **col,
@@ -570,7 +570,7 @@ ttf_create_tex_from_char (TTF_Font *ttf, const char *name, font *f, uint8_t c)
         return;
     }
 
-    SDL_Surface *g1 = 
+    SDL_Surface *g1 =
             TTF_RenderText_Shaded(ttf, text, f->foreground, f->background);
     if (!g1) {
         ERR("error getting display format for font glyph %u %s", c, name);
@@ -811,9 +811,9 @@ ttf_write_tga (char *name, int32_t pointsize)
     uint8_t filled_pixel_row[MAX_TEXTURE_HEIGHT] = {0};
 
     /*
-     * What the hell am I doing here? The ttf library returns incorrect 
-     * boounds for the top and bottom of glyphs, so I'm looking for a line of 
-     * no pixels above and below each glyph so I can really find the texture 
+     * What the hell am I doing here? The ttf library returns incorrect
+     * boounds for the top and bottom of glyphs, so I'm looking for a line of
+     * no pixels above and below each glyph so I can really find the texture
      * bounds of a glyph. This allows squeezing of text together.
      */
     {
@@ -905,7 +905,7 @@ ttf_write_tga (char *name, int32_t pointsize)
         {
             int y = (h + (h + f->glyphs[c].height)) / 2;
             /*
-             * Christ only knows. For some reason the glyphing for w is off in 
+             * Christ only knows. For some reason the glyphing for w is off in
              * Tekton
              */
             if (c == 'w') {

@@ -25,7 +25,7 @@
 #ifdef _WIN32
 #include <windows.h>
 
-static inline void uSleep (int waitTime) 
+static inline void uSleep (int waitTime)
 {
     __int64 time1 = 0, time2 = 0, freq = 0;
 
@@ -237,7 +237,7 @@ enum {
 /*
  * Bloody windows uses MSG hence MESG
  */
-void MESG(uint32_t level, const char *fmt, ...) 
+void MESG(uint32_t level, const char *fmt, ...)
     __attribute__ ((format (printf, 2, 3)));
 
 void SDL_MSG_BOX(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
@@ -432,7 +432,7 @@ struct game_ {
 
 extern struct game_ game;
 
-static inline levelp thing_levelp (uint32_t id) 
+static inline levelp thing_levelp (uint32_t id)
 {
     levelp level = &game.level;
 

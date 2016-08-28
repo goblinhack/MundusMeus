@@ -31,10 +31,10 @@ static int can_see_obstacle (levelp level, int32_t x, int32_t y)
 }
 
 static int can_see_ (levelp level,
-                     int32_t x0_in, 
-                     int32_t y0_in, 
-                     int32_t x1_in, 
-                     int32_t y1_in, 
+                     int32_t x0_in,
+                     int32_t y0_in,
+                     int32_t x1_in,
+                     int32_t y1_in,
                      int32_t flag)
 {
     double temp;

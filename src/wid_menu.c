@@ -20,8 +20,8 @@
 int wid_menu_visible;
 
 static void wid_menu_destroy(widp w);
-static void wid_menu_callback(widp w, 
-                              int focus, 
+static void wid_menu_callback(widp w,
+                              int focus,
                               on_m_down_t event_handler,
                               int key);
 static void wid_menu_prev_focus(wid_menu_ctx *ctx);
@@ -34,17 +34,17 @@ static void wid_menu_update (widp w)
 
     int items = ctx->items;
 
-    double total_height_needed = 
-                    ctx->focus_height + 
+    double total_height_needed =
+                    ctx->focus_height +
                     ctx->normal_height * (items - 1);
 
     /*
-     * We make the selected item larger than the rest so we need to work out 
-     * by what percent that the larger item should get and by how much to 
+     * We make the selected item larger than the rest so we need to work out
+     * by what percent that the larger item should get and by how much to
      * shring the smaller items so it all fits into 100%
      */
     double focus_wid_height = ctx->focus_height / total_height_needed;
-    double normal_wid_height = (ctx->normal_height * ((double)items - 1)) / 
+    double normal_wid_height = (ctx->normal_height * ((double)items - 1)) /
                     total_height_needed;
     normal_wid_height /= (double)(items - 1);
 
@@ -138,7 +138,7 @@ static void wid_menu_update (widp w)
                         }
                     }
                 }
-            } 
+            }
 
             color transparent = BLACK;
             transparent.a = 0;
@@ -197,7 +197,7 @@ static uint8_t wid_menu_mouse_event (widp w,
     verify(ctx);
 
     /*
-     * Don't process events too soon. Else the menu might not even have 
+     * Don't process events too soon. Else the menu might not even have
      * appeared.
      */
     if (time_get_time_ms() - ctx->created < 100) {
@@ -248,7 +248,7 @@ static uint8_t wid_menu_joy_button_event (widp w,
     verify(ctx);
 
     /*
-     * Don't process events too soon. Else the menu might not even have 
+     * Don't process events too soon. Else the menu might not even have
      * appeared.
      */
     if (time_get_time_ms() - ctx->created < 100) {
@@ -413,8 +413,8 @@ static void wid_menu_callback_do (void *context)
     myfree(tmp);
 }
 
-static void wid_menu_callback (widp w, 
-                               int focus, 
+static void wid_menu_callback (widp w,
+                               int focus,
                                on_m_down_t event_handler,
                                int key)
 {
@@ -447,7 +447,7 @@ static uint8_t wid_menu_key_event (widp w, const SDL_KEYSYM *key)
     verify(ctx);
 
     /*
-     * Don't process events too soon. Else the menu might not even have 
+     * Don't process events too soon. Else the menu might not even have
      * appeared.
      */
     if (time_get_time_ms() - ctx->created < 100) {
@@ -472,12 +472,12 @@ static uint8_t wid_menu_key_event (widp w, const SDL_KEYSYM *key)
                 widp b = ctx->buttons[ctx->focus][0];
                 verify(b);
 
-                on_m_down_t event_handler = 
+                on_m_down_t event_handler =
                                 ctx->event_handler[ctx->focus];
 
                 sound_play_click();
 
-                wid_menu_callback(b, ctx->focus, event_handler, 
+                wid_menu_callback(b, ctx->focus, event_handler,
                                   SDL_BUTTON_LEFT);
                 return (true);
             }
@@ -486,10 +486,10 @@ static uint8_t wid_menu_key_event (widp w, const SDL_KEYSYM *key)
                 widp b = ctx->buttons[ctx->focus][0];
                 verify(b);
 
-                on_m_down_t event_handler = 
+                on_m_down_t event_handler =
                                 ctx->event_handler[ctx->focus];
-                
-                wid_menu_callback(b, ctx->focus, event_handler, 
+
+                wid_menu_callback(b, ctx->focus, event_handler,
                                   SDL_BUTTON_LEFT);
                 return (true);
             }
@@ -498,10 +498,10 @@ static uint8_t wid_menu_key_event (widp w, const SDL_KEYSYM *key)
                 widp b = ctx->buttons[ctx->focus][0];
                 verify(b);
 
-                on_m_down_t event_handler = 
+                on_m_down_t event_handler =
                                 ctx->event_handler[ctx->focus];
 
-                wid_menu_callback(b, ctx->focus, event_handler, 
+                wid_menu_callback(b, ctx->focus, event_handler,
                                   SDL_BUTTON_RIGHT);
                 return (true);
             }
@@ -530,7 +530,7 @@ static uint8_t wid_menu_key_event (widp w, const SDL_KEYSYM *key)
              */
             for (i = 0; i < ctx->items; i++) {
                 if (key->sym == ctx->shortcut[i]) {
-                    on_m_down_t event_handler = 
+                    on_m_down_t event_handler =
                                     ctx->event_handler[i];
 
                     widp b = ctx->buttons[i][0];
@@ -572,7 +572,7 @@ static void wid_menu_mover (widp w,
     }
 
     /*
-     * Don't process events too soon. Else the menu might not even have 
+     * Don't process events too soon. Else the menu might not even have
      * appeared.
      */
     if (time_get_time_ms() - ctx->created < 100) {
@@ -979,7 +979,7 @@ static void wid_menu_tick (widp w)
     b = (b * 10.0 + nb) / 11.0;
 
     /*
-     * And then I decided to dump all the red stuff above and just make it 
+     * And then I decided to dump all the red stuff above and just make it
      * fade in and out. Oh well.
      */
     c.r = r;
@@ -1034,7 +1034,7 @@ widp wid_menu (widp parent,
     wid_menu_visible++;
 
     /*
-     * Create a context to hold button info so we can update it when the focus 
+     * Create a context to hold button info so we can update it when the focus
      * changes
      */
     wid_menu_ctx *ctx = myzalloc(sizeof(*ctx), "wid menu");
@@ -1045,11 +1045,11 @@ widp wid_menu (widp parent,
      * Work out how large each button bar should be.
      */
     double unused;
-    ttf_text_size(&focus_font, "X", &unused, 
+    ttf_text_size(&focus_font, "X", &unused,
                   &ctx->focus_height, 0, 0, 1.0f, 1.0f,
                   false /* fixed width */);
 
-    ttf_text_size(&normal_font, "X", &unused, 
+    ttf_text_size(&normal_font, "X", &unused,
                   &ctx->normal_height, 0, 0, 1.0f, 1.0f,
                   false /* fixed width */);
 
@@ -1100,14 +1100,14 @@ widp wid_menu (widp parent,
         fpoint tl = { 0.0, 0.0};
         fpoint br = { 0.0, 0.0};
 
-        double total_height_needed = 
-                        ctx->focus_height + 
+        double total_height_needed =
+                        ctx->focus_height +
                         ctx->normal_height * (items - 1);
 
         br.x = game.video_gl_width;
 
         /*
-         * Need a bit of fudge so the text outline does not creep out of the 
+         * Need a bit of fudge so the text outline does not creep out of the
          * widget scissors.
          */
         br.y = total_height_needed * 1.2;

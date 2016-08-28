@@ -204,7 +204,7 @@ void sound_play_at (const char *name_alias, double x, double y)
 }
 
 /*
- * Like the above but no checks for line of sight and always make some sound 
+ * Like the above but no checks for line of sight and always make some sound
  * even if quiet
  */
 void sound_play_global_at (const char *name_alias, double x, double y)

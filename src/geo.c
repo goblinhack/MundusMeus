@@ -9,7 +9,7 @@
 #include "math_util.h"
 
 /*
- * triangle_line_intersect(): find the 3D intersection of a line with a 
+ * triangle_line_intersect(): find the 3D intersection of a line with a
  * triangle
  * -1 = triangle is degenerate (a segment or point)
  *  0 =  disjoint (no intersect)
@@ -26,10 +26,10 @@ triangle_line_intersect (const line ray,
      * the triangle can be reached by walking some way along u and then some
      * way along v.
      *
-     * Notice now that if u or v < 0 then we've walked in the wrong direction 
-     * and must be outside the triangle. Also if u or v > 1 then we've walked 
-     * too far in a direction and are outside the triangle. Finally if u + v > 
-     * 1 then we've crossed the far edge again leaving the triangle. 
+     * Notice now that if u or v < 0 then we've walked in the wrong direction
+     * and must be outside the triangle. Also if u or v > 1 then we've walked
+     * too far in a direction and are outside the triangle. Finally if u + v >
+     * 1 then we've crossed the far edge again leaving the triangle.
      */
     fpoint3d u = fsub3d(triangle.V1, triangle.V0);
     fpoint3d v = fsub3d(triangle.V2, triangle.V0);
@@ -83,15 +83,15 @@ triangle_line_intersect (const line ray,
     float denominator = fdot3d(l, n);
 
     /*
-     * If the line starts outside the plane and is parallel to the plane, 
-     * there is no intersection. In this case, the above denominator will be 
-     * zero and the numerator will be non-zero. 
-     * 
-     * If the line starts inside the plane and is parallel to the plane, the 
-     * line intersects the plane everywhere. In this case, both the numerator 
-     * and denominator above will be zero. 
-     * 
-     * In all other cases, the line intersects the plane once and d represents 
+     * If the line starts outside the plane and is parallel to the plane,
+     * there is no intersection. In this case, the above denominator will be
+     * zero and the numerator will be non-zero.
+     *
+     * If the line starts inside the plane and is parallel to the plane, the
+     * line intersects the plane everywhere. In this case, both the numerator
+     * and denominator above will be zero.
+     *
+     * In all other cases, the line intersects the plane once and d represents
      * the intersection as the distance along the line from l0 i.e. dl + l0.
      */
     if (fabs(denominator) < 0.00000001) { // avoid division overflow
@@ -119,7 +119,7 @@ triangle_line_intersect (const line ray,
          */
         return (0);
     }
-    
+
     /*
      * Intersection point on the plane dl + l0.
      */
@@ -165,13 +165,13 @@ triangle_line_intersect (const line ray,
      */
     return (1);
 }
- 
+
 /*
  * Returns the distance to the closest intersection point of the light
  * with this cube.
  */
 uint8_t
-cube_line_intersect (const line ray, 
+cube_line_intersect (const line ray,
                      const fpoint3d p0,
                      const fpoint3d p1,
                      const fpoint3d p2,
@@ -238,29 +238,29 @@ cube_line_intersect (const line ray,
 /*
  * true if perpendicular line from point is in line segment.
  */
-uint8_t 
+uint8_t
 dist_point_line (fpoint3d P0, fpoint3d L0, fpoint3d L1, float *dist)
 {
     fpoint3d intersect;
     float mag;
     float U;
- 
+
     mag = fdist3d(L1, L0);
- 
+
     U = (((P0.x - L0.x) * (L1.x - L0.x)) +
          ((P0.y - L0.y) * (L1.y - L0.y)) +
          ((P0.z - L0.z) * (L1.z - L0.z))) /
          (mag * mag);
- 
+
     if ((U < 0.0f) || (U > 1.0f)) {
         return (0);   // closest P0 does not fall within the line segment
     }
- 
+
     intersect.x = L0.x + U * (L1.x - L0.x);
     intersect.y = L0.y + U * (L1.y - L0.y);
     intersect.z = L0.z + U * (L1.z - L0.z);
- 
+
     *dist = fdist3d(P0, intersect);
- 
+
     return (1);
 }

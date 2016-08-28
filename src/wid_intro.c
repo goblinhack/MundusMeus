@@ -178,7 +178,7 @@ static void wid_intro_quit_selected (void)
 
     wid_intro_menu_destroy();
 
-    wid_intro_quit_popup = 
+    wid_intro_quit_popup =
         wid_menu(0,
                  small_font,
                  vsmall_font,
@@ -197,7 +197,7 @@ static void wid_intro_quit_selected (void)
                  (int) 'n', "No",  wid_intro_quit_callback_no);
 }
 
-static uint8_t wid_menu_settings_selected (widp w, 
+static uint8_t wid_menu_settings_selected (widp w,
                                            int32_t x, int32_t y,
                                            uint32_t button)
 {
@@ -298,7 +298,7 @@ static void wid_intro_menu_create (void)
         return;
     }
 
-    wid_intro_menu = 
+    wid_intro_menu =
         wid_menu(0,
                  vvlarge_font,
                  large_font,
@@ -336,7 +336,7 @@ static void wid_intro_menu_destroy (void)
         return;
     }
 
-    wid_menu_ctx *ctx = 
+    wid_menu_ctx *ctx =
                     (typeof(ctx)) wid_get_context(wid_intro_menu);
     verify(ctx);
 

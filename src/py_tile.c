@@ -90,11 +90,11 @@ PyObject *tile_get_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
     tilep tile = 0;
 
     static char *kwlist[] = {
-        "name", 
+        "name",
         0
     };
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "s", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "s", kwlist,
                                      &name)) {
         Py_RETURN_NONE;
     }
@@ -120,11 +120,11 @@ PyObject *tile_get_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     tilep tile = 0;
 
     static char *kwlist[] = {
-        "name", 
+        "name",
         0
     };
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "s", kwlist, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "s", kwlist,
                                      &name)) {
         Py_RETURN_NONE;
     }

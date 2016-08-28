@@ -99,8 +99,8 @@ static inline int32_t bitcount (int32_t w)
 #else
     w = w - ((w >> 1) & 0x5555555555555555UL);
     w = (w & 0x3333333333333333UL) + ((w >> 2) & 0x3333333333333333UL);
-    return (int)(unchecked(((w + 
-                             (w >> 4)) & 0xF0F0F0F0F0F0F0FUL) * 
+    return (int)(unchecked(((w +
+                             (w >> 4)) & 0xF0F0F0F0F0F0F0FUL) *
                            0x101010101010101UL) >> 56);
 
     return (__builtin_popcount(w));

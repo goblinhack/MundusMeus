@@ -55,14 +55,14 @@ static int thing_tick_all_things (levelp level)
              */
             if ((t->dx != 0) || (t->dy != 0)) {
                 /*
-                 * Clean up missiles that have hit the edge and stopped 
+                 * Clean up missiles that have hit the edge and stopped
                  * moving.
                  */
-                if ((t->x <= 0) || 
-                    (t->y <= 0) || 
+                if ((t->x <= 0) ||
+                    (t->y <= 0) ||
                     (t->x >= MAP_WIDTH - 1) ||
                     (t->y >= MAP_HEIGHT - 1)) {
-                    thing_dead(t, 0, "missile at edge of level"); 
+                    thing_dead(t, 0, "missile at edge of level");
                     continue;
                 }
 
@@ -78,8 +78,8 @@ static int thing_tick_all_things (levelp level)
         w = t->wid;
 
         /*
-         * If waiting to update this thing to the client, like if it was newly 
-         * born, then do not move it before the client gets a chance to find 
+         * If waiting to update this thing to the client, like if it was newly
+         * born, then do not move it before the client gets a chance to find
          * out.
          */
 #if 0
@@ -104,7 +104,7 @@ static int thing_tick_all_things (levelp level)
             double nexthop_y = -1;
 
             if (thing_find_nexthop(level,
-                                   t, 
+                                   t,
                                    &nexthop_x, &nexthop_y)) {
 
                 /*

@@ -24,17 +24,17 @@ PyObject *ttf_text_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
     fontp f = 0;
 
     static char *kwlist[] = {
-        "font", 
-        "text", 
-        "scale", 
-        "advance", 
-        "fixed_width", 
+        "font",
+        "text",
+        "scale",
+        "advance",
+        "fixed_width",
         0
     };
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ss|ddi", kwlist, 
-                                     &name, 
-                                     &text, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ss|ddi", kwlist,
+                                     &name,
+                                     &text,
                                      &scale,
                                      &advance,
                                      &fixed_width)) {
@@ -71,17 +71,17 @@ PyObject *ttf_text_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     fontp f = 0;
 
     static char *kwlist[] = {
-        "font", 
-        "text", 
-        "scale", 
-        "advance", 
-        "fixed_width", 
+        "font",
+        "text",
+        "scale",
+        "advance",
+        "fixed_width",
         0
     };
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ss|ddi", kwlist, 
-                                     &name, 
-                                     &text, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ss|ddi", kwlist,
+                                     &name,
+                                     &text,
                                      &scale,
                                      &advance,
                                      &fixed_width)) {

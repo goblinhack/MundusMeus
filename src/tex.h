@@ -9,14 +9,14 @@
 uint8_t tex_init(void);
 void tex_fini(void);
 texp tex_load(const char *file, const char *name);
-texp tex_load_tiled(const char *file, 
-                    const char *name, 
+texp tex_load_tiled(const char *file,
+                    const char *name,
                     uint32_t x,
                     uint32_t y);
 int tex_load_tiled_black_and_white(
-                    const char *file, 
-                    const char *name, 
-                    const char *name2, 
+                    const char *file,
+                    const char *name,
+                    const char *name2,
                     uint32_t x,
                     uint32_t y);
 texp tex_find(const char *name);

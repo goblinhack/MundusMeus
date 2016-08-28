@@ -150,11 +150,11 @@ uint8_t player_move (levelp level)
         return (false);
     }
 
-    if (!up && !down && !left && !right && 
-        !fire && 
-        !jump && 
-        !bomb && 
-        !rope && 
+    if (!up && !down && !left && !right &&
+        !fire &&
+        !jump &&
+        !bomb &&
+        !rope &&
         !torch) {
         return (false);
     }

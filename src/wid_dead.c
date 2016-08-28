@@ -21,7 +21,7 @@ static widp wid_click_to_continue;
 static widp wid_replay_game_yes_no;
 
 static uint8_t wid_dead_init_done;
-static void wid_dead_create(const char *name, 
+static void wid_dead_create(const char *name,
                             const char *reason);
 
 uint8_t wid_dead_init (void)
@@ -41,7 +41,7 @@ void wid_dead_fini (void)
     }
 }
 
-void wid_dead_visible (const char *name, 
+void wid_dead_visible (const char *name,
                        const char *reason)
 {
     wid_dead_create(name, reason);
@@ -159,7 +159,7 @@ static void wid_dead_gravestone_appeared (void *context)
      */
     wid_game_quit_hide();
 
-    wid_replay_game_yes_no = 
+    wid_replay_game_yes_no =
             wid_menu(0,
                     vvlarge_font,
                     large_font,
@@ -173,7 +173,7 @@ static void wid_dead_gravestone_appeared (void *context)
 
                     (int) 0, "Play again?", (void*) 0,
 
-                    (int) 0, 
+                    (int) 0,
                         messages[myrand() % ARRAY_SIZE(messages)], (void*) 0,
 
                     (int) 'y', "Yes", wid_dead_replay_callback_yes,
@@ -181,7 +181,7 @@ static void wid_dead_gravestone_appeared (void *context)
                     (int) 'n', "No",  wid_dead_replay_callback_no);
 }
 
-static void wid_dead_create (const char *name, 
+static void wid_dead_create (const char *name,
                              const char *reason)
 {
     if (sdl_is_exiting()) {

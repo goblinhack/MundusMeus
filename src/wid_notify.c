@@ -205,8 +205,8 @@ static void wid_notify_move_wids (void)
     for (i = 0; i < nelems; i++) {
         wid_notify_elem *elem = &elems[i];
 
-        h -= 
-            wid_get_height(elem->notify_box_wid) / 
+        h -=
+            wid_get_height(elem->notify_box_wid) /
                 (double)game.video_gl_height;
 
         wid_move_to_pct_in(elem->notify_box_wid, X, h, 200);

@@ -65,7 +65,7 @@
 /*
  * Tries to batch calls to draw arrays for more speed.
  */
-#define ENABLE_GL_BULK_DRAW_ARRAYS 
+#define ENABLE_GL_BULK_DRAW_ARRAYS
 
 /*
  * So we don't hog all the CPU when not in video sync mode
@@ -134,7 +134,7 @@
 #define TILE_PIX_WITH_SHADOW_HEIGHT TILE_HEIGHT
 
 /*
- * Padding for tiles on the edge of the smooth scroll. Has to be quite wide so 
+ * Padding for tiles on the edge of the smooth scroll. Has to be quite wide so
  * that we can see the light from other player when off screen.
  */
 #define TILES_SCREEN_LIGHT_WIDTH_PAD      8

@@ -117,7 +117,7 @@ printf("  ");
 
                 d =  D->val[x-1][y];
                 f =  D->val[x+1][y];
-                 
+
                 g =  D->val[x-1][y+1] * 2;
                 h =  D->val[x  ][y+1];
                 i =  D->val[x+1][y+1] * 2;

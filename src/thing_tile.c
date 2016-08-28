@@ -413,7 +413,7 @@ uint8_t thing_tile_is_dead_on_end_of_anim (thing_tilep t)
 thing_tilep thing_tile_find (tpp t, uint32_t index, tilep *tile)
 {
     uint32_t which;
-    
+
     if (!t->tilep_join_count[index]) {
         return (0);
     }
@@ -428,7 +428,7 @@ thing_tilep thing_tile_find (tpp t, uint32_t index, tilep *tile)
 thing_tilep thing_tile_find_n (tpp t, uint32_t index, tilep *tile, int n)
 {
     uint32_t which;
-    
+
     if (!t->tilep_join_count[index]) {
         return (0);
     }

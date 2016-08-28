@@ -102,7 +102,7 @@ uint8_t get_line_intersection (fpoint p0,
                                fpoint p3,
                                fpoint *intersect)
 {
-    double denominator = 
+    double denominator =
         ((p3.y - p2.y) * (p1.x - p0.x)) - ((p3.x - p2.x) * (p1.y - p0.y));
 
     if (denominator == 0) {
@@ -118,7 +118,7 @@ uint8_t get_line_intersection (fpoint p0,
     a = numerator1 / denominator;
     b = numerator2 / denominator;
 
-    // if we cast these lines infinitely in both directions, they intersect 
+    // if we cast these lines infinitely in both directions, they intersect
     // here:
     intersect->x = p0.x + (a * (p1.x - p0.x));
     intersect->y = p0.y + (a * (p1.y - p0.y));
@@ -140,7 +140,7 @@ uint8_t get_line_known_intersection (fpoint p0,
                                      fpoint p3,
                                      fpoint *intersect)
 {
-    double denominator = 
+    double denominator =
         ((p3.y - p2.y) * (p1.x - p0.x)) - ((p3.x - p2.x) * (p1.y - p0.y));
 
     if (denominator == 0) {
@@ -156,7 +156,7 @@ uint8_t get_line_known_intersection (fpoint p0,
     a = numerator1 / denominator;
     b = numerator2 / denominator;
 
-    // if we cast these lines infinitely in both directions, they intersect 
+    // if we cast these lines infinitely in both directions, they intersect
     // here:
     intersect->x = p0.x + (a * (p1.x - p0.x));
     intersect->y = p0.y + (a * (p1.y - p0.y));
@@ -164,26 +164,26 @@ uint8_t get_line_known_intersection (fpoint p0,
     return (true);
 }
 
-uint8_t 
+uint8_t
 fpoint_dist_line (fpoint P0, fpoint L0, fpoint L1, double *dist,
                   fpoint *intersect_out)
 {
     fpoint intersect;
     float mag;
     float U;
- 
+
     /*
      * Can get the squared distance to avoid this.
      */
     mag = fdist(L1, L0);
- 
+
     /*
      * Project point P onto the line and then calc the dot product.
      */
     U = (((P0.x - L0.x) * (L1.x - L0.x)) +
          ((P0.y - L0.y) * (L1.y - L0.y))) /
          (mag * mag);
- 
+
     if (U < 0.0f) {
         intersect = L0;
     } else if (U > 1.0f) {
@@ -192,40 +192,40 @@ fpoint_dist_line (fpoint P0, fpoint L0, fpoint L1, double *dist,
         intersect.x = L0.x + U * (L1.x - L0.x);
         intersect.y = L0.y + U * (L1.y - L0.y);
     }
- 
+
     *dist = fdist(P0, intersect);
 
     if (intersect_out) {
         *intersect_out = intersect;
     }
- 
+
     if ((U < 0.0f) || (U > 1.0f)) {
         return (0);   // closest P0 does not fall within the line segment
     }
- 
+
     return (1);
 }
 
-int 
+int
 fpoint_dist_line2 (fpoint P0, fpoint L0, fpoint L1, double *dist,
                   fpoint *intersect_out)
 {
     fpoint intersect;
     float mag;
     float U;
- 
+
     /*
      * Can get the squared distance to avoid this.
      */
     mag = fdist(L1, L0);
- 
+
     /*
      * Project point P onto the line and then calc the dot product.
      */
     U = (((P0.x - L0.x) * (L1.x - L0.x)) +
          ((P0.y - L0.y) * (L1.y - L0.y))) /
          (mag * mag);
- 
+
     if (U < 0.0f) {
         intersect = L0;
     } else if (U > 1.0f) {
@@ -234,38 +234,38 @@ fpoint_dist_line2 (fpoint P0, fpoint L0, fpoint L1, double *dist,
         intersect.x = L0.x + U * (L1.x - L0.x);
         intersect.y = L0.y + U * (L1.y - L0.y);
     }
- 
+
     *dist = fdist(P0, intersect);
 
     if (intersect_out) {
         *intersect_out = intersect;
     }
- 
+
     if ((U < 0.0f) || (U > 1.0f)) {
         return (0);   // closest P0 does not fall within the line segment
     }
- 
+
     return (1);
 }
 
-double 
+double
 fpoint_project_onto_line (fpoint P0, fpoint L0, fpoint L1)
 {
     float mag;
     float U;
- 
+
     /*
      * Can get the squared distance to avoid this.
      */
     mag = fdist(L1, L0);
- 
+
     /*
      * Project point P onto the line and then calc the dot product.
      */
     U = (((P0.x - L0.x) * (L1.x - L0.x)) +
          ((P0.y - L0.y) * (L1.y - L0.y))) /
          (mag * mag);
- 
+
     return (U);
 }
 
@@ -299,7 +299,7 @@ static double crossProduct (fpoint a, fpoint b) {
     return (a.x * b.y - b.x * a.y);
 }
 
-static boolean isPointOnLine (fpoint p0, fpoint p1, fpoint b) 
+static boolean isPointOnLine (fpoint p0, fpoint p1, fpoint b)
 {
     p1.x -= p0.x;
     p1.y -= p0.y;
@@ -316,7 +316,7 @@ static boolean isPointOnLine (fpoint p0, fpoint p1, fpoint b)
     return (fabs(r) < EPSILON);
 }
 
-static boolean isPointRightOfLine (fpoint p0, fpoint p1, fpoint b) 
+static boolean isPointRightOfLine (fpoint p0, fpoint p1, fpoint b)
 {
     p1.x -= p0.x;
     p1.y -= p0.y;

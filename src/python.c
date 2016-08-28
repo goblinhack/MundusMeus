@@ -472,9 +472,9 @@ int py_call_int_module_ptr_int (const char *module, const char *name, void *val1
     return (ret);
 }
 
-void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii (const char *module, 
-                                                  const char *name, 
-                                                  void *val1, 
+void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii (const char *module,
+                                                  const char *name,
+                                                  void *val1,
                                                   int val2,
                                                   int val3,
                                                   int val4,
@@ -518,8 +518,8 @@ void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii (const char *module,
     }
 
     if (PyCallable_Check(fn)) {
-        PyObject *pArgs = Py_BuildValue("(Kiiiiiiiiiiiiiiiiiii)", 
-                                        (uintptr_t) val1, 
+        PyObject *pArgs = Py_BuildValue("(Kiiiiiiiiiiiiiiiiiii)",
+                                        (uintptr_t) val1,
                                         val2,
                                         val3,
                                         val4,
@@ -904,7 +904,7 @@ int py_call_int_module_ptr_ptr (const char *module, const char *name, void *val1
     }
 
     if (PyCallable_Check(fn)) {
-        PyObject *pArgs = Py_BuildValue("(KK)", 
+        PyObject *pArgs = Py_BuildValue("(KK)",
                                         (uintptr_t) val1,
                                         (uintptr_t) val2);
         PyObject *pValue = PyObject_CallObject(fn, pArgs);
@@ -948,7 +948,7 @@ void py_call_void_module_ptr_ptr (const char *module, const char *name, void *va
     }
 
     if (PyCallable_Check(fn)) {
-        PyObject *pArgs = Py_BuildValue("(KK)", 
+        PyObject *pArgs = Py_BuildValue("(KK)",
                                         (uintptr_t) val1,
                                         (uintptr_t) val2);
         PyObject *pValue = PyObject_CallObject(fn, pArgs);

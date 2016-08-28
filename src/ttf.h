@@ -13,7 +13,7 @@ void ttf_fini(void);
 fontp ttf_new(const char *name, int32_t pointSize, int32_t style);
 void ttf_free(fontp);
 void ttf_text_size(fontp *, const char *text,
-                   double *w, 
+                   double *w,
                    double *h,
                    enum_fmt *fmt,
                    const char **c,

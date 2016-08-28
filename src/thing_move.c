@@ -13,9 +13,9 @@
 #include "time_util.h"
 #include "player.h"
 
-void thing_wid_move (thingp t, 
-                     double x, 
-                     double y, 
+void thing_wid_move (thingp t,
+                     double x,
+                     double y,
                      uint8_t smooth)
 {
     double dist = DISTANCE(t->x, t->y, x, y);
@@ -60,8 +60,8 @@ void thing_wid_move (thingp t,
     if (tile) {
         double tw = tile_get_width(tile);
         double th = tile_get_height(tile);
-        double scale_x = tw / TILE_WIDTH; 
-        double scale_y = th / TILE_HEIGHT; 
+        double scale_x = tw / TILE_WIDTH;
+        double scale_y = th / TILE_HEIGHT;
 
         double tile_width = game.tile_width;
         double tile_height = game.tile_height;
@@ -115,7 +115,7 @@ void thing_wid_move (thingp t,
 
     double bounce_ms = 300;
 
-    if (thing_is_player(t) || 
+    if (thing_is_player(t) ||
         thing_is_monst(t)) {
 
         wid_bounce_to_pct_in(w, 0.1, 0.9, bounce_ms, 4);
@@ -128,8 +128,8 @@ void thing_wid_move (thingp t,
     }
 }
 
-void thing_wid_update (thingp t, 
-                       double x, double y, 
+void thing_wid_update (thingp t,
+                       double x, double y,
                        uint8_t smooth)
 {
     verify(t);
