@@ -1083,7 +1083,7 @@ static uint8_t wid_mover_b (widp w, uint32_t x, uint32_t y,
             (w->on_tooltip)(w, wid_popup_tooltip);
         }
 
-        wid_set_on_destroy_begin(wid_popup_tooltip, wid_tooltip_destroy);
+        wid_set_on_destroy_b(wid_popup_tooltip, wid_tooltip_destroy);
     }
 
     return (true);
@@ -2461,11 +2461,11 @@ void wid_set_on_destroy (widp w, on_destroy_t fn)
     w->on_destroy = fn;
 }
 
-void wid_set_on_destroy_begin (widp w, on_destroy_t fn)
+void wid_set_on_destroy_b (widp w, on_destroy_t fn)
 {
     fast_verify(w);
 
-    w->on_destroy_begin = fn;
+    w->on_destroy_b = fn;
 }
 
 void wid_set_on_tick (widp w, on_tick_t fn)
@@ -2492,7 +2492,7 @@ void wid_set_on_display (widp w, on_display_t fn)
     w->on_display = fn;
 }
 
-void wid_set_on_display_top_level (widp w, on_display_top_level_t fn)
+void wid_set_on_display_win (widp w, on_display_win_t fn)
 {
     fast_verify(w);
 
@@ -2500,7 +2500,7 @@ void wid_set_on_display_top_level (widp w, on_display_top_level_t fn)
         ERR("no ticker function set");
     }
 
-    w->on_display_top_level = fn;
+    w->on_display_win = fn;
 }
 
 /*
@@ -3072,8 +3072,8 @@ static void wid_destroy_delay (widp *wp, int32_t delay)
         wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
     }
 
-    if (w->on_destroy_begin) {
-        (w->on_destroy_begin)(w);
+    if (w->on_destroy_b) {
+        (w->on_destroy_b)(w);
     }
 
     /*
@@ -9555,8 +9555,8 @@ void wid_display_all (void)
                     0 /* updated_scissors */,
                     true);
 
-        if (w->on_display_top_level) {
-            (w->on_display_top_level)(w);
+        if (w->on_display_win) {
+            (w->on_display_win)(w);
         }
     } }
 

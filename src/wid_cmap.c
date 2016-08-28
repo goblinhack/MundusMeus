@@ -678,7 +678,7 @@ widp wid_cmap (const char *title,
         c.a = 100;
         wid_set_color(window, WID_COLOR_BG, c);
 
-        wid_set_on_destroy_begin(window, wid_cmap_destroy_begin);
+        wid_set_on_destroy_b(window, wid_cmap_destroy_begin);
         wid_set_on_key_down(window, wid_cmap_parent_key_down);
         wid_set_on_joy_button(window, wid_cmap_parent_joy_button);
         wid_set_on_destroy(window, wid_cmap_destroy);

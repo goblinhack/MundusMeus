@@ -1665,10 +1665,10 @@ static PyMethodDef python_c_METHODS[] =
     WID_DECL(wid_set_on_m_over_e)
     WID_DECL(wid_set_on_m_up)
     WID_DECL(wid_set_on_destroy)
-    WID_DECL(wid_set_on_destroy_begin)
+    WID_DECL(wid_set_on_destroy_b)
     WID_DECL(wid_set_on_tick)
     WID_DECL(wid_set_on_display)
-    WID_DECL(wid_set_on_display_top_level)
+    WID_DECL(wid_set_on_display_win)
 
     WID_DECL(wid_destroy_grid)
     WID_DECL(wid_detach_from_grid)
