@@ -148,8 +148,8 @@ void wid_key_down(const struct SDL_KEYSYM *, int32_t x, int32_t y);
 void wid_key_up(const struct SDL_KEYSYM *, int32_t x, int32_t y);
 
 typedef void(*on_tooltip_t)(widp, widp);
-typedef void(*on_mouse_focus_begin_t)(widp);
-typedef void(*on_mouse_focus_end_t)(widp);
+typedef void(*on_mouse_focus_b_t)(widp);
+typedef void(*on_mouse_focus_e_t)(widp);
 typedef void(*on_mouse_over_begin_t)(widp,
                                      int32_t relx, int32_t rely,
                                      int32_t wheelx, int32_t wheely);
@@ -349,8 +349,8 @@ void wid_set_on_key_up(widp, on_key_up_t fn);
 void wid_set_on_joy_button(widp, on_joy_button_t fn);
 void wid_set_on_mouse_down(widp, on_mouse_down_t fn);
 void wid_set_on_mouse_motion(widp, on_mouse_motion_t fn);
-void wid_set_on_mouse_focus_begin(widp, on_mouse_focus_begin_t fn);
-void wid_set_on_mouse_focus_end(widp, on_mouse_focus_end_t fn);
+void wid_set_on_mouse_focus_b(widp, on_mouse_focus_b_t fn);
+void wid_set_on_mouse_focus_e(widp, on_mouse_focus_e_t fn);
 void wid_set_on_mouse_over_begin(widp, on_mouse_over_begin_t fn);
 void wid_set_on_mouse_over_end(widp, on_mouse_over_end_t fn);
 void wid_set_on_mouse_up(widp, on_mouse_up_t fn);
@@ -892,8 +892,8 @@ typedef struct wid_ {
     on_mouse_down_t on_mouse_down;
     on_mouse_up_t on_mouse_up;
     on_mouse_motion_t on_mouse_motion;
-    on_mouse_focus_begin_t on_mouse_focus_begin;
-    on_mouse_focus_end_t on_mouse_focus_end;
+    on_mouse_focus_b_t on_mouse_focus_b;
+    on_mouse_focus_e_t on_mouse_focus_e;
     on_mouse_over_begin_t on_mouse_over_begin;
     on_mouse_over_end_t on_mouse_over_end;
     on_destroy_t on_destroy;

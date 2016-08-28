@@ -1130,17 +1130,17 @@ static void wid_set_on_tooltip_callback (widp w, widp tooltip)
                                 tooltip);
 }
 
-static void wid_set_on_mouse_focus_begin_callback (widp w)
+static void wid_set_on_mouse_focus_b_callback (widp w)
 {
     py_call_void_module_ptr("wid", 
-                            "on_focus_begin_callback", 
+                            "on_focus_b_callback", 
                             w);
 }
 
-static void wid_set_on_mouse_focus_end_callback (widp w)
+static void wid_set_on_mouse_focus_e_callback (widp w)
 {
     py_call_void_module_ptr("wid", 
-                            "on_focus_end_callback", 
+                            "on_focus_e_callback", 
                             w);
 }
 
@@ -1379,8 +1379,8 @@ WID_BODY_ON_CALLBACK_FN(wid_set_on_key_up);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_joy_button);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_down);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_motion);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_focus_begin);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_focus_end);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_focus_b);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_focus_e);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_over_begin);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_over_end);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_up);

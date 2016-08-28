@@ -24,8 +24,8 @@ class WidText(wid.Wid):
                  row_on_mouse_down,
                  row_on_mouse_up,
                  row_on_mouse_motion,
-                 row_on_mouse_focus_begin,
-                 row_on_mouse_focus_end,
+                 row_on_mouse_focus_b,
+                 row_on_mouse_focus_e,
                  row_on_mouse_over_begin,
                  row_on_mouse_over_end,
                  row_on_destroy,
@@ -241,8 +241,8 @@ class WidText(wid.Wid):
             w.row_on_mouse_down = row_on_mouse_down[row]
             w.row_on_mouse_up = row_on_mouse_up[row]
             w.row_on_mouse_motion = row_on_mouse_motion[row]
-            w.row_on_mouse_focus_begin = row_on_mouse_focus_begin[row]
-            w.row_on_mouse_focus_end = row_on_mouse_focus_end[row]
+            w.row_on_mouse_focus_b = row_on_mouse_focus_b[row]
+            w.row_on_mouse_focus_e = row_on_mouse_focus_e[row]
             w.row_on_mouse_over_begin = row_on_mouse_over_begin[row]
             w.row_on_mouse_over_end = row_on_mouse_over_end[row]
             w.row_on_destroy = row_on_destroy[row]

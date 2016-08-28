@@ -1,8 +1,6 @@
-import traceback
 import mm
 import wid
 import wid_text
-import math
 
 
 class WidPopup(wid.Wid):
@@ -30,8 +28,8 @@ class WidPopup(wid.Wid):
                  row_on_mouse_down=None,
                  row_on_mouse_up=None,
                  row_on_mouse_motion=None,
-                 row_on_mouse_focus_begin=None,
-                 row_on_mouse_focus_end=None,
+                 row_on_mouse_focus_b=None,
+                 row_on_mouse_focus_e=None,
                  row_on_mouse_over_begin=None,
                  row_on_mouse_over_end=None,
                  row_on_destroy=None,
@@ -54,8 +52,8 @@ class WidPopup(wid.Wid):
                  title_on_mouse_down=None,
                  title_on_mouse_up=None,
                  title_on_mouse_motion=None,
-                 title_on_mouse_focus_begin=None,
-                 title_on_mouse_focus_end=None,
+                 title_on_mouse_focus_b=None,
+                 title_on_mouse_focus_e=None,
                  title_on_mouse_over_begin=None,
                  title_on_mouse_over_end=None,
                  title_on_destroy=None,
@@ -68,54 +66,54 @@ class WidPopup(wid.Wid):
 
         self.parent = parent
         self.name = name
-        self.global_row_font=row_font
-        self.global_row_color=row_color
-        self.global_row_center=row_center
-        self.global_row_rhs=row_rhs
-        self.global_row_on_tooltip=row_on_tooltip
-        self.global_row_tooltip=row_tooltip
-        self.global_row_on_key_down=row_on_key_down
-        self.global_row_on_key_sym=row_on_key_sym
-        self.global_row_on_key_mod=row_on_key_mod
-        self.global_row_on_key_up=row_on_key_up
-        self.global_row_on_joy_button=row_on_joy_button
-        self.global_row_on_mouse_down=row_on_mouse_down
-        self.global_row_on_mouse_up=row_on_mouse_up
-        self.global_row_on_mouse_motion=row_on_mouse_motion
-        self.global_row_on_mouse_focus_begin=row_on_mouse_focus_begin
-        self.global_row_on_mouse_focus_end=row_on_mouse_focus_end
-        self.global_row_on_mouse_over_begin=row_on_mouse_over_begin
-        self.global_row_on_mouse_over_end=row_on_mouse_over_end
-        self.global_row_on_destroy=row_on_destroy
-        self.global_row_on_destroy_begin=row_on_destroy_begin
-        self.global_row_on_tick=row_on_tick
-        self.global_row_on_button_list=row_on_button_list
-        self.global_row_on_display=row_on_display
-        self.global_row_on_display_top_level=row_on_display_top_level
-        self.global_title_font=title_font
-        self.global_title_color=title_color
-        self.global_title_center=title_center
-        self.global_title_rhs=title_rhs
-        self.global_title_on_tooltip=title_on_tooltip
-        self.global_title_tooltip=title_tooltip
-        self.global_title_on_key_down=title_on_key_down
-        self.global_title_on_key_sym=title_on_key_sym
-        self.global_title_on_key_mod=title_on_key_mod
-        self.global_title_on_key_up=title_on_key_up
-        self.global_title_on_joy_button=title_on_joy_button
-        self.global_title_on_mouse_down=title_on_mouse_down
-        self.global_title_on_mouse_up=title_on_mouse_up
-        self.global_title_on_mouse_motion=title_on_mouse_motion
-        self.global_title_on_mouse_focus_begin=title_on_mouse_focus_begin
-        self.global_title_on_mouse_focus_end=title_on_mouse_focus_end
-        self.global_title_on_mouse_over_begin=title_on_mouse_over_begin
-        self.global_title_on_mouse_over_end=title_on_mouse_over_end
-        self.global_title_on_destroy=title_on_destroy
-        self.global_title_on_destroy_begin=title_on_destroy_begin
-        self.global_title_on_tick=title_on_tick
-        self.global_title_on_button_list=title_on_button_list
-        self.global_title_on_display=title_on_display
-        self.global_title_on_display_top_level=title_on_display_top_level
+        self.global_row_font = row_font
+        self.global_row_color = row_color
+        self.global_row_center = row_center
+        self.global_row_rhs = row_rhs
+        self.global_row_on_tooltip = row_on_tooltip
+        self.global_row_tooltip = row_tooltip
+        self.global_row_on_key_down = row_on_key_down
+        self.global_row_on_key_sym = row_on_key_sym
+        self.global_row_on_key_mod = row_on_key_mod
+        self.global_row_on_key_up = row_on_key_up
+        self.global_row_on_joy_button = row_on_joy_button
+        self.global_row_on_mouse_down = row_on_mouse_down
+        self.global_row_on_mouse_up = row_on_mouse_up
+        self.global_row_on_mouse_motion = row_on_mouse_motion
+        self.global_row_on_mouse_focus_b = row_on_mouse_focus_b
+        self.global_row_on_mouse_focus_e = row_on_mouse_focus_e
+        self.global_row_on_mouse_over_begin = row_on_mouse_over_begin
+        self.global_row_on_mouse_over_end = row_on_mouse_over_end
+        self.global_row_on_destroy = row_on_destroy
+        self.global_row_on_destroy_begin = row_on_destroy_begin
+        self.global_row_on_tick = row_on_tick
+        self.global_row_on_button_list = row_on_button_list
+        self.global_row_on_display = row_on_display
+        self.global_row_on_display_top_level = row_on_display_top_level
+        self.global_title_font = title_font
+        self.global_title_color = title_color
+        self.global_title_center = title_center
+        self.global_title_rhs = title_rhs
+        self.global_title_on_tooltip = title_on_tooltip
+        self.global_title_tooltip = title_tooltip
+        self.global_title_on_key_down = title_on_key_down
+        self.global_title_on_key_sym = title_on_key_sym
+        self.global_title_on_key_mod = title_on_key_mod
+        self.global_title_on_key_up = title_on_key_up
+        self.global_title_on_joy_button = title_on_joy_button
+        self.global_title_on_mouse_down = title_on_mouse_down
+        self.global_title_on_mouse_up = title_on_mouse_up
+        self.global_title_on_mouse_motion = title_on_mouse_motion
+        self.global_title_on_mouse_focus_b = title_on_mouse_focus_b
+        self.global_title_on_mouse_focus_e = title_on_mouse_focus_e
+        self.global_title_on_mouse_over_begin = title_on_mouse_over_begin
+        self.global_title_on_mouse_over_end = title_on_mouse_over_end
+        self.global_title_on_destroy = title_on_destroy
+        self.global_title_on_destroy_begin = title_on_destroy_begin
+        self.global_title_on_tick = title_on_tick
+        self.global_title_on_button_list = title_on_button_list
+        self.global_title_on_display = title_on_display
+        self.global_title_on_display_top_level = title_on_display_top_level
 
         if tiles is not None:
             super().__init__(name, tiles=tiles, parent=parent)
@@ -153,8 +151,8 @@ class WidPopup(wid.Wid):
         self.row_on_mouse_down = []
         self.row_on_mouse_up = []
         self.row_on_mouse_motion = []
-        self.row_on_mouse_focus_begin = []
-        self.row_on_mouse_focus_end = []
+        self.row_on_mouse_focus_b = []
+        self.row_on_mouse_focus_e = []
         self.row_on_mouse_over_begin = []
         self.row_on_mouse_over_end = []
         self.row_on_destroy = []
@@ -182,8 +180,8 @@ class WidPopup(wid.Wid):
         self.title_on_mouse_down = []
         self.title_on_mouse_up = []
         self.title_on_mouse_motion = []
-        self.title_on_mouse_focus_begin = []
-        self.title_on_mouse_focus_end = []
+        self.title_on_mouse_focus_b = []
+        self.title_on_mouse_focus_e = []
         self.title_on_mouse_over_begin = []
         self.title_on_mouse_over_end = []
         self.title_on_destroy = []
@@ -210,8 +208,8 @@ class WidPopup(wid.Wid):
                  on_mouse_down=None,
                  on_mouse_up=None,
                  on_mouse_motion=None,
-                 on_mouse_focus_begin=None,
-                 on_mouse_focus_end=None,
+                 on_mouse_focus_b=None,
+                 on_mouse_focus_e=None,
                  on_mouse_over_begin=None,
                  on_mouse_over_end=None,
                  on_destroy=None,
@@ -232,7 +230,7 @@ class WidPopup(wid.Wid):
             if color is None:
                 color = self.global_row_color
             if center is False:
-                row_center = self.global_row_center
+                center = self.global_row_center
             if rhs is None:
                 rhs = self.global_row_rhs
             if on_tooltip is None:
@@ -255,10 +253,10 @@ class WidPopup(wid.Wid):
                 on_mouse_up = self.global_row_on_mouse_up
             if on_mouse_motion is None:
                 on_mouse_motion = self.global_row_on_mouse_motion
-            if on_mouse_focus_begin is None:
-                on_mouse_focus_begin = self.global_row_on_mouse_focus_begin
-            if on_mouse_focus_end is None:
-                on_mouse_focus_end = self.global_row_on_mouse_focus_end
+            if on_mouse_focus_b is None:
+                on_mouse_focus_b = self.global_row_on_mouse_focus_b
+            if on_mouse_focus_e is None:
+                on_mouse_focus_e = self.global_row_on_mouse_focus_e
             if on_mouse_over_begin is None:
                 on_mouse_over_begin = self.global_row_on_mouse_over_begin
             if on_mouse_over_end is None:
@@ -291,8 +289,8 @@ class WidPopup(wid.Wid):
             self.row_on_mouse_down.append(on_mouse_down)
             self.row_on_mouse_up.append(on_mouse_up)
             self.row_on_mouse_motion.append(on_mouse_motion)
-            self.row_on_mouse_focus_begin.append(on_mouse_focus_begin)
-            self.row_on_mouse_focus_end.append(on_mouse_focus_end)
+            self.row_on_mouse_focus_b.append(on_mouse_focus_b)
+            self.row_on_mouse_focus_e.append(on_mouse_focus_e)
             self.row_on_mouse_over_begin.append(on_mouse_over_begin)
             self.row_on_mouse_over_end.append(on_mouse_over_end)
             self.row_on_destroy.append(on_destroy)
@@ -333,10 +331,10 @@ class WidPopup(wid.Wid):
                 on_mouse_up = self.global_title_on_mouse_up
             if on_mouse_motion is None:
                 on_mouse_motion = self.global_title_on_mouse_motion
-            if on_mouse_focus_begin is None:
-                on_mouse_focus_begin = self.global_title_on_mouse_focus_begin
-            if on_mouse_focus_end is None:
-                on_mouse_focus_end = self.global_title_on_mouse_focus_end
+            if on_mouse_focus_b is None:
+                on_mouse_focus_b = self.global_title_on_mouse_focus_b
+            if on_mouse_focus_e is None:
+                on_mouse_focus_e = self.global_title_on_mouse_focus_e
             if on_mouse_over_begin is None:
                 on_mouse_over_begin = self.global_title_on_mouse_over_begin
             if on_mouse_over_end is None:
@@ -367,8 +365,8 @@ class WidPopup(wid.Wid):
             self.title_on_mouse_down.append(on_mouse_down)
             self.title_on_mouse_up.append(on_mouse_up)
             self.title_on_mouse_motion.append(on_mouse_motion)
-            self.title_on_mouse_focus_begin.append(on_mouse_focus_begin)
-            self.title_on_mouse_focus_end.append(on_mouse_focus_end)
+            self.title_on_mouse_focus_b.append(on_mouse_focus_b)
+            self.title_on_mouse_focus_e.append(on_mouse_focus_e)
             self.title_on_mouse_over_begin.append(on_mouse_over_begin)
             self.title_on_mouse_over_end.append(on_mouse_over_end)
             self.title_on_destroy.append(on_destroy)
@@ -387,8 +385,8 @@ class WidPopup(wid.Wid):
                                        row_font=self.title_font,
                                        width=self.inner_width)
         else:
-            title_w, title_h, self.title_width, self.title_line_width =  \
-                0, 0, 0, 0
+            title_h, self.title_width, self.title_line_width =  \
+                0, 0, 0
 
         if self.row_count > 0:
             body_w, body_h, self.row_width, self.line_width =  \
@@ -396,8 +394,8 @@ class WidPopup(wid.Wid):
                                        row_font=self.row_font,
                                        width=self.inner_width)
         else:
-            body_w, body_h, self.row_width, self.line_width =  \
-                0, 0, 0, 0
+            body_h, self.row_width, self.line_width =  \
+                0, 0, 0
 
         if self.height == 0:
             self.height = title_h + body_h + self.pad_h * 2
@@ -424,9 +422,14 @@ class WidPopup(wid.Wid):
             if self.body_tiles is not None:
                 textbox_x1 = inner_pad_w * 0.4
                 textbox_x2 = 1.0 - inner_pad_w * 0.4
-                textbox_y1 = inner_pad_h * 0.4 # to account for the widget shadow
+
+                # to account for the widget shadow
+                textbox_y1 = inner_pad_h * 0.4
+
                 textbox_y1 += title_h
-                textbox_y2 = 1.0 - inner_pad_h * 0.4 # again, shadow padding
+
+                # again, shadow padding
+                textbox_y2 = 1.0 - inner_pad_h * 0.4
 
                 w = wid.Wid(name="textbox tiles",
                             tiles=self.body_tiles,
@@ -438,41 +441,47 @@ class WidPopup(wid.Wid):
 
             textbox_x1 = inner_pad_w
             textbox_x2 = 1.0 - inner_pad_w
-            textbox_y1 = inner_pad_h * 0.9 # to account for the widget shadow
-            textbox_y1 += title_h
-            textbox_y2 = 1.0 - inner_pad_h * 0.9 # again, shadow padding
 
-            self.text_box = wid_text.WidText(name="textbox",
-                                             row_text=self.row_text,
-                                             row_font=self.row_font,
-                                             row_color=self.row_color,
-                                             row_center=self.row_center,
-                                             row_rhs=self.row_rhs,
-                                             row_width=self.row_width,
-                                             line_width=self.line_width,
-                                             row_on_tooltip=self.row_on_tooltip,
-                                             row_tooltip=self.row_tooltip,
-                                             row_on_key_down=self.row_on_key_down,
-                                             row_on_key_sym=self.row_on_key_sym,
-                                             row_on_key_mod=self.row_on_key_mod,
-                                             row_on_key_up=self.row_on_key_up,
-                                             row_on_joy_button=self.row_on_joy_button,
-                                             row_on_mouse_down=self.row_on_mouse_down,
-                                             row_on_mouse_up=self.row_on_mouse_up,
-                                             row_on_mouse_motion=self.row_on_mouse_motion,
-                                             row_on_mouse_focus_begin=self.row_on_mouse_focus_begin,
-                                             row_on_mouse_focus_end=self.row_on_mouse_focus_end,
-                                             row_on_mouse_over_begin=self.row_on_mouse_over_begin,
-                                             row_on_mouse_over_end=self.row_on_mouse_over_end,
-                                             row_on_destroy=self.row_on_destroy,
-                                             row_on_destroy_begin=self.row_on_destroy_begin,
-                                             row_on_tick=self.row_on_tick,
-                                             row_on_button_list=self.row_on_button_list,
-                                             row_on_display=self.row_on_display,
-                                             row_on_display_top_level=self.row_on_display_top_level,
-                                             parent=self.wid_id,
-                                             x1=textbox_x1, y1=textbox_y1,
-                                             x2=textbox_x2, y2=textbox_y2)
+            # to account for the widget shadow
+            textbox_y1 = inner_pad_h * 0.9
+
+            textbox_y1 += title_h
+
+            # again, shadow padding
+            textbox_y2 = 1.0 - inner_pad_h * 0.9
+
+            self.text_box = \
+                wid_text.WidText(name="textbox",
+                                 row_text=self.row_text,
+                                 row_font=self.row_font,
+                                 row_color=self.row_color,
+                                 row_center=self.row_center,
+                                 row_rhs=self.row_rhs,
+                                 row_width=self.row_width,
+                                 line_width=self.line_width,
+                                 row_on_tooltip=self.row_on_tooltip,
+                                 row_tooltip=self.row_tooltip,
+                                 row_on_key_down=self.row_on_key_down,
+                                 row_on_key_sym=self.row_on_key_sym,
+                                 row_on_key_mod=self.row_on_key_mod,
+                                 row_on_key_up=self.row_on_key_up,
+                                 row_on_joy_button=self.row_on_joy_button,
+                                 row_on_mouse_down=self.row_on_mouse_down,
+                                 row_on_mouse_up=self.row_on_mouse_up,
+                                 row_on_mouse_motion=self.row_on_mouse_motion,
+                                 row_on_mouse_focus_b=self.row_on_mouse_focus_b,
+                                 row_on_mouse_focus_e=self.row_on_mouse_focus_e,
+                                 row_on_mouse_over_begin=self.row_on_mouse_over_begin,
+                                 row_on_mouse_over_end=self.row_on_mouse_over_end,
+                                 row_on_destroy=self.row_on_destroy,
+                                 row_on_destroy_begin=self.row_on_destroy_begin,
+                                 row_on_tick=self.row_on_tick,
+                                 row_on_button_list=self.row_on_button_list,
+                                 row_on_display=self.row_on_display,
+                                 row_on_display_top_level=self.row_on_display_top_level,
+                                 parent=self.wid_id,
+                                 x1=textbox_x1, y1=textbox_y1,
+                                 x2=textbox_x2, y2=textbox_y2)
 
         if need_scrollbar is True:
             self.scrollbar = wid.Wid(name="wid popup scroll",
@@ -519,8 +528,8 @@ class WidPopup(wid.Wid):
                                              row_on_mouse_down=self.title_on_mouse_down,
                                              row_on_mouse_up=self.title_on_mouse_up,
                                              row_on_mouse_motion=self.title_on_mouse_motion,
-                                             row_on_mouse_focus_begin=self.title_on_mouse_focus_begin,
-                                             row_on_mouse_focus_end=self.title_on_mouse_focus_end,
+                                             row_on_mouse_focus_b=self.title_on_mouse_focus_b,
+                                             row_on_mouse_focus_e=self.title_on_mouse_focus_e,
                                              row_on_mouse_over_begin=self.title_on_mouse_over_begin,
                                              row_on_mouse_over_end=self.title_on_mouse_over_end,
                                              row_on_destroy=self.title_on_destroy,
@@ -541,4 +550,3 @@ class WidPopup(wid.Wid):
     def scroll_down(self):
         if self.scrollbar is not None:
             self.scrollbar.move_delta_pct(x=0, y=0.05)
-
