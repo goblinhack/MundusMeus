@@ -26,8 +26,8 @@ class Wid:
         self.callback_on_joy_button = None
         self.callback_on_mouse_down = None
         self.callback_on_mouse_motion = None
-        self.callback_on_mouse_focus_begin = None
-        self.callback_on_mouse_focus_end = None
+        self.callback_on_mouse_focus_b = None
+        self.callback_on_mouse_focus_e = None
         self.callback_on_mouse_over_begin = None
         self.callback_on_mouse_over_end = None
         self.callback_on_mouse_up = None
@@ -325,17 +325,17 @@ class Wid:
             return
         mm.wid_set_on_mouse_motion(self)
 
-    def set_on_mouse_focus_begin(self, callback):
-        self.callback_on_mouse_focus_begin = callback
+    def set_on_mouse_focus_b(self, callback):
+        self.callback_on_mouse_focus_b = callback
         if callback is None:
             return
-        mm.wid_set_on_mouse_focus_begin(self)
+        mm.wid_set_on_mouse_focus_b(self)
 
-    def set_on_mouse_focus_end(self, callback):
-        self.callback_on_mouse_focus_end = callback
+    def set_on_mouse_focus_e(self, callback):
+        self.callback_on_mouse_focus_e = callback
         if callback is None:
             return
-        mm.wid_set_on_mouse_focus_end(self)
+        mm.wid_set_on_mouse_focus_e(self)
 
     def set_on_mouse_over_begin(self, callback):
         self.callback_on_mouse_over_begin = callback
@@ -453,17 +453,17 @@ class Wid:
                                                               wheelx, wheely))
         return False
 
-    def on_mouse_focus_begin(self):
-        if self.callback_on_mouse_focus_begin is not None:
-            self.callback_on_mouse_focus_begin(self)
+    def on_mouse_focus_b(self):
+        if self.callback_on_mouse_focus_b is not None:
+            self.callback_on_mouse_focus_b(self)
             return
-        mm.err("wid_set_on_mouse_focus_begin not handled")
+        mm.err("wid_set_on_mouse_focus_b not handled")
 
-    def on_mouse_focus_end(self):
-        if self.callback_on_mouse_focus_end is not None:
-            self.callback_on_mouse_focus_end(self)
+    def on_mouse_focus_e(self):
+        if self.callback_on_mouse_focus_e is not None:
+            self.callback_on_mouse_focus_e(self)
             return
-        mm.err("wid_set_on_mouse_focus_end not handled")
+        mm.err("wid_set_on_mouse_focus_e not handled")
 
     def on_mouse_over_begin(self, relx, rely, wheelx, wheely):
         if self.callback_on_mouse_over_begin is not None:
@@ -609,25 +609,25 @@ def on_mouse_down_callback(wid_id, x, y, button):
     return False
 
 
-def on_mouse_focus_begin_callback(wid_id):
+def on_mouse_focus_b_callback(wid_id):
     wid = all_wids[wid_id]
     if wid is not None:
-        if wid.on_focus_begin is None:
+        if wid.on_focus_b is None:
             return False
-        wid.on_mouse_focus_begin()
+        wid.on_mouse_focus_b()
         return
     mm.err("Widget not found for " +
-           "on_mouse_focus_begin, id {0:x}".format(wid_id))
+           "on_mouse_focus_b, id {0:x}".format(wid_id))
 
 
-def on_mouse_focus_end_callback(wid_id):
+def on_mouse_focus_e_callback(wid_id):
     wid = all_wids[wid_id]
     if wid is not None:
-        if wid.on_focus_end is None:
+        if wid.on_focus_e is None:
             return False
-        wid.on_mouse_focus_end()
+        wid.on_mouse_focus_e()
         return
-    mm.err("Widget not found for on_mouse_focus_end, id {0:x}".format(wid_id))
+    mm.err("Widget not found for on_mouse_focus_e, id {0:x}".format(wid_id))
 
 
 def on_mouse_over_begin_callback(wid_id, relx, rely, wheelx, wheely):

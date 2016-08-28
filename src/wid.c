@@ -872,7 +872,7 @@ static void wid_mouse_motion_begin (widp w, int32_t x, int32_t y)
     wid_moving_last_y = y;
 }
 
-static void wid_mouse_focus_end (void)
+static void wid_mouse_focus_e (void)
 {
     widp w;
 
@@ -884,8 +884,8 @@ static void wid_mouse_focus_end (void)
         return;
     }
 
-    if (w->on_mouse_focus_end) {
-        w->on_mouse_focus_end(w);
+    if (w->on_mouse_focus_e) {
+        w->on_mouse_focus_e(w);
     }
 }
 
@@ -894,12 +894,12 @@ widp wid_get_current_focus (void)
     return (wid_focus);
 }
 
-static void wid_mouse_focus_begin (widp w)
+static void wid_mouse_focus_b (widp w)
 {
     widp top;
 
     if (!w) {
-        wid_mouse_focus_end();
+        wid_mouse_focus_e();
         wid_focus = 0;
 
         wid_find_top_focus();
@@ -910,7 +910,7 @@ static void wid_mouse_focus_begin (widp w)
         return;
     }
 
-    wid_mouse_focus_end();
+    wid_mouse_focus_e();
 
     if (wid_ignore_for_focus(w)) {
         return;
@@ -921,8 +921,8 @@ static void wid_mouse_focus_begin (widp w)
     wid_focus = w;
     top->focus_last = w->focus_order;
 
-    if (w->on_mouse_focus_begin) {
-        w->on_mouse_focus_begin(w);
+    if (w->on_mouse_focus_b) {
+        w->on_mouse_focus_b(w);
     }
 }
 
@@ -2362,7 +2362,7 @@ void wid_set_focus (widp w)
         }
     }
 
-    wid_mouse_focus_begin(w);
+    wid_mouse_focus_b(w);
 }
 
 void wid_set_active (widp w)
@@ -2426,18 +2426,18 @@ void wid_set_on_mouse_motion (widp w, on_mouse_motion_t fn)
     w->on_mouse_motion = fn;
 }
 
-void wid_set_on_mouse_focus_begin (widp w, on_mouse_focus_begin_t fn)
+void wid_set_on_mouse_focus_b (widp w, on_mouse_focus_b_t fn)
 {
     fast_verify(w);
 
-    w->on_mouse_focus_begin = fn;
+    w->on_mouse_focus_b = fn;
 }
 
-void wid_set_on_mouse_focus_end (widp w, on_mouse_focus_end_t fn)
+void wid_set_on_mouse_focus_e (widp w, on_mouse_focus_e_t fn)
 {
     fast_verify(w);
 
-    w->on_mouse_focus_end = fn;
+    w->on_mouse_focus_e = fn;
 }
 
 void wid_set_on_mouse_over_begin (widp w, on_mouse_over_begin_t fn)
@@ -2889,7 +2889,7 @@ static void wid_destroy_immediate_internal (widp w)
     }
 
     if (wid_focus == w) {
-        wid_mouse_focus_end();
+        wid_mouse_focus_e();
     }
 
     if (wid_focus_locked == w) {
@@ -3046,7 +3046,7 @@ static void wid_destroy_delay (widp *wp, int32_t delay)
     wid_tree4_wids_being_destroyed_insert(w);
 
     if (wid_focus == w) {
-        wid_mouse_focus_end();
+        wid_mouse_focus_e();
     }
 
     if (wid_over == w) {
