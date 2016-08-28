@@ -253,7 +253,7 @@ class WidTpGrid(wid_popup.WidPopup):
 
                 text += "[%%tile=" + tpp.name + "$] "
 
-            if text != "": 
+            if text != "":
                 w.add_text(
                         on_button_list=button_events,
                         font=font,
