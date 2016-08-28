@@ -501,7 +501,7 @@ widp wid_popup (const char *text, const char *title,
             wid_set_mode(child, WID_MODE_NORMAL);
             wid_set_focusable(child, focus_order--);
 
-            wid_set_on_mouse_down(child, wid_popup_wid_mouse_event);
+            wid_set_on_m_down(child, wid_popup_wid_mouse_event);
             wid_set_on_key_down(child, wid_popup_wid_key_event);
 
             wid_set_context(child, (void*)button_callback[n]);

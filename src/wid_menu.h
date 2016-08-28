@@ -59,7 +59,7 @@ typedef struct {
     /*
      * What to call on events
      */
-    on_mouse_down_t event_handler[WID_MENU_MAX_ITEMS];
+    on_m_down_t event_handler[WID_MENU_MAX_ITEMS];
 
     /*
      * Percentage width of each column.

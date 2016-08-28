@@ -237,7 +237,7 @@ static uint8_t wid_keyboard_mouse_event (widp w,
     return (true);
 }
 
-static uint8_t wid_keyboard_button_mouse_event (widp w,
+static uint8_t wid_keyboard_button_m_event (widp w,
                                                 int32_t x, int32_t y,
                                                 uint32_t button)
 {
@@ -625,7 +625,7 @@ static uint8_t wid_keyboard_text_input_key_event (widp w, const SDL_KEYSYM *key)
     return (false);
 }
 
-static void wid_keyboard_mouse_over (widp w,
+static void wid_keyboard_mover (widp w,
                                      int32_t relx, int32_t rely,
                                      int32_t wheelx, int32_t wheely)
 {
@@ -863,10 +863,10 @@ widp wid_keyboard (const char *text,
             wid_set_text(b, keys[y][x]);
 
             wid_set_text_outline(b, true);
-            wid_set_on_mouse_over_begin(b, wid_keyboard_mouse_over);
+            wid_set_on_m_over_b(b, wid_keyboard_mover);
             wid_set_on_key_down(b, wid_keyboard_button_key_event);
             wid_set_on_joy_button(b, wid_keyboard_button_joy_button_event);
-            wid_set_on_mouse_down(b, wid_keyboard_button_mouse_event);
+            wid_set_on_m_down(b, wid_keyboard_button_m_event);
 
             wid_set_color(b, WID_COLOR_BG, GRAY20);
             wid_set_color(b, WID_COLOR_TL, GRAY60);

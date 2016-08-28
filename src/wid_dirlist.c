@@ -522,15 +522,15 @@ static void wid_dirlist_add_files (widp wid_dirlist_container,
         wid_set_font(child, small_font);
         wid_set_text_outline(child, true);
 
-        wid_set_on_mouse_down(child, wid_dirlist_wid_noop);
+        wid_set_on_m_down(child, wid_dirlist_wid_noop);
 
         if (n->is_file) {
-            wid_set_on_mouse_down(child, wid_dirlist_file_event);
+            wid_set_on_m_down(child, wid_dirlist_file_event);
         } else {
             wid_set_mode(child, WID_MODE_NORMAL);
             c = GRAY50;
             wid_set_color(child, WID_COLOR_TEXT, c);
-            wid_set_on_mouse_down(child, wid_dirlist_dir_event);
+            wid_set_on_m_down(child, wid_dirlist_dir_event);
         }
     }
 }
@@ -908,7 +908,7 @@ widp wid_dirlist (const char *dir,
             wid_set_mode(child, WID_MODE_NORMAL);
             wid_set_focusable(child, focus_order--);
 
-            wid_set_on_mouse_down(child, wid_dirlist_button_event);
+            wid_set_on_m_down(child, wid_dirlist_button_event);
 
             wid_set_context(child, (void*)button_callback[n]);
         }

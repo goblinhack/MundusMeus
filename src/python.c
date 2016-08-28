@@ -1657,13 +1657,13 @@ static PyMethodDef python_c_METHODS[] =
     WID_DECL(wid_set_on_key_down)
     WID_DECL(wid_set_on_key_up)
     WID_DECL(wid_set_on_joy_button)
-    WID_DECL(wid_set_on_mouse_down)
-    WID_DECL(wid_set_on_mouse_motion)
-    WID_DECL(wid_set_on_mouse_focus_b)
-    WID_DECL(wid_set_on_mouse_focus_e)
-    WID_DECL(wid_set_on_mouse_over_begin)
-    WID_DECL(wid_set_on_mouse_over_end)
-    WID_DECL(wid_set_on_mouse_up)
+    WID_DECL(wid_set_on_m_down)
+    WID_DECL(wid_set_on_m_motion)
+    WID_DECL(wid_set_on_m_focus_b)
+    WID_DECL(wid_set_on_m_focus_e)
+    WID_DECL(wid_set_on_m_over_b)
+    WID_DECL(wid_set_on_m_over_e)
+    WID_DECL(wid_set_on_m_up)
     WID_DECL(wid_set_on_destroy)
     WID_DECL(wid_set_on_destroy_begin)
     WID_DECL(wid_set_on_tick)
@@ -1751,7 +1751,7 @@ static struct PyModuleDef python_c_MODULE = {
 };
 
 static PyMODINIT_FUNC
-python_my_module_create (void)
+python_m_y_module_create (void)
 {
    PyObject *m = PyModule_Create(&python_c_MODULE);
    if (! m) {
@@ -2054,7 +2054,7 @@ static void python_add_consts (void)
 
 void python_init (void)
 {
-    PyImport_AppendInittab("mm", python_my_module_create);
+    PyImport_AppendInittab("mm", python_m_y_module_create);
 
     Py_Initialize();
 

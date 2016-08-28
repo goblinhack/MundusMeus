@@ -6,7 +6,7 @@ import wid_tp_detail
 from enum import Enum
 
 
-def wid_tp_list_on_mouse_down_close(w, x, y, button):
+def wid_tp_list_on_m_down_close(w, x, y, button):
     mm.con("TODO")
     return True
 
@@ -27,32 +27,32 @@ class Item(Enum):
     food = 6
 
 
-def wid_tp_list_on_mouse_down_filter_1(w, x, y, button):
+def wid_tp_list_on_m_down_filter_1(w, x, y, button):
     wid_tp_list_filter(w, Item.all.value)
     return True
 
 
-def wid_tp_list_on_mouse_down_filter_2(w, x, y, button):
+def wid_tp_list_on_m_down_filter_2(w, x, y, button):
     wid_tp_list_filter(w, Item.weapon.value)
     return True
 
 
-def wid_tp_list_on_mouse_down_filter_3(w, x, y, button):
+def wid_tp_list_on_m_down_filter_3(w, x, y, button):
     wid_tp_list_filter(w, Item.magical.value)
     return True
 
 
-def wid_tp_list_on_mouse_down_filter_4(w, x, y, button):
+def wid_tp_list_on_m_down_filter_4(w, x, y, button):
     wid_tp_list_filter(w, Item.armor.value)
     return True
 
 
-def wid_tp_list_on_mouse_down_filter_5(w, x, y, button):
+def wid_tp_list_on_m_down_filter_5(w, x, y, button):
     wid_tp_list_filter(w, Item.healing.value)
     return True
 
 
-def wid_tp_list_on_mouse_down_filter_6(w, x, y, button):
+def wid_tp_list_on_m_down_filter_6(w, x, y, button):
     wid_tp_list_filter(w, Item.food.value)
     return True
 
@@ -83,12 +83,12 @@ def wid_tp_list_on_key_down(w, sym, mod):
     return True
 
 
-def wid_tp_list_on_mouse_over_begin(w, relx, rely, wheelx, wheely):
+def wid_tp_list_on_m_over_b(w, relx, rely, wheelx, wheely):
     wid_tp_list_common(w)
     return True
 
 
-def wid_tp_list_on_mouse_over_end(w):
+def wid_tp_list_on_m_over_e(w):
     p = w.get_top_parent()
 
     if p.tp_detail is not None:
@@ -131,32 +131,32 @@ class WidTpList(wid_popup.WidPopup):
 
         button_events = (
                 {
-                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_1,
+                    "on_m_down": wid_tp_list_on_m_down_filter_1,
                     "tiles": "button_green",
                     "tooltip": "All items",
                 },
                 {
-                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_2,
+                    "on_m_down": wid_tp_list_on_m_down_filter_2,
                     "tiles": "button_green",
                     "tooltip": "weapon filter",
                 },
                 {
-                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_3,
+                    "on_m_down": wid_tp_list_on_m_down_filter_3,
                     "tiles": "button_green",
                     "tooltip": "Magical items filter",
                 },
                 {
-                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_4,
+                    "on_m_down": wid_tp_list_on_m_down_filter_4,
                     "tiles": "button_green",
                     "tooltip": "Defensive items filter",
                 },
                 {
-                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_5,
+                    "on_m_down": wid_tp_list_on_m_down_filter_5,
                     "tiles": "button_green",
                     "tooltip": "Healing items filter",
                 },
                 {
-                    "on_mouse_down": wid_tp_list_on_mouse_down_filter_6,
+                    "on_m_down": wid_tp_list_on_m_down_filter_6,
                     "tiles": "button_green",
                     "tooltip": "Edible items filter",
                 },
@@ -243,9 +243,9 @@ class WidTpList(wid_popup.WidPopup):
 #                       on_key_down=on_key_down,
 #                       on_key_sym=on_key_sym,
             w.add_text(
-                       on_mouse_down=wid_tp_list_on_mouse_down_close,
-                       on_mouse_over_begin=wid_tp_list_on_mouse_over_begin,
-                       on_mouse_over_end=wid_tp_list_on_mouse_over_end,
+                       on_m_down=wid_tp_list_on_m_down_close,
+                       on_m_over_b=wid_tp_list_on_m_over_b,
+                       on_m_over_e=wid_tp_list_on_m_over_e,
                        font="vsmall",
                        color="white",
                        text="%%font=fixed$" + key_str + "%%tile=" + tpp.name + "$%%font=vsmall$~" + tpp.short_name)

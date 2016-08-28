@@ -17,11 +17,11 @@ def wid_quit_no():
     wid_quit_common()
     return False
 
-def wid_quit_on_mouse_down_yes(w, x, y, button):
+def wid_quit_on_m_down_yes(w, x, y, button):
     wid_quit_yes()
     return False
 
-def wid_quit_on_mouse_down_no(w, x, y, button):
+def wid_quit_on_m_down_no(w, x, y, button):
     wid_quit_no()
     return False
 
@@ -54,14 +54,14 @@ def wid_quit_create():
                text="%%tile=player4$Quit the game?")
 
     w.add_text(font="vlarge",
-               on_mouse_down=wid_quit_on_mouse_down_yes,
+               on_m_down=wid_quit_on_m_down_yes,
                on_key_down=wid_quit_on_key_down_yes,
                on_key_sym=mm.SDLK_y,
                tooltip="I can't let you do that, Dave...",
                text="%%fg=red$y) %%fg=white$Yep, quit")
 
     w.add_text(font="vlarge",
-               on_mouse_down=wid_quit_on_mouse_down_no,
+               on_m_down=wid_quit_on_m_down_no,
                on_key_down=wid_quit_on_key_down_no,
                on_key_sym=mm.SDLK_n,
                text="%%fg=green$n) %%fg=white$Nope, persevere")

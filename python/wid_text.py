@@ -21,13 +21,13 @@ class WidText(wid.Wid):
                  row_on_key_mod,
                  row_on_key_up,
                  row_on_joy_button,
-                 row_on_mouse_down,
-                 row_on_mouse_up,
-                 row_on_mouse_motion,
-                 row_on_mouse_focus_b,
-                 row_on_mouse_focus_e,
-                 row_on_mouse_over_begin,
-                 row_on_mouse_over_end,
+                 row_on_m_down,
+                 row_on_m_up,
+                 row_on_m_motion,
+                 row_on_m_focus_b,
+                 row_on_m_focus_e,
+                 row_on_m_over_b,
+                 row_on_m_over_e,
                  row_on_destroy,
                  row_on_destroy_begin,
                  row_on_tick,
@@ -121,9 +121,9 @@ class WidText(wid.Wid):
                         button_event_list = row_on_button_list[row]
                         button_tiles = "button_plain"
                         tooltip = None
-                        set_on_mouse_down = None
-                        set_on_mouse_over_begin = None
-                        set_on_mouse_over_end = None
+                        set_on_m_down = None
+                        set_on_m_over_b = None
+                        set_on_m_over_e = None
 
                         if button_event_list is not None:
                             if button_count < len(button_event_list):
@@ -143,20 +143,20 @@ class WidText(wid.Wid):
                                         pass
 
                                     try:
-                                        event = d["on_mouse_down"]
-                                        set_on_mouse_down = event
+                                        event = d["on_m_down"]
+                                        set_on_m_down = event
                                     except KeyError:
                                         pass
 
                                     try:
-                                        event = d["on_mouse_over_begin"]
-                                        set_on_mouse_over_begin = event
+                                        event = d["on_m_over_b"]
+                                        set_on_m_over_b = event
                                     except KeyError:
                                         pass
 
                                     try:
-                                        event = d["on_mouse_over_end"]
-                                        set_on_mouse_over_end = event
+                                        event = d["on_m_over_e"]
+                                        set_on_m_over_e = event
                                     except KeyError:
                                         pass
                             else:
@@ -176,19 +176,19 @@ class WidText(wid.Wid):
                                         parent=self.wid_id)
                         child.set_color(tl=True, bg=True, br=True, name="grey")
 
-                        if set_on_mouse_down is not None:
-                            child.set_on_mouse_down(set_on_mouse_down)
+                        if set_on_m_down is not None:
+                            child.set_on_m_down(set_on_m_down)
 
                         if tooltip is not None:
                             child.set_tooltip(text=tooltip)
 
-                        child.row_on_mouse_over_begin = set_on_mouse_over_begin
-                        child.row_on_mouse_over_end = set_on_mouse_over_end
+                        child.row_on_m_over_b = set_on_m_over_b
+                        child.row_on_m_over_e = set_on_m_over_e
 
-                        child.set_on_mouse_over_begin(
-                                wid_text_button_on_mouse_over_begin_callback)
-                        child.set_on_mouse_over_end(
-                                wid_text_button_on_mouse_over_end_callback)
+                        child.set_on_m_over_b(
+                                wid_text_button_on_m_over_b_callback)
+                        child.set_on_m_over_e(
+                                wid_text_button_on_m_over_e_callback)
 
                     else:
                         child = wid.Wid(name="wid text child",
@@ -238,13 +238,13 @@ class WidText(wid.Wid):
             w.row_on_key_mod = row_on_key_mod[row]
             w.row_on_key_up = row_on_key_up[row]
             w.row_on_joy_button = row_on_joy_button[row]
-            w.row_on_mouse_down = row_on_mouse_down[row]
-            w.row_on_mouse_up = row_on_mouse_up[row]
-            w.row_on_mouse_motion = row_on_mouse_motion[row]
-            w.row_on_mouse_focus_b = row_on_mouse_focus_b[row]
-            w.row_on_mouse_focus_e = row_on_mouse_focus_e[row]
-            w.row_on_mouse_over_begin = row_on_mouse_over_begin[row]
-            w.row_on_mouse_over_end = row_on_mouse_over_end[row]
+            w.row_on_m_down = row_on_m_down[row]
+            w.row_on_m_up = row_on_m_up[row]
+            w.row_on_m_motion = row_on_m_motion[row]
+            w.row_on_m_focus_b = row_on_m_focus_b[row]
+            w.row_on_m_focus_e = row_on_m_focus_e[row]
+            w.row_on_m_over_b = row_on_m_over_b[row]
+            w.row_on_m_over_e = row_on_m_over_e[row]
             w.row_on_destroy = row_on_destroy[row]
             w.row_on_destroy_begin = row_on_destroy_begin[row]
             w.row_on_tick = row_on_tick[row]
@@ -256,27 +256,27 @@ class WidText(wid.Wid):
             if row_tooltip[row] is not None:
                 w.set_tooltip(text=row_tooltip[row])
             w.set_on_joy_button(row_on_joy_button[row])
-            w.set_on_mouse_motion(row_on_mouse_motion[row])
+            w.set_on_m_motion(row_on_m_motion[row])
 
             if row_on_key_down[row] is not None or \
-               row_on_mouse_down[row] is not None or \
-               row_on_mouse_over_begin[row] is not None:
+               row_on_m_down[row] is not None or \
+               row_on_m_over_b[row] is not None:
                 wid_text_colorize_row(w)
 
                 w.set_on_key_up(wid_text_on_key_up_callback)
                 w.set_on_key_down(wid_text_on_key_down_callback)
-                w.set_on_mouse_up(wid_text_on_mouse_up_callback)
-                w.set_on_mouse_down(wid_text_on_mouse_down_callback)
-                w.set_on_mouse_over_begin(
-                        wid_text_on_mouse_over_begin_callback)
-                w.set_on_mouse_over_end(wid_text_on_mouse_over_end_callback)
+                w.set_on_m_up(wid_text_on_m_up_callback)
+                w.set_on_m_down(wid_text_on_m_down_callback)
+                w.set_on_m_over_b(
+                        wid_text_on_m_over_b_callback)
+                w.set_on_m_over_e(wid_text_on_m_over_e_callback)
             else:
                 w.set_on_key_up(row_on_key_up[row])
                 w.set_on_key_down(row_on_key_down[row])
-                w.set_on_mouse_up(row_on_mouse_up[row])
-                w.set_on_mouse_down(row_on_mouse_down[row])
-                w.set_on_mouse_over_begin(row_on_mouse_over_begin[row])
-                w.set_on_mouse_over_end(row_on_mouse_over_end[row])
+                w.set_on_m_up(row_on_m_up[row])
+                w.set_on_m_down(row_on_m_down[row])
+                w.set_on_m_over_b(row_on_m_over_b[row])
+                w.set_on_m_over_e(row_on_m_over_e[row])
 
             w.set_on_destroy(row_on_destroy[row])
             w.set_on_destroy_begin(wid_text_on_destroy)
@@ -300,36 +300,36 @@ def wid_text_on_destroy(w):
     wid_focus.clear_focus(w)
 
 
-def wid_text_on_mouse_over_begin_callback(w, relx, rely, wheelx, wheely):
+def wid_text_on_m_over_b_callback(w, relx, rely, wheelx, wheely):
     wid_focus.set_focus(w, auto_scroll=False)
 
     w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.2)
 
-    if w.row_on_mouse_over_begin is not None:
-        w.row_on_mouse_over_begin(w, relx, rely, wheelx, wheely)
+    if w.row_on_m_over_b is not None:
+        w.row_on_m_over_b(w, relx, rely, wheelx, wheely)
 
 
-def wid_text_on_mouse_over_end_callback(w):
+def wid_text_on_m_over_e_callback(w):
     wid_text_colorize_row(w)
 
-    if w.row_on_mouse_over_end is not None:
-        w.row_on_mouse_over_end(w)
+    if w.row_on_m_over_e is not None:
+        w.row_on_m_over_e(w)
 
 
-def wid_text_on_mouse_up_callback(w, x, y, button):
-    if w.row_on_mouse_up is not None:
-        return w.row_on_mouse_up(w, x, y, button)
+def wid_text_on_m_up_callback(w, x, y, button):
+    if w.row_on_m_up is not None:
+        return w.row_on_m_up(w, x, y, button)
     return False
 
 
-def wid_text_on_mouse_down_callback(w, x, y, button):
+def wid_text_on_m_down_callback(w, x, y, button):
     wid_focus.set_focus(w, auto_scroll=False)
 
     w.set_active()
     w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
 
-    if w.row_on_mouse_down is not None:
-        return w.row_on_mouse_down(w, x, y, button)
+    if w.row_on_m_down is not None:
+        return w.row_on_m_down(w, x, y, button)
     return False
 
 
@@ -379,20 +379,20 @@ def wid_text_on_key_down_callback(w, sym, mod):
     return rc
 
 
-def wid_text_button_on_mouse_over_begin_callback(w, relx,
+def wid_text_button_on_m_over_b_callback(w, relx,
                                                  rely, wheelx, wheely):
     w.set_color(tl=True, bg=True, br=True, name="white", alpha=1.0)
     wid_focus.set_focus(w, auto_scroll=False)
 
-    if w.row_on_mouse_over_begin is not None:
-        w.row_on_mouse_over_begin(w, relx, rely, wheelx, wheely)
+    if w.row_on_m_over_b is not None:
+        w.row_on_m_over_b(w, relx, rely, wheelx, wheely)
 
 
-def wid_text_button_on_mouse_over_end_callback(w):
+def wid_text_button_on_m_over_e_callback(w):
     w.set_color(tl=True, bg=True, br=True, name="gray", alpha=1.0)
 
-    if w.row_on_mouse_over_end is not None:
-        w.row_on_mouse_over_end(w)
+    if w.row_on_m_over_e is not None:
+        w.row_on_m_over_e(w)
 
 
 def text_size_pct(row_text, row_font, width):

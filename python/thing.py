@@ -21,7 +21,7 @@ class Thing:
 
         self.x = -1
         self.y = -1
-        self.on_map = False
+        self.on_m_ap = False
 
         self.log("Created thing")
 
@@ -40,7 +40,7 @@ class Thing:
         return "{0}:{1}".format(self.thing_id, self.tp_name)
 
     def destroy(self, reason="no reason"):
-        if self.on_map:
+        if self.on_m_ap:
             self.pop()
         self.log("Destroying thing, {0}".format(reason) + " {")
 
@@ -66,22 +66,22 @@ class Thing:
         self.x = x
         self.y = y
 
-        if self.on_map:
+        if self.on_m_ap:
             self.err("Already on the map at {0},{1}".format(self.x, self.y))
             return
 
-        self.on_map = True
-        self.level.on_map[x][y].append(self)
+        self.on_m_ap = True
+        self.level.on_m_ap[x][y].append(self)
         mm.thing_push(self, x, y)
 
     def pop(self):
-        if not self.on_map:
+        if not self.on_m_ap:
             self.err("Is not on the map")
             return
 
-        self.level.on_map[self.x][self.y].remove(self)
+        self.level.on_m_ap[self.x][self.y].remove(self)
         mm.thing_pop(self)
-        self.on_map = False
+        self.on_m_ap = False
 
     def set_description(self, value=""):
         self.description = value

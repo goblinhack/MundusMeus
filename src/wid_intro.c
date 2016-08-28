@@ -271,7 +271,7 @@ static void wid_intro_create (void)
     wid_intro_menu_create();
 }
 
-static void wid_version_make_visible (void *context)
+static void wid_version_m_ake_visible (void *context)
 {
     wid_intro_ready = true;
 
@@ -321,7 +321,7 @@ static void wid_intro_menu_create (void)
     {
         action_timer_create(
             &wid_timers,
-            (action_timer_callback)wid_version_make_visible,
+            (action_timer_callback)wid_version_m_ake_visible,
             (action_timer_destroy_callback)0,
             0, /* context */
             "init game version",
