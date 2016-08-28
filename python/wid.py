@@ -32,10 +32,10 @@ class Wid:
         self.callback_on_m_over_e = None
         self.callback_on_m_up = None
         self.callback_on_destroy = None
-        self.callback_on_destroy_begin = None
+        self.callback_on_destroy_b = None
         self.callback_on_tick = None
         self.callback_on_display = None
-        self.callback_on_display_top_level = None
+        self.callback_on_display_win = None
 
     def __str__(self):
         return "{0}".format(self.name)
@@ -361,11 +361,11 @@ class Wid:
             return
         mm.wid_set_on_destroy(self)
 
-    def set_on_destroy_begin(self, callback):
-        self.callback_on_destroy_begin = callback
+    def set_on_destroy_b(self, callback):
+        self.callback_on_destroy_b = callback
         if callback is None:
             return
-        mm.wid_set_on_destroy_begin(self)
+        mm.wid_set_on_destroy_b(self)
 
     def set_on_tick(self, callback):
         self.callback_on_tick = callback
@@ -379,9 +379,9 @@ class Wid:
             return
         mm.wid_set_on_display(self)
 
-    def set_on_display_top_level(self, callback):
-        self.callback_on_display_top_level = callback
-        mm.wid_set_on_display_top_level(self)
+    def set_on_display_win(self, callback):
+        self.callback_on_display_win = callback
+        mm.wid_set_on_display_win(self)
 
     def on_tooltip(self, tooltip):
         if self.callback_on_tooltip is not None:
@@ -489,11 +489,11 @@ class Wid:
             return
         mm.err("wid_set_on_destroy not handled")
 
-    def on_destroy_begin(self):
-        if self.callback_on_destroy_begin is not None:
-            self.callback_on_destroy_begin(self)
+    def on_destroy_b(self):
+        if self.callback_on_destroy_b is not None:
+            self.callback_on_destroy_b(self)
             return
-        mm.err("wid_set_on_destroy_begin not handled")
+        mm.err("wid_set_on_destroy_b not handled")
 
     def on_tick(self):
         if self.callback_on_tick is not None:
@@ -507,11 +507,11 @@ class Wid:
             return
         mm.err("wid_set_on_display not handled")
 
-    def on_display_top_level(self):
-        if self.callback_on_display_top_level is not None:
-            self.callback_on_display_top_level(self)
+    def on_display_win(self):
+        if self.callback_on_display_win is not None:
+            self.callback_on_display_win(self)
             return
-        mm.err("wid_set_on_display_top_level not handled")
+        mm.err("wid_set_on_display_win not handled")
 
 
 def on_m_motion_callback(wid_id, x, y, relx, rely, wheelx, wheely):
@@ -671,14 +671,14 @@ def on_destroy_callback(wid_id):
     return
 
 
-def on_destroy_begin_callback(wid_id):
+def on_destroy_b_callback(wid_id):
     wid = all_wids[wid_id]
     if wid is not None:
-        if wid.on_destroy_begin is None:
+        if wid.on_destroy_b is None:
             return
-        wid.on_destroy_begin()
+        wid.on_destroy_b()
         return
-    mm.err("Widget not found for on_destroy_begin, id {0:x}".format(wid_id))
+    mm.err("Widget not found for on_destroy_b, id {0:x}".format(wid_id))
     return
 
 
@@ -704,15 +704,15 @@ def on_display_callback(wid_id):
     return
 
 
-def on_display_top_level_callback(wid_id):
+def on_display_win_callback(wid_id):
     wid = all_wids[wid_id]
     if wid is not None:
-        if wid.on_display_top_level is None:
+        if wid.on_display_win is None:
             return
-        wid.on_display_top_level()
+        wid.on_display_win()
         return
     mm.err("Widget not found for " +
-           "on_display_top_level, id {0:x}".format(wid_id))
+           "on_display_win, id {0:x}".format(wid_id))
     return
 
 

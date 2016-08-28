@@ -731,7 +731,7 @@ widp wid_numpad (const char *text,
         c.a = 100;
         wid_set_color(window, WID_COLOR_BG, c);
 
-        wid_set_on_destroy_begin(window, wid_numpad_destroy_begin);
+        wid_set_on_destroy_b(window, wid_numpad_destroy_begin);
         wid_set_on_key_down(window, wid_numpad_parent_key_down);
         wid_set_on_joy_button(window, wid_numpad_parent_joy_button);
         wid_set_on_destroy(window, wid_numpad_destroy);

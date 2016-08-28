@@ -29,11 +29,11 @@ class WidText(wid.Wid):
                  row_on_m_over_b,
                  row_on_m_over_e,
                  row_on_destroy,
-                 row_on_destroy_begin,
+                 row_on_destroy_b,
                  row_on_tick,
                  row_on_button_list,
                  row_on_display,
-                 row_on_display_top_level,
+                 row_on_display_win,
                  parent=0,
                  tiles=None,
                  **kw):
@@ -246,11 +246,11 @@ class WidText(wid.Wid):
             w.row_on_m_over_b = row_on_m_over_b[row]
             w.row_on_m_over_e = row_on_m_over_e[row]
             w.row_on_destroy = row_on_destroy[row]
-            w.row_on_destroy_begin = row_on_destroy_begin[row]
+            w.row_on_destroy_b = row_on_destroy_b[row]
             w.row_on_tick = row_on_tick[row]
             w.row_on_button_list = row_on_button_list[row]
             w.row_on_display = row_on_display[row]
-            w.row_on_display_top_level = row_on_display_top_level[row]
+            w.row_on_display_win = row_on_display_win[row]
 
             w.set_on_tooltip(row_on_tooltip[row])
             if row_tooltip[row] is not None:
@@ -279,10 +279,10 @@ class WidText(wid.Wid):
                 w.set_on_m_over_e(row_on_m_over_e[row])
 
             w.set_on_destroy(row_on_destroy[row])
-            w.set_on_destroy_begin(wid_text_on_destroy)
+            w.set_on_destroy_b(wid_text_on_destroy)
             w.set_on_tick(row_on_tick[row])
             w.set_on_display(row_on_display[row])
-            w.set_on_display_top_level(row_on_display_top_level[row])
+            w.set_on_display_win(row_on_display_win[row])
 
             self.text_wids.append(w)
 

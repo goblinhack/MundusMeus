@@ -1267,10 +1267,10 @@ static void wid_set_on_destroy_callback (widp w)
                             w);
 }
 
-static void wid_set_on_destroy_begin_callback (widp w)
+static void wid_set_on_destroy_b_callback (widp w)
 {
     py_call_void_module_ptr("wid", 
-                            "on_destroy_begin_callback", 
+                            "on_destroy_b_callback", 
                             w);
 }
 
@@ -1281,10 +1281,10 @@ static void wid_set_on_tick_callback (widp w)
                             w);
 }
 
-static void wid_set_on_display_top_level_callback (widp w)
+static void wid_set_on_display_win_callback (widp w)
 {
     py_call_void_module_ptr("wid", 
-                            "on_display_top_level_callback", 
+                            "on_display_win_callback", 
                             w);
 }
 
@@ -1385,7 +1385,7 @@ WID_BODY_ON_CALLBACK_FN(wid_set_on_m_over_b);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_m_over_e);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_m_up);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_destroy);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_destroy_begin);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_destroy_b);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_tick);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_display);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_display_top_level);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_display_win);

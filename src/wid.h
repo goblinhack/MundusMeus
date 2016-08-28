@@ -164,9 +164,9 @@ typedef uint8_t(*on_m_motion_t)(widp,
 typedef uint8_t(*on_key_down_t)(widp, const struct SDL_KEYSYM *);
 typedef uint8_t(*on_key_up_t)(widp, const struct SDL_KEYSYM *);
 typedef void(*on_destroy_t)(widp);
-typedef void(*on_destroy_begin_t)(widp);
+typedef void(*on_destroy_b_t)(widp);
 typedef void(*on_tick_t)(widp);
-typedef void(*on_display_top_level_t)(widp);
+typedef void(*on_display_win_t)(widp);
 typedef void(*on_display_t)(widp, fpoint tl, fpoint br);
 
 typedef widp (*level_replace_thing_t)(double x, double y, thingp, tpp);
@@ -355,10 +355,10 @@ void wid_set_on_m_over_b(widp, on_m_over_b_t fn);
 void wid_set_on_m_over_e(widp, on_m_over_e_t fn);
 void wid_set_on_m_up(widp, on_m_up_t fn);
 void wid_set_on_destroy(widp, on_destroy_t fn);
-void wid_set_on_destroy_begin(widp, on_destroy_begin_t fn);
+void wid_set_on_destroy_b(widp, on_destroy_b_t fn);
 void wid_set_on_tick(widp, on_tick_t fn);
 void wid_set_on_display(widp, on_display_t fn);
-void wid_set_on_display_top_level(widp, on_display_top_level_t fn);
+void wid_set_on_display_win(widp, on_display_win_t fn);
 void wid_set_prev(widp w, widp);
 void wid_set_radius(widp, fsize val);
 void wid_set_received_input(widp, uint8_t val);
@@ -897,10 +897,10 @@ typedef struct wid_ {
     on_m_over_b_t on_m_over_b;
     on_m_over_e_t on_m_over_e;
     on_destroy_t on_destroy;
-    on_destroy_begin_t on_destroy_begin;
+    on_destroy_b_t on_destroy_b;
     on_tick_t on_tick;
     on_display_t on_display;
-    on_display_top_level_t on_display_top_level;
+    on_display_win_t on_display_win;
 
 } wid;
 

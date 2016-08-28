@@ -33,11 +33,11 @@ class WidPopup(wid.Wid):
                  row_on_m_over_b=None,
                  row_on_m_over_e=None,
                  row_on_destroy=None,
-                 row_on_destroy_begin=None,
+                 row_on_destroy_b=None,
                  row_on_tick=None,
                  row_on_button_list=None,
                  row_on_display=None,
-                 row_on_display_top_level=None,
+                 row_on_display_win=None,
                  title_font=None,
                  title_color=None,
                  title_center=False,
@@ -57,11 +57,11 @@ class WidPopup(wid.Wid):
                  title_on_m_over_b=None,
                  title_on_m_over_e=None,
                  title_on_destroy=None,
-                 title_on_destroy_begin=None,
+                 title_on_destroy_b=None,
                  title_on_tick=None,
                  title_on_button_list=None,
                  title_on_display=None,
-                 title_on_display_top_level=None,
+                 title_on_display_win=None,
                  **kw):
 
         self.parent = parent
@@ -85,11 +85,11 @@ class WidPopup(wid.Wid):
         self.global_row_on_m_over_b = row_on_m_over_b
         self.global_row_on_m_over_e = row_on_m_over_e
         self.global_row_on_destroy = row_on_destroy
-        self.global_row_on_destroy_begin = row_on_destroy_begin
+        self.global_row_on_destroy_b = row_on_destroy_b
         self.global_row_on_tick = row_on_tick
         self.global_row_on_button_list = row_on_button_list
         self.global_row_on_display = row_on_display
-        self.global_row_on_display_top_level = row_on_display_top_level
+        self.global_row_on_display_win = row_on_display_win
         self.global_title_font = title_font
         self.global_title_color = title_color
         self.global_title_center = title_center
@@ -109,11 +109,11 @@ class WidPopup(wid.Wid):
         self.global_title_on_m_over_b = title_on_m_over_b
         self.global_title_on_m_over_e = title_on_m_over_e
         self.global_title_on_destroy = title_on_destroy
-        self.global_title_on_destroy_begin = title_on_destroy_begin
+        self.global_title_on_destroy_b = title_on_destroy_b
         self.global_title_on_tick = title_on_tick
         self.global_title_on_button_list = title_on_button_list
         self.global_title_on_display = title_on_display
-        self.global_title_on_display_top_level = title_on_display_top_level
+        self.global_title_on_display_win = title_on_display_win
 
         if tiles is not None:
             super().__init__(name, tiles=tiles, parent=parent)
@@ -156,11 +156,11 @@ class WidPopup(wid.Wid):
         self.row_on_m_over_b = []
         self.row_on_m_over_e = []
         self.row_on_destroy = []
-        self.row_on_destroy_begin = []
+        self.row_on_destroy_b = []
         self.row_on_tick = []
         self.row_on_button_list = []
         self.row_on_display = []
-        self.row_on_display_top_level = []
+        self.row_on_display_win = []
 
         self.title_count = 0
         self.title_text = []
@@ -185,11 +185,11 @@ class WidPopup(wid.Wid):
         self.title_on_m_over_b = []
         self.title_on_m_over_e = []
         self.title_on_destroy = []
-        self.title_on_destroy_begin = []
+        self.title_on_destroy_b = []
         self.title_on_tick = []
         self.title_on_button_list = []
         self.title_on_display = []
-        self.title_on_display_top_level = []
+        self.title_on_display_win = []
 
         self.title_tiles = title_tiles
         self.body_tiles = body_tiles
@@ -213,11 +213,11 @@ class WidPopup(wid.Wid):
                  on_m_over_b=None,
                  on_m_over_e=None,
                  on_destroy=None,
-                 on_destroy_begin=None,
+                 on_destroy_b=None,
                  on_tick=None,
                  on_button_list=None,
                  on_display=None,
-                 on_display_top_level=None,
+                 on_display_win=None,
                  title=False,
                  font="small",
                  color="white",
@@ -263,16 +263,16 @@ class WidPopup(wid.Wid):
                 on_m_over_e = self.global_row_on_m_over_e
             if on_destroy is None:
                 on_destroy = self.global_row_on_destroy
-            if on_destroy_begin is None:
-                on_destroy_begin = self.global_row_on_destroy_begin
+            if on_destroy_b is None:
+                on_destroy_b = self.global_row_on_destroy_b
             if on_tick is None:
                 on_tick = self.global_row_on_tick
             if on_button_list is None:
                 on_button_list = self.global_row_on_button_list
             if on_display is None:
                 on_display = self.global_row_on_display
-            if on_display_top_level is None:
-                on_display_top_level = self.global_row_on_display_top_level
+            if on_display_win is None:
+                on_display_win = self.global_row_on_display_win
 
             self.row_text.append(text)
             self.row_font.append(font)
@@ -294,11 +294,11 @@ class WidPopup(wid.Wid):
             self.row_on_m_over_b.append(on_m_over_b)
             self.row_on_m_over_e.append(on_m_over_e)
             self.row_on_destroy.append(on_destroy)
-            self.row_on_destroy_begin.append(on_destroy_begin)
+            self.row_on_destroy_b.append(on_destroy_b)
             self.row_on_tick.append(on_tick)
             self.row_on_button_list.append(on_button_list)
             self.row_on_display.append(on_display)
-            self.row_on_display_top_level.append(on_display_top_level)
+            self.row_on_display_win.append(on_display_win)
             self.row_count += 1
 
         else:
@@ -341,8 +341,8 @@ class WidPopup(wid.Wid):
                 on_m_over_e = self.global_title_on_m_over_e
             if on_destroy is None:
                 on_destroy = self.global_title_on_destroy
-            if on_destroy_begin is None:
-                on_destroy_begin = self.global_title_on_destroy_begin
+            if on_destroy_b is None:
+                on_destroy_b = self.global_title_on_destroy_b
             if on_tick is None:
                 on_tick = self.global_title_on_tick
             if on_button_list is None:
@@ -370,11 +370,11 @@ class WidPopup(wid.Wid):
             self.title_on_m_over_b.append(on_m_over_b)
             self.title_on_m_over_e.append(on_m_over_e)
             self.title_on_destroy.append(on_destroy)
-            self.title_on_destroy_begin.append(on_destroy_begin)
+            self.title_on_destroy_b.append(on_destroy_b)
             self.title_on_tick.append(on_tick)
             self.title_on_button_list.append(on_button_list)
             self.title_on_display.append(on_display)
-            self.title_on_display_top_level.append(on_display_top_level)
+            self.title_on_display_win.append(on_display_win)
             self.title_count += 1
 
     def update(self):
@@ -474,11 +474,11 @@ class WidPopup(wid.Wid):
                                  row_on_m_over_b=self.row_on_m_over_b,
                                  row_on_m_over_e=self.row_on_m_over_e,
                                  row_on_destroy=self.row_on_destroy,
-                                 row_on_destroy_begin=self.row_on_destroy_begin,
+                                 row_on_destroy_b=self.row_on_destroy_b,
                                  row_on_tick=self.row_on_tick,
                                  row_on_button_list=self.row_on_button_list,
                                  row_on_display=self.row_on_display,
-                                 row_on_display_top_level=self.row_on_display_top_level,
+                                 row_on_display_win=self.row_on_display_win,
                                  parent=self.wid_id,
                                  x1=textbox_x1, y1=textbox_y1,
                                  x2=textbox_x2, y2=textbox_y2)
@@ -494,7 +494,9 @@ class WidPopup(wid.Wid):
             if self.title_tiles is not None:
                 textbox_x1 = inner_pad_w * 0.4
                 textbox_x2 = 1.0 - inner_pad_w * 0.4
-                textbox_y1 = inner_pad_h * 0.2 # to account for the widget shadow
+
+                # to account for the widget shadow
+                textbox_y1 = inner_pad_h * 0.2
                 textbox_y2 = inner_pad_h * 1.0 + title_h
 
                 w = wid.Wid(name="textbox",
@@ -503,44 +505,47 @@ class WidPopup(wid.Wid):
 
                 w.set_color(tl=True, bg=True, br=True, name="white")
                 w.set_pos_pct(x1=textbox_x1, y1=textbox_y1,
-                                x2=textbox_x2, y2=textbox_y2)
+                              x2=textbox_x2, y2=textbox_y2)
 
             textbox_x1 = inner_pad_w
             textbox_x2 = 1.0 - inner_pad_w
-            textbox_y1 = inner_pad_h * 0.6 # to account for the widget shadow
+
+            # to account for the widget shadow
+            textbox_y1 = inner_pad_h * 0.6
             textbox_y2 = textbox_y1 + title_h
 
-            self.text_box = wid_text.WidText(name="textbox",
-                                             row_text=self.title_text,
-                                             row_font=self.title_font,
-                                             row_color=self.title_color,
-                                             row_center=self.title_center,
-                                             row_rhs=self.title_rhs,
-                                             row_width=self.title_width,
-                                             line_width=self.title_line_width,
-                                             row_on_tooltip=self.title_on_tooltip,
-                                             row_tooltip=self.title_tooltip,
-                                             row_on_key_down=self.title_on_key_down,
-                                             row_on_key_sym=self.title_on_key_sym,
-                                             row_on_key_mod=self.title_on_key_mod,
-                                             row_on_key_up=self.title_on_key_up,
-                                             row_on_joy_button=self.title_on_joy_button,
-                                             row_on_m_down=self.title_on_m_down,
-                                             row_on_m_up=self.title_on_m_up,
-                                             row_on_m_motion=self.title_on_m_motion,
-                                             row_on_m_focus_b=self.title_on_m_focus_b,
-                                             row_on_m_focus_e=self.title_on_m_focus_e,
-                                             row_on_m_over_b=self.title_on_m_over_b,
-                                             row_on_m_over_e=self.title_on_m_over_e,
-                                             row_on_destroy=self.title_on_destroy,
-                                             row_on_destroy_begin=self.title_on_destroy_begin,
-                                             row_on_tick=self.title_on_tick,
-                                             row_on_button_list=self.title_on_button_list,
-                                             row_on_display=self.title_on_display,
-                                             row_on_display_top_level=self.title_on_display_top_level,
-                                             parent=self.wid_id,
-                                             x1=textbox_x1, y1=textbox_y1,
-                                             x2=textbox_x2, y2=textbox_y2)
+            self.text_box =\
+                wid_text.WidText(name="textbox",
+                                 row_text=self.title_text,
+                                 row_font=self.title_font,
+                                 row_color=self.title_color,
+                                 row_center=self.title_center,
+                                 row_rhs=self.title_rhs,
+                                 row_width=self.title_width,
+                                 line_width=self.title_line_width,
+                                 row_on_tooltip=self.title_on_tooltip,
+                                 row_tooltip=self.title_tooltip,
+                                 row_on_key_down=self.title_on_key_down,
+                                 row_on_key_sym=self.title_on_key_sym,
+                                 row_on_key_mod=self.title_on_key_mod,
+                                 row_on_key_up=self.title_on_key_up,
+                                 row_on_joy_button=self.title_on_joy_button,
+                                 row_on_m_down=self.title_on_m_down,
+                                 row_on_m_up=self.title_on_m_up,
+                                 row_on_m_motion=self.title_on_m_motion,
+                                 row_on_m_focus_b=self.title_on_m_focus_b,
+                                 row_on_m_focus_e=self.title_on_m_focus_e,
+                                 row_on_m_over_b=self.title_on_m_over_b,
+                                 row_on_m_over_e=self.title_on_m_over_e,
+                                 row_on_destroy=self.title_on_destroy,
+                                 row_on_destroy_b=self.title_on_destroy_b,
+                                 row_on_tick=self.title_on_tick,
+                                 row_on_button_list=self.title_on_button_list,
+                                 row_on_display=self.title_on_display,
+                                 row_on_display_win=self.title_on_display_win,
+                                 parent=self.wid_id,
+                                 x1=textbox_x1, y1=textbox_y1,
+                                 x2=textbox_x2, y2=textbox_y2)
         self.to_front()
 
     def scroll_up(self):
