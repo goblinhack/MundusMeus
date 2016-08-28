@@ -1,12 +1,10 @@
-import mm
-import wid
 import wid_popup
-import sys
 import tp
-import copy
+
 
 def wid_tp_detail_on_m_down(w, x, y, button):
     return True
+
 
 class WidTpDetail(wid_popup.WidPopup):
 
@@ -20,14 +18,6 @@ class WidTpDetail(wid_popup.WidPopup):
         w = self
 
         tpp = tp.all_tps[tp_name]
-
-        button_events = (
-                {
-                    "on_m_down": wid_tp_detail_on_m_down,
-                    "tiles": "button_green",
-                    "tooltip": "All items",
-                },
-        )
 
         tile_name = tpp.tiles[0]
 
