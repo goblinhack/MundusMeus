@@ -18,10 +18,11 @@ def wid_tp_list_filter(w, f):
     p.destroy()
     return False
 
+
 class Item(Enum):
     all = 1
     weapon = 2
-    magical  = 3
+    magical = 3
     armor = 4
     healing = 5
     food = 6
@@ -104,26 +105,26 @@ class WidTpList(wid_popup.WidPopup):
             super().__init__(**k)
             self.orig_args = copy.deepcopy(k)
 
-            self.which          = k["filter"]
-            self.filter         = k["filter"]
-            self.x              = k["x"]
-            self.y              = k["y"]
-            self.detail_width   = k["detail_width"]
-            self.detail_height  = k["detail_height"]
-            self.detail_x       = k["detail_x"]
-            self.detail_y       = k["detail_y"]
+            self.which = k["filter"]
+            self.filter = k["filter"]
+            self.x = k["x"]
+            self.y = k["y"]
+            self.detail_width = k["detail_width"]
+            self.detail_height = k["detail_height"]
+            self.detail_x = k["detail_x"]
+            self.detail_y = k["detail_y"]
         else:
             super().__init__(**kp)
             self.orig_args = copy.deepcopy(kp)
 
             self.which = Item.all
             self.filter = self.which.value
-            self.x              = kp["x"]
-            self.y              = kp["y"]
-            self.detail_width   = kp["detail_width"]
-            self.detail_height  = kp["detail_height"]
-            self.detail_x       = kp["detail_x"]
-            self.detail_y       = kp["detail_y"]
+            self.x = kp["x"]
+            self.y = kp["y"]
+            self.detail_width = kp["detail_width"]
+            self.detail_height = kp["detail_height"]
+            self.detail_x = kp["detail_x"]
+            self.detail_y = kp["detail_y"]
 
         self.tp_detail = None
 
@@ -178,7 +179,7 @@ class WidTpList(wid_popup.WidPopup):
                      "[%%tile=icon-food$]"
                 )
 
-        self.tp_sorted_name_list=[]
+        self.tp_sorted_name_list = []
 
         added = 0
 
@@ -227,12 +228,12 @@ class WidTpList(wid_popup.WidPopup):
             if count < 26:
                 key = chr(ord('a') + count)
                 key_str = "%%fg=green${0}%%fg=white$)~".format(key)
-                on_key_sym = mm.SDLK_a + count
-                on_key_down = wid_tp_list_on_key_down
+#                on_key_sym = mm.SDLK_a + count
+#                on_key_down = wid_tp_list_on_key_down
             else:
                 key_str = ""
-                on_key_sym = None
-                on_key_down = None
+#                on_key_sym = None
+#                on_key_down = None
 
             count += 1
 
@@ -248,7 +249,9 @@ class WidTpList(wid_popup.WidPopup):
                        on_m_over_e=wid_tp_list_on_m_over_e,
                        font="vsmall",
                        color="white",
-                       text="%%font=fixed$" + key_str + "%%tile=" + tpp.name + "$%%font=vsmall$~" + tpp.short_name)
+                       text="%%font=fixed$" + key_str +
+                       "%%tile=" + tpp.name +
+                       "$%%font=vsmall$~" + tpp.short_name)
 
         if added == 0:
             w.add_text(

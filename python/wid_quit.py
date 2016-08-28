@@ -1,37 +1,45 @@
 import mm
-import wid
 import wid_popup
 import sys
 
 wid_quit_menu = None
 
+
 def wid_quit_common():
     destroy()
+
 
 def wid_quit_yes():
     wid_quit_common()
     mm.die("exit game from {0}".format(sys._getframe().f_code.co_name))
     return False
 
+
 def wid_quit_no():
     wid_quit_common()
     return False
+
 
 def wid_quit_on_m_down_yes(w, x, y, button):
     wid_quit_yes()
     return False
 
+
 def wid_quit_on_m_down_no(w, x, y, button):
     wid_quit_no()
     return False
+
 
 def wid_quit_on_key_down_yes(w, sym, mod):
     wid_quit_yes()
     return True
 
+
 def wid_quit_on_key_down_no(w, sym, mod):
     wid_quit_no()
-    return False # so focus does not select us after we are dead!
+    # so focus does not select us after we are dead!
+    return False
+
 
 def wid_quit_create():
     global wid_quit_menu
@@ -69,6 +77,7 @@ def wid_quit_create():
     w.update()
     w.set_focus()
     w.move_to_pct_centered(x=0.5, y=0.5)
+
 
 def destroy():
     global wid_quit_menu

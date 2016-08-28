@@ -138,6 +138,7 @@ def init2():
                               detail_height=0.3,
                               detail_x=0.35,
                               detail_y=0.00)
+    print(w)
 
     w = wid_tp_grid.WidTpGrid(name="tp window",
                               tiles="wid2",
@@ -150,6 +151,7 @@ def init2():
                               detail_height=0.3,
                               detail_x=0.05,
                               detail_y=0.50)
+    print(w)
 
     game.game_new()
     game.g.map_wid_create()

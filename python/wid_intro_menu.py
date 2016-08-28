@@ -1,9 +1,8 @@
-import mm
-import wid
 import wid_popup
 
 
 wid_intro_menu = None
+
 
 def create():
     global wid_intro_menu

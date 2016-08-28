@@ -380,7 +380,7 @@ def wid_text_on_key_down_callback(w, sym, mod):
 
 
 def wid_text_button_on_m_over_b_callback(w, relx,
-                                                 rely, wheelx, wheely):
+                                         rely, wheelx, wheely):
     w.set_color(tl=True, bg=True, br=True, name="white", alpha=1.0)
     wid_focus.set_focus(w, auto_scroll=False)
 

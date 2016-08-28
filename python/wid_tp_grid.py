@@ -1,15 +1,15 @@
 import mm
-import wid
 import wid_popup
-import sys
 import tp
 import copy
 import wid_tp_detail
 from enum import Enum
 
+
 def wid_tp_grid_on_m_down_close(w, x, y, button):
     mm.con("TODO")
     return True
+
 
 def wid_tp_grid_filter(w, f):
     p = w.get_top_parent()
@@ -18,46 +18,56 @@ def wid_tp_grid_filter(w, f):
     p.destroy()
     return False
 
+
 class Item(Enum):
-     all      = 1
-     weapon   = 2
-     magical  = 3
-     armor    = 4
-     healing  = 5
-     food     = 6
+    all = 1
+    weapon = 2
+    magical = 3
+    armor = 4
+    healing = 5
+    food = 6
+
 
 def wid_tp_grid_on_m_down_filter_1(w, x, y, button):
     wid_tp_grid_filter(w, Item.all.value)
     return True
 
+
 def wid_tp_grid_on_m_down_filter_2(w, x, y, button):
     wid_tp_grid_filter(w, Item.weapon.value)
     return True
+
 
 def wid_tp_grid_on_m_down_filter_3(w, x, y, button):
     wid_tp_grid_filter(w, Item.magical.value)
     return True
 
+
 def wid_tp_grid_on_m_down_filter_4(w, x, y, button):
     wid_tp_grid_filter(w, Item.armor.value)
     return True
+
 
 def wid_tp_grid_on_m_down_filter_5(w, x, y, button):
     wid_tp_grid_filter(w, Item.healing.value)
     return True
 
+
 def wid_tp_grid_on_m_down_filter_6(w, x, y, button):
     wid_tp_grid_filter(w, Item.food.value)
     return True
+
 
 def wid_tp_grid_on_m_down(w, x, y, button):
     wid_tp_grid_common(w)
     w.set_tiles(tiles="button_green")
     return True
 
+
 def wid_tp_grid_on_m_over(w, x, y, button):
     mm.con("o")
     return True
+
 
 def wid_tp_grid_common(w):
     p = w.get_top_parent()
@@ -80,14 +90,17 @@ def wid_tp_grid_common(w):
                                             y=p.detail_y,
                                             tp_name=tpp.name)
 
+
 def wid_tp_grid_on_key_down(w, sym, mod):
     wid_tp_grid_common(w)
     w.set_tiles(tiles="button_green")
     return True
 
+
 def wid_tp_grid_on_m_over_b(w, relx, rely, wheelx, wheely):
     wid_tp_grid_common(w)
     return True
+
 
 def wid_tp_grid_on_m_over_e(w):
     p = w.get_top_parent()
@@ -95,6 +108,7 @@ def wid_tp_grid_on_m_over_e(w):
     if p.tp_detail is not None:
         p.tp_detail.destroy()
         p.tp_detail = None
+
 
 class WidTpGrid(wid_popup.WidPopup):
 
@@ -104,28 +118,28 @@ class WidTpGrid(wid_popup.WidPopup):
             super().__init__(**k)
             self.orig_args = copy.deepcopy(k)
 
-            self.which          = k["filter"]
-            self.filter         = k["filter"]
-            self.x              = k["x"]
-            self.y              = k["y"]
-            self.detail_width   = k["detail_width"]
-            self.detail_height  = k["detail_height"]
-            self.detail_x       = k["detail_x"]
-            self.detail_y       = k["detail_y"]
-            self.width          = k["width"]
+            self.which = k["filter"]
+            self.filter = k["filter"]
+            self.x = k["x"]
+            self.y = k["y"]
+            self.detail_width = k["detail_width"]
+            self.detail_height = k["detail_height"]
+            self.detail_x = k["detail_x"]
+            self.detail_y = k["detail_y"]
+            self.width = k["width"]
         else:
             super().__init__(**kp)
             self.orig_args = copy.deepcopy(kp)
 
             self.which = Item.all
             self.filter = self.which.value
-            self.x              = kp["x"]
-            self.y              = kp["y"]
-            self.detail_width   = kp["detail_width"]
-            self.detail_height  = kp["detail_height"]
-            self.detail_x       = kp["detail_x"]
-            self.detail_y       = kp["detail_y"]
-            self.width          = kp["width"]
+            self.x = kp["x"]
+            self.y = kp["y"]
+            self.detail_width = kp["detail_width"]
+            self.detail_height = kp["detail_height"]
+            self.detail_x = kp["detail_x"]
+            self.detail_y = kp["detail_y"]
+            self.width = kp["width"]
 
         self.tp_detail = None
 
@@ -180,7 +194,7 @@ class WidTpGrid(wid_popup.WidPopup):
                      "[%%tile=icon-food$]"
                 )
 
-        self.tp_sorted_name_list=[]
+        self.tp_sorted_name_list = []
 
         added = 0
 
@@ -222,15 +236,16 @@ class WidTpGrid(wid_popup.WidPopup):
         self.tp_sorted_name_list.sort()
 
         font = "medium"
-        tile_width, _unused_h, _unused_c = mm.text_size_pct(font=font, text="[%%tile=player1$] ")
+        tile_width, _unused_h, _unused_c = \
+            mm.text_size_pct(font=font, text="[%%tile=player1$] ")
         self.across = int(self.width / tile_width)
         self.down = int((added / self.across) + 1)
 
-        grid = [[0 for x in range(self.across)] for y in range(self.down)]
+#        grid = [[0 for x in range(self.across)] for y in range(self.down)]
 
         for y in range(self.down):
-            button_events=[]
-            text=""
+            button_events = []
+            text = ""
 
             for x in range(self.across):
                 index = (self.across * y) + x

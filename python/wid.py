@@ -446,11 +446,11 @@ class Wid:
     def on_m_motion(self, x, y, relx, rely, wheelx, wheely):
         if self.callback_on_m_motion is not None:
             return self.callback_on_m_motion(self, x, y, relx, rely,
-                                                 wheelx,
-                                                 wheely)
+                                             wheelx,
+                                             wheely)
         self.err("wid_set_on_m_motion not handled".format(x, y,
-                                                              relx, rely,
-                                                              wheelx, wheely))
+                                                          relx, rely,
+                                                          wheelx, wheely))
         return False
 
     def on_m_focus_b(self):
@@ -468,8 +468,8 @@ class Wid:
     def on_m_over_b(self, relx, rely, wheelx, wheely):
         if self.callback_on_m_over_b is not None:
             return self.callback_on_m_over_b(self,
-                                                     relx, rely,
-                                                     wheelx, wheely)
+                                             relx, rely,
+                                             wheelx, wheely)
         self.err("wid_set_on_m_over_b not handled")
 
     def on_m_over_e(self):

@@ -1,16 +1,16 @@
 
-import mm
 import wid
 
 wid_focus = None
 wid_focus_parent = None
+
 
 def set_focus(w, recurse=0, auto_scroll=True):
 
     global wid_focus
     global wid_focus_parent
 
-    if wid_focus == None:
+    if wid_focus is None:
         wid_focus = wid.Wid(name="wid focus")
         wid_focus.set_pos_pct(0, 0, 0.1, 0.05)
         wid_focus.set_color(tl=True, bg=True, br=True, name="white")
@@ -53,12 +53,13 @@ def set_focus(w, recurse=0, auto_scroll=True):
             p2.scroll_down()
             set_focus(w, recurse + 1)
 
+
 def clear_focus(w):
 
     global wid_focus
     global wid_focus_parent
 
-    if wid_focus == None:
+    if wid_focus is None:
         return
 
     p = w.get_top_parent()
