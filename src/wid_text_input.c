@@ -478,7 +478,7 @@ widp wid_text_input (const char *title, double x, double y, int32_t args, ...)
             wid_set_mode(child, WID_MODE_NORMAL);
             wid_set_focusable(child, focus_order--);
 
-            wid_set_on_mouse_down(child, wid_text_input_button_event);
+            wid_set_on_m_down(child, wid_text_input_button_event);
 
             wid_set_context(child, (void*)button_callback[n]);
         }
@@ -774,7 +774,7 @@ widp wid_large_text_input (const char *title, double x, double y, int32_t args, 
 
             wid_set_focusable(child, focus_order--);
 
-            wid_set_on_mouse_down(child, wid_text_input_button_event);
+            wid_set_on_m_down(child, wid_text_input_button_event);
 
             wid_set_context(child, (void*)button_callback[n]);
         }

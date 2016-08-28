@@ -14,6 +14,6 @@ timerp action_timer_create(tree_rootp *root,
                     action_timer_destroy_callback,
                     void *context,
                     const char *name,
-                    uint32_t duration_ms,
+                    uint32_t duration_m_s,
                     uint32_t jitter);
 void action_timers_tick(tree_rootp *root);

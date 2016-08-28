@@ -157,7 +157,7 @@ static uint8_t wid_cmap_mouse_event (widp w, int focusx, int focusy)
     return (true);
 }
 
-static uint8_t wid_cmap_button_mouse_event (widp w,
+static uint8_t wid_cmap_button_m_event (widp w,
                                                 int32_t x, int32_t y,
                                                 uint32_t button)
 {
@@ -455,7 +455,7 @@ static uint8_t wid_cmap_button_joy_button_event (widp w,
     return (ret);
 }
 
-static void wid_cmap_mouse_over (widp w,
+static void wid_cmap_mover (widp w,
                                 int32_t relx, int32_t rely,
                                 int32_t wheelx, int32_t wheely)
 {
@@ -729,10 +729,10 @@ widp wid_cmap (const char *title,
             ctx->colors[y][x].x = x;
             ctx->colors[y][x].y = y;
 
-            wid_set_on_mouse_over_begin(b, wid_cmap_mouse_over);
+            wid_set_on_m_over_b(b, wid_cmap_mover);
             wid_set_on_key_down(b, wid_cmap_button_key_event);
             wid_set_on_joy_button(b, wid_cmap_button_joy_button_event);
-            wid_set_on_mouse_down(b, wid_cmap_button_mouse_event);
+            wid_set_on_m_down(b, wid_cmap_button_m_event);
             wid_set_bevel(b, 0);
 
             wid_set_color(b, WID_COLOR_BG, GRAY20);

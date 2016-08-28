@@ -22,7 +22,7 @@ int wid_menu_visible;
 static void wid_menu_destroy(widp w);
 static void wid_menu_callback(widp w, 
                               int focus, 
-                              on_mouse_down_t event_handler,
+                              on_m_down_t event_handler,
                               int key);
 static void wid_menu_prev_focus(wid_menu_ctx *ctx);
 static void wid_menu_next_focus(wid_menu_ctx *ctx);
@@ -207,7 +207,7 @@ static uint8_t wid_menu_mouse_event (widp w,
     widp b = ctx->buttons[item][col];
     verify(b);
 
-    on_mouse_down_t event_handler = ctx->event_handler[item];
+    on_m_down_t event_handler = ctx->event_handler[item];
     if (!event_handler) {
         return (false);
     }
@@ -217,7 +217,7 @@ static uint8_t wid_menu_mouse_event (widp w,
     return (true);
 }
 
-static uint8_t wid_menu_button_mouse_event (widp w,
+static uint8_t wid_menu_button_m_event (widp w,
                                             int32_t x, int32_t y,
                                             uint32_t button)
 {
@@ -262,14 +262,14 @@ static uint8_t wid_menu_joy_button_event (widp w,
     verify(b);
 
     if (sdl_joy_buttons[SDL_JOY_BUTTON_A]) {
-        on_mouse_down_t event_handler = ctx->event_handler[item];
+        on_m_down_t event_handler = ctx->event_handler[item];
         (event_handler)(b, mouse_x, mouse_y, SDL_BUTTON_LEFT);
     }
     if (sdl_joy_buttons[SDL_JOY_BUTTON_B]) {
         ctx->focus = ctx->items - 1;
         widp b = ctx->buttons[item][col];
         verify(b);
-        on_mouse_down_t event_handler = ctx->event_handler[item];
+        on_m_down_t event_handler = ctx->event_handler[item];
         wid_menu_callback(b, ctx->focus, event_handler, SDL_BUTTON_LEFT);
     }
     if (sdl_joy_buttons[SDL_JOY_BUTTON_X]) {
@@ -279,34 +279,34 @@ static uint8_t wid_menu_joy_button_event (widp w,
         wid_menu_next_focus(ctx);
     }
     if (sdl_joy_buttons[SDL_JOY_BUTTON_TOP_LEFT]) {
-        on_mouse_down_t event_handler = ctx->event_handler[item];
+        on_m_down_t event_handler = ctx->event_handler[item];
         (event_handler)(b, mouse_x, mouse_y, SDL_BUTTON_LEFT);
     }
     if (sdl_joy_buttons[SDL_JOY_BUTTON_TOP_RIGHT]) {
-        on_mouse_down_t event_handler = ctx->event_handler[item];
+        on_m_down_t event_handler = ctx->event_handler[item];
         (event_handler)(b, mouse_x, mouse_y, SDL_BUTTON_RIGHT);
     }
     if (sdl_joy_buttons[SDL_JOY_BUTTON_LEFT_STICK_DOWN]) {
-        on_mouse_down_t event_handler = ctx->event_handler[item];
+        on_m_down_t event_handler = ctx->event_handler[item];
         (event_handler)(b, mouse_x, mouse_y, SDL_BUTTON_LEFT);
     }
     if (sdl_joy_buttons[SDL_JOY_BUTTON_RIGHT_STICK_DOWN]) {
-        on_mouse_down_t event_handler = ctx->event_handler[item];
+        on_m_down_t event_handler = ctx->event_handler[item];
         (event_handler)(b, mouse_x, mouse_y, SDL_BUTTON_LEFT);
     }
     if (sdl_joy_buttons[SDL_JOY_BUTTON_START]) {
-        on_mouse_down_t event_handler = ctx->event_handler[item];
+        on_m_down_t event_handler = ctx->event_handler[item];
         (event_handler)(b, mouse_x, mouse_y, SDL_BUTTON_LEFT);
     }
     if (sdl_joy_buttons[SDL_JOY_BUTTON_XBOX]) {
-        on_mouse_down_t event_handler = ctx->event_handler[item];
+        on_m_down_t event_handler = ctx->event_handler[item];
         (event_handler)(b, mouse_x, mouse_y, SDL_BUTTON_LEFT);
     }
     if (sdl_joy_buttons[SDL_JOY_BUTTON_BACK]) {
         ctx->focus = ctx->items - 1;
         widp b = ctx->buttons[item][col];
         verify(b);
-        on_mouse_down_t event_handler = ctx->event_handler[item];
+        on_m_down_t event_handler = ctx->event_handler[item];
         wid_menu_callback(b, ctx->focus, event_handler, SDL_BUTTON_LEFT);
     }
     if (sdl_joy_buttons[SDL_JOY_BUTTON_UP]) {
@@ -393,7 +393,7 @@ static void wid_menu_set_focus (wid_menu_ctx *ctx, int focus)
 }
 
 typedef struct {
-    on_mouse_down_t event_handler;
+    on_m_down_t event_handler;
     widp w;
     int key;
 } wid_menu_callback_ctx;
@@ -415,7 +415,7 @@ static void wid_menu_callback_do (void *context)
 
 static void wid_menu_callback (widp w, 
                                int focus, 
-                               on_mouse_down_t event_handler,
+                               on_m_down_t event_handler,
                                int key)
 {
     if (!event_handler) {
@@ -472,7 +472,7 @@ static uint8_t wid_menu_key_event (widp w, const SDL_KEYSYM *key)
                 widp b = ctx->buttons[ctx->focus][0];
                 verify(b);
 
-                on_mouse_down_t event_handler = 
+                on_m_down_t event_handler = 
                                 ctx->event_handler[ctx->focus];
 
                 sound_play_click();
@@ -486,7 +486,7 @@ static uint8_t wid_menu_key_event (widp w, const SDL_KEYSYM *key)
                 widp b = ctx->buttons[ctx->focus][0];
                 verify(b);
 
-                on_mouse_down_t event_handler = 
+                on_m_down_t event_handler = 
                                 ctx->event_handler[ctx->focus];
                 
                 wid_menu_callback(b, ctx->focus, event_handler, 
@@ -498,7 +498,7 @@ static uint8_t wid_menu_key_event (widp w, const SDL_KEYSYM *key)
                 widp b = ctx->buttons[ctx->focus][0];
                 verify(b);
 
-                on_mouse_down_t event_handler = 
+                on_m_down_t event_handler = 
                                 ctx->event_handler[ctx->focus];
 
                 wid_menu_callback(b, ctx->focus, event_handler, 
@@ -530,7 +530,7 @@ static uint8_t wid_menu_key_event (widp w, const SDL_KEYSYM *key)
              */
             for (i = 0; i < ctx->items; i++) {
                 if (key->sym == ctx->shortcut[i]) {
-                    on_mouse_down_t event_handler = 
+                    on_m_down_t event_handler = 
                                     ctx->event_handler[i];
 
                     widp b = ctx->buttons[i][0];
@@ -558,7 +558,7 @@ static uint8_t wid_menu_parent_key_event (widp w, const SDL_KEYSYM *key)
     return (wid_menu_key_event(w, key));
 }
 
-static void wid_menu_mouse_over (widp w,
+static void wid_menu_mover (widp w,
                                  int32_t relx, int32_t rely,
                                  int32_t wheelx, int32_t wheely)
 
@@ -1085,7 +1085,7 @@ widp wid_menu (widp parent,
         wid_set_on_destroy(wrapper, wid_menu_destroy);
         wid_set_context(wrapper, ctx);
         wid_set_on_key_down(wrapper, wid_menu_parent_key_event);
-        wid_set_on_mouse_down(wrapper, wid_menu_parent_mouse_event);
+        wid_set_on_m_down(wrapper, wid_menu_parent_mouse_event);
         wid_set_on_joy_button(wrapper, wid_menu_parent_joy_button_event);
         ctx->w = wrapper;
     }
@@ -1157,9 +1157,9 @@ widp wid_menu (widp parent,
             ctx->shortcut[i] = shortcut;
 
             wid_set_on_key_down(b, wid_menu_button_key_event);
-            wid_set_on_mouse_down(b, wid_menu_button_mouse_event);
+            wid_set_on_m_down(b, wid_menu_button_m_event);
             wid_set_on_joy_button(b, wid_menu_button_joy_button_event);
-            wid_set_on_mouse_over_begin(b, wid_menu_mouse_over);
+            wid_set_on_m_over_b(b, wid_menu_mover);
 
             wid_set_context(b, ctx);
             wid_set_context2(b, (void*) (uintptr_t) i);
@@ -1178,9 +1178,9 @@ widp wid_menu (widp parent,
                     ctx->bar_width[i][c] = p;
 
                     wid_set_on_key_down(bar, wid_menu_button_key_event);
-                    wid_set_on_mouse_down(bar, wid_menu_button_mouse_event);
+                    wid_set_on_m_down(bar, wid_menu_button_m_event);
                     wid_set_on_joy_button(bar, wid_menu_button_joy_button_event);
-                    wid_set_on_mouse_over_begin(bar, wid_menu_mouse_over);
+                    wid_set_on_m_over_b(bar, wid_menu_mover);
 
                     wid_set_context(bar, ctx);
                     wid_set_context2(bar, (void*) (uintptr_t) i);
@@ -1192,7 +1192,7 @@ widp wid_menu (widp parent,
             }
         }
 
-        on_mouse_down_t fn = va_arg(ap, on_mouse_down_t);
+        on_m_down_t fn = va_arg(ap, on_m_down_t);
 
         for (c = 0; c < cols; c++) {
             ctx->event_handler[i] = fn;

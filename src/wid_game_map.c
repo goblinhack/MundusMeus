@@ -179,7 +179,7 @@ void wid_game_map_grid_create (void)
         wid_set_color(game.wid_grid, WID_COLOR_TL, BLACK);
         wid_set_color(game.wid_grid, WID_COLOR_BG, BLACK);
         wid_set_color(game.wid_grid, WID_COLOR_BR, BLACK);
-        wid_set_on_mouse_motion(game.wid_grid,
+        wid_set_on_m_motion(game.wid_grid,
                                 wid_game_map_receive_mouse_motion);
 
         wid_set_pos_pct(game.wid_grid, tl, br);

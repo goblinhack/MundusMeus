@@ -5,7 +5,7 @@ import sys
 import tp
 import copy
 
-def wid_tp_detail_on_mouse_down(w, x, y, button):
+def wid_tp_detail_on_m_down(w, x, y, button):
     return True
 
 class WidTpDetail(wid_popup.WidPopup):
@@ -23,7 +23,7 @@ class WidTpDetail(wid_popup.WidPopup):
 
         button_events = (
                 {
-                    "on_mouse_down": wid_tp_detail_on_mouse_down,
+                    "on_m_down": wid_tp_detail_on_m_down,
                     "tiles": "button_green",
                     "tooltip": "All items",
                 },

@@ -1130,33 +1130,33 @@ static void wid_set_on_tooltip_callback (widp w, widp tooltip)
                                 tooltip);
 }
 
-static void wid_set_on_mouse_focus_b_callback (widp w)
+static void wid_set_on_m_focus_b_callback (widp w)
 {
     py_call_void_module_ptr("wid", 
                             "on_focus_b_callback", 
                             w);
 }
 
-static void wid_set_on_mouse_focus_e_callback (widp w)
+static void wid_set_on_m_focus_e_callback (widp w)
 {
     py_call_void_module_ptr("wid", 
                             "on_focus_e_callback", 
                             w);
 }
 
-static void wid_set_on_mouse_over_begin_callback (widp w, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
+static void wid_set_on_m_over_b_callback (widp w, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
 {
     py_call_void_module_ptr_iiii("wid", 
-                                 "on_mouse_over_begin_callback", 
+                                 "on_m_over_b_callback", 
                                  w,
                                  relx, rely,
                                  wheelx, wheely);
 }
 
-static void wid_set_on_mouse_over_end_callback (widp w)
+static void wid_set_on_m_over_e_callback (widp w)
 {
     py_call_void_module_ptr("wid", 
-                            "on_mouse_over_end_callback", 
+                            "on_m_over_e_callback", 
                             w);
 }
 
@@ -1204,33 +1204,33 @@ static uint8_t wid_set_on_joy_button_callback (widp w, int32_t x, int32_t y)
     return (true);
 }
 
-static uint8_t wid_set_on_mouse_down_callback (widp w, int32_t x, int32_t y, uint32_t button)
+static uint8_t wid_set_on_m_down_callback (widp w, int32_t x, int32_t y, uint32_t button)
 {
     int ret;
 
     ret = py_call_int_module_ptr_iii("wid", 
-                                     "on_mouse_down_callback", 
+                                     "on_m_down_callback", 
                                      w,
                                      x, y, button);
     return (ret);
 }
 
-static uint8_t wid_set_on_mouse_up_callback (widp w, int32_t x, int32_t y, uint32_t button)
+static uint8_t wid_set_on_m_up_callback (widp w, int32_t x, int32_t y, uint32_t button)
 {
     int ret;
 
     ret = py_call_int_module_ptr_iii("wid", 
-                                     "on_mouse_up_callback", 
+                                     "on_m_up_callback", 
                                      w,
                                      x, y, button);
     return (ret);
 }
 
-static uint8_t wid_set_on_mouse_motion_callback (widp w, int32_t x, int32_t y, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
+static uint8_t wid_set_on_m_motion_callback (widp w, int32_t x, int32_t y, int32_t relx, int32_t rely, int32_t wheelx, int32_t wheely)
 {
     int ret = 
         py_call_int_module_ptr_iiiiii("wid", 
-                                      "on_mouse_motion_callback", 
+                                      "on_m_motion_callback", 
                                       w,
                                       x, y,
                                       relx, rely,
@@ -1377,13 +1377,13 @@ WID_BODY_ON_CALLBACK_FN(wid_set_on_tooltip);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_key_down);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_key_up);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_joy_button);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_down);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_motion);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_focus_b);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_focus_e);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_over_begin);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_over_end);
-WID_BODY_ON_CALLBACK_FN(wid_set_on_mouse_up);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_m_down);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_m_motion);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_m_focus_b);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_m_focus_e);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_m_over_b);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_m_over_e);
+WID_BODY_ON_CALLBACK_FN(wid_set_on_m_up);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_destroy);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_destroy_begin);
 WID_BODY_ON_CALLBACK_FN(wid_set_on_tick);

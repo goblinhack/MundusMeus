@@ -25,13 +25,13 @@ class WidPopup(wid.Wid):
                  row_on_key_mod=None,
                  row_on_key_up=None,
                  row_on_joy_button=None,
-                 row_on_mouse_down=None,
-                 row_on_mouse_up=None,
-                 row_on_mouse_motion=None,
-                 row_on_mouse_focus_b=None,
-                 row_on_mouse_focus_e=None,
-                 row_on_mouse_over_begin=None,
-                 row_on_mouse_over_end=None,
+                 row_on_m_down=None,
+                 row_on_m_up=None,
+                 row_on_m_motion=None,
+                 row_on_m_focus_b=None,
+                 row_on_m_focus_e=None,
+                 row_on_m_over_b=None,
+                 row_on_m_over_e=None,
                  row_on_destroy=None,
                  row_on_destroy_begin=None,
                  row_on_tick=None,
@@ -49,13 +49,13 @@ class WidPopup(wid.Wid):
                  title_on_key_mod=None,
                  title_on_key_up=None,
                  title_on_joy_button=None,
-                 title_on_mouse_down=None,
-                 title_on_mouse_up=None,
-                 title_on_mouse_motion=None,
-                 title_on_mouse_focus_b=None,
-                 title_on_mouse_focus_e=None,
-                 title_on_mouse_over_begin=None,
-                 title_on_mouse_over_end=None,
+                 title_on_m_down=None,
+                 title_on_m_up=None,
+                 title_on_m_motion=None,
+                 title_on_m_focus_b=None,
+                 title_on_m_focus_e=None,
+                 title_on_m_over_b=None,
+                 title_on_m_over_e=None,
                  title_on_destroy=None,
                  title_on_destroy_begin=None,
                  title_on_tick=None,
@@ -77,13 +77,13 @@ class WidPopup(wid.Wid):
         self.global_row_on_key_mod = row_on_key_mod
         self.global_row_on_key_up = row_on_key_up
         self.global_row_on_joy_button = row_on_joy_button
-        self.global_row_on_mouse_down = row_on_mouse_down
-        self.global_row_on_mouse_up = row_on_mouse_up
-        self.global_row_on_mouse_motion = row_on_mouse_motion
-        self.global_row_on_mouse_focus_b = row_on_mouse_focus_b
-        self.global_row_on_mouse_focus_e = row_on_mouse_focus_e
-        self.global_row_on_mouse_over_begin = row_on_mouse_over_begin
-        self.global_row_on_mouse_over_end = row_on_mouse_over_end
+        self.global_row_on_m_down = row_on_m_down
+        self.global_row_on_m_up = row_on_m_up
+        self.global_row_on_m_motion = row_on_m_motion
+        self.global_row_on_m_focus_b = row_on_m_focus_b
+        self.global_row_on_m_focus_e = row_on_m_focus_e
+        self.global_row_on_m_over_b = row_on_m_over_b
+        self.global_row_on_m_over_e = row_on_m_over_e
         self.global_row_on_destroy = row_on_destroy
         self.global_row_on_destroy_begin = row_on_destroy_begin
         self.global_row_on_tick = row_on_tick
@@ -101,13 +101,13 @@ class WidPopup(wid.Wid):
         self.global_title_on_key_mod = title_on_key_mod
         self.global_title_on_key_up = title_on_key_up
         self.global_title_on_joy_button = title_on_joy_button
-        self.global_title_on_mouse_down = title_on_mouse_down
-        self.global_title_on_mouse_up = title_on_mouse_up
-        self.global_title_on_mouse_motion = title_on_mouse_motion
-        self.global_title_on_mouse_focus_b = title_on_mouse_focus_b
-        self.global_title_on_mouse_focus_e = title_on_mouse_focus_e
-        self.global_title_on_mouse_over_begin = title_on_mouse_over_begin
-        self.global_title_on_mouse_over_end = title_on_mouse_over_end
+        self.global_title_on_m_down = title_on_m_down
+        self.global_title_on_m_up = title_on_m_up
+        self.global_title_on_m_motion = title_on_m_motion
+        self.global_title_on_m_focus_b = title_on_m_focus_b
+        self.global_title_on_m_focus_e = title_on_m_focus_e
+        self.global_title_on_m_over_b = title_on_m_over_b
+        self.global_title_on_m_over_e = title_on_m_over_e
         self.global_title_on_destroy = title_on_destroy
         self.global_title_on_destroy_begin = title_on_destroy_begin
         self.global_title_on_tick = title_on_tick
@@ -148,13 +148,13 @@ class WidPopup(wid.Wid):
         self.row_on_key_mod = []
         self.row_on_key_up = []
         self.row_on_joy_button = []
-        self.row_on_mouse_down = []
-        self.row_on_mouse_up = []
-        self.row_on_mouse_motion = []
-        self.row_on_mouse_focus_b = []
-        self.row_on_mouse_focus_e = []
-        self.row_on_mouse_over_begin = []
-        self.row_on_mouse_over_end = []
+        self.row_on_m_down = []
+        self.row_on_m_up = []
+        self.row_on_m_motion = []
+        self.row_on_m_focus_b = []
+        self.row_on_m_focus_e = []
+        self.row_on_m_over_b = []
+        self.row_on_m_over_e = []
         self.row_on_destroy = []
         self.row_on_destroy_begin = []
         self.row_on_tick = []
@@ -177,13 +177,13 @@ class WidPopup(wid.Wid):
         self.title_on_key_mod = []
         self.title_on_key_up = []
         self.title_on_joy_button = []
-        self.title_on_mouse_down = []
-        self.title_on_mouse_up = []
-        self.title_on_mouse_motion = []
-        self.title_on_mouse_focus_b = []
-        self.title_on_mouse_focus_e = []
-        self.title_on_mouse_over_begin = []
-        self.title_on_mouse_over_end = []
+        self.title_on_m_down = []
+        self.title_on_m_up = []
+        self.title_on_m_motion = []
+        self.title_on_m_focus_b = []
+        self.title_on_m_focus_e = []
+        self.title_on_m_over_b = []
+        self.title_on_m_over_e = []
         self.title_on_destroy = []
         self.title_on_destroy_begin = []
         self.title_on_tick = []
@@ -205,13 +205,13 @@ class WidPopup(wid.Wid):
                  on_key_mod=None,
                  on_key_up=None,
                  on_joy_button=None,
-                 on_mouse_down=None,
-                 on_mouse_up=None,
-                 on_mouse_motion=None,
-                 on_mouse_focus_b=None,
-                 on_mouse_focus_e=None,
-                 on_mouse_over_begin=None,
-                 on_mouse_over_end=None,
+                 on_m_down=None,
+                 on_m_up=None,
+                 on_m_motion=None,
+                 on_m_focus_b=None,
+                 on_m_focus_e=None,
+                 on_m_over_b=None,
+                 on_m_over_e=None,
                  on_destroy=None,
                  on_destroy_begin=None,
                  on_tick=None,
@@ -247,20 +247,20 @@ class WidPopup(wid.Wid):
                 on_key_up = self.global_row_on_key_up
             if on_joy_button is None:
                 on_joy_button = self.global_row_on_joy_button
-            if on_mouse_down is None:
-                on_mouse_down = self.global_row_on_mouse_down
-            if on_mouse_up is None:
-                on_mouse_up = self.global_row_on_mouse_up
-            if on_mouse_motion is None:
-                on_mouse_motion = self.global_row_on_mouse_motion
-            if on_mouse_focus_b is None:
-                on_mouse_focus_b = self.global_row_on_mouse_focus_b
-            if on_mouse_focus_e is None:
-                on_mouse_focus_e = self.global_row_on_mouse_focus_e
-            if on_mouse_over_begin is None:
-                on_mouse_over_begin = self.global_row_on_mouse_over_begin
-            if on_mouse_over_end is None:
-                on_mouse_over_end = self.global_row_on_mouse_over_end
+            if on_m_down is None:
+                on_m_down = self.global_row_on_m_down
+            if on_m_up is None:
+                on_m_up = self.global_row_on_m_up
+            if on_m_motion is None:
+                on_m_motion = self.global_row_on_m_motion
+            if on_m_focus_b is None:
+                on_m_focus_b = self.global_row_on_m_focus_b
+            if on_m_focus_e is None:
+                on_m_focus_e = self.global_row_on_m_focus_e
+            if on_m_over_b is None:
+                on_m_over_b = self.global_row_on_m_over_b
+            if on_m_over_e is None:
+                on_m_over_e = self.global_row_on_m_over_e
             if on_destroy is None:
                 on_destroy = self.global_row_on_destroy
             if on_destroy_begin is None:
@@ -286,13 +286,13 @@ class WidPopup(wid.Wid):
             self.row_on_key_mod.append(on_key_mod)
             self.row_on_key_up.append(on_key_up)
             self.row_on_joy_button.append(on_joy_button)
-            self.row_on_mouse_down.append(on_mouse_down)
-            self.row_on_mouse_up.append(on_mouse_up)
-            self.row_on_mouse_motion.append(on_mouse_motion)
-            self.row_on_mouse_focus_b.append(on_mouse_focus_b)
-            self.row_on_mouse_focus_e.append(on_mouse_focus_e)
-            self.row_on_mouse_over_begin.append(on_mouse_over_begin)
-            self.row_on_mouse_over_end.append(on_mouse_over_end)
+            self.row_on_m_down.append(on_m_down)
+            self.row_on_m_up.append(on_m_up)
+            self.row_on_m_motion.append(on_m_motion)
+            self.row_on_m_focus_b.append(on_m_focus_b)
+            self.row_on_m_focus_e.append(on_m_focus_e)
+            self.row_on_m_over_b.append(on_m_over_b)
+            self.row_on_m_over_e.append(on_m_over_e)
             self.row_on_destroy.append(on_destroy)
             self.row_on_destroy_begin.append(on_destroy_begin)
             self.row_on_tick.append(on_tick)
@@ -325,20 +325,20 @@ class WidPopup(wid.Wid):
                 on_key_up = self.global_title_on_key_up
             if on_joy_button is None:
                 on_joy_button = self.global_title_on_joy_button
-            if on_mouse_down is None:
-                on_mouse_down = self.global_title_on_mouse_down
-            if on_mouse_up is None:
-                on_mouse_up = self.global_title_on_mouse_up
-            if on_mouse_motion is None:
-                on_mouse_motion = self.global_title_on_mouse_motion
-            if on_mouse_focus_b is None:
-                on_mouse_focus_b = self.global_title_on_mouse_focus_b
-            if on_mouse_focus_e is None:
-                on_mouse_focus_e = self.global_title_on_mouse_focus_e
-            if on_mouse_over_begin is None:
-                on_mouse_over_begin = self.global_title_on_mouse_over_begin
-            if on_mouse_over_end is None:
-                on_mouse_over_end = self.global_title_on_mouse_over_end
+            if on_m_down is None:
+                on_m_down = self.global_title_on_m_down
+            if on_m_up is None:
+                on_m_up = self.global_title_on_m_up
+            if on_m_motion is None:
+                on_m_motion = self.global_title_on_m_motion
+            if on_m_focus_b is None:
+                on_m_focus_b = self.global_title_on_m_focus_b
+            if on_m_focus_e is None:
+                on_m_focus_e = self.global_title_on_m_focus_e
+            if on_m_over_b is None:
+                on_m_over_b = self.global_title_on_m_over_b
+            if on_m_over_e is None:
+                on_m_over_e = self.global_title_on_m_over_e
             if on_destroy is None:
                 on_destroy = self.global_title_on_destroy
             if on_destroy_begin is None:
@@ -362,13 +362,13 @@ class WidPopup(wid.Wid):
             self.title_on_key_mod.append(on_key_mod)
             self.title_on_key_up.append(on_key_up)
             self.title_on_joy_button.append(on_joy_button)
-            self.title_on_mouse_down.append(on_mouse_down)
-            self.title_on_mouse_up.append(on_mouse_up)
-            self.title_on_mouse_motion.append(on_mouse_motion)
-            self.title_on_mouse_focus_b.append(on_mouse_focus_b)
-            self.title_on_mouse_focus_e.append(on_mouse_focus_e)
-            self.title_on_mouse_over_begin.append(on_mouse_over_begin)
-            self.title_on_mouse_over_end.append(on_mouse_over_end)
+            self.title_on_m_down.append(on_m_down)
+            self.title_on_m_up.append(on_m_up)
+            self.title_on_m_motion.append(on_m_motion)
+            self.title_on_m_focus_b.append(on_m_focus_b)
+            self.title_on_m_focus_e.append(on_m_focus_e)
+            self.title_on_m_over_b.append(on_m_over_b)
+            self.title_on_m_over_e.append(on_m_over_e)
             self.title_on_destroy.append(on_destroy)
             self.title_on_destroy_begin.append(on_destroy_begin)
             self.title_on_tick.append(on_tick)
@@ -466,13 +466,13 @@ class WidPopup(wid.Wid):
                                  row_on_key_mod=self.row_on_key_mod,
                                  row_on_key_up=self.row_on_key_up,
                                  row_on_joy_button=self.row_on_joy_button,
-                                 row_on_mouse_down=self.row_on_mouse_down,
-                                 row_on_mouse_up=self.row_on_mouse_up,
-                                 row_on_mouse_motion=self.row_on_mouse_motion,
-                                 row_on_mouse_focus_b=self.row_on_mouse_focus_b,
-                                 row_on_mouse_focus_e=self.row_on_mouse_focus_e,
-                                 row_on_mouse_over_begin=self.row_on_mouse_over_begin,
-                                 row_on_mouse_over_end=self.row_on_mouse_over_end,
+                                 row_on_m_down=self.row_on_m_down,
+                                 row_on_m_up=self.row_on_m_up,
+                                 row_on_m_motion=self.row_on_m_motion,
+                                 row_on_m_focus_b=self.row_on_m_focus_b,
+                                 row_on_m_focus_e=self.row_on_m_focus_e,
+                                 row_on_m_over_b=self.row_on_m_over_b,
+                                 row_on_m_over_e=self.row_on_m_over_e,
                                  row_on_destroy=self.row_on_destroy,
                                  row_on_destroy_begin=self.row_on_destroy_begin,
                                  row_on_tick=self.row_on_tick,
@@ -525,13 +525,13 @@ class WidPopup(wid.Wid):
                                              row_on_key_mod=self.title_on_key_mod,
                                              row_on_key_up=self.title_on_key_up,
                                              row_on_joy_button=self.title_on_joy_button,
-                                             row_on_mouse_down=self.title_on_mouse_down,
-                                             row_on_mouse_up=self.title_on_mouse_up,
-                                             row_on_mouse_motion=self.title_on_mouse_motion,
-                                             row_on_mouse_focus_b=self.title_on_mouse_focus_b,
-                                             row_on_mouse_focus_e=self.title_on_mouse_focus_e,
-                                             row_on_mouse_over_begin=self.title_on_mouse_over_begin,
-                                             row_on_mouse_over_end=self.title_on_mouse_over_end,
+                                             row_on_m_down=self.title_on_m_down,
+                                             row_on_m_up=self.title_on_m_up,
+                                             row_on_m_motion=self.title_on_m_motion,
+                                             row_on_m_focus_b=self.title_on_m_focus_b,
+                                             row_on_m_focus_e=self.title_on_m_focus_e,
+                                             row_on_m_over_b=self.title_on_m_over_b,
+                                             row_on_m_over_e=self.title_on_m_over_e,
                                              row_on_destroy=self.title_on_destroy,
                                              row_on_destroy_begin=self.title_on_destroy_begin,
                                              row_on_tick=self.title_on_tick,

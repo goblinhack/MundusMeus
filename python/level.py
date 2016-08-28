@@ -43,4 +43,4 @@ class Level:
         self.w = w
         self.h = h
 
-        self.on_map = [[[] for x in range(w)] for y in range(h)]
+        self.on_m_ap = [[[] for x in range(w)] for y in range(h)]

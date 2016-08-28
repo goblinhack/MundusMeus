@@ -88,7 +88,7 @@ timerp action_timer_create (tree_rootp *root,
                             action_timer_destroy_callback destroy_callback,
                             void *context,
                             const char *name,
-                            uint32_t duration_ms,
+                            uint32_t duration_m_s,
                             uint32_t jitter)
 {
     static uint32_t tiebreak;
@@ -102,7 +102,7 @@ timerp action_timer_create (tree_rootp *root,
 
     t = (typeof(t)) myzalloc(sizeof(*t), "TREE NODE: timer");
 
-    t->expires_when = time_get_time_ms() + duration_ms;
+    t->expires_when = time_get_time_ms() + duration_m_s;
     if (jitter) {
         t->expires_when += myrand() % jitter;
     }
