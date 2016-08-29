@@ -2970,6 +2970,14 @@ static void wid_destroy_immediate (widp w)
     tree_destroy(&w->tree2_children_unsorted, (tree_destroy_func)0);
 
     if (w->name) {
+        if (!strcmp(w->name, "wid_game_map")) {
+            game.wid_map = 0;
+        } else if (!strcmp(w->name, "wid_game_map_grid")) {
+            game.wid_grid = 0;
+        }
+    }
+
+    if (w->name) {
         myfree(w->name);
         w->name = 0;
     }
@@ -3138,6 +3146,12 @@ widp wid_new_window (const char *name)
     wid_set_color(w, WID_COLOR_TEXT, WHITE);
     wid_set_movable(w, true);
 
+    if (name) {
+        if (!strcmp(name, "wid_game_map")) {
+            game.wid_map = w;
+        }
+    }
+
     return (w);
 }
 
@@ -3170,6 +3184,10 @@ widp wid_new_container (widp parent, const char *name)
     wid_set_color(w, WID_COLOR_BR, col);
     wid_set_color(w, WID_COLOR_BG, col);
     wid_set_color(w, WID_COLOR_TEXT, WHITE);
+
+    if (!strcmp(name, "wid_game_map_grid")) {
+        game.wid_grid = w;
+    }
 
     return (w);
 }

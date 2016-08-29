@@ -11,6 +11,7 @@
 PyObject *wid_new_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_destroy_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_new_scrollbar_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_new_grid_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_shape_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_tooltip_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_tiles_(PyObject *obj, PyObject *args, PyObject *keywds);

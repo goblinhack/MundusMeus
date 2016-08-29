@@ -110,6 +110,66 @@ PyObject *wid_new_scrollbar_ (PyObject *obj, PyObject *args, PyObject *keywds)
     return (Py_BuildValue("K", (uintptr_t) w));
 }
 
+PyObject *wid_new_grid_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    uintptr_t i_parent = 0;
+    widp parent;
+    char *name = 0;
+    double across = false;
+    double down = false;
+    double tile_width = false;
+    double tile_height = false;
+
+    static char *kwlist[] = {
+        "wid",
+        "parent",
+        "name",
+        "across",
+        "down",
+        "tile_width",
+        "tile_height",
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, 
+                                     "OKsdddd", kwlist,
+                                     &py_class,
+                                     &i_parent,
+                                     &name,
+                                     &across,
+                                     &down,
+                                     &tile_width,
+                                     &tile_height)) {
+        return (0);
+    }
+
+    parent = (widp) i_parent;
+    verify(parent);
+
+    widp w = 0;
+
+    w = wid_new_container(parent, name);
+
+    fpoint tl = {0.00f, 0.00f};
+    fpoint br = {1.00f, 1.00f};
+
+    wid_set_no_shape(w);
+
+    wid_set_color(w, WID_COLOR_TL, BLACK);
+    wid_set_color(w, WID_COLOR_BG, BLACK);
+    wid_set_color(w, WID_COLOR_BR, BLACK);
+
+    wid_set_pos_pct(w, tl, br);
+
+    wid_new_grid(w,
+                 across,
+                 down, 
+                 tile_width, 
+                 tile_height);
+
+    return (Py_BuildValue("K", (uintptr_t) w));
+}
+
 PyObject *wid_destroy_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;

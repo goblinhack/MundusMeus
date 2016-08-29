@@ -6,11 +6,16 @@ all_wids = {}
 
 class Wid:
 
-    def __init__(self, name, parent=0, is_scrollbar=False, **kw):
+    def __init__(self, name, parent=0,
+                 is_grid=False,
+                 is_scrollbar=False, **kw):
+
         self.parent = parent
         self.name = name
 
-        if is_scrollbar is True:
+        if is_grid is True:
+            self.wid_id = mm.wid_new_grid(self, parent=parent, name=name, **kw)
+        elif is_scrollbar is True:
             self.wid_id = mm.wid_new_scrollbar(self, parent, **kw)
         else:
             self.wid_id = mm.wid_new(self, parent, name, **kw)

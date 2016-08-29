@@ -1481,6 +1481,11 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "create scrollbars"},
 
+    {"wid_new_grid",
+        (PyCFunction)wid_new_grid_,
+        METH_VARARGS | METH_KEYWORDS,
+        "create grid"},
+
     {"wid_set_shape",
         (PyCFunction)wid_set_shape_,
         METH_VARARGS | METH_KEYWORDS,
@@ -1905,6 +1910,11 @@ static void py_add_to_path (const char *path)
 
 static void python_add_consts (void)
 {
+    PyModule_AddIntConstant(mm_mod, "MAP_WIDTH", MAP_WIDTH);
+    PyModule_AddIntConstant(mm_mod, "MAP_HEIGHT", MAP_HEIGHT);
+    PyModule_AddIntConstant(mm_mod, "TILES_SCREEN_WIDTH", TILES_SCREEN_WIDTH);
+    PyModule_AddIntConstant(mm_mod, "TILES_SCREEN_HEIGHT", TILES_SCREEN_HEIGHT);
+
     PyModule_AddIntConstant(mm_mod, "KMOD_LSHIFT", KMOD_LSHIFT);
     PyModule_AddIntConstant(mm_mod, "KMOD_RSHIFT", KMOD_RSHIFT);
     PyModule_AddIntConstant(mm_mod, "KMOD_LALT", KMOD_LALT);
