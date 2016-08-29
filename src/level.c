@@ -118,6 +118,10 @@ static void level_set_walls (levelp level)
         return;
     }
 
+    if (!w->grid) {
+        DIE("no grid wid set for game wid_grid");
+    }
+
     int i;
     for (i = 0; i < DMAP_MAP_MAX; i++) {
         memset(level->dmap[i].walls, '+',

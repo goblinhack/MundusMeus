@@ -2,6 +2,7 @@ import world
 import util
 import mm
 import wid_map
+import thing
 
 global g
 
@@ -24,7 +25,11 @@ class Game:
         l.set_dim(width, height)
 
     def map_wid_create(self):
-        self.wid_map = wid_map.WidMap(10, 10)
+        self.wid_map = wid_map.WidMap(mm.MAP_WIDTH, mm.MAP_HEIGHT)
+
+        if False:
+            t = thing.Thing(self.level, tp_name="player1")
+            t.push(5, 5)
 
 #    def todo(self):
 #        for y in range(0, height):
