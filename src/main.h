@@ -425,9 +425,6 @@ struct game_ {
 
     double tile_width;
     double tile_height;
-
-    double last_playery;
-    double last_playerx;
 };
 
 extern struct game_ game;
