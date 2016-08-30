@@ -10,26 +10,23 @@ global g
 class Game:
 
     def __init__(self):
-        w = self.world = world.World(0)
+        self.world = world.World(0)
 
-        (width, height) = mm.tex_size("map")
+#        (width, height) = mm.tex_size("map")
+        (width, height) = (mm.MAP_WIDTH, mm.MAP_HEIGHT)
 
         p = util.Xyz(0, 0, 0)
-        w.push_level(p)
-        l = w.get_level()
-        l.set_dim(width, height)
-
-        p2 = util.Xyz(0, 0, 1)
-        w.push_level(p2)
-        l = w.get_level()
+        self.world.push_level(p)
+        l = self.level = self.world.get_level()
         l.set_dim(width, height)
 
     def map_wid_create(self):
         self.wid_map = wid_map.WidMap(mm.MAP_WIDTH, mm.MAP_HEIGHT)
 
-        if False:
-            t = thing.Thing(self.level, tp_name="player1")
-            t.push(5, 5)
+        for y in range(0, mm.MAP_HEIGHT, 5):
+            for x in range(0, mm.MAP_WIDTH, 5):
+                t = thing.Thing(self.level, tp_name="player1")
+                t.push(x, y)
 
 #    def todo(self):
 #        for y in range(0, height):

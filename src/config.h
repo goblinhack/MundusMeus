@@ -207,6 +207,10 @@ void set_game_full_screen(int full_screen);
 int get_game_full_screen(void);
 void set_game_fps_counter(int fps_counter);
 int get_game_fps_counter(void);
+void set_game_tile_width(int tile_width);
+int get_game_tile_width(void);
+void set_game_tile_height(int tile_height);
+int get_game_tile_height(void);
 void save_game_config(void);
 
 #define SOUND_MAX                   20

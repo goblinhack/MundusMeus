@@ -165,3 +165,32 @@ void save_game_config (void)
     py_call_void_module_void("config", "save_game_config");
 }
 
+void set_game_tile_width (int tile_width)
+{
+    game.tile_width = tile_width;
+
+    py_call_void_module_int("config", "set_game_tile_width", game.tile_width);
+}
+
+int get_game_tile_width (void)
+{
+    game.tile_width =
+        py_call_int_module_void("config", "get_game_tile_width");
+
+    return (game.tile_width);
+}
+
+void set_game_tile_height (int tile_height)
+{
+    game.tile_height = tile_height;
+
+    py_call_void_module_int("config", "set_game_tile_height", game.tile_height);
+}
+
+int get_game_tile_height (void)
+{
+    game.tile_height =
+        py_call_int_module_void("config", "get_game_tile_height");
+
+    return (game.tile_height);
+}

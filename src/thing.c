@@ -98,6 +98,14 @@ void thing_push_ (thingp t, double x, double y)
 {
     verify(t);
 
+    if (!game.tile_width) {
+        game.tile_width = get_game_tile_width();
+        game.tile_height = get_game_tile_height();
+        if (!game.tile_width) {
+            DIE("python did not set tile size prior to thing push");
+        }
+    }
+
     t->wid = wid_game_map_replace_tile(x, y, t);
 }
 

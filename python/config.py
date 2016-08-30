@@ -57,6 +57,22 @@ def get_game_fps_counter():
     return (mm.game_fps_counter)
 
 
+def set_game_tile_width(value):
+    mm.game_tile_width = value
+
+
+def get_game_tile_width():
+    return (mm.game_tile_width)
+
+
+def set_game_tile_height(value):
+    mm.game_tile_height = value
+
+
+def get_game_tile_height():
+    return (mm.game_tile_height)
+
+
 def save_game_config():
     with open('mundusmeus-config.py', 'w') as f:
         f.write("import mm\n")

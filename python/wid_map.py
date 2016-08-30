@@ -18,10 +18,10 @@ class WidMap:
         w.to_back()
         w.set_movable(value=False)
         w.set_do_not_raise(value=True)
-        w.set_do_not_raise(value=False)
-        w.set_shape(none=True)
+#        w.set_shape(none=True)
         w.set_pos_pct(x1=0.0, y1=0.0, x2=1.0, y2=1.0)
         w.set_on_key_down(wid_map_key_down)
+        w.set_color(tl=True, bg=True, br=True, name="red", alpha=0.5)
 
         #
         # Get the tile size for the screen
@@ -39,6 +39,9 @@ class WidMap:
         self.tile_height = \
             (1.0 / self.TILES_SCREEN_HEIGHT) * self.wid_map_height
 
+        mm.game_tile_width = int(self.tile_width)
+        mm.game_tile_height = int(self.tile_height)
+
         self.wid_grid = wid.Wid(is_grid=True,
                                 parent=self.wid_map.wid_id,
                                 name="wid_game_map_grid",
@@ -52,11 +55,15 @@ class WidMap:
                                        vert=True,
                                        parent=self.wid_map.wid_id,
                                        owner=self.wid_grid.wid_id)
+
         self.wid_horiz_scroll = wid.Wid(name="wid_game_vert_scroll",
                                         is_scrollbar=True,
                                         horiz=True,
                                         parent=self.wid_map.wid_id,
                                         owner=self.wid_grid.wid_id)
+        self.wid_vert_scroll.visible()
+        self.wid_horiz_scroll.visible()
+        self.wid_grid.visible()
 
         self.wid_vert_scroll.update()
         self.wid_horiz_scroll.update()
