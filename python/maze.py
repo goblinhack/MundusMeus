@@ -2,29 +2,7 @@
 from termcolor import colored
 import random
 import sys
-
-rooms = [
-    {
-        "floor": [
-            "......",
-            "......",
-            "......",
-            "......",
-        ],
-        "wall": [
-            "xxxxxx",
-            "x    D",
-            "x    x",
-            "xxxxxx",
-        ],
-        "obj": [
-            "      ",
-            "   o  ",
-            "      ",
-            "      ",
-        ]
-    },
-]
+import os
 
 CORRIDOR = "#"
 DOOR = "D"
@@ -66,31 +44,93 @@ charmap = {
 
 
 class Enumeration(object):
-        def __init__(self, names):  # or *names, with no .split()
-            self.to_name = {}
-            for number, name in enumerate(names.split()):
-                setattr(self, name, number)
-                self.to_name[number] = name
+    def __init__(self, names):  # or *names, with no .split()
+        self.to_name = {}
+        for number, name in enumerate(names.split()):
+            setattr(self, name, number)
+            self.to_name[number] = name
 
 Depth = Enumeration("floor wall obj max")
 
 
+class Room:
+    def __init__(self):
+        self.slice = {}
+        self.width = 0
+        self.height = 0
+
+    def slice_add(self, slice, slice_data):
+        w = len(slice_data[0])
+        h = len(slice_data)
+
+        if self.width != 0:
+            assert w == self.width
+        else:
+            self.width = w
+
+        if self.height != 0:
+            assert h == self.height
+        else:
+            self.height = h
+
+        self.slice[slice] = slice_data
+
+    def finalize(self):
+        fslice = self.slice["floor"]
+        wslice = self.slice["wall"]
+
+        self.exits = []
+
+        y = 0
+        for x in range(self.width):
+            if wslice[y][x] == WALL:
+                continue
+            if fslice[y][x] == FLOOR:
+                self.exits.append((x, y))
+        y = self.height - 1
+        for x in range(self.width):
+            if wslice[y][x] == WALL:
+                continue
+            if fslice[y][x] == FLOOR:
+                self.exits.append((x, y))
+        x = 0
+        for y in range(self.height):
+            if wslice[y][x] == WALL:
+                continue
+            if fslice[y][x] == FLOOR:
+                self.exits.append((x, y))
+        x = self.width - 1
+        for y in range(self.height):
+            if wslice[y][x] == WALL:
+                continue
+            if fslice[y][x] == FLOOR:
+                self.exits.append((x, y))
+
+
 class Maze:
-    def __init__(self, mw, mh, rooms, charmap):
-        self.mw = mw
-        self.mh = mh
+    def __init__(self, width, height, rooms, charmap):
+        self.width = width
+        self.height = height
         self.rooms = rooms
         self.charmap = charmap
         self.corridor_fork_chance = 20
         self.corridor_grow_chance = 5
         self.cells = [[[' ' for d in range(Depth.max)]
-                       for i in range(mh)]
-                      for j in range(mw)]
+                       for i in range(height)]
+                      for j in range(width)]
+
+        self.room_count = 0
+        self.room_place(roomno=0, x=int(width / 2), y=int(height / 2))
+        self.corridor_ends = []
+
+        while self.room_count < 20:
+            self.rooms_corridors_create()
+            self.rooms_place_corridors_end()
 
     def putc(self, x, y, d, c):
-        if x >= self.mw:
+        if x >= self.width:
             return
-        if y >= self.mh:
+        if y >= self.height:
             return
         if x < 0:
             return
@@ -103,9 +143,9 @@ class Maze:
         self.cells[x][y][d] = c
 
     def getc(self, x, y, d):
-        if x >= self.mw:
+        if x >= self.width:
             return None
-        if y >= self.mh:
+        if y >= self.height:
             return None
         if x < 0:
             return None
@@ -134,6 +174,13 @@ class Maze:
                 return True
         return False
 
+    def is_corridor_at(self, x, y):
+        c = self.getc(x, y, Depth.floor)
+        if c is not None:
+            if "is_corridor" in self.charmap[c]:
+                return True
+        return False
+
     def is_wall_at(self, x, y):
         c = self.getc(x, y, Depth.wall)
         if c is not None:
@@ -148,23 +195,47 @@ class Maze:
                 return True
         return False
 
-    def place_room(self, roomno, x, y):
+    def room_can_be_placed(self, roomno, x, y):
+        room = self.rooms[roomno]
+
+        if x < 0:
+            return False
+        elif x + room.width >= self.width:
+            return False
+
+        if y < 0:
+            return False
+        elif y + room.height >= self.height:
+            return False
+
+        for d in range(Depth.max):
+            dname = Depth.to_name[d]
+            if dname in room.slice:
+                for ry in range(room.height):
+                    for rx in range(room.width):
+                        if self.is_something_at(x + rx, y + ry):
+                            return False
+        return True
+
+    def room_place(self, roomno, x, y):
+        if not self.room_can_be_placed(roomno, x, y):
+            return False
+
         room = self.rooms[roomno]
 
         for d in range(Depth.max):
             dname = Depth.to_name[d]
-            if dname in room:
-                rdata = room[dname]
-                rwidth = len(rdata[0])
-                rheight = len(rdata)
+            if dname in room.slice:
+                rslice = room.slice[dname]
+                for ry in range(room.height):
+                    for rx in range(room.width):
+                        rchar = rslice[ry][rx]
+                        self.putc(x + rx, y + ry, d, rchar)
 
-                for ry in range(rheight):
-                    for rx in range(rwidth):
-                        rc = rdata[ry][rx]
-                        self.putc(x + rx, y + ry, d, rc)
+        self.room_count += 1
+        return True
 
     def corridor_create(self, x, y, dx, dy, clen=0):
-
         x += dx
         y += dy
 
@@ -179,6 +250,7 @@ class Maze:
         self.putc(x, y, Depth.floor, CORRIDOR)
 
         if random.randint(1, 100) < clen * self.corridor_grow_chance:
+            self.corridor_ends.append((x, y))
             return
 
         if clen % 2 == 0:
@@ -193,16 +265,13 @@ class Maze:
 
         self.corridor_create(x, y, dx, dy, clen)
 
-    def find_doors(self):
-        self.doors_n = [[0 for i in range(self.mh)] for j in range(self.mw)]
-        self.doors_e = [[0 for i in range(self.mh)] for j in range(self.mw)]
-        self.doors_s = [[0 for i in range(self.mh)] for j in range(self.mw)]
-        self.doors_w = [[0 for i in range(self.mh)] for j in range(self.mw)]
-        self.inuse = [[0 for i in range(self.mh)] for j in range(self.mw)]
-        possible_doors = []
+    def rooms_corridors_create(self):
+        self.inuse = \
+                [[0 for i in range(self.height)] for j in range(self.width)]
+        possible_room_exits = []
 
-        for y in range(2, self.mh - 2):
-            for x in range(2, self.mw - 2):
+        for y in range(2, self.height - 2):
+            for x in range(2, self.width - 2):
 
                 self.inuse[x][y] = 0
 
@@ -210,26 +279,29 @@ class Maze:
                     continue
 
                 if self.is_wall_at(x, y):
+                    self.inuse[x][y] = 1
                     continue
 
                 if self.is_obj_at(x, y):
+                    self.inuse[x][y] = 1
                     continue
 
-                self.inuse[x][y] = 1
-                possible_doors.append((x, y))
+                if self.is_corridor_at(x, y):
+                    self.inuse[x][y] = 1
+                    continue
 
-        self.doorlist = []
-        for coord in possible_doors:
+                possible_room_exits.append((x, y))
+
+        for coord in possible_room_exits:
             x, y = coord
 
-#            a = self.inuse[x-1][y-1]
+            # a b c
+            # d * f
+            # g h i
             b = self.inuse[x][y-1]
-#            c = self.inuse[x+1][y-1]
             d = self.inuse[x-1][y]
             f = self.inuse[x+1][y]
-#            g = self.inuse[x-1][y+1]
             h = self.inuse[x][y+1]
-#            i = self.inuse[x+1][y+1]
 
             if not b:
                 self.corridor_create(x, y, 0, - 1)
@@ -240,9 +312,41 @@ class Maze:
             if not h:
                 self.corridor_create(x, y, 0, 1)
 
+    def rooms_place_corridors_end(self):
+        roomno = random.randint(1, len(self.rooms))
+        roomno -= 1
+        room = self.rooms[roomno]
+
+        rplaced = False
+
+        for coord in self.corridor_ends:
+            cx, cy = coord
+
+            for exit in room.exits:
+                rx, ry = exit
+
+                x = cx - rx
+                y = cy - ry
+
+                if self.room_place(roomno, x - 1, y):
+                    rplaced = True
+                elif self.room_place(roomno, x + 1, y):
+                    rplaced = True
+                elif self.room_place(roomno, x, y - 1):
+                    rplaced = True
+                elif self.room_place(roomno, x, y + 1):
+                    rplaced = True
+
+                if rplaced:
+                    break
+
+            if rplaced:
+                break
+
     def dump(self):
-        for y in range(self.mh):
-            for x in range(self.mw):
+        os.system('cls' if os.name == 'nt' else 'clear')
+        for y in range(self.height):
+            for x in range(self.width):
                 for d in reversed(range(Depth.max)):
                     c = self.cells[x][y][d]
                     charmap = self.charmap[c]
@@ -254,9 +358,68 @@ class Maze:
                 sys.stdout.write(colored(c, fg, bg))
             print("")
 
-maze = Maze(mw=80, mh=40, rooms=rooms, charmap=charmap)
-maze.place_room(roomno=0, x=10, y=10)
-# maze.place_room(roomno=1, x=75, y=20)
-maze.find_doors()
+rooms = []
 
+r = Room()
+r.slice_add("floor", [
+                "......",
+                "......",
+                "......",
+                "......",
+                "......",
+        ])
+r.slice_add("wall", [
+                "xx.xxx",
+                "x    D",
+                ".    x",
+                "x    x",
+                "xxx.xx",
+        ])
+
+r.slice_add("obj", [
+                "      ",
+                "   o  ",
+                "      ",
+                "      ",
+                "      ",
+        ])
+r.finalize()
+rooms.append(r)
+
+r = Room()
+r.slice_add("floor", [
+                "..........",
+                "..........",
+                "..........",
+                "..........",
+                "..........",
+                "..........",
+                "..........",
+        ])
+r.slice_add("wall", [
+                "xx.xxxxxxx",
+                "x        .",
+                "x        x",
+                "x        x",
+                "x        x",
+                "x        x",
+                "xxxxxxxxxx",
+        ])
+
+r.slice_add("obj", [
+                "          ",
+                "   o      ",
+                "          ",
+                "          ",
+                "          ",
+                "          ",
+                "          ",
+        ])
+r.finalize()
+rooms.append(r)
+
+width = 80
+height = 40
+maze = Maze(width=width, height=height, rooms=rooms, charmap=charmap)
+# maze.room_place(roomno=1, x=75, y=20)
 maze.dump()
