@@ -4,6 +4,7 @@ import random
 import sys
 import os
 
+SPACE = " "
 CORRIDOR = "#"
 DOOR = "D"
 WALL = "x"
@@ -27,7 +28,6 @@ charmap = {
     CORRIDOR: {
         "bg": "on_grey",
         "fg": "yellow",
-        "is_floor": True,
         "is_corridor": True,
     },
     DOOR: {
@@ -108,7 +108,7 @@ class Room:
 
 
 class Maze:
-    def __init__(self, width, height, rooms, charmap):
+    def __init__(self, rooms, charmap, width=80, height=40, room_count=20):
         self.width = width
         self.height = height
         self.rooms = rooms
@@ -123,9 +123,11 @@ class Maze:
         self.room_place(roomno=0, x=int(width / 2), y=int(height / 2))
         self.corridor_ends = []
 
-        while self.room_count < 20:
+        while self.room_count < room_count:
             self.rooms_corridors_create()
             self.rooms_place_corridors_end()
+        self.rooms_trim_corridors()
+        self.rooms_plug_walls()
 
     def putc(self, x, y, d, c):
         if x >= self.width:
@@ -160,6 +162,8 @@ class Maze:
     def is_something_at(self, x, y):
         if self.is_floor_at(x, y):
             return True
+        if self.is_corridor_at(x, y):
+            return True
         if self.is_wall_at(x, y):
             return True
         if self.is_obj_at(x, y):
@@ -181,6 +185,13 @@ class Maze:
                 return True
         return False
 
+    def is_corridor_or_floor_at(self, x, y):
+        if self.is_corridor_at(x, y):
+            return True
+        if self.is_floor_at(x, y):
+            return True
+        return False
+
     def is_wall_at(self, x, y):
         c = self.getc(x, y, Depth.wall)
         if c is not None:
@@ -198,14 +209,14 @@ class Maze:
     def room_can_be_placed(self, roomno, x, y):
         room = self.rooms[roomno]
 
-        if x < 0:
+        if x < 1:
             return False
-        elif x + room.width >= self.width:
+        elif x + room.width >= self.width - 1:
             return False
 
-        if y < 0:
+        if y < 1:
             return False
-        elif y + room.height >= self.height:
+        elif y + room.height >= self.height - 1:
             return False
 
         for d in range(Depth.max):
@@ -343,6 +354,69 @@ class Maze:
             if rplaced:
                 break
 
+    #
+    # Trim dead end corridors
+    #
+    def rooms_trim_corridors(self):
+        trimmed = True
+        while trimmed:
+            trimmed = False
+            for y in range(self.height):
+                for x in range(self.width):
+                    if not self.is_corridor_at(x, y):
+                        continue
+
+                    nbrs = 0
+                    if self.is_corridor_or_floor_at(x - 1, y):
+                        nbrs += 1
+                    if self.is_corridor_or_floor_at(x + 1, y):
+                        nbrs += 1
+                    if self.is_corridor_or_floor_at(x, y - 1):
+                        nbrs += 1
+                    if self.is_corridor_or_floor_at(x, y + 1):
+                        nbrs += 1
+                    if nbrs < 2:
+                        self.putc(x, y, Depth.floor, SPACE)
+                        trimmed = True
+
+    #
+    # Any rooms opening onto nothing, fill them in
+    #
+    def rooms_plug_walls(self):
+        trimmed = True
+        while trimmed:
+            trimmed = False
+            for y in range(self.height):
+                for x in range(self.width):
+                    if not self.is_floor_at(x, y):
+                        continue
+
+                    if self.is_wall_at(x, y):
+                        continue
+
+                    #
+                    # Plug the walls, sometimes smoothly, and sometimes
+                    # with a rough edge
+                    #
+                    if random.randint(1, 100) < 50:
+                        if not self.is_something_at(x - 1, y):
+                            self.putc(x - 1, y, Depth.wall, WALL)
+                        if not self.is_something_at(x + 1, y):
+                            self.putc(x + 1, y, Depth.wall, WALL)
+                        if not self.is_something_at(x, y - 1):
+                            self.putc(x, y - 1, Depth.wall, WALL)
+                        if not self.is_something_at(x, y + 1):
+                            self.putc(x, y + 1, Depth.wall, WALL)
+                    else:
+                        if not self.is_something_at(x - 1, y):
+                            self.putc(x, y, Depth.wall, WALL)
+                        if not self.is_something_at(x + 1, y):
+                            self.putc(x, y, Depth.wall, WALL)
+                        if not self.is_something_at(x, y - 1):
+                            self.putc(x, y, Depth.wall, WALL)
+                        if not self.is_something_at(x, y + 1):
+                            self.putc(x, y, Depth.wall, WALL)
+
     def dump(self):
         os.system('cls' if os.name == 'nt' else 'clear')
         for y in range(self.height):
@@ -371,9 +445,9 @@ r.slice_add("floor", [
 r.slice_add("wall", [
                 "xx.xxx",
                 "x    D",
-                ".    x",
+                "     x",
                 "x    x",
-                "xxx.xx",
+                "xxx xx",
         ])
 
 r.slice_add("obj", [
@@ -397,7 +471,7 @@ r.slice_add("floor", [
                 "..........",
         ])
 r.slice_add("wall", [
-                "xx.xxxxxxx",
+                "xx xxxxxxx",
                 "x        .",
                 "x        x",
                 "x        x",
@@ -418,8 +492,73 @@ r.slice_add("obj", [
 r.finalize()
 rooms.append(r)
 
+r = Room()
+r.slice_add("floor", [
+                "   .......",
+                "   .......",
+                "..........",
+                "..........",
+                "..........",
+                ".......   ",
+                ".......   ",
+        ])
+r.slice_add("wall", [
+                "   xxxxxxx",
+                "   x      ",
+                "xxxx     x",
+                "         x",
+                "x     xxxx",
+                "x     x   ",
+                "xxxxxxx   ",
+        ])
+
+r.slice_add("obj", [
+                "          ",
+                "          ",
+                "          ",
+                "          ",
+                "          ",
+                "          ",
+                "          ",
+        ])
+r.finalize()
+rooms.append(r)
+
+r = Room()
+r.slice_add("floor", [
+                "   ....   ",
+                "  ......  ",
+                "..........",
+                "..........",
+                "..........",
+                "  ......  ",
+                "   ....   ",
+        ])
+r.slice_add("wall", [
+                "   xx.x   ",
+                "  xx  xx  ",
+                "xxx    xxx",
+                "          ",
+                "xxx    xxx",
+                "  xx  xx  ",
+                "   x.xx   ",
+        ])
+
+r.slice_add("obj", [
+                "          ",
+                "          ",
+                "          ",
+                "          ",
+                "          ",
+                "          ",
+                "          ",
+        ])
+r.finalize()
+rooms.append(r)
+
 width = 80
 height = 40
-maze = Maze(width=width, height=height, rooms=rooms, charmap=charmap)
+maze = Maze(width=width, height=height, rooms=rooms,
+            room_count=20, charmap=charmap)
 # maze.room_place(roomno=1, x=75, y=20)
 maze.dump()
