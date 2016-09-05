@@ -113,8 +113,14 @@ class Maze:
         self.height = height
         self.rooms = rooms
         self.charmap = charmap
-        self.corridor_fork_chance = 20
-        self.corridor_grow_chance = 5
+
+        self.corridor_fork_chance = 10
+
+        #
+        # Lower, longer corridors
+        #
+        self.corridor_grow_chance = 10
+
         self.cells = [[[' ' for d in range(Depth.max)]
                        for i in range(height)]
                       for j in range(width)]
@@ -124,8 +130,13 @@ class Maze:
         self.corridor_ends = []
 
         while self.room_count < room_count:
+            last = self.room_count
             self.rooms_corridors_create()
             self.rooms_place_corridors_end()
+            self.dump()
+            if self.room_count == last:
+                break
+
         self.rooms_trim_corridors()
         self.rooms_plug_walls()
 
@@ -552,6 +563,47 @@ r.slice_add("obj", [
                 "          ",
                 "          ",
                 "          ",
+        ])
+r.finalize()
+rooms.append(r)
+
+r = Room()
+r.slice_add("floor", [
+                "....  ....   ",
+                ".............",
+                ".............",
+                " ............",
+                " ............",
+                ".............",
+                ".............",
+                "............ ",
+                "............ ",
+                "....   ..... ",
+        ])
+r.slice_add("wall", [
+                "xxxx  xxxx   ",
+                "x  xxxx  xxxx",
+                "xx          x",
+                " x          x",
+                " x          x",
+                "xx          x",
+                "           xx",
+                "x          x ",
+                "x  xxxxx   x ",
+                "xxxx   xxxxx ",
+        ])
+
+r.slice_add("obj", [
+                "             ",
+                "             ",
+                "             ",
+                "             ",
+                "             ",
+                "             ",
+                "             ",
+                "             ",
+                "             ",
+                "             ",
         ])
 r.finalize()
 rooms.append(r)
