@@ -148,14 +148,15 @@ class Maze:
 
         self.corridor_ends = []
         loop = 0
+        self.rooms_corridors_create()
         while self.room_count < room_count:
             loop += 1
-            if loop > 50:
+            if loop > self.room_count * 2:
                 print("Too long, made {0} rooms".format(self.room_count))
                 break
 
-            self.rooms_corridors_create()
-            self.rooms_place_corridors_end()
+            if self.rooms_place_corridors_end():
+                self.rooms_corridors_create()
 
         self.rooms_trim_corridors()
         self.rooms_plug_walls()
@@ -339,8 +340,13 @@ class Maze:
                     self.inuse[x][y] = 1
                     continue
 
-                if self.is_corridor_at(x, y):
-                    self.inuse[x][y] = 1
+                for dx in range(-1, 2):
+                    for dy in range(-1, 2):
+                        if self.is_corridor_at(x + dx, y + dy):
+                            self.inuse[x][y] = 1
+                            continue
+
+                if self.inuse[x][y] == 1:
                     continue
 
                 possible_room_exits.append((x, y))
@@ -395,6 +401,8 @@ class Maze:
 
             if rplaced:
                 break
+
+        return rplaced
 
     #
     # Trim dead end corridors
@@ -551,7 +559,7 @@ class Maze:
                 if self.is_floor_at(x, y):
                     r = self.floodget(x, y, Depth.floor, SPACE)
                     cnt += 1
-                    if len(r) < 30:
+                    if len(r) < 20:
                         continue
 
                     minx = 999
@@ -607,7 +615,7 @@ class Maze:
                                 wallslice[rx][ry] = SPACE
                             if wallslice[rx][ry] == WALL:
                                 if rx % 2 == 0 and ry % 2 == 0:
-                                    if random.randint(0, 100) < 15:
+                                    if random.randint(0, 100) < 50:
                                         wallslice[rx][ry] = SPACE
 
 #                    for ry in range(rh):
@@ -865,10 +873,9 @@ for seed in range(1000):
     random.seed(seed)
     while True:
         maze = Maze(width=width, height=height, rooms=rooms,
-                    room_count=10, charmap=charmap)
-        if maze.room_count == 0:
-            print("URK")
-        break
+                    room_count=20, charmap=charmap)
+        if maze.room_count > 10:
+            break
 
     # maze.room_place(roomno=1, x=75, y=20)
     print("Seed {0}".format(seed))
