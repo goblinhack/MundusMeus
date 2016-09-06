@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from termcolor import colored
 import random
+import copy
 import sys
 import os
 
@@ -125,17 +126,36 @@ class Maze:
                        for i in range(height)]
                       for j in range(width)]
 
+        self.make_random_rooms()
         self.room_count = 0
-        self.room_place(roomno=0, x=int(width / 2), y=int(height / 2))
-        self.corridor_ends = []
 
+        loop = 0
+        while True:
+            roomno = random.randint(0, len(self.rooms) - 1)
+            loop += 1
+            x = int(width / 2)
+            y = int(height / 2)
+            room = self.rooms[roomno]
+            x -= int(room.width / 2)
+            y -= int(room.height / 2)
+
+            if self.room_place(roomno, x, y):
+                break
+
+            if loop > 100:
+                print("Could not place first room")
+                break
+
+        self.corridor_ends = []
+        loop = 0
         while self.room_count < room_count:
-            last = self.room_count
+            loop += 1
+            if loop > 50:
+                print("Too long, made {0} rooms".format(self.room_count))
+                break
+
             self.rooms_corridors_create()
             self.rooms_place_corridors_end()
-            self.dump()
-            if self.room_count == last:
-                break
 
         self.rooms_trim_corridors()
         self.rooms_plug_walls()
@@ -169,6 +189,17 @@ class Maze:
         if d > Depth.max:
             return None
         return self.cells[x][y][d]
+
+    def is_oob(self, x, y):
+        if x >= self.width:
+            return True
+        if y >= self.height:
+            return True
+        if x < 0:
+            return True
+        if y < 0:
+            return True
+        return False
 
     def is_something_at(self, x, y):
         if self.is_floor_at(x, y):
@@ -379,13 +410,17 @@ class Maze:
 
                     nbrs = 0
                     if self.is_corridor_or_floor_at(x - 1, y):
-                        nbrs += 1
+                        if not self.is_wall_at(x - 1, y):
+                            nbrs += 1
                     if self.is_corridor_or_floor_at(x + 1, y):
-                        nbrs += 1
+                        if not self.is_wall_at(x + 1, y):
+                            nbrs += 1
                     if self.is_corridor_or_floor_at(x, y - 1):
-                        nbrs += 1
+                        if not self.is_wall_at(x, y - 1):
+                            nbrs += 1
                     if self.is_corridor_or_floor_at(x, y + 1):
-                        nbrs += 1
+                        if not self.is_wall_at(x, y + 1):
+                            nbrs += 1
                     if nbrs < 2:
                         self.putc(x, y, Depth.floor, SPACE)
                         trimmed = True
@@ -405,28 +440,196 @@ class Maze:
                     if self.is_wall_at(x, y):
                         continue
 
-                    #
-                    # Plug the walls, sometimes smoothly, and sometimes
-                    # with a rough edge
-                    #
-                    if random.randint(1, 100) < 50:
-                        if not self.is_something_at(x - 1, y):
-                            self.putc(x - 1, y, Depth.wall, WALL)
-                        if not self.is_something_at(x + 1, y):
-                            self.putc(x + 1, y, Depth.wall, WALL)
-                        if not self.is_something_at(x, y - 1):
-                            self.putc(x, y - 1, Depth.wall, WALL)
-                        if not self.is_something_at(x, y + 1):
-                            self.putc(x, y + 1, Depth.wall, WALL)
-                    else:
-                        if not self.is_something_at(x - 1, y):
-                            self.putc(x, y, Depth.wall, WALL)
-                        if not self.is_something_at(x + 1, y):
-                            self.putc(x, y, Depth.wall, WALL)
-                        if not self.is_something_at(x, y - 1):
-                            self.putc(x, y, Depth.wall, WALL)
-                        if not self.is_something_at(x, y + 1):
-                            self.putc(x, y, Depth.wall, WALL)
+                    for dx in range(-1, 2):
+                        for dy in range(-1, 2):
+                            if not self.is_something_at(x + dx, y + dy):
+                                self.putc(x + dx, y + dy, Depth.wall, WALL)
+
+    def putl(self, start, end, depth, rchar):
+        points = get_line(start, end)
+        for p in points:
+            x, y = p
+            self.putc(x, y, depth, rchar)
+
+    def floodfill(self, x, y, depth, rchar):
+        s = [(x, y)]
+        while len(s) > 0:
+            x, y = s.pop()
+            if self.is_oob(x, y):
+                continue
+
+            if self.is_something_at(x, y):
+                continue
+
+            self.putc(x, y, depth, rchar)
+            s.append((x + 1, y))
+            s.append((x - 1, y))
+            s.append((x, y + 1))
+            s.append((x, y - 1))
+
+    def floodget(self, x, y, depth, rchar):
+        s = [(x, y)]
+        r = []
+        while len(s) > 0:
+            x, y = s.pop()
+            if self.is_oob(x, y):
+                continue
+
+            if not self.is_something_at(x, y):
+                continue
+
+            self.putc(x, y, depth, rchar)
+            r.append((x, y))
+            s.append((x + 1, y))
+            s.append((x - 1, y))
+            s.append((x, y + 1))
+            s.append((x, y - 1))
+
+        return r
+
+    def make_random_rooms(self):
+        cnt = 0
+        while cnt < 20:
+            x1 = random.randint(-10, self.width + 10)
+            y1 = random.randint(-10, self.height + 10)
+            x2 = random.randint(-10, self.width + 10)
+            y2 = random.randint(-10, self.height + 10)
+            self.putl((x1, y1), (x2, y2), Depth.floor, FLOOR)
+            cnt += 1
+        cnt = 0
+        while cnt < 20:
+            x1 = random.randint(-10, self.width + 10)
+            y1 = random.randint(-10, self.height + 10)
+            x2 = x1 + 100
+            y2 = y1
+            self.putl((x1, y1), (x2, y2), Depth.floor, FLOOR)
+            cnt += 1
+        cnt = 0
+        while cnt < 20:
+            x1 = random.randint(-10, self.width + 10)
+            y1 = random.randint(-10, self.height + 10)
+            x2 = x1
+            y2 = y1 + 100
+            self.putl((x1, y1), (x2, y2), Depth.floor, FLOOR)
+            cnt += 1
+
+        cnt = 0
+        while cnt < 20:
+            x = random.randint(0, self.width - 1)
+            y = random.randint(0, self.height - 1)
+            self.floodfill(x, y, Depth.floor, FLOOR)
+            cnt += 1
+
+        cnt = 0
+        while cnt < 20:
+            x1 = random.randint(-10, self.width + 10)
+            y1 = random.randint(-10, self.height + 10)
+            x2 = random.randint(-10, self.width + 10)
+            y2 = random.randint(-10, self.height + 10)
+            self.putl((x1, y1), (x2, y2), Depth.floor, SPACE)
+            cnt += 1
+        cnt = 0
+        while cnt < 20:
+            x1 = random.randint(-10, self.width + 10)
+            y1 = random.randint(-10, self.height + 10)
+            x2 = x1 + 100
+            y2 = y1
+            self.putl((x1, y1), (x2, y2), Depth.floor, SPACE)
+            cnt += 1
+        cnt = 0
+        while cnt < 20:
+            x1 = random.randint(-10, self.width + 10)
+            y1 = random.randint(-10, self.height + 10)
+            x2 = x1
+            y2 = y1 + 100
+            self.putl((x1, y1), (x2, y2), Depth.floor, SPACE)
+            cnt += 1
+
+        cnt = 0
+        for y in range(self.height):
+            for x in range(self.width):
+                if self.is_floor_at(x, y):
+                    r = self.floodget(x, y, Depth.floor, SPACE)
+                    cnt += 1
+                    if len(r) < 30:
+                        continue
+
+                    minx = 999
+                    maxx = -999
+                    miny = 999
+                    maxy = -999
+                    for p in r:
+                        rx, ry = p
+                        if rx < minx:
+                            minx = rx
+                        if ry < miny:
+                            miny = ry
+                        if rx > maxx:
+                            maxx = rx
+                        if ry > maxy:
+                            maxy = ry
+
+                    rw = maxx - minx + 1
+                    rh = maxy - miny + 1
+                    rw += 2
+                    rh += 2
+
+                    rcells = [[' ' for i in range(rh)] for j in range(rw)]
+                    for p in r:
+                        rx, ry = p
+                        rx -= minx
+                        ry -= miny
+                        rx += 1
+                        ry += 1
+                        rcells[rx][ry] = FLOOR
+
+                    for ry in range(rh):
+                        for rx in range(rw):
+                            if rcells[rx][ry] == FLOOR:
+                                if rcells[rx-1][ry] == SPACE:
+                                    rcells[rx-1][ry] = WALL
+                                if rcells[rx+1][ry] == SPACE:
+                                    rcells[rx+1][ry] = WALL
+                                if rcells[rx][ry-1] == SPACE:
+                                    rcells[rx][ry-1] = WALL
+                                if rcells[rx][ry+1] == SPACE:
+                                    rcells[rx][ry+1] = WALL
+
+                    floorslice = copy.deepcopy(rcells)
+                    wallslice = copy.deepcopy(rcells)
+                    objslice = [[' ' for i in range(rh)] for j in range(rw)]
+
+                    for ry in range(0, rh):
+                        for rx in range(0, rw):
+                            if floorslice[rx][ry] == WALL:
+                                floorslice[rx][ry] = FLOOR
+                            if wallslice[rx][ry] == FLOOR:
+                                wallslice[rx][ry] = SPACE
+                            if wallslice[rx][ry] == WALL:
+                                if rx % 2 == 0 and ry % 2 == 0:
+                                    if random.randint(0, 100) < 15:
+                                        wallslice[rx][ry] = SPACE
+
+#                    for ry in range(rh):
+#                        for rx in range(rw):
+#                            sys.stdout.write(floorslice[rx][ry])
+#                        print()
+#
+#                    for ry in range(rh):
+#                        for rx in range(rw):
+#                            sys.stdout.write(wallslice[rx][ry])
+#                        print()
+
+                    r = Room()
+                    r.slice_add("floor", floorslice)
+                    r.slice_add("wall", wallslice)
+                    r.slice_add("obj", objslice)
+                    r.finalize()
+                    self.rooms.append(r)
+
+        self.cells = [[[' ' for d in range(Depth.max)]
+                       for i in range(height)]
+                      for j in range(width)]
 
     def dump(self):
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -443,6 +646,54 @@ class Maze:
                 sys.stdout.write(colored(c, fg, bg))
             print("")
 
+
+def get_line(start, end):
+    # Setup initial conditions
+    x1, y1 = start
+    x2, y2 = end
+    dx = x2 - x1
+    dy = y2 - y1
+
+    # Determine how steep the line is
+    is_steep = abs(dy) > abs(dx)
+
+    # Rotate line
+    if is_steep:
+        x1, y1 = y1, x1
+        x2, y2 = y2, x2
+
+    # Swap start and end points if necessary and store swap state
+    swapped = False
+    if x1 > x2:
+        x1, x2 = x2, x1
+        y1, y2 = y2, y1
+        swapped = True
+
+    # Recalculate differentials
+    dx = x2 - x1
+    dy = y2 - y1
+
+    # Calculate error
+    error = int(dx / 2.0)
+    ystep = 1 if y1 < y2 else -1
+
+    # Iterate over bounding box generating points between start and end
+    y = y1
+    points = []
+    for x in range(x1, x2 + 1):
+        coord = (y, x) if is_steep else (x, y)
+        points.append(coord)
+        error -= abs(dy)
+        if error < 0:
+            y += ystep
+            error += dx
+
+    # Reverse the list if the coordinates were swapped
+    if swapped:
+        points.reverse()
+    return points
+
+
 rooms = []
 
 r = Room()
@@ -455,7 +706,7 @@ r.slice_add("floor", [
         ])
 r.slice_add("wall", [
                 "xx.xxx",
-                "x    D",
+                "x     ",
                 "     x",
                 "x    x",
                 "xxx xx",
@@ -483,8 +734,8 @@ r.slice_add("floor", [
         ])
 r.slice_add("wall", [
                 "xx xxxxxxx",
-                "x        .",
-                "x        x",
+                "x  x      ",
+                "x  x   xxx",
                 "x        x",
                 "x        x",
                 "x        x",
@@ -608,9 +859,17 @@ r.slice_add("obj", [
 r.finalize()
 rooms.append(r)
 
-width = 80
-height = 40
-maze = Maze(width=width, height=height, rooms=rooms,
-            room_count=20, charmap=charmap)
-# maze.room_place(roomno=1, x=75, y=20)
-maze.dump()
+for seed in range(1000):
+    width = 64
+    height = 64
+    random.seed(seed)
+    while True:
+        maze = Maze(width=width, height=height, rooms=rooms,
+                    room_count=10, charmap=charmap)
+        if maze.room_count == 0:
+            print("URK")
+        break
+
+    # maze.room_place(roomno=1, x=75, y=20)
+    print("Seed {0}".format(seed))
+    maze.dump()
