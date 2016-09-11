@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from termcolor import colored
+from colored import fg, bg, attr
 import random
 import copy
 import sys
@@ -13,31 +13,31 @@ FLOOR = "."
 
 charmap = {
     " ": {
-        "bg": "on_grey",
-        "fg": "grey",
+        "bg": "black",
+        "fg": "black",
     },
     WALL: {
-        "bg": "on_blue",
+        "bg": "blue",
         "fg": "white",
         "is_wall": True,
     },
     FLOOR: {
-        "bg": "on_grey",
+        "bg": "black",
         "fg": "white",
         "is_floor": True,
     },
     CORRIDOR: {
-        "bg": "on_grey",
+        "bg": "black",
         "fg": "yellow",
         "is_corridor": True,
     },
     DOOR: {
-        "bg": "on_grey",
+        "bg": "black",
         "fg": "red",
         "is_door": True,
     },
     "o": {
-        "bg": "on_grey",
+        "bg": "black",
         "fg": "yellow",
         "is_obj": True,
     },
@@ -160,6 +160,11 @@ class Maze:
         self.corridor_spacing = 3
 
         #
+        # What chance for fixed versus random rooms
+        #
+        self.fixed_room_chance = 5
+
+        #
         # For random shape rooms, how large?
         #
         self.min_room_size = 10
@@ -170,19 +175,24 @@ class Maze:
         self.cells = [[[' ' for d in range(Depth.max)]
                        for i in range(height)]
                       for j in range(width)]
+        self.roomnos = [[-1 for i in range(height)]
+                        for j in range(width)]
 
         #
-        # Create all randomly shaped rooms. Do it a couple of times so we
-        # have less chance of the same random room appearing twice.
+        # Create all randomly shaped rooms.
         #
-        for count in range(1, 3):
+        for count in range(0, 1):
             self.rooms_all_create_random_shapes()
 
         #
         # Total of fixed and random room
         #
-        self.roomno_list = list(range(0, len(self.rooms)))
-        random.shuffle(self.roomno_list)
+        self.fixed_roomno_list = list(range(0, self.fixed_room_count))
+        random.shuffle(self.fixed_roomno_list)
+
+        self.random_roomno_list = list(range(self.fixed_room_count,
+                                             len(self.rooms)))
+        random.shuffle(self.random_roomno_list)
 
         #
         # First room goes in the center. The rest hang off of its
@@ -218,6 +228,20 @@ class Maze:
         if d > Depth.max:
             return
         self.cells[x][y][d] = c
+
+    #
+    # Set a tile with a given roomno
+    #
+    def putr(self, x, y, r):
+        if x >= self.width:
+            return
+        if y >= self.height:
+            return
+        if x < 0:
+            return
+        if y < 0:
+            return
+        self.roomnos[x][y] = r
 
     #
     # Gets a tile oof the map or None
@@ -389,6 +413,7 @@ class Maze:
                     for rx in range(room.width):
                         rchar = rvert_slice[rx][ry]
                         self.putc(x + rx, y + ry, d, rchar)
+                        self.putr(x + rx, y + ry, roomno)
 
         self.rooms_on_level += 1
 
@@ -564,9 +589,12 @@ class Maze:
     # ensures no room will ever appear more than once.
     #
     def rooms_get_next_roomno(self):
-        roomno = self.roomno_list.pop(0)
-        self.roomno_list.append(roomno)
-        roomno -= 1
+        if random.randint(0, 100) < self.fixed_room_chance:
+            roomno = self.fixed_roomno_list.pop(0)
+            self.fixed_roomno_list.append(roomno)
+        else:
+            roomno = self.random_roomno_list.pop(0)
+            self.random_roomno_list.append(roomno)
 
         return roomno
 
@@ -647,7 +675,7 @@ class Maze:
         room_place_tries = 0
         while self.rooms_on_level < rooms_on_level:
             room_place_tries += 1
-            if room_place_tries > rooms_on_level * 3:
+            if room_place_tries > rooms_on_level * 2:
                 print("Tried to place rooms for too long, made {0} rooms".
                       format(self.rooms_on_level))
                 break
@@ -904,12 +932,22 @@ class Maze:
                 for d in reversed(range(Depth.max)):
                     c = self.cells[x][y][d]
                     charmap = self.charmap[c]
-                    fg = charmap["fg"]
-                    bg = charmap["bg"]
+                    fg_name = charmap["fg"]
+                    bg_name = charmap["bg"]
                     if c != " ":
                         break
 
-                sys.stdout.write(colored(c, fg, bg))
+                res = attr('reset')
+                if c == FLOOR:
+                    r = self.roomnos[x][y]
+                    if r == -1:
+                        c = "!"
+                        color = fg("white") + bg("red")
+                    else:
+                        color = fg(r % 255) + bg(0)
+                else:
+                    color = fg(fg_name) + bg(bg_name)
+                sys.stdout.write(color + c + res)
             print("")
 
 
