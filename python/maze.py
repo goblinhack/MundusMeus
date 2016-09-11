@@ -125,11 +125,24 @@ class Room:
 
 
 class Maze:
-    def __init__(self, rooms, charmap, width=80, height=40, room_count=20):
+    def __init__(self, rooms, charmap, width=80, height=40,
+                 rooms_on_level=20):
+
         self.width = width
         self.height = height
-        self.rooms = rooms
         self.charmap = charmap
+
+        self.rooms = rooms
+
+        #
+        # First range of rooms are fixed; rest randomly generated
+        #
+        self.fixed_room_count = len(self.rooms)
+
+        #
+        # How many rooms on the level.
+        #
+        self.rooms_on_level = 0
 
         #
         # Chance of a corridor splitting
@@ -151,6 +164,9 @@ class Maze:
         #
         self.min_room_size = 10
 
+        #
+        # The map
+        #
         self.cells = [[[' ' for d in range(Depth.max)]
                        for i in range(height)]
                       for j in range(width)]
@@ -159,20 +175,21 @@ class Maze:
         # Create all randomly shaped rooms. Do it a couple of times so we
         # have less chance of the same random room appearing twice.
         #
-        for count in range(1, 5):
-            self.make_random_rooms()
+        for count in range(1, 3):
+            self.rooms_all_create_random_shapes()
 
         #
-        # How many rooms on the level.
+        # Total of fixed and random room
         #
-        self.room_count = 0
+        self.roomno_list = list(range(0, len(self.rooms)))
+        random.shuffle(self.roomno_list)
 
         #
         # First room goes in the center. The rest hang off of its
         # corridors.
         #
         self.room_place_first()
-        self.room_place_all(room_count)
+        self.room_place_all(rooms_on_level)
 
         #
         # Remove dangling corridors that go nowhere.
@@ -235,7 +252,7 @@ class Maze:
     def flood_fill(self, x, y, depth, rchar):
         s = [(x, y)]
         while len(s) > 0:
-            x, y = s.pop()
+            x, y = s.pop(0)
             if self.is_oob(x, y):
                 continue
 
@@ -256,7 +273,7 @@ class Maze:
         s = [(x, y)]
         r = []
         while len(s) > 0:
-            x, y = s.pop()
+            x, y = s.pop(0)
             if self.is_oob(x, y):
                 continue
 
@@ -373,7 +390,7 @@ class Maze:
                         rchar = rvert_slice[rx][ry]
                         self.putc(x + rx, y + ry, d, rchar)
 
-        self.room_count += 1
+        self.rooms_on_level += 1
 
     #
     # Try to push a room on the level
@@ -543,17 +560,23 @@ class Maze:
                 self.room_corridor_draw(x, y, 0, 1)
 
     #
+    # From a fixed list of random roomnos, return the next one. This
+    # ensures no room will ever appear more than once.
+    #
+    def rooms_get_next_roomno(self):
+        roomno = self.roomno_list.pop(0)
+        self.roomno_list.append(roomno)
+        roomno -= 1
+
+        return roomno
+
+    #
     # Search for corridor end points and try to dump rooms there.
     #
     def rooms_all_try_to_place_at_end_of_corridors(self):
 
-        #
-        # Fixed or random rooms, we don't care.
-        #
-        roomno = random.randint(1, len(self.rooms))
-        roomno -= 1
+        roomno = self.rooms_get_next_roomno()
         room = self.rooms[roomno]
-
         placed_a_room = False
 
         #
@@ -598,7 +621,8 @@ class Maze:
     def room_place_first(self):
         room_place_tries = 0
         while True:
-            roomno = random.randint(0, len(self.rooms) - 1)
+            roomno = self.rooms_get_next_roomno()
+            room = self.rooms[roomno]
             room_place_tries += 1
             x = int(width / 2)
             y = int(height / 2)
@@ -616,16 +640,16 @@ class Maze:
     #
     # Place remaining rooms hanging off of the corridors of the last.
     #
-    def room_place_all(self, room_count):
+    def room_place_all(self, rooms_on_level):
         self.corridor_ends = []
         self.rooms_all_grow_new_corridors()
 
         room_place_tries = 0
-        while self.room_count < room_count:
+        while self.rooms_on_level < rooms_on_level:
             room_place_tries += 1
-            if room_place_tries > room_count * 2:
+            if room_place_tries > rooms_on_level * 3:
                 print("Tried to place rooms for too long, made {0} rooms".
-                      format(self.room_count))
+                      format(self.rooms_on_level))
                 break
 
             #
@@ -689,7 +713,7 @@ class Maze:
     #
     # We use the map as a scratchpad for creating the room.
     #
-    def make_random_rooms(self):
+    def rooms_all_create_random_shapes(self):
         cnt = 0
 
         #
@@ -1116,8 +1140,8 @@ for seed in range(1000):
         random.seed(maze_seed)
 
         maze = Maze(width=width, height=height, rooms=fixed_rooms,
-                    room_count=20, charmap=charmap)
-        if maze.room_count > 3:
+                    rooms_on_level=20, charmap=charmap)
+        if maze.rooms_on_level > 3:
             break
 
         maze_seed += 1
