@@ -207,6 +207,11 @@ class Maze:
         self.rooms_trim_corridors()
 
         #
+        # Remove corridors that go nowhere.
+        #
+        self.rooms_trim_looped_corridors()
+
+        #
         # Plug gaps in the wall that go nowhere.
         #
         self.rooms_plug_walls()
@@ -294,6 +299,9 @@ class Maze:
     # Used to get all the tiles in a room.
     #
     def flood_erase(self, x, y, depth, rchar):
+        walked = [[0 for i in range(height)]
+                  for j in range(width)]
+
         s = [(x, y)]
         r = []
         while len(s) > 0:
@@ -301,10 +309,80 @@ class Maze:
             if self.is_oob(x, y):
                 continue
 
+            if walked[x][y]:
+                continue
+
+            walked[x][y] = 1
+
             if not self.is_something_at(x, y):
                 continue
 
             self.putc(x, y, depth, rchar)
+            r.append((x, y))
+            s.append((x + 1, y))
+            s.append((x - 1, y))
+            s.append((x, y + 1))
+            s.append((x, y - 1))
+
+        return r
+
+    #
+    # Find all adjacent characters of the same type.
+    #
+    def flood_find(self, x, y, depth, rchar):
+
+        walked = [[0 for i in range(height)]
+                  for j in range(width)]
+
+        s = [(x, y)]
+        r = []
+        while len(s) > 0:
+            x, y = s.pop(0)
+            if self.is_oob(x, y):
+                continue
+
+            if walked[x][y]:
+                continue
+
+            walked[x][y] = 1
+
+            c = self.getc(x, y, depth)
+            if c != rchar:
+                continue
+
+            r.append((x, y))
+            s.append((x + 1, y))
+            s.append((x - 1, y))
+            s.append((x, y + 1))
+            s.append((x, y - 1))
+
+        return r
+
+    #
+    # Find all adjacent characters of the same type.
+    #
+    def flood_replace(self, x, y, depth, old, new):
+
+        walked = [[0 for i in range(height)]
+                  for j in range(width)]
+
+        s = [(x, y)]
+        r = []
+        while len(s) > 0:
+            x, y = s.pop(0)
+            if self.is_oob(x, y):
+                continue
+
+            if walked[x][y]:
+                continue
+
+            walked[x][y] = 1
+
+            c = self.getc(x, y, depth)
+            if c != old:
+                continue
+
+            self.putc(x, y, depth, new)
             r.append((x, y))
             s.append((x + 1, y))
             s.append((x - 1, y))
@@ -715,6 +793,49 @@ class Maze:
                     if nbrs < 2:
                         self.putc(x, y, Depth.floor, SPACE)
                         trimmed = True
+
+    #
+    # Remove dangling corridors that go nowhere.
+    #
+    def rooms_trim_looped_corridors(self):
+
+        walked = [[0 for i in range(height)]
+                  for j in range(width)]
+
+        for y in range(1, self.height - 1):
+            for x in range(1, self.width - 1):
+                if walked[x][y]:
+                    continue
+
+                if not self.is_corridor_at(x, y):
+                    continue
+
+                roomno = None
+                corridor = self.flood_find(x, y, Depth.floor, CORRIDOR)
+
+                corridor_joins_two_rooms = False
+                for c in corridor:
+                    cx, cy = c
+
+                    walked[cx][cy] = 1
+
+                    l = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+                    for dx, dy in l:
+                        if self.is_wall_at(cx + dx, cy + dy):
+                            continue
+
+                        if not self.is_floor_at(cx + dx, cy + dy):
+                            continue
+
+                        new_roomno = self.roomnos[cx + dx][cy + dy]
+                        if roomno is None:
+                            roomno = new_roomno
+                        elif roomno != new_roomno:
+                            corridor_joins_two_rooms = True
+                            break
+
+                if not corridor_joins_two_rooms:
+                    self.flood_replace(x, y, Depth.floor, CORRIDOR, SPACE)
 
     #
     # Any rooms opening onto nothing, fill them in
