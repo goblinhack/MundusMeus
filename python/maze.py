@@ -10,6 +10,7 @@ CORRIDOR = "#"
 DOOR = "D"
 WALL = "x"
 FLOOR = "."
+DELTAS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
 charmap = {
     " ": {
@@ -181,7 +182,7 @@ class Maze:
         #
         # Create all randomly shaped rooms.
         #
-        for count in range(0, 1):
+        for count in range(0, 2):
             self.rooms_all_create_random_shapes()
 
         #
@@ -215,6 +216,11 @@ class Maze:
         # Plug gaps in the wall that go nowhere.
         #
         self.rooms_plug_walls()
+
+        #
+        # Any dead end doors with no corridor, zap em
+        #
+        self.rooms_plug_doors()
 
     #
     # Puts a tile on the map
@@ -442,6 +448,13 @@ class Maze:
         c = self.getc(x, y, Depth.wall)
         if c is not None:
             if "is_wall" in self.charmap[c]:
+                return True
+        return False
+
+    def is_door_at(self, x, y):
+        c = self.getc(x, y, Depth.wall)
+        if c is not None:
+            if "is_door" in self.charmap[c]:
                 return True
         return False
 
@@ -798,6 +811,16 @@ class Maze:
     # Remove dangling corridors that go nowhere.
     #
     def rooms_trim_looped_corridors(self):
+        self.room_connection = {}
+        self.rooms = set()
+        for y in range(1, self.height - 1):
+            for x in range(1, self.width - 1):
+                new_roomno = self.roomnos[x][y]
+                if new_roomno != -1:
+                    self.rooms.add(new_roomno)
+                self.room_connection[new_roomno] = set()
+
+        self.rooms = sorted(self.rooms)
 
         walked = [[0 for i in range(height)]
                   for j in range(width)]
@@ -819,8 +842,7 @@ class Maze:
 
                     walked[cx][cy] = 1
 
-                    l = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-                    for dx, dy in l:
+                    for dx, dy in DELTAS:
                         if self.is_wall_at(cx + dx, cy + dy):
                             continue
 
@@ -830,32 +852,52 @@ class Maze:
                         new_roomno = self.roomnos[cx + dx][cy + dy]
                         if roomno is None:
                             roomno = new_roomno
+                            self.room_connection[roomno] = set()
                         elif roomno != new_roomno:
                             corridor_joins_two_rooms = True
-                            break
+                            self.room_connection[roomno].add(new_roomno)
+                            self.room_connection[new_roomno].add(roomno)
 
                 if not corridor_joins_two_rooms:
                     self.flood_replace(x, y, Depth.floor, CORRIDOR, SPACE)
+
+        for r in self.rooms:
+            print("{0} --> {1}".format(r, self.room_connection[r]))
 
     #
     # Any rooms opening onto nothing, fill them in
     #
     def rooms_plug_walls(self):
-        trimmed = True
-        while trimmed:
-            trimmed = False
-            for y in range(self.height):
-                for x in range(self.width):
-                    if not self.is_floor_at(x, y):
-                        continue
+        for y in range(self.height):
+            for x in range(self.width):
+                if not self.is_floor_at(x, y):
+                    continue
 
-                    if self.is_wall_at(x, y):
-                        continue
+                if self.is_wall_at(x, y):
+                    continue
 
-                    for dx in range(-1, 2):
-                        for dy in range(-1, 2):
-                            if not self.is_something_at(x + dx, y + dy):
-                                self.putc(x + dx, y + dy, Depth.wall, WALL)
+                for dx in range(-1, 2):
+                    for dy in range(-1, 2):
+                        if not self.is_something_at(x + dx, y + dy):
+                            self.putc(x + dx, y + dy, Depth.wall, WALL)
+
+    #
+    # Any dead end doors with no corridor, zap em
+    #
+    def rooms_plug_doors(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                if not self.is_door_at(x, y):
+                    continue
+
+                ok = False
+                for dx, dy in DELTAS:
+                    if self.is_corridor_at(x + dx, y + dy):
+                        ok = True
+                        break
+
+                if not ok:
+                    self.putc(x, y, Depth.wall, SPACE)
 
     #
     # Make randomly shaped rooms
@@ -1131,11 +1173,11 @@ def maze_create_fixed_rooms():
                     "......",
             ])
     r.vert_slice_add("wall", [
-                    "xx.xxx",
-                    "x     ",
-                    "     x",
+                    "xxDxxx",
+                    "x    D",
+                    "D    x",
                     "x    x",
-                    "xxx xx",
+                    "xxxDxx",
             ])
 
     r.vert_slice_add("obj", [
@@ -1159,8 +1201,8 @@ def maze_create_fixed_rooms():
                     "..........",
             ])
     r.vert_slice_add("wall", [
-                    "xx xxxxxxx",
-                    "x  x      ",
+                    "xxDxxxxxxx",
+                    "x  x     D",
                     "x  x   xxx",
                     "x        x",
                     "x        x",
@@ -1192,9 +1234,9 @@ def maze_create_fixed_rooms():
             ])
     r.vert_slice_add("wall", [
                     "   xxxxxxx",
-                    "   x      ",
+                    "   x     D",
                     "xxxx     x",
-                    "         x",
+                    "D        x",
                     "x     xxxx",
                     "x     x   ",
                     "xxxxxxx   ",
@@ -1223,13 +1265,13 @@ def maze_create_fixed_rooms():
                     "  ......",
             ])
     r.vert_slice_add("wall", [
-                    "  xx x  ",
+                    "  xxDx  ",
                     " xx  xx ",
                     "xx    xx",
-                    "        ",
+                    "D      D",
                     "xx     x",
                     " xx    x",
-                    "  x xxxx",
+                    "  xDxxxx",
             ])
 
     r.vert_slice_add("obj", [
@@ -1258,16 +1300,16 @@ def maze_create_fixed_rooms():
                     "....   ..... ",
             ])
     r.vert_slice_add("wall", [
-                    "xxxx  xxxx   ",
+                    "xxDx  xxxx   ",
                     "x  xxxx  xxxx",
-                    "xx          x",
+                    "xx          D",
                     " x          x",
                     " x          x",
                     "xx          x",
-                    "           xx",
+                    "D          xx",
                     "x          x ",
                     "x  xxxxx   x ",
-                    "xxxx   xxxxx ",
+                    "xxxx   xxxDx ",
             ])
 
     r.vert_slice_add("obj", [
@@ -1295,8 +1337,8 @@ for seed in range(1000):
 
     while True:
         fixed_rooms = maze_create_fixed_rooms()
-#    random.seed(35)
         random.seed(maze_seed)
+#        random.seed(1)
 
         maze = Maze(width=width, height=height, rooms=fixed_rooms,
                     rooms_on_level=20, charmap=charmap)
@@ -1308,3 +1350,4 @@ for seed in range(1000):
 
     print("Seed {0}".format(seed))
     maze.dump()
+#    break
