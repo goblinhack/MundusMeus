@@ -176,8 +176,8 @@ class Maze:
         self.cells = [[[' ' for d in range(Depth.max)]
                        for i in range(height)]
                       for j in range(width)]
-        self.roomnos = [[-1 for i in range(height)]
-                        for j in range(width)]
+        self.roomno_cells = [[-1 for i in range(height)]
+                             for j in range(width)]
 
         #
         # Create all randomly shaped rooms.
@@ -199,8 +199,7 @@ class Maze:
         # First room goes in the center. The rest hang off of its
         # corridors.
         #
-        self.room_place_first()
-        self.room_place_all(rooms_on_level)
+        self.rooms_place_all(rooms_on_level)
 
         #
         # Remove dangling corridors that go nowhere.
@@ -252,7 +251,7 @@ class Maze:
             return
         if y < 0:
             return
-        self.roomnos[x][y] = r
+        self.roomno_cells[x][y] = r
 
     #
     # Gets a tile oof the map or None
@@ -508,6 +507,13 @@ class Maze:
 
         self.rooms_on_level += 1
 
+        #
+        # Keeo track of what rooms we've added. We'll work out what joins
+        # onto what later.
+        #
+        self.room_connection[roomno] = set()
+        self.roomnos.add(roomno)
+
     #
     # Try to push a room on the level
     #
@@ -738,6 +744,8 @@ class Maze:
     # Place the first room in a level, in the center ish
     #
     def room_place_first(self):
+        self.room_connection = {}
+
         room_place_tries = 0
         while True:
             roomno = self.rooms_get_next_roomno()
@@ -759,7 +767,7 @@ class Maze:
     #
     # Place remaining rooms hanging off of the corridors of the last.
     #
-    def room_place_all(self, rooms_on_level):
+    def rooms_place_remaining(self, rooms_on_level):
         self.corridor_ends = []
         self.rooms_all_grow_new_corridors()
 
@@ -777,6 +785,15 @@ class Maze:
             #
             if self.rooms_all_try_to_place_at_end_of_corridors():
                 self.rooms_all_grow_new_corridors()
+
+    #
+    # Place all rooms
+    #
+    def rooms_place_all(self, rooms_on_level):
+        self.roomnos = set()
+        self.room_place_first()
+        self.rooms_place_remaining(rooms_on_level)
+        self.roomnos = sorted(self.roomnos)
 
     #
     # Remove dangling corridors that go nowhere.
@@ -811,16 +828,6 @@ class Maze:
     # Remove dangling corridors that go nowhere.
     #
     def rooms_trim_looped_corridors(self):
-        self.room_connection = {}
-        self.rooms = set()
-        for y in range(1, self.height - 1):
-            for x in range(1, self.width - 1):
-                new_roomno = self.roomnos[x][y]
-                if new_roomno != -1:
-                    self.rooms.add(new_roomno)
-                self.room_connection[new_roomno] = set()
-
-        self.rooms = sorted(self.rooms)
 
         walked = [[0 for i in range(height)]
                   for j in range(width)]
@@ -849,7 +856,7 @@ class Maze:
                         if not self.is_floor_at(cx + dx, cy + dy):
                             continue
 
-                        new_roomno = self.roomnos[cx + dx][cy + dy]
+                        new_roomno = self.roomno_cells[cx + dx][cy + dy]
                         if roomno is None:
                             roomno = new_roomno
                             self.room_connection[roomno] = set()
@@ -861,7 +868,7 @@ class Maze:
                 if not corridor_joins_two_rooms:
                     self.flood_replace(x, y, Depth.floor, CORRIDOR, SPACE)
 
-        for r in self.rooms:
+        for r in self.roomnos:
             print("{0} --> {1}".format(r, self.room_connection[r]))
 
     #
@@ -1102,7 +1109,7 @@ class Maze:
 
                 res = attr('reset')
                 if c == FLOOR:
-                    r = self.roomnos[x][y]
+                    r = self.roomno_cells[x][y]
                     if r == -1:
                         c = "!"
                         color = fg("white") + bg("red")
