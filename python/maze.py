@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+# rotate rooms
+# breadth depth search tree
+# exit
+# place keys
+# water
+# lava
+# chasms
+# bridges
+# treasure based on depth
 from colored import fg, bg, attr
 import random
 import copy
@@ -60,6 +69,7 @@ class Room:
         self.vert_slice = {}
         self.width = 0
         self.height = 0
+        self.can_be_placed_as_first_room = False
 
     #
     # Rooms are made out of stacks of vertical slices
@@ -69,18 +79,18 @@ class Room:
         # Work our the size of this slice. Make sure it's the
         # same size as the other slices.
         #
-        h = len(vert_slice_data[0])
-        w = len(vert_slice_data)
+        tiles_across = len(vert_slice_data[0])
+        tiles_down = len(vert_slice_data)
 
         if self.width != 0:
-            assert w == self.width
+            assert tiles_down == self.width
         else:
-            self.width = w
+            self.width = tiles_down
 
         if self.height != 0:
-            assert h == self.height
+            assert tiles_across == self.height
         else:
-            self.height = h
+            self.height = tiles_across
 
         self.vert_slice[vert_slice] = vert_slice_data
 
@@ -121,13 +131,19 @@ class Room:
             if vert_floor_slice[x][y] == FLOOR:
                 self.edge_exits.append((x, y))
 
+        for x in range(self.width):
+            for y in range(self.height):
+                if vert_wall_slice[x][y] == DOOR:
+                    self.edge_exits.append((x, y))
+
     def finalize(self):
         self.find_edge_exits()
 
 
 class Maze:
     def __init__(self, rooms, charmap, width=80, height=40,
-                 rooms_on_level=20):
+                 rooms_on_level=20,
+                 fixed_room_chance=10):
 
         self.width = width
         self.height = height
@@ -163,7 +179,7 @@ class Maze:
         #
         # What chance for fixed versus random rooms
         #
-        self.fixed_room_chance = 5
+        self.fixed_room_chance = fixed_room_chance
 
         #
         # For random shape rooms, how large?
@@ -200,26 +216,36 @@ class Maze:
         # corridors.
         #
         self.rooms_place_all(rooms_on_level)
+        self.debug("^^^ placed all rooms ^^^")
 
         #
         # Remove dangling corridors that go nowhere.
         #
         self.rooms_trim_corridors()
+        self.debug("^^^ trimmed all corridors ^^^")
 
         #
         # Remove corridors that go nowhere.
         #
         self.rooms_trim_looped_corridors()
+        self.debug("^^^ trimmed all looped corridors ^^^")
 
         #
         # Plug gaps in the wall that go nowhere.
         #
         self.rooms_plug_walls()
+        self.debug("^^^ plugged all walls ^^^")
 
         #
         # Any dead end doors with no corridor, zap em
         #
         self.rooms_plug_doors()
+        self.debug("^^^ removed dead end doors ^^^")
+
+    def debug(self, s):
+        return
+        self.dump()
+        print(s)
 
     #
     # Puts a tile on the map
@@ -334,7 +360,7 @@ class Maze:
     #
     # Find all adjacent characters of the same type.
     #
-    def flood_find(self, x, y, depth, rchar):
+    def flood_find(self, x, y, func):
 
         walked = [[0 for i in range(height)]
                   for j in range(width)]
@@ -351,8 +377,7 @@ class Maze:
 
             walked[x][y] = 1
 
-            c = self.getc(x, y, depth)
-            if c != rchar:
+            if not func(x, y):
                 continue
 
             r.append((x, y))
@@ -443,6 +468,13 @@ class Maze:
             return True
         return False
 
+    def is_corridor_or_door_at(self, x, y):
+        if self.is_corridor_at(x, y):
+            return True
+        if self.is_door_at(x, y):
+            return True
+        return False
+
     def is_wall_at(self, x, y):
         c = self.getc(x, y, Depth.wall)
         if c is not None:
@@ -480,13 +512,13 @@ class Maze:
         elif y + room.height >= self.height - 1:
             return False
 
-        for d in range(Depth.max):
-            dname = Depth.to_name[d]
-            if dname in room.vert_slice:
-                for ry in range(room.height):
-                    for rx in range(room.width):
-                        if self.is_something_at(x + rx, y + ry):
-                            return False
+        vert_floor_slice = room.vert_slice["floor"]
+
+        for ry in range(room.height):
+            for rx in range(room.width):
+                if vert_floor_slice[rx][ry] == FLOOR:
+                    if self.is_something_at(x + rx, y + ry):
+                        return False
         return True
 
     #
@@ -502,8 +534,9 @@ class Maze:
                 for ry in range(room.height):
                     for rx in range(room.width):
                         rchar = rvert_slice[rx][ry]
-                        self.putc(x + rx, y + ry, d, rchar)
-                        self.putr(x + rx, y + ry, roomno)
+                        if rchar != SPACE:
+                            self.putc(x + rx, y + ry, d, rchar)
+                            self.putr(x + rx, y + ry, roomno)
 
         self.rooms_on_level += 1
 
@@ -686,7 +719,7 @@ class Maze:
     # ensures no room will ever appear more than once.
     #
     def rooms_get_next_roomno(self):
-        if random.randint(0, 100) < self.fixed_room_chance:
+        if random.randint(0, 100) <= self.fixed_room_chance:
             roomno = self.fixed_roomno_list.pop(0)
             self.fixed_roomno_list.append(roomno)
         else:
@@ -741,16 +774,27 @@ class Maze:
         return placed_a_room
 
     #
-    # Place the first room in a level, in the center ish
+    # Place the first room in a level, in the center ish. First room should
+    # not be a fixed room.
     #
     def room_place_first(self):
         self.room_connection = {}
 
         room_place_tries = 0
         while True:
-            roomno = self.rooms_get_next_roomno()
-            room = self.rooms[roomno]
             room_place_tries += 1
+
+            #
+            # First room should not be fixed.
+            #
+            roomno = self.rooms_get_next_roomno()
+            if roomno < self.fixed_room_count:
+                room = self.rooms[roomno]
+                if room.can_be_placed_as_first_room is not True:
+                    if room_place_tries < 100:
+                        continue
+
+            room = self.rooms[roomno]
             x = int(width / 2)
             y = int(height / 2)
             room = self.rooms[roomno]
@@ -837,11 +881,12 @@ class Maze:
                 if walked[x][y]:
                     continue
 
-                if not self.is_corridor_at(x, y):
+                if not self.is_corridor_at(x, y) and \
+                   not self.is_door_at(x, y):
                     continue
 
                 roomno = None
-                corridor = self.flood_find(x, y, Depth.floor, CORRIDOR)
+                corridor = self.flood_find(x, y, self.is_corridor_or_door_at)
 
                 corridor_joins_two_rooms = False
                 for c in corridor:
@@ -853,7 +898,8 @@ class Maze:
                         if self.is_wall_at(cx + dx, cy + dy):
                             continue
 
-                        if not self.is_floor_at(cx + dx, cy + dy):
+                        if not self.is_floor_at(cx + dx, cy + dy) and \
+                           not self.is_door_at(cx + dx, cy + dy):
                             continue
 
                         new_roomno = self.roomno_cells[cx + dx][cy + dy]
@@ -880,6 +926,9 @@ class Maze:
                 if not self.is_floor_at(x, y):
                     continue
 
+                if self.is_door_at(x, y):
+                    continue
+
                 if self.is_wall_at(x, y):
                     continue
 
@@ -904,7 +953,7 @@ class Maze:
                         break
 
                 if not ok:
-                    self.putc(x, y, Depth.wall, SPACE)
+                    self.putc(x, y, Depth.wall, WALL)
 
     #
     # Make randomly shaped rooms
@@ -1334,9 +1383,54 @@ def maze_create_fixed_rooms():
     r.finalize()
     rooms.append(r)
 
+    r = Room()
+    r.vert_slice_add("floor", [
+                    ".....   .....",
+                    ".............",
+                    ".............",
+                    ".............",
+                    "   .......   ",
+                    "   .......   ",
+                    "   .......   ",
+                    ".............",
+                    ".............",
+                    ".............",
+                    ".....   .....",
+            ])
+    r.vert_slice_add("wall", [
+                    "xxxxx   xxxxx",
+                    "x   xxDxx   x",
+                    "x           x",
+                    "xxxx     xxxx",
+                    "   x     x   ",
+                    "   D     D   ",
+                    "   x     x   ",
+                    "xxxx     xxxx",
+                    "x           x",
+                    "x   xxDxx   x",
+                    "xxxxx   xxxxx",
+            ])
+
+    r.vert_slice_add("obj", [
+                    "             ",
+                    "             ",
+                    "             ",
+                    "             ",
+                    "             ",
+                    "             ",
+                    "             ",
+                    "             ",
+                    "             ",
+                    "             ",
+                    "             ",
+            ])
+    r.can_be_placed_as_first_room = True
+    r.finalize()
+    rooms.append(r)
+
     return rooms
 
-for seed in range(1000):
+for seed in range(1, 1000):
     width = 64
     height = 64
 
@@ -1348,7 +1442,9 @@ for seed in range(1000):
 #        random.seed(1)
 
         maze = Maze(width=width, height=height, rooms=fixed_rooms,
-                    rooms_on_level=20, charmap=charmap)
+                    rooms_on_level=10,
+                    charmap=charmap,
+                    fixed_room_chance=10)
         if maze.rooms_on_level > 3:
             break
 
