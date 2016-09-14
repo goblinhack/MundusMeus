@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# rotate rooms
 # breadth depth search tree
 # exit
 # place keys
@@ -8,7 +7,6 @@
 # chasms
 # bridges
 # treasure based on depth
-from colored import fg, bg, attr
 import random
 import copy
 import sys
@@ -215,7 +213,8 @@ class Maze:
         # First room goes in the center. The rest hang off of its
         # corridors.
         #
-        self.rooms_place_all(rooms_on_level)
+        if not self.rooms_place_all(rooms_on_level):
+            return
         self.debug("^^^ placed all rooms ^^^")
 
         #
@@ -242,6 +241,12 @@ class Maze:
         self.rooms_plug_doors()
         self.debug("^^^ removed dead end doors ^^^")
 
+        #
+        # How far from the start is each room?
+        #
+        self.rooms_set_depth()
+        self.debug("^^^ calculated depth ^^^")
+
     def debug(self, s):
         return
         self.dump()
@@ -266,20 +271,6 @@ class Maze:
         self.cells[x][y][d] = c
 
     #
-    # Set a tile with a given roomno
-    #
-    def putr(self, x, y, r):
-        if x >= self.width:
-            return
-        if y >= self.height:
-            return
-        if x < 0:
-            return
-        if y < 0:
-            return
-        self.roomno_cells[x][y] = r
-
-    #
     # Gets a tile oof the map or None
     #
     def getc(self, x, y, d):
@@ -298,6 +289,34 @@ class Maze:
         return self.cells[x][y][d]
 
     #
+    # Set a tile with a given roomno
+    #
+    def putr(self, x, y, r):
+        if x >= self.width:
+            return
+        if y >= self.height:
+            return
+        if x < 0:
+            return
+        if y < 0:
+            return
+        self.roomno_cells[x][y] = r
+
+    #
+    # Get the roomno in this tile
+    #
+    def getr(self, x, y):
+        if x >= self.width:
+            return None
+        if y >= self.height:
+            return None
+        if x < 0:
+            return None
+        if y < 0:
+            return None
+        return self.roomno_cells[x][y]
+
+    #
     # Line between points
     #
     def line_draw(self, start, end, depth, rchar):
@@ -310,9 +329,9 @@ class Maze:
     # Flood fill empty space.
     #
     def flood_fill(self, x, y, depth, rchar):
-        s = [(x, y)]
-        while len(s) > 0:
-            x, y = s.pop(0)
+        stack = [(x, y)]
+        while len(stack) > 0:
+            x, y = stack.pop(0)
             if self.is_oob(x, y):
                 continue
 
@@ -320,10 +339,10 @@ class Maze:
                 continue
 
             self.putc(x, y, depth, rchar)
-            s.append((x + 1, y))
-            s.append((x - 1, y))
-            s.append((x, y + 1))
-            s.append((x, y - 1))
+            stack.append((x + 1, y))
+            stack.append((x - 1, y))
+            stack.append((x, y + 1))
+            stack.append((x, y - 1))
 
     #
     # Flood fill empty space and return the points.
@@ -333,10 +352,10 @@ class Maze:
         walked = [[0 for i in range(height)]
                   for j in range(width)]
 
-        s = [(x, y)]
+        stack = [(x, y)]
         r = []
-        while len(s) > 0:
-            x, y = s.pop(0)
+        while len(stack) > 0:
+            x, y = stack.pop(0)
             if self.is_oob(x, y):
                 continue
 
@@ -350,10 +369,10 @@ class Maze:
 
             self.putc(x, y, depth, rchar)
             r.append((x, y))
-            s.append((x + 1, y))
-            s.append((x - 1, y))
-            s.append((x, y + 1))
-            s.append((x, y - 1))
+            stack.append((x + 1, y))
+            stack.append((x - 1, y))
+            stack.append((x, y + 1))
+            stack.append((x, y - 1))
 
         return r
 
@@ -365,10 +384,10 @@ class Maze:
         walked = [[0 for i in range(height)]
                   for j in range(width)]
 
-        s = [(x, y)]
+        stack = [(x, y)]
         r = []
-        while len(s) > 0:
-            x, y = s.pop(0)
+        while len(stack) > 0:
+            x, y = stack.pop(0)
             if self.is_oob(x, y):
                 continue
 
@@ -381,10 +400,10 @@ class Maze:
                 continue
 
             r.append((x, y))
-            s.append((x + 1, y))
-            s.append((x - 1, y))
-            s.append((x, y + 1))
-            s.append((x, y - 1))
+            stack.append((x + 1, y))
+            stack.append((x - 1, y))
+            stack.append((x, y + 1))
+            stack.append((x, y - 1))
 
         return r
 
@@ -396,10 +415,10 @@ class Maze:
         walked = [[0 for i in range(height)]
                   for j in range(width)]
 
-        s = [(x, y)]
+        stack = [(x, y)]
         r = []
-        while len(s) > 0:
-            x, y = s.pop(0)
+        while len(stack) > 0:
+            x, y = stack.pop(0)
             if self.is_oob(x, y):
                 continue
 
@@ -414,10 +433,10 @@ class Maze:
 
             self.putc(x, y, depth, new)
             r.append((x, y))
-            s.append((x + 1, y))
-            s.append((x - 1, y))
-            s.append((x, y + 1))
-            s.append((x, y - 1))
+            stack.append((x + 1, y))
+            stack.append((x - 1, y))
+            stack.append((x, y + 1))
+            stack.append((x, y - 1))
 
         return r
 
@@ -802,11 +821,12 @@ class Maze:
             y -= int(room.height / 2)
 
             if self.room_place_if_no_overlaps(roomno, x, y):
-                break
+                self.roomno_first = roomno
+                return True
 
             if room_place_tries > 1000:
                 print("Could not place first room")
-                break
+                return False
 
     #
     # Place remaining rooms hanging off of the corridors of the last.
@@ -821,7 +841,7 @@ class Maze:
             if room_place_tries > rooms_on_level * 2:
                 print("Tried to place rooms for too long, made {0} rooms".
                       format(self.rooms_on_level))
-                break
+                return False
 
             #
             # If we place at least one new room, we will have new corridors
@@ -830,14 +850,19 @@ class Maze:
             if self.rooms_all_try_to_place_at_end_of_corridors():
                 self.rooms_all_grow_new_corridors()
 
+        return True
+
     #
     # Place all rooms
     #
     def rooms_place_all(self, rooms_on_level):
         self.roomnos = set()
-        self.room_place_first()
-        self.rooms_place_remaining(rooms_on_level)
+        if not self.room_place_first():
+            return False
+        if not self.rooms_place_remaining(rooms_on_level):
+            return False
         self.roomnos = sorted(self.roomnos)
+        return True
 
     #
     # Remove dangling corridors that go nowhere.
@@ -888,7 +913,11 @@ class Maze:
                 roomno = None
                 corridor = self.flood_find(x, y, self.is_corridor_or_door_at)
 
-                corridor_joins_two_rooms = False
+                #
+                # We've found all tiles in this corridor. Now find all rooms
+                # adjacent to the corridor and connect many to many
+                #
+                corridor_rooms = set()
                 for c in corridor:
                     cx, cy = c
 
@@ -902,20 +931,43 @@ class Maze:
                            not self.is_door_at(cx + dx, cy + dy):
                             continue
 
-                        new_roomno = self.roomno_cells[cx + dx][cy + dy]
-                        if roomno is None:
-                            roomno = new_roomno
-                            self.room_connection[roomno] = set()
-                        elif roomno != new_roomno:
-                            corridor_joins_two_rooms = True
-                            self.room_connection[roomno].add(new_roomno)
-                            self.room_connection[new_roomno].add(roomno)
+                        roomno = self.roomno_cells[cx + dx][cy + dy]
 
-                if not corridor_joins_two_rooms:
+                        corridor_rooms.add(roomno)
+
+                for r in corridor_rooms:
+                    for n in corridor_rooms:
+                        self.room_connection[n].add(r)
+                        self.room_connection[r].add(n)
+
+                if len(corridor_rooms) < 2:
                     self.flood_replace(x, y, Depth.floor, CORRIDOR, SPACE)
 
         for r in self.roomnos:
             print("{0} --> {1}".format(r, self.room_connection[r]))
+
+    #
+    # Starting from the first room, do a breadth first search to find out
+    # the depth of all rooms from the first.
+    #
+    def rooms_set_depth(self):
+
+        roomno = self.roomno_first
+        stack = [roomno]
+
+        self.roomno_depth = {}
+        self.roomno_depth[roomno] = 0
+
+        print("room first {0}".format(roomno))
+        while len(stack) > 0:
+            roomno = stack.pop(0)
+
+#                print(" room {0} depth {1} -> nbr {2}".format(roomno,
+#                      self.roomno_depth[roomno], neb))
+            for neb in self.room_connection[roomno]:
+                if neb not in self.roomno_depth:
+                    stack.append(neb)
+                    self.roomno_depth[neb] = self.roomno_depth[roomno] + 1
 
     #
     # Any rooms opening onto nothing, fill them in
@@ -1145,6 +1197,8 @@ class Maze:
                       for j in range(width)]
 
     def dump(self):
+        from colored import fg, bg, attr
+
         os.system('cls' if os.name == 'nt' else 'clear')
         for y in range(self.height):
             for x in range(self.width):
@@ -1164,6 +1218,39 @@ class Maze:
                         color = fg("white") + bg("red")
                     else:
                         color = fg(r % 255) + bg(0)
+                else:
+                    color = fg(fg_name) + bg(bg_name)
+                sys.stdout.write(color + c + res)
+            print("")
+
+        os.system('cls' if os.name == 'nt' else 'clear')
+        for y in range(self.height):
+            for x in range(self.width):
+                for d in reversed(range(Depth.max)):
+                    c = self.cells[x][y][d]
+                    charmap = self.charmap[c]
+                    fg_name = charmap["fg"]
+                    bg_name = charmap["bg"]
+                    if c != " ":
+                        break
+
+                res = attr('reset')
+                if c == FLOOR:
+                    r = self.roomno_cells[x][y]
+                    if r == -1:
+                        c = "!"
+                        color = fg("white") + bg("red")
+                    else:
+                        color = fg(r % 255) + bg(0)
+
+                    r = self.getr(x, y)
+                    if r is None:
+                        print("No room depth at {0},{1}".format(x, y))
+                    else:
+                        if r not in self.roomno_depth:
+                            print("No room obj at {0},{1}".format(x, y))
+                        d = self.roomno_depth[r]
+                        c = chr(ord('0') + d)
                 else:
                     color = fg(fg_name) + bg(bg_name)
                 sys.stdout.write(color + c + res)
