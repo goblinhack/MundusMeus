@@ -199,6 +199,11 @@ class Maze:
         self.roomno_depth = {}
 
         #
+        # Exits from each room
+        #
+        self.room_exits = {}
+
+        #
         # The map
         #
         self.cells = [[[' ' for d in range(Depth.max)]
@@ -246,6 +251,20 @@ class Maze:
         self.debug("^^^ trimmed all looped corridors ^^^")
 
         #
+        # How far from the start is each room?
+        #
+        self.rooms_set_depth()
+        self.debug("^^^ calculated depth ^^^")
+
+        self.rooms_dump_info()
+
+        #
+        # Randomly lock some rooms
+        #
+        if self.rooms_randomly_lock():
+            self.debug("^^^ locked some rooms ^^^")
+
+        #
         # Plug gaps in the wall that go nowhere.
         #
         self.rooms_plug_walls()
@@ -256,12 +275,6 @@ class Maze:
         #
         self.rooms_plug_doors()
         self.debug("^^^ removed dead end doors ^^^")
-
-        #
-        # How far from the start is each room?
-        #
-        self.rooms_set_depth()
-        self.debug("^^^ calculated depth ^^^")
 
     def debug(self, s):
         return
@@ -933,7 +946,7 @@ class Maze:
                 # We've found all tiles in this corridor. Now find all rooms
                 # adjacent to the corridor and connect many to many
                 #
-                corridor_rooms = set()
+                rooms_adjoining_this_corridor = set()
                 for c in corridor:
                     cx, cy = c
 
@@ -943,24 +956,58 @@ class Maze:
                         if self.is_wall_at(cx + dx, cy + dy):
                             continue
 
-                        if not self.is_floor_at(cx + dx, cy + dy) and \
-                           not self.is_door_at(cx + dx, cy + dy):
+                        fx = cx + dx
+                        fy = cy + dy
+
+                        if not self.is_floor_at(fx, fy) and \
+                           not self.is_door_at(fx, fy):
                             continue
 
-                        roomno = self.roomno_cells[cx + dx][cy + dy]
+                        #
+                        # Keep track of all room exits so we can use them
+                        # later to place doors perhaps
+                        #
+                        roomno = self.getr(fx, fy)
+                        if roomno not in self.room_exits:
+                            self.room_exits[roomno] = set()
+                        self.room_exits[roomno].add((fx, fy))
 
-                        corridor_rooms.add(roomno)
+                        #
+                        # Add this room to the list of adjoining rooms
+                        #
+                        rooms_adjoining_this_corridor.add(roomno)
 
-                for r in corridor_rooms:
-                    for n in corridor_rooms:
+                #
+                # Connect each room to each other to build a graph
+                #
+                for r in rooms_adjoining_this_corridor:
+                    for n in rooms_adjoining_this_corridor:
                         self.room_connection[n].add(r)
                         self.room_connection[r].add(n)
 
-                if len(corridor_rooms) < 2:
+                if len(rooms_adjoining_this_corridor) < 2:
                     self.flood_replace(x, y, Depth.floor, CORRIDOR, SPACE)
 
+    #
+    # Display room connectivity info
+    #
+    def rooms_dump_info(self):
+
         for r in self.roomnos:
-            print("{0} --> {1}".format(r, self.room_connection[r]))
+            print("room {0} --> neighbor {1}".format(r,
+                                                     self.room_connection[r]))
+            for e in self.room_exits[r]:
+                print("    exit at {0}".format(e))
+
+    #
+    # Lock some rooms - not the first room
+    #
+    def rooms_randomly_lock(self):
+
+        for r in self.roomnos:
+            if self.roomno_depth[r] > 0:
+                for e in self.room_exits[r]:
+                    print("    exit at {0}".format(e))
 
     #
     # Starting from the first room, do a breadth first search to find out
