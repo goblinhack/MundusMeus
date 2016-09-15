@@ -147,6 +147,15 @@ class Maze:
         self.height = height
         self.charmap = charmap
 
+        #
+        # Set if we fail to generate
+        #
+        self.generate_failed = False
+
+        #
+        # All possible rooms we will choose from. Initially these are fixed
+        # rooms and we add more random ones onto this list.
+        #
         self.rooms = rooms
 
         #
@@ -185,6 +194,11 @@ class Maze:
         self.min_room_size = 10
 
         #
+        # Depth is how many rooms from the start room we are
+        #
+        self.roomno_depth = {}
+
+        #
         # The map
         #
         self.cells = [[[' ' for d in range(Depth.max)]
@@ -214,7 +228,9 @@ class Maze:
         # corridors.
         #
         if not self.rooms_place_all(rooms_on_level):
+            self.generate_failed = True
             return
+
         self.debug("^^^ placed all rooms ^^^")
 
         #
@@ -955,7 +971,6 @@ class Maze:
         roomno = self.roomno_first
         stack = [roomno]
 
-        self.roomno_depth = {}
         self.roomno_depth[roomno] = 0
 
         print("room first {0}".format(roomno))
@@ -1218,39 +1233,14 @@ class Maze:
                         color = fg("white") + bg("red")
                     else:
                         color = fg(r % 255) + bg(0)
-                else:
-                    color = fg(fg_name) + bg(bg_name)
-                sys.stdout.write(color + c + res)
-            print("")
-
-        os.system('cls' if os.name == 'nt' else 'clear')
-        for y in range(self.height):
-            for x in range(self.width):
-                for d in reversed(range(Depth.max)):
-                    c = self.cells[x][y][d]
-                    charmap = self.charmap[c]
-                    fg_name = charmap["fg"]
-                    bg_name = charmap["bg"]
-                    if c != " ":
-                        break
-
-                res = attr('reset')
-                if c == FLOOR:
-                    r = self.roomno_cells[x][y]
-                    if r == -1:
-                        c = "!"
-                        color = fg("white") + bg("red")
-                    else:
-                        color = fg(r % 255) + bg(0)
 
                     r = self.getr(x, y)
                     if r is None:
                         print("No room depth at {0},{1}".format(x, y))
                     else:
-                        if r not in self.roomno_depth:
-                            print("No room obj at {0},{1}".format(x, y))
-                        d = self.roomno_depth[r]
-                        c = chr(ord('0') + d)
+                        if r in self.roomno_depth:
+                            d = self.roomno_depth[r]
+                            c = chr(ord('0') + d)
                 else:
                     color = fg(fg_name) + bg(bg_name)
                 sys.stdout.write(color + c + res)
@@ -1532,7 +1522,7 @@ for seed in range(1, 1000):
                     rooms_on_level=10,
                     charmap=charmap,
                     fixed_room_chance=10)
-        if maze.rooms_on_level > 3:
+        if not maze.generate_failed:
             break
 
         maze_seed += 1
