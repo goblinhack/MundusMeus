@@ -179,6 +179,11 @@ class Maze:
         self.corridor_grow_chance = 2
 
         #
+        # How often a random room is locked
+        #
+        self.room_locked_chance = 5
+
+        #
         # How close corridors should be to each other
         #
         self.corridor_spacing = 3
@@ -197,6 +202,11 @@ class Maze:
         # Depth is how many rooms from the start room we are
         #
         self.roomno_depth = {}
+
+        #
+        # Rooms that have all doors locked
+        #
+        self.roomno_locked = {}
 
         #
         # Exits from each room
@@ -256,13 +266,19 @@ class Maze:
         self.rooms_set_depth()
         self.debug("^^^ calculated depth ^^^")
 
-        self.rooms_dump_info()
+#        self.rooms_dump_info()
 
         #
         # Randomly lock some rooms
         #
-        if self.rooms_randomly_lock():
-            self.debug("^^^ locked some rooms ^^^")
+        self.rooms_randomly_lock()
+        self.debug("^^^ locked some rooms ^^^")
+
+        #
+        # Redo the depth. Rooms that are locked add extra depth points.
+        #
+        self.rooms_set_depth()
+        self.debug("^^^ calculated depth ^^^")
 
         #
         # Plug gaps in the wall that go nowhere.
@@ -585,6 +601,8 @@ class Maze:
                         if rchar != SPACE:
                             self.putc(x + rx, y + ry, d, rchar)
                             self.putr(x + rx, y + ry, roomno)
+                        if rchar == DOOR:
+                            self.roomno_locked[roomno] = True
 
         self.rooms_on_level += 1
 
@@ -1006,8 +1024,11 @@ class Maze:
 
         for r in self.roomnos:
             if self.roomno_depth[r] > 0:
-                for e in self.room_exits[r]:
-                    print("    exit at {0}".format(e))
+                if random.randint(0, 100) < self.room_locked_chance:
+                    self.roomno_locked[r] = True
+                    for e in self.room_exits[r]:
+                        ex, ey = e
+                        self.putc(ex, ey, Depth.wall, DOOR)
 
     #
     # Starting from the first room, do a breadth first search to find out
@@ -1018,14 +1039,18 @@ class Maze:
         roomno = self.roomno_first
         stack = [roomno]
 
+        self.roomno_depth = {}
         self.roomno_depth[roomno] = 0
 
-        print("room first {0}".format(roomno))
         while len(stack) > 0:
             roomno = stack.pop(0)
 
 #                print(" room {0} depth {1} -> nbr {2}".format(roomno,
 #                      self.roomno_depth[roomno], neb))
+            if roomno in self.roomno_locked:
+                if self.roomno_locked[roomno]:
+                    self.roomno_depth[roomno] = self.roomno_depth[roomno] + 2
+
             for neb in self.room_connection[roomno]:
                 if neb not in self.roomno_depth:
                     stack.append(neb)
