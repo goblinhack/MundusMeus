@@ -45,12 +45,12 @@ charmap = {
         "is_door": True,
     },
     START: {
-        "bg": "black",
+        "bg": "white",
         "fg": "red",
         "is_start": True,
     },
     EXIT: {
-        "bg": "black",
+        "bg": "white",
         "fg": "red",
         "is_exit": True,
     },
@@ -316,10 +316,17 @@ class Maze:
 
         self.rooms_find_occupiable_tiles()
 
-        self.rooms_place_start()
+        #
+        # Place start and exit of the maze
+        #
+        if not self.rooms_place_start():
+            self.generate_failed = True
+            return
         self.debug("^^^ placed start ^^^")
 
-        self.rooms_place_exit()
+        if not self.rooms_place_exit():
+            self.generate_failed = True
+            return
         self.debug("^^^ placed exit ^^^")
 
     def debug(self, s):
@@ -1161,7 +1168,12 @@ class Maze:
     # Any dead end doors with no corridor, zap em
     #
     def rooms_place_start(self):
+        tries = 0
         while True:
+            tries = tries + 1
+            if tries > 100:
+                return False
+
             while True:
                 roomno = random.choice(self.roomnos)
                 room = self.rooms[roomno]
@@ -1181,13 +1193,18 @@ class Maze:
                 continue
 
             self.putc(x, y, Depth.wall, START)
-            break
+            return True
 
     #
     # Any dead end doors with no corridor, zap em
     #
     def rooms_place_exit(self):
+        tries = 0
         while True:
+            tries = tries + 1
+            if tries > 100:
+                return False
+
             while True:
                 roomno = random.choice(self.roomnos)
                 room = self.rooms[roomno]
@@ -1207,7 +1224,7 @@ class Maze:
                 continue
 
             self.putc(x, y, Depth.wall, EXIT)
-            break
+            return True
 
     #
     # Make randomly shaped rooms
@@ -1431,6 +1448,7 @@ class Maze:
                             c = chr(ord('0') + d)
                 else:
                     color = fg(fg_name) + bg(bg_name)
+
                 sys.stdout.write(color + c + res)
             print("")
 
