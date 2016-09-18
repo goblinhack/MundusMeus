@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# breadth depth search tree
 # exit
 # place keys
 # water
@@ -17,7 +16,8 @@ CORRIDOR = "#"
 DOOR = "D"
 WALL = "x"
 FLOOR = "."
-DELTAS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+START = "S"
+EXIT = "E"
 
 charmap = {
     " ": {
@@ -44,6 +44,16 @@ charmap = {
         "fg": "red",
         "is_door": True,
     },
+    START: {
+        "bg": "black",
+        "fg": "red",
+        "is_start": True,
+    },
+    EXIT: {
+        "bg": "black",
+        "fg": "red",
+        "is_exit": True,
+    },
     "o": {
         "bg": "black",
         "fg": "yellow",
@@ -61,6 +71,11 @@ class Enumeration(object):
 
 Depth = Enumeration("floor wall obj max")
 
+XY_DELTAS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+ALL_DELTAS = [(-1, -1), (0, -1), (1, -1),
+              (-1, 0), (0, 0), (1, 0),
+              (-1, 1), (0, 1), (1, 1)]
+
 
 class Room:
     def __init__(self):
@@ -68,6 +83,8 @@ class Room:
         self.width = 0
         self.height = 0
         self.can_be_placed_as_first_room = False
+        self.can_be_placed_as_start = False
+        self.can_be_placed_as_exit = False
 
     #
     # Rooms are made out of stacks of vertical slices
@@ -214,6 +231,11 @@ class Maze:
         self.room_exits = {}
 
         #
+        # The tiles of a each romm
+        #
+        self.room_occupiable_tiles = {}
+
+        #
         # The map
         #
         self.cells = [[[' ' for d in range(Depth.max)]
@@ -291,6 +313,14 @@ class Maze:
         #
         self.rooms_plug_doors()
         self.debug("^^^ removed dead end doors ^^^")
+
+        self.rooms_find_occupiable_tiles()
+
+        self.rooms_place_start()
+        self.debug("^^^ placed start ^^^")
+
+        self.rooms_place_exit()
+        self.debug("^^^ placed exit ^^^")
 
     def debug(self, s):
         return
@@ -598,9 +628,11 @@ class Maze:
                 for ry in range(room.height):
                     for rx in range(room.width):
                         rchar = rvert_slice[rx][ry]
+                        tx = x + rx
+                        ty = y + ry
                         if rchar != SPACE:
-                            self.putc(x + rx, y + ry, d, rchar)
-                            self.putr(x + rx, y + ry, roomno)
+                            self.putc(tx, ty, d, rchar)
+                            self.putr(tx, ty, roomno)
                         if rchar == DOOR:
                             self.roomno_locked[roomno] = True
 
@@ -785,12 +817,19 @@ class Maze:
     # ensures no room will ever appear more than once.
     #
     def rooms_get_next_roomno(self):
-        if random.randint(0, 100) <= self.fixed_room_chance:
-            roomno = self.fixed_roomno_list.pop(0)
-            self.fixed_roomno_list.append(roomno)
-        else:
-            roomno = self.random_roomno_list.pop(0)
-            self.random_roomno_list.append(roomno)
+        while True:
+            if random.randint(0, 100) <= self.fixed_room_chance:
+                roomno = self.fixed_roomno_list.pop(0)
+                self.fixed_roomno_list.append(roomno)
+            else:
+                roomno = self.random_roomno_list.pop(0)
+                self.random_roomno_list.append(roomno)
+
+            #
+            # Make sure we never place the same room twice.
+            #
+            if roomno not in self.roomnos:
+                return roomno
 
         return roomno
 
@@ -869,6 +908,10 @@ class Maze:
 
             if self.room_place_if_no_overlaps(roomno, x, y):
                 self.roomno_first = roomno
+
+                room = self.rooms[roomno]
+                room.can_be_placed_as_start = True
+                room.can_be_placed_as_exit = False
                 return True
 
             if room_place_tries > 1000:
@@ -970,7 +1013,7 @@ class Maze:
 
                     walked[cx][cy] = 1
 
-                    for dx, dy in DELTAS:
+                    for dx, dy in XY_DELTAS:
                         if self.is_wall_at(cx + dx, cy + dy):
                             continue
 
@@ -1045,8 +1088,9 @@ class Maze:
         while len(stack) > 0:
             roomno = stack.pop(0)
 
-#                print(" room {0} depth {1} -> nbr {2}".format(roomno,
-#                      self.roomno_depth[roomno], neb))
+            #
+            # Rooms are harder to get to
+            #
             if roomno in self.roomno_locked:
                 if self.roomno_locked[roomno]:
                     self.roomno_depth[roomno] = self.roomno_depth[roomno] + 2
@@ -1086,13 +1130,84 @@ class Maze:
                     continue
 
                 ok = False
-                for dx, dy in DELTAS:
+                for dx, dy in XY_DELTAS:
                     if self.is_corridor_at(x + dx, y + dy):
                         ok = True
                         break
 
                 if not ok:
                     self.putc(x, y, Depth.wall, WALL)
+
+    #
+    # Find all tiles where we can place objects
+    #
+    def rooms_find_occupiable_tiles(self):
+        for roomno in self.roomnos:
+            self.room_occupiable_tiles[roomno] = []
+
+        for y in range(self.height):
+            for x in range(self.width):
+                if not self.is_floor_at(x, y):
+                    continue
+
+                if self.is_wall_at(x, y):
+                    continue
+
+                roomno = self.getr(x, y)
+
+                self.room_occupiable_tiles[roomno].append((x, y))
+
+    #
+    # Any dead end doors with no corridor, zap em
+    #
+    def rooms_place_start(self):
+        while True:
+            while True:
+                roomno = random.choice(self.roomnos)
+                room = self.rooms[roomno]
+
+                if room.can_be_placed_as_start:
+                    break
+
+            x, y = random.choice(self.room_occupiable_tiles[roomno])
+
+            obstacle = False
+            for dx, dy in ALL_DELTAS:
+                if self.is_wall_at(x + dx, y + dy):
+                    obstacle = True
+                    break
+
+            if obstacle:
+                continue
+
+            self.putc(x, y, Depth.wall, START)
+            break
+
+    #
+    # Any dead end doors with no corridor, zap em
+    #
+    def rooms_place_exit(self):
+        while True:
+            while True:
+                roomno = random.choice(self.roomnos)
+                room = self.rooms[roomno]
+
+                if room.can_be_placed_as_exit:
+                    break
+
+            x, y = random.choice(self.room_occupiable_tiles[roomno])
+
+            obstacle = False
+            for dx, dy in ALL_DELTAS:
+                if self.is_wall_at(x + dx, y + dy):
+                    obstacle = True
+                    break
+
+            if obstacle:
+                continue
+
+            self.putc(x, y, Depth.wall, EXIT)
+            break
 
     #
     # Make randomly shaped rooms
@@ -1273,6 +1388,7 @@ class Maze:
                     r.vert_slice_add("wall", vert_wall_slice)
                     r.vert_slice_add("obj", vert_obj_slice)
                     r.finalize()
+                    r.can_be_placed_as_exit = True
                     self.rooms.append(r)
 
         #
