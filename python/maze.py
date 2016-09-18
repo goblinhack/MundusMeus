@@ -28,6 +28,7 @@ charmap = {
         "bg": "blue",
         "fg": "white",
         "is_wall": True,
+        "is_obstacle": True,
     },
     FLOOR: {
         "bg": "black",
@@ -43,26 +44,31 @@ charmap = {
         "bg": "black",
         "fg": "red",
         "is_door": True,
+        "is_obstacle": True,
     },
     START: {
         "bg": "white",
         "fg": "red",
         "is_start": True,
+        "is_obstacle": True,
     },
     EXIT: {
         "bg": "white",
         "fg": "red",
         "is_exit": True,
+        "is_obstacle": True,
     },
     KEY: {
         "bg": "white",
         "fg": "yellow",
         "is_key": True,
+        "is_obstacle": True,
     },
     "o": {
         "bg": "black",
         "fg": "yellow",
         "is_obj": True,
+        "is_obstacle": True,
     },
 }
 
@@ -551,19 +557,15 @@ class Maze:
             return True
         if self.is_corridor_at(x, y):
             return True
-        if self.is_wall_at(x, y):
-            return True
-        if self.is_obj_at(x, y):
-            return True
-        if self.is_start_at(x, y):
-            return True
-        if self.is_exit_at(x, y):
+        if self.is_obstacle_at(x, y):
             return True
 
         return False
 
-    def is_something_blcoking_at(self, x, y):
+    def is_obstacle_at(self, x, y):
         if self.is_wall_at(x, y):
+            return True
+        if self.is_door_at(x, y):
             return True
         if self.is_obj_at(x, y):
             return True
@@ -777,10 +779,6 @@ class Maze:
                     continue
 
                 if self.is_corridor_at(x, y):
-                    self.inuse[x][y] = 1
-                    continue
-
-                if self.is_obj_at(x, y):
                     self.inuse[x][y] = 1
                     continue
 
@@ -1072,7 +1070,7 @@ class Maze:
                     walked[cx][cy] = 1
 
                     for dx, dy in XY_DELTAS:
-                        if self.is_wall_at(cx + dx, cy + dy):
+                        if self.is_obstacle_at(cx + dx, cy + dy):
                             continue
 
                         fx = cx + dx
@@ -1124,6 +1122,9 @@ class Maze:
     def rooms_randomly_lock(self):
 
         for r in self.roomnos:
+            if r not in self.roomno_depth:
+                self.dump()
+                sys.exit(1)
             if self.roomno_depth[r] > 0:
                 if random.randint(0, 100) < self.room_locked_chance:
                     for e in self.room_exits[r]:
@@ -1169,7 +1170,7 @@ class Maze:
                 if self.is_door_at(x, y):
                     continue
 
-                if self.is_wall_at(x, y):
+                if self.is_obstacle_at(x, y):
                     continue
 
                 for dx in range(-1, 2):
@@ -1207,7 +1208,7 @@ class Maze:
                 if not self.is_floor_at(x, y):
                     continue
 
-                if self.is_wall_at(x, y):
+                if self.is_obstacle_at(x, y):
                     continue
 
                 roomno = self.getr(x, y)
@@ -1235,7 +1236,7 @@ class Maze:
 
             obstacle = False
             for dx, dy in ALL_DELTAS:
-                if self.is_wall_at(x + dx, y + dy):
+                if self.is_obstacle_at(x + dx, y + dy):
                     obstacle = True
                     break
 
@@ -1266,7 +1267,7 @@ class Maze:
 
             obstacle = False
             for dx, dy in ALL_DELTAS:
-                if self.is_wall_at(x + dx, y + dy):
+                if self.is_obstacle_at(x + dx, y + dy):
                     obstacle = True
                     break
 
@@ -1291,8 +1292,6 @@ class Maze:
                 while True:
                     tries = tries + 1
                     if tries > 100:
-                        print("Could not find room at depth < {0}".format(
-                              self.roomno_depth[roomno]))
                         return False
 
                     key_roomno = random.choice(self.roomnos)
