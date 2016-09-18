@@ -354,49 +354,26 @@ class Maze:
     # Puts a tile on the map
     #
     def putc(self, x, y, d, c):
-        if x >= self.width:
-            return
-        if y >= self.height:
-            return
-        if x < 0:
-            return
-        if y < 0:
-            return
-        if d < 0:
-            return
-        if d > Depth.max:
+        if x >= self.width or y >= self.height or x < 0 or y < 0:
             return
         self.cells[x][y][d] = c
 
     #
-    # Gets a tile oof the map or None
+    # Gets a tile of the map or None
     #
     def getc(self, x, y, d):
-        if x >= self.width:
+        if x >= self.width or y >= self.height or x < 0 or y < 0:
             return None
-        if y >= self.height:
-            return None
-        if x < 0:
-            return None
-        if y < 0:
-            return None
-        if d < 0:
-            return None
-        if d > Depth.max:
-            return None
+        return self.cells[x][y][d]
+
+    def getc_fast(self, x, y, d):
         return self.cells[x][y][d]
 
     #
     # Set a tile with a given roomno
     #
     def putr(self, x, y, r):
-        if x >= self.width:
-            return
-        if y >= self.height:
-            return
-        if x < 0:
-            return
-        if y < 0:
+        if x >= self.width or y >= self.height or x < 0 or y < 0:
             return
         self.roomno_cells[x][y] = r
 
@@ -404,13 +381,7 @@ class Maze:
     # Get the roomno in this tile
     #
     def getr(self, x, y):
-        if x >= self.width:
-            return None
-        if y >= self.height:
-            return None
-        if x < 0:
-            return None
-        if y < 0:
+        if x >= self.width or y >= self.height or x < 0 or y < 0:
             return None
         return self.roomno_cells[x][y]
 
@@ -433,7 +404,7 @@ class Maze:
             if self.is_oob(x, y):
                 continue
 
-            if self.is_something_at(x, y):
+            if self.is_any_floor_at(x, y):
                 continue
 
             self.putc(x, y, depth, rchar)
@@ -446,15 +417,16 @@ class Maze:
     # Flood fill empty space and return the points.
     # Used to get all the tiles in a room.
     #
-    def flood_erase(self, x, y, depth, rchar):
-        walked = [[0 for i in range(height)]
-                  for j in range(width)]
+    def flood_erase(self, x, y):
+        walked = [[0 for i in range(self.height)]
+                  for j in range(self.width)]
 
         stack = [(x, y)]
         r = []
+
         while len(stack) > 0:
             x, y = stack.pop(0)
-            if self.is_oob(x, y):
+            if x >= self.width or y >= self.height or x < 0 or y < 0:
                 continue
 
             if walked[x][y]:
@@ -462,15 +434,27 @@ class Maze:
 
             walked[x][y] = 1
 
-            if not self.is_something_at(x, y):
+            c = self.cells[x][y][Depth.floor]
+            if c != FLOOR:
                 continue
 
-            self.putc(x, y, depth, rchar)
+            self.cells[x][y][Depth.floor] = SPACE
             r.append((x, y))
-            stack.append((x + 1, y))
-            stack.append((x - 1, y))
-            stack.append((x, y + 1))
-            stack.append((x, y - 1))
+
+            #
+            # To limit room size
+            #
+            if len(r) > 100:
+                return r
+
+            if x < self.width - 1 and not walked[x + 1][y]:
+                stack.append((x + 1, y))
+            if x > 1 and not walked[x - 1][y]:
+                stack.append((x - 1, y))
+            if y < self.height - 1 and not walked[x][y + 1]:
+                stack.append((x, y + 1))
+            if y > 1 and not walked[x][y - 1]:
+                stack.append((x, y - 1))
 
         return r
 
@@ -479,8 +463,8 @@ class Maze:
     #
     def flood_find(self, x, y, func):
 
-        walked = [[0 for i in range(height)]
-                  for j in range(width)]
+        walked = [[0 for i in range(self.height)]
+                  for j in range(self.width)]
 
         stack = [(x, y)]
         r = []
@@ -510,8 +494,8 @@ class Maze:
     #
     def flood_replace(self, x, y, depth, old, new):
 
-        walked = [[0 for i in range(height)]
-                  for j in range(width)]
+        walked = [[0 for i in range(self.height)]
+                  for j in range(self.width)]
 
         stack = [(x, y)]
         r = []
@@ -552,30 +536,26 @@ class Maze:
             return True
         return False
 
-    def is_something_at(self, x, y):
-        if self.is_floor_at(x, y):
+    def is_any_floor_at(self, x, y):
+        c = self.getc(x, y, Depth.floor)
+        if c is None:
+            return False
+        if "is_floor" in self.charmap[c] or \
+           "is_corridor" in self.charmap[c]:
             return True
-        if self.is_corridor_at(x, y):
-            return True
-        if self.is_obstacle_at(x, y):
-            return True
-
         return False
 
     def is_obstacle_at(self, x, y):
-        if self.is_wall_at(x, y):
+        c = self.getc(x, y, Depth.wall)
+        if c is None:
+            return False
+        if "is_wall" in self.charmap[c] or \
+           "is_door" in self.charmap[c] or \
+           "is_obj" in self.charmap[c] or \
+           "is_start" in self.charmap[c] or \
+           "is_exit" in self.charmap[c] or \
+           "is_key" in self.charmap[c]:
             return True
-        if self.is_door_at(x, y):
-            return True
-        if self.is_obj_at(x, y):
-            return True
-        if self.is_start_at(x, y):
-            return True
-        if self.is_exit_at(x, y):
-            return True
-        if self.is_key_at(x, y):
-            return True
-
         return False
 
     def is_floor_at(self, x, y):
@@ -583,6 +563,12 @@ class Maze:
         if c is not None:
             if "is_floor" in self.charmap[c]:
                 return True
+        return False
+
+    def is_floor_at_fast(self, x, y):
+        c = self.cells[x][y][Depth.floor]
+        if c == FLOOR:
+            return True
         return False
 
     def is_corridor_at(self, x, y):
@@ -669,7 +655,7 @@ class Maze:
         for ry in range(room.height):
             for rx in range(room.width):
                 if vert_floor_slice[rx][ry] == FLOOR:
-                    if self.is_something_at(x + rx, y + ry):
+                    if self.is_any_floor_at(x + rx, y + ry):
                         return False
         return True
 
@@ -725,7 +711,7 @@ class Maze:
         if self.getc(x, y, Depth.floor) is None:
             return
 
-        if self.is_something_at(x, y):
+        if self.is_any_floor_at(x, y):
             return
 
         clen += 1
@@ -771,7 +757,7 @@ class Maze:
         for y in range(border + 1, self.height - (border + 1)):
             for x in range(border + 1, self.width - (border + 1)):
 
-                if not self.is_floor_at(x, y):
+                if not self.is_floor_at_fast(x, y):
                     continue
 
                 if self.is_wall_at(x, y):
@@ -782,13 +768,13 @@ class Maze:
                     self.inuse[x][y] = 1
                     continue
 
-                if not self.is_something_at(x + 1, y):
+                if not self.is_any_floor_at(x + 1, y):
                     cand[x][y] = 1
-                elif not self.is_something_at(x - 1, y):
+                elif not self.is_any_floor_at(x - 1, y):
                     cand[x][y] = 1
-                elif not self.is_something_at(x, y - 1):
+                elif not self.is_any_floor_at(x, y - 1):
                     cand[x][y] = 1
-                elif not self.is_something_at(x, y + 1):
+                elif not self.is_any_floor_at(x, y + 1):
                     cand[x][y] = 1
 
         possible_new_corridors = []
@@ -956,8 +942,8 @@ class Maze:
                         continue
 
             room = self.rooms[roomno]
-            x = int(width / 2)
-            y = int(height / 2)
+            x = int(self.width / 2)
+            y = int(self.height / 2)
             room = self.rooms[roomno]
             x -= int(room.width / 2)
             y -= int(room.height / 2)
@@ -1044,8 +1030,8 @@ class Maze:
     #
     def rooms_trim_looped_corridors(self):
 
-        walked = [[0 for i in range(height)]
-                  for j in range(width)]
+        walked = [[0 for i in range(self.height)]
+                  for j in range(self.width)]
 
         for y in range(1, self.height - 1):
             for x in range(1, self.width - 1):
@@ -1164,7 +1150,7 @@ class Maze:
     def rooms_plug_walls(self):
         for y in range(self.height):
             for x in range(self.width):
-                if not self.is_floor_at(x, y):
+                if not self.is_floor_at_fast(x, y):
                     continue
 
                 if self.is_door_at(x, y):
@@ -1175,7 +1161,7 @@ class Maze:
 
                 for dx in range(-1, 2):
                     for dy in range(-1, 2):
-                        if not self.is_something_at(x + dx, y + dy):
+                        if not self.is_any_floor_at(x + dx, y + dy):
                             self.putc(x + dx, y + dy, Depth.wall, WALL)
 
     #
@@ -1205,7 +1191,7 @@ class Maze:
 
         for y in range(self.height):
             for x in range(self.width):
-                if not self.is_floor_at(x, y):
+                if not self.is_floor_at_fast(x, y):
                     continue
 
                 if self.is_obstacle_at(x, y):
@@ -1416,8 +1402,8 @@ class Maze:
         cnt = 0
         for y in range(self.height):
             for x in range(self.width):
-                if self.is_floor_at(x, y):
-                    r = self.flood_erase(x, y, Depth.floor, SPACE)
+                if self.is_floor_at_fast(x, y):
+                    r = self.flood_erase(x, y)
                     cnt += 1
                     #
                     # Filter to rooms of a certain size.
@@ -1518,8 +1504,8 @@ class Maze:
         # when creating rooms.
         #
         self.cells = [[[' ' for d in range(Depth.max)]
-                       for i in range(height)]
-                      for j in range(width)]
+                       for i in range(self.height)]
+                      for j in range(self.width)]
 
     def dump(self):
         from colored import fg, bg, attr
@@ -1818,27 +1804,31 @@ def maze_create_fixed_rooms():
 
     return rooms
 
-for seed in range(1, 1000):
-    width = 64
-    height = 64
 
-    maze_seed = seed
+def main():
+    for seed in range(1000, 10000):
+        width = 64
+        height = 64
 
-    while True:
-        fixed_rooms = maze_create_fixed_rooms()
-        random.seed(maze_seed)
-#        random.seed(1)
+        maze_seed = seed
 
-        maze = Maze(width=width, height=height, rooms=fixed_rooms,
-                    rooms_on_level=10,
-                    charmap=charmap,
-                    fixed_room_chance=10)
-        if not maze.generate_failed:
-            break
+        while True:
+            fixed_rooms = maze_create_fixed_rooms()
+            random.seed(maze_seed)
+#           random.seed(1)
 
-        maze_seed += 1
-        maze_seed *= maze_seed
+            maze = Maze(width=width, height=height, rooms=fixed_rooms,
+                        rooms_on_level=10,
+                        charmap=charmap,
+                        fixed_room_chance=10)
+            if not maze.generate_failed:
+                break
 
-    print("Seed {0}".format(seed))
-    maze.dump()
-#    break
+            maze_seed += 1
+            maze_seed *= maze_seed
+
+        print("Seed {0}".format(seed))
+        maze.dump()
+
+# 3955 one key
+main()
