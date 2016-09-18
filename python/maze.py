@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# exit
 # place keys
 # water
 # lava
@@ -18,6 +17,7 @@ WALL = "x"
 FLOOR = "."
 START = "S"
 EXIT = "E"
+KEY = "k"
 
 charmap = {
     " ": {
@@ -53,6 +53,11 @@ charmap = {
         "bg": "white",
         "fg": "red",
         "is_exit": True,
+    },
+    KEY: {
+        "bg": "white",
+        "fg": "yellow",
+        "is_key": True,
     },
     "o": {
         "bg": "black",
@@ -329,6 +334,11 @@ class Maze:
             return
         self.debug("^^^ placed exit ^^^")
 
+        if not self.rooms_place_keys():
+            self.generate_failed = True
+            return
+        self.debug("^^^ placed keys ^^^")
+
     def debug(self, s):
         return
         self.dump()
@@ -545,6 +555,24 @@ class Maze:
             return True
         if self.is_obj_at(x, y):
             return True
+        if self.is_start_at(x, y):
+            return True
+        if self.is_exit_at(x, y):
+            return True
+
+        return False
+
+    def is_something_blcoking_at(self, x, y):
+        if self.is_wall_at(x, y):
+            return True
+        if self.is_obj_at(x, y):
+            return True
+        if self.is_start_at(x, y):
+            return True
+        if self.is_exit_at(x, y):
+            return True
+        if self.is_key_at(x, y):
+            return True
 
         return False
 
@@ -597,6 +625,27 @@ class Maze:
                 return True
         return False
 
+    def is_start_at(self, x, y):
+        c = self.getc(x, y, Depth.wall)
+        if c is not None:
+            if "is_start" in self.charmap[c]:
+                return True
+        return False
+
+    def is_exit_at(self, x, y):
+        c = self.getc(x, y, Depth.wall)
+        if c is not None:
+            if "is_exit" in self.charmap[c]:
+                return True
+        return False
+
+    def is_key_at(self, x, y):
+        c = self.getc(x, y, Depth.wall)
+        if c is not None:
+            if "is_key" in self.charmap[c]:
+                return True
+        return False
+
     #
     # Check for room overlaps
     #
@@ -628,6 +677,8 @@ class Maze:
     def room_place(self, roomno, x, y):
         room = self.rooms[roomno]
 
+        self.roomno_locked[roomno] = False
+
         for d in range(Depth.max):
             dname = Depth.to_name[d]
             if dname in room.vert_slice:
@@ -646,7 +697,7 @@ class Maze:
         self.rooms_on_level += 1
 
         #
-        # Keeo track of what rooms we've added. We'll work out what joins
+        # Keep track of what rooms we've added. We'll work out what joins
         # onto what later.
         #
         self.room_connection[roomno] = set()
@@ -1075,7 +1126,6 @@ class Maze:
         for r in self.roomnos:
             if self.roomno_depth[r] > 0:
                 if random.randint(0, 100) < self.room_locked_chance:
-                    self.roomno_locked[r] = True
                     for e in self.room_exits[r]:
                         ex, ey = e
                         self.putc(ex, ey, Depth.wall, DOOR)
@@ -1225,6 +1275,62 @@ class Maze:
 
             self.putc(x, y, Depth.wall, EXIT)
             return True
+
+    #
+    # For each locked room place a key at a dungeon depth less than
+    # that of the room. This then allows nested locks.
+    #
+    def rooms_place_keys(self):
+
+        for roomno in self.roomnos:
+            if not self.roomno_locked[roomno]:
+                continue
+
+            while True:
+                tries = 0
+                while True:
+                    tries = tries + 1
+                    if tries > 100:
+                        print("Could not find room at depth < {0}".format(
+                              self.roomno_depth[roomno]))
+                        return False
+
+                    key_roomno = random.choice(self.roomnos)
+                    if key_roomno == roomno:
+                        continue
+
+                    if self.roomno_depth[key_roomno] >= \
+                            self.roomno_depth[roomno]:
+                        continue
+
+                    break
+
+                x, y = random.choice(self.room_occupiable_tiles[key_roomno])
+
+                tries = 0
+                while True:
+                    tries = tries + 1
+                    if tries > 100:
+                        break
+
+                    obstacle = False
+                    for dx, dy in ALL_DELTAS:
+                        if self.is_wall_at(x + dx, y + dy):
+                            obstacle = True
+                            break
+
+                    if obstacle:
+                        continue
+
+                    self.putc(x, y, Depth.wall, KEY)
+                    break
+
+                if tries >= 100:
+                    continue
+
+                break
+
+        return True
 
     #
     # Make randomly shaped rooms
