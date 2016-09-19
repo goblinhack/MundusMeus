@@ -119,7 +119,7 @@ class Dmap:
             self.dump()
 
 
-def main():
+def test():
 
     width = 64
     height = 64
@@ -156,6 +156,3 @@ def main():
 
     os.system("clear")
     dmap.dump()
-
-
-main()

@@ -9,6 +9,7 @@ import random
 import copy
 import sys
 import os
+import dmap
 
 SPACE = " "
 CORRIDOR = "#"
@@ -1320,7 +1321,6 @@ class Maze:
         for roomno in self.roomnos:
             if not self.roomno_locked[roomno]:
                 continue
-            print("{0} is locked".format(roomno))
 
             tries = 0
             while True:
@@ -1522,6 +1522,41 @@ class Maze:
         self.cells = [[[' ' for d in range(Depth.max)]
                        for i in range(self.height)]
                       for j in range(self.width)]
+
+    def add_water(self):
+
+        d = dmap.Dmap(width=self.width, height=self.height)
+
+        for y in range(self.height):
+            for x in range(self.width):
+                d.cells[x][y] = WALL - 1
+
+        for x in [0, self.width - 1]:
+            for y in range(self.height):
+                d.cells[x][y] = WALL
+
+        for y in [0, self.height - 1]:
+            for x in range(self.width):
+                d.cells[x][y] = WALL
+
+        for i in range(0, 100):
+            x = random.randint(0, self.width - 1)
+            y = random.randint(0, self.height - 1)
+            d.cells[x][y] = WALL
+
+        for i in range(0, 10):
+            border = random.randint(1, 10)
+            x = random.randint(border, self.width - border)
+            y = random.randint(border, self.height - border)
+            for dx in range(-border, border):
+                for dy in range(-border, border):
+                    if random.randint(0, 100) < 5:
+                        d.cells[x + dx][y + dy] = 0
+
+        d.process()
+
+        os.system("clear")
+        d.dump()
 
     def dump(self):
         from colored import fg, bg, attr
@@ -1827,7 +1862,7 @@ def main():
         height = 64
 
         maze_seed = seed
-        maze_seed = 3955
+#        maze_seed = 3955
 
         while True:
             fixed_rooms = maze_create_fixed_rooms()
@@ -1848,5 +1883,4 @@ def main():
         maze.dump()
         break
 
-# 3955 one key
 main()
