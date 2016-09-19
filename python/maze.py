@@ -41,8 +41,8 @@ charmap = {
         "is_corridor": True,
     },
     DOOR: {
-        "bg": "black",
-        "fg": "red",
+        "bg": "green",
+        "fg": "green",
         "is_door": True,
         "is_obstacle": True,
     },
@@ -1083,10 +1083,10 @@ class Maze:
                 #
                 # Connect each room to each other to build a graph
                 #
-                for r in rooms_adjoining_this_corridor:
+                for roomno in rooms_adjoining_this_corridor:
                     for n in rooms_adjoining_this_corridor:
-                        self.room_connection[n].add(r)
-                        self.room_connection[r].add(n)
+                        self.room_connection[n].add(roomno)
+                        self.room_connection[roomno].add(n)
 
                 if len(rooms_adjoining_this_corridor) < 2:
                     self.flood_replace(x, y, Depth.floor, CORRIDOR, SPACE)
@@ -1107,15 +1107,16 @@ class Maze:
     #
     def rooms_randomly_lock(self):
 
-        for r in self.roomnos:
-            if r not in self.roomno_depth:
+        for roomno in self.roomnos:
+            if roomno not in self.roomno_depth:
                 self.dump()
                 sys.exit(1)
-            if self.roomno_depth[r] > 0:
+            if self.roomno_depth[roomno] > 0:
                 if random.randint(0, 100) < self.room_locked_chance:
-                    for e in self.room_exits[r]:
+                    for e in self.room_exits[roomno]:
                         ex, ey = e
                         self.putc(ex, ey, Depth.wall, DOOR)
+                        self.roomno_locked[roomno] = True
 
     #
     # Starting from the first room, do a breadth first search to find out
@@ -1267,53 +1268,68 @@ class Maze:
     # For each locked room place a key at a dungeon depth less than
     # that of the room. This then allows nested locks.
     #
+    def room_place_key(self, roomno):
+
+        #
+        # Find a room at a lower depth for this key. We should be able
+        # to reach such rooms.
+        #
+        tries = 0
+        while True:
+            tries = tries + 1
+            if tries > 100:
+                return False
+
+            key_roomno = random.choice(self.roomnos)
+            if key_roomno == roomno:
+                continue
+
+            if self.roomno_depth[key_roomno] >= self.roomno_depth[roomno]:
+                continue
+
+            break
+
+        #
+        # Now place the key
+        #
+        tries = 0
+        while True:
+            tries = tries + 1
+            if tries > 100:
+                break
+
+            #
+            # Make sure there is space around the key
+            #
+            x, y = random.choice(self.room_occupiable_tiles[key_roomno])
+
+            obstacle = False
+            for dx, dy in ALL_DELTAS:
+                if self.is_obstacle_at(x + dx, y + dy):
+                    obstacle = True
+                    break
+
+            if obstacle:
+                continue
+
+            self.putc(x, y, Depth.wall, KEY)
+            return True
+
     def rooms_place_keys(self):
 
         for roomno in self.roomnos:
             if not self.roomno_locked[roomno]:
                 continue
+            print("{0} is locked".format(roomno))
 
+            tries = 0
             while True:
-                tries = 0
-                while True:
-                    tries = tries + 1
-                    if tries > 100:
-                        return False
+                tries = tries + 1
+                if tries > 100:
+                    return False
 
-                    key_roomno = random.choice(self.roomnos)
-                    if key_roomno == roomno:
-                        continue
-
-                    if self.roomno_depth[key_roomno] >= \
-                            self.roomno_depth[roomno]:
-                        continue
-
+                if self.room_place_key(roomno):
                     break
-
-                x, y = random.choice(self.room_occupiable_tiles[key_roomno])
-
-                tries = 0
-                while True:
-                    tries = tries + 1
-                    if tries > 100:
-                        break
-
-                    obstacle = False
-                    for dx, dy in ALL_DELTAS:
-                        if self.is_wall_at(x + dx, y + dy):
-                            obstacle = True
-                            break
-
-                    if obstacle:
-                        continue
-
-                    self.putc(x, y, Depth.wall, KEY)
-                    break
-
-                if tries >= 100:
-                    continue
-
-                break
 
         return True
 
@@ -1403,12 +1419,12 @@ class Maze:
         for y in range(self.height):
             for x in range(self.width):
                 if self.is_floor_at_fast(x, y):
-                    r = self.flood_erase(x, y)
+                    roomno = self.flood_erase(x, y)
                     cnt += 1
                     #
                     # Filter to rooms of a certain size.
                     #
-                    if len(r) < self.min_room_size:
+                    if len(roomno) < self.min_room_size:
                         continue
 
                     #
@@ -1418,7 +1434,7 @@ class Maze:
                     maxx = -999
                     miny = 999
                     maxy = -999
-                    for p in r:
+                    for p in roomno:
                         rx, ry = p
                         if rx < minx:
                             minx = rx
@@ -1439,7 +1455,7 @@ class Maze:
                     # room slices.
                     #
                     rcells = [[' ' for i in range(rh)] for j in range(rw)]
-                    for p in r:
+                    for p in roomno:
                         rx, ry = p
                         rx -= minx
                         ry -= miny
@@ -1811,6 +1827,7 @@ def main():
         height = 64
 
         maze_seed = seed
+        maze_seed = 3955
 
         while True:
             fixed_rooms = maze_create_fixed_rooms()
@@ -1829,6 +1846,7 @@ def main():
 
         print("Seed {0}".format(seed))
         maze.dump()
+        break
 
 # 3955 one key
 main()

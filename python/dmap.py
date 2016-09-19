@@ -22,7 +22,7 @@ class Dmap:
                 c = self.cells[x][y]
 
                 if c == WALL:
-                    c = " "
+                    c = "_"
                 else:
                     c = chr(ord('0') + int(c))
 
@@ -45,7 +45,7 @@ class Dmap:
                     valid[x][y] = 0
                     orig_valid[x][y] = 0
 
-        new_cells = [[0 for i in range(self.height)]
+        new_cells = [[WALL for i in range(self.height)]
                      for j in range(self.width)]
 
         changed = True
@@ -130,18 +130,26 @@ def main():
         for x in range(width):
             dmap.cells[x][y] = WALL - 1
 
+    for x in [0, width - 1]:
+        for y in range(height):
+            dmap.cells[x][y] = WALL
+
+    for y in [0, height - 1]:
+        for x in range(width):
+            dmap.cells[x][y] = WALL
+
     for i in range(0, 100):
         x = random.randint(0, width - 1)
         y = random.randint(0, height - 1)
         dmap.cells[x][y] = WALL
 
-    for i in range(0, 3):
-        border = 3
+    for i in range(0, 10):
+        border = random.randint(1, 10)
         x = random.randint(border, width - border)
         y = random.randint(border, height - border)
         for dx in range(-border, border):
             for dy in range(-border, border):
-                if random.randint(0, 100) < 50:
+                if random.randint(0, 100) < 5:
                     dmap.cells[x + dx][y + dy] = 0
 
     dmap.process()
