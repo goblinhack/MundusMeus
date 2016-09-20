@@ -21,7 +21,7 @@ EXIT = "E"
 KEY = "k"
 CHASM = "C"
 LAVA = "L"
-WATER = "W"
+WATER = "_"
 
 charmap = {
     " ": {
@@ -29,8 +29,8 @@ charmap = {
         "fg": "black",
     },
     WALL: {
-        "bg": "blue",
-        "fg": "white",
+        "bg": "magenta",
+        "fg": "black",
         "is_wall": True,
         "is_obstacle": True,
     },
@@ -81,8 +81,8 @@ charmap = {
         "is_dissolves_walls": True,
     },
     WATER: {
-        "bg": "blue",
-        "fg": "white",
+        "bg": "black",
+        "fg": "blue",
         "is_water": True,
         "is_dissolves_walls": True,
     },
@@ -376,7 +376,7 @@ class Maze:
         self.add_depth_map()
         self.debug("^^^ placed depth map ^^^")
 
-        for i in range(random.randint(0, 5)):
+        for i in range(random.randint(0, 10)):
             self.add_water()
             self.add_lava()
             self.add_chasm()
@@ -1014,7 +1014,7 @@ class Maze:
         room_place_tries = 0
         while self.rooms_on_level < rooms_on_level:
             room_place_tries += 1
-            if room_place_tries > rooms_on_level * 2:
+            if room_place_tries > rooms_on_level * 4:
                 print("Tried to place rooms for too long, made {0} rooms".
                       format(self.rooms_on_level))
                 return False
@@ -1612,6 +1612,15 @@ class Maze:
             y = random.randint(0, self.height - 1)
             self.depth_map.cells[x][y] = wall
 
+        for i in range(0, 100):
+            border = random.randint(1, 7)
+            x = random.randint(border, self.width - border)
+            y = random.randint(border, self.height - border)
+            for dx in range(-border, border):
+                for dy in range(-border, border):
+                    if random.randint(0, 100) < 25:
+                        self.depth_map.cells[x + dx][y + dy] = wall
+
         for i in range(0, 4):
             border = random.randint(1, 10)
             x = random.randint(border, self.width - border)
@@ -1620,15 +1629,6 @@ class Maze:
                 for dy in range(-border, border):
                     if random.randint(0, 100) < 5:
                         self.depth_map.cells[x + dx][y + dy] = deep
-
-        for i in range(0, 200):
-            border = random.randint(1, 5)
-            x = random.randint(border, self.width - border)
-            y = random.randint(border, self.height - border)
-            for dx in range(-border, border):
-                for dy in range(-border, border):
-                    if random.randint(0, 100) < 25:
-                        self.depth_map.cells[x + dx][y + dy] = wall
 
         self.depth_map.process()
 
@@ -1714,6 +1714,7 @@ class Maze:
                     color = fg(fg_name) + bg(bg_name)
                     bg_name = "red_2"
                     c = chr(ord('0') + (int)(depth / 6))
+                    c = WALL
 
                 sys.stdout.write(color + c + res)
             print("")
@@ -1994,7 +1995,7 @@ def main():
 #           random.seed(1)
 
             maze = Maze(width=width, height=height, rooms=fixed_rooms,
-                        rooms_on_level=10,
+                        rooms_on_level=15,
                         charmap=charmap,
                         fixed_room_chance=10)
             if not maze.generate_failed:
