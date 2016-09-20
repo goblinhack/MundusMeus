@@ -114,8 +114,8 @@ class Dmap:
             valid = copy.deepcopy(new_valid)
             self.cells = copy.deepcopy(new_cells)
 
-            os.system("clear")
-            self.dump()
+#            os.system("clear")
+#            self.dump()
 
 
 def test():
