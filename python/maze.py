@@ -346,6 +346,9 @@ class Maze:
             return
         self.debug("^^^ placed keys ^^^")
 
+        self.add_depth_map()
+        self.debug("^^^ placed water ^^^")
+
     def debug(self, s):
         return
         self.dump()
@@ -1523,40 +1526,54 @@ class Maze:
                        for i in range(self.height)]
                       for j in range(self.width)]
 
-    def add_water(self):
+    def add_depth_map(self):
 
-        d = dmap.Dmap(width=self.width, height=self.height)
+        wall = self.width
+        land = self.width - 1
+        deep = 0
+
+        self.depth_map = dmap.Dmap(width=self.width, height=self.height,
+                                   wall=wall)
 
         for y in range(self.height):
             for x in range(self.width):
-                d.cells[x][y] = WALL - 1
+                self.depth_map.cells[x][y] = land
 
         for x in [0, self.width - 1]:
             for y in range(self.height):
-                d.cells[x][y] = WALL
+                self.depth_map.cells[x][y] = wall
 
         for y in [0, self.height - 1]:
             for x in range(self.width):
-                d.cells[x][y] = WALL
+                self.depth_map.cells[x][y] = wall
 
         for i in range(0, 100):
             x = random.randint(0, self.width - 1)
             y = random.randint(0, self.height - 1)
-            d.cells[x][y] = WALL
+            self.depth_map.cells[x][y] = wall
 
-        for i in range(0, 10):
+        for i in range(0, 4):
             border = random.randint(1, 10)
             x = random.randint(border, self.width - border)
             y = random.randint(border, self.height - border)
             for dx in range(-border, border):
                 for dy in range(-border, border):
                     if random.randint(0, 100) < 5:
-                        d.cells[x + dx][y + dy] = 0
+                        self.depth_map.cells[x + dx][y + dy] = deep
 
-        d.process()
+        for i in range(0, 40):
+            border = random.randint(1, 10)
+            x = random.randint(border, self.width - border)
+            y = random.randint(border, self.height - border)
+            for dx in range(-border, border):
+                for dy in range(-border, border):
+                    if random.randint(0, 100) < 25:
+                        self.depth_map.cells[x + dx][y + dy] = wall
+
+        self.depth_map.process()
 
         os.system("clear")
-        d.dump()
+        self.depth_map.dump()
 
     def dump(self):
         from colored import fg, bg, attr
@@ -1590,6 +1607,13 @@ class Maze:
                             c = chr(ord('0') + d)
                 else:
                     color = fg(fg_name) + bg(bg_name)
+
+                if c == SPACE:
+                    depth = self.depth_map.cells[x][y]
+                    fg_name = "blue"
+                    color = fg(fg_name) + bg(bg_name)
+                    bg_name = "red_2"
+                    c = chr(ord('0') + (int)(depth / 6))
 
                 sys.stdout.write(color + c + res)
             print("")
