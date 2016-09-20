@@ -19,6 +19,9 @@ FLOOR = "."
 START = "S"
 EXIT = "E"
 KEY = "k"
+CHASM = "C"
+LAVA = "L"
+WATER = "W"
 
 charmap = {
     " ": {
@@ -65,6 +68,24 @@ charmap = {
         "is_key": True,
         "is_obstacle": True,
     },
+    CHASM: {
+        "bg": "black",
+        "fg": "black",
+        "is_chasm": True,
+        "is_dissolves_walls": True,
+    },
+    LAVA: {
+        "bg": "red",
+        "fg": "yellow",
+        "is_lava": True,
+        "is_dissolves_walls": True,
+    },
+    WATER: {
+        "bg": "blue",
+        "fg": "white",
+        "is_water": True,
+        "is_dissolves_walls": True,
+    },
     "o": {
         "bg": "black",
         "fg": "yellow",
@@ -81,7 +102,7 @@ class Enumeration(object):
             setattr(self, name, number)
             self.to_name[number] = name
 
-Depth = Enumeration("floor wall obj max")
+Depth = Enumeration("under floor wall obj max")
 
 XY_DELTAS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 ALL_DELTAS = [(-1, -1), (0, -1), (1, -1),
@@ -326,6 +347,9 @@ class Maze:
         self.rooms_plug_doors()
         self.debug("^^^ removed dead end doors ^^^")
 
+        #
+        # Find where we can place stuff like exits
+        #
         self.rooms_find_occupiable_tiles()
 
         #
@@ -346,8 +370,23 @@ class Maze:
             return
         self.debug("^^^ placed keys ^^^")
 
+        #
+        # Create a random depth map for the level
+        #
         self.add_depth_map()
-        self.debug("^^^ placed water ^^^")
+        self.debug("^^^ placed depth map ^^^")
+
+        for i in range(random.randint(0, 5)):
+            self.add_water()
+            self.add_lava()
+            self.add_chasm()
+        self.debug("^^^ placed hazzards ^^^")
+
+        #
+        # Let lava melt through walls
+        #
+        self.dissolve_walls()
+        self.debug("^^^ dissolved walls next to lava ^^^")
 
     def debug(self, s):
         return
@@ -530,13 +569,7 @@ class Maze:
     # Is out of bounds?
     #
     def is_oob(self, x, y):
-        if x >= self.width:
-            return True
-        if y >= self.height:
-            return True
-        if x < 0:
-            return True
-        if y < 0:
+        if x >= self.width or y >= self.height or x < 0 or y < 0:
             return True
         return False
 
@@ -635,6 +668,13 @@ class Maze:
         c = self.getc(x, y, Depth.wall)
         if c is not None:
             if "is_key" in self.charmap[c]:
+                return True
+        return False
+
+    def is_dissolves_walls_at(self, x, y):
+        c = self.getc(x, y, Depth.under)
+        if c is not None:
+            if "is_dissolves_walls" in self.charmap[c]:
                 return True
         return False
 
@@ -1170,6 +1210,26 @@ class Maze:
                             self.putc(x + dx, y + dy, Depth.wall, WALL)
 
     #
+    # Dissolve walls
+    #
+    def dissolve_walls(self):
+        for y in range(1, self.height - 1):
+            for x in range(1, self.width - 1):
+                if not self.is_wall_at(x, y):
+                    continue
+
+                if random.randint(0, 100) < 50:
+                    continue
+
+                for dx, dy in ALL_DELTAS:
+                    tx = x + dx
+                    ty = y + dy
+                    if self.is_dissolves_walls_at(tx, ty):
+
+                        self.putc(x, y, Depth.wall, SPACE)
+                        break
+
+    #
     # Any dead end doors with no corridor, zap em
     #
     def rooms_plug_doors(self):
@@ -1528,12 +1588,12 @@ class Maze:
 
     def add_depth_map(self):
 
-        wall = self.width
+        wall = self.wall = self.width
         land = self.width - 1
         deep = 0
 
         self.depth_map = dmap.Dmap(width=self.width, height=self.height,
-                                   wall=wall)
+                                   wall=self.wall)
 
         for y in range(self.height):
             for x in range(self.width):
@@ -1561,8 +1621,8 @@ class Maze:
                     if random.randint(0, 100) < 5:
                         self.depth_map.cells[x + dx][y + dy] = deep
 
-        for i in range(0, 40):
-            border = random.randint(1, 10)
+        for i in range(0, 200):
+            border = random.randint(1, 5)
             x = random.randint(border, self.width - border)
             y = random.randint(border, self.height - border)
             for dx in range(-border, border):
@@ -1572,8 +1632,48 @@ class Maze:
 
         self.depth_map.process()
 
-        os.system("clear")
-        self.depth_map.dump()
+#        os.system("clear")
+#        self.depth_map.dump()
+
+    def depth_map_flood(self, x, y, depth, c):
+        walked = [[0 for i in range(self.height)]
+                  for j in range(self.width)]
+
+        stack = [(x, y)]
+        while len(stack) > 0:
+            x, y = stack.pop(0)
+
+            if self.is_oob(x, y):
+                continue
+
+            if walked[x][y]:
+                continue
+
+            walked[x][y] = 1
+
+            if self.depth_map.cells[x][y] >= self.wall:
+                continue
+
+            self.putc(x, y, depth, c)
+            stack.append((x + 1, y))
+            stack.append((x - 1, y))
+            stack.append((x, y + 1))
+            stack.append((x, y - 1))
+
+    def add_water(self):
+        x = random.randint(0, self.width - 1)
+        y = random.randint(0, self.height - 1)
+        self.depth_map_flood(x, y, Depth.under, WATER)
+
+    def add_lava(self):
+        x = random.randint(0, self.width - 1)
+        y = random.randint(0, self.height - 1)
+        self.depth_map_flood(x, y, Depth.under, LAVA)
+
+    def add_chasm(self):
+        x = random.randint(0, self.width - 1)
+        y = random.randint(0, self.height - 1)
+        self.depth_map_flood(x, y, Depth.under, CHASM)
 
     def dump(self):
         from colored import fg, bg, attr
@@ -1905,6 +2005,5 @@ def main():
 
         print("Seed {0}".format(seed))
         maze.dump()
-        break
 
 main()
