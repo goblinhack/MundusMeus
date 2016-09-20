@@ -4,14 +4,13 @@ import copy
 import random
 import os
 
-WALL = 10
-
 
 class Dmap:
-    def __init__(self, width=80, height=40):
+    def __init__(self, width=80, height=40, wall=64):
 
         self.width = width
         self.height = height
+        self.wall = wall
         self.cells = [[0 for i in range(self.height)]
                       for j in range(self.width)]
 
@@ -21,7 +20,7 @@ class Dmap:
 
                 c = self.cells[x][y]
 
-                if c == WALL:
+                if c == self.wall:
                     c = "_"
                 else:
                     c = chr(ord('0') + int(c))
@@ -41,11 +40,11 @@ class Dmap:
 
         for y in range(self.height):
             for x in range(self.width):
-                if self.cells[x][y] == WALL:
+                if self.cells[x][y] == self.wall:
                     valid[x][y] = 0
                     orig_valid[x][y] = 0
 
-        new_cells = [[WALL for i in range(self.height)]
+        new_cells = [[self.wall for i in range(self.height)]
                      for j in range(self.width)]
 
         changed = True
@@ -123,25 +122,26 @@ def test():
 
     width = 64
     height = 64
+    wall = 64
 
-    dmap = Dmap(width=width, height=height)
+    dmap = Dmap(width=width, height=height, wall=wall)
 
     for y in range(height):
         for x in range(width):
-            dmap.cells[x][y] = WALL - 1
+            dmap.cells[x][y] = wall - 1
 
     for x in [0, width - 1]:
         for y in range(height):
-            dmap.cells[x][y] = WALL
+            dmap.cells[x][y] = wall
 
     for y in [0, height - 1]:
         for x in range(width):
-            dmap.cells[x][y] = WALL
+            dmap.cells[x][y] = wall
 
     for i in range(0, 100):
         x = random.randint(0, width - 1)
         y = random.randint(0, height - 1)
-        dmap.cells[x][y] = WALL
+        dmap.cells[x][y] = wall
 
     for i in range(0, 10):
         border = random.randint(1, 10)
