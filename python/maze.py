@@ -1696,7 +1696,8 @@ class Maze:
                         c = "!"
                         color = fg("white") + bg("red")
                     else:
-                        color = fg(r % 255) + bg(0)
+                        depth = self.depth_map.cells[x][y]
+                        color = fg(r + depth % 255) + bg(0)
 
                     r = self.getr(x, y)
                     if r is None:
