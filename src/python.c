@@ -1698,7 +1698,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(z_depth)
     TP_SET_DECL(z_order)
     TP_SET_DECL(scale)
-    TP_SET_DECL(world_depth)
+    TP_SET_DECL(map_depth)
     TP_SET_DECL(speed)
     TP_SET_DECL(blit_top_off)
     TP_SET_DECL(blit_bot_off)
@@ -2073,6 +2073,7 @@ void python_init (void)
     py_add_to_path(WORLD_PATH);
     py_add_to_path(DATA_PATH);
     py_add_to_path(PYTHON_PATH);
+    py_add_to_path("/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/");
 
     mm_mod = PyImport_ImportModule("mm");
     if (!mm_mod) {

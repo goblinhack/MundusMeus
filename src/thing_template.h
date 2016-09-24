@@ -90,7 +90,7 @@ typedef struct tp_ {
      */
     uint8_t z_depth;
     uint8_t z_order;
-    uint8_t world_depth;
+    uint8_t map_depth;
 
     /*
      * Animation tiles.
@@ -126,7 +126,7 @@ typedef struct tp_ {
     uint8_t is_corridor:1;
     uint8_t is_corridor_wall:1;
     uint8_t is_door:1;
-    uint8_t is_dungeon_floor:1;
+    uint8_t is_floor:1;
     uint8_t is_effect_fade_in_out:1;
     uint8_t is_effect_pulse:1;
     uint8_t is_effect_rotate_2way:1;
@@ -181,7 +181,7 @@ tpp tp_fires(tpp);
 const char *tp_light_tint(tpp);
 color tp_light_color(tpp);
 int tp_get_z_depth(tpp);
-int tp_get_world_depth(tpp);
+int tp_get_map_depth(tpp);
 int tp_get_z_order(tpp);
 int tp_get_speed(tpp);
 int tp_get_blit_top_off(tpp);
@@ -216,14 +216,14 @@ static inline tpp id_to_tp (int id)
     return (&thing_templates_chunk[id]);
 }
 
-static inline uint8_t tp_is_dungeon_floor (tpp t)
+static inline uint8_t tp_is_floor (tpp t)
 {
-    return (t->is_dungeon_floor);
+    return (t->is_floor);
 }
 
 static inline uint8_t tp_is_wall (tpp t)
 {
-    return (t->is_dungeon_floor);
+    return (t->is_floor);
 }
 
 static inline uint8_t tp_is_joinable (tpp t)
