@@ -8,7 +8,7 @@ def food_init(name, short_name):
     x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_food(True)
-    x.set_world_depth("player")
+    x.set_map_depth("player")
 
     x.set_tile(tile=name)
     x.thing_init = thing_init

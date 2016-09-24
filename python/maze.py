@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
-# place keys
-# water
-# lava
-# chasms
-# bridges
-# treasure based on depth
 import random
 import copy
 import sys
 import os
 import dmap
+import room
+import rooms
 
 SPACE = " "
 CORRIDOR = "#"
@@ -110,86 +106,8 @@ ALL_DELTAS = [(-1, -1), (0, -1), (1, -1),
               (-1, 1), (0, 1), (1, 1)]
 
 
-class Room:
-    def __init__(self):
-        self.vert_slice = {}
-        self.width = 0
-        self.height = 0
-        self.can_be_placed_as_first_room = False
-        self.can_be_placed_as_start = False
-        self.can_be_placed_as_exit = False
-
-    #
-    # Rooms are made out of stacks of vertical slices
-    #
-    def vert_slice_add(self, vert_slice, vert_slice_data):
-        #
-        # Work our the size of this slice. Make sure it's the
-        # same size as the other slices.
-        #
-        tiles_across = len(vert_slice_data[0])
-        tiles_down = len(vert_slice_data)
-
-        if self.width != 0:
-            assert tiles_down == self.width
-        else:
-            self.width = tiles_down
-
-        if self.height != 0:
-            assert tiles_across == self.height
-        else:
-            self.height = tiles_across
-
-        self.vert_slice[vert_slice] = vert_slice_data
-
-    #
-    # Find the floor tiles at the edge of the room. We choose
-    # these for corridor starts.
-    #
-    def find_edge_exits(self):
-        vert_floor_slice = self.vert_slice["floor"]
-        vert_wall_slice = self.vert_slice["wall"]
-        self.edge_exits = []
-
-        y = 0
-        for x in range(self.width):
-            if vert_wall_slice[x][y] == WALL:
-                continue
-            if vert_floor_slice[x][y] == FLOOR:
-                self.edge_exits.append((x, y))
-
-        y = self.height - 1
-        for x in range(self.width):
-            if vert_wall_slice[x][y] == WALL:
-                continue
-            if vert_floor_slice[x][y] == FLOOR:
-                self.edge_exits.append((x, y))
-
-        x = 0
-        for y in range(self.height):
-            if vert_wall_slice[x][y] == WALL:
-                continue
-            if vert_floor_slice[x][y] == FLOOR:
-                self.edge_exits.append((x, y))
-
-        x = self.width - 1
-        for y in range(self.height):
-            if vert_wall_slice[x][y] == WALL:
-                continue
-            if vert_floor_slice[x][y] == FLOOR:
-                self.edge_exits.append((x, y))
-
-        for x in range(self.width):
-            for y in range(self.height):
-                if vert_wall_slice[x][y] == DOOR:
-                    self.edge_exits.append((x, y))
-
-    def finalize(self):
-        self.find_edge_exits()
-
-
 class Maze:
-    def __init__(self, rooms, charmap, width=80, height=40,
+    def __init__(self, rooms, width=80, height=40,
                  rooms_on_level=20,
                  fixed_room_chance=10):
 
@@ -1570,7 +1488,7 @@ class Maze:
                     #
                     # Add to the rooms list.
                     #
-                    r = Room()
+                    r = room.Room()
                     r.vert_slice_add("floor", vert_floor_slice)
                     r.vert_slice_add("wall", vert_wall_slice)
                     r.vert_slice_add("obj", vert_obj_slice)
@@ -1768,220 +1686,6 @@ def get_line(start, end):
     return points
 
 
-def maze_create_fixed_rooms():
-    rooms = []
-
-    r = Room()
-    r.vert_slice_add("floor", [
-                    "......",
-                    "......",
-                    "......",
-                    "......",
-                    "......",
-            ])
-    r.vert_slice_add("wall", [
-                    "xxDxxx",
-                    "x    D",
-                    "D    x",
-                    "x    x",
-                    "xxxDxx",
-            ])
-
-    r.vert_slice_add("obj", [
-                    "      ",
-                    "   o  ",
-                    "      ",
-                    "      ",
-                    "      ",
-            ])
-    r.finalize()
-    rooms.append(r)
-
-    r = Room()
-    r.vert_slice_add("floor", [
-                    "..........",
-                    "..........",
-                    "..........",
-                    "..........",
-                    "..........",
-                    "..........",
-                    "..........",
-            ])
-    r.vert_slice_add("wall", [
-                    "xxDxxxxxxx",
-                    "x  x     D",
-                    "x  x   xxx",
-                    "x        x",
-                    "x        x",
-                    "x        x",
-                    "xxxxxxxxxx",
-            ])
-
-    r.vert_slice_add("obj", [
-                    "          ",
-                    "   o      ",
-                    "          ",
-                    "          ",
-                    "          ",
-                    "          ",
-                    "          ",
-            ])
-    r.finalize()
-    rooms.append(r)
-
-    r = Room()
-    r.vert_slice_add("floor", [
-                    "   .......",
-                    "   .......",
-                    "..........",
-                    "..........",
-                    "..........",
-                    ".......   ",
-                    ".......   ",
-            ])
-    r.vert_slice_add("wall", [
-                    "   xxxxxxx",
-                    "   x     D",
-                    "xxxx     x",
-                    "D        x",
-                    "x     xxxx",
-                    "x     x   ",
-                    "xxxxxxx   ",
-            ])
-
-    r.vert_slice_add("obj", [
-                    "          ",
-                    "          ",
-                    "          ",
-                    "          ",
-                    "          ",
-                    "          ",
-                    "          ",
-            ])
-    r.finalize()
-    rooms.append(r)
-
-    r = Room()
-    r.vert_slice_add("floor", [
-                    "  ....  ",
-                    " ...... ",
-                    "........",
-                    "........",
-                    "........",
-                    " .......",
-                    "  ......",
-            ])
-    r.vert_slice_add("wall", [
-                    "  xxDx  ",
-                    " xx  xx ",
-                    "xx    xx",
-                    "D      D",
-                    "xx     x",
-                    " xx    x",
-                    "  xDxxxx",
-            ])
-
-    r.vert_slice_add("obj", [
-                    "        ",
-                    "        ",
-                    "        ",
-                    "        ",
-                    "        ",
-                    "        ",
-                    "        ",
-            ])
-    r.finalize()
-    rooms.append(r)
-
-    r = Room()
-    r.vert_slice_add("floor", [
-                    "....  ....   ",
-                    ".............",
-                    ".............",
-                    " ............",
-                    " ............",
-                    ".............",
-                    ".............",
-                    "............ ",
-                    "............ ",
-                    "....   ..... ",
-            ])
-    r.vert_slice_add("wall", [
-                    "xxDx  xxxx   ",
-                    "x  xxxx  xxxx",
-                    "xx          D",
-                    " x          x",
-                    " x          x",
-                    "xx          x",
-                    "D          xx",
-                    "x          x ",
-                    "x  xxxxx   x ",
-                    "xxxx   xxxDx ",
-            ])
-
-    r.vert_slice_add("obj", [
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-            ])
-    r.finalize()
-    rooms.append(r)
-
-    r = Room()
-    r.vert_slice_add("floor", [
-                    ".....   .....",
-                    ".............",
-                    ".............",
-                    ".............",
-                    "   .......   ",
-                    "   .......   ",
-                    "   .......   ",
-                    ".............",
-                    ".............",
-                    ".............",
-                    ".....   .....",
-            ])
-    r.vert_slice_add("wall", [
-                    "xxxxx   xxxxx",
-                    "x   xxDxx   x",
-                    "x           x",
-                    "xxxx     xxxx",
-                    "   x     x   ",
-                    "   D     D   ",
-                    "   x     x   ",
-                    "xxxx     xxxx",
-                    "x           x",
-                    "x   xxDxx   x",
-                    "xxxxx   xxxxx",
-            ])
-
-    r.vert_slice_add("obj", [
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-                    "             ",
-            ])
-    r.can_be_placed_as_first_room = True
-    r.finalize()
-    rooms.append(r)
-
-    return rooms
-
-
 def main():
     for seed in range(1000, 10000):
         width = 48
@@ -1991,13 +1695,12 @@ def main():
 #        maze_seed = 3955
 
         while True:
-            fixed_rooms = maze_create_fixed_rooms()
+            fixed_rooms = rooms.create_fixed()
             random.seed(maze_seed)
 #           random.seed(1)
 
             maze = Maze(width=width, height=height, rooms=fixed_rooms,
                         rooms_on_level=15,
-                        charmap=charmap,
                         fixed_room_chance=10)
             if not maze.generate_failed:
                 break

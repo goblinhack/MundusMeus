@@ -47,16 +47,6 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
 
 ENUM_DEF_H(MAP_DEPTH_ENUMS, map_depth)
 
-#define WORLD_DEPTH_ENUMS(list_macro)                           \
-    list_macro(WORLD_DEPTH_SEA,             "sea"),             \
-    list_macro(WORLD_DEPTH_LAND,            "land"),            \
-    list_macro(WORLD_DEPTH_PLACE,           "place"),           \
-    list_macro(WORLD_DEPTH_PLAYER,          "player"),          \
-
-#define WORLD_DEPTH 4
-
-ENUM_DEF_H(WORLD_DEPTH_ENUMS, world_depth)
-
 static inline int map_ok (int x, int y)
 {
     if ((x >= MAP_WIDTH) || (x < 0) || (y >= MAP_HEIGHT) || (y < 0)) {

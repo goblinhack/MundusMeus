@@ -3,6 +3,9 @@ import util
 import mm
 import wid_map
 import thing
+import maze
+import rooms
+import random
 
 global g
 
@@ -12,96 +15,52 @@ class Game:
     def __init__(self):
         self.world = world.World(0)
 
-#        (width, height) = mm.tex_size("map")
-        (width, height) = (mm.MAP_WIDTH, mm.MAP_HEIGHT)
+        (self.width, self.height) = (mm.MAP_WIDTH, mm.MAP_HEIGHT)
 
+        #
+        # Create the world
+        #
         p = util.Xyz(0, 0, 0)
         self.world.push_level(p)
-        l = self.level = self.world.get_level()
-        l.set_dim(width, height)
+        self.level = self.world.get_level()
+        self.level.set_dim(self.width, self.height)
+
+        #
+        # And not a maze at that point in the world
+        #
+        self.maze_create(3955)
+
+    def maze_create(self, seed):
+
+        self.maze_seed = seed
+
+        while True:
+            fixed_rooms = rooms.create_fixed()
+            random.seed(self.maze_seed)
+
+            self.maze_seed += 1
+            self.maze_seed *= self.maze_seed
+
+            self.level.maze = maze.Maze(width=self.width,
+                                        height=self.height,
+                                        rooms=fixed_rooms,
+                                        rooms_on_level=15,
+                                        fixed_room_chance=10)
+
+            if not self.level.maze.generate_failed:
+                break
+
+        self.level.maze.dump()
 
     def map_wid_create(self):
         self.wid_map = wid_map.WidMap(mm.MAP_WIDTH, mm.MAP_HEIGHT)
 
         for y in range(0, mm.MAP_HEIGHT, 5):
             for x in range(0, mm.MAP_WIDTH, 5):
-                t = thing.Thing(self.level, tp_name="player1")
+                t = thing.Thing(self.level, tp_name="floor1")
                 t.push(x, y)
-
-#    def todo(self):
-#        for y in range(0, height):
-#            for x in range(0, width):
-#
-#                (r, g, b, a) = mm.tex_pixel("map", x, y)
-#
-#                is_snow = False
-#                is_grass = False
-#                is_castle = False
-#                is_sea = False
-#                is_settlement = False
-#                is_forest = False
-#
-#                if r == 0 and g == 0 and b == 0:
-#                    is_snow = True
-#                elif r == 0 and g == 0 and b == 128:
-#                    is_sea = True
-#                elif r == 0 and g == 0 and b == 255:
-#                    is_sea = True
-#                elif r == 0 and g == 128 and b == 128:
-#                    is_sand = True
-#                elif r == 0 and g == 128 and b == 0:
-#                    is_grass = True
-#                elif r == 0 and g == 128 and b == 255:
-#                    is_grass = True
-#                elif r == 0 and g == 255 and b == 0:
-#                    is_grass = True
-#                elif r == 0 and g == 255 and b == 128:
-#                    is_settlement = True
-#                elif r == 0 and g == 255 and b == 255:
-#                    is_sea = True
-#                elif r == 128 and g == 0 and b == 0:
-#                    is_sand = True
-#                elif r == 128 and g == 0 and b == 128:
-#                    is_forest = True
-#                elif r == 128 and g == 0 and b == 255:
-#                    is_sand = True
-#                elif r == 128 and g == 128 and b == 0:
-#                    is_sand = True
-#                elif r == 128 and g == 128 and b == 128:
-#                    is_road = True
-#                elif r == 128 and g == 128 and b == 255:
-#                    is_sand = True
-#                elif r == 128 and g == 255 and b == 0:
-#                    is_castle = True
-#                elif r == 128 and g == 255 and b == 128:
-#                    is_snow = True
-#                elif r == 128 and g == 255 and b == 255:
-#                    is_snow = True
-#                elif r == 255 and g == 128 and b == 0:
-#                    is_grass = True
-#                elif r == 255 and g == 128 and b == 128:
-#                    is_grass = True
-#                elif r == 255 and g == 128 and b == 255:
-#                    is_grass = True
-#                elif r == 255 and g == 255 and b == 0:
-#                    is_grass = True
-#                elif r == 255 and g == 255 and b == 128:
-#                    is_sand = True
-#                elif r == 255 and g == 255 and b == 255:
-#                    is_snow = True
-#
-#                t = thing.Thing(level=l, tp_name="sea1")
-#                t.push(x, y)
-#
-#                if x == width / 2 and y == height / 2:
-#                    t = thing.Thing(level=l, tp_name="bigmap")
-#                    t.push(x, y)
-#
-#                if random.randint(1, 1000) < 50:
-#                    t = thing.Thing(level=l, tp_name="player1")
-#                    t.push(x, y)
-#    #        w.destroy()
-#        print("done")
+        t = thing.Thing(self.level, tp_name="player1")
+        t.push(10, 10)
 
     def destroy(self):
         self.world.destroy()

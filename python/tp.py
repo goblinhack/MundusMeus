@@ -19,7 +19,7 @@ class Tp:
         self.scale = None
         self.z_depth = None
         self.z_order = None
-        self.world_depth = None
+        self.map_depth = None
         self.speed = None
         self.blit_top_off = None
         self.blit_bot_off = None
@@ -62,15 +62,7 @@ class Tp:
         self.is_shadow_caster_soft = False
         self.is_sleeping = False
         self.is_wall = False
-        self.is_castle = False
-        self.is_forest = False
-        self.is_grass = False
-        self.is_land = False
-        self.is_mountain = False
-        self.is_rock = False
-        self.is_sand = False
-        self.is_sea = False
-        self.is_settlement = False
+        self.is_floor = False
         self.tiles = []
         self.damage = None
         self.is_double_handed = False
@@ -112,9 +104,9 @@ class Tp:
         self.z_order = value
         mm.tp_set_z_order(self, value)
 
-    def set_world_depth(self, value):
-        self.world_depth = value
-        mm.tp_set_world_depth(self, value)
+    def set_map_depth(self, value):
+        self.map_depth = value
+        mm.tp_set_map_depth(self, value)
 
     def set_speed(self, value):
         self.speed = value
@@ -284,29 +276,5 @@ class Tp:
         self.is_wall = value
         mm.tp_set_is_wall(self, value)
 
-    def set_is_castle(self, value):
-        self.is_castle = value
-
-    def set_is_forest(self, value):
-        self.is_forest = value
-
-    def set_is_grass(self, value):
-        self.is_grass = value
-
-    def set_is_land(self, value):
-        self.is_land = value
-
-    def set_is_mountain(self, value):
-        self.is_mountain = value
-
-    def set_is_rock(self, value):
-        self.is_rock = value
-
-    def set_is_sand(self, value):
-        self.is_sand = value
-
-    def set_is_sea(self, value):
-        self.is_sea = value
-
-    def set_is_settlement(self, value):
-        self.is_settlement = value
+    def set_is_floor(self, value):
+        self.is_floor = value

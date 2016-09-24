@@ -9,7 +9,7 @@ def weapon_init(name, short_name, damage, is_double_handed=False, description=No
     x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_weapon(True)
-    x.set_world_depth("player")
+    x.set_map_depth("player")
     x.set_damage(damage)
     x.set_is_double_handed(is_double_handed)
 

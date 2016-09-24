@@ -7772,7 +7772,7 @@ static void wid_display_fast (widp w,
             ttf_puts_no_fmt(vsmall_font, tmp,
                             (otlx + obrx) / 2, (otly + obry) / 2, 1.0, 1.0, true);
 
-            if (1) { // thing_is_dungeon_floor(t)) {
+            if (1) { // thing_is_floor(t)) {
                 glcolor(WHITE);
                 sprintf(tmp, "%d,%d",(int)(t->x), (int)(t->y));
                 ttf_puts_no_fmt(vsmall_font, tmp, otlx, otly, 1.0, 1.0, true);
