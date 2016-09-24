@@ -1014,7 +1014,7 @@ class Maze:
         room_place_tries = 0
         while self.rooms_on_level < rooms_on_level:
             room_place_tries += 1
-            if room_place_tries > rooms_on_level * 4:
+            if room_place_tries > rooms_on_level * 8:
                 print("Tried to place rooms for too long, made {0} rooms".
                       format(self.rooms_on_level))
                 return False
@@ -1984,8 +1984,8 @@ def maze_create_fixed_rooms():
 
 def main():
     for seed in range(1000, 10000):
-        width = 64
-        height = 64
+        width = 48
+        height = 48
 
         maze_seed = seed
 #        maze_seed = 3955
@@ -2008,4 +2008,5 @@ def main():
         print("Seed {0}".format(seed))
         maze.dump()
 
-main()
+if __name__ == '__main__':
+    main()
