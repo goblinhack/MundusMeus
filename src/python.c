@@ -1461,6 +1461,7 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "create a thing template"},
 
+    THING_DECL(set_tilename)
     THING_DECL(destroyed)
     THING_DECL(move)
     THING_DECL(push)

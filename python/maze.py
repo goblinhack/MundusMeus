@@ -306,17 +306,17 @@ class Maze:
         self.add_depth_map()
         self.debug("^^^ placed depth map ^^^")
 
-        for i in range(random.randint(0, 10)):
-            self.add_water()
-            self.add_lava()
-            self.add_chasm()
-        self.debug("^^^ placed hazards ^^^")
+#        for i in range(random.randint(0, 10)):
+#            self.add_water()
+#            self.add_lava()
+#            self.add_chasm()
+#        self.debug("^^^ placed hazards ^^^")
 
         #
         # Let lava melt through walls
         #
-        self.dissolve_walls()
-        self.debug("^^^ dissolved walls next to lava ^^^")
+#        self.dissolve_walls()
+#        self.debug("^^^ dissolved walls next to lava ^^^")
 
     def debug(self, s):
         return

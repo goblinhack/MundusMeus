@@ -28,6 +28,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds);
         METH_VARARGS | METH_KEYWORDS,                                           \
         "call " #__field__ " in a thing"},                                      \
 
+THING_PROTO(set_tilename)
 THING_PROTO(destroyed)
 THING_PROTO(move)
 THING_PROTO(push)

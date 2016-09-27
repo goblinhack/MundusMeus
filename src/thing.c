@@ -89,6 +89,13 @@ void thing_destroyed_ (thingp t, const char *reason)
     myfree(t);
 }
 
+void thing_set_tilename_ (thingp t, const char *tile)
+{
+    verify(t);
+
+    wid_set_tilename(t->wid, tile);
+}
+
 void thing_move_ (thingp t, double x, double y)
 {
     verify(t);

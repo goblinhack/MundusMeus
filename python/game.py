@@ -80,19 +80,21 @@ class Game:
                     t = thing.Thing(self.level, tp_name="floor1")
                     t.push(x, y)
 
-                    if m.is_wall_at(x, y):
-                        t = thing.Thing(self.level, tp_name="wall1")
-                        t.push(x, y)
-                    else:
+                    if not m.is_wall_at(x, y):
                         if random.randint(0, 100) < 5:
                             t = thing.Thing(self.level, tp_name="jellycube1")
                             t.push(x, y)
 
-                elif m.is_cwall_at(x, y):
+                if m.is_wall_at(x, y):
+                    t = thing.Thing(self.level, tp_name="wall1")
+                    t.push(x, y)
+                    t.set_tilename("wall1-x")
+
+                if m.is_cwall_at(x, y):
                     t = thing.Thing(self.level, tp_name="cwall1")
                     t.push(x, y)
 
-                elif m.is_corridor_at(x, y):
+                if m.is_corridor_at(x, y):
                     t = thing.Thing(self.level, tp_name="corridor1")
                     t.push(x, y)
 
