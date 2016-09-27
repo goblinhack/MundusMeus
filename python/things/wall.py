@@ -11,6 +11,7 @@ def wall_init(name, short_name):
     x.set_is_wall(True)
     x.set_map_depth("wall")
     x.set_blit_top_off(1)
+    x.set_blit_bot_off(1)
 
     x.set_tile(tile=short_name + "-up-down", is_join_vert=True)
     x.set_tile(tile=short_name + "-left-right", is_join_horiz=True)
