@@ -59,7 +59,8 @@ void set_game_video_pix_width (int width)
 {
     game.video_pix_width = width;
 
-    py_call_void_module_int("config", "set_game_video_pix_width", game.video_pix_width);
+    py_call_void_module_int("config", "set_game_video_pix_width", 
+                            game.video_pix_width);
 }
 
 int get_game_video_pix_width (void)
@@ -74,7 +75,8 @@ void set_game_video_pix_height (int height)
 {
     game.video_pix_height = height;
 
-    py_call_void_module_int("config", "set_game_video_pix_height", game.video_pix_height);
+    py_call_void_module_int("config", "set_game_video_pix_height", 
+                            game.video_pix_height);
 }
 
 int get_game_video_pix_height (void)

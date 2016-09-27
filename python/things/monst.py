@@ -8,8 +8,8 @@ def thing_init(t):
 def player_init(name, short_name):
     x = tp.Tp(name)
     x.set_short_name(short_name)
-    x.set_is_player(True)
-    x.set_light_radius(4)
+    x.set_is_monst(True)
+    x.set_light_radius(2)
     x.set_map_depth("player")
 
     x.set_tile(tile=name)
@@ -17,6 +17,6 @@ def player_init(name, short_name):
 
 
 def init():
-    player_init(name="player1",  short_name="Daniel-san")
+    player_init(name="jellycube1",  short_name="jellycube1")
 
 init()
