@@ -26,7 +26,7 @@ def wall_init(name, short_name):
     x.set_tile(tile=short_name + "-n270", is_join_left=True)
     x.set_tile(tile=short_name + "-n", is_join_top=True)
     x.set_tile(tile=short_name + "-n90", is_join_right=True)
-    x.set_tile(tile=short_name + "", is_join_node=True)
+    x.set_tile(tile=short_name + "-node", is_join_node=True)
     x.set_tile(tile=short_name + "-l180", is_join_tr=True)
 
     x.thing_init = thing_init

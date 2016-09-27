@@ -88,11 +88,122 @@ class Game:
                 if m.is_wall_at(x, y):
                     t = thing.Thing(self.level, tp_name="wall1")
                     t.push(x, y)
-                    t.set_tilename("wall1-x")
+
+                    if m.is_wall_at(x, y-1):
+                        b = True
+                    else:
+                        b = False
+
+                    if m.is_wall_at(x-1, y):
+                        d = True
+                    else:
+                        d = False
+
+                    if m.is_wall_at(x+1, y):
+                        f = True
+                    else:
+                        f = False
+
+                    if m.is_wall_at(x, y+1):
+                        h = True
+                    else:
+                        h = False
+
+                    # a b c
+                    # d e f
+                    # g h i
+                    if b and d and f and h:
+                        t.set_tilename("wall1-x")
+                    elif b and d and f:
+                        t.set_tilename("wall1-t180")
+                    elif b and d and h:
+                        t.set_tilename("wall1-t90")
+                    elif b and f and h:
+                        t.set_tilename("wall1-t270")
+                    elif d and f and h:
+                        t.set_tilename("wall1-t")
+                    elif b and h:
+                        t.set_tilename("wall1-up-down")
+                    elif d and f:
+                        t.set_tilename("wall1-left-right")
+                    elif b and f:
+                        t.set_tilename("wall1-l")
+                    elif h and f:
+                        t.set_tilename("wall1-l90")
+                    elif d and h:
+                        t.set_tilename("wall1-l180")
+                    elif b and d:
+                        t.set_tilename("wall1-l270")
+                    elif b:
+                        t.set_tilename("wall1-n180")
+                    elif f:
+                        t.set_tilename("wall1-n270")
+                    elif h:
+                        t.set_tilename("wall1-n")
+                    elif d:
+                        t.set_tilename("wall1-n90")
+                    else:
+                        t.set_tilename("wall1-node")
 
                 if m.is_cwall_at(x, y):
                     t = thing.Thing(self.level, tp_name="cwall1")
                     t.push(x, y)
+
+                    if m.is_cwall_at(x, y-1):
+                        b = True
+                    else:
+                        b = False
+
+                    if m.is_cwall_at(x-1, y):
+                        d = True
+                    else:
+                        d = False
+
+                    if m.is_cwall_at(x+1, y):
+                        f = True
+                    else:
+                        f = False
+
+                    if m.is_cwall_at(x, y+1):
+                        h = True
+                    else:
+                        h = False
+
+                    # a b c
+                    # d e f
+                    # g h i
+                    if b and d and f and h:
+                        t.set_tilename("cwall1-x")
+                    elif b and d and f:
+                        t.set_tilename("cwall1-t180")
+                    elif b and d and h:
+                        t.set_tilename("cwall1-t90")
+                    elif b and f and h:
+                        t.set_tilename("cwall1-t270")
+                    elif d and f and h:
+                        t.set_tilename("cwall1-t")
+                    elif b and h:
+                        t.set_tilename("cwall1-up-down")
+                    elif d and f:
+                        t.set_tilename("cwall1-left-right")
+                    elif b and f:
+                        t.set_tilename("cwall1-l")
+                    elif h and f:
+                        t.set_tilename("cwall1-l90")
+                    elif d and h:
+                        t.set_tilename("cwall1-l180")
+                    elif b and d:
+                        t.set_tilename("cwall1-l270")
+                    elif b:
+                        t.set_tilename("cwall1-n180")
+                    elif f:
+                        t.set_tilename("cwall1-n270")
+                    elif h:
+                        t.set_tilename("cwall1-n")
+                    elif d:
+                        t.set_tilename("cwall1-n90")
+                    else:
+                        t.set_tilename("cwall1-node")
 
                 if m.is_corridor_at(x, y):
                     t = thing.Thing(self.level, tp_name="corridor1")
