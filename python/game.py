@@ -87,6 +87,15 @@ class Game:
                         if random.randint(0, 100) < 5:
                             t = thing.Thing(self.level, tp_name="jellycube1")
                             t.push(x, y)
+
+                elif m.is_cwall_at(x, y):
+                    t = thing.Thing(self.level, tp_name="cwall1")
+                    t.push(x, y)
+
+                elif m.is_corridor_at(x, y):
+                    t = thing.Thing(self.level, tp_name="corridor1")
+                    t.push(x, y)
+
 #                else:
 #                    c = m.getc(x, y, maze.Depth.under)
 #                    if c == maze.CHASM:

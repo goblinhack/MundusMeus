@@ -63,7 +63,9 @@ class Tp:
         self.is_shadow_caster_soft = False
         self.is_sleeping = False
         self.is_wall = False
+        self.is_cwall = False
         self.is_floor = False
+        self.is_corridor = False
         self.tiles = []
         self.damage = None
         self.is_double_handed = False
@@ -281,5 +283,12 @@ class Tp:
         self.is_wall = value
         mm.tp_set_is_wall(self, value)
 
+    def set_is_cwall(self, value):
+        self.is_cwall = value
+        mm.tp_set_is_wall(self, value)
+
     def set_is_floor(self, value):
         self.is_floor = value
+
+    def set_is_corridor(self, value):
+        self.is_corridor = value

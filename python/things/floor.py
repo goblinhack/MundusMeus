@@ -67,6 +67,5 @@ def init():
                   "floor1.7",
                   "floor1.8",
                  ])
-    food_init(name="chasm1",         short_name="chasm1")
 
 init()
