@@ -193,6 +193,11 @@ class Maze:
         self.room_occupiable_tiles = {}
 
         #
+        # z Depths of the level
+        #
+        self.depth_map = None
+
+        #
         # The map
         #
         self.cells = [[[' ' for d in range(Depth.max)]
@@ -1655,8 +1660,11 @@ class Maze:
                         c = "!"
                         color = fg("white") + bg("red")
                     else:
-                        depth = self.depth_map.cells[x][y]
-                        color = fg(r + depth % 255) + bg(0)
+                        if self.depth_map is not None:
+                            depth = self.depth_map.cells[x][y]
+                            color = fg(r + depth % 255) + bg(0)
+                        else:
+                            color = fg(r % 255) + bg(0)
 
                     r = self.getr(x, y)
                     if r is None:
@@ -1669,12 +1677,18 @@ class Maze:
                     color = fg(fg_name) + bg(bg_name)
 
                 if c == SPACE:
-                    depth = self.depth_map.cells[x][y]
-                    fg_name = "blue"
-                    color = fg(fg_name) + bg(bg_name)
-                    bg_name = "red_2"
-                    c = chr(ord('0') + (int)(depth / 6))
-                    c = WALL
+                    if self.depth_map is not None:
+                        depth = self.depth_map.cells[x][y]
+                        fg_name = "blue"
+                        color = fg(fg_name) + bg(bg_name)
+                        bg_name = "red_2"
+                        c = chr(ord('0') + (int)(depth / 6))
+                        c = WALL
+                    else:
+                        fg_name = "blue"
+                        color = fg(fg_name) + bg(bg_name)
+                        bg_name = "red_2"
+                        c = WALL
 
                 sys.stdout.write(color + c + res)
             print("")
