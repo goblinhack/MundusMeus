@@ -11,6 +11,7 @@ SPACE = " "
 CORRIDOR = "#"
 DOOR = "D"
 WALL = "x"
+CWALL = "X"
 FLOOR = "."
 START = "S"
 EXIT = "E"
@@ -29,6 +30,11 @@ charmap = {
         "fg": "black",
         "is_wall": True,
         "is_obstacle": True,
+    },
+    CWALL: {
+        "bg": "blue",
+        "fg": "black",
+        "is_cwall": True,
     },
     FLOOR: {
         "bg": "black",
@@ -266,6 +272,12 @@ class Maze:
         self.debug("^^^ removed dead end doors ^^^")
 
         #
+        # Let lava melt through walls
+        #
+        self.add_corridor_walls()
+        self.debug("^^^ add corridor walls ^^^")
+
+        #
         # Find where we can place stuff like exits
         #
         self.rooms_find_occupiable_tiles()
@@ -298,7 +310,7 @@ class Maze:
             self.add_water()
             self.add_lava()
             self.add_chasm()
-        self.debug("^^^ placed hazzards ^^^")
+        self.debug("^^^ placed hazards ^^^")
 
         #
         # Let lava melt through walls
@@ -491,6 +503,13 @@ class Maze:
             return True
         return False
 
+    def is_anything_at(self, x, y):
+        for d in range(Depth.max):
+            c = self.getc(x, y, d)
+            if c != SPACE:
+                return True
+        return False
+
     def is_any_floor_at(self, x, y):
         c = self.getc(x, y, Depth.floor)
         if c is None:
@@ -551,6 +570,13 @@ class Maze:
         c = self.getc(x, y, Depth.wall)
         if c is not None:
             if "is_wall" in self.charmap[c]:
+                return True
+        return False
+
+    def is_cwall_at(self, x, y):
+        c = self.getc(x, y, Depth.wall)
+        if c is not None:
+            if "is_cwall" in self.charmap[c]:
                 return True
         return False
 
@@ -1126,6 +1152,21 @@ class Maze:
                     for dy in range(-1, 2):
                         if not self.is_any_floor_at(x + dx, y + dy):
                             self.putc(x + dx, y + dy, Depth.wall, WALL)
+
+    #
+    # Wrap corridors in walls
+    #
+    def add_corridor_walls(self):
+        for y in range(1, self.height - 1):
+            for x in range(1, self.width - 1):
+                if not self.is_corridor_at(x, y):
+                    continue
+
+                for dx, dy in ALL_DELTAS:
+                    tx = x + dx
+                    ty = y + dy
+                    if not self.is_anything_at(tx, ty):
+                        self.putc(tx, ty, Depth.wall, CWALL)
 
     #
     # Dissolve walls
