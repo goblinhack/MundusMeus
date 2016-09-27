@@ -1104,6 +1104,10 @@ class Maze:
             if roomno not in self.roomno_depth:
                 self.dump()
                 sys.exit(1)
+
+            if self.roomno_locked[roomno]:
+                continue
+
             if self.roomno_depth[roomno] > 0:
                 if random.randint(0, 100) < self.room_locked_chance:
                     for e in self.room_exits[roomno]:

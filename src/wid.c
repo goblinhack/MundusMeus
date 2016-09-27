@@ -9189,9 +9189,9 @@ static void wid_display (widp w,
             wid_get_shake(w, &shake_x, &shake_y);
         }
 
-        for (z = 0; z < MAP_DEPTH; z++) {
-            for (x = maxx - 1; x >= minx; x--) {
-                for (y = miny; y < maxy; y++) {
+        for (x = maxx - 1; x >= minx; x--) {
+            for (y = miny; y < maxy; y++) {
+                for (z = 0; z < MAP_DEPTH; z++) {
                     tree_root **tree =
                         w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
                     widgridnode *node;
