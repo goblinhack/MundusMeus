@@ -85,3 +85,6 @@ class Thing:
 
     def set_description(self, value=""):
         self.description = value
+
+    def set_tilename(self, name=""):
+        mm.thing_set_tilename(self, name)

@@ -16,6 +16,8 @@ uint8_t thing_init(void);
 void thing_fini(void);
 thingp thing_new(const char *name, const char *tp_name);
 void thing_destroyed_(thingp t, const char *reason);
+void thing_set_tilename_(thingp t, const char *tilename);
+
 thingp thing_find(const char *name);
 void thing_move_(thingp t, double x, double y);
 void thing_push_(thingp t, double x, double y);
