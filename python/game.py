@@ -30,8 +30,23 @@ class Game:
         #
         self.maze_create(3955)
 
-    def maze_create(self, seed):
+        self.map_wid_create()
 
+        self.maze_populate_level()
+
+    def destroy(self):
+        self.world.destroy()
+
+    #
+    # The scrollable map for the level
+    #
+    def map_wid_create(self):
+        self.wid_map = wid_map.WidMap(mm.MAP_WIDTH, mm.MAP_HEIGHT)
+
+    #
+    # Create a rendom maze
+    #
+    def maze_create(self, seed):
         self.maze_seed = seed
 
         while True:
@@ -52,18 +67,41 @@ class Game:
 
         self.level.maze.dump()
 
-    def map_wid_create(self):
-        self.wid_map = wid_map.WidMap(mm.MAP_WIDTH, mm.MAP_HEIGHT)
+    #
+    # For the current maze, put tiles on the map
+    #
+    def maze_populate_level(self):
+        m = self.level.maze
 
-        for y in range(0, mm.MAP_HEIGHT, 5):
-            for x in range(0, mm.MAP_WIDTH, 5):
-                t = thing.Thing(self.level, tp_name="floor1")
-                t.push(x, y)
+        for y in range(0, mm.MAP_HEIGHT):
+            for x in range(0, mm.MAP_WIDTH):
+
+                if m.is_floor_at(x, y):
+                    t = thing.Thing(self.level, tp_name="floor1")
+                    t.push(x, y)
+
+                    if m.is_wall_at(x, y):
+                        t = thing.Thing(self.level, tp_name="wall1")
+                        t.push(x, y)
+                    else:
+                        if random.randint(0, 100) < 5:
+                            t = thing.Thing(self.level, tp_name="jellycube1")
+                            t.push(x, y)
+#                else:
+#                    c = m.getc(x, y, maze.Depth.under)
+#                    if c == maze.CHASM:
+#                        t = thing.Thing(self.level, tp_name="chasm1")
+#                        t.push(x, y)
+#                    elif c == maze.LAVA:
+#                        pass
+#                    elif c == maze.WATER:
+#                        pass
+#                    else:
+#                        t = thing.Thing(self.level, tp_name="dirt1")
+#                        t.push(x, y)
+
         t = thing.Thing(self.level, tp_name="player1")
-        t.push(10, 10)
-
-    def destroy(self):
-        self.world.destroy()
+        t.push(30, 30)
 
 g = None
 

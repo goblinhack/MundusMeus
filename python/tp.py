@@ -24,6 +24,7 @@ class Tp:
         self.blit_top_off = None
         self.blit_bot_off = None
         self.blit_left_off = None
+        self.blit_right_off = None
         self.light_tint = None
         self.is_animated = False
         self.is_animated_no_dir = False
@@ -123,6 +124,10 @@ class Tp:
     def set_blit_left_off(self, value):
         self.blit_left_off = value
         mm.tp_set_blit_left_off(self, value)
+
+    def set_blit_right_off(self, value):
+        self.blit_right_off = value
+        mm.tp_set_blit_right_off(self, value)
 
     def set_light_tint(self, value):
         self.light_tint = value

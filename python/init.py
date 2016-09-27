@@ -154,6 +154,5 @@ def init2():
 #    print(w)
 
     game.game_new()
-    game.g.map_wid_create()
 
 init1()
