@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(3955)
+        self.maze_create(2)
 
         self.map_wid_create()
 
@@ -76,6 +76,8 @@ class Game:
         for y in range(0, mm.MAP_HEIGHT):
             for x in range(0, mm.MAP_WIDTH):
 
+                nothing = True
+
                 if m.is_floor_at(x, y):
                     t = thing.Thing(self.level, tp_name="floor1")
                     t.push(x, y)
@@ -84,6 +86,7 @@ class Game:
                         if random.randint(0, 100) < 5:
                             t = thing.Thing(self.level, tp_name="jellycube1")
                             t.push(x, y)
+                    nothing = False
 
                 if m.is_wall_at(x, y):
                     t = thing.Thing(self.level, tp_name="wall1")
@@ -144,6 +147,7 @@ class Game:
                         t.set_tilename("wall1-n90")
                     else:
                         t.set_tilename("wall1-node")
+                    nothing = False
 
                 if m.is_cwall_at(x, y):
                     t = thing.Thing(self.level, tp_name="cwall1")
@@ -204,17 +208,25 @@ class Game:
                         t.set_tilename("cwall1-n90")
                     else:
                         t.set_tilename("cwall1-node")
+                    nothing = False
 
                 if m.is_corridor_at(x, y):
                     t = thing.Thing(self.level, tp_name="corridor1")
                     t.push(x, y)
+                    nothing = False
 
                 if m.is_lava_at(x, y):
                     t = thing.Thing(self.level, tp_name="lava1")
                     t.push(x, y)
+                    nothing = False
 
                 if m.is_water_at(x, y):
                     t = thing.Thing(self.level, tp_name="water1")
+                    t.push(x, y)
+                    nothing = False
+
+                if nothing:
+                    t = thing.Thing(self.level, tp_name="rock1")
                     t.push(x, y)
 
 #                if m.is_water_at(x, y):

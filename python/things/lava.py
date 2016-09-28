@@ -11,6 +11,9 @@ def lava_init(name, short_name, tiles=[]):
     x.set_is_lava(True)
     x.set_map_depth("floor")
     x.set_blit_bot_off(1)
+    x.set_light_radius(0.1)
+    x.set_light_tint("red")
+    x.set_is_candle_light(True)
     x.set_is_animated(True)
 
     if tiles is not None:
