@@ -311,17 +311,17 @@ class Maze:
         self.add_depth_map()
         self.debug("^^^ placed depth map ^^^")
 
-#        for i in range(random.randint(0, 10)):
-#            self.add_water()
-#            self.add_lava()
-#            self.add_chasm()
-#        self.debug("^^^ placed hazards ^^^")
+        for i in range(random.randint(0, 10)):
+            self.add_water()
+            self.add_lava()
+            self.add_chasm()
+        self.debug("^^^ placed hazards ^^^")
 
         #
         # Let lava melt through walls
         #
-#        self.dissolve_walls()
-#        self.debug("^^^ dissolved walls next to lava ^^^")
+        self.dissolve_walls()
+        self.debug("^^^ dissolved walls next to lava ^^^")
 
     def debug(self, s):
         return
@@ -610,6 +610,27 @@ class Maze:
         c = self.getc(x, y, Depth.wall)
         if c is not None:
             if "is_exit" in self.charmap[c]:
+                return True
+        return False
+
+    def is_lava_at(self, x, y):
+        c = self.getc(x, y, Depth.under)
+        if c is not None:
+            if "is_lava" in self.charmap[c]:
+                return True
+        return False
+
+    def is_water_at(self, x, y):
+        c = self.getc(x, y, Depth.under)
+        if c is not None:
+            if "is_water" in self.charmap[c]:
+                return True
+        return False
+
+    def is_chasm_at(self, x, y):
+        c = self.getc(x, y, Depth.under)
+        if c is not None:
+            if "is_chasm" in self.charmap[c]:
                 return True
         return False
 
@@ -1747,11 +1768,11 @@ def get_line(start, end):
 
 def main():
     for seed in range(1000, 10000):
-        width = 48
-        height = 48
+        width = 64
+        height = 64
 
         maze_seed = seed
-#        maze_seed = 3955
+        maze_seed = 2
 
         while True:
             fixed_rooms = rooms.create_fixed()
