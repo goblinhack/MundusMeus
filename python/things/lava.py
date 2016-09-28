@@ -28,14 +28,14 @@ def lava_init(name, short_name, tiles=[]):
 def init():
     lava_init(name="lava1",         short_name="lava1",
               tiles=[
-                  "lava1.1",
-                  "lava1.2",
-                  "lava1.3",
-                  "lava1.4",
-                  "lava1.5",
-                  "lava1.6",
-                  "lava1.7",
-                  "lava1.8",
-                 ])
+                     "lava1.1",
+                     "lava1.2",
+                     "lava1.3",
+                     "lava1.4",
+                     "lava1.5",
+                     "lava1.6",
+                     "lava1.7",
+                     "lava1.8",
+                    ])
 
 init()
