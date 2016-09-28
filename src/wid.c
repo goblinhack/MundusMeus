@@ -8371,7 +8371,7 @@ static void wid_lighting_render (widp w,
         blit_flush_triangle_fan();
     }
 
-    debug = 0;
+    debug = 1;
     // XXX
     if (debug && thing_is_player(light->t)) {
         int i;
