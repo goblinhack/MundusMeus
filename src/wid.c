@@ -8328,7 +8328,7 @@ static void wid_lighting_render (widp w,
         /*
          * Walk the light rays in a circle.
          */
-        push_point(light_pos.x, light_pos.y, red, green, blue, 255);
+        push_point(light_pos.x, light_pos.y, 255, 255, 255, 255);
 
         for (i = 0; i < max_light_rays; i++) {
             double p1_len = ray_depth[i][light_level];
