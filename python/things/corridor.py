@@ -56,10 +56,6 @@ def init():
                      "corridor1.30",
                      "corridor1.31",
                      "corridor1.32",
-                     "corridor1.33",
-                     "corridor1.34",
-                     "corridor1.35",
-                     "corridor1.36",
                     ])
 
 init()
