@@ -209,6 +209,21 @@ class Game:
                     t = thing.Thing(self.level, tp_name="corridor1")
                     t.push(x, y)
 
+                if m.is_lava_at(x, y):
+                    t = thing.Thing(self.level, tp_name="lava1")
+                    t.push(x, y)
+
+                if m.is_water_at(x, y):
+                    t = thing.Thing(self.level, tp_name="water1")
+                    t.push(x, y)
+
+#                if m.is_water_at(x, y):
+#                    t = thing.Thing(self.level, tp_name="water1")
+#                    t.push(x, y)
+
+
+#                else:
+
 #                else:
 #                    c = m.getc(x, y, maze.Depth.under)
 #                    if c == maze.CHASM:

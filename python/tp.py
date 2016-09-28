@@ -65,6 +65,8 @@ class Tp:
         self.is_wall = False
         self.is_cwall = False
         self.is_floor = False
+        self.is_lava = False
+        self.is_water = False
         self.is_corridor = False
         self.tiles = []
         self.damage = None
@@ -292,3 +294,9 @@ class Tp:
 
     def set_is_corridor(self, value):
         self.is_corridor = value
+
+    def set_is_lava(self, value):
+        self.is_lava = value
+
+    def set_is_water(self, value):
+        self.is_water = value
