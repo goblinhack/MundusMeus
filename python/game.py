@@ -215,11 +215,6 @@ class Game:
                     t.push(x, y)
                     nothing = False
 
-                if m.is_lava_at(x, y):
-                    t = thing.Thing(self.level, tp_name="lava1")
-                    t.push(x, y)
-                    nothing = False
-
                 if m.is_water_at(x, y):
                     if not nothing or m.is_water_at(x, y - 1):
                         t = thing.Thing(self.level, tp_name="water1")
@@ -227,6 +222,16 @@ class Game:
                         nothing = False
                     else:
                         t = thing.Thing(self.level, tp_name="water1-top")
+                        t.push(x, y)
+                        nothing = False
+
+                if m.is_lava_at(x, y):
+                    if not nothing or m.is_lava_at(x, y - 1):
+                        t = thing.Thing(self.level, tp_name="lava1")
+                        t.push(x, y)
+                        nothing = False
+                    else:
+                        t = thing.Thing(self.level, tp_name="lava1-top")
                         t.push(x, y)
                         nothing = False
 
