@@ -9,8 +9,12 @@ def lava_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_lava(True)
-    x.set_map_depth("floor")
+    x.set_map_depth("lava")
     x.set_is_animated(True)
+
+    x.set_light_radius(0.5)
+    x.set_light_tint("red")
+    x.set_is_candle_light(True)
 
     if tiles is not None:
         for t in tiles:
