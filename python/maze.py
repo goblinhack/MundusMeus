@@ -1207,7 +1207,7 @@ class Maze:
                 if not self.is_wall_at(x, y):
                     continue
 
-                if random.randint(0, 100) < 50:
+                if random.randint(0, 100) < 80:
                     continue
 
                 for dx, dy in ALL_DELTAS:

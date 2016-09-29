@@ -30,7 +30,8 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
 #include "enum.h"
 
 #define MAP_DEPTH_ENUMS(list_macro)                             \
-    list_macro(MAP_DEPTH_FLOOR = 0,         "floor"),           \
+    list_macro(MAP_DEPTH_LAVA = 0,          "lava"),            \
+    list_macro(MAP_DEPTH_FLOOR,             "floor"),           \
     list_macro(MAP_DEPTH_FLOOR2,            "floor2"),          \
     list_macro(MAP_DEPTH_OBJ,               "obj"),             \
     list_macro(MAP_DEPTH_OBJ2,              "obj2"),            \
@@ -43,7 +44,7 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(MAP_DEPTH_EXPLOSION,         "explosion"),       \
     list_macro(MAP_DEPTH_ACTIONS,           "actions"),         \
 
-#define MAP_DEPTH 12
+#define MAP_DEPTH 13
 
 ENUM_DEF_H(MAP_DEPTH_ENUMS, map_depth)
 
