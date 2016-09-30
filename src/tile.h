@@ -274,7 +274,8 @@ void tile_blit (tile *tile, char *name, point at)
  * Blits a whole tile. Y co-ords are inverted.
  */
 static inline
-void tile_blit_colored_fat (tile *tile,
+void tile_blit_colored_fat (tpp tp,
+                            tile *tile,
                             char *name,
                             fpoint tl,
                             fpoint br,
@@ -297,8 +298,35 @@ void tile_blit_colored_fat (tile *tile,
     }
 #endif
 
+    double x1 = tile->x1;
+    double x2 = tile->x2;
+    double y1 = tile->y1;
+    double y2 = tile->y2;
+
+    if (unlikely(tp != 0)) {
+        double left_off  = (double)tp_get_blit_left_off(tp);
+        double right_off = (double)tp_get_blit_right_off(tp);
+        double top_off   = (double)tp_get_blit_top_off(tp);
+        double bot_off   = (double)tp_get_blit_bot_off(tp);
+
+        double pct_w     = tile->pct_width;
+        double pct_h     = tile->pct_height;
+        double pix_w     = br.x - tl.x;
+        double pix_h     = br.y - tl.y;
+
+        tl.x -= left_off  * pix_w;
+        br.x += right_off * pix_w;
+        tl.y -= top_off   * pix_h;
+        br.y += bot_off   * pix_h;
+
+        x1 -= left_off  * pct_w;
+        x2 += right_off * pct_w;
+        y1 -= top_off   * pct_h;
+        y2 += bot_off   * pct_h;
+    }
+
     blit_colored(tile->gl_surface_binding,
-                 tile->x1, tile->y2, tile->x2, tile->y1,
+                 x1, y2, x2, y1,
                  tl.x, br.y, br.x, tl.y,
                  color_tl,
                  color_tr,

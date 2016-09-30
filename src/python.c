@@ -1713,6 +1713,8 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_animation)
     TP_SET_DECL(is_candle_light)
     TP_SET_DECL(is_door)
+    TP_SET_DECL(is_water)
+    TP_SET_DECL(is_lava)
     TP_SET_DECL(is_effect_fade_in_out)
     TP_SET_DECL(is_effect_pulse)
     TP_SET_DECL(is_effect_rotate_2way)
@@ -1745,6 +1747,8 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_wall)
     TP_SET_DECL(is_floor)
     TP_SET_DECL(is_door)
+    TP_SET_DECL(is_water)
+    TP_SET_DECL(is_lava)
 
     {0, 0, 0, 0}   /* sentinel */
 };

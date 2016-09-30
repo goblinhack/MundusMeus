@@ -300,6 +300,7 @@ class Tp:
 
     def set_is_lava(self, value):
         self.is_lava = value
+        mm.tp_set_is_lava(self, value)
 
     def set_is_rock(self, value):
         self.is_rock = value
@@ -307,3 +308,4 @@ class Tp:
 
     def set_is_water(self, value):
         self.is_water = value
+        mm.tp_set_is_water(self, value)

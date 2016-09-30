@@ -127,6 +127,8 @@ typedef struct tp_ {
     uint8_t is_corridor:1;
     uint8_t is_corridor_wall:1;
     uint8_t is_door:1;
+    uint8_t is_water:1;
+    uint8_t is_lava:1;
     uint8_t is_floor:1;
     uint8_t is_effect_fade_in_out:1;
     uint8_t is_effect_pulse:1;
@@ -234,6 +236,16 @@ static inline uint8_t tp_is_joinable (tpp t)
 static inline uint8_t tp_is_door (tpp t)
 {
     return (t->is_door);
+}
+
+static inline uint8_t tp_is_lava (tpp t)
+{
+    return (t->is_lava);
+}
+
+static inline uint8_t tp_is_water (tpp t)
+{
+    return (t->is_water);
 }
 
 static inline uint8_t tp_is_sleeping (tpp t)
