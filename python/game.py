@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(5)
+        self.maze_create(3)
 
         self.map_wid_create()
 
@@ -234,6 +234,22 @@ class Game:
                         t = thing.Thing(self.level, tp_name="lava1-top")
                         t.push(x, y)
                         nothing = False
+
+                if m.is_chasm_at(x, y):
+                    if nothing:
+                        if m.is_chasm_at(x - 1, y - 1) and \
+                           m.is_chasm_at(x, y - 1) and \
+                           m.is_chasm_at(x + 1, y - 1) and \
+                           m.is_chasm_at(x - 1, y) and \
+                           m.is_chasm_at(x + 1, y) and \
+                           m.is_chasm_at(x - 1, y + 1) and \
+                           m.is_chasm_at(x, y + 1) and \
+                           m.is_chasm_at(x + 1, y + 1):
+                            if random.randint(0, 100) < 5:
+                                t = thing.Thing(self.level, tp_name="spike1")
+                                t.push(x, y)
+                                nothing = False
+                    continue
 
                 if nothing:
                     t = thing.Thing(self.level, tp_name="rock1")
