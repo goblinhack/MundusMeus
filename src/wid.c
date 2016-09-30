@@ -7770,23 +7770,22 @@ static void wid_display_fast (widp w,
                 c.g = 150 + 100.0 * light_pulse_amount[tx][ty + 1];
                 d.g = 150 + 100.0 * light_pulse_amount[tx + 1][ty + 1];
 
-                tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
-
-            } else if (tp_is_lava(tp)) {
-                color a = WHITE;
-                color b = WHITE;
-                color c = WHITE;
-                color d = WHITE;
-
-                int tx = t->x;
-                int ty = t->y;
-
-                a.r = 150 + 100.0 * light_pulse_amount[tx][ty];
-                b.r = 150 + 100.0 * light_pulse_amount[tx + 1][ty];
-                c.r = 150 + 100.0 * light_pulse_amount[tx][ty + 1];
-                d.r = 150 + 100.0 * light_pulse_amount[tx + 1][ty + 1];
+                double depth = ((t->depth) / 64.0);
+                a.g *= depth;
+                b.g *= depth;
+                c.g *= depth;
+                d.g *= depth;
+                a.r *= depth;
+                b.r *= depth;
+                c.r *= depth;
+                d.r *= depth;
+                a.b *= depth;
+                b.b *= depth;
+                c.b *= depth;
+                d.b *= depth;
 
                 tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
+
             } else {
                 tile_blit_fat(tp, tile, 0, tl, br);
             }

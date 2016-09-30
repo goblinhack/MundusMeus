@@ -96,6 +96,13 @@ void thing_set_tilename_ (thingp t, const char *tile)
     wid_set_tilename(t->wid, tile);
 }
 
+void thing_set_depth_ (thingp t, double value)
+{
+    verify(t);
+
+    t->depth = value;
+}
+
 void thing_move_ (thingp t, double x, double y)
 {
     verify(t);
