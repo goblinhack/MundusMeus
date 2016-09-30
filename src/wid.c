@@ -8317,7 +8317,7 @@ static void wid_lighting_render (widp w,
     uint32_t tx = (int)t->x;
     uint32_t ty = (int)t->y;
 
-    double light_delta = 0.0;
+    double light_delta = 0.5;
 
     /*
      * Lava light

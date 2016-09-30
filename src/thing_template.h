@@ -223,7 +223,7 @@ static inline uint8_t tp_is_floor (tpp t)
 
 static inline uint8_t tp_is_wall (tpp t)
 {
-    return (t->is_floor);
+    return (t->is_wall);
 }
 
 static inline uint8_t tp_is_joinable (tpp t)
