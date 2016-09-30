@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(5)
+        self.maze_create(8)
 
         self.map_wid_create()
 
@@ -76,7 +76,7 @@ class Game:
         for y in range(1, mm.MAP_HEIGHT - 1):
             for x in range(1, mm.MAP_WIDTH - 1):
 
-                nothing = True
+                nothing_placed_here = True
 
                 if m.is_floor_at(x, y):
                     t = thing.Thing(self.level, tp_name="floor1")
@@ -86,7 +86,12 @@ class Game:
                         if random.randint(0, 100) < 5:
                             t = thing.Thing(self.level, tp_name="jellycube1")
                             t.push(x, y)
-                    nothing = False
+                    nothing_placed_here = False
+
+                if m.is_start_at(x, y):
+                    t = thing.Thing(self.level, tp_name="player1")
+                    t.push(x, y)
+                    nothing_placed_here = False
 
                 if m.is_wall_at(x, y):
                     t = thing.Thing(self.level, tp_name="wall1")
@@ -147,7 +152,7 @@ class Game:
                         t.set_tilename("wall1-n90")
                     else:
                         t.set_tilename("wall1-node")
-                    nothing = False
+                    nothing_placed_here = False
 
                 if m.is_cwall_at(x, y):
                     t = thing.Thing(self.level, tp_name="cwall1")
@@ -208,36 +213,36 @@ class Game:
                         t.set_tilename("cwall1-n90")
                     else:
                         t.set_tilename("cwall1-node")
-                    nothing = False
+                    nothing_placed_here = False
 
                 if m.is_corridor_at(x, y):
                     t = thing.Thing(self.level, tp_name="corridor1")
                     t.push(x, y)
-                    nothing = False
+                    nothing_placed_here = False
 
                 if m.is_water_at(x, y):
-                    if not nothing or m.is_water_at(x, y - 1):
+                    if not nothing_placed_here or m.is_water_at(x, y - 1):
                         t = thing.Thing(self.level, tp_name="water1")
                         t.push(x, y)
-                        nothing = False
+                        nothing_placed_here = False
                     else:
                         t = thing.Thing(self.level, tp_name="water1-top")
                         t.push(x, y)
-                        nothing = False
+                        nothing_placed_here = False
                     t.set_depth(m.depth_map.cells[x][y])
 
                 if m.is_lava_at(x, y):
-                    if not nothing or m.is_lava_at(x, y - 1):
+                    if not nothing_placed_here or m.is_lava_at(x, y - 1):
                         t = thing.Thing(self.level, tp_name="lava1")
                         t.push(x, y)
-                        nothing = False
+                        nothing_placed_here = False
                     else:
                         t = thing.Thing(self.level, tp_name="lava1-top")
                         t.push(x, y)
-                        nothing = False
+                        nothing_placed_here = False
 
                 if m.is_chasm_at(x, y):
-                    if nothing:
+                    if nothing_placed_here:
                         if m.is_chasm_at(x - 1, y - 1) and \
                            m.is_chasm_at(x, y - 1) and \
                            m.is_chasm_at(x + 1, y - 1) and \
@@ -249,35 +254,12 @@ class Game:
                             if random.randint(0, 100) < 5:
                                 t = thing.Thing(self.level, tp_name="spike1")
                                 t.push(x, y)
-                                nothing = False
+                                nothing_placed_here = False
                     continue
 
-                if nothing:
+                if nothing_placed_here:
                     t = thing.Thing(self.level, tp_name="rock1")
                     t.push(x, y)
-
-#                if m.is_water_at(x, y):
-#                    t = thing.Thing(self.level, tp_name="water1")
-#                    t.push(x, y)
-
-
-#                else:
-
-#                else:
-#                    c = m.getc(x, y, maze.Depth.under)
-#                    if c == maze.CHASM:
-#                        t = thing.Thing(self.level, tp_name="chasm1")
-#                        t.push(x, y)
-#                    elif c == maze.LAVA:
-#                        pass
-#                    elif c == maze.WATER:
-#                        pass
-#                    else:
-#                        t = thing.Thing(self.level, tp_name="dirt1")
-#                        t.push(x, y)
-
-        t = thing.Thing(self.level, tp_name="player1")
-        t.push(30, 30)
 
 g = None
 
