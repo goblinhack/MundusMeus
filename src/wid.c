@@ -136,6 +136,9 @@ static void wid_display(widp w,
 static int32_t wid_highest_priority = 1;
 static int32_t wid_lowest_priority = -1;
 
+static double light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
+static int light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
+
 /*
  * History for all text widgets.
  */
@@ -7753,7 +7756,40 @@ static void wid_display_fast (widp w,
         } else
 #endif
         {
-            tile_blit_fat(tp, tile, 0, tl, br);
+            if (tp_is_water(tp)) {
+                color a = WHITE;
+                color b = WHITE;
+                color c = WHITE;
+                color d = WHITE;
+
+                int tx = t->x;
+                int ty = t->y;
+
+                a.g = 150 + 100.0 * light_pulse_amount[tx][ty];
+                b.g = 150 + 100.0 * light_pulse_amount[tx + 1][ty];
+                c.g = 150 + 100.0 * light_pulse_amount[tx][ty + 1];
+                d.g = 150 + 100.0 * light_pulse_amount[tx + 1][ty + 1];
+
+                tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
+
+            } else if (tp_is_lava(tp)) {
+                color a = WHITE;
+                color b = WHITE;
+                color c = WHITE;
+                color d = WHITE;
+
+                int tx = t->x;
+                int ty = t->y;
+
+                a.r = 150 + 100.0 * light_pulse_amount[tx][ty];
+                b.r = 150 + 100.0 * light_pulse_amount[tx + 1][ty];
+                c.r = 150 + 100.0 * light_pulse_amount[tx][ty + 1];
+                d.r = 150 + 100.0 * light_pulse_amount[tx + 1][ty + 1];
+
+                tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
+            } else {
+                tile_blit_fat(tp, tile, 0, tl, br);
+            }
         }
     }
 
@@ -8323,27 +8359,26 @@ static void wid_lighting_render (widp w,
      * Lava light
      */
     if (tp_light_pulse_amount(t->tp)) {
-        static double seed[MAP_WIDTH][MAP_HEIGHT];
-        static int dseed[MAP_WIDTH][MAP_HEIGHT];
-
-        if (seed[tx][ty] == 0.0) {
-            seed[tx][ty] = ((double)(myrand() % 100)) * 0.01;
-            dseed[tx][ty] = 1;
+        if (light_pulse_amount[tx][ty] == 0.0) {
+            light_pulse_amount[tx][ty] = ((double)(myrand() % 100)) * 0.01;
+            light_pulse_dir[tx][ty] = 1;
         }
 
-        if (dseed[tx][ty] > 0) {
-            seed[tx][ty] += 0.01;
-            if (seed[tx][ty] > 1.0) {
-                dseed[tx][ty] = -1;
+        if (light_pulse_dir[tx][ty] > 0) {
+            light_pulse_amount[tx][ty] += 0.01;
+            if (light_pulse_amount[tx][ty] > 1.0) {
+                light_pulse_amount[tx][ty] = 1.0;
+                light_pulse_dir[tx][ty] = -1;
             }
         } else {
-            seed[tx][ty] -= 0.01;
-            if (seed[tx][ty] < 0.0) {
-                dseed[tx][ty] = 1;
+            light_pulse_amount[tx][ty] -= 0.01;
+            if (light_pulse_amount[tx][ty] < 0.5) {
+                light_pulse_amount[tx][ty] = 0.5;
+                light_pulse_dir[tx][ty] = 1;
             }
         }
 
-        double x = seed[tx][ty];
+        double x = light_pulse_amount[tx][ty];
 
         light_delta += x;
     }

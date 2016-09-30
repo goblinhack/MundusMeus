@@ -12,6 +12,11 @@ def water_init(name, short_name, tiles=[]):
     x.set_map_depth("lava")
     x.set_is_animated(True)
 
+    x.set_light_radius(0.5)
+    x.set_light_tint("cyan")
+    x.set_light_pulse_amount(0.001)
+    x.set_is_candle_light(True)
+
     if tiles is not None:
         for t in tiles:
             x.set_tile(t, delay_ms=100)
