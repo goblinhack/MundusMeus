@@ -55,7 +55,7 @@ class Tp:
         self.is_rrr10 = False
         self.is_rrr11 = False
         self.is_rrr12 = False
-        self.is_rrr13 = False
+        self.light_pulse_amount = False
         self.is_healing = False
         self.is_armor = False
         self.is_magical = False
@@ -158,10 +158,6 @@ class Tp:
         self.is_cats_eyes = value
         mm.tp_set_is_cats_eyes(self, value)
 
-    def set_is_door(self, value):
-        self.is_door = value
-        mm.tp_set_is_door(self, value)
-
     def set_is_effect_fade_in_out(self, value):
         self.is_effect_fade_in_out = value
         mm.tp_set_is_effect_fade_in_out(self, value)
@@ -254,9 +250,9 @@ class Tp:
         self.is_rrr12 = value
         mm.tp_set_is_rrr12(self, value)
 
-    def set_is_rrr13(self, value):
-        self.is_rrr13 = value
-        mm.tp_set_is_rrr13(self, value)
+    def set_light_pulse_amount(self, value):
+        self.light_pulse_amount = value
+        mm.tp_set_light_pulse_amount(self, value)
 
     def set_is_healing(self, value):
         self.is_healing = value
@@ -292,15 +288,22 @@ class Tp:
 
     def set_is_floor(self, value):
         self.is_floor = value
+        mm.tp_set_is_floor(self, value)
 
     def set_is_corridor(self, value):
         self.is_corridor = value
+        mm.tp_set_is_floor(self, value)
+
+    def set_is_door(self, value):
+        self.is_door = value
+        mm.tp_set_is_door(self, value)
 
     def set_is_lava(self, value):
         self.is_lava = value
 
     def set_is_rock(self, value):
         self.is_rock = value
+        mm.tp_set_is_wall(self, value)
 
     def set_is_water(self, value):
         self.is_water = value

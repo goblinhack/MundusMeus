@@ -7457,6 +7457,20 @@ static void wid_light_init (void)
 static void wid_light_add (widp w, fpoint at, double strength, color c)
 {
     thingp t = w->thing;
+    tpp tp = thing_tp(t);
+
+    /*
+     * No light source that are under the floor when not visible.
+     */
+    if (tp_get_map_depth(tp) == MAP_DEPTH_LAVA) {
+        levelp level = &game.level;
+        if (map_is_wall_at(level, (int)t->x, (int)t->y)) {
+            return;
+        }
+        if (map_is_floor_at(level, (int)t->x, (int)t->y)) {
+            return;
+        }
+    }
 
     /*
      * Looks better and brighter without this.
@@ -8299,17 +8313,46 @@ static void wid_lighting_render (widp w,
     double green = ((double)c.g) / 255.0;
     double blue  = ((double)c.b) / 255.0;
     double alpha = ((double)c.a) / 255.0;
-    double light_delta = 1.5;
 
-    if ((red == 0.0) && (green == 0.0) && (blue == 0.0)) {
-        red = 1.0;
-        green = 1.0;
-        blue = 1.0;
+    uint32_t tx = (int)t->x;
+    uint32_t ty = (int)t->y;
+
+    double light_delta = 0.0;
+
+    /*
+     * Lava light
+     */
+    if (tp_light_pulse_amount(t->tp)) {
+        static double seed[MAP_WIDTH][MAP_HEIGHT];
+        static int dseed[MAP_WIDTH][MAP_HEIGHT];
+
+        if (seed[tx][ty] == 0.0) {
+            seed[tx][ty] = ((double)(myrand() % 100)) * 0.01;
+            dseed[tx][ty] = 1;
+        }
+
+        if (dseed[tx][ty] > 0) {
+            seed[tx][ty] += 0.01;
+            if (seed[tx][ty] > 1.0) {
+                dseed[tx][ty] = -1;
+            }
+        } else {
+            seed[tx][ty] -= 0.01;
+            if (seed[tx][ty] < 0.0) {
+                dseed[tx][ty] = 1;
+            }
+        }
+
+        double x = seed[tx][ty];
+
+        light_delta += x;
     }
-    alpha = 0.0;
 
+    /*
+     * Flickering light
+     */
     if (thing_is_candle_light(t)) {
-        light_delta += (0.005 * (myrand() % 100));
+        light_delta += (0.001 * (myrand() % 100));
     }
 
     /*
@@ -8319,6 +8362,13 @@ static void wid_lighting_render (widp w,
         light_delta += 3;
         light_delta += (0.005 * (myrand() % 100));
     }
+
+    if ((red == 0.0) && (green == 0.0) && (blue == 0.0)) {
+        red = 1.0;
+        green = 1.0;
+        blue = 1.0;
+    }
+    alpha = 0.0;
 
     {
         int i;

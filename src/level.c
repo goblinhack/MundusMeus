@@ -70,8 +70,6 @@ void level_destroy (levelp *plevel, uint8_t keep_player)
 
 void level_update_slow (levelp level)
 {
-    map_fixup(level);
-
     level_set_walls(level);
 
     /*
@@ -94,8 +92,6 @@ static void level_update_incremental (levelp level)
 #if 0
     dmap_generate(level, true /* force */);
 #endif
-
-    map_fixup(level);
 }
 
 widp level_get_map (levelp level)
@@ -174,7 +170,7 @@ static void level_set_walls (levelp level)
                     char c = 0;
 
                     if (thing_is_wall(t)) {
-                        if (!map_is_wall_at(level, x, y - 1, 0)) {
+                        if (!map_is_wall_at(level, x, y - 1)) {
                             c = ' ';
                         }
                     }

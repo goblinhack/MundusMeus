@@ -1735,7 +1735,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr10)
     TP_SET_DECL(is_rrr11)
     TP_SET_DECL(is_rrr12)
-    TP_SET_DECL(is_rrr13)
+    TP_SET_DECL(light_pulse_amount)
     TP_SET_DECL(is_healing)
     TP_SET_DECL(is_armor)
     TP_SET_DECL(is_magical)
@@ -1743,6 +1743,8 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_shadow_caster_soft)
     TP_SET_DECL(is_sleeping)
     TP_SET_DECL(is_wall)
+    TP_SET_DECL(is_floor)
+    TP_SET_DECL(is_door)
 
     {0, 0, 0, 0}   /* sentinel */
 };

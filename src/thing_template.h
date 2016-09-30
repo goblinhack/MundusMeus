@@ -111,6 +111,7 @@ typedef struct tp_ {
      * How much light it gives off in tiles.
      */
     float light_radius;
+    double light_pulse_amount;
 
     /*
      * How large or small the thing is blitted as.
@@ -156,7 +157,6 @@ typedef struct tp_ {
     uint8_t is_rrr10:1;
     uint8_t is_rrr11:1;
     uint8_t is_rrr12:1;
-    uint8_t is_rrr13:1;
     uint8_t is_healing:1;
     uint8_t is_armor:1;
     uint8_t is_magical:1;
@@ -361,9 +361,9 @@ static inline uint8_t tp_is_rrr12 (tpp t)
     return (t->is_rrr12);
 }
 
-static inline uint8_t tp_is_rrr13 (tpp t)
+static inline double tp_light_pulse_amount (tpp t)
 {
-    return (t->is_rrr13);
+    return (t->light_pulse_amount);
 }
 
 static inline uint8_t tp_is_healing (tpp t)

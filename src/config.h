@@ -7,13 +7,11 @@
 #pragma once
 
 #undef ENABLE_LEAKCHECK           // Memory leak check
-#undef ENABLE_PTRCHECK           // Check validity of pointers too
-#undef ENABLE_PTRCHECK_HISTORY   // Slower
-#undef ENABLE_WID_PTRCHECK       // Check validity of pointers too
-#undef ENABLE_THING_SANITY       // Check what things carry
-
-#undef ENABLE_MAZE_DEBUG          // Print it as generating
-#undef ENABLE_MAP_SANITY          // Extra map checks
+#undef ENABLE_PTRCHECK            // Check validity of pointers too
+#undef ENABLE_PTRCHECK_HISTORY    // Slower
+#undef ENABLE_WID_PTRCHECK        // Check validity of wid pointers too
+#undef ENABLE_THING_SANITY        // Check what things carry
+#undef ENABLE_MATH_ESTIMATES      // Enable estimated versions of sin/cos/...
 #undef ENABLE_ASSERT              // DIE on errors
 #undef ENABLE_TREE_SANITY         // Slow tree sanity
 #undef ENABLE_DEBUG               // More debugs
@@ -21,12 +19,7 @@
 #undef ENABLE_MAP_DEBUG           // Debug AI by printing the map
 #undef ENABLE_WID_DEBUG           // Widget debug
 #undef ENABLE_CONSOLE
-
-#undef ENABLE_REDRAW_LIGHT_SOURCES
-#undef ENABLE_LIGHT_ALL_UNDER_LIGHT_SOURCE
 #undef ENABLE_BLACK_AND_WHITE
-
-#define TICKS_PER_SEC             100
 
 /*
  * Handles map updates and timer ticks.

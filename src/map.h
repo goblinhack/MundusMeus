@@ -6,18 +6,17 @@
 
 #pragma once
 
-tpp map_is_monst_at(levelp, int32_t x, int32_t y, widp *);
-tpp map_is_player_at(levelp, int32_t x, int32_t y, widp *);
-tpp map_is_wall_at(levelp, int32_t x, int32_t y, widp *);
-tpp map_is_door_at(levelp, int32_t x, int32_t y, widp *);
+tpp map_is_monst_at(levelp, int32_t x, int32_t y);
+tpp map_is_player_at(levelp, int32_t x, int32_t y);
+tpp map_is_wall_at(levelp, int32_t x, int32_t y);
+tpp map_is_floor_at(levelp, int32_t x, int32_t y);
+tpp map_is_door_at(levelp, int32_t x, int32_t y);
 
 #include "tree.h"
 
 typedef struct tree_thing_node_ {
     tree_key_pointer tree;
 } tree_thing_node;
-
-void map_fixup(levelp);
 
 typedef uint8_t (*map_is_at_callback)(tpp);
 
@@ -32,19 +31,14 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
 #define MAP_DEPTH_ENUMS(list_macro)                             \
     list_macro(MAP_DEPTH_LAVA = 0,          "lava"),            \
     list_macro(MAP_DEPTH_FLOOR,             "floor"),           \
-    list_macro(MAP_DEPTH_FLOOR2,            "floor2"),          \
     list_macro(MAP_DEPTH_OBJ,               "obj"),             \
-    list_macro(MAP_DEPTH_OBJ2,              "obj2"),            \
     list_macro(MAP_DEPTH_MONST,             "monst"),           \
     list_macro(MAP_DEPTH_PLAYER,            "player"),          \
-    /* water */                                                 \
     list_macro(MAP_DEPTH_WALL,              "wall"),            \
-    list_macro(MAP_DEPTH_DECO,              "deco"),            \
-    list_macro(MAP_DEPTH_DECO2,             "deco2"),           \
     list_macro(MAP_DEPTH_EXPLOSION,         "explosion"),       \
     list_macro(MAP_DEPTH_ACTIONS,           "actions"),         \
 
-#define MAP_DEPTH 13
+#define MAP_DEPTH 8
 
 ENUM_DEF_H(MAP_DEPTH_ENUMS, map_depth)
 

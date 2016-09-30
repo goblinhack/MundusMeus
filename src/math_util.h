@@ -209,55 +209,66 @@ void math_init(void);
 
 static inline double fsin (double rad)
 {
+#ifdef ENABLE_MATH_ESTIMATES
     const uint16_t index = (uint16_t)(rad / RAD_STEP);
     extern double FSIN[RAD_MAX];
 
     return (FSIN[index & (RAD_MAX-1)]);
+#else
+    return (sin(rad));
+#endif
 }
 
 static inline double fasin (double rad)
 {
+#ifdef ENABLE_MATH_ESTIMATES
     const uint16_t index = (uint16_t)(rad / RAD_STEP);
     extern double FASIN[RAD_MAX];
 
     return (FASIN[index & (RAD_MAX-1)]);
+#else
+    return (asin(rad));
+#endif
 }
 
 static inline double fcos (double rad)
 {
+#ifdef ENABLE_MATH_ESTIMATES
     const uint16_t index = (uint16_t)(rad / RAD_STEP);
     extern double FCOS[RAD_MAX];
 
     return (FCOS[index & (RAD_MAX-1)]);
+#else
+    return (cos(rad));
+#endif
 }
-
 
 static inline float atan2_approximation1(float y, float x)
 {
+#ifdef ENABLE_MATH_ESTIMATES
     //http://pubs.opengroup.org/onlinepubs/009695399/functions/atan2.html
     //Volkan SALMA
 
     const float ONEQTR_PI = M_PI / 4.0;
-        const float THRQTR_PI = 3.0 * M_PI / 4.0;
-        float r, angle;
-        float abs_y = fabs(y) + 1e-10f;      // kludge to prevent 0/0 condition
-        if ( x < 0.0f )
-        {
-                r = (x + abs_y) / (abs_y - x);
-                angle = THRQTR_PI;
-        }
-        else
-        {
-                r = (x - abs_y) / (x + abs_y);
-                angle = ONEQTR_PI;
-        }
-        angle += (0.1963f * r * r - 0.9817f) * r;
-        if ( y < 0.0f )
-                return( -angle );     // negate if in quad III or IV
-        else
-                return( angle );
+    const float THRQTR_PI = 3.0 * M_PI / 4.0;
+    float r, angle;
+    float abs_y = fabs(y) + 1e-10f;      // kludge to prevent 0/0 condition
+    if ( x < 0.0f ) {
+        r = (x + abs_y) / (abs_y - x);
+        angle = THRQTR_PI;
+    } else {
+        r = (x - abs_y) / (x + abs_y);
+        angle = ONEQTR_PI;
+    }
+    angle += (0.1963f * r * r - 0.9817f) * r;
+    if ( y < 0.0f )
+        return( -angle );     // negate if in quad III or IV
+    else
+        return( angle );
+#else
+    return (atan2(y, x));
+#endif
 }
-
 
 static inline double anglerot (fpoint p)
 {
