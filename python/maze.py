@@ -320,8 +320,11 @@ class Maze:
         #
         # Let lava melt through walls
         #
-        self.dissolve_walls()
+        self.dissolve_room_walls()
         self.debug("^^^ dissolved walls next to lava ^^^")
+
+        self.dissolve_room_cwalls()
+        self.debug("^^^ dissolved cwalls next to lava ^^^")
 
     def debug(self, s):
         return
@@ -1201,20 +1204,58 @@ class Maze:
     #
     # Dissolve walls
     #
-    def dissolve_walls(self):
+    def dissolve_room_walls(self):
         for y in range(1, self.height - 1):
             for x in range(1, self.width - 1):
                 if not self.is_wall_at(x, y):
                     continue
 
-                if random.randint(0, 100) < 80:
+                if random.randint(0, 100) < 90:
                     continue
 
-                for dx, dy in ALL_DELTAS:
+                for dx, dy in XY_DELTAS:
                     tx = x + dx
                     ty = y + dy
-                    if self.is_dissolves_walls_at(tx, ty):
 
+                    if self.is_wall_at(tx, ty):
+                        continue
+
+                    if self.is_cwall_at(tx, ty):
+                        continue
+
+                    if self.is_floor_at(tx, ty):
+                        continue
+
+                    if self.is_dissolves_walls_at(tx, ty):
+                        self.putc(x, y, Depth.wall, SPACE)
+                        break
+
+    #
+    # Dissolve corridor walls
+    #
+    def dissolve_room_cwalls(self):
+        for y in range(1, self.height - 1):
+            for x in range(1, self.width - 1):
+                if not self.is_cwall_at(x, y):
+                    continue
+
+                if random.randint(0, 100) < 50:
+                    continue
+
+                for dx, dy in XY_DELTAS:
+                    tx = x + dx
+                    ty = y + dy
+
+                    if self.is_wall_at(tx, ty):
+                        continue
+
+                    if self.is_cwall_at(tx, ty):
+                        continue
+
+                    if self.is_floor_at(tx, ty):
+                        continue
+
+                    if self.is_dissolves_walls_at(tx, ty):
                         self.putc(x, y, Depth.wall, SPACE)
                         break
 
