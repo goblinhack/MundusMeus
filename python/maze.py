@@ -1698,6 +1698,12 @@ class Maze:
                         if r in self.roomno_depth:
                             d = self.roomno_depth[r]
                             c = chr(ord('0') + d)
+                elif c == WATER:
+                    if self.depth_map is not None:
+                        depth = self.depth_map.cells[x][y]
+                        color = fg(depth % 255) + bg(0)
+                    else:
+                        color = fg(fg_name) + bg(bg_name)
                 else:
                     color = fg(fg_name) + bg(bg_name)
 

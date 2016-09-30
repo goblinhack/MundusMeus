@@ -17,6 +17,7 @@ void thing_fini(void);
 thingp thing_new(const char *name, const char *tp_name);
 void thing_destroyed_(thingp t, const char *reason);
 void thing_set_tilename_(thingp t, const char *tilename);
+void thing_set_depth_(thingp t, double);
 
 thingp thing_find(const char *name);
 void thing_move_(thingp t, double x, double y);
@@ -103,14 +104,19 @@ typedef struct thing_ {
     /*
      * Grid coordinates.
      */
-    float x;
-    float y;
+    double x;
+    double y;
+
+    /*
+     * Water depth
+     */
+    double depth;
 
     /*
      * Last anim frame position. To be able to detect moving things.
      */
-    float anim_x;
-    float anim_y;
+    double anim_x;
+    double anim_y;
 
     /*
      * For animation.
@@ -121,14 +127,14 @@ typedef struct thing_ {
      * Previous hop where we were. We use this to interpolate the real
      * position when moving.
      */
-    float last_x;
-    float last_y;
+    double last_x;
+    double last_y;
 
     /*
      * For moving
      */
-    float dx;
-    float dy;
+    double dx;
+    double dy;
 
     /*
      * e.g. IS_JOIN_BLOCK

@@ -88,3 +88,6 @@ class Thing:
 
     def set_tilename(self, name=""):
         mm.thing_set_tilename(self, name)
+
+    def set_depth(self, value=0.0):
+        mm.thing_set_depth(self, value)
