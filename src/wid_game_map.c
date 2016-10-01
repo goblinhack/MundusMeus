@@ -378,6 +378,10 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         wid_scaling_blit_to_pct_in(child, scale, scale, 500, 9999999);
     }
 
+    if (tp_is_corridor(tp)) {
+        dy -= ((double)(myrand() % 100)) * 0.001;
+    }
+
     thing_wid_update(t, x + dx, y + dy, false /* smooth */);
 
     /*

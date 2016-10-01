@@ -123,8 +123,6 @@ typedef struct tp_ {
     uint8_t is_animation:1;
     uint8_t is_candle_light:1;
     uint8_t is_cats_eyes:1;
-    uint8_t is_corridor:1;
-    uint8_t is_corridor_wall:1;
     uint8_t is_door:1;
     uint8_t is_water:1;
     uint8_t is_lava:1;
@@ -157,7 +155,7 @@ typedef struct tp_ {
     uint8_t is_rrr9:1;
     uint8_t is_rrr10:1;
     uint8_t is_rrr11:1;
-    uint8_t is_rrr12:1;
+    uint8_t is_corridor:1;
     uint8_t is_healing:1;
     uint8_t is_armor:1;
     uint8_t is_magical:1;
@@ -367,9 +365,9 @@ static inline uint8_t tp_is_rrr11 (tpp t)
     return (t->is_rrr11);
 }
 
-static inline uint8_t tp_is_rrr12 (tpp t)
+static inline uint8_t tp_is_corridor (tpp t)
 {
-    return (t->is_rrr12);
+    return (t->is_corridor);
 }
 
 static inline double tp_light_pulse_amount (tpp t)
