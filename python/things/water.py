@@ -9,7 +9,7 @@ def water_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_water(True)
-    x.set_map_depth("lava")
+    x.set_z_depth("lava")
     x.set_is_animated(True)
 
     x.set_light_radius(0.5)

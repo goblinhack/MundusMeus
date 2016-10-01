@@ -34,7 +34,7 @@ thingp map_is_tp_at (levelp level, int32_t x, int32_t y, tpp tp)
      */
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         w = wid_grid_find_first(grid_wid, x, y, z);
         while (w) {
             thingp thing_it = wid_get_thing(w);
@@ -69,7 +69,7 @@ static tpp map_is_x_at (levelp level,
 
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         w = wid_grid_find_first(grid_wid, x, y, z);
         while (w) {
             thingp thing_it = wid_get_thing(w);
@@ -111,7 +111,7 @@ uint8_t map_count_x_at (levelp level,
      */
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         w = wid_grid_find_first(grid_wid, x, y, z);
         while (w) {
             tp = wid_get_thing_template(w);
@@ -171,7 +171,7 @@ thingp map_thing_is_x_at (levelp level,
      */
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         w = wid_grid_find_first(grid_wid, x, y, z);
         while (w) {
             thingp thing_it = wid_get_thing(w);
@@ -217,7 +217,7 @@ tree_rootp map_all_things_is_x_at (levelp level,
      */
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         w = wid_grid_find_first(grid_wid, x, y, z);
         while (w) {
             thingp thing_it = wid_get_thing(w);
@@ -273,7 +273,7 @@ tree_rootp map_all_things_is_x (levelp level,
 
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         for (y = 0; y < MAP_HEIGHT; y++) {
             for (x = 0; x < MAP_WIDTH; x++) {
 

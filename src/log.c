@@ -445,7 +445,7 @@ static void msg_ (uint32_t level,
         wid_destroy_in(w, 1500);
 
         wid_set_no_shape(w);
-        wid_set_z_depth(w, MAP_DEPTH_ACTIONS);
+        wid_set_z_depth(w, Z_DEPTH_ACTIONS);
         wid_raise(w);
         break;
 

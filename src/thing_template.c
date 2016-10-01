@@ -348,16 +348,7 @@ color tp_light_color (tpp t)
 
 int tp_get_z_depth (tpp t)
 {
-    if (t->map_depth) {
-        return (t->map_depth);
-    }
-
     return (t->z_depth);
-}
-
-int tp_get_map_depth (tpp t)
-{
-    return (t->map_depth);
 }
 
 int tp_get_z_order (tpp t)

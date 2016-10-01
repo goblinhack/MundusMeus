@@ -693,10 +693,9 @@ done:
 
 TP_BODY_SET_DOUBLE(light_radius)
 TP_BODY_SET_DOUBLE(scale)
-ENUM_DEF_C(MAP_DEPTH_ENUMS, map_depth)
-TP_BODY_SET_ENUM(z_depth, map_depth_str2val)
+ENUM_DEF_C(Z_DEPTH_ENUMS, z_depth)
+TP_BODY_SET_ENUM(z_depth, z_depth_str2val)
 TP_BODY_SET_INT(z_order)
-TP_BODY_SET_ENUM(map_depth, map_depth_str2val)
 TP_BODY_SET_INT(speed)
 TP_BODY_SET_INT(blit_top_off)
 TP_BODY_SET_INT(blit_bot_off)
