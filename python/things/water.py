@@ -165,7 +165,6 @@ def init():
                           "topwater1.63",
                           "topwater1.64",
                      ])
-    x.set_blit_bot_off(1)
     x.set_blit_top_off(1)
 
 init()

@@ -379,7 +379,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
     }
 
     if (tp_is_corridor(tp)) {
-        dy -= ((double)(myrand() % 100)) * 0.001;
+        dy -= t->depth * 0.07;
     }
 
     thing_wid_update(t, x + dx, y + dy, false /* smooth */);

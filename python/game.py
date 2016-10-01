@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(3)
+        self.maze_create(4)
 
         self.map_wid_create()
 
@@ -222,34 +222,58 @@ class Game:
                     place_stalactite = True
                     nothing_placed_here = False
                     t = thing.Thing(self.level, tp_name="corridor1")
+                    t.set_depth(m.bridge_height[x][y])
                     t.push(x, y)
 
                 if m.is_water_at(x, y):
                     nothing_placed_here = False
 
-                    if not nothing_placed_here or m.is_water_at(x, y - 1):
-                        if m.is_wall_at(x, y - 1) or \
-                           m.is_rock_at(x, y - 1) or \
-                           m.is_cwall_at(x, y - 1):
-                            t = thing.Thing(self.level, tp_name="water1-top")
-                            t.push(x, y)
-                        else:
-                            t = thing.Thing(self.level, tp_name="water1")
-                            t.push(x, y)
-                    else:
+                    if m.is_floor_at(x, y) or \
+                       m.is_corridor_at(x, y):
+                        #
+                        # Underground water
+                        #
+                        t = thing.Thing(self.level, tp_name="water1")
+                        t.push(x, y)
+
+                    elif m.is_wall_at(x, y - 1) or m.is_rock_at(x, y - 1):
                         t = thing.Thing(self.level, tp_name="water1-top")
                         t.push(x, y)
+
+                    elif m.is_corridor_at(x, y - 1) or m.is_cwall_at(x, y - 1):
+                        t = thing.Thing(self.level, tp_name="water1-top")
+                        t.push(x, y)
+
+                    else:
+                        t = thing.Thing(self.level, tp_name="water1")
+                        t.push(x, y)
+
                     t.set_depth(m.depth_map.cells[x][y])
 
                 if m.is_lava_at(x, y):
-                    if not nothing_placed_here or m.is_lava_at(x, y - 1):
+                    nothing_placed_here = False
+
+                    if m.is_floor_at(x, y) or \
+                       m.is_corridor_at(x, y):
+                        #
+                        # Underground lava
+                        #
                         t = thing.Thing(self.level, tp_name="lava1")
                         t.push(x, y)
-                        nothing_placed_here = False
-                    else:
+
+                    elif m.is_wall_at(x, y - 1) or m.is_rock_at(x, y - 1):
                         t = thing.Thing(self.level, tp_name="lava1-top")
                         t.push(x, y)
-                        nothing_placed_here = False
+
+                    elif m.is_corridor_at(x, y - 1) or m.is_cwall_at(x, y - 1):
+                        t = thing.Thing(self.level, tp_name="lava1-top")
+                        t.push(x, y)
+
+                    else:
+                        t = thing.Thing(self.level, tp_name="lava1")
+                        t.push(x, y)
+
+                    t.set_depth(m.depth_map.cells[x][y])
 
                 if m.is_rock_at(x, y):
                     nothing_placed_here = False
