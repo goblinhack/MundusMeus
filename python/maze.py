@@ -117,6 +117,10 @@ ALL_DELTAS = [(-1, -1), (0, -1), (1, -1),
               (-1, 0), (0, 0), (1, 0),
               (-1, 1), (0, 1), (1, 1)]
 
+ALL_DELTAS_BAR_MID = [(-1, -1), (0, -1), (1, -1),
+                      (-1, 0), (1, 0),
+                      (-1, 1), (0, 1), (1, 1)]
+
 
 class Maze:
     def __init__(self, rooms, width=80, height=40,
@@ -328,6 +332,11 @@ class Maze:
             self.add_lava()
             self.add_chasm()
         self.debug("^^^ placed hazards ^^^")
+
+        #
+        # Water next to a chasm or lava? remove it
+        #
+        self.remove_water()
 
         #
         # Let lava melt through walls
@@ -1268,7 +1277,7 @@ class Maze:
                 if not self.is_corridor_at(x, y):
                     continue
 
-                for dx, dy in ALL_DELTAS:
+                for dx, dy in ALL_DELTAS_BAR_MID:
                     tx = x + dx
                     ty = y + dy
                     if not self.is_anything_at(tx, ty):
@@ -1768,6 +1777,19 @@ class Maze:
         y = random.randint(0, self.height - 1)
         self.depth_map_flood(x, y, Depth.under, WATER)
 
+    def remove_water(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                if not self.is_water_at(x, y):
+                    continue
+
+                for dx, dy in ALL_DELTAS_BAR_MID:
+                    tx = x + dx
+                    ty = y + dy
+                    if self.is_lava_at(tx, ty) or self.is_chasm_at(tx, ty):
+                        self.putc(x, y, Depth.under, ROCK)
+                        break
+
     def add_lava(self):
         x = random.randint(0, self.width - 1)
         y = random.randint(0, self.height - 1)
@@ -1789,13 +1811,13 @@ class Maze:
                 if c == SPACE:
                     self.putc(x, y, Depth.wall, ROCK)
 
-    def dump(self):
+    def dump(self, max_depth=Depth.max):
         from colored import fg, bg, attr
 
         os.system('cls' if os.name == 'nt' else 'clear')
         for y in range(self.height):
             for x in range(self.width):
-                for d in reversed(range(Depth.max)):
+                for d in reversed(range(max_depth)):
                     c = self.cells[x][y][d]
                     charmap = self.charmap[c]
                     fg_name = charmap["fg"]

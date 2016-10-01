@@ -65,6 +65,7 @@ class Game:
             if not self.level.maze.generate_failed:
                 break
 
+        self.level.maze.dump(maze.Depth.floor)
         self.level.maze.dump()
 
     #
