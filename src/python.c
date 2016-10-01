@@ -1700,7 +1700,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(z_depth)
     TP_SET_DECL(z_order)
     TP_SET_DECL(scale)
-    TP_SET_DECL(map_depth)
+    TP_SET_DECL(z_depth)
     TP_SET_DECL(speed)
     TP_SET_DECL(blit_top_off)
     TP_SET_DECL(blit_bot_off)

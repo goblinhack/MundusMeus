@@ -19,7 +19,6 @@ class Tp:
         self.scale = None
         self.z_depth = None
         self.z_order = None
-        self.map_depth = None
         self.speed = None
         self.blit_top_off = None
         self.blit_bot_off = None
@@ -98,10 +97,6 @@ class Tp:
         self.scale = value
         mm.tp_set_scale(self, value)
 
-    def set_z_depth(self, value):
-        self.z_depth = value
-        mm.tp_set_z_depth(self, value)
-
     def set_short_name(self, value):
         self.short_name = value
         mm.tp_set_short_name(self, value)
@@ -110,9 +105,9 @@ class Tp:
         self.z_order = value
         mm.tp_set_z_order(self, value)
 
-    def set_map_depth(self, value):
-        self.map_depth = value
-        mm.tp_set_map_depth(self, value)
+    def set_z_depth(self, value):
+        self.z_depth = value
+        mm.tp_set_z_depth(self, value)
 
     def set_speed(self, value):
         self.speed = value

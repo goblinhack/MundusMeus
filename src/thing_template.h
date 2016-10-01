@@ -90,7 +90,6 @@ typedef struct tp_ {
      */
     uint8_t z_depth;
     uint8_t z_order;
-    uint8_t map_depth;
 
     /*
      * Animation tiles.
@@ -183,7 +182,7 @@ tpp tp_fires(tpp);
 const char *tp_light_tint(tpp);
 color tp_light_color(tpp);
 int tp_get_z_depth(tpp);
-int tp_get_map_depth(tpp);
+int tp_get_z_depth(tpp);
 int tp_get_z_order(tpp);
 int tp_get_speed(tpp);
 int tp_get_blit_top_off(tpp);

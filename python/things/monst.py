@@ -9,7 +9,7 @@ def player_init(name, short_name):
     x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_monst(True)
-    x.set_map_depth("player")
+    x.set_z_depth("player")
 
     x.set_light_radius(2)
     x.set_light_tint("green")

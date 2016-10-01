@@ -2061,7 +2061,7 @@ void wid_set_z_depth (widp w, uint8_t z_depth)
 {
     fast_verify(w);
 
-    if (z_depth >= MAP_DEPTH) {
+    if (z_depth >= Z_DEPTH) {
         ERR("setting depth for %s to %u", w->logname, z_depth);
         return;
     }
@@ -3638,7 +3638,7 @@ void wid_new_grid (widp w, uint32_t width, uint32_t height,
 
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         grid->grid_of_trees[z] = (tree_root **)
             myzalloc(sizeof(tree_root *) * grid->nelems, "widgrid tree ptrs");
 
@@ -3665,7 +3665,7 @@ void wid_destroy_grid (widp w)
 
     int32_t x, y, z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         for (x = 0; x < MAP_WIDTH; x++) {
             for (y = 0; y < MAP_HEIGHT; y++) {
 
@@ -3686,7 +3686,7 @@ retry:
 
     w->grid = 0;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         for (i = 0; i < grid->nelems; i++) {
             tree_destroy(&grid->grid_of_trees[z][i], (tree_destroy_func)0);
         }
@@ -3711,7 +3711,7 @@ void wid_empty_grid (widp w)
 
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         for (i = 0; i < grid->nelems; i++) {
             TREE_WALK(grid->grid_of_trees[z][i], node) {
                 child = node->wid;
@@ -3749,7 +3749,7 @@ void wid_detach_from_grid (widp w)
 
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         for (i = 0; i < grid->nelems; i++) {
 retry:
             {
@@ -3907,7 +3907,7 @@ widp wid_grid_find_thing_template (widp parent,
      */
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         tree_root **gridtree = grid->grid_of_trees[z] + (y * grid->width) + x;
 
         /*
@@ -3969,7 +3969,7 @@ widp wid_grid_find_tp_is (widp parent,
      */
     uint8_t z;
 
-    for (z = 0; z < MAP_DEPTH; z++) {
+    for (z = 0; z < Z_DEPTH; z++) {
         tree_root **gridtree = grid->grid_of_trees[z] + (y * grid->width) + x;
 
         /*
@@ -4140,7 +4140,7 @@ widp wid_grid_find_top (widp parent, fpoint tl, fpoint br)
      */
     int8_t z;
 
-    for (z = MAP_DEPTH - 1; z >= 0; z--) {
+    for (z = Z_DEPTH - 1; z >= 0; z--) {
         tree_root **gridtree = grid->grid_of_trees[z] + (y * grid->width) + x;
 
         /*
@@ -5104,7 +5104,7 @@ static void wid_update_internal (widp w)
 
             for (gx = 0; gx < grid->width; gx++) {
                 for (gy = 0; gy < grid->height; gy++) {
-                    for (z = 0; z < MAP_DEPTH; z++) {
+                    for (z = 0; z < Z_DEPTH; z++) {
                         tree_root **gridtree =
                                 grid->grid_of_trees[z] + (gy * grid->width) + gx;
 
@@ -6155,7 +6155,7 @@ static void wid_move_delta_internal (widp w, double dx, double dy)
         uint8_t z;
         uint16_t x, y;
 
-        for (z = 0; z < MAP_DEPTH; z++) {
+        for (z = 0; z < Z_DEPTH; z++) {
             for (x = 0; x < MAP_WIDTH; x++) {
                 for (y = 0; y < MAP_HEIGHT; y++) {
                     tree_root **tree = w->grid->grid_of_trees[z] +
@@ -7465,7 +7465,7 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
     /*
      * No light source that are under the floor when not visible.
      */
-    if (tp_get_map_depth(tp) == MAP_DEPTH_LAVA) {
+    if (tp_get_z_depth(tp) == Z_DEPTH_LAVA) {
         levelp level = &game.level;
         if (map_is_wall_at(level, (int)t->x, (int)t->y)) {
             return;
@@ -8258,7 +8258,7 @@ static void wid_lighting_calculate (widp w,
     }
 
     for (pass = 0; pass <= 1; pass++) {
-        for (z = MAP_DEPTH_WALL; z < MAP_DEPTH_EXPLOSION; z++) {
+        for (z = Z_DEPTH_WALL; z < Z_DEPTH_EXPLOSION; z++) {
             for (x = maxx - 1; x >= minx; x--) {
                 for (y = miny; y < maxy; y++) {
 
@@ -9273,9 +9273,10 @@ static void wid_display (widp w,
             wid_get_shake(w, &shake_x, &shake_y);
         }
 
-        for (x = maxx - 1; x >= minx; x--) {
-            for (y = miny; y < maxy; y++) {
-                for (z = 0; z < MAP_DEPTH; z++) {
+        for (z = 0; z < Z_DEPTH; z++) {
+            for (x = maxx - 1; x >= minx; x--) {
+                for (y = miny; y < maxy; y++) {
+
                     tree_root **tree =
                         w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
                     widgridnode *node;

@@ -503,7 +503,7 @@ typedef struct widgridnode_ {
 } widgridnode;
 
 typedef struct widgrid_ {
-    tree_root **grid_of_trees[MAP_DEPTH];
+    tree_root **grid_of_trees[Z_DEPTH];
     uint32_t nelems;
     uint32_t width;
     uint32_t height;

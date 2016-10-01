@@ -131,7 +131,7 @@ static void level_set_walls (levelp level)
     memset(level->doors.walls, '+',
            sizeof(level->doors.walls));
 
-    for (z = MAP_DEPTH_WALL; z < MAP_DEPTH; z++) {
+    for (z = Z_DEPTH_WALL; z < Z_DEPTH; z++) {
         for (x = 0; x < MAP_WIDTH; x++) {
             for (y = 0; y < MAP_HEIGHT; y++) {
 

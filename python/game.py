@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(8)
+        self.maze_create(4)
 
         self.map_wid_create()
 
@@ -77,8 +77,10 @@ class Game:
             for x in range(1, mm.MAP_WIDTH - 1):
 
                 nothing_placed_here = True
+                place_stalactite = False
 
                 if m.is_floor_at(x, y):
+                    place_stalactite = True
                     t = thing.Thing(self.level, tp_name="floor1")
                     t.push(x, y)
 
@@ -94,6 +96,7 @@ class Game:
                     nothing_placed_here = False
 
                 if m.is_wall_at(x, y):
+                    place_stalactite = True
                     t = thing.Thing(self.level, tp_name="wall1")
                     t.push(x, y)
 
@@ -216,6 +219,7 @@ class Game:
                     nothing_placed_here = False
 
                 if m.is_corridor_at(x, y):
+                    place_stalactite = True
                     t = thing.Thing(self.level, tp_name="corridor1")
                     t.push(x, y)
                     nothing_placed_here = False
@@ -252,13 +256,24 @@ class Game:
                            m.is_chasm_at(x, y + 1) and \
                            m.is_chasm_at(x + 1, y + 1):
                             if random.randint(0, 100) < 5:
-                                t = thing.Thing(self.level, tp_name="spike1")
+                                t = thing.Thing(self.level, tp_name="floor1")
                                 t.push(x, y)
                                 nothing_placed_here = False
-                    continue
+                                place_stalactite = True
+                            else:
+                                continue
+                        else:
+                            continue
+                    else:
+                        continue
 
                 if nothing_placed_here:
+                    place_stalactite = True
                     t = thing.Thing(self.level, tp_name="rock1")
+                    t.push(x, y)
+
+                if place_stalactite:
+                    t = thing.Thing(self.level, tp_name="stalactite1")
                     t.push(x, y)
 
 g = None
