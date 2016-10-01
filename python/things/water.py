@@ -96,7 +96,6 @@ def init():
                           "water1.63",
                           "water1.64",
                      ])
-    x.set_blit_bot_off(1)
 
     x = water_init(name="water1-top",         short_name="water1-top",
                    tiles=[

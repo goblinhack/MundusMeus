@@ -96,7 +96,6 @@ def init():
                          "lava1.63",
                          "lava1.64",
                      ])
-    x.set_blit_bot_off(1)
 
     x = lava_init(name="lava1-top",         short_name="lava1-top",
                   tiles=[
