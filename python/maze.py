@@ -263,12 +263,6 @@ class Maze:
 #        self.rooms_dump_info()
 
         #
-        # Bridges rise and fall
-        #
-        self.rooms_corridor_bridge_height()
-        self.debug("^^^ calculated bridge height ^^^")
-
-        #
         # Randomly lock some rooms
         #
         self.rooms_randomly_lock()
@@ -291,12 +285,6 @@ class Maze:
         #
         self.rooms_plug_doors()
         self.debug("^^^ removed dead end doors ^^^")
-
-        #
-        # Let lava melt through walls
-        #
-#        self.add_cwall()
-#        self.debug("^^^ add corridor walls ^^^")
 
         #
         # Find where we can place stuff like exits
@@ -337,6 +325,18 @@ class Maze:
         # Water next to a chasm or lava? remove it
         #
         self.remove_water()
+
+        #
+        # Bridges rise and fall
+        #
+        self.rooms_corridor_bridge_height()
+        self.debug("^^^ calculated bridge height ^^^")
+
+        #
+        # Add walls around corridors?
+        #
+        self.add_cwall()
+        self.debug("^^^ add corridor walls ^^^")
 
         #
         # Let lava melt through walls
@@ -1209,6 +1209,31 @@ class Maze:
             for x in range(self.width):
                 if not self.is_corridor_at(x, y):
                     continue
+
+                score = 0
+
+                #
+                # Bridges only span obstacles
+                #
+                for dx, dy in XY_DELTAS:
+                    tx = x + dx
+                    ty = y + dy
+
+                    if self.is_water_at(tx, ty):
+                        score += 1
+                        continue
+
+                    if self.is_chasm_at(tx, ty):
+                        score += 1
+                        continue
+
+                    if self.is_lava_at(tx, ty):
+                        score += 1
+                        continue
+
+                if score < 2:
+                    continue
+
                 #
                 # Find the bridge size
                 #
@@ -1269,7 +1294,7 @@ class Maze:
                             self.putc(x + dx, y + dy, Depth.wall, WALL)
 
     #
-    # Wrap corridors in walls
+    # Wrap corridors in walls that are not bridges
     #
     def add_cwall(self):
         for y in range(1, self.height - 1):
@@ -1277,11 +1302,22 @@ class Maze:
                 if not self.is_corridor_at(x, y):
                     continue
 
-                for dx, dy in ALL_DELTAS_BAR_MID:
-                    tx = x + dx
-                    ty = y + dy
-                    if not self.is_anything_at(tx, ty):
-                        self.putc(tx, ty, Depth.wall, CWALL)
+                if self.bridge_height[x][y] == 0:
+
+                    if self.bridge_height[x+1][y] != 0:
+                        self.bridge_height[x][y] = self.bridge_height[x+1][y]
+                    if self.bridge_height[x-1][y] != 0:
+                        self.bridge_height[x][y] = self.bridge_height[x-1][y]
+                    if self.bridge_height[x][y-1] != 0:
+                        self.bridge_height[x][y] = self.bridge_height[x][y-1]
+                    if self.bridge_height[x][y+1] != 0:
+                        self.bridge_height[x][y] = self.bridge_height[x][y+1]
+
+                    for dx, dy in ALL_DELTAS_BAR_MID:
+                        tx = x + dx
+                        ty = y + dy
+                        if not self.is_anything_at(tx, ty):
+                            self.putc(tx, ty, Depth.wall, CWALL)
 
     #
     # Dissolve walls

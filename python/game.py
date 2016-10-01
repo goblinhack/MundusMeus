@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(4)
+        self.maze_create(86)
 
         self.map_wid_create()
 
@@ -226,6 +226,11 @@ class Game:
                     t.set_depth(m.bridge_height[x][y])
                     t.push(x, y)
 
+                    if not m.is_wall_at(x, y):
+                        if random.randint(0, 100) < 50:
+                            t = thing.Thing(self.level, tp_name="jellycube1")
+                            t.push(x, y)
+
                 if m.is_water_at(x, y):
                     nothing_placed_here = False
 
@@ -262,11 +267,18 @@ class Game:
                         t = thing.Thing(self.level, tp_name="lava1")
                         t.push(x, y)
 
-                    elif m.is_wall_at(x, y - 1) or m.is_rock_at(x, y - 1):
+                    elif m.is_wall_at(x, y - 1) or \
+                            m.is_rock_at(x, y - 1) or \
+                            m.is_cwall_at(x, y - 1):
                         t = thing.Thing(self.level, tp_name="lava1-top")
                         t.push(x, y)
 
-                    elif m.is_corridor_at(x, y - 1) or m.is_cwall_at(x, y - 1):
+                    elif m.is_floor_at(x, y - 1) and not m.is_floor_at(x, y):
+                        t = thing.Thing(self.level, tp_name="lava1-top")
+                        t.push(x, y)
+
+                    elif m.is_corridor_at(x, y - 1) and \
+                            not m.is_corridor_at(x, y):
                         t = thing.Thing(self.level, tp_name="lava1-top")
                         t.push(x, y)
 
