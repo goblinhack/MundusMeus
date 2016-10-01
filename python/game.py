@@ -81,6 +81,7 @@ class Game:
 
                 if m.is_floor_at(x, y):
                     place_stalactite = True
+                    nothing_placed_here = False
                     t = thing.Thing(self.level, tp_name="floor1")
                     t.push(x, y)
 
@@ -88,7 +89,6 @@ class Game:
                         if random.randint(0, 100) < 5:
                             t = thing.Thing(self.level, tp_name="jellycube1")
                             t.push(x, y)
-                    nothing_placed_here = False
 
                 if m.is_start_at(x, y):
                     t = thing.Thing(self.level, tp_name="player1")
@@ -97,6 +97,7 @@ class Game:
 
                 if m.is_wall_at(x, y):
                     place_stalactite = True
+                    nothing_placed_here = False
                     t = thing.Thing(self.level, tp_name="wall1")
                     t.push(x, y)
 
@@ -155,7 +156,6 @@ class Game:
                         t.set_tilename("wall1-n90")
                     else:
                         t.set_tilename("wall1-node")
-                    nothing_placed_here = False
 
                 if m.is_cwall_at(x, y):
                     t = thing.Thing(self.level, tp_name="cwall1")
@@ -220,19 +220,19 @@ class Game:
 
                 if m.is_corridor_at(x, y):
                     place_stalactite = True
+                    nothing_placed_here = False
                     t = thing.Thing(self.level, tp_name="corridor1")
                     t.push(x, y)
-                    nothing_placed_here = False
 
                 if m.is_water_at(x, y):
-                    if not nothing_placed_here or m.is_water_at(x, y - 1):
+                    nothing_placed_here = False
+
+                    if not nothing_placed_here or m.is_water_at(x, - 1):
                         t = thing.Thing(self.level, tp_name="water1")
                         t.push(x, y)
-                        nothing_placed_here = False
                     else:
                         t = thing.Thing(self.level, tp_name="water1-top")
                         t.push(x, y)
-                        nothing_placed_here = False
                     t.set_depth(m.depth_map.cells[x][y])
 
                 if m.is_lava_at(x, y):
