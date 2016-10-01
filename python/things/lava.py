@@ -165,7 +165,6 @@ def init():
                          "toplava1.63",
                          "toplava1.64",
                      ])
-    x.set_blit_bot_off(1)
     x.set_blit_top_off(1)
 
 init()

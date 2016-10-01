@@ -156,7 +156,7 @@ class Maze:
         #
         # Lower, longer corridors
         #
-        self.corridor_grow_chance = 2
+        self.corridor_grow_chance = 1
 
         #
         # How often a random room is locked
@@ -257,6 +257,12 @@ class Maze:
         self.debug("^^^ calculated depth ^^^")
 
 #        self.rooms_dump_info()
+
+        #
+        # Bridges rise and fall
+        #
+        self.rooms_corridor_bridge_height()
+        self.debug("^^^ calculated bridge height ^^^")
 
         #
         # Randomly lock some rooms
@@ -1181,6 +1187,57 @@ class Maze:
                 if neb not in self.roomno_depth:
                     stack.append(neb)
                     self.roomno_depth[neb] = self.roomno_depth[roomno] + 1
+
+    #
+    # Make corridors rise up
+    #
+    def rooms_corridor_bridge_height(self):
+
+        self.bridge_height = [[0 for i in range(self.height)]
+                              for j in range(self.width)]
+
+        for y in range(self.height):
+            for x in range(self.width):
+                if not self.is_corridor_at(x, y):
+                    continue
+                #
+                # Find the bridge size
+                #
+                for x1 in range(x, 0, -1):
+                    if not self.is_corridor_at(x1, y):
+                        break
+
+                for x2 in range(x + 1, self.width, 1):
+                    if not self.is_corridor_at(x2, y):
+                        break
+
+                cw = x2 - x1
+
+                for y1 in range(y, 0, -1):
+                    if not self.is_corridor_at(x, y1):
+                        break
+
+                for y2 in range(y + 1, self.height, 1):
+                    if not self.is_corridor_at(x, y2):
+                        break
+
+                ch = y2 - y1
+
+                #
+                # Which dimension of bridge is thickest?
+                #
+                if cw > ch:
+                    step = (x - x1) / cw
+                    if step < 0.5:
+                        self.bridge_height[x][y] = (x - x1)
+                    else:
+                        self.bridge_height[x][y] = (x2 - x)
+                else:
+                    step = (y - y1) / ch
+                    if step < 0.5:
+                        self.bridge_height[x][y] = (y - y1)
+                    else:
+                        self.bridge_height[x][y] = (y2 - y)
 
     #
     # Any rooms opening onto nothing, fill them in
