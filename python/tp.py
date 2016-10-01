@@ -53,7 +53,7 @@ class Tp:
         self.is_rrr9 = False
         self.is_rrr10 = False
         self.is_rrr11 = False
-        self.is_rrr12 = False
+        self.is_corridor = False
         self.light_pulse_amount = False
         self.is_healing = False
         self.is_armor = False
@@ -67,7 +67,6 @@ class Tp:
         self.is_lava = False
         self.is_rock = False
         self.is_water = False
-        self.is_corridor = False
         self.tiles = []
         self.damage = None
         self.is_double_handed = False
@@ -241,9 +240,9 @@ class Tp:
         self.is_rrr11 = value
         mm.tp_set_is_rrr11(self, value)
 
-    def set_is_rrr12(self, value):
-        self.is_rrr12 = value
-        mm.tp_set_is_rrr12(self, value)
+    def set_is_corridor(self, value):
+        self.is_corridor = value
+        mm.tp_set_is_corridor(self, value)
 
     def set_light_pulse_amount(self, value):
         self.light_pulse_amount = value
@@ -283,10 +282,6 @@ class Tp:
 
     def set_is_floor(self, value):
         self.is_floor = value
-        mm.tp_set_is_floor(self, value)
-
-    def set_is_corridor(self, value):
-        self.is_corridor = value
         mm.tp_set_is_floor(self, value)
 
     def set_is_door(self, value):

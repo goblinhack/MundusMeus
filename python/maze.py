@@ -285,8 +285,8 @@ class Maze:
         #
         # Let lava melt through walls
         #
-        self.add_corridor_walls()
-        self.debug("^^^ add corridor walls ^^^")
+#        self.add_cwall()
+#        self.debug("^^^ add corridor walls ^^^")
 
         #
         # Find where we can place stuff like exits
@@ -1205,7 +1205,7 @@ class Maze:
     #
     # Wrap corridors in walls
     #
-    def add_corridor_walls(self):
+    def add_cwall(self):
         for y in range(1, self.height - 1):
             for x in range(1, self.width - 1):
                 if not self.is_corridor_at(x, y):
