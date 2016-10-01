@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(4)
+        self.maze_create(6)
 
         self.map_wid_create()
 
@@ -227,9 +227,15 @@ class Game:
                 if m.is_water_at(x, y):
                     nothing_placed_here = False
 
-                    if not nothing_placed_here or m.is_water_at(x, - 1):
-                        t = thing.Thing(self.level, tp_name="water1")
-                        t.push(x, y)
+                    if not nothing_placed_here or m.is_water_at(x, y - 1):
+                        if m.is_wall_at(x, y - 1) or \
+                           m.is_rock_at(x, y - 1) or \
+                           m.is_cwall_at(x, y - 1):
+                            t = thing.Thing(self.level, tp_name="water1-top")
+                            t.push(x, y)
+                        else:
+                            t = thing.Thing(self.level, tp_name="water1")
+                            t.push(x, y)
                     else:
                         t = thing.Thing(self.level, tp_name="water1-top")
                         t.push(x, y)
@@ -244,6 +250,12 @@ class Game:
                         t = thing.Thing(self.level, tp_name="lava1-top")
                         t.push(x, y)
                         nothing_placed_here = False
+
+                if m.is_rock_at(x, y):
+                    nothing_placed_here = False
+                    place_stalactite = True
+                    t = thing.Thing(self.level, tp_name="rock1")
+                    t.push(x, y)
 
                 if m.is_chasm_at(x, y):
                     if nothing_placed_here:
@@ -266,11 +278,6 @@ class Game:
                             continue
                     else:
                         continue
-
-                if nothing_placed_here:
-                    place_stalactite = True
-                    t = thing.Thing(self.level, tp_name="rock1")
-                    t.push(x, y)
 
                 if place_stalactite:
                     t = thing.Thing(self.level, tp_name="stalactite1")

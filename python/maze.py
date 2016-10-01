@@ -19,6 +19,7 @@ KEY = "k"
 CHASM = "C"
 LAVA = "L"
 WATER = "_"
+ROCK = "r"
 
 charmap = {
     " ": {
@@ -87,6 +88,11 @@ charmap = {
         "fg": "blue",
         "is_water": True,
         "is_dissolves_walls": True,
+    },
+    ROCK: {
+        "bg": "black",
+        "fg": "red",
+        "is_rock": True,
     },
     "o": {
         "bg": "black",
@@ -325,6 +331,9 @@ class Maze:
 
         self.dissolve_room_cwalls()
         self.debug("^^^ dissolved cwalls next to lava ^^^")
+
+        self.add_rock()
+        self.debug("^^^ add rock ^^^")
 
     def debug(self, s):
         return
@@ -634,6 +643,13 @@ class Maze:
         c = self.getc(x, y, Depth.under)
         if c is not None:
             if "is_chasm" in self.charmap[c]:
+                return True
+        return False
+
+    def is_rock_at(self, x, y):
+        c = self.getc(x, y, Depth.wall)
+        if c is not None:
+            if "is_rock" in self.charmap[c]:
                 return True
         return False
 
@@ -1705,6 +1721,17 @@ class Maze:
         y = random.randint(0, self.height - 1)
         self.depth_map_flood(x, y, Depth.under, CHASM)
 
+    def add_rock(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                for d in reversed(range(Depth.max)):
+                    c = self.cells[x][y][d]
+                    if c != " ":
+                        break
+
+                if c == SPACE:
+                    self.putc(x, y, Depth.wall, ROCK)
+
     def dump(self):
         from colored import fg, bg, attr
 
@@ -1747,20 +1774,6 @@ class Maze:
                         color = fg(fg_name) + bg(bg_name)
                 else:
                     color = fg(fg_name) + bg(bg_name)
-
-                if c == SPACE:
-                    if self.depth_map is not None:
-                        depth = self.depth_map.cells[x][y]
-                        fg_name = "blue"
-                        color = fg(fg_name) + bg(bg_name)
-                        bg_name = "red_2"
-                        c = chr(ord('0') + (int)(depth / 6))
-                        c = WALL
-                    else:
-                        fg_name = "blue"
-                        color = fg(fg_name) + bg(bg_name)
-                        bg_name = "red_2"
-                        c = WALL
 
                 sys.stdout.write(color + c + res)
             print("")
