@@ -13,6 +13,7 @@ DOOR = "D"
 WALL = "x"
 CWALL = "X"
 FLOOR = "."
+DUSTY = "\""
 START = "S"
 EXIT = "E"
 KEY = "k"
@@ -41,6 +42,11 @@ charmap = {
         "bg": "black",
         "fg": "white",
         "is_floor": True,
+    },
+    DUSTY: {
+        "bg": "black",
+        "fg": "white",
+        "is_dusty": True,
     },
     CORRIDOR: {
         "bg": "black",
@@ -366,8 +372,8 @@ class Maze:
         self.add_rock()
         self.debug("^^^ add rock ^^^")
 
-        self.debug("^^^ add tunnels ^^^")
         self.add_tunnels()
+        self.debug("^^^ add tunnels ^^^")
 
     def debug(self, s):
         return
@@ -590,6 +596,13 @@ class Maze:
                 return True
         return False
 
+    def is_dusty_at(self, x, y):
+        c = self.getc(x, y, Depth.floor)
+        if c is not None:
+            if "is_dusty" in self.charmap[c]:
+                return True
+        return False
+
     def is_floor_at_fast(self, x, y):
         c = self.cells[x][y][Depth.floor]
         if c == FLOOR:
@@ -771,9 +784,20 @@ class Maze:
     #
     # Grow a corridor in the given direction
     #
-    def room_corridor_draw(self, x, y, dx, dy, clen=0, fork_count=0):
+    def room_corridor_draw(self, x, y, dx, dy, clen=0, fork_count=0,
+                           c=CORRIDOR):
         x += dx
         y += dy
+
+        if x < 2:
+            return
+        elif x >= self.width - 3:
+            return
+
+        if y < 2:
+            return
+        elif y >= self.height - 3:
+            return
 
         if self.getc(x, y, Depth.floor) is None:
             return
@@ -783,7 +807,7 @@ class Maze:
 
         clen += 1
 
-        self.putc(x, y, Depth.floor, CORRIDOR)
+        self.putc(x, y, Depth.floor, c)
 
         #
         # Reached the end of a corridor?
@@ -798,20 +822,22 @@ class Maze:
         #
         if fork_count < 3 and clen % 2 == 0:
             if random.randint(1, 100) < self.corridor_fork_chance:
-                self.room_corridor_draw(x, y, dy, dx, clen, fork_count + 1)
+                self.room_corridor_draw(x, y, dy, dx, clen, fork_count + 1,
+                                        c=c)
 
             if random.randint(1, 100) < self.corridor_fork_chance:
-                self.room_corridor_draw(x, y, -dy, -dx, clen, fork_count + 1)
+                self.room_corridor_draw(x, y, -dy, -dx, clen,
+                                        fork_count + 1, c=c)
 
         #
         # Keep on growing
         #
-        self.room_corridor_draw(x, y, dx, dy, clen, fork_count + 1)
+        self.room_corridor_draw(x, y, dx, dy, clen, fork_count + 1, c=c)
 
     #
     # Grow a tunnel in the given direction
     #
-    def room_tunnel_draw(self, x, y, dx, dy, clen=0, fork_count=0):
+    def room_tunnel_draw(self, x, y, dx, dy, clen=0, fork_count=0, c=DUSTY):
         x += dx
         y += dy
 
@@ -831,7 +857,7 @@ class Maze:
         clen += 1
 
         self.putc(x, y, Depth.wall, SPACE)
-        self.putc(x, y, Depth.floor, CORRIDOR)
+        self.putc(x, y, Depth.floor, c)
 
         #
         # Reached the end of a corridor?
@@ -845,15 +871,15 @@ class Maze:
         #
         if fork_count < 3 and clen % 2 == 0:
             if random.randint(1, 100) < self.tunnel_fork_chance:
-                self.room_tunnel_draw(x, y, dy, dx, clen, fork_count + 1)
+                self.room_tunnel_draw(x, y, dy, dx, clen, fork_count + 1, c)
 
             if random.randint(1, 100) < self.tunnel_fork_chance:
-                self.room_tunnel_draw(x, y, -dy, -dx, clen, fork_count + 1)
+                self.room_tunnel_draw(x, y, -dy, -dx, clen, fork_count + 1, c)
 
         #
         # Keep on growing
         #
-        self.room_tunnel_draw(x, y, dx, dy, clen, fork_count + 1)
+        self.room_tunnel_draw(x, y, dx, dy, clen, fork_count + 1, c)
 
     #
     # Search the whole level for possible room exits
@@ -960,13 +986,13 @@ class Maze:
             h = self.inuse[x][y+1]
 
             if not b:
-                self.room_corridor_draw(x, y, 0, - 1)
+                self.room_corridor_draw(x, y, 0, - 1, c=CORRIDOR)
             if not d:
-                self.room_corridor_draw(x, y, -1, 0)
+                self.room_corridor_draw(x, y, -1, 0, c=CORRIDOR)
             if not f:
-                self.room_corridor_draw(x, y, 1, 0)
+                self.room_corridor_draw(x, y, 1, 0, c=CORRIDOR)
             if not h:
-                self.room_corridor_draw(x, y, 0, 1)
+                self.room_corridor_draw(x, y, 0, 1, c=CORRIDOR)
 
     #
     # From a fixed list of random roomnos, return the next one. This
@@ -1273,7 +1299,8 @@ class Maze:
 
         for y in range(self.height):
             for x in range(self.width):
-                if not self.is_corridor_at(x, y):
+                if not self.is_corridor_at(x, y) and \
+                   not self.is_dusty_at(x, y):
                     continue
 
                 score = 0
@@ -1287,38 +1314,45 @@ class Maze:
 
                     if self.is_water_at(tx, ty):
                         score += 1
-                        continue
 
                     if self.is_chasm_at(tx, ty):
                         score += 1
-                        continue
 
                     if self.is_lava_at(tx, ty):
                         score += 1
-                        continue
 
-                if score < 2:
+                    #
+                    # Part of a bridge?
+                    #
+                    if self.bridge_height[tx][ty]:
+                        score += 1
+
+                if score < 1:
                     continue
 
                 #
                 # Find the bridge size
                 #
                 for x1 in range(x, 0, -1):
-                    if not self.is_corridor_at(x1, y):
+                    if not self.is_corridor_at(x1, y) and \
+                       not self.is_dusty_at(x1, y):
                         break
 
                 for x2 in range(x + 1, self.width, 1):
-                    if not self.is_corridor_at(x2, y):
+                    if not self.is_corridor_at(x2, y) and \
+                       not self.is_dusty_at(x2, y):
                         break
 
                 cw = x2 - x1
 
                 for y1 in range(y, 0, -1):
-                    if not self.is_corridor_at(x, y1):
+                    if not self.is_corridor_at(x, y1) and \
+                       not self.is_dusty_at(x, y1):
                         break
 
                 for y2 in range(y + 1, self.height, 1):
-                    if not self.is_corridor_at(x, y2):
+                    if not self.is_corridor_at(x, y2) and \
+                       not self.is_dusty_at(x, y2):
                         break
 
                 ch = y2 - y1
@@ -1924,12 +1958,12 @@ class Maze:
                 if random.randint(0, 100) < 95:
                     continue
 
-                self.putc(x, y, Depth.floor, CORRIDOR)
+                self.putc(x, y, Depth.floor, DUSTY)
 
-                self.room_corridor_draw(x, y, 0, - 1)
-                self.room_corridor_draw(x, y, -1, 0)
-                self.room_corridor_draw(x, y, 1, 0)
-                self.room_corridor_draw(x, y, 0, 1)
+                self.room_corridor_draw(x, y, 0, - 1, c=DUSTY)
+                self.room_corridor_draw(x, y, -1, 0, c=DUSTY)
+                self.room_corridor_draw(x, y, 1, 0, c=DUSTY)
+                self.room_corridor_draw(x, y, 0, 1, c=DUSTY)
 
     #
     # Find empty spots in lavas and create some random bridges
@@ -1953,12 +1987,12 @@ class Maze:
                 if random.randint(0, 100) < 95:
                     continue
 
-                self.putc(x, y, Depth.floor, CORRIDOR)
+                self.putc(x, y, Depth.floor, DUSTY)
 
-                self.room_corridor_draw(x, y, 0, - 1)
-                self.room_corridor_draw(x, y, -1, 0)
-                self.room_corridor_draw(x, y, 1, 0)
-                self.room_corridor_draw(x, y, 0, 1)
+                self.room_corridor_draw(x, y, 0, - 1, c=DUSTY)
+                self.room_corridor_draw(x, y, -1, 0, c=DUSTY)
+                self.room_corridor_draw(x, y, 1, 0, c=DUSTY)
+                self.room_corridor_draw(x, y, 0, 1, c=DUSTY)
 
     #
     # Find empty spots in waters and create some random bridges
@@ -1982,12 +2016,12 @@ class Maze:
                 if random.randint(0, 100) < 95:
                     continue
 
-                self.putc(x, y, Depth.floor, CORRIDOR)
+                self.putc(x, y, Depth.floor, DUSTY)
 
-                self.room_corridor_draw(x, y, 0, - 1)
-                self.room_corridor_draw(x, y, -1, 0)
-                self.room_corridor_draw(x, y, 1, 0)
-                self.room_corridor_draw(x, y, 0, 1)
+                self.room_corridor_draw(x, y, 0, - 1, c=DUSTY)
+                self.room_corridor_draw(x, y, -1, 0, c=DUSTY)
+                self.room_corridor_draw(x, y, 1, 0, c=DUSTY)
+                self.room_corridor_draw(x, y, 0, 1, c=DUSTY)
 
     #
     # Find empty spots in waters and create some random tunnels
@@ -2010,12 +2044,12 @@ class Maze:
                     continue
 
                 self.putc(x, y, Depth.wall, SPACE)
-                self.putc(x, y, Depth.floor, CORRIDOR)
+                self.putc(x, y, Depth.floor, DUSTY)
 
-                self.room_tunnel_draw(x, y, 0, - 1)
-                self.room_tunnel_draw(x, y, -1, 0)
-                self.room_tunnel_draw(x, y, 1, 0)
-                self.room_tunnel_draw(x, y, 0, 1)
+                self.room_tunnel_draw(x, y, 0, - 1, c=DUSTY)
+                self.room_tunnel_draw(x, y, -1, 0, c=DUSTY)
+                self.room_tunnel_draw(x, y, 1, 0, c=DUSTY)
+                self.room_tunnel_draw(x, y, 0, 1, c=DUSTY)
 
     def add_rock(self):
         for y in range(self.height):
