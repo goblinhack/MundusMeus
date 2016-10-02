@@ -156,11 +156,13 @@ class Maze:
         # Chance of a corridor splitting
         #
         self.corridor_fork_chance = 35
+        self.tunnel_fork_chance = 95
 
         #
         # Lower, longer corridors
         #
         self.corridor_grow_chance = 2
+        self.tunnel_grow_chance = 1
 
         #
         # How often a random room is locked
@@ -327,6 +329,15 @@ class Maze:
         self.remove_water()
 
         #
+        # Let lava melt through walls
+        #
+        self.dissolve_room_walls()
+        self.debug("^^^ dissolved walls next to lava ^^^")
+
+        self.dissolve_room_cwalls()
+        self.debug("^^^ dissolved cwalls next to lava ^^^")
+
+        #
         # Bridges rise and fall
         #
         self.rooms_corridor_bridge_height()
@@ -339,16 +350,24 @@ class Maze:
         self.debug("^^^ add corridor walls ^^^")
 
         #
-        # Let lava melt through walls
+        # Add random bridges in the darkness
         #
-        self.dissolve_room_walls()
-        self.debug("^^^ dissolved walls next to lava ^^^")
+        self.add_chasm_bridges()
+        self.add_lava_bridges()
+        self.add_water_bridges()
+        self.debug("^^^ add chasm bridges ^^^")
 
-        self.dissolve_room_cwalls()
-        self.debug("^^^ dissolved cwalls next to lava ^^^")
+        #
+        # Bridges rise and fall
+        #
+        self.rooms_corridor_bridge_height()
+        self.debug("^^^ calculated bridge height ^^^")
 
         self.add_rock()
         self.debug("^^^ add rock ^^^")
+
+        self.debug("^^^ add tunnels ^^^")
+        self.add_tunnels()
 
     def debug(self, s):
         return
@@ -688,14 +707,14 @@ class Maze:
     def room_can_be_placed(self, roomno, x, y):
         room = self.rooms[roomno]
 
-        if x < 1:
+        if x < 2:
             return False
-        elif x + room.width >= self.width - 1:
+        elif x + room.width >= self.width - 2:
             return False
 
-        if y < 1:
+        if y < 2:
             return False
-        elif y + room.height >= self.height - 1:
+        elif y + room.height >= self.height - 2:
             return False
 
         vert_floor_slice = room.vert_slice["floor"]
@@ -788,6 +807,53 @@ class Maze:
         # Keep on growing
         #
         self.room_corridor_draw(x, y, dx, dy, clen, fork_count + 1)
+
+    #
+    # Grow a tunnel in the given direction
+    #
+    def room_tunnel_draw(self, x, y, dx, dy, clen=0, fork_count=0):
+        x += dx
+        y += dy
+
+        if x < 2:
+            return
+        elif x >= self.width - 3:
+            return
+
+        if y < 2:
+            return
+        elif y >= self.height - 3:
+            return
+
+        if not self.is_rock_at(x, y):
+            return
+
+        clen += 1
+
+        self.putc(x, y, Depth.wall, SPACE)
+        self.putc(x, y, Depth.floor, CORRIDOR)
+
+        #
+        # Reached the end of a corridor?
+        #
+        if random.randint(1, 100) < clen * self.corridor_grow_chance:
+            return
+
+        #
+        # Stopped growing. Fork the corridor.
+        # Don't do tunnels forks adjacent to each other.
+        #
+        if fork_count < 3 and clen % 2 == 0:
+            if random.randint(1, 100) < self.tunnel_fork_chance:
+                self.room_tunnel_draw(x, y, dy, dx, clen, fork_count + 1)
+
+            if random.randint(1, 100) < self.tunnel_fork_chance:
+                self.room_tunnel_draw(x, y, -dy, -dx, clen, fork_count + 1)
+
+        #
+        # Keep on growing
+        #
+        self.room_tunnel_draw(x, y, dx, dy, clen, fork_count + 1)
 
     #
     # Search the whole level for possible room exits
@@ -1835,6 +1901,121 @@ class Maze:
         x = random.randint(0, self.width - 1)
         y = random.randint(0, self.height - 1)
         self.depth_map_flood(x, y, Depth.under, CHASM)
+
+    #
+    # Find empty spots in chasms and create some random bridges
+    #
+    def add_chasm_bridges(self):
+        for y in range(1, self.height, 2):
+            for x in range(1, self.width, 2):
+                if not self.is_chasm_at(x, y):
+                    continue
+
+                if not self.is_chasm_at(x - 1, y - 1) or \
+                   not self.is_chasm_at(x, y - 1) or \
+                   not self.is_chasm_at(x + 1, y - 1) or \
+                   not self.is_chasm_at(x - 1, y) or \
+                   not self.is_chasm_at(x + 1, y) or \
+                   not self.is_chasm_at(x - 1, y + 1) or \
+                   not self.is_chasm_at(x, y + 1) or \
+                   not self.is_chasm_at(x + 1, y + 1):
+                    continue
+
+                if random.randint(0, 100) < 95:
+                    continue
+
+                self.putc(x, y, Depth.floor, CORRIDOR)
+
+                self.room_corridor_draw(x, y, 0, - 1)
+                self.room_corridor_draw(x, y, -1, 0)
+                self.room_corridor_draw(x, y, 1, 0)
+                self.room_corridor_draw(x, y, 0, 1)
+
+    #
+    # Find empty spots in lavas and create some random bridges
+    #
+    def add_lava_bridges(self):
+        for y in range(1, self.height, 2):
+            for x in range(1, self.width, 2):
+                if not self.is_lava_at(x, y):
+                    continue
+
+                if not self.is_lava_at(x - 1, y - 1) or \
+                   not self.is_lava_at(x, y - 1) or \
+                   not self.is_lava_at(x + 1, y - 1) or \
+                   not self.is_lava_at(x - 1, y) or \
+                   not self.is_lava_at(x + 1, y) or \
+                   not self.is_lava_at(x - 1, y + 1) or \
+                   not self.is_lava_at(x, y + 1) or \
+                   not self.is_lava_at(x + 1, y + 1):
+                    continue
+
+                if random.randint(0, 100) < 95:
+                    continue
+
+                self.putc(x, y, Depth.floor, CORRIDOR)
+
+                self.room_corridor_draw(x, y, 0, - 1)
+                self.room_corridor_draw(x, y, -1, 0)
+                self.room_corridor_draw(x, y, 1, 0)
+                self.room_corridor_draw(x, y, 0, 1)
+
+    #
+    # Find empty spots in waters and create some random bridges
+    #
+    def add_water_bridges(self):
+        for y in range(1, self.height, 2):
+            for x in range(1, self.width, 2):
+                if not self.is_water_at(x, y):
+                    continue
+
+                if not self.is_water_at(x - 1, y - 1) or \
+                   not self.is_water_at(x, y - 1) or \
+                   not self.is_water_at(x + 1, y - 1) or \
+                   not self.is_water_at(x - 1, y) or \
+                   not self.is_water_at(x + 1, y) or \
+                   not self.is_water_at(x - 1, y + 1) or \
+                   not self.is_water_at(x, y + 1) or \
+                   not self.is_water_at(x + 1, y + 1):
+                    continue
+
+                if random.randint(0, 100) < 95:
+                    continue
+
+                self.putc(x, y, Depth.floor, CORRIDOR)
+
+                self.room_corridor_draw(x, y, 0, - 1)
+                self.room_corridor_draw(x, y, -1, 0)
+                self.room_corridor_draw(x, y, 1, 0)
+                self.room_corridor_draw(x, y, 0, 1)
+
+    #
+    # Find empty spots in waters and create some random tunnels
+    #
+    def add_tunnels(self):
+        for y in range(3, self.height, 4):
+            for x in range(3, self.width, 4):
+
+                if not self.is_rock_at(x - 1, y - 1) or \
+                   not self.is_rock_at(x, y - 1) or \
+                   not self.is_rock_at(x + 1, y - 1) or \
+                   not self.is_rock_at(x - 1, y) or \
+                   not self.is_rock_at(x + 1, y) or \
+                   not self.is_rock_at(x - 1, y + 1) or \
+                   not self.is_rock_at(x, y + 1) or \
+                   not self.is_rock_at(x + 1, y + 1):
+                    continue
+
+                if random.randint(0, 100) < 75:
+                    continue
+
+                self.putc(x, y, Depth.wall, SPACE)
+                self.putc(x, y, Depth.floor, CORRIDOR)
+
+                self.room_tunnel_draw(x, y, 0, - 1)
+                self.room_tunnel_draw(x, y, -1, 0)
+                self.room_tunnel_draw(x, y, 1, 0)
+                self.room_tunnel_draw(x, y, 0, 1)
 
     def add_rock(self):
         for y in range(self.height):

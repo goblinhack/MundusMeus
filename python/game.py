@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(91)
+        self.maze_create(2)
 
         self.map_wid_create()
 
@@ -77,12 +77,10 @@ class Game:
         for y in range(1, mm.MAP_HEIGHT - 1):
             for x in range(1, mm.MAP_WIDTH - 1):
 
-                nothing_placed_here = True
                 place_stalactite = False
 
                 if m.is_floor_at(x, y):
                     place_stalactite = True
-                    nothing_placed_here = False
                     t = thing.Thing(self.level, tp_name="floor1")
                     t.push(x, y)
                     t.set_depth(m.depth_map.cells[x][y])
@@ -95,11 +93,9 @@ class Game:
                 if m.is_start_at(x, y):
                     t = thing.Thing(self.level, tp_name="player1")
                     t.push(x, y)
-                    nothing_placed_here = False
 
                 if m.is_wall_at(x, y):
                     place_stalactite = True
-                    nothing_placed_here = False
                     t = thing.Thing(self.level, tp_name="wall1")
                     t.push(x, y)
 
@@ -218,11 +214,9 @@ class Game:
                         t.set_tilename("cwall1-n90")
                     else:
                         t.set_tilename("cwall1-node")
-                    nothing_placed_here = False
 
                 if m.is_corridor_at(x, y):
                     place_stalactite = True
-                    nothing_placed_here = False
                     t = thing.Thing(self.level, tp_name="corridor1")
                     t.set_depth(m.bridge_height[x][y])
                     t.push(x, y)
@@ -233,7 +227,6 @@ class Game:
                             t.push(x, y)
 
                 if m.is_water_at(x, y):
-                    nothing_placed_here = False
 
                     if m.is_floor_at(x, y) or \
                        m.is_corridor_at(x, y):
@@ -258,7 +251,6 @@ class Game:
                     t.set_depth(m.depth_map.cells[x][y])
 
                 if m.is_lava_at(x, y):
-                    nothing_placed_here = False
 
                     if m.is_floor_at(x, y) or \
                        m.is_corridor_at(x, y):
@@ -290,32 +282,12 @@ class Game:
                     t.set_depth(m.depth_map.cells[x][y])
 
                 if m.is_rock_at(x, y):
-                    nothing_placed_here = False
                     place_stalactite = True
                     t = thing.Thing(self.level, tp_name="rock1")
                     t.push(x, y)
 
                 if m.is_chasm_at(x, y):
-                    if nothing_placed_here:
-                        if m.is_chasm_at(x - 1, y - 1) and \
-                           m.is_chasm_at(x, y - 1) and \
-                           m.is_chasm_at(x + 1, y - 1) and \
-                           m.is_chasm_at(x - 1, y) and \
-                           m.is_chasm_at(x + 1, y) and \
-                           m.is_chasm_at(x - 1, y + 1) and \
-                           m.is_chasm_at(x, y + 1) and \
-                           m.is_chasm_at(x + 1, y + 1):
-                            if random.randint(0, 100) < 5:
-                                t = thing.Thing(self.level, tp_name="floor1")
-                                t.push(x, y)
-                                nothing_placed_here = False
-                                place_stalactite = True
-                            else:
-                                continue
-                        else:
-                            continue
-                    else:
-                        continue
+                    continue
 
                 if place_stalactite:
                     t = thing.Thing(self.level, tp_name="stalactite1")
