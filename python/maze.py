@@ -160,7 +160,7 @@ class Maze:
         #
         # Lower, longer corridors
         #
-        self.corridor_grow_chance = 1
+        self.corridor_grow_chance = 2
 
         #
         # How often a random room is locked
