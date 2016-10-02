@@ -7472,7 +7472,16 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
         if (map_is_wall_at(level, (int)t->x, (int)t->y)) {
             return;
         }
+
         if (map_is_floor_at(level, (int)t->x, (int)t->y)) {
+            return;
+        }
+        
+        if (map_is_corridor_at(level, (int)t->x, (int)t->y)) {
+            return;
+        }
+
+        if (map_is_dusty_at(level, (int)t->x, (int)t->y)) {
             return;
         }
     }
@@ -7721,7 +7730,7 @@ static void wid_display_fast (widp w,
     int tx = t->x;
     int ty = t->y;
 
-    if (tp_is_corridor(tp)) {
+    if (tp_is_corridor(tp) || tp_is_dusty(tp)) {
         floor_offset[tx][ty] = blit_y_offset;
     } else {
         blit_y_offset += floor_offset[tx][ty];

@@ -153,6 +153,16 @@ tpp map_is_floor_at (levelp level, int32_t x, int32_t y)
     return (map_is_x_at(level, x, y, tp_is_floor));
 }
 
+tpp map_is_corridor_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_corridor));
+}
+
+tpp map_is_dusty_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_dusty));
+}
+
 thingp map_thing_is_x_at (levelp level,
                           int32_t x, int32_t y,
                           map_is_at_callback callback)

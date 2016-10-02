@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(2)
+        self.maze_create(6)
 
         self.map_wid_create()
 
@@ -82,11 +82,33 @@ class Game:
                 if m.is_floor_at(x, y):
                     place_stalactite = True
                     t = thing.Thing(self.level, tp_name="floor1")
-                    t.push(x, y)
                     t.set_depth(m.depth_map.cells[x][y])
+                    t.push(x, y)
 
-                    if not m.is_wall_at(x, y):
-                        if random.randint(0, 100) < 5:
+                    if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
+                        if random.randint(0, 100) < 2:
+                            t = thing.Thing(self.level, tp_name="torch1")
+                            t.push(x, y)
+
+                if m.is_dusty_at(x, y):
+                    place_stalactite = True
+                    t = thing.Thing(self.level, tp_name="dusty1")
+                    t.set_depth(m.depth_map.cells[x][y])
+                    t.push(x, y)
+
+                    if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
+                        if random.randint(0, 100) < 100:
+                            t = thing.Thing(self.level, tp_name="torch1")
+                            t.push(x, y)
+
+                if m.is_corridor_at(x, y):
+                    place_stalactite = True
+                    t = thing.Thing(self.level, tp_name="corridor1")
+                    t.set_depth(m.bridge_height[x][y])
+                    t.push(x, y)
+
+                    if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
+                        if random.randint(0, 100) < 2:
                             t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
 
@@ -214,17 +236,6 @@ class Game:
                         t.set_tilename("cwall1-n90")
                     else:
                         t.set_tilename("cwall1-node")
-
-                if m.is_corridor_at(x, y):
-                    place_stalactite = True
-                    t = thing.Thing(self.level, tp_name="corridor1")
-                    t.set_depth(m.bridge_height[x][y])
-                    t.push(x, y)
-
-                    if not m.is_wall_at(x, y):
-                        if random.randint(0, 100) < 50:
-                            t = thing.Thing(self.level, tp_name="torch1")
-                            t.push(x, y)
 
                 if m.is_water_at(x, y):
 

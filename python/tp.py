@@ -52,7 +52,7 @@ class Tp:
         self.is_rrr8 = False
         self.is_rrr9 = False
         self.is_rrr10 = False
-        self.is_rrr11 = False
+        self.is_dusty = False
         self.is_corridor = False
         self.light_pulse_amount = False
         self.is_healing = False
@@ -236,9 +236,9 @@ class Tp:
         self.is_rrr10 = value
         mm.tp_set_is_rrr10(self, value)
 
-    def set_is_rrr11(self, value):
-        self.is_rrr11 = value
-        mm.tp_set_is_rrr11(self, value)
+    def set_is_dusty(self, value):
+        self.is_dusty = value
+        mm.tp_set_is_dusty(self, value)
 
     def set_is_corridor(self, value):
         self.is_corridor = value
