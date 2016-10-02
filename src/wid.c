@@ -137,7 +137,9 @@ static int32_t wid_highest_priority = 1;
 static int32_t wid_lowest_priority = -1;
 
 static double light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
+static double floor_depth[MAP_WIDTH][MAP_HEIGHT];
 static int light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
+static double floor_offset[MAP_WIDTH][MAP_HEIGHT];
 
 /*
  * History for all text widgets.
@@ -7710,8 +7712,23 @@ static void wid_display_fast (widp w,
     br.x += shake_x;
     br.y += shake_y;
 
-    tl.y += w->blit_y_offset;
-    br.y += w->blit_y_offset;
+    /*
+     * If something is sitting on a floor tile that is elevated like a bridge, 
+     * then make sure everything else is elevated.
+     */
+    double blit_y_offset = w->blit_y_offset;
+
+    int tx = t->x;
+    int ty = t->y;
+
+    if (tp_is_corridor(tp)) {
+        floor_offset[tx][ty] = blit_y_offset;
+    } else {
+        blit_y_offset += floor_offset[tx][ty];
+    }
+
+    tl.y += blit_y_offset;
+    br.y += blit_y_offset;
 
     /*
      * Allow slime molds to look either way without bothering to create the
@@ -7756,33 +7773,106 @@ static void wid_display_fast (widp w,
         } else
 #endif
         {
-            if (tp_is_water(tp)) {
+            if (tp_is_floor(tp)) {
                 color a = WHITE;
                 color b = WHITE;
                 color c = WHITE;
                 color d = WHITE;
 
-                int tx = t->x;
-                int ty = t->y;
+                floor_depth[tx][ty] = t->depth;
+
+                double depth;
+                double depth_scale = 0.4;
+
+                if (floor_depth[tx][ty]) {
+                    depth = (floor_depth[tx][ty]) / 64.0;
+                    depth *= depth_scale;
+                    depth = 1.0 - depth;
+                    a.r *= depth;
+                    a.g *= depth;
+                    a.b *= depth;
+                }
+
+                if (floor_depth[tx+1][ty]) {
+                    depth = (floor_depth[tx+1][ty]) / 64.0;
+                    depth *= depth_scale;
+                    depth = 1.0 - depth;
+                    b.r *= depth;
+                    b.g *= depth;
+                    b.b *= depth;
+                }
+
+                if (floor_depth[tx][ty+1]) {
+                    depth = (floor_depth[tx][ty+1]) / 64.0;
+                    depth *= depth_scale;
+                    depth = 1.0 - depth;
+                    c.r *= depth;
+                    c.g *= depth;
+                    c.b *= depth;
+                }
+
+                if (floor_depth[tx+1][ty+1]) {
+                    depth = (floor_depth[tx+1][ty+1]) / 64.0;
+                    depth *= depth_scale;
+                    depth = 1.0 - depth;
+                    d.r *= depth;
+                    d.g *= depth;
+                    d.b *= depth;
+                }
+
+                tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
+
+            } else if (tp_is_water(tp)) {
+                color a = WHITE;
+                color b = WHITE;
+                color c = WHITE;
+                color d = WHITE;
+
+                floor_depth[tx][ty] = t->depth;
 
                 a.g = 150 + 100.0 * light_pulse_amount[tx][ty];
                 b.g = 150 + 100.0 * light_pulse_amount[tx + 1][ty];
                 c.g = 150 + 100.0 * light_pulse_amount[tx][ty + 1];
                 d.g = 150 + 100.0 * light_pulse_amount[tx + 1][ty + 1];
 
-                double depth = ((t->depth) / 64.0);
-                a.g *= depth;
-                b.g *= depth;
-                c.g *= depth;
-                d.g *= depth;
-                a.r *= depth;
-                b.r *= depth;
-                c.r *= depth;
-                d.r *= depth;
-                a.b *= depth;
-                b.b *= depth;
-                c.b *= depth;
-                d.b *= depth;
+                double depth;
+                double depth_scale = 0.7;
+
+                if (floor_depth[tx][ty]) {
+                    depth = (floor_depth[tx][ty]) / 64.0;
+                    depth *= depth_scale;
+                    depth = 1.0 - depth;
+                    a.r *= depth;
+                    a.g *= depth;
+                    a.b *= depth;
+                }
+
+                if (floor_depth[tx+1][ty]) {
+                    depth = (floor_depth[tx+1][ty]) / 64.0;
+                    depth *= depth_scale;
+                    depth = 1.0 - depth;
+                    b.r *= depth;
+                    b.g *= depth;
+                    b.b *= depth;
+                }
+
+                if (floor_depth[tx][ty+1]) {
+                    depth = (floor_depth[tx][ty+1]) / 64.0;
+                    depth *= depth_scale;
+                    depth = 1.0 - depth;
+                    c.r *= depth;
+                    c.g *= depth;
+                    c.b *= depth;
+                }
+
+                if (floor_depth[tx+1][ty+1]) {
+                    depth = (floor_depth[tx+1][ty+1]) / 64.0;
+                    depth *= depth_scale;
+                    depth = 1.0 - depth;
+                    d.r *= depth;
+                    d.g *= depth;
+                    d.b *= depth;
+                }
 
                 tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
 
@@ -8355,7 +8445,7 @@ static void wid_lighting_render (widp w,
     double light_delta = 0.5;
 
     /*
-     * Lava light
+     * Water light
      */
     if (tp_light_pulse_amount(t->tp)) {
         if (light_pulse_amount[tx][ty] == 0.0) {
@@ -9272,6 +9362,8 @@ static void wid_display (widp w,
         if (unlikely(w->shaking)) {
             wid_get_shake(w, &shake_x, &shake_y);
         }
+
+        memset(floor_offset, 0, sizeof(floor_offset));
 
         for (y = miny; y < maxy; y++) {
             for (z = 0; z < Z_DEPTH; z++) {

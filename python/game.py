@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(86)
+        self.maze_create(91)
 
         self.map_wid_create()
 
@@ -85,6 +85,7 @@ class Game:
                     nothing_placed_here = False
                     t = thing.Thing(self.level, tp_name="floor1")
                     t.push(x, y)
+                    t.set_depth(m.depth_map.cells[x][y])
 
                     if not m.is_wall_at(x, y):
                         if random.randint(0, 100) < 5:
