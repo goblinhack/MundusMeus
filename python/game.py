@@ -89,7 +89,7 @@ class Game:
 
                     if not m.is_wall_at(x, y):
                         if random.randint(0, 100) < 5:
-                            t = thing.Thing(self.level, tp_name="jellycube1")
+                            t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
 
                 if m.is_start_at(x, y):
@@ -229,7 +229,7 @@ class Game:
 
                     if not m.is_wall_at(x, y):
                         if random.randint(0, 100) < 50:
-                            t = thing.Thing(self.level, tp_name="jellycube1")
+                            t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
 
                 if m.is_water_at(x, y):
