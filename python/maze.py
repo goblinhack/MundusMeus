@@ -368,6 +368,7 @@ class Maze:
         #
         self.rooms_corridor_bridge_height()
         self.debug("^^^ calculated bridge height ^^^")
+        self.rooms_corridor_bridge_smooth()
 
         self.add_rock()
         self.debug("^^^ add rock ^^^")
@@ -852,6 +853,18 @@ class Maze:
             return
 
         if not self.is_rock_at(x, y):
+
+            if random.randint(1, 100) < 50:
+                for dx, dy in ALL_DELTAS:
+                    tx = x + dx
+                    ty = y + dy
+
+                    if not self.is_wall_at(tx, ty) and \
+                       not self.is_cwall_at(tx, ty) and \
+                       not self.is_corridor_at(tx, ty) and \
+                       not self.is_dusty_at(tx, ty):
+                        self.putc(tx, ty, Depth.wall, SPACE)
+                        self.putc(tx, ty, Depth.floor, FLOOR)
             return
 
         clen += 1
@@ -1372,6 +1385,31 @@ class Maze:
                         self.bridge_height[x][y] = (y - y1)
                     else:
                         self.bridge_height[x][y] = (y2 - y)
+
+    def rooms_corridor_bridge_smooth(self):
+
+        new_bridge_height = [[0 for i in range(self.height)]
+                             for j in range(self.width)]
+
+        for y in range(1, self.height - 1):
+            for x in range(1, self.width - 1):
+                if self.bridge_height[x][y] == 0:
+                    continue
+
+                h = 0
+                count = 0
+
+                for dx, dy in ALL_DELTAS:
+                    tx = x + dx
+                    ty = y + dy
+
+                    if self.bridge_height[tx][ty] != 0:
+                        count += 1.0
+                        h += self.bridge_height[tx][ty]
+
+                new_bridge_height[x][y] = h / count
+
+        self.bridge_height = new_bridge_height
 
     #
     # Any rooms opening onto nothing, fill them in

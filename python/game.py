@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(6)
+        self.maze_create(8)
 
         self.map_wid_create()
 
@@ -80,35 +80,32 @@ class Game:
                 place_stalactite = False
 
                 if m.is_floor_at(x, y):
-                    place_stalactite = True
                     t = thing.Thing(self.level, tp_name="floor1")
                     t.set_depth(m.depth_map.cells[x][y])
                     t.push(x, y)
 
                     if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
-                        if random.randint(0, 100) < 2:
+                        if random.randint(0, 100) < 5:
                             t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
 
                 if m.is_dusty_at(x, y):
-                    place_stalactite = True
                     t = thing.Thing(self.level, tp_name="dusty1")
-                    t.set_depth(m.depth_map.cells[x][y])
+                    t.set_depth(m.bridge_height[x][y])
                     t.push(x, y)
 
                     if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
-                        if random.randint(0, 100) < 100:
+                        if random.randint(0, 100) < 50:
                             t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
 
                 if m.is_corridor_at(x, y):
-                    place_stalactite = True
                     t = thing.Thing(self.level, tp_name="corridor1")
                     t.set_depth(m.bridge_height[x][y])
                     t.push(x, y)
 
                     if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
-                        if random.randint(0, 100) < 2:
+                        if random.randint(0, 100) < 5:
                             t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
 
@@ -237,33 +234,10 @@ class Game:
                     else:
                         t.set_tilename("cwall1-node")
 
-                if m.is_water_at(x, y):
-
-                    if m.is_floor_at(x, y) or \
-                       m.is_corridor_at(x, y):
-                        #
-                        # Underground water
-                        #
-                        t = thing.Thing(self.level, tp_name="water1")
-                        t.push(x, y)
-
-                    elif m.is_wall_at(x, y - 1) or m.is_rock_at(x, y - 1):
-                        t = thing.Thing(self.level, tp_name="water1-top")
-                        t.push(x, y)
-
-                    elif m.is_corridor_at(x, y - 1) or m.is_cwall_at(x, y - 1):
-                        t = thing.Thing(self.level, tp_name="water1-top")
-                        t.push(x, y)
-
-                    else:
-                        t = thing.Thing(self.level, tp_name="water1")
-                        t.push(x, y)
-
-                    t.set_depth(m.depth_map.cells[x][y])
-
                 if m.is_lava_at(x, y):
 
                     if m.is_floor_at(x, y) or \
+                       m.is_dusty_at(x, y) or \
                        m.is_corridor_at(x, y):
                         #
                         # Underground lava
@@ -286,8 +260,50 @@ class Game:
                         t = thing.Thing(self.level, tp_name="lava1-top")
                         t.push(x, y)
 
+                    elif m.is_dusty_at(x, y - 1) and \
+                            not m.is_dusty_at(x, y):
+                        t = thing.Thing(self.level, tp_name="lava1-top")
+                        t.push(x, y)
+
                     else:
                         t = thing.Thing(self.level, tp_name="lava1")
+                        t.push(x, y)
+
+                    t.set_depth(m.depth_map.cells[x][y])
+
+                if m.is_water_at(x, y):
+
+                    if m.is_floor_at(x, y) or \
+                       m.is_dusty_at(x, y) or \
+                       m.is_corridor_at(x, y):
+                        #
+                        # Underground water
+                        #
+                        t = thing.Thing(self.level, tp_name="water1")
+                        t.push(x, y)
+
+                    elif m.is_wall_at(x, y - 1) or \
+                            m.is_rock_at(x, y - 1) or \
+                            m.is_cwall_at(x, y - 1):
+                        t = thing.Thing(self.level, tp_name="water1-top")
+                        t.push(x, y)
+
+                    elif m.is_floor_at(x, y - 1) and not m.is_floor_at(x, y):
+                        t = thing.Thing(self.level, tp_name="water1-top")
+                        t.push(x, y)
+
+                    elif m.is_corridor_at(x, y - 1) and \
+                            not m.is_corridor_at(x, y):
+                        t = thing.Thing(self.level, tp_name="water1-top")
+                        t.push(x, y)
+
+                    elif m.is_dusty_at(x, y - 1) and \
+                            not m.is_dusty_at(x, y):
+                        t = thing.Thing(self.level, tp_name="water1-top")
+                        t.push(x, y)
+
+                    else:
+                        t = thing.Thing(self.level, tp_name="water1")
                         t.push(x, y)
 
                     t.set_depth(m.depth_map.cells[x][y])
