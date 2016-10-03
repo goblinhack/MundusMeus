@@ -313,6 +313,14 @@ class Game:
                     t = thing.Thing(self.level, tp_name="rock1")
                     t.push(x, y)
 
+                if m.is_door_at(x, y):
+                    t = thing.Thing(self.level, tp_name="door1")
+                    t.push(x, y)
+                    ndoors = len(t.tp.tiles)
+                    whichdoor = m.getr(x, y) % ndoors
+                    whichdoor += 1
+                    t.set_tilename("door1." + str(whichdoor))
+
                 if m.is_chasm_at(x, y):
                     continue
 
