@@ -369,6 +369,8 @@ class Maze:
         self.rooms_corridor_bridge_height()
         self.debug("^^^ calculated bridge height ^^^")
         self.rooms_corridor_bridge_smooth()
+        self.rooms_corridor_bridge_smooth()
+        self.rooms_corridor_bridge_smooth()
 
         self.add_rock()
         self.debug("^^^ add rock ^^^")
