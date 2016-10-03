@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(8)
+        self.maze_create(9)
 
         self.map_wid_create()
 
