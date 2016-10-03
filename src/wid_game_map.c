@@ -380,7 +380,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
 
     thing_wid_update(t, x + dx, y + dy, false /* smooth */);
 
-    if (tp_is_corridor(tp)) {
+    if (tp_is_corridor(tp) || tp_is_dusty(tp)) {
         double d = t->depth;
         if (d > 7) {
             d = 7;
