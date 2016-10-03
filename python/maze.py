@@ -338,10 +338,10 @@ class Maze:
         # Let lava melt through walls
         #
         self.dissolve_room_walls()
-        self.debug("^^^ dissolved walls next to lava ^^^")
+        self.debug("^^^ dissolved walls ^^^")
 
         self.dissolve_room_cwalls()
-        self.debug("^^^ dissolved cwalls next to lava ^^^")
+        self.debug("^^^ dissolved cwalls ^^^")
 
         #
         # Bridges rise and fall
@@ -1485,7 +1485,14 @@ class Maze:
                         continue
 
                     if self.is_dissolves_walls_at(tx, ty):
-                        self.putc(x, y, Depth.wall, SPACE)
+                        if self.is_door_at(x + 1, y) or \
+                           self.is_door_at(x - 1, y) or \
+                           self.is_door_at(x, y + 1) or \
+                           self.is_door_at(x, y - 1):
+                            self.putc(x, y, Depth.wall, DOOR)
+                        else:
+                            self.putc(x, y, Depth.wall, SPACE)
+
                         break
 
     #
