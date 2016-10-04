@@ -11,6 +11,7 @@
 #include "thing_template.h"
 #include <stdlib.h>
 #include <math.h>
+#include <Python.h>
 
 uint8_t thing_init(void);
 void thing_fini(void);
@@ -21,7 +22,7 @@ void thing_set_depth_(thingp t, double);
 
 thingp thing_find(const char *name);
 void thing_move_(thingp t, double x, double y);
-void thing_push_(thingp t, double x, double y);
+PyObject *thing_push_(thingp t, double x, double y);
 void thing_pop_(thingp t);
 void thing_sanity(thingp);
 int thing_tick_all(levelp level);

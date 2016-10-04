@@ -108,7 +108,7 @@ void thing_move_ (thingp t, double x, double y)
     verify(t);
 }
 
-void thing_push_ (thingp t, double x, double y)
+PyObject *thing_push_ (thingp t, double x, double y)
 {
     verify(t);
 
@@ -121,6 +121,8 @@ void thing_push_ (thingp t, double x, double y)
     }
 
     t->wid = wid_game_map_replace_tile(x, y, t);
+
+    return (Py_BuildValue("K", (uintptr_t) t->wid));
 }
 
 void thing_pop_ (thingp t)
