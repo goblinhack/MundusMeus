@@ -1,5 +1,6 @@
 import traceback
 import mm
+import wid
 import tp
 
 
@@ -72,7 +73,9 @@ class Thing:
 
         self.on_map = True
         self.level.on_map[x][y].append(self)
-        mm.thing_push(self, x, y)
+
+        self.wid_id = mm.thing_push(self, x, y)
+        self.wid = wid.Wid(name=self.tp_name, wid_id=self.wid_id)
 
     def pop(self):
         if not self.on_map:

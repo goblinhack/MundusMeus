@@ -376,7 +376,7 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define THING_BODY_DOUBLE_DOUBLE_FN(__field__, __fn__)                          \
+#define THING_BODY_DOUBLE_DOUBLE_VOID_FN(__field__, __fn__)                     \
 PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) \
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
@@ -418,6 +418,51 @@ done:	                                                                        \
     }	                                                                        \
 	                                                                        \
     Py_RETURN_NONE;	                                                        \
+}	                                                                        \
+
+#define THING_BODY_DOUBLE_DOUBLE_FN(__field__, __fn__)                          \
+PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) \
+{	                                                                        \
+    PyObject *py_class = 0;	                                                \
+    char *thing_name = 0;	                                                \
+    double d1 = 0;                                                              \
+    double d2 = 0;                                                              \
+    PyObject *o = 0;                                                            \
+	                                                                        \
+    static char *kwlist[] = {"class", "x", "y", 0};	                        \
+	                                                                        \
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dd", kwlist, &py_class,   \
+                                     &d1, &d2)) {	                        \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    if (!py_class) {	                                                        \
+        ERR("%s, missing class", __FUNCTION__);	                                \
+        return (0);	                                                        \
+    }	                                                                        \
+	                                                                        \
+    thing_name = py_obj_attr_str(py_class, "name");	                        \
+    if (!thing_name) {	                                                        \
+        ERR("%s, missing tp name", __FUNCTION__);	                        \
+        goto done;	                                                        \
+    }	                                                                        \
+	                                                                        \
+    LOG("python-to-c: %s(%s -> %f, %f)", __FUNCTION__, thing_name, d1, d2);	\
+	                                                                        \
+    thingp tp = thing_find(thing_name);	                                        \
+    if (!tp) {	                                                                \
+        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        goto done;	                                                        \
+    }	                                                                        \
+	                                                                        \
+    o = (__fn__)(tp, d1, d2);                                                   \
+	                                                                        \
+done:	                                                                        \
+    if (thing_name) {	                                                        \
+        myfree(thing_name);	                                                \
+    }	                                                                        \
+	                                                                        \
+    return (o);	                                                                \
 }	                                                                        \
 
 #define THING_BODY_VOID_FN(__field__, __fn__)                                   \
@@ -464,6 +509,6 @@ done:	                                                                        \
 THING_BODY_STRING_FN(destroyed, thing_destroyed_)
 THING_BODY_STRING_FN(set_tilename, thing_set_tilename_)
 THING_BODY_DOUBLE_FN(set_depth, thing_set_depth_)
-THING_BODY_DOUBLE_DOUBLE_FN(move, thing_move_)
+THING_BODY_DOUBLE_DOUBLE_VOID_FN(move, thing_move_)
 THING_BODY_DOUBLE_DOUBLE_FN(push, thing_push_)
 THING_BODY_VOID_FN(pop, thing_pop_)

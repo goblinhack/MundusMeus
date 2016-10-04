@@ -332,6 +332,8 @@ class Game:
                     whichkey += 1
 
                     t.set_tilename("key1." + str(whichkey))
+                    t.wid.bounce_to_pct_in(height=0.1,
+                                           fade=1.0, ms=500, count=1000)
 
                 if m.is_chasm_at(x, y):
                     continue

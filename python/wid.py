@@ -6,14 +6,18 @@ all_wids = {}
 
 class Wid:
 
-    def __init__(self, name, parent=0,
+    def __init__(self, name,
+                 wid_id=0,
+                 parent=0,
                  is_grid=False,
                  is_scrollbar=False, **kw):
 
         self.parent = parent
         self.name = name
 
-        if is_grid is True:
+        if wid_id != 0:
+            self.wid_id = wid_id
+        elif is_grid is True:
             self.wid_id = mm.wid_new_grid(self, parent=parent, name=name, **kw)
         elif is_scrollbar is True:
             self.wid_id = mm.wid_new_scrollbar(self, parent, **kw)
@@ -206,6 +210,9 @@ class Wid:
 
     def move_to_pct_in(self, **kw):
         mm.wid_move_to_pct_in(self, **kw)
+
+    def bounce_to_pct_in(self, **kw):
+        mm.wid_bounce_to_pct_in(self, **kw)
 
     def move_delta(self, **kw):
         mm.wid_move_delta(self, **kw)
