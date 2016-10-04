@@ -1735,7 +1735,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr6)
     TP_SET_DECL(is_rrr7)
     TP_SET_DECL(is_rrr8)
-    TP_SET_DECL(is_rrr9)
+    TP_SET_DECL(is_chasm_smoke)
     TP_SET_DECL(is_key)
     TP_SET_DECL(is_dusty)
     TP_SET_DECL(is_corridor)

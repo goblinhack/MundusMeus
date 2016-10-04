@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(9)
+        self.maze_create(10)
 
         self.map_wid_create()
 
@@ -271,6 +271,10 @@ class Game:
 
                     t.set_depth(m.depth_map.cells[x][y])
 
+                    if random.randint(0, 100) < 30:
+                        t = thing.Thing(self.level, tp_name="chasm_smoke1")
+                        t.push(x, y)
+
                 if m.is_water_at(x, y):
 
                     if m.is_floor_at(x, y) or \
@@ -308,6 +312,10 @@ class Game:
 
                     t.set_depth(m.depth_map.cells[x][y])
 
+                    if random.randint(0, 100) < 5:
+                        t = thing.Thing(self.level, tp_name="chasm_smoke1")
+                        t.push(x, y)
+
                 if m.is_rock_at(x, y):
                     place_stalactite = True
                     t = thing.Thing(self.level, tp_name="rock1")
@@ -336,6 +344,9 @@ class Game:
                                            fade=1.0, ms=500, count=1000)
 
                 if m.is_chasm_at(x, y):
+                    if random.randint(0, 100) < 10:
+                        t = thing.Thing(self.level, tp_name="chasm_smoke1")
+                        t.push(x, y)
                     continue
 
                 if place_stalactite:

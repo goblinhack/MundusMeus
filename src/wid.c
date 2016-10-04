@@ -7484,6 +7484,10 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
         if (map_is_dusty_at(level, (int)t->x, (int)t->y)) {
             return;
         }
+
+        if (map_is_chasm_smoke_at(level, (int)t->x, (int)t->y)) {
+            return;
+        }
     }
 
     /*
@@ -8554,7 +8558,7 @@ static void wid_lighting_render (widp w,
         blit_flush_triangle_fan();
     }
 
-    debug = 1;
+    debug = 0;
     // XXX
     if (debug && thing_is_player(light->t)) {
         int i;

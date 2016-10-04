@@ -856,7 +856,7 @@ class Maze:
 
         if not self.is_rock_at(x, y):
 
-            if random.randint(1, 100) < 50:
+            if random.randint(1, 100) < 20:
                 for dx, dy in ALL_DELTAS:
                     tx = x + dx
                     ty = y + dy
