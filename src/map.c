@@ -143,6 +143,11 @@ tpp map_is_door_at (levelp level, int32_t x, int32_t y)
     return (map_is_x_at(level, x, y, tp_is_door));
 }
 
+tpp map_is_chasm_smoke_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_chasm_smoke));
+}
+
 tpp map_is_wall_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at(level, x, y, tp_is_wall));

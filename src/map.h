@@ -13,6 +13,7 @@ tpp map_is_floor_at(levelp, int32_t x, int32_t y);
 tpp map_is_corridor_at(levelp, int32_t x, int32_t y);
 tpp map_is_dusty_at(levelp, int32_t x, int32_t y);
 tpp map_is_door_at(levelp, int32_t x, int32_t y);
+tpp map_is_chasm_smoke_at(levelp, int32_t x, int32_t y);
 
 #include "tree.h"
 
