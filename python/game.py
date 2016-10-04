@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(10)
+        self.maze_create(2)
 
         self.map_wid_create()
 
@@ -325,36 +325,42 @@ class Game:
                     t = thing.Thing(self.level, tp_name="door1")
                     t.push(x, y)
 
-                    ndoors = len(t.tp.tiles)
-                    whichdoor = m.getr(x, y) % ndoors
-                    whichdoor += 1
+                    num = len(t.tp.tiles)
+                    which = m.getr(x, y)
+                    which += self.maze_seed
+                    which = which % num
+                    which += 1
 
-                    t.set_tilename("door1." + str(whichdoor))
+                    t.set_tilename("door1." + str(which))
 
                 if m.is_key_at(x, y):
                     t = thing.Thing(self.level, tp_name="key1")
                     t.push(x, y)
 
-                    nkeys = len(t.tp.tiles)
-                    whichkey = m.getr(x, y) % nkeys
-                    whichkey += 1
+                    num = len(t.tp.tiles)
+                    which = m.getr(x, y)
+                    which += self.maze_seed
+                    which = which % num
+                    which += 1
 
-                    t.set_tilename("key1." + str(whichkey))
+                    t.set_tilename("key1." + str(which))
                     t.wid.bounce_to_pct_in(height=0.1,
                                            fade=1.0, ms=500, count=1000)
 
-                if random.randint(0, 100) < 10:
+                if random.randint(0, 100) < 20:
                     if m.is_wall_at(x, y) and \
                        m.is_floor_at(x, y + 1) and \
                        not m.is_wall_at(x, y + 1):
                         t = thing.Thing(self.level, tp_name="deco1")
                         t.push(x, y)
 
-                        ndecos = len(t.tp.tiles)
-                        whichdeco = m.getr(x, y) % ndecos
-                        whichdeco += 1
+                        num = len(t.tp.tiles)
+                        which = m.getr(x, y)
+                        which += self.maze_seed
+                        which = which % num
+                        which += 1
 
-                        t.set_tilename("deco1." + str(whichdeco))
+                        t.set_tilename("deco1." + str(which))
 
                 if m.is_chasm_at(x, y):
                     if random.randint(0, 100) < 10:
