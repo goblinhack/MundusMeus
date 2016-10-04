@@ -35,9 +35,9 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(Z_DEPTH_STALACTITE,        "stalactite"),      \
     list_macro(Z_DEPTH_LAVA,              "lava"),            \
     list_macro(Z_DEPTH_FLOOR,             "floor"),           \
+    list_macro(Z_DEPTH_WALL,              "wall"),            \
     list_macro(Z_DEPTH_MONST,             "monst"),           \
     list_macro(Z_DEPTH_PLAYER,            "player"),          \
-    list_macro(Z_DEPTH_WALL,              "wall"),            \
     list_macro(Z_DEPTH_EXPLOSION,         "explosion"),       \
     list_macro(Z_DEPTH_ACTIONS,           "actions"),         \
 

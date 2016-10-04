@@ -343,6 +343,19 @@ class Game:
                     t.wid.bounce_to_pct_in(height=0.1,
                                            fade=1.0, ms=500, count=1000)
 
+                if random.randint(0, 100) < 10:
+                    if m.is_wall_at(x, y) and \
+                       m.is_floor_at(x, y + 1) and \
+                       not m.is_wall_at(x, y + 1):
+                        t = thing.Thing(self.level, tp_name="deco1")
+                        t.push(x, y)
+
+                        ndecos = len(t.tp.tiles)
+                        whichdeco = m.getr(x, y) % ndecos
+                        whichdeco += 1
+
+                        t.set_tilename("deco1." + str(whichdeco))
+
                 if m.is_chasm_at(x, y):
                     if random.randint(0, 100) < 10:
                         t = thing.Thing(self.level, tp_name="chasm_smoke1")
