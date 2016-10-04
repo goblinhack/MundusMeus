@@ -51,7 +51,7 @@ class Tp:
         self.is_rrr7 = False
         self.is_rrr8 = False
         self.is_rrr9 = False
-        self.is_rrr10 = False
+        self.is_key = False
         self.is_dusty = False
         self.is_corridor = False
         self.light_pulse_amount = False
@@ -232,9 +232,9 @@ class Tp:
         self.is_rrr9 = value
         mm.tp_set_is_rrr9(self, value)
 
-    def set_is_rrr10(self, value):
-        self.is_rrr10 = value
-        mm.tp_set_is_rrr10(self, value)
+    def set_is_key(self, value):
+        self.is_key = value
+        mm.tp_set_is_key(self, value)
 
     def set_is_dusty(self, value):
         self.is_dusty = value
