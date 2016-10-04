@@ -316,10 +316,22 @@ class Game:
                 if m.is_door_at(x, y):
                     t = thing.Thing(self.level, tp_name="door1")
                     t.push(x, y)
+
                     ndoors = len(t.tp.tiles)
                     whichdoor = m.getr(x, y) % ndoors
                     whichdoor += 1
+
                     t.set_tilename("door1." + str(whichdoor))
+
+                if m.is_key_at(x, y):
+                    t = thing.Thing(self.level, tp_name="key1")
+                    t.push(x, y)
+
+                    nkeys = len(t.tp.tiles)
+                    whichkey = m.getr(x, y) % nkeys
+                    whichkey += 1
+
+                    t.set_tilename("key1." + str(whichkey))
 
                 if m.is_chasm_at(x, y):
                     continue

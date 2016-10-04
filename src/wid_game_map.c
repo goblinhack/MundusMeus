@@ -388,6 +388,10 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         wid_set_blit_y_offset(child, wid_get_height(child) * -d * 0.10);
     }
 
+    if (tp_is_key(t->tp)) {
+        wid_bounce_to_pct_in(child, 0.1, 1.0, 500, 99999);
+    }
+
     /*
      * If this is a pre-existing thing perhaps being recreated ona new level
      * then it will have a direction already. Update it.
