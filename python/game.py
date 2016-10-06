@@ -110,8 +110,27 @@ class Game:
                             t.push(x, y)
 
                 if m.is_start_at(x, y):
+                    t = thing.Thing(self.level, tp_name="start1")
+                    t.set_depth(m.depth_map.cells[x][y])
+                    t.push(x, y)
+
                     t = thing.Thing(self.level, tp_name="player1")
                     t.push(x, y)
+
+                if m.is_exit_at(x, y):
+                    t = thing.Thing(self.level, tp_name="exit1")
+                    t.set_depth(m.depth_map.cells[x][y])
+                    t.push(x, y)
+
+                    t = thing.Thing(self.level, tp_name="exit1-deco")
+                    t.set_depth(m.depth_map.cells[x][y])
+                    t.push(x, y - 1)
+
+                    t = thing.Thing(self.level, tp_name="chasm_smoke1")
+                    t.push(x, y)
+
+                    t = thing.Thing(self.level, tp_name="chasm_smoke1")
+                    t.push(x, y - 1)
 
                 if m.is_wall_at(x, y):
                     place_stalactite = True

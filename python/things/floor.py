@@ -55,8 +55,6 @@ def init():
                       "floor1.28",
                       "floor1.29",
                       "floor1.30",
-                      "floor1.31",
-                      "floor1.32",
                      ])
 
 init()

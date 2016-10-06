@@ -77,6 +77,10 @@ class Thing:
         self.wid_id = mm.thing_push(self, x, y)
         self.wid = wid.Wid(name=self.tp_name, wid_id=self.wid_id)
 
+        if hasattr(self.tp, "thing_pushed"):
+            if self.tp.thing_pushed is not None:
+                self.tp.thing_pushed(self)
+
     def pop(self):
         if not self.on_map:
             self.err("Is not on the map")

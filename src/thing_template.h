@@ -150,8 +150,8 @@ typedef struct tp_ {
     uint8_t is_rrr4:1;
     uint8_t is_rrr5:1;
     uint8_t is_rrr6:1;
-    uint8_t is_rrr7:1;
-    uint8_t is_rrr8:1;
+    uint8_t is_entrance:1;
+    uint8_t is_exit:1;
     uint8_t is_chasm_smoke:1;
     uint8_t is_key:1;
     uint8_t is_dusty:1;
@@ -340,14 +340,14 @@ static inline uint8_t tp_is_rrr6 (tpp t)
     return (t->is_rrr6);
 }
 
-static inline uint8_t tp_is_rrr7 (tpp t)
+static inline uint8_t tp_is_entrance (tpp t)
 {
-    return (t->is_rrr7);
+    return (t->is_entrance);
 }
 
-static inline uint8_t tp_is_rrr8 (tpp t)
+static inline uint8_t tp_is_exit (tpp t)
 {
-    return (t->is_rrr8);
+    return (t->is_exit);
 }
 
 static inline uint8_t tp_is_chasm_smoke (tpp t)
