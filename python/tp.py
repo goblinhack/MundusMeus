@@ -48,8 +48,8 @@ class Tp:
         self.is_rrr4 = False
         self.is_rrr5 = False
         self.is_rrr6 = False
-        self.is_rrr7 = False
-        self.is_rrr8 = False
+        self.is_entrance = False
+        self.is_exit = False
         self.is_chasm_smoke = False
         self.is_key = False
         self.is_dusty = False
@@ -220,13 +220,13 @@ class Tp:
         self.is_rrr6 = value
         mm.tp_set_is_rrr6(self, value)
 
-    def set_is_rrr7(self, value):
-        self.is_rrr7 = value
-        mm.tp_set_is_rrr7(self, value)
+    def set_is_entrance(self, value):
+        self.is_entrance = value
+        mm.tp_set_is_entrance(self, value)
 
-    def set_is_rrr8(self, value):
-        self.is_rrr8 = value
-        mm.tp_set_is_rrr8(self, value)
+    def set_is_exit(self, value):
+        self.is_exit = value
+        mm.tp_set_is_exit(self, value)
 
     def set_is_chasm_smoke(self, value):
         self.is_chasm_smoke = value
