@@ -1732,7 +1732,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr3)
     TP_SET_DECL(is_rrr4)
     TP_SET_DECL(is_rrr5)
-    TP_SET_DECL(is_rrr6)
+    TP_SET_DECL(is_treasure)
     TP_SET_DECL(is_entrance)
     TP_SET_DECL(is_exit)
     TP_SET_DECL(is_chasm_smoke)

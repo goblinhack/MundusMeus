@@ -21,6 +21,8 @@ CHASM = "C"
 LAVA = "L"
 WATER = "_"
 ROCK = "r"
+TREASURE = "$"
+OBJECT = "o"
 
 charmap = {
     " ": {
@@ -100,11 +102,16 @@ charmap = {
         "fg": "red",
         "is_rock": True,
     },
-    "o": {
+    OBJECT: {
         "bg": "black",
         "fg": "yellow",
         "is_obj": True,
         "is_obstacle": True,
+    },
+    TREASURE: {
+        "bg": "black",
+        "fg": "yellow",
+        "is_treasure": True,
     },
 }
 
@@ -377,6 +384,9 @@ class Maze:
 
         self.add_tunnels()
         self.debug("^^^ add tunnels ^^^")
+
+        self.add_treasure()
+        self.debug("^^^ add treasure ^^^")
 
     def debug(self, s):
         return
@@ -679,6 +689,13 @@ class Maze:
         c = self.getc(x, y, Depth.under)
         if c is not None:
             if "is_lava" in self.charmap[c]:
+                return True
+        return False
+
+    def is_treasure_at(self, x, y):
+        c = self.getc(x, y, Depth.obj)
+        if c is not None:
+            if "is_treasure" in self.charmap[c]:
                 return True
         return False
 
@@ -2098,6 +2115,32 @@ class Maze:
                 self.room_tunnel_draw(x, y, 1, 0, c=DUSTY)
                 self.room_tunnel_draw(x, y, 0, 1, c=DUSTY)
 
+    #
+    # Find empty spots in waters and create some random tunnels
+    #
+    def add_treasure(self):
+
+        for t in range(20):
+            x = random.randint(0, self.width - 1)
+            y = random.randint(0, self.height - 1)
+
+            if not self.is_floor_at(x, y) and \
+               not self.is_corridor_at(x, y) and \
+               not self.is_dusty_at(x, y):
+                continue
+
+            if self.is_wall_at(x, y) or \
+               self.is_cwall_at(x, y) or \
+               self.is_door_at(x, y) or \
+               self.is_obj_at(x, y) or \
+               self.is_start_at(x, y) or \
+               self.is_exit_at(x, y) or \
+               self.is_key_at(x, y) or \
+               self.is_rock_at(x, y):
+                continue
+
+            self.putc(x, y, Depth.obj, TREASURE)
+
     def add_rock(self):
         for y in range(self.height):
             for x in range(self.width):
@@ -2151,6 +2194,29 @@ class Maze:
                         color = fg(fg_name) + bg(bg_name)
                 else:
                     color = fg(fg_name) + bg(bg_name)
+
+                sys.stdout.write(color + c + res)
+            print("")
+
+    def dump_depth(self, max_depth=Depth.max):
+        from colored import fg, bg, attr
+
+        for y in range(self.height):
+            for x in range(self.width):
+                for d in reversed(range(max_depth)):
+                    c = self.cells[x][y][d]
+                    charmap = self.charmap[c]
+                    fg_name = charmap["fg"]
+                    bg_name = charmap["bg"]
+                    if c != " ":
+                        break
+
+                res = attr('reset')
+                if c != SPACE:
+                    if self.depth_map is not None:
+                        d = self.depth_map.cells[x][y]
+                        c = chr(ord('0') + d)
+                        color = fg(d % 255) + bg(0)
 
                 sys.stdout.write(color + c + res)
             print("")
