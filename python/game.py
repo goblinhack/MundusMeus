@@ -6,6 +6,7 @@ import thing
 import maze
 import rooms
 import random
+import tp
 
 global g
 
@@ -65,6 +66,7 @@ class Game:
             if not self.level.maze.generate_failed:
                 break
 
+        self.level.maze.dump_depth()
         self.level.maze.dump(maze.Depth.floor)
         self.level.maze.dump()
 
@@ -294,6 +296,12 @@ class Game:
                         t = thing.Thing(self.level, tp_name="chasm_smoke2")
                         t.push(x, y)
 
+                    if random.randint(0, 100) < 5:
+                        toughness = m.depth_map.cells[x][y] * 20
+                        r = tp.get_random_minable_treasure(toughness=toughness)
+                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t.push(x, y)
+
                 if m.is_water_at(x, y):
 
                     if m.is_floor_at(x, y) or \
@@ -335,10 +343,22 @@ class Game:
                         t = thing.Thing(self.level, tp_name="chasm_smoke2")
                         t.push(x, y)
 
+                    if random.randint(0, 100) < 100:
+                        toughness = m.depth_map.cells[x][y] * 2
+                        r = tp.get_random_minable_treasure(toughness=toughness)
+                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t.push(x, y)
+
                 if m.is_rock_at(x, y):
                     place_stalactite = True
                     t = thing.Thing(self.level, tp_name="rock1")
                     t.push(x, y)
+
+                    if random.randint(0, 100) < 5:
+                        toughness = m.depth_map.cells[x][y]
+                        r = tp.get_random_minable_treasure(toughness=toughness)
+                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t.push(x, y)
 
                 if m.is_door_at(x, y):
                     t = thing.Thing(self.level, tp_name="door1")
@@ -380,6 +400,17 @@ class Game:
                         which += 1
 
                         t.set_tilename("deco1." + str(which))
+
+                if m.is_treasure_at(x, y):
+                    toughness = self.level.xyz.z
+
+                    roomno = m.getr(x, y)
+                    if roomno != -1:
+                        toughness += m.roomno_depth[roomno]
+
+                    r = tp.get_random_treasure(toughness=toughness)
+                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t.push(x, y)
 
                 if m.is_chasm_at(x, y):
                     if m.is_floor_at(x, y) or \

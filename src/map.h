@@ -33,6 +33,7 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
 
 #define Z_DEPTH_ENUMS(list_macro)                             \
     list_macro(Z_DEPTH_STALACTITE,        "stalactite"),      \
+    list_macro(Z_DEPTH_BURIED,              "buried"),        \
     list_macro(Z_DEPTH_LAVA,              "lava"),            \
     list_macro(Z_DEPTH_FLOOR,             "floor"),           \
     list_macro(Z_DEPTH_FLOOR2,            "floor2"),          \
@@ -42,7 +43,7 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(Z_DEPTH_EXPLOSION,         "explosion"),       \
     list_macro(Z_DEPTH_ACTIONS,           "actions"),         \
 
-#define Z_DEPTH 8
+#define Z_DEPTH 9
 
 ENUM_DEF_H(Z_DEPTH_ENUMS, z_depth)
 

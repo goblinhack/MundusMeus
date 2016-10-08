@@ -1,16 +1,31 @@
 import mm
+import random
 
 all_tps = {}
+all_treasure_tps = []
 
 
 class Tp:
     """thing template"""
 
-    def __init__(self, name):
+    def __init__(self,
+                 name,
+                 is_treasure=False,
+                 d1000_appearing_roll=0):
+
         self.name = name
+        self.is_treasure = is_treasure
+        self.d1000_appearing_roll = d1000_appearing_roll
+
+        #
+        # Load it into the game engine
+        #
         mm.tp_load(self)
         self.set_raw_name(name)
+
         all_tps[name] = self
+        if is_treasure:
+            all_treasure_tps.append(name)
 
         self.description = None
         self.short_name = None
@@ -47,7 +62,7 @@ class Tp:
         self.is_rrr3 = False
         self.is_rrr4 = False
         self.is_rrr5 = False
-        self.is_rrr6 = False
+        self.is_treasure = False
         self.is_entrance = False
         self.is_exit = False
         self.is_chasm_smoke = False
@@ -216,9 +231,9 @@ class Tp:
         self.is_rrr5 = value
         mm.tp_set_is_rrr5(self, value)
 
-    def set_is_rrr6(self, value):
-        self.is_rrr6 = value
-        mm.tp_set_is_rrr6(self, value)
+    def set_is_treasure(self, value):
+        self.is_treasure = value
+        mm.tp_set_is_treasure(self, value)
 
     def set_is_entrance(self, value):
         self.is_entrance = value
@@ -299,3 +314,28 @@ class Tp:
     def set_is_water(self, value):
         self.is_water = value
         mm.tp_set_is_water(self, value)
+
+    def set_is_minable(self, value):
+        self.is_minable = value
+
+def get_random_treasure(toughness=0):
+    while True:
+        tp = all_tps[random.choice(all_treasure_tps)]
+        if tp.is_minable:
+            continue
+
+        roll = random.randint(1, 1000) + toughness * 10
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+def get_random_minable_treasure(toughness=0):
+    while True:
+        tp = all_tps[random.choice(all_treasure_tps)]
+        if not tp.is_minable:
+            continue
+
+        roll = random.randint(1, 1000) + toughness * 10
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
