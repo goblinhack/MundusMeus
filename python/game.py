@@ -29,7 +29,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(3)
+        self.maze_create(7)
 
         self.map_wid_create()
 
@@ -304,49 +304,56 @@ class Game:
 
                 if m.is_water_at(x, y):
 
+                    water = "water1"
+                    put_treasure = False
+
+                    if random.randint(0, 100) < 5:
+                        put_treasure = True
+                        water = "water1-trans"
+
                     if m.is_floor_at(x, y) or \
                        m.is_dusty_at(x, y) or \
                        m.is_corridor_at(x, y):
                         #
                         # Underground water
                         #
-                        t = thing.Thing(self.level, tp_name="water1")
+                        t = thing.Thing(self.level, tp_name=water)
                         t.push(x, y)
 
                     elif m.is_wall_at(x, y - 1) or \
                             m.is_rock_at(x, y - 1) or \
                             m.is_cwall_at(x, y - 1):
-                        t = thing.Thing(self.level, tp_name="water1-top")
+                        t = thing.Thing(self.level, tp_name=water + "-top")
                         t.push(x, y)
 
                     elif m.is_floor_at(x, y - 1) and not m.is_floor_at(x, y):
-                        t = thing.Thing(self.level, tp_name="water1-top")
+                        t = thing.Thing(self.level, tp_name=water + "-top")
                         t.push(x, y)
 
                     elif m.is_corridor_at(x, y - 1) and \
                             not m.is_corridor_at(x, y):
-                        t = thing.Thing(self.level, tp_name="water1-top")
+                        t = thing.Thing(self.level, tp_name=water + "-top")
                         t.push(x, y)
 
                     elif m.is_dusty_at(x, y - 1) and \
                             not m.is_dusty_at(x, y):
-                        t = thing.Thing(self.level, tp_name="water1-top")
+                        t = thing.Thing(self.level, tp_name=water + "-top")
                         t.push(x, y)
 
                     else:
-                        t = thing.Thing(self.level, tp_name="water1")
+                        t = thing.Thing(self.level, tp_name=water)
                         t.push(x, y)
 
                     t.set_depth(m.depth_map.cells[x][y])
 
-                    if random.randint(0, 100) < 5:
-                        t = thing.Thing(self.level, tp_name="chasm_smoke2")
-                        t.push(x, y)
-
-                    if random.randint(0, 100) < 100:
+                    if put_treasure:
                         toughness = m.depth_map.cells[x][y] * 2
                         r = tp.get_random_minable_treasure(toughness=toughness)
                         t = thing.Thing(self.level, tp_name=r.short_name)
+                        t.push(x, y)
+
+                    if random.randint(0, 100) < 5:
+                        t = thing.Thing(self.level, tp_name="chasm_smoke2")
                         t.push(x, y)
 
                 if m.is_rock_at(x, y):
