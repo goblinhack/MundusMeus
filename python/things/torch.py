@@ -12,7 +12,7 @@ def torch1_init(name, short_name, tiles=[]):
     x.set_is_animated(True)
 
     x.set_light_radius(3)
-    x.set_light_tint("yellow")
+    x.set_light_tint("gray20")
     x.set_is_candle_light(True)
 
     if tiles is not None:

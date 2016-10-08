@@ -12,7 +12,7 @@ def key1_init(name, short_name, tiles=[]):
     x.set_is_key(True)
 
     x.set_light_radius(1)
-    x.set_light_tint("yellow")
+    x.set_light_tint("gray20")
     x.set_is_candle_light(True)
 
     if tiles is not None:

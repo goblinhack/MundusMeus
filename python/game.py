@@ -28,7 +28,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(2)
+        self.maze_create(3)
 
         self.map_wid_create()
 
@@ -85,7 +85,7 @@ class Game:
                     t.push(x, y)
 
                     if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
-                        if random.randint(0, 100) < 5:
+                        if random.randint(0, 1000) < 5:
                             t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
 
@@ -95,7 +95,7 @@ class Game:
                     t.push(x, y)
 
                     if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
-                        if random.randint(0, 100) < 50:
+                        if random.randint(0, 1000) < 5:
                             t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
 
@@ -105,7 +105,7 @@ class Game:
                     t.push(x, y)
 
                     if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
-                        if random.randint(0, 100) < 5:
+                        if random.randint(0, 1000) < 5:
                             t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
 
@@ -291,7 +291,7 @@ class Game:
                     t.set_depth(m.depth_map.cells[x][y])
 
                     if random.randint(0, 100) < 30:
-                        t = thing.Thing(self.level, tp_name="chasm_smoke1")
+                        t = thing.Thing(self.level, tp_name="chasm_smoke2")
                         t.push(x, y)
 
                 if m.is_water_at(x, y):
@@ -332,7 +332,7 @@ class Game:
                     t.set_depth(m.depth_map.cells[x][y])
 
                     if random.randint(0, 100) < 5:
-                        t = thing.Thing(self.level, tp_name="chasm_smoke1")
+                        t = thing.Thing(self.level, tp_name="chasm_smoke2")
                         t.push(x, y)
 
                 if m.is_rock_at(x, y):
@@ -382,9 +382,40 @@ class Game:
                         t.set_tilename("deco1." + str(which))
 
                 if m.is_chasm_at(x, y):
+                    if m.is_floor_at(x, y) or \
+                       m.is_wall_at(x, y) or \
+                       m.is_cwall_at(x, y) or \
+                       m.is_corridor_at(x, y):
+                        continue
+
+                    if m.is_floor_at(x-1, y) or \
+                       m.is_wall_at(x-1, y) or \
+                       m.is_cwall_at(x-1, y) or \
+                       m.is_corridor_at(x-1, y):
+                        continue
+
+                    if m.is_floor_at(x+1, y) or \
+                       m.is_wall_at(x+1, y) or \
+                       m.is_cwall_at(x+1, y) or \
+                       m.is_corridor_at(x+1, y):
+                        continue
+
+                    if m.is_floor_at(x, y-1) or \
+                       m.is_wall_at(x, y-1) or \
+                       m.is_cwall_at(x, y-1) or \
+                       m.is_corridor_at(x, y-1):
+                        continue
+
+                    if m.is_floor_at(x, y+1) or \
+                       m.is_wall_at(x, y+1) or \
+                       m.is_cwall_at(x, y+1) or \
+                       m.is_corridor_at(x, y+1):
+                        continue
+
                     if random.randint(0, 100) < 10:
-                        t = thing.Thing(self.level, tp_name="chasm_smoke1")
+                        t = thing.Thing(self.level, tp_name="chasm_smoke2")
                         t.push(x, y)
+
                     continue
 
                 if place_stalactite:
