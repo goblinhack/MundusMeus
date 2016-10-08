@@ -43,5 +43,6 @@ def init():
                          "exit1-deco.1",
                         ])
     x.thing_pushed = thing_pushed
+    x.set_z_depth("explosion")
 
 init()
