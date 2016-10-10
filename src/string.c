@@ -4,13 +4,13 @@
  * See the README file for license info for license.
  */
 
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <ctype.h>
+// REMOVED #include <string.h>
+// REMOVED #include <stdlib.h>
+// REMOVED #include <stdio.h>
+// REMOVED #include <ctype.h>
 #include <libgen.h>
 
-#include "main.h"
+// REMOVED #include "main.h"
 #include "string_util.h"
 
 // #define HEX_DUMP_WIDTH (MAXSTR / 2)

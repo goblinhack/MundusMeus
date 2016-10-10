@@ -6,12 +6,12 @@
 
 #include "python.h"
 #include "main.h"
-#include "string_util.h"
-#include "string_ext.h"
-#include "frameobject.h"
-#include "tex.h"
+// REMOVED #include "string_util.h"
+// REMOVED #include "string_ext.h"
+// REMOVED #include "frameobject.h"
+// REMOVED #include "tex.h"
 #include "tile.h"
-#include "thing_template.h"
+// REMOVED #include "thing_template.h"
 #include "py_tp.h"
 #include "thing_tile.h"
 

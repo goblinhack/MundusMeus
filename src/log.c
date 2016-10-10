@@ -5,10 +5,10 @@
  */
 
 #include "slre.h"
-#include <SDL.h>
+// REMOVED #include <SDL.h>
 
 #if SDL_MAJOR_VERSION >= 2
-#include "SDL_messagebox.h"
+// REMOVED #include "SDL_messagebox.h"
 #endif
 
 #include "main.h"
@@ -16,17 +16,17 @@
 #include "wid_console.h"
 #include "time_util.h"
 #include "command.h"
-#include "thing.h"
-#include "level.h"
-#include "timer.h"
-#include "init_fn.h"
-#include "wid.h"
+// REMOVED #include "thing.h"
+// REMOVED #include "level.h"
+// REMOVED #include "timer.h"
+// REMOVED #include "init_fn.h"
+// REMOVED #include "wid.h"
 #include "term.h"
 #include "wid_popup.h"
 #include "wid_tooltip.h"
 #include "wid_notify.h"
 #include "sound.h"
-#include "wid_game_map.h"
+// REMOVED #include "wid_game_map.h"
 
 uint8_t debug_enabled = 0;
 uint8_t croaked;

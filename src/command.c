@@ -4,16 +4,16 @@
  * See the README file for license info for license.
  */
 
-#include <unistd.h>
+// REMOVED #include <unistd.h>
 #include <fcntl.h>
 #include "slre.h"
-#include <SDL.h>
+// REMOVED #include <SDL.h>
 
 #include "main.h"
 #include "command.h"
 #include "string_util.h"
 #include "term.h"
-#include "wid.h"
+// REMOVED #include "wid.h"
 #include "python.h"
 
 /*

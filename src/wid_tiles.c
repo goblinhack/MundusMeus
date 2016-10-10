@@ -4,18 +4,18 @@
  * See the README file for license info for license.
  */
 
-#include <SDL.h>
-#include "glapi.h"
-#include "stb_image.h"
+// REMOVED #include <SDL.h>
+// REMOVED // REMOVED #include "glapi.h"
+// REMOVED #include "stb_image.h"
 
-#include "main.h"
+// REMOVED #include "main.h"
 #include "glapi.h"
 #include "wid_tiles.h"
-#include "ramdisk.h"
-#include "tree.h"
-#include "pixel.h"
-#include "color.h"
-#include "math_util.h"
+// REMOVED #include "ramdisk.h"
+// REMOVED #include "tree.h"
+// REMOVED #include "pixel.h"
+// REMOVED #include "color.h"
+// REMOVED #include "math_util.h"
 #include "tile.h"
 #include "tex.h"
 

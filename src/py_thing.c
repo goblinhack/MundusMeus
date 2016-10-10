@@ -6,14 +6,14 @@
 
 #include "python.h"
 #include "main.h"
-#include "string_util.h"
-#include "string_ext.h"
-#include "frameobject.h"
-#include "tex.h"
-#include "tile.h"
-#include "thing_template.h"
+// REMOVED #include "string_util.h"
+// REMOVED #include "string_ext.h"
+// REMOVED #include "frameobject.h"
+// REMOVED #include "tex.h"
+// REMOVED #include "tile.h"
+// REMOVED #include "thing_template.h"
 #include "py_thing.h"
-#include "thing_tile.h"
+// REMOVED #include "thing_tile.h"
 
 PyObject *thing_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {

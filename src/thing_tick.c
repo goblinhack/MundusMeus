@@ -6,11 +6,11 @@
 
 
 #include "main.h"
-#include "timer.h"
-#include "level.h"
-#include "wid_game_map.h"
-#include "math_util.h"
-#include "time_util.h"
+// REMOVED #include "timer.h"
+// REMOVED #include "level.h"
+// REMOVED #include "wid_game_map.h"
+// REMOVED #include "math_util.h"
+// REMOVED #include "time_util.h"
 
 static int thing_tick_all_things (levelp level)
 {

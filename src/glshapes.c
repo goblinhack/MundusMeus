@@ -4,7 +4,7 @@
  * See the README file for license info for license.
  */
 
-#include <string.h>
+// REMOVED #include <string.h>
 
 #include "glapi.h"
 #include "math_util.h"

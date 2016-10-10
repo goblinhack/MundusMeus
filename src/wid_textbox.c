@@ -4,12 +4,12 @@
  * See the README file for license info for license.
  */
 
-#include <SDL.h>
+// REMOVED #include <SDL.h>
 
 #include "main.h"
 #include "wid_textbox.h"
-#include "wid.h"
-#include "color.h"
+// REMOVED #include "wid.h"
+// REMOVED #include "color.h"
 #include "string_ext.h"
 #include "ttf.h"
 

@@ -4,16 +4,16 @@
  * See the README file for license info for license.
  */
 
-#include <SDL.h>
-#include "glapi.h"
+// REMOVED #include <SDL.h>
+// REMOVED // REMOVED #include "glapi.h"
 
-#include "main.h"
+// REMOVED #include "main.h"
 #include "glapi.h"
 #include "tile.h"
-#include "tree.h"
+// REMOVED #include "tree.h"
 #include "tex.h"
 #include "pixel.h"
-#include "tile_private.h"
+// REMOVED #include "tile_private.h"
 
 tree_root *tiles;
 

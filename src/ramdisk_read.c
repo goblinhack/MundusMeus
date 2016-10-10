@@ -4,7 +4,7 @@
  * See the README file for license info for license.
  */
 
-#include <libgen.h>
+// REMOVED #include <libgen.h>
 #include "string_util.h"
 
 #define nUSE_ZLIB
@@ -12,20 +12,20 @@
 #define nUSE_STB_IMAGE
 
 #ifdef USE_ZLIB
-#include <stdlib.h>
-#include <zlib.h>
+// REMOVED #include <stdlib.h>
+// REMOVED #include <zlib.h>
 #endif
 
 #ifdef USE_MINIZ
-#include "miniz.h"
+// REMOVED #include "miniz.h"
 #endif
 
 #ifdef USE_STB_IMAGE
 #endif
 
-#include "main.h"
+// REMOVED #include "main.h"
 #include "file.h"
-#include "string.h"
+// REMOVED #include "string.h"
 
 #include "ramdisk_data.c"
 

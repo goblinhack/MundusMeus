@@ -5,11 +5,11 @@
  */
 
 #include <dirent.h>
-#include <stdlib.h>
+// REMOVED #include <stdlib.h>
 #include <sys/param.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <string.h>
+// REMOVED #include <sys/stat.h>
+// REMOVED #include <unistd.h>
+// REMOVED #include <string.h>
 
 #include "main.h"
 #include "dir.h"

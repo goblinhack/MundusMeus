@@ -4,8 +4,8 @@
  * See the LICENSE file for license.
  */
 
-#include <SDL.h>
+// REMOVED #include <SDL.h>
 
-#include "main.h"
-#include "pixel.h"
+// REMOVED #include "main.h"
+// REMOVED #include "pixel.h"
 

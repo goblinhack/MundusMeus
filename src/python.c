@@ -8,14 +8,14 @@
 #include "py_tp.h"
 #include "py_thing.h"
 #include "py_wid.h"
-#include "main.h"
+// REMOVED #include "main.h"
 #include "string_util.h"
-#include "string_ext.h"
+// REMOVED #include "string_ext.h"
 #include "frameobject.h"
-#include "tex.h"
-#include "tile.h"
-#include "thing_template.h"
-#include "config.h"
+// REMOVED #include "tex.h"
+// REMOVED #include "tile.h"
+// REMOVED #include "thing_template.h"
+// REMOVED #include "config.h"
 
 static PyObject *mm_mod;
 
