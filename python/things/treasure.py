@@ -47,20 +47,21 @@ def treasure1_init(d1000_roll,
 
 def init():
     x = treasure1_init(d1000_roll=950, tiles=["gem1.1", "gem1.2", "gem1.3", ])
-    x.set_scale(0.5)
+    x.set_scale(0.3)
 
     x = treasure1_init(d1000_roll=950, tiles=["gem2.1", "gem2.2", "gem2.3", ])
-    x.set_scale(0.5)
+    x.set_scale(0.3)
 
     x = treasure1_init(d1000_roll=950, tiles=["gem3.1", "gem3.2", "gem3.3", ])
-    x.set_scale(0.5)
+    x.set_scale(0.3)
 
     x = treasure1_init(d1000_roll=950, tiles=["gem4.1", ])
+    x.set_scale(0.3)
+
+    x = treasure1_init(d1000_roll=500, tiles=["chest1.1", ])
     x.set_scale(0.5)
 
-    treasure1_init(d1000_roll=500, tiles=["chest1.1", ])
-
-    treasure1_init(d1000_roll=200, tiles=["bagofgold1.1", ])
+    x = treasure1_init(d1000_roll=200, tiles=["bagofgold1.1", ])
     x.set_scale(0.5)
 
     treasure1_init(d1000_roll=100,
