@@ -7,11 +7,9 @@
 #include "main.h"
 #include "thing.h"
 #include "player.h"
-#include "wid_menu.h"
 #include "time_util.h"
 #include "level.h"
 #include "wid_game_map.h"
-#include "wid_game_quit.h"
 #include "color.h"
 #include "glapi.h"
 #include "ttf.h"
@@ -141,6 +139,7 @@ uint8_t player_move (levelp level)
         return (false);
     }
 
+#if 0
     if (wid_menu_visible) {
         /*
          * Noisy
@@ -149,6 +148,7 @@ uint8_t player_move (levelp level)
          */
         return (false);
     }
+#endif
 
     if (!up && !down && !left && !right &&
         !fire &&
@@ -173,9 +173,11 @@ uint8_t player_move (levelp level)
 
 uint8_t player_key (widp w, const SDL_KEYSYM *key)
 {
+#if 0
     if (wid_menu_visible) {
         return (false);
     }
+#endif
 
     if (!player) {
         return (false);
@@ -201,7 +203,9 @@ uint8_t player_key (widp w, const SDL_KEYSYM *key)
             break;
 
         case 'q':
+#if 0
             wid_game_quit_visible();
+#endif
             return (true);
 
         case SDLK_RETURN:
@@ -219,9 +223,11 @@ uint8_t player_key (widp w, const SDL_KEYSYM *key)
 
 uint8_t player_joy (widp w, int x, int y)
 {
+#if 0
     if (wid_menu_visible) {
         return (false);
     }
+#endif
 
     if (sdl_joy_buttons[SDL_JOY_BUTTON_A]) {
         SDL_KEYSYM key = {0};

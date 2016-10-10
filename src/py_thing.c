@@ -76,7 +76,7 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, thing_name, value);	\
+    /* LOG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, thing_name, value); */	\
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
@@ -125,7 +125,7 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, thing_name, value);	\
+    /* LOG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, thing_name, value); */	\
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
@@ -187,7 +187,7 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("python-to-c: %s(%s -> \"%s\"[%d])", __FUNCTION__, thing_name, value, tp->__field__);\
+    /* LOG("python-to-c: %s(%s -> \"%s\"[%d])", __FUNCTION__, thing_name, value, tp->__field__); */ \
 	                                                                        \
     value = 0;	                                                                \
 	                                                                        \
@@ -224,7 +224,7 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("python-to-c: %s(%s -> %d)", __FUNCTION__, thing_name, value);	        \
+    /* LOG("python-to-c: %s(%s -> %d)", __FUNCTION__, thing_name, value); */	        \
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
@@ -267,7 +267,7 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("python-to-c: %s(%s -> %g)", __FUNCTION__, thing_name, value);	        \
+    /* LOG("python-to-c: %s(%s -> %g)", __FUNCTION__, thing_name, value); */	        \
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
@@ -315,7 +315,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, thing_name, value);	\
+    /* LOG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, thing_name, value); */	\
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
@@ -358,7 +358,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("python-to-c: %s(%s -> %f)", __FUNCTION__, thing_name, d1);	        \
+    /* LOG("python-to-c: %s(%s -> %f)", __FUNCTION__, thing_name, d1);	 */     \
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
@@ -402,7 +402,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("python-to-c: %s(%s -> %f, %f)", __FUNCTION__, thing_name, d1, d2);	\
+    /* LOG("python-to-c: %s(%s -> %f, %f)", __FUNCTION__, thing_name, d1, d2); */	\
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
@@ -447,7 +447,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("python-to-c: %s(%s -> %f, %f)", __FUNCTION__, thing_name, d1, d2);	\
+    /* LOG("python-to-c: %s(%s -> %f, %f)", __FUNCTION__, thing_name, d1, d2);	 */ \
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
@@ -488,7 +488,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    LOG("python-to-c: %s(%s)", __FUNCTION__, thing_name);	                \
+    /* LOG("python-to-c: %s(%s)", __FUNCTION__, thing_name); */	                \
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \

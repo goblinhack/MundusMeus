@@ -57,22 +57,11 @@ GAME_OBJECTS=				\
     $(OBJDIR)/wid.o 			\
     $(OBJDIR)/wid_anim.o 		\
     $(OBJDIR)/wid_button.o 		\
-    $(OBJDIR)/wid_cmap.o 		\
     $(OBJDIR)/wid_console.o 		\
-    $(OBJDIR)/wid_dead.o 		\
-    $(OBJDIR)/wid_dirlist.o 		\
     $(OBJDIR)/wid_game_map.o 		\
-    $(OBJDIR)/wid_game_quit.o 		\
-    $(OBJDIR)/wid_intro.o 		\
-    $(OBJDIR)/wid_intro_about.o 	\
-    $(OBJDIR)/wid_intro_settings.o 	\
-    $(OBJDIR)/wid_keyboard.o 		\
-    $(OBJDIR)/wid_menu.o 		\
     $(OBJDIR)/wid_notify.o 		\
-    $(OBJDIR)/wid_numpad.o 		\
     $(OBJDIR)/wid_popup.o 		\
     $(OBJDIR)/wid_splash.o 		\
-    $(OBJDIR)/wid_text_input.o 		\
     $(OBJDIR)/wid_textbox.o 		\
     $(OBJDIR)/wid_tooltip.o 		\
     $(OBJDIR)/python.o 			\

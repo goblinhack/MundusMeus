@@ -24,7 +24,7 @@ class Thing:
         self.y = -1
         self.on_map = False
 
-        self.log("Created thing")
+#        self.log("Created thing")
 
         if self.thing_id in self.level.all_things:
             self.err("Already in level list")

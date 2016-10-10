@@ -2205,9 +2205,6 @@ class Maze:
             for x in range(self.width):
                 for d in reversed(range(max_depth)):
                     c = self.cells[x][y][d]
-                    charmap = self.charmap[c]
-                    fg_name = charmap["fg"]
-                    bg_name = charmap["bg"]
                     if c != " ":
                         break
 

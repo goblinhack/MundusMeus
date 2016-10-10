@@ -24,9 +24,6 @@
 #include "tile.h"
 #include "thing.h"
 #include "wid.h"
-#include "wid_intro_about.h"
-#include "wid_intro_settings.h"
-#include "wid_intro.h"
 #include "wid_game_map.h"
 #include "string_util.h"
 #include "dir.h"
@@ -84,12 +81,6 @@ void quit (void)
 
     LOG("wid_console_fini()");
     wid_console_fini();
-    LOG("wid_intro_fini()");
-    wid_intro_fini();
-    LOG("wid_intro_about_fini()");
-    wid_intro_about_fini();
-    LOG("wid_intro_settings_fini()");
-    wid_intro_settings_fini();
 
     LOG("command_fini()");
     command_fini();
@@ -596,18 +587,6 @@ int32_t main (int32_t argc, char *argv[])
     action_init_fn_create(&init_fns,
                           (action_init_fn_callback)thing_init,
                           0, "thing_init");
-
-    action_init_fn_create(&init_fns,
-                          (action_init_fn_callback)wid_intro_about_init,
-                          0, "wid_intro_about_init");
-
-    action_init_fn_create(&init_fns,
-                          (action_init_fn_callback)wid_intro_settings_init,
-                          0, "wid_intro_settings_init");
-
-    action_init_fn_create(&init_fns,
-                        (action_init_fn_callback)wid_intro_init,
-                        0, "wid_intro_init");
 
     gl_enter_2d_mode();
     sdl_loop();
