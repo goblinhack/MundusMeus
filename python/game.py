@@ -119,6 +119,9 @@ class Game:
                     t = thing.Thing(self.level, tp_name="player1")
                     t.push(x, y)
 
+                    t = thing.Thing(self.level, tp_name="focus1")
+                    t.push(x, y)
+
                 if m.is_exit_at(x, y):
                     t = thing.Thing(self.level, tp_name="exit1")
                     t.set_depth(m.depth_map.cells[x][y])
