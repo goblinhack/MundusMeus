@@ -16,11 +16,11 @@
  * http://en.literateprograms.org/Red-black_tree_%28C%29
  */
 
-#include <stdlib.h>
-#include <string.h>
+// REMOVED #include <stdlib.h>
+// REMOVED #include <string.h>
 
 #include "main.h"
-#include "tree.h"
+// REMOVED #include "tree.h"
 
 int32_t gcc_no_warn;
 

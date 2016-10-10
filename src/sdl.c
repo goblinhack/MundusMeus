@@ -4,38 +4,38 @@
  * See the README file for license info for license.
  */
 
-#include <SDL.h>
-#include <unistd.h>
-#include "glapi.h"
+// REMOVED #include <SDL.h>
+// REMOVED #include <unistd.h>
+// REMOVED // REMOVED #include "glapi.h"
 
-#include "main.h"
+// REMOVED #include "main.h"
 #include "glapi.h"
-#include "wid.h"
-#include "wid_console.h"
+// REMOVED #include "wid.h"
+// REMOVED #include "wid_console.h"
 #include "wid_notify.h"
-#include "color.h"
+// REMOVED #include "color.h"
 #include "time_util.h"
-#include "thing.h"
-#include "sdl_util.h"
+// REMOVED #include "thing.h"
+// REMOVED #include "sdl_util.h"
 #include "init_fn.h"
-#include "wid_splash.h"
-#include "config.h"
-#include "tex.h"
+// REMOVED #include "wid_splash.h"
+// REMOVED #include "config.h"
+// REMOVED #include "tex.h"
 #include "ttf.h"
 #include "slre.h"
-#include "map.h"
+// REMOVED #include "map.h"
 #include "command.h"
 #include "term.h"
-#include "timer.h"
+// REMOVED #include "timer.h"
 #include "string_util.h"
 #include "wid_game_map.h"
 #include "player.h"
 
 #if defined WIN32 || defined __CYGWIN__
-#include <windows.h>
+// REMOVED #include <windows.h>
 #endif
-#include <SDL_syswm.h>
-#include <SDL_video.h>
+// REMOVED #include <SDL_syswm.h>
+// REMOVED #include <SDL_video.h>
 
 #ifndef SDL_BUTTON_WHEELLEFT
 #define SDL_BUTTON_WHEELLEFT 6

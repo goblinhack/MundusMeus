@@ -4,9 +4,9 @@
  * See the README file for license info for license.
  */
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+// REMOVED #include <string.h>
+// REMOVED #include <stdio.h>
+// REMOVED #include <stdlib.h>
 #include "slre.h"
 
 #include "main.h"

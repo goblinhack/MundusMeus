@@ -4,18 +4,18 @@
  * See the README file for license info for license.
  */
 
-#include <stdio.h>
-#include <signal.h>
+// REMOVED #include <stdio.h>
+// REMOVED #include <signal.h>
 #ifndef _WIN32
-#include <sys/termios.h>
+// REMOVED #include <sys/termios.h>
 #include <sys/ioctl.h>
 #endif
-#include <unistd.h>
-#include <stdlib.h>
+// REMOVED #include <unistd.h>
+// REMOVED #include <stdlib.h>
 
 #include "main.h"
-#include "config.h"
-#include "string_util.h"
+// REMOVED #include "config.h"
+// REMOVED #include "string_util.h"
 #include "term.h"
 
 typedef struct term_cell_ {

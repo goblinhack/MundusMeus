@@ -4,8 +4,8 @@
  * See the LICENSE file for license.
  */
 
-#include "main.h"
-#include "thing.h"
+// REMOVED #include "main.h"
+// REMOVED #include "thing.h"
 #include "math_util.h"
 
 void thing_set_dir_none (thingp t)

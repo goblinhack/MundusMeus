@@ -4,10 +4,10 @@
  * See the README file for license info for license.
  */
 
-#include <stdlib.h>
-#include <math.h>
+// REMOVED #include <stdlib.h>
+// REMOVED #include <math.h>
 
-#include "main.h"
+// REMOVED #include "main.h"
 #include "math_util.h"
 
 double gaussrand (double mean, double stddev)

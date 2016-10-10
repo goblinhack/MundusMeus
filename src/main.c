@@ -5,10 +5,10 @@
  */
 
 #include <libgen.h>
-#include <unistd.h>
-#include <SDL.h>
+// REMOVED #include <unistd.h>
+// REMOVED #include <SDL.h>
 #include "slre.h"
-#include <time.h>
+// REMOVED #include <time.h>
 #include "python.h"
 
 #include "glapi.h"
@@ -22,17 +22,17 @@
 #include "music.h"
 #include "sound.h"
 #include "tile.h"
-#include "thing.h"
-#include "wid.h"
+// REMOVED #include "thing.h"
+// REMOVED #include "wid.h"
 #include "wid_game_map.h"
 #include "string_util.h"
 #include "dir.h"
 #include "file.h"
-#include "level.h"
+// REMOVED #include "level.h"
 #include "init_fn.h"
 #include "ramdisk.h"
 #include "term.h"
-#include "thing_template.h"
+// REMOVED #include "thing_template.h"
 #include "player.h"
 
 static char **ARGV;

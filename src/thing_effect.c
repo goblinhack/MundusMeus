@@ -5,11 +5,11 @@
  */
 
 
-#include "main.h"
-#include "thing.h"
-#include "color.h"
-#include "wid_game_map.h"
-#include "math_util.h"
+// REMOVED #include "main.h"
+// REMOVED #include "thing.h"
+// REMOVED #include "color.h"
+// REMOVED #include "wid_game_map.h"
+// REMOVED #include "math_util.h"
 
 void thing_effect_hit_miss (levelp level, thingp t)
 {

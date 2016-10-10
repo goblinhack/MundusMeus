@@ -518,7 +518,7 @@ void gl_ortho_set (int32_t width, int32_t height)
 }
 
 #ifdef _WIN32
-#include <windows.h>
+// REMOVED #include <windows.h>
 
 HDC hDC;
 HGLRC hGLRC;

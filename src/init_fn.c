@@ -4,13 +4,13 @@
  * See the README file for license info for license.
  */
 
-#include <SDL.h>
+// REMOVED #include <SDL.h>
 
 #include "main.h"
-#include "tree.h"
+// REMOVED #include "tree.h"
 #include "init_fn.h"
 #include "init_fn_private.h"
-#include "string_util.h"
+// REMOVED #include "string_util.h"
 
 tree_rootp init_fns;
 

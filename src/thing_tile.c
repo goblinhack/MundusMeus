@@ -6,9 +6,9 @@
 
 
 #include "main.h"
-#include "tree.h"
+// REMOVED #include "tree.h"
 #include "thing_tile.h"
-#include "thing.h"
+// REMOVED #include "thing.h"
 
 int thing_tile_count = 1;
 thing_tile thing_tile_arr[TILES_ANIM_MAX];

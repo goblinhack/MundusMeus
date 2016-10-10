@@ -6,12 +6,12 @@
 
 
 #include "main.h"
-#include "thing.h"
-#include "wid_game_map.h"
+// REMOVED #include "thing.h"
+// REMOVED #include "wid_game_map.h"
 #include "tile.h"
 #include "math_util.h"
-#include "time_util.h"
-#include "player.h"
+// REMOVED #include "time_util.h"
+// REMOVED #include "player.h"
 
 void thing_wid_move (thingp t,
                      double x,
