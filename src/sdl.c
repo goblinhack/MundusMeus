@@ -30,7 +30,6 @@
 #include "string_util.h"
 #include "wid_game_map.h"
 #include "player.h"
-#include "wid_menu.h"
 
 #if defined WIN32 || defined __CYGWIN__
 #include <windows.h>
@@ -1480,7 +1479,7 @@ void sdl_loop (void)
             }
 
             levelp level = &game.level;
-            if (level && !wid_menu_visible) {
+            if (level) {
                 /*
                  * Let things do AI.
                  */

@@ -46,7 +46,7 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(Z_DEPTH_EXPLOSION,         "explosion"),       \
     list_macro(Z_DEPTH_ACTIONS,           "actions"),         \
 
-#define Z_DEPTH 10
+#define Z_DEPTH 11
 
 ENUM_DEF_H(Z_DEPTH_ENUMS, z_depth)
 

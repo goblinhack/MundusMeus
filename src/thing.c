@@ -61,7 +61,7 @@ thingp thing_new (const char *name, const char *tp_name)
         THING_ERR(t, "thing [%s] not found", tp_name);
     }
 
-    THING_LOG(t, "Created thing");
+//    THING_LOG(t, "Created thing");
 
     verify(t);
 

@@ -79,6 +79,9 @@ class Game:
         for y in range(1, mm.MAP_HEIGHT - 1):
             for x in range(1, mm.MAP_WIDTH - 1):
 
+                t = thing.Thing(self.level, tp_name="focus1")
+                t.push(x, y)
+
                 place_stalactite = False
 
                 if m.is_floor_at(x, y):
@@ -117,9 +120,6 @@ class Game:
                     t.push(x, y)
 
                     t = thing.Thing(self.level, tp_name="player1")
-                    t.push(x, y)
-
-                    t = thing.Thing(self.level, tp_name="focus1")
                     t.push(x, y)
 
                 if m.is_exit_at(x, y):
