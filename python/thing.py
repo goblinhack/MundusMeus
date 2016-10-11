@@ -81,10 +81,6 @@ class Thing:
             if self.tp.thing_pushed is not None:
                 self.tp.thing_pushed(self)
 
-        self.wid.set_shape(square=True)
-        self.wid.set_shape(square_outline=True)
-        self.wid.set_color(tl=True, name="red")
-
     def pop(self):
         if not self.on_map:
             self.err("Is not on the map")
