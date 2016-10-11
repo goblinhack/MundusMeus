@@ -931,7 +931,7 @@ static void wid_mfocus_b (widp w)
     }
 }
 
-static void wid_mover_e (void)
+static void wid_m_over_e (void)
 {
     widp w;
 
@@ -968,7 +968,7 @@ static void wid_tooltip_destroy (widp w)
     }
 }
 
-static uint8_t wid_mover_b (widp w, uint32_t x, uint32_t y,
+static uint8_t wid_m_over_b (widp w, uint32_t x, uint32_t y,
                                      int32_t relx, int32_t rely,
                                      int32_t wheelx, int32_t wheely)
 {
@@ -1005,7 +1005,7 @@ static uint8_t wid_mover_b (widp w, uint32_t x, uint32_t y,
         return (false);
     }
 
-    wid_mover_e();
+    wid_m_over_e();
 
     wid_over = w;
 
@@ -2902,7 +2902,7 @@ static void wid_destroy_immediate_internal (widp w)
     }
 
     if (wid_over == w) {
-        wid_mover_e();
+        wid_m_over_e();
     }
 
     if (wid_moving == w) {
@@ -3063,7 +3063,7 @@ static void wid_destroy_delay (widp *wp, int32_t delay)
     }
 
     if (wid_over == w) {
-        wid_mover_e();
+        wid_m_over_e();
     }
 
     if (wid_moving == w) {
@@ -4710,7 +4710,7 @@ void wid_hide (widp w, uint32_t delay)
     w->visible = false;
 
     if (wid_over == w) {
-        wid_mover_e();
+        wid_m_over_e();
     }
 
     if (wid_moving == w) {
@@ -4718,7 +4718,7 @@ void wid_hide (widp w, uint32_t delay)
     }
 
     if (wid_get_top_parent(wid_over) == w) {
-        wid_mover_e();
+        wid_m_over_e();
     }
 
     if (wid_get_top_parent(wid_moving) == w) {
@@ -5957,7 +5957,9 @@ static widp wid_mouse_motion_handler_at (widp w, int32_t x, int32_t y,
                  * For the editor widget we only want to move the mouse over
                  * the grid on the bottom level.
                  */
-                z = 0; {
+                widp best_match = 0;
+
+                for (z = 0; z < Z_DEPTH; z++) {
                     tree_root **gridtree =
                             grid->grid_of_trees[z] + (gy * grid->width) + gx;
 
@@ -5980,10 +5982,26 @@ static widp wid_mouse_motion_handler_at (widp w, int32_t x, int32_t y,
                                                         true /* strict */,
                                                         depth + 2,
                                                         debug);
+                        /*
+                         * Of all the tiles, if only one has mouse over then 
+                         * prefer it.
+                         */
                         if (closer_match) {
-                            return (closer_match);
+                            if (!best_match) {
+                                best_match = closer_match;
+                            } else {
+                                if (closer_match->on_m_over_b ||
+                                    closer_match->on_m_over_e ||
+                                    closer_match->on_m_motion) {
+                                    best_match = closer_match;
+                                }
+                            }
                         }
                     }
+                }
+
+                if (best_match) {
+                    return (best_match);
                 }
             }
         }
@@ -6655,7 +6673,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
          * Over a new wid.
          */
         while (w &&
-               !wid_mover_b(w, x, y, relx, rely, wheelx, wheely)) {
+               !wid_m_over_b(w, x, y, relx, rely, wheelx, wheely)) {
             w = w->parent;
         }
 
@@ -6675,7 +6693,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
 
         w = wid_mouse_motion_handler(x, y, relx, rely, wheelx, wheely);
         if (w) {
-            if (wid_mover_b(w, x, y, relx, rely, wheelx, wheely)) {
+            if (wid_m_over_b(w, x, y, relx, rely, wheelx, wheely)) {
                 over = true;
             }
 
@@ -6745,7 +6763,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
     }
 
     if (!over) {
-        wid_mover_e();
+        wid_m_over_e();
     }
 
     wid_mouse_motion_recursion = 0;

@@ -11,6 +11,10 @@ import tp
 global g
 
 
+def test(self, relx, rely, wheelx, wheely):
+    mm.con("x")
+
+
 class Game:
 
     def __init__(self):
@@ -81,6 +85,7 @@ class Game:
 
                 t = thing.Thing(self.level, tp_name="focus1")
                 t.push(x, y)
+                t.wid.set_on_m_over_b(test)
 
                 place_stalactite = False
 
