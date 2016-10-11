@@ -5937,10 +5937,16 @@ static widp wid_mouse_motion_handler_at (widp w, int32_t x, int32_t y,
     }
 
     if (strict) {
-        if ((x < w->abs_tl.x) ||
-            (y < w->abs_tl.y) ||
-            (x > w->abs_br.x) ||
-            (y > w->abs_br.y)) {
+        int32_t tlx;
+        int32_t tly;
+        int32_t brx;
+        int32_t bry;
+
+        wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+        if ((x < tlx) ||
+            (y < tly) ||
+            (x > brx) ||
+            (y > bry)) {
             return (0);
         }
     }

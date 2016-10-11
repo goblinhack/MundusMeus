@@ -76,6 +76,7 @@ class Thing:
 
         self.wid_id = mm.thing_push(self, x, y)
         self.wid = wid.Wid(name=self.tp_name, wid_id=self.wid_id)
+        self.wid.thing = self
 
         if hasattr(self.tp, "thing_pushed"):
             if self.tp.thing_pushed is not None:
