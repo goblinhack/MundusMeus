@@ -12,7 +12,10 @@ global g
 
 
 def test(self, relx, rely, wheelx, wheely):
-    mm.con("x")
+    t = self.thing
+    t.wid.bounce_to_pct_in(height=0.1, fade=1.0, ms=500, count=1000)
+    mm.con("{0} {1}".format(t.x, t.y))
+    t.set_tilename("wall1-x")
 
 
 class Game:
@@ -98,6 +101,10 @@ class Game:
                         if random.randint(0, 1000) < 5:
                             t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
+                if random.randint(0, 1000) < 100:
+                    t = thing.Thing(self.level, tp_name="torch1")
+                    t.push(x, y)
+                continue
 
                 if m.is_dusty_at(x, y):
                     t = thing.Thing(self.level, tp_name="dusty1")
