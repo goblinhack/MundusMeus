@@ -1462,6 +1462,7 @@ static PyMethodDef python_c_METHODS[] =
         "create a thing template"},
 
     THING_DECL(set_tilename)
+    THING_DECL(set_tp)
     THING_DECL(set_depth)
     THING_DECL(destroyed)
     THING_DECL(move)

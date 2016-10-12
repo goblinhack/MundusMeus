@@ -96,6 +96,16 @@ void thing_set_tilename_ (thingp t, const char *tile)
     wid_set_tilename(t->wid, tile);
 }
 
+void thing_set_tp_ (thingp t, const char *tp_name)
+{
+    verify(t);
+
+    t->tp = tp_find(tp_name);
+    if (!t->tp) {
+        THING_ERR(t, "thing [%s] not found", tp_name);
+    }
+}
+
 void thing_set_depth_ (thingp t, double value)
 {
     verify(t);

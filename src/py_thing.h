@@ -29,6 +29,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds);
         "call " #__field__ " in a thing"},                                      \
 
 THING_PROTO(set_tilename)
+THING_PROTO(set_tp)
 THING_PROTO(set_depth)
 THING_PROTO(destroyed)
 THING_PROTO(move)
