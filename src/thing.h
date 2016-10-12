@@ -18,6 +18,7 @@ void thing_fini(void);
 thingp thing_new(const char *name, const char *tp_name);
 void thing_destroyed_(thingp t, const char *reason);
 void thing_set_tilename_(thingp t, const char *tilename);
+void thing_set_tp_(thingp t, const char *tp);
 void thing_set_depth_(thingp t, double);
 
 thingp thing_find(const char *name);

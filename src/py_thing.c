@@ -508,6 +508,7 @@ done:	                                                                        \
 
 THING_BODY_STRING_FN(destroyed, thing_destroyed_)
 THING_BODY_STRING_FN(set_tilename, thing_set_tilename_)
+THING_BODY_STRING_FN(set_tp, thing_set_tp_)
 THING_BODY_DOUBLE_FN(set_depth, thing_set_depth_)
 THING_BODY_DOUBLE_DOUBLE_VOID_FN(move, thing_move_)
 THING_BODY_DOUBLE_DOUBLE_FN(push, thing_push_)

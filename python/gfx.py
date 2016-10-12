@@ -1845,7 +1845,7 @@ def init_tiles_chars():
             height=64)
 
     tiles = [
-        "",
+        "none",
         "",
         "",
         "",
