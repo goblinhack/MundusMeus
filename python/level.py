@@ -39,8 +39,25 @@ class Level:
         with open(str(self.world) + str(self), 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
 
-    def set_dim(self, w, h):
-        self.w = w
-        self.h = h
+    def set_dim(self, width, height):
+        self.width = width
+        self.height = height
 
-        self.on_map = [[[] for x in range(w)] for y in range(h)]
+        self.on_map = [[[] for x in range(width)] for y in range(height)]
+
+    def tp_find(self, x, y, tp_name):
+        if x >= self.width or y >= self.height or x < 0 or y < 0:
+            return None
+
+        for t in self.on_map[x][y]:
+            if t.tp.name == tp_name:
+                return t
+
+        return None
+
+    def thing_push(self, x, y, t):
+        if x >= self.width or y >= self.height or x < 0 or y < 0:
+            mm.err("thing_push: map oob {0} {1}".format(x, y))
+            return
+
+        self.on_map[x][y].append(t)

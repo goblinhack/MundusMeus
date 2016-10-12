@@ -72,7 +72,7 @@ class Thing:
             return
 
         self.on_map = True
-        self.level.on_map[x][y].append(self)
+        self.level.thing_push(x, y, self)
 
         self.wid_id = mm.thing_push(self, x, y)
         self.wid = wid.Wid(name=self.tp_name, wid_id=self.wid_id)
@@ -94,11 +94,12 @@ class Thing:
     def set_description(self, value=""):
         self.description = value
 
-    def set_tilename(self, name=""):
+    def set_tilename(self, name):
         mm.thing_set_tilename(self, name)
 
-    def set_tp(self, name=""):
-        mm.thing_set_tp(self, name)
+    def set_tp(self, tp_name):
+        self.tp = tp.all_tps[tp_name]
+        mm.thing_set_tp(self, tp_name)
 
     def set_depth(self, value=0.0):
         mm.thing_set_depth(self, value)

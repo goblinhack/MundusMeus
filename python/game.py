@@ -12,6 +12,13 @@ global g
 
 
 def test(self, relx, rely, wheelx, wheely):
+    level = self.thing.level
+    for x in range(0, level.width):
+        for y in range(0, level.height):
+            t = level.tp_find(x, y, "focus2")
+            if t is not None:
+                t.set_tp("none")
+
     t = self.thing
     t.set_tp("focus2")
 
@@ -99,6 +106,7 @@ class Game:
                         if random.randint(0, 1000) < 5:
                             t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
+
                 if random.randint(0, 1000) < 100:
                     t = thing.Thing(self.level, tp_name="torch1")
                     t.push(x, y)
