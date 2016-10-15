@@ -47,6 +47,8 @@ class Game:
 
         self.maze_populate_level()
 
+        self.map_center_on_player()
+
     def destroy(self):
         self.world.destroy()
 
@@ -55,6 +57,24 @@ class Game:
     #
     def map_wid_create(self):
         self.wid_map = wid_map.WidMap(mm.MAP_WIDTH, mm.MAP_HEIGHT)
+
+    def map_center_on_player(self):
+        px = self.player.x / mm.MAP_WIDTH
+        py = self.player.y / mm.MAP_HEIGHT
+
+        tm = self.wid_map.TILES_SCREEN_WIDTH / 2
+        th = self.wid_map.TILES_SCREEN_HEIGHT / 2
+
+        dx = 1.0 / mm.MAP_WIDTH
+        dy = 1.0 / mm.MAP_HEIGHT
+
+        px = px - dx * tm
+        py = py - dy * th
+
+        self.wid_map.wid_vert_scroll.move_to_vert_pct(pct=px)
+        self.wid_map.wid_horiz_scroll.move_to_horiz_pct(pct=py)
+        self.wid_map.wid_vert_scroll.move_to_vert_pct(pct=px)
+        self.wid_map.wid_horiz_scroll.move_to_horiz_pct(pct=py)
 
     #
     # Create a rendom maze
@@ -107,7 +127,7 @@ class Game:
                             t = thing.Thing(self.level, tp_name="torch1")
                             t.push(x, y)
 
-                if random.randint(0, 1000) < 100:
+                if random.randint(0, 1000) < 5:
                     t = thing.Thing(self.level, tp_name="torch1")
                     t.push(x, y)
 
@@ -138,6 +158,7 @@ class Game:
 
                     t = thing.Thing(self.level, tp_name="player1")
                     t.push(x, y)
+                    self.player = t
 
                 if m.is_exit_at(x, y):
                     t = thing.Thing(self.level, tp_name="exit1")
