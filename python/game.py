@@ -11,16 +11,10 @@ import tp
 global g
 
 
-def test(self, relx, rely, wheelx, wheely):
-    level = self.thing.level
-    for x in range(0, level.width):
-        for y in range(0, level.height):
-            t = level.tp_find(x, y, "focus2")
-            if t is not None:
-                t.set_tp("none")
-
-    t = self.thing
-    t.set_tp("focus2")
+def game_mouse_over_tile(w, relx, rely, wheelx, wheely):
+    if w.game is None:
+        return
+    w.game.map_mouse_over_tile(w, relx, rely, wheelx, wheely)
 
 
 class Game:
@@ -76,6 +70,18 @@ class Game:
         self.wid_map.wid_vert_scroll.move_to_vert_pct(pct=px)
         self.wid_map.wid_horiz_scroll.move_to_horiz_pct(pct=py)
 
+    def map_mouse_over_tile(self, w, relx, rely, wheelx, wheely):
+
+        level = self.level
+        for x in range(0, level.width):
+            for y in range(0, level.height):
+                t = level.tp_find(x, y, "focus2")
+                if t is not None:
+                    t.set_tp("none")
+
+        t = w.thing
+        t.set_tp("focus2")
+
     #
     # Create a rendom maze
     #
@@ -113,7 +119,8 @@ class Game:
 
                 t = thing.Thing(self.level, tp_name="none")
                 t.push(x, y)
-                t.wid.set_on_m_over_b(test)
+                t.wid.game = self
+                t.wid.set_on_m_over_b(game_mouse_over_tile)
 
                 place_stalactite = False
 
