@@ -8044,7 +8044,7 @@ static void wid_light_calculate_for_single_obstacle (widp w,
     /*
      * Things that are populous but don't cast shadows.
      */
-    if (wid_this_is_hidden(w)) {
+    if (wid_this_hidden(w)) {
         return;
     }
 
@@ -9418,7 +9418,7 @@ static void wid_display (widp w,
 
                         widp w = node->wid;
 
-                        if (unlikely(wid_this_is_hidden(w))) {
+                        if (unlikely(wid_this_hidden(w))) {
                             /*
                              * Skip
                              */
@@ -9886,7 +9886,7 @@ uint8_t wid_is_hidden (widp w)
     return (false);
 }
 
-uint8_t inline wid_this_is_hidden (widp w)
+uint8_t inline wid_this_hidden (widp w)
 {
     return (w->hidden);
 }

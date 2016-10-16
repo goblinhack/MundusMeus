@@ -378,6 +378,9 @@ class Maze:
         self.rooms_corridor_bridge_smooth()
         self.rooms_corridor_bridge_smooth()
         self.rooms_corridor_bridge_smooth()
+        self.rooms_corridor_bridge_smooth()
+        self.rooms_corridor_bridge_smooth()
+        self.rooms_corridor_bridge_smooth()
 
         self.add_rock()
         self.debug("^^^ add rock ^^^")
@@ -1335,6 +1338,10 @@ class Maze:
                    not self.is_dusty_at(x, y):
                     continue
 
+                if self.is_wall_at(x, y) or \
+                   self.is_cwall_at(x, y):
+                    continue
+
                 score = 0
 
                 #
@@ -1404,7 +1411,6 @@ class Maze:
                         self.bridge_height[x][y] = (y - y1)
                     else:
                         self.bridge_height[x][y] = (y2 - y)
-                self.bridge_height[x][y] = 0
 
     def rooms_corridor_bridge_smooth(self):
 
@@ -1413,8 +1419,6 @@ class Maze:
 
         for y in range(1, self.height - 1):
             for x in range(1, self.width - 1):
-                if self.bridge_height[x][y] == 0:
-                    continue
 
                 h = 0
                 count = 0
@@ -1426,6 +1430,9 @@ class Maze:
                     if self.bridge_height[tx][ty] != 0:
                         count += 1.0
                         h += self.bridge_height[tx][ty]
+
+                if count == 0:
+                    continue
 
                 new_bridge_height[x][y] = h / count
 

@@ -57,6 +57,16 @@ class Level:
 
         return None
 
+    def is_obstacle_at(self, x, y):
+        if x >= self.width or y >= self.height or x < 0 or y < 0:
+            return False
+
+        for t in self.on_map[x][y]:
+            if t.tp.is_obstacle:
+                return True
+
+        return False
+
     def thing_push(self, x, y, t):
         if x >= self.width or y >= self.height or x < 0 or y < 0:
             mm.err("thing_push: map oob {0} {1}".format(x, y))
@@ -80,6 +90,7 @@ class Level:
                 for t in self.on_map[x][y]:
                     if t.tp.is_wall or \
                        t.tp.is_rock or \
+                       t.tp.is_door or \
                        t.tp.is_cwall:
                         skip = True
                         break
@@ -148,7 +159,7 @@ class Level:
                     lowest = c
 
             if not got:
-                return out_path
+                return self.dmap_path_optimize(out_path)
 
             out_path.append((bx, by))
             x = bx
@@ -165,3 +176,104 @@ class Level:
             d.debug[x][y] = 1
 
         d.dump()
+
+    #
+    # Make L shaped moves into diagonal ones
+    #
+    def dmap_path_optimize(self, path):
+
+        print("-----")
+        while True:
+            modified = False
+            i = 0
+            print(len(path))
+            while True:
+                if i + 2 >= len(path):
+                    break
+
+                px, py = path[i]
+                nx, ny = n = path[i + 1]
+                mx, my = path[i + 2]
+
+                i = i + 1
+
+                #
+                # nm
+                # p.
+                #
+                if px + 1 == mx and py - 1 == my and \
+                   px == nx and py - 1 == ny and \
+                   not self.is_obstacle_at(px + 1, py):
+                    path.remove(n)
+                    print("remove")
+                    print(n)
+                    modified = True
+                    continue
+
+                if px + 1 == mx and py - 1 == my and \
+                   px + 1 == nx and py == ny and \
+                   not self.is_obstacle_at(px + 1, py):
+                    path.remove(n)
+                    print("remove")
+                    print(n)
+                    modified = True
+                    continue
+
+                if px + 1 == mx and py + 1 == my and \
+                   px == nx and py + 1 == ny and \
+                   not self.is_obstacle_at(px + 1, py):
+                    path.remove(n)
+                    print("remove")
+                    print(n)
+                    modified = True
+                    continue
+
+                if px + 1 == mx and py + 1 == my and \
+                   px + 1 == nx and py == ny and \
+                   not self.is_obstacle_at(px + 1, py):
+                    path.remove(n)
+                    print("remove")
+                    print(n)
+                    modified = True
+                    continue
+
+                if px - 1 == mx and py - 1 == my and \
+                   px == nx and py - 1 == ny and \
+                   not self.is_obstacle_at(px - 1, py):
+                    path.remove(n)
+                    print("remove")
+                    print(n)
+                    modified = True
+                    continue
+
+                if px - 1 == mx and py - 1 == my and \
+                   px - 1 == nx and py == ny and \
+                   not self.is_obstacle_at(px - 1, py):
+                    path.remove(n)
+                    print("remove")
+                    print(n)
+                    modified = True
+                    continue
+
+                if px - 1 == mx and py + 1 == my and \
+                   px == nx and py + 1 == ny and \
+                   not self.is_obstacle_at(px - 1, py):
+                    path.remove(n)
+                    print("remove")
+                    print(n)
+                    modified = True
+                    continue
+
+                if px - 1 == mx and py + 1 == my and \
+                   px - 1 == nx and py == ny and \
+                   not self.is_obstacle_at(px - 1, py):
+                    path.remove(n)
+                    print("remove")
+                    print(n)
+                    modified = True
+                    continue
+
+            if not modified:
+                break
+
+        return (path)

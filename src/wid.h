@@ -421,7 +421,7 @@ widp wid_grid_find_tp_is(widp parent,
                                   uint32_t y,
                                   tpp);
 uint8_t wid_is_hidden(widp w);
-uint8_t wid_this_is_hidden(widp w);
+uint8_t wid_this_hidden(widp w);
 uint8_t wid_is_scaling(widp w);
 uint8_t wid_is_fading(widp w);
 uint8_t wid_is_always_hidden(widp w);
