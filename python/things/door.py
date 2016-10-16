@@ -9,6 +9,7 @@ def door1_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_z_depth("wall")
+    x.set_is_obstacle(True)
     x.set_is_door(True)
 
     if tiles is not None:
