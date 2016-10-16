@@ -29,7 +29,10 @@ class Dmap:
                 d = self.debug[x][y]
 
                 if c == WALL:
-                    c = "_"
+                    if d:
+                        c = "X"
+                    else:
+                        c = "_"
                 elif d:
                     c = "*"
                 else:
