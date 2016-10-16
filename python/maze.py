@@ -1404,6 +1404,7 @@ class Maze:
                         self.bridge_height[x][y] = (y - y1)
                     else:
                         self.bridge_height[x][y] = (y2 - y)
+                self.bridge_height[x][y] = 0
 
     def rooms_corridor_bridge_smooth(self):
 
@@ -1805,10 +1806,10 @@ class Maze:
                     #
                     # Find the size of this random room.
                     #
-                    minx = 999
-                    maxx = -999
-                    miny = 999
-                    maxy = -999
+                    minx = dmap.WALL
+                    maxx = -dmap.WALL
+                    miny = dmap.WALL
+                    maxy = -dmap.WALL
                     for p in roomno:
                         rx, ry = p
                         if rx < minx:
@@ -1900,16 +1901,15 @@ class Maze:
 
     def add_depth_map(self):
 
-        wall = self.wall = 999
-        land = self.width - 1
-        deep = 0
+        wall = dmap.WALL
+        floor = dmap.FLOOR
+        goal = dmap.GOAL
 
-        self.depth_map = dmap.Dmap(width=self.width, height=self.height,
-                                   wall=self.wall)
+        self.depth_map = dmap.Dmap(width=self.width, height=self.height)
 
         for y in range(self.height):
             for x in range(self.width):
-                self.depth_map.cells[x][y] = land
+                self.depth_map.cells[x][y] = floor
 
         for x in [0, self.width - 1]:
             for y in range(self.height):
@@ -1940,7 +1940,7 @@ class Maze:
             for dx in range(-border, border):
                 for dy in range(-border, border):
                     if random.randint(0, 100) < 5:
-                        self.depth_map.cells[x + dx][y + dy] = deep
+                        self.depth_map.cells[x + dx][y + dy] = goal
 
         self.depth_map.process()
 
@@ -1963,7 +1963,7 @@ class Maze:
 
             walked[x][y] = 1
 
-            if self.depth_map.cells[x][y] >= self.wall:
+            if self.depth_map.cells[x][y] >= dmap.WALL:
                 continue
 
             self.putc(x, y, depth, c)

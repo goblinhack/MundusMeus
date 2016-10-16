@@ -66,16 +66,13 @@ class Level:
 
     def dmap_create(self, px, py):
 
-        wall = 999
-        land = self.width - 1
-
-        d = dmap.Dmap(width=self.width, height=self.height, wall=wall)
+        d = dmap.Dmap(width=self.width, height=self.height)
 
         self.dmaps[px][py] = d
 
         for y in range(self.height):
             for x in range(self.width):
-                d.cells[x][y] = wall
+                d.cells[x][y] = dmap.WALL
 
         for y in range(self.height):
             for x in range(self.width):
@@ -83,7 +80,6 @@ class Level:
                 for t in self.on_map[x][y]:
                     if t.tp.is_wall or \
                        t.tp.is_rock or \
-                       t.tp.is_lava or \
                        t.tp.is_cwall:
                         skip = True
                         break
@@ -95,7 +91,7 @@ class Level:
                     if t.tp.is_floor or \
                        t.tp.is_corridor or \
                        t.tp.is_water:
-                        d.cells[x][y] = land
+                        d.cells[x][y] = dmap.FLOOR
                         break
 
         d.cells[px][py] = 0
@@ -106,10 +102,15 @@ class Level:
         if self.dmaps[ex][ey] is None:
             self.dmap_create(ex, ey)
 
+        walked = [[0 for i in range(self.height)]
+                  for j in range(self.width)]
+
         out_path = []
         x = sx
         y = sy
-        d = self.dmaps[ex][ey].cells
+        d = self.dmaps[ex][ey]
+        cells = d.cells
+        out_path.append((x, y))
 
         while True:
             ALL_DELTAS = [(-1, -1, 1.5),
@@ -121,7 +122,7 @@ class Level:
                           (0, 1, 1.0),
                           (1, 1, 1.5)]
 
-            lowest = d[x][y]
+            lowest = cells[x][y]
             got = False
             bx = -1
             by = -1
@@ -130,7 +131,10 @@ class Level:
                 tx = x + dx
                 ty = y + dy
 
-                c = d[tx][ty] * cost
+                if walked[tx][ty]:
+                    continue
+
+                c = cells[tx][ty] * cost
                 if c <= lowest:
                     got = True
                     bx = tx
@@ -138,9 +142,21 @@ class Level:
                     lowest = c
 
             if not got:
-                print(out_path)
+                self.dmap_path_debug(d, out_path)
                 return out_path
 
             out_path.append((bx, by))
             x = bx
             y = by
+            walked[bx][by] = 1
+
+    def dmap_path_debug(self, d, path):
+
+        d.debug = [[0 for i in range(self.height)]
+                   for j in range(self.width)]
+
+        for p in path:
+            x, y = p
+            d.debug[x][y] = 1
+
+        d.dump()

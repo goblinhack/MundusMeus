@@ -5,14 +5,20 @@ import random
 import mm
 import os
 
+WALL = 999
+FLOOR = 998
+GOAL = 0
+
 
 class Dmap:
-    def __init__(self, width=80, height=40, wall=64):
+    def __init__(self, width=80, height=40):
 
         self.width = width
         self.height = height
-        self.wall = wall
         self.cells = [[0 for i in range(self.height)]
+                      for j in range(self.width)]
+
+        self.debug = [[0 for i in range(self.height)]
                       for j in range(self.width)]
 
     def dump(self):
@@ -20,11 +26,14 @@ class Dmap:
             for x in range(self.width):
 
                 c = self.cells[x][y]
+                d = self.debug[x][y]
 
-                if c == self.wall:
+                if c == WALL:
                     c = "_"
+                elif d:
+                    c = "*"
                 else:
-                    c = chr(ord('0') + int(c))
+                    c = chr(ord('0') + int(c % 9))
 
                 sys.stdout.write(c)
             print("")
@@ -50,11 +59,11 @@ class Dmap:
 
         for y in range(self.height):
             for x in range(self.width):
-                if self.cells[x][y] == self.wall:
+                if self.cells[x][y] == WALL:
                     valid[x][y] = 0
                     orig_valid[x][y] = 0
 
-        new_cells = [[self.wall for i in range(self.height)]
+        new_cells = [[WALL for i in range(self.height)]
                      for j in range(self.width)]
 
         changed = True
