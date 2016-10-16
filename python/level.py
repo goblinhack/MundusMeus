@@ -127,11 +127,17 @@ class Level:
             bx = -1
             by = -1
 
+            if cells[x][y] == dmap.WALL:
+                return out_path
+
             for dx, dy, cost in ALL_DELTAS:
                 tx = x + dx
                 ty = y + dy
 
                 if walked[tx][ty]:
+                    continue
+
+                if cells[tx][ty] == dmap.WALL:
                     continue
 
                 c = cells[tx][ty] * cost
@@ -142,7 +148,6 @@ class Level:
                     lowest = c
 
             if not got:
-                self.dmap_path_debug(d, out_path)
                 return out_path
 
             out_path.append((bx, by))

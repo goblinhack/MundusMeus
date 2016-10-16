@@ -76,14 +76,15 @@ class Game:
         t = w.thing
         t.set_tp("focus2")
 
+        p = self.player
         path = self.level.dmap_solve(self.player.x, self.player.y, t.x, t.y)
+        if (p.x, p.y) in path:
+            for o in path:
+                (x, y) = o
 
-        for p in path:
-            (x, y) = p
-
-            t = level.tp_find(x, y, "none")
-            if t is not None:
-                t.set_tp("focus2")
+                t = level.tp_find(x, y, "none")
+                if t is not None:
+                    t.set_tp("focus2")
 
     #
     # Create a rendom maze
