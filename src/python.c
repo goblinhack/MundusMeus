@@ -1753,6 +1753,11 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_water)
     TP_SET_DECL(is_lava)
 
+    {"dmap_process",
+        (PyCFunction)dmap_process_,
+        METH_VARARGS | METH_KEYWORDS,
+        "process a djkstra map"},
+
     {0, 0, 0, 0}   /* sentinel */
 };
 

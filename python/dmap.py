@@ -2,6 +2,7 @@
 import sys
 import copy
 import random
+import mm
 import os
 
 
@@ -32,6 +33,15 @@ class Dmap:
     # An optimized djkstra map that only looks at map areas that change.
     #
     def process(self):
+
+        mm.dmap_process(arr=self.cells)
+
+        self.dump()
+
+        #
+        # Python version is too slow sadly
+        #
+        return
 
         valid = [[1 for i in range(self.height)]
                  for j in range(self.width)]

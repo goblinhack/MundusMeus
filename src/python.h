@@ -85,6 +85,8 @@ PyObject *tile_get_size_pct_(PyObject *obj, PyObject *args, PyObject *keywds);
 
 PyObject *wid_tiles_load_(PyObject *obj, PyObject *args, PyObject *keywds);
 
+PyObject *dmap_process_(PyObject *obj, PyObject *args, PyObject *keywds);
+
 #define PY_PROTO(__fn__)                                                    \
 PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds);
 

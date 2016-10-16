@@ -11,12 +11,6 @@ import tp
 global g
 
 
-def game_mouse_over_tile(w, relx, rely, wheelx, wheely):
-    if w.game is None:
-        return
-    w.game.map_mouse_over_tile(w, relx, rely, wheelx, wheely)
-
-
 class Game:
 
     def __init__(self):
@@ -81,6 +75,15 @@ class Game:
 
         t = w.thing
         t.set_tp("focus2")
+
+        path = self.level.dmap_solve(self.player.x, self.player.y, t.x, t.y)
+
+        for p in path:
+            (x, y) = p
+
+            t = level.tp_find(x, y, "none")
+            if t is not None:
+                t.set_tp("focus2")
 
     #
     # Create a rendom maze
@@ -507,6 +510,13 @@ class Game:
                 if place_stalactite:
                     t = thing.Thing(self.level, tp_name="stalactite1")
                     t.push(x, y)
+
+
+def game_mouse_over_tile(w, relx, rely, wheelx, wheely):
+    if w.game is None:
+        return
+    w.game.map_mouse_over_tile(w, relx, rely, wheelx, wheely)
+
 
 g = None
 

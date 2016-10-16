@@ -1900,7 +1900,7 @@ class Maze:
 
     def add_depth_map(self):
 
-        wall = self.wall = self.width
+        wall = self.wall = 999
         land = self.width - 1
         deep = 0
 
@@ -2174,7 +2174,7 @@ class Maze:
                         color = fg("white") + bg("red")
                     else:
                         if self.depth_map is not None:
-                            depth = self.depth_map.cells[x][y]
+                            depth = self.depth_map.cells[x][y] % 64
                             color = fg(r + depth % 255) + bg(0)
                         else:
                             color = fg(r % 255) + bg(0)
@@ -2188,7 +2188,7 @@ class Maze:
                             c = chr(ord('0') + d)
                 elif c == WATER:
                     if self.depth_map is not None:
-                        depth = self.depth_map.cells[x][y]
+                        depth = self.depth_map.cells[x][y] % 64
                         color = fg(depth % 255) + bg(0)
                     else:
                         color = fg(fg_name) + bg(bg_name)
@@ -2211,9 +2211,9 @@ class Maze:
                 res = attr('reset')
                 if c != SPACE:
                     if self.depth_map is not None:
-                        d = self.depth_map.cells[x][y]
+                        d = self.depth_map.cells[x][y] % 64
                         c = chr(ord('0') + d)
-                        color = fg(d % 255) + bg(0)
+                        color = fg(d % 32) + bg(0)
 
                 sys.stdout.write(color + c + res)
             print("")

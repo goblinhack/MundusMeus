@@ -111,16 +111,16 @@ printf("  ");
 
                 e = &D->val[x  ][y];
 
-                a =  D->val[x-1][y-1] * 2;
+                a =  D->val[x-1][y-1];
                 b =  D->val[x  ][y-1];
-                c =  D->val[x+1][y-1] * 2;
+                c =  D->val[x+1][y-1];
 
                 d =  D->val[x-1][y];
                 f =  D->val[x+1][y];
 
-                g =  D->val[x-1][y+1] * 2;
+                g =  D->val[x-1][y+1];
                 h =  D->val[x  ][y+1];
-                i =  D->val[x+1][y+1] * 2;
+                i =  D->val[x+1][y+1];
 
                 if (a < b) {
                     lowest = a;
