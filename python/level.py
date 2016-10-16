@@ -1,6 +1,7 @@
 import pickle
 import traceback
 import mm
+import dmap
 
 
 class Level:
@@ -44,6 +45,7 @@ class Level:
         self.height = height
 
         self.on_map = [[[] for x in range(width)] for y in range(height)]
+        self.dmaps = [[None for x in range(width)] for y in range(height)]
 
     def tp_find(self, x, y, tp_name):
         if x >= self.width or y >= self.height or x < 0 or y < 0:
@@ -61,3 +63,84 @@ class Level:
             return
 
         self.on_map[x][y].append(t)
+
+    def dmap_create(self, px, py):
+
+        wall = 999
+        land = self.width - 1
+
+        d = dmap.Dmap(width=self.width, height=self.height, wall=wall)
+
+        self.dmaps[px][py] = d
+
+        for y in range(self.height):
+            for x in range(self.width):
+                d.cells[x][y] = wall
+
+        for y in range(self.height):
+            for x in range(self.width):
+                skip = False
+                for t in self.on_map[x][y]:
+                    if t.tp.is_wall or \
+                       t.tp.is_rock or \
+                       t.tp.is_lava or \
+                       t.tp.is_cwall:
+                        skip = True
+                        break
+
+                if skip:
+                    continue
+
+                for t in self.on_map[x][y]:
+                    if t.tp.is_floor or \
+                       t.tp.is_corridor or \
+                       t.tp.is_water:
+                        d.cells[x][y] = land
+                        break
+
+        d.cells[px][py] = 0
+        d.process()
+
+    def dmap_solve(self, ex, ey, sx, sy):
+
+        if self.dmaps[ex][ey] is None:
+            self.dmap_create(ex, ey)
+
+        out_path = []
+        x = sx
+        y = sy
+        d = self.dmaps[ex][ey].cells
+
+        while True:
+            ALL_DELTAS = [(-1, -1, 1.5),
+                          (0, -1, 1.0),
+                          (1, -1, 1.5),
+                          (-1, 0, 1.0),
+                          (1, 0, 1.0),
+                          (-1, 1, 1.5),
+                          (0, 1, 1.0),
+                          (1, 1, 1.5)]
+
+            lowest = d[x][y]
+            got = False
+            bx = -1
+            by = -1
+
+            for dx, dy, cost in ALL_DELTAS:
+                tx = x + dx
+                ty = y + dy
+
+                c = d[tx][ty] * cost
+                if c <= lowest:
+                    got = True
+                    bx = tx
+                    by = ty
+                    lowest = c
+
+            if not got:
+                print(out_path)
+                return out_path
+
+            out_path.append((bx, by))
+            x = bx
+            y = by
