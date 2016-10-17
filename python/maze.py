@@ -33,7 +33,7 @@ charmap = {
         "bg": "magenta",
         "fg": "black",
         "is_wall": True,
-        "is_obstacle": True,
+        "is_movement_blocking": True,
     },
     CWALL: {
         "bg": "blue",
@@ -59,25 +59,25 @@ charmap = {
         "bg": "green",
         "fg": "green",
         "is_door": True,
-        "is_obstacle": True,
+        "is_movement_blocking": True,
     },
     START: {
         "bg": "white",
         "fg": "red",
         "is_start": True,
-        "is_obstacle": True,
+        "is_movement_blocking": True,
     },
     EXIT: {
         "bg": "white",
         "fg": "red",
         "is_exit": True,
-        "is_obstacle": True,
+        "is_movement_blocking": True,
     },
     KEY: {
         "bg": "white",
         "fg": "yellow",
         "is_key": True,
-        "is_obstacle": True,
+        "is_movement_blocking": True,
     },
     CHASM: {
         "bg": "black",
@@ -106,7 +106,7 @@ charmap = {
         "bg": "black",
         "fg": "yellow",
         "is_obj": True,
-        "is_obstacle": True,
+        "is_movement_blocking": True,
     },
     TREASURE: {
         "bg": "black",
@@ -592,7 +592,7 @@ class Maze:
             return True
         return False
 
-    def is_obstacle_at(self, x, y):
+    def is_movement_blocking_at(self, x, y):
         c = self.getc(x, y, Depth.wall)
         if c is None:
             return False
@@ -1231,7 +1231,7 @@ class Maze:
                     walked[cx][cy] = 1
 
                     for dx, dy in XY_DELTAS:
-                        if self.is_obstacle_at(cx + dx, cy + dy):
+                        if self.is_movement_blocking_at(cx + dx, cy + dy):
                             continue
 
                         fx = cx + dx
@@ -1450,7 +1450,7 @@ class Maze:
                 if self.is_door_at(x, y):
                     continue
 
-                if self.is_obstacle_at(x, y):
+                if self.is_movement_blocking_at(x, y):
                     continue
 
                 for dx in range(-1, 2):
@@ -1579,7 +1579,7 @@ class Maze:
                 if not self.is_floor_at_fast(x, y):
                     continue
 
-                if self.is_obstacle_at(x, y):
+                if self.is_movement_blocking_at(x, y):
                     continue
 
                 roomno = self.getr(x, y)
@@ -1607,7 +1607,7 @@ class Maze:
 
             obstacle = False
             for dx, dy in ALL_DELTAS:
-                if self.is_obstacle_at(x + dx, y + dy):
+                if self.is_movement_blocking_at(x + dx, y + dy):
                     obstacle = True
                     break
 
@@ -1638,7 +1638,7 @@ class Maze:
 
             obstacle = False
             for dx, dy in ALL_DELTAS:
-                if self.is_obstacle_at(x + dx, y + dy):
+                if self.is_movement_blocking_at(x + dx, y + dy):
                     obstacle = True
                     break
 
@@ -1689,7 +1689,7 @@ class Maze:
 
             obstacle = False
             for dx, dy in ALL_DELTAS:
-                if self.is_obstacle_at(x + dx, y + dy):
+                if self.is_movement_blocking_at(x + dx, y + dy):
                     obstacle = True
                     break
 

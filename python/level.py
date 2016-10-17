@@ -57,12 +57,12 @@ class Level:
 
         return None
 
-    def is_obstacle_at(self, x, y):
+    def is_movement_blocking_at(self, x, y):
         if x >= self.width or y >= self.height or x < 0 or y < 0:
             return False
 
         for t in self.on_map[x][y]:
-            if t.tp.is_obstacle:
+            if t.tp.is_movement_blocking:
                 return True
 
         return False
@@ -182,11 +182,9 @@ class Level:
     #
     def dmap_path_optimize(self, path):
 
-        print("-----")
         while True:
             modified = False
             i = 0
-            print(len(path))
             while True:
                 if i + 2 >= len(path):
                     break
@@ -197,81 +195,61 @@ class Level:
 
                 i = i + 1
 
-                #
-                # nm
-                # p.
-                #
-                if px + 1 == mx and py - 1 == my and \
-                   px == nx and py - 1 == ny and \
-                   not self.is_obstacle_at(px + 1, py):
-                    path.remove(n)
-                    print("remove")
-                    print(n)
-                    modified = True
-                    continue
-
-                if px + 1 == mx and py - 1 == my and \
-                   px + 1 == nx and py == ny and \
-                   not self.is_obstacle_at(px + 1, py):
-                    path.remove(n)
-                    print("remove")
-                    print(n)
-                    modified = True
-                    continue
-
-                if px + 1 == mx and py + 1 == my and \
-                   px == nx and py + 1 == ny and \
-                   not self.is_obstacle_at(px + 1, py):
-                    path.remove(n)
-                    print("remove")
-                    print(n)
-                    modified = True
-                    continue
-
-                if px + 1 == mx and py + 1 == my and \
-                   px + 1 == nx and py == ny and \
-                   not self.is_obstacle_at(px + 1, py):
-                    path.remove(n)
-                    print("remove")
-                    print(n)
-                    modified = True
-                    continue
-
-                if px - 1 == mx and py - 1 == my and \
-                   px == nx and py - 1 == ny and \
-                   not self.is_obstacle_at(px - 1, py):
-                    path.remove(n)
-                    print("remove")
-                    print(n)
-                    modified = True
-                    continue
-
-                if px - 1 == mx and py - 1 == my and \
-                   px - 1 == nx and py == ny and \
-                   not self.is_obstacle_at(px - 1, py):
-                    path.remove(n)
-                    print("remove")
-                    print(n)
-                    modified = True
-                    continue
-
                 if px - 1 == mx and py + 1 == my and \
                    px == nx and py + 1 == ny and \
-                   not self.is_obstacle_at(px - 1, py):
+                   not self.is_movement_blocking_at(px - 1, py):
                     path.remove(n)
-                    print("remove")
-                    print(n)
                     modified = True
-                    continue
+                    break
 
                 if px - 1 == mx and py + 1 == my and \
                    px - 1 == nx and py == ny and \
-                   not self.is_obstacle_at(px - 1, py):
+                   not self.is_movement_blocking_at(px, py + 1):
                     path.remove(n)
-                    print("remove")
-                    print(n)
                     modified = True
-                    continue
+                    break
+
+                if px + 1 == mx and py + 1 == my and \
+                   px == nx and py + 1 == ny and \
+                   not self.is_movement_blocking_at(px + 1, py):
+                    path.remove(n)
+                    modified = True
+                    break
+
+                if px + 1 == mx and py + 1 == my and \
+                   px + 1 == nx and py == ny and \
+                   not self.is_movement_blocking_at(px, py + 1):
+                    path.remove(n)
+                    modified = True
+                    break
+
+                if px - 1 == mx and py - 1 == my and \
+                   px == nx and py - 1 == ny and \
+                   not self.is_movement_blocking_at(px - 1, py):
+                    path.remove(n)
+                    modified = True
+                    break
+
+                if px - 1 == mx and py - 1 == my and \
+                   px - 1 == nx and py == ny and \
+                   not self.is_movement_blocking_at(px, py - 1):
+                    path.remove(n)
+                    modified = True
+                    break
+
+                if px + 1 == mx and py - 1 == my and \
+                   px == nx and py - 1 == ny and \
+                   not self.is_movement_blocking_at(px + 1, py):
+                    path.remove(n)
+                    modified = True
+                    break
+
+                if px + 1 == mx and py - 1 == my and \
+                   px + 1 == nx and py == ny and \
+                   not self.is_movement_blocking_at(px, py - 1):
+                    path.remove(n)
+                    modified = True
+                    break
 
             if not modified:
                 break
