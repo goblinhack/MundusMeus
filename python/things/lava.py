@@ -8,7 +8,6 @@ def thing_init(t):
 def lava_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
-    x.set_is_obstacle(True)
     x.set_is_lava(True)
     x.set_z_depth("lava")
     x.set_is_animated(True)

@@ -8,7 +8,7 @@ def thing_init(t):
 def stalactite_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
-    x.set_is_obstacle(True)
+    x.set_is_movement_blocking(True)
     x.set_is_rock(True)
     x.set_z_depth("stalactite")
 

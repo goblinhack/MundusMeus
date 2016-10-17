@@ -8,7 +8,7 @@ def thing_init(t):
 def wall_init(name, short_name):
     x = tp.Tp(name)
     x.set_short_name(short_name)
-    x.set_is_obstacle(True)
+    x.set_is_movement_blocking(True)
     x.set_is_wall(True)
     x.set_z_depth("wall")
     x.set_blit_top_off(1)

@@ -61,7 +61,7 @@ class Tp:
         self.is_rrr2 = False
         self.is_rrr3 = False
         self.is_rrr4 = False
-        self.is_obstacle = False
+        self.is_movement_blocking = False
         self.is_treasure = False
         self.is_entrance = False
         self.is_exit = False
@@ -227,9 +227,9 @@ class Tp:
         self.is_rrr4 = value
         mm.tp_set_is_rrr4(self, value)
 
-    def set_is_obstacle(self, value):
-        self.is_obstacle = value
-        mm.tp_set_is_obstacle(self, value)
+    def set_is_movement_blocking(self, value):
+        self.is_movement_blocking = value
+        mm.tp_set_is_movement_blocking(self, value)
 
     def set_is_treasure(self, value):
         self.is_treasure = value
