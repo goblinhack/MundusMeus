@@ -24,7 +24,6 @@
 #include "tile.h"
 // REMOVED #include "thing.h"
 // REMOVED #include "wid.h"
-#include "wid_game_map.h"
 #include "string_util.h"
 #include "dir.h"
 #include "file.h"
@@ -66,9 +65,6 @@ void quit (void)
 
     LOG("sdl_exit()");
     sdl_exit();
-
-    LOG("wid_game_map_fini()");
-    wid_game_map_fini();
 
     LOG("level_fini()");
     level_fini();
