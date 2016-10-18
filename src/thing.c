@@ -116,6 +116,8 @@ void thing_set_depth_ (thingp t, double value)
 void thing_move_ (thingp t, double x, double y)
 {
     verify(t);
+
+    thing_wid_update(t, x, y, true /* smooth */);
 }
 
 PyObject *thing_push_ (thingp t, double x, double y)

@@ -10,7 +10,6 @@ def corridor_init(name, short_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_is_corridor(True)
     x.set_z_depth("floor")
-    x.set_blit_bot_off(1)
 
     if tiles is not None:
         for t in tiles:

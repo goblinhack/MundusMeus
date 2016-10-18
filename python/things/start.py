@@ -31,7 +31,7 @@ def init():
     x.set_light_radius(3)
     x.set_light_tint("red")
     x.set_is_candle_light(True)
-    x.set_blit_bot_off(1)
+    x.set_blit_bot_off(0)
     x.set_blit_top_off(1)
 
 init()

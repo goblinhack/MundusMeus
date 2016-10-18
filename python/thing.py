@@ -63,6 +63,11 @@ class Thing:
     def dump(self):
         self.log("@ {0},{1}".format(self.x, self.y))
 
+    def move(self, x, y):
+        self.x = x
+        self.y = y
+        mm.thing_move(self, x, y)
+
     def push(self, x, y):
         self.x = x
         self.y = y
