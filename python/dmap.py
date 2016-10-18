@@ -48,8 +48,6 @@ class Dmap:
 
         mm.dmap_process(arr=self.cells)
 
-        self.dump()
-
         #
         # Python version is too slow sadly
         #

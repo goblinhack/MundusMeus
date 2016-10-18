@@ -7919,7 +7919,6 @@ static void wid_display_fast (widp w,
         }
     }
 
-    debug = 1;
     if (unlikely((debug > 1) && t)) {
         double mx, my;
 
@@ -8583,8 +8582,6 @@ static void wid_lighting_render (widp w,
         blit_flush_triangle_fan();
     }
 
-    debug = 0;
-    // XXX
     if (debug && thing_is_player(light->t)) {
         int i;
 
