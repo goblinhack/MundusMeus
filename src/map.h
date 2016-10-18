@@ -40,13 +40,12 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(Z_DEPTH_FLOOR2,            "floor2"),          \
     /* focus */                                               \
     list_macro(Z_DEPTH_FLOOR3,            "floor3"),          \
-    list_macro(Z_DEPTH_WALL,              "wall"),            \
-    list_macro(Z_DEPTH_MONST,             "monst"),           \
     list_macro(Z_DEPTH_PLAYER,            "player"),          \
+    list_macro(Z_DEPTH_WALL,              "wall"),            \
     list_macro(Z_DEPTH_EXPLOSION,         "explosion"),       \
     list_macro(Z_DEPTH_ACTIONS,           "actions"),         \
 
-#define Z_DEPTH 11
+#define Z_DEPTH 10
 
 ENUM_DEF_H(Z_DEPTH_ENUMS, z_depth)
 

@@ -147,7 +147,7 @@ typedef struct tp_ {
     uint8_t is_rrr1:1;
     uint8_t is_rrr2:1;
     uint8_t is_rrr3:1;
-    uint8_t is_rrr4:1;
+    uint8_t is_bridge:1;
     uint8_t is_movement_blocking:1;
     uint8_t is_treasure:1;
     uint8_t is_entrance:1;
@@ -325,9 +325,9 @@ static inline uint8_t tp_is_rrr3 (tpp t)
     return (t->is_rrr3);
 }
 
-static inline uint8_t tp_is_rrr4 (tpp t)
+static inline uint8_t tp_is_bridge (tpp t)
 {
-    return (t->is_rrr4);
+    return (t->is_bridge);
 }
 
 static inline uint8_t tp_is_movement_blocking (tpp t)

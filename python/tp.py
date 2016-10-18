@@ -60,7 +60,7 @@ class Tp:
         self.is_rrr1 = False
         self.is_rrr2 = False
         self.is_rrr3 = False
-        self.is_rrr4 = False
+        self.is_bridge = False
         self.is_movement_blocking = False
         self.is_treasure = False
         self.is_entrance = False
@@ -223,9 +223,9 @@ class Tp:
         self.is_rrr3 = value
         mm.tp_set_is_rrr3(self, value)
 
-    def set_is_rrr4(self, value):
-        self.is_rrr4 = value
-        mm.tp_set_is_rrr4(self, value)
+    def set_is_bridge(self, value):
+        self.is_bridge = value
+        mm.tp_set_is_bridge(self, value)
 
     def set_is_movement_blocking(self, value):
         self.is_movement_blocking = value

@@ -1731,7 +1731,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr1)
     TP_SET_DECL(is_rrr2)
     TP_SET_DECL(is_rrr3)
-    TP_SET_DECL(is_rrr4)
+    TP_SET_DECL(is_bridge)
     TP_SET_DECL(is_movement_blocking)
     TP_SET_DECL(is_treasure)
     TP_SET_DECL(is_entrance)

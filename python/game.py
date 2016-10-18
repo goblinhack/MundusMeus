@@ -105,6 +105,7 @@ class Game:
         if (p.x, p.y) in path:
             p.path = path
 
+        p.move(t.x, t.y)
         return True
 
     #
@@ -169,6 +170,11 @@ class Game:
                     t.set_depth(m.bridge_height[x][y])
                     t.push(x, y)
 
+                    if m.bridge_height[x][y] > 0:
+                        t = thing.Thing(self.level, tp_name="under-dusty1")
+                        t.set_depth(m.bridge_height[x][y])
+                        t.push(x, y + 1)
+
                     if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
                         if random.randint(0, 1000) < 5:
                             t = thing.Thing(self.level, tp_name="torch1")
@@ -178,6 +184,11 @@ class Game:
                     t = thing.Thing(self.level, tp_name="corridor1")
                     t.set_depth(m.bridge_height[x][y])
                     t.push(x, y)
+
+                    if m.bridge_height[x][y] > 0:
+                        t = thing.Thing(self.level, tp_name="under-corridor1")
+                        t.set_depth(m.bridge_height[x][y])
+                        t.push(x, y + 1)
 
                     if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
                         if random.randint(0, 1000) < 5:

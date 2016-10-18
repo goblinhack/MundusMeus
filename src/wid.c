@@ -7758,7 +7758,7 @@ static void wid_display_fast (widp w,
     int tx = t->x;
     int ty = t->y;
 
-    if (tp_is_corridor(tp) || tp_is_dusty(tp)) {
+    if (tp_is_corridor(tp) || tp_is_dusty(tp) || tp_is_bridge(tp)) {
         floor_offset[tx][ty] = blit_y_offset;
     } else {
         blit_y_offset += floor_offset[tx][ty];
@@ -9400,9 +9400,9 @@ static void wid_display (widp w,
 
         memset(floor_offset, 0, sizeof(floor_offset));
 
-        for (y = miny; y < maxy; y++) {
-            for (z = 0; z < Z_DEPTH; z++) {
-                for (x = maxx - 1; x >= minx; x--) {
+        for (z = 0; z < Z_DEPTH; z++) {
+            for (x = maxx - 1; x >= minx; x--) {
+                for (y = miny; y < maxy; y++) {
 
                     tree_root **tree =
                         w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
