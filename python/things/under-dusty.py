@@ -8,7 +8,7 @@ def thing_init(t):
 def under_dusty_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
-    x.set_z_depth("lava")
+    x.set_z_depth("bridge")
     x.set_is_bridge(True)
 
     if tiles is not None:

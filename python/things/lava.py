@@ -12,11 +12,6 @@ def lava_init(name, short_name, tiles=[]):
     x.set_z_depth("lava")
     x.set_is_animated(True)
 
-    x.set_light_radius(0.7)
-    x.set_light_tint("red")
-    x.set_light_pulse_amount(0.5)
-    x.set_is_candle_light(True)
-
     if tiles is not None:
         for t in tiles:
             x.set_tile(t, delay_ms=150)
@@ -97,6 +92,11 @@ def init():
                          "lava1.64",
                      ])
 
+    x.set_light_radius(0.7)
+    x.set_light_tint("red")
+    x.set_light_pulse_amount(0.5)
+    x.set_is_candle_light(True)
+
     x = lava_init(name="lava1-top",         short_name="lava1-top",
                   tiles=[
                          "toplava1.1",
@@ -164,6 +164,6 @@ def init():
                          "toplava1.63",
                          "toplava1.64",
                      ])
-    x.set_blit_top_off(1)
+    x.set_z_depth("lava-top")
 
 init()

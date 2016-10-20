@@ -7760,6 +7760,8 @@ static void wid_display_fast (widp w,
 
     if (tp_is_corridor(tp) || tp_is_dusty(tp) || tp_is_bridge(tp)) {
         floor_offset[tx][ty] = blit_y_offset;
+    } else if (tp_is_lava(tp) || tp_is_water(tp)) {
+        blit_y_offset = 0;
     } else {
         blit_y_offset += floor_offset[tx][ty];
     }
@@ -8582,6 +8584,7 @@ static void wid_lighting_render (widp w,
         blit_flush_triangle_fan();
     }
 
+    debug = 0;
     if (debug && thing_is_player(light->t)) {
         int i;
 
