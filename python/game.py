@@ -175,6 +175,11 @@ class Game:
                         t.set_depth(m.bridge_height[x][y])
                         t.push(x, y + 1)
 
+                        if not m.is_lava_at(x, y) and \
+                           not m.is_water_at(x, y):
+                            t = thing.Thing(self.level, tp_name="rock1")
+                            t.push(x, y)
+
                     if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
                         if random.randint(0, 1000) < 5:
                             t = thing.Thing(self.level, tp_name="torch1")
@@ -356,19 +361,27 @@ class Game:
                             m.is_cwall_at(x, y - 1):
                         t = thing.Thing(self.level, tp_name="lava1-top")
                         t.push(x, y)
+                        t = thing.Thing(self.level, tp_name="lava1")
+                        t.push(x, y)
 
                     elif m.is_floor_at(x, y - 1) and not m.is_floor_at(x, y):
                         t = thing.Thing(self.level, tp_name="lava1-top")
+                        t.push(x, y)
+                        t = thing.Thing(self.level, tp_name="lava1")
                         t.push(x, y)
 
                     elif m.is_corridor_at(x, y - 1) and \
                             not m.is_corridor_at(x, y):
                         t = thing.Thing(self.level, tp_name="lava1-top")
                         t.push(x, y)
+                        t = thing.Thing(self.level, tp_name="lava1")
+                        t.push(x, y)
 
                     elif m.is_dusty_at(x, y - 1) and \
                             not m.is_dusty_at(x, y):
                         t = thing.Thing(self.level, tp_name="lava1-top")
+                        t.push(x, y)
+                        t = thing.Thing(self.level, tp_name="lava1")
                         t.push(x, y)
 
                     else:
