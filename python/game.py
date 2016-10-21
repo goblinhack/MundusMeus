@@ -1,3 +1,4 @@
+import random
 import world
 import util
 import mm
@@ -5,7 +6,6 @@ import wid_map
 import thing
 import maze
 import rooms
-import random
 import tp
 
 global g
@@ -29,7 +29,7 @@ class Game:
         #
         # And not a maze at that point in the world
         #
-        self.maze_create(51)
+        self.maze_create(7)
 
         self.map_wid_create()
 

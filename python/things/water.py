@@ -165,6 +165,7 @@ def init():
                           "topwater1.64",
                      ])
     x.set_blit_top_off(1)
+    x.set_z_depth("lava-top")
 
     x = water_init(name="water1-trans",         short_name="water1-trans",
                    tiles=[
@@ -234,7 +235,7 @@ def init():
                           "water1-trans.64",
                      ])
 
-    x = water_init(name="water1-trans-top",         short_name="water1-trans-top",
+    x = water_init(name="water1-trans-top", short_name="water1-trans-top",
                    tiles=[
                           "topwater1-trans.1",
                           "topwater1-trans.2",
@@ -302,5 +303,6 @@ def init():
                           "topwater1-trans.64",
                      ])
     x.set_blit_top_off(1)
+    x.set_z_depth("lava-top")
 
 init()
