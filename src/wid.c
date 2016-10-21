@@ -237,7 +237,7 @@ static void wid_grid_tree_attach (widp w)
     uint32_t mx = ((tlx + brx) / 2);
     uint32_t my = ((tly + bry) / 2);
     uint32_t x = mx / grid->pixwidth;
-    uint32_t y = my / grid->pixheight;
+    uint32_t y = (my + (grid->pixheight/2)) / grid->pixheight;
 
     if (x >= grid->width) {
         return;
@@ -9403,9 +9403,9 @@ static void wid_display (widp w,
 
         memset(floor_offset, 0, sizeof(floor_offset));
 
+                for (y = miny; y < maxy; y++) {
         for (z = 0; z < Z_DEPTH; z++) {
             for (x = maxx - 1; x >= minx; x--) {
-                for (y = miny; y < maxy; y++) {
 
                     tree_root **tree =
                         w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
