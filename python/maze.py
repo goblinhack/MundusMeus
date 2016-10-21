@@ -1457,6 +1457,7 @@ class Maze:
                     for dy in range(-1, 2):
                         if not self.is_any_floor_at(x + dx, y + dy):
                             self.putc(x + dx, y + dy, Depth.wall, WALL)
+                            self.putc(x + dx, y + dy, Depth.floor, FLOOR)
 
     #
     # Wrap corridors in walls that are not bridges
