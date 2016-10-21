@@ -97,7 +97,7 @@ void thing_wid_move (thingp t,
         smooth = false;
     }
 
-    double ms = 200;
+    double ms = 2000;
     ms = ms / (1.0 / dist);
 
     /*
