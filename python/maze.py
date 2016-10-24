@@ -126,6 +126,7 @@ class Enumeration(object):
 Depth = Enumeration("under floor wall obj max")
 
 XY_DELTAS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
 ALL_DELTAS = [(-1, -1), (0, -1), (1, -1),
               (-1, 0), (0, 0), (1, 0),
               (-1, 1), (0, 1), (1, 1)]
@@ -375,11 +376,6 @@ class Maze:
         #
         self.rooms_corridor_bridge_height()
         self.debug("^^^ calculated bridge height ^^^")
-        self.rooms_corridor_bridge_smooth()
-        self.rooms_corridor_bridge_smooth()
-        self.rooms_corridor_bridge_smooth()
-        self.rooms_corridor_bridge_smooth()
-        self.rooms_corridor_bridge_smooth()
         self.rooms_corridor_bridge_smooth()
 
         self.add_rock()
@@ -1420,10 +1416,16 @@ class Maze:
         for y in range(1, self.height - 1):
             for x in range(1, self.width - 1):
 
-                h = 0
-                count = 0
+                if not self.is_floor_at(x, y) and \
+                   not self.is_corridor_at(x, y) and \
+                   not self.is_dusty_at(x, y):
+                    sys.stdout.write("-")
+                    continue
 
-                for dx, dy in ALL_DELTAS:
+                count = 1
+                h = 0
+
+                for dx, dy in XY_DELTAS:
                     tx = x + dx
                     ty = y + dy
 
@@ -1432,11 +1434,20 @@ class Maze:
                         h += self.bridge_height[tx][ty]
 
                 if count == 0:
+                    sys.stdout.write("-")
                     continue
 
-                new_bridge_height[x][y] = h / count
+                h = h / count
 
-        self.bridge_height = new_bridge_height
+                new_bridge_height[x][y] = h
+                sys.stdout.write(str(int(new_bridge_height[x][y])))
+
+            sys.stdout.write("\n")
+        sys.stdout.write("\n")
+
+        for y in range(1, self.height - 1):
+            for x in range(1, self.width - 1):
+                self.bridge_height[x][y] = new_bridge_height[x][y]
 
     #
     # Any rooms opening onto nothing, fill them in

@@ -76,6 +76,10 @@ class Game:
                 if t is not None:
                     t.set_tp("none")
 
+                t = level.tp_find(x, y, "focus1")
+                if t is not None:
+                    t.set_tp("none")
+
         t = w.thing
         t.set_tp("focus2")
 
@@ -94,6 +98,8 @@ class Game:
     #
     def map_mouse_down_tile(self, w, x, y, button):
 
+        level = self.level
+
         t = w.thing
         t.set_tp("focus1")
 
@@ -101,11 +107,33 @@ class Game:
         # Set up the player move chain
         #
         p = self.player
-        path = self.level.dmap_solve(self.player.x, self.player.y, t.x, t.y)
-        if (p.x, p.y) in path:
-            p.path = path
+        path = level.dmap_solve(self.player.x, self.player.y, t.x, t.y)
 
-        p.move(t.x, t.y)
+        if len(path) < 2:
+            return True
+
+        #
+        # Only if the destination is in a valid path
+        #
+        if (p.x, p.y) not in path:
+            return True
+
+        p.path = path
+
+        #
+        # Move the player. [-1] is the player. [-2] is the adjacent cell.
+        #
+        x, y = path[-2]
+        p.move(x, y)
+
+        #
+        # Place a light ember so the player can see where they've been
+        #
+        t = level.tp_find(x, y, "focus2")
+        if t is None:
+            t = thing.Thing(self.level, tp_name="ember1")
+            t.push(x, y)
+
         return True
 
     #
