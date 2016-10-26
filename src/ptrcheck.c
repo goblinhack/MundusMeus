@@ -4,15 +4,11 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <stdio.h>
-// REMOVED #include <stdlib.h>
-// REMOVED #include <string.h>
 #include "slre.h"
 
 #include "main.h"
 #include "backtrace.h"
 #include "time_util.h"
-// REMOVED #include "tree.h"
 #include "command.h"
 
 /*

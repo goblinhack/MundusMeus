@@ -6,12 +6,8 @@
 
 
 #include "main.h"
-// REMOVED #include "thing.h"
-// REMOVED #include "wid_game_map.h"
 #include "tile.h"
 #include "math_util.h"
-// REMOVED #include "time_util.h"
-// REMOVED #include "player.h"
 
 void thing_wid_move (thingp t,
                      double x,
@@ -97,7 +93,7 @@ void thing_wid_move (thingp t,
         smooth = false;
     }
 
-    double ms = 500;
+    double ms = 200;
     ms = ms / (1.0 / dist);
 
     /*

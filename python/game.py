@@ -35,10 +35,14 @@ class Game:
 
         self.maze_populate_level()
 
-        self.map_center_on_player()
+        self.map_center_on_player(level_start=True)
+        self.map_center_on_player(level_start=False)
 
     def destroy(self):
         self.world.destroy()
+
+    def tick(self):
+        self.player_tick()
 
     #
     # The scrollable map for the level
@@ -46,7 +50,7 @@ class Game:
     def map_wid_create(self):
         self.wid_map = wid_map.WidMap(mm.MAP_WIDTH, mm.MAP_HEIGHT)
 
-    def map_center_on_player(self):
+    def map_center_on_player(self, level_start):
         px = self.player.x / mm.MAP_WIDTH
         py = self.player.y / mm.MAP_HEIGHT
 
@@ -59,10 +63,15 @@ class Game:
         px = px - dx * tm
         py = py - dy * th
 
-        self.wid_map.wid_vert_scroll.move_to_vert_pct(pct=px)
-        self.wid_map.wid_horiz_scroll.move_to_horiz_pct(pct=py)
-        self.wid_map.wid_vert_scroll.move_to_vert_pct(pct=px)
-        self.wid_map.wid_horiz_scroll.move_to_horiz_pct(pct=py)
+        if level_start:
+            self.wid_map.wid_vert_scroll.move_to_vert_pct(pct=px)
+            self.wid_map.wid_horiz_scroll.move_to_horiz_pct(pct=py)
+            self.wid_map.wid_vert_scroll.move_to_vert_pct(pct=px)
+            self.wid_map.wid_horiz_scroll.move_to_horiz_pct(pct=py)
+        else:
+            self.wid_map.wid_vert_scroll.move_to_vert_pct_in(pct=py, delay=500)
+            self.wid_map.wid_horiz_scroll.move_to_horiz_pct_in(pct=px,
+                                                               delay=500)
 
     #
     # Mouse is over a map tile; show the route back to the player
@@ -115,26 +124,38 @@ class Game:
         #
         # Only if the destination is in a valid path
         #
-        if (p.x, p.y) not in path:
-            return True
+        if (p.x, p.y) in path:
+            p.path = path
 
-        p.path = path
+            self.player_tick()
+
+        return True
+
+    def player_tick(self):
+
+        p = self.player
+
+        p.path.pop()
+        if len(p.path) < 1:
+            return True
 
         #
         # Move the player. [-1] is the player. [-2] is the adjacent cell.
         #
-        x, y = path[-2]
+        x, y = p.path[-1]
         p.move(x, y)
 
         #
         # Place a light ember so the player can see where they've been
         #
-        t = level.tp_find(x, y, "focus2")
+        level = self.level
+
+        t = level.tp_find(x, y, "ember1")
         if t is None:
             t = thing.Thing(self.level, tp_name="ember1")
             t.push(x, y)
 
-        return True
+        self.map_center_on_player(level_start=False)
 
     #
     # Create a rendom maze

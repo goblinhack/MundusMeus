@@ -1434,16 +1434,11 @@ class Maze:
                         h += self.bridge_height[tx][ty]
 
                 if count == 0:
-                    sys.stdout.write("-")
                     continue
 
                 h = h / count
 
                 new_bridge_height[x][y] = h
-                sys.stdout.write(str(int(new_bridge_height[x][y])))
-
-            sys.stdout.write("\n")
-        sys.stdout.write("\n")
 
         for y in range(1, self.height - 1):
             for x in range(1, self.width - 1):

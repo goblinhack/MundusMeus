@@ -4,14 +4,10 @@
  * See the LICENSE file for license.
  */
 
-// REMOVED #include <SDL.h>
 
 #include "main.h"
-// REMOVED #include "tree.h"
 #include "thing_tile.h"
 #include "tile.h"
-// REMOVED #include "thing.h"
-// REMOVED #include "string_util.h"
 
 /*
  * Using static memory as these things never change once made.

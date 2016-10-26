@@ -4,17 +4,12 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <SDL.h>
-// REMOVED // REMOVED #include "glapi.h"
 #include "stb_image.h"
 
-// REMOVED #include "main.h"
 #include "glapi.h"
 #include "tex.h"
 #include "ramdisk.h"
-// REMOVED #include "tree.h"
 #include "pixel.h"
-// REMOVED #include "color.h"
 #include "math_util.h"
 
 typedef struct tex_ {

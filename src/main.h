@@ -425,6 +425,11 @@ struct game_ {
 
     double tile_width;
     double tile_height;
+
+    /*
+     * Something happened that needs to tick the monsters/level/game.
+     */
+    int need_tick;
 };
 
 extern struct game_ game;

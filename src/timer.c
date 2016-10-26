@@ -4,13 +4,10 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <SDL.h>
 
 #include "main.h"
-// REMOVED #include "tree.h"
 #include "timer.h"
 #include "timer_private.h"
-// REMOVED #include "string_util.h"
 #include "time_util.h"
 
 /*

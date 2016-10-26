@@ -4,7 +4,5 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <math.h>
 
-// REMOVED #include "main.h"
 

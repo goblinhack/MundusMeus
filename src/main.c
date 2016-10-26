@@ -5,10 +5,7 @@
  */
 
 #include <libgen.h>
-// REMOVED #include <unistd.h>
-// REMOVED #include <SDL.h>
 #include "slre.h"
-// REMOVED #include <time.h>
 #include "python.h"
 
 #include "glapi.h"
@@ -22,16 +19,12 @@
 #include "music.h"
 #include "sound.h"
 #include "tile.h"
-// REMOVED #include "thing.h"
-// REMOVED #include "wid.h"
 #include "string_util.h"
 #include "dir.h"
 #include "file.h"
-// REMOVED #include "level.h"
 #include "init_fn.h"
 #include "ramdisk.h"
 #include "term.h"
-// REMOVED #include "thing_template.h"
 #include "player.h"
 
 static char **ARGV;

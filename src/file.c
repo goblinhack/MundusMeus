@@ -4,15 +4,9 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <string.h>
-// REMOVED #include <errno.h>
-// REMOVED #include <sys/stat.h>
-// REMOVED #include <time.h>
 
 #include "main.h"
-// REMOVED #include "string_util.h"
 #include "file.h"
-// REMOVED #include "time_util.h"
 
 unsigned char *file_read (const char *filename, int32_t *out_len)
 {

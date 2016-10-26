@@ -5,17 +5,12 @@
  */
 
 #include <SDL_mixer.h>
-// REMOVED #include <stdlib.h>
 
 #include "main.h"
 #include "sound.h"
 #include "ramdisk.h"
-// REMOVED #include "tree.h"
-// REMOVED #include "config.h"
 #include "music.h"
 #include "math_util.h"
-// REMOVED #include "thing.h"
-// REMOVED #include "vision.h"
 #include "time_util.h"
 
 typedef struct sound_ {

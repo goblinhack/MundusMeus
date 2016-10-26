@@ -4,38 +4,22 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <SDL.h>
-// REMOVED #include <unistd.h>
-// REMOVED // REMOVED #include "glapi.h"
 
-// REMOVED #include "main.h"
 #include "glapi.h"
-// REMOVED #include "wid.h"
-// REMOVED #include "wid_console.h"
 #include "wid_notify.h"
-// REMOVED #include "color.h"
 #include "time_util.h"
-// REMOVED #include "thing.h"
-// REMOVED #include "sdl_util.h"
 #include "init_fn.h"
-// REMOVED #include "wid_splash.h"
-// REMOVED #include "config.h"
-// REMOVED #include "tex.h"
 #include "ttf.h"
 #include "slre.h"
-// REMOVED #include "map.h"
 #include "command.h"
 #include "term.h"
-// REMOVED #include "timer.h"
 #include "string_util.h"
 #include "wid_game_map.h"
 #include "player.h"
+#include "python.h"
 
 #if defined WIN32 || defined __CYGWIN__
-// REMOVED #include <windows.h>
 #endif
-// REMOVED #include <SDL_syswm.h>
-// REMOVED #include <SDL_video.h>
 
 #ifndef SDL_BUTTON_WHEELLEFT
 #define SDL_BUTTON_WHEELLEFT 6
@@ -658,7 +642,6 @@ static int32_t sdl_filter_events (void *userdata, SDL_Event *event)
         case SDL_KEYDOWN:
         case SDL_KEYUP:
         case SDL_CONTROLLERDEVICEADDED:
-        case SDL_CONTROLLERDEVICEREMOVED:
         case SDL_CONTROLLERBUTTONDOWN:
         case SDL_CONTROLLERBUTTONUP:
         case SDL_CONTROLLERAXISMOTION:
@@ -1463,6 +1446,11 @@ void sdl_loop (void)
             if (!sdl_main_loop_running) {
                 break;
             }
+        }
+
+        if (game.need_tick) {
+            game.need_tick = false;
+            py_call_void_module_void("hooks", "hook_game_tick");
         }
 
         levelp level = &game.level;

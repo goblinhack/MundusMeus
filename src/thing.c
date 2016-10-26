@@ -5,14 +5,9 @@
  */
 
 #include "main.h"
-// REMOVED // REMOVED #include "wid_game_map.h"
-// REMOVED #include "string_util.h"
-// REMOVED #include "sound.h"
-// REMOVED #include "timer.h"
-// REMOVED #include "tile.h"
 #include "thing_tile.h"
-// REMOVED #include "time_util.h"
 #include "wid_game_map.h"
+#include "python.h"
 
 tree_root *things;
 

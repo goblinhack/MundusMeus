@@ -6,12 +6,6 @@
 
 #include "python.h"
 #include "main.h"
-// REMOVED #include "string_util.h"
-// REMOVED // REMOVED #include "string_ext.h"
-// REMOVED #include "frameobject.h"
-// REMOVED #include "tex.h"
-// REMOVED #include "tile.h"
-// REMOVED #include "wid.h"
 #include "py_wid.h"
 #include "string_ext.h"
 #include "wid_tiles.h"
