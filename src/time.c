@@ -4,12 +4,9 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <SDL.h>
-// REMOVED #include <time.h>
 
 #include "main.h"
 #include "time_util.h"
-// REMOVED #include "sdl_util.h"
 
 uint32_t time_now;
 uint32_t base_time_in_mill;

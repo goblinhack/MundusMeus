@@ -4,16 +4,8 @@
  * See the LICENSE file for license.
  */
 
-// REMOVED #include <SDL.h>
 
 #include "main.h"
-// REMOVED #include "map.h"
-// REMOVED #include "wid.h"
-// REMOVED #include "thing.h"
-// REMOVED #include "thing_tile.h"
-// REMOVED #include "level.h"
-// REMOVED #include "bits.h"
-// REMOVED #include "./wid_game_map.h"
 
 #ifdef GORY_DEBUG
 FILE *fp = 0;

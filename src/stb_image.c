@@ -356,15 +356,10 @@ extern void stbi_install_YCbCr_to_RGB(stbi_YCbCr_to_RGB_run func);
 #ifndef STBI_HEADER_FILE_ONLY
 
 #ifndef STBI_NO_HDR
-// REMOVED #include <math.h>  // ldexp
 #endif
 
 #ifndef STBI_NO_STDIO
-// REMOVED #include <stdio.h>
 #endif
-// REMOVED #include <stdlib.h>
-// REMOVED #include <memory.h>
-// REMOVED #include <stdarg.h>
 #include "main.h"
 
 // implementation:

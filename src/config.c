@@ -4,10 +4,8 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <string.h>
 
 #include "main.h"
-// REMOVED #include "string_util.h"
 #include "python.h"
 
 struct game_ game;

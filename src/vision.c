@@ -4,20 +4,9 @@
  * See the LICENSE file for license.
  */
 
-// REMOVED #include <SDL.h>
-// REMOVED #include <errno.h>
-// REMOVED #include "slre.h"
 
 #include "main.h"
-// REMOVED #include "math_util.h"
-// REMOVED #include "string_util.h"
-// REMOVED #include "wid.h"
-// REMOVED #include "level.h"
 #include "vision.h"
-// REMOVED #include "map.h"
-// REMOVED #include "thing_template.h"
-// REMOVED #include "wid_game_map.h"
-// REMOVED #include "thing.h"
 
 static int can_see_obstacle (levelp level, int32_t x, int32_t y)
 {

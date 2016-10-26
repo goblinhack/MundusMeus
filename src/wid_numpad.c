@@ -4,17 +4,7 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <SDL.h>
 
-// REMOVED #include "main.h"
-// REMOVED #include "wid.h"
-// REMOVED #include "color.h"
-// REMOVED #include "string_ext.h"
-// REMOVED #include "ttf.h"
-// REMOVED #include "wid_numpad.h"
-// REMOVED #include "time_util.h"
-// REMOVED #include "timer.h"
-// REMOVED #include "math_util.h"
 
 /*
  * How keys appear on screen

@@ -4,8 +4,6 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <stdlib.h>
-// REMOVED #include <string.h>
 
 #include "main.h"
 

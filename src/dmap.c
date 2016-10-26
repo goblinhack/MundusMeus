@@ -5,19 +5,8 @@
  */
 
 #include "main.h"
-// REMOVED #include "sdl.h"
-// REMOVED #include "tile.h"
 #ifdef ENABLE_WIDGET_CODE
-// REMOVED #include "wid.h"
 #endif
-// REMOVED #include "time_util.h"
-// REMOVED #include "thing_template.h"
-// REMOVED #include "thing_tile.h"
-// REMOVED #include "ttf.h"
-// REMOVED #include "string_util.h"
-// REMOVED #include <string.h>
-// REMOVED #include <stdlib.h>
-// REMOVED #include "map.h"
 #include "dmap.h"
 
 void dmap_print (dmap *d)

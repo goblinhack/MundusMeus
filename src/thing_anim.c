@@ -7,11 +7,9 @@
 #include "slre.h"
 
 #include "main.h"
-// REMOVED #include "thing.h"
 #include "thing_tile.h"
 #include "tile.h"
 #include "time_util.h"
-// REMOVED #include "command.h"
 
 void thing_animate (thingp t)
 {

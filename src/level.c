@@ -4,24 +4,11 @@
  * See the LICENSE file for license.
  */
 
-// REMOVED #include <SDL.h>
-// REMOVED #include <errno.h>
 #include "slre.h"
 
 #include "main.h"
-// REMOVED #include "string_util.h"
-// REMOVED #include "wid.h"
-// REMOVED #include "level.h"
-// REMOVED #include "thing.h"
-// REMOVED #include "command.h"
 #include "time_util.h"
-// REMOVED #include "wid_game_map.h"
-// REMOVED // REMOVED #include "map.h"
-// REMOVED #include "timer.h"
-// REMOVED #include "sound.h"
-// REMOVED #include "file.h"
 #include "map.h"
-// REMOVED #include "player.h"
 
 static uint8_t level_init_done;
 static uint8_t level_init_done;

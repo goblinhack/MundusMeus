@@ -4,10 +4,7 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <string.h>
 
-// REMOVED #include "color.h"
-// REMOVED #include "tree.h"
 #include "glapi.h"
 
 color COLOR_NONE;

@@ -12,3 +12,10 @@ def hook_destroy_game():
 
     if game.g is not None:
         game.g.destroy()
+
+
+def hook_game_tick():
+    if game.g is None:
+        return
+
+    game.g.tick()

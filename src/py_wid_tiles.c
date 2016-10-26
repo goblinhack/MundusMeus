@@ -6,13 +6,7 @@
 
 #include "python.h"
 #include "main.h"
-// REMOVED #include "string_util.h"
-// REMOVED #include "string_ext.h"
-// REMOVED #include "frameobject.h"
 #include "wid_tiles.h"
-// REMOVED #include "tile.h"
-// REMOVED #include "pixel.h"
-// REMOVED #include "thing_template.h"
 
 PyObject *wid_tiles_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {

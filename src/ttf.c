@@ -4,23 +4,14 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <SDL.h>
-// REMOVED // REMOVED #include "glapi.h"
-// REMOVED #include "stb_image.h"
 
-// REMOVED #include "main.h"
-// REMOVED #include "math_util.h"
 #include "glapi.h"
-// REMOVED #include "pixel.h"
-// REMOVED #include "color.h"
-// REMOVED #include "bits.h"
 #include "tex.h"
 #include "tile.h"
 #include "ttf.h"
 #include "ramdisk.h"
 #include "time_util.h"
 #include "string_ext.h"
-// REMOVED #include "string_util.h"
 #include "font.h"
 
 #ifdef ENABLE_GENERATE_TTF

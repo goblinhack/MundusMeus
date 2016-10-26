@@ -7,8 +7,6 @@
 #ifndef _WIN32
 #include <execinfo.h>
 #endif
-// REMOVED #include <stdlib.h>
-// REMOVED #include <string.h>
 
 #include "main.h"
 #include "backtrace.h"

@@ -4,9 +4,7 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <stdlib.h>
 
-// REMOVED #include "main.h"
 #include "math_util.h"
 
 uint32_t nextpoweroftwo (uint32_t val)

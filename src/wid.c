@@ -10,7 +10,6 @@
 #include "ttf.h"
 #include "tex.h"
 #include "tile.h"
-// REMOVED // REMOVED #include "thing.h"
 #include "thing_tile.h"
 #include "command.h"
 #include "time_util.h"
@@ -19,12 +18,8 @@
 #include "string_util.h"
 #include "sound.h"
 #include "timer.h"
-// REMOVED #include "wid_game_map.h"
 #include "math_util.h"
-// REMOVED #include "map.h"
-// REMOVED #include "level.h"
 #include "thing.h"
-// REMOVED #include "python.h"
 #include "wid_tiles.h"
 
 #ifdef ENABLE_WID_PTRCHECK
@@ -10195,6 +10190,13 @@ static void wid_move_dequeue (widp w)
     }
 
     wid_move_to_abs(w, w->moving_end.x, w->moving_end.y);
+
+    thingp t = wid_get_thing(w);
+    if (t) {
+        if (thing_is_player(t)) {
+            game.need_tick = true;
+        }
+    }
 
     w->moving--;
     if (!w->moving) {

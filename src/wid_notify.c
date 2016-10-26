@@ -4,10 +4,7 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <SDL.h>
 
-// REMOVED #include "main.h"
-// REMOVED #include "wid.h"
 #include "color.h"
 #include "ttf.h"
 #include "wid_notify.h"

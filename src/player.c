@@ -5,17 +5,9 @@
  */
 
 #include "main.h"
-// REMOVED #include "thing.h"
 #include "player.h"
 #include "time_util.h"
-// REMOVED #include "level.h"
-// REMOVED #include "wid_game_map.h"
-// REMOVED #include "color.h"
-// REMOVED #include "glapi.h"
-// REMOVED #include "ttf.h"
-// REMOVED #include "wid.h"
 #include "wid_popup.h"
-// REMOVED #include "wid_textbox.h"
 
 thingp player;
 

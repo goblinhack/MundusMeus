@@ -4,23 +4,13 @@
  * See the LICENSE file for license.
  */
 
-// REMOVED #include <SDL.h>
 
 #include "main.h"
-// REMOVED #include "wid.h"
 #include "tile.h"
-// REMOVED #include "string_util.h"
-// REMOVED #include "wid_textbox.h"
 #include "wid_game_map.h"
-// REMOVED #include "thing.h"
-// REMOVED #include "level.h"
-// REMOVED #include "timer.h"
-// REMOVED #include "time_util.h"
 #include "thing_tile.h"
 #include "wid_notify.h"
 #include "math_util.h"
-// REMOVED #include "thing_template.h"
-// REMOVED #include "sound.h"
 #include "player.h"
 #include "python.h"
 

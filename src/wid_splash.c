@@ -4,10 +4,8 @@
  * See the README file for license info for license.
  */
 
-// REMOVED #include <SDL.h>
 
 #include "main.h"
-// REMOVED #include "wid.h"
 #include "tex.h"
 #include "init_fn.h"
 #include "wid_splash.h"

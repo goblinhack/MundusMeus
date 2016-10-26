@@ -7,7 +7,6 @@
 #include "main.h"
 #include "ttf.h"
 #include "font.h"
-// REMOVED #include "string_util.h"
 
 static int32_t font_inited;
 

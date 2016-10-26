@@ -9,8 +9,6 @@
 #include "main.h"
 #include "wid_console.h"
 #include "command.h"
-// REMOVED #include "wid.h"
-// REMOVED #include "color.h"
 #include "ttf.h"
 #include "string_ext.h"
 
