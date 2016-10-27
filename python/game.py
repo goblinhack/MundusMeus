@@ -7,6 +7,7 @@ import thing
 import maze
 import rooms
 import tp
+import wid_popup
 
 global g
 
@@ -37,6 +38,8 @@ class Game:
 
         self.map_center_on_player(level_start=True)
         self.map_center_on_player(level_start=False)
+
+        self.wid_map_summary = None
 
     def destroy(self):
         self.world.destroy()
@@ -101,6 +104,18 @@ class Game:
                 t = level.tp_find(x, y, "none")
                 if t is not None:
                     t.set_tp("focus2")
+
+        if self.wid_map_summary:
+            self.wid_map_summary.destroy()
+
+        self.wid_map_summary = wid_popup.WidPopup(name="wid_map_summary",
+                                                  width=1.0)
+        w = self.wid_map_summary
+        w.add_text(font="vsmall",
+                   text="some boring text {0} {1} x ".format(p.x, p.y))
+        w.set_color(bg=True, tl=True, br=True, name="blue", alpha=0.2)
+        w.update()
+        w.move_to_bottom()
 
     #
     # Move the player to the chosen tile
