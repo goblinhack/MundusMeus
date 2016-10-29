@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("ember1")
+    return
 
 
-def ember1_init(name, short_name, tiles=[]):
+def ember1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("player")
 
@@ -20,6 +21,9 @@ def ember1_init(name, short_name, tiles=[]):
 
 
 def init():
-    ember1_init(name="ember1", short_name="ember1", tiles=None)
+    ember1_init(name="ember1",
+                short_name="glowing ember",
+                long_name="glowing ember",
+                tiles=None)
 
 init()

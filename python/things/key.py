@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("key1")
+    return
 
 
-def key1_init(name, short_name, tiles=[]):
+def key1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("wall")
     x.set_is_key(True)
@@ -27,7 +28,9 @@ def key1_init(name, short_name, tiles=[]):
 
 
 def init():
-    key1_init(name="key1",         short_name="key1",
+    key1_init(name="key1",
+              short_name="shiny key",
+              long_name="a metal porthole to other places in space",
               tiles=[
                      "key1.1",
                     ])

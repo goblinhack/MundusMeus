@@ -2,16 +2,17 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("torch1")
+    return
 
 
-def torch1_init(name, short_name, tiles=[]):
+def torch1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("player")
     x.set_is_animated(True)
 
-    x.set_light_radius(3)
+    x.set_light_radius(2)
     x.set_light_tint("gray20")
     x.set_is_candle_light(True)
 
@@ -27,7 +28,9 @@ def torch1_init(name, short_name, tiles=[]):
 
 
 def init():
-    x = torch1_init(name="torch1",         short_name="torch1",
+    x = torch1_init(name="torch1",
+                    short_name="flickering torch",
+                    long_name="flickering torch",
                     tiles=[
                            "torch1.1",
                            "torch1.2",

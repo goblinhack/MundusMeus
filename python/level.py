@@ -57,6 +57,16 @@ class Level:
 
         return None
 
+#    def describe_tile(self, x, y):
+#        if x >= self.width or y >= self.height or x < 0 or y < 0:
+#            return None
+#
+#        for t in self.on_map[x][y]:
+#            if t.tp.name == tp_name:
+#                return t
+#
+#        return None
+
     def is_movement_blocking_at(self, x, y):
         if x >= self.width or y >= self.height or x < 0 or y < 0:
             return False

@@ -28,8 +28,8 @@ class WidTpDetail(wid_popup.WidPopup):
                 center=True,
                 text="%%tile=" + tile_name + "$ " + tpp.short_name)
 
-        if tpp.description is not None:
-            w.add_text(tpp.description)
+        if tpp.long_name is not None:
+            w.add_text(tpp.long_name)
 
         if tpp.is_weapon:
             w.add_text(color="gray",

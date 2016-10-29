@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("under-corridor")
+    return
 
 
-def under_corridor_init(name, short_name, tiles=[]):
+def under_corridor_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("bridge")
     x.set_is_bridge(True)
@@ -21,7 +22,9 @@ def under_corridor_init(name, short_name, tiles=[]):
 
 
 def init():
-    under_corridor_init(name="under-corridor1", short_name="under-corridor1",
+    under_corridor_init(name="under-corridor1",
+                        short_name="corridor bedrock",
+                        long_name="corridor bedrock",
                         tiles=[
                                "under-corridor1.1",
                                "under-corridor1.2",

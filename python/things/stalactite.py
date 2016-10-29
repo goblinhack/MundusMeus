@@ -2,17 +2,16 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("stalactite")
+    return
 
 
-def stalactite_init(name, short_name, tiles=[]):
+def stalactite_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_movement_blocking(True)
     x.set_is_rock(True)
     x.set_z_depth("stalactite")
-
-    x.thing_init = thing_init
 
     if tiles is not None:
         for t in tiles:
@@ -20,11 +19,15 @@ def stalactite_init(name, short_name, tiles=[]):
     else:
         x.set_tile(tile=name, delay_ms=150)
 
+    x.thing_init = thing_init
+
     return x
 
 
 def init():
-    x = stalactite_init(name="stalactite1",         short_name="stalactite1",
+    x = stalactite_init(name="stalactite1",
+                        short_name="a stalactite",
+                        long_name="a stalactite",
                         tiles=[
                                "stalactite1.1",
                                "stalactite1.2",

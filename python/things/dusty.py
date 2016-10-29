@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("dusty")
+    return
 
 
-def dusty_init(name, short_name, tiles=[]):
+def dusty_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_dusty(True)
     x.set_z_depth("floor")
@@ -21,7 +22,9 @@ def dusty_init(name, short_name, tiles=[]):
 
 
 def init():
-    dusty_init(name="dusty1",         short_name="dusty1",
+    dusty_init(name="dusty1",
+               short_name="rarely trodden passage",
+               long_name="rarely trodden passage",
                tiles=[
                       "dusty1.1",
                       "dusty1.2",

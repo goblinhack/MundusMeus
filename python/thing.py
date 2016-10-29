@@ -96,8 +96,8 @@ class Thing:
         mm.thing_pop(self)
         self.on_map = False
 
-    def set_description(self, value=""):
-        self.description = value
+    def set_long_name(self, value=""):
+        self.long_name = value
 
     def set_tilename(self, name):
         mm.thing_set_tilename(self, name)

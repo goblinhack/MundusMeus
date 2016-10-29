@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("A grumbly little creature of dark intent")
+    return
 
 
-def player_init(name, short_name):
+def player_init(name, short_name, long_name):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_monst(True)
     x.set_z_depth("player")
@@ -20,6 +21,10 @@ def player_init(name, short_name):
 
 
 def init():
-    player_init(name="jellycube1",  short_name="jellycube1")
+    player_init(name="jellycube1",
+                short_name="jellyotron",
+                long_name="a glistening semi-transparent cube of fun, "
+                          "and trapped within, "
+                          "the moving bones of its victims")
 
 init()

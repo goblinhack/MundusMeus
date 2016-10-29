@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("door1")
+    return
 
 
-def door1_init(name, short_name, tiles=[]):
+def door1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("wall")
     x.set_is_movement_blocking(True)
@@ -24,7 +25,9 @@ def door1_init(name, short_name, tiles=[]):
 
 
 def init():
-    x = door1_init(name="door1",         short_name="door1",
+    x = door1_init(name="door1",
+                   short_name="slime covered door",
+                   long_name="slime covered door",
                    tiles=[
                           "door1.1",
                           "door1.2",

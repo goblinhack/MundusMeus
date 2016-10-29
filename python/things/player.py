@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("A grumbly little creature of dark intent")
+    return
 
 
-def player_init(name, short_name):
+def player_init(name, short_name, long_name):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_player(True)
     x.set_z_depth("player")
@@ -19,6 +20,8 @@ def player_init(name, short_name):
 
 
 def init():
-    player_init(name="player1",  short_name="Daniel-san")
+    player_init(name="player1",
+                short_name="foolish explorer",
+                long_name="a very foolish explorer")
 
 init()
