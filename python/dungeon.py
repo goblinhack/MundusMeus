@@ -308,7 +308,7 @@ class Maze:
         self.rooms_find_occupiable_tiles()
 
         #
-        # Place start and exit of the maze
+        # Place start and exit of the dungeon
         #
         if not self.rooms_place_start():
             self.generate_failed = True
@@ -2285,25 +2285,25 @@ def main():
         width = 64
         height = 64
 
-        maze_seed = seed
-        maze_seed = 2
+        dungeon_seed = seed
+        dungeon_seed = 2
 
         while True:
             fixed_rooms = rooms.create_fixed()
-            random.seed(maze_seed)
+            random.seed(dungeon_seed)
 #           random.seed(1)
 
-            maze = Maze(width=width, height=height, rooms=fixed_rooms,
+            dungeon = Maze(width=width, height=height, rooms=fixed_rooms,
                         rooms_on_level=15,
                         fixed_room_chance=10)
-            if not maze.generate_failed:
+            if not dungeon.generate_failed:
                 break
 
-            maze_seed += 1
-            maze_seed *= maze_seed
+            dungeon_seed += 1
+            dungeon_seed *= dungeon_seed
 
         print("Seed {0}".format(seed))
-        maze.dump()
+        dungeon.dump()
 
 if __name__ == '__main__':
     main()

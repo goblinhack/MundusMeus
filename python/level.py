@@ -10,6 +10,8 @@ class Level:
         self.world = world
         self.xyz = xyz
         self.all_things = {}
+        self.is_biome_land = False
+        self.is_biome_dungeon = False
 
     def __str__(self):
         return "l{0}".format(str(self.xyz))
@@ -46,6 +48,10 @@ class Level:
 
         self.on_map = [[[] for x in range(width)] for y in range(height)]
         self.dmaps = [[None for x in range(width)] for y in range(height)]
+
+    def set_biome(self, is_land=False, is_dungeon=False):
+        self.is_biome_land = is_land
+        self.is_biome_dungeon = is_dungeon
 
     def tp_find(self, x, y, tp_name):
         if x >= self.width or y >= self.height or x < 0 or y < 0:
