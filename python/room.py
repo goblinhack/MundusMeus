@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import maze
+import dungeon
 
 
 class Room:
@@ -45,35 +45,35 @@ class Room:
 
         y = 0
         for x in range(self.width):
-            if vert_wall_slice[x][y] == maze.WALL:
+            if vert_wall_slice[x][y] == dungeon.WALL:
                 continue
-            if vert_floor_slice[x][y] == maze.FLOOR:
+            if vert_floor_slice[x][y] == dungeon.FLOOR:
                 self.edge_exits.append((x, y))
 
         y = self.height - 1
         for x in range(self.width):
-            if vert_wall_slice[x][y] == maze.WALL:
+            if vert_wall_slice[x][y] == dungeon.WALL:
                 continue
-            if vert_floor_slice[x][y] == maze.FLOOR:
+            if vert_floor_slice[x][y] == dungeon.FLOOR:
                 self.edge_exits.append((x, y))
 
         x = 0
         for y in range(self.height):
-            if vert_wall_slice[x][y] == maze.WALL:
+            if vert_wall_slice[x][y] == dungeon.WALL:
                 continue
-            if vert_floor_slice[x][y] == maze.FLOOR:
+            if vert_floor_slice[x][y] == dungeon.FLOOR:
                 self.edge_exits.append((x, y))
 
         x = self.width - 1
         for y in range(self.height):
-            if vert_wall_slice[x][y] == maze.WALL:
+            if vert_wall_slice[x][y] == dungeon.WALL:
                 continue
-            if vert_floor_slice[x][y] == maze.FLOOR:
+            if vert_floor_slice[x][y] == dungeon.FLOOR:
                 self.edge_exits.append((x, y))
 
         for x in range(self.width):
             for y in range(self.height):
-                if vert_wall_slice[x][y] == maze.DOOR:
+                if vert_wall_slice[x][y] == dungeon.DOOR:
                     self.edge_exits.append((x, y))
 
     def finalize(self):
