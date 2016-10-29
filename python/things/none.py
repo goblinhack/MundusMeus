@@ -1,12 +1,17 @@
 import tp
 
+#
+# This tile is used to temporarily hide the mouse focus
+#
+
 
 def thing_init(t):
-    t.set_description("none")
+    return
 
 
-def none_init(name, short_name, tiles=[]):
+def none_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("floor3")
     x.set_is_animated(True)
@@ -23,7 +28,9 @@ def none_init(name, short_name, tiles=[]):
 
 
 def init():
-    none_init(name="none",         short_name="none",
+    none_init(name="none",
+              short_name="none",
+              long_name="none",
               tiles=[
                      "none",
                     ])

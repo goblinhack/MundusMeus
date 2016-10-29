@@ -2,13 +2,14 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("treasure1")
+    return
 
 
 total_treasure = 0
 
-def treasure1_init(d1000_roll, 
-                   is_minable=False, 
+
+def treasure1_init(d1000_roll,
+                   is_minable=False,
                    tiles=[]):
 
     global total_treasure
@@ -20,6 +21,7 @@ def treasure1_init(d1000_roll,
               is_treasure=True,
               d1000_appearing_roll=d1000_roll)
 
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
 
     if is_minable:

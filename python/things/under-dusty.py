@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("under-dusty")
+    return
 
 
-def under_dusty_init(name, short_name, tiles=[]):
+def under_dusty_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("bridge")
     x.set_is_bridge(True)
@@ -21,7 +22,9 @@ def under_dusty_init(name, short_name, tiles=[]):
 
 
 def init():
-    under_dusty_init(name="under-dusty1", short_name="under-dusty1",
+    under_dusty_init(name="under-dusty1",
+                     short_name="aged bedrock",
+                     long_name="aged bedrock",
                      tiles=[
                             "under-dusty1.1",
                             "under-dusty1.2",

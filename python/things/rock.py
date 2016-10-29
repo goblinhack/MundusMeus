@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("rock")
+    return
 
 
-def rock_init(name, short_name, tiles=[]):
+def rock_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_movement_blocking(True)
     x.set_is_rock(True)
@@ -24,7 +25,9 @@ def rock_init(name, short_name, tiles=[]):
 
 
 def init():
-    rock_init(name="rock1",         short_name="rock1",
+    rock_init(name="rock1",
+              short_name="a boring rock",
+              long_name="a boring rock",
               tiles=[
                      "rock1.1",
                      "rock1.2",

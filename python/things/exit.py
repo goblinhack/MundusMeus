@@ -2,7 +2,7 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("exit")
+    return
 
 
 def thing_pushed(t):
@@ -10,8 +10,9 @@ def thing_pushed(t):
                            fade=1.0, ms=500, count=1000)
 
 
-def exit_init(name, short_name, tiles=[]):
+def exit_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_exit(True)
     x.set_z_depth("floor2")
@@ -28,7 +29,9 @@ def exit_init(name, short_name, tiles=[]):
 
 
 def init():
-    x = exit_init(name="exit1",         short_name="exit1",
+    x = exit_init(name="exit1",
+                  short_name="stairs leading down",
+                  long_name="stairs leading down",
                   tiles=[
                          "exit1.1",
                         ])
@@ -38,7 +41,9 @@ def init():
     x.set_is_candle_light(True)
     x.set_blit_bot_off(0)
 
-    x = exit_init(name="exit1-deco",         short_name="exit1-deco",
+    x = exit_init(name="exit1-deco",
+                  short_name="a warning sign for fools",
+                  long_name="a warning sign for fools",
                   tiles=[
                          "exit1-deco.1",
                         ])

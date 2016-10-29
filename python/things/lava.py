@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("lava")
+    return
 
 
-def lava_init(name, short_name, tiles=[]):
+def lava_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_lava(True)
     x.set_z_depth("lava")
@@ -24,7 +25,9 @@ def lava_init(name, short_name, tiles=[]):
 
 
 def init():
-    x = lava_init(name="lava1",         short_name="lava1",
+    x = lava_init(name="lava1",
+                  short_name="bubbling lava",
+                  long_name="bubbling lava",
                   tiles=[
                          "lava1.1",
                          "lava1.2",
@@ -97,7 +100,9 @@ def init():
     x.set_light_pulse_amount(0.5)
     x.set_is_candle_light(True)
 
-    x = lava_init(name="lava1-top",         short_name="lava1-top",
+    x = lava_init(name="lava1-top",
+                  short_name="bubbling lava",
+                  long_name="bubbling lava",
                   tiles=[
                          "toplava1.1",
                          "toplava1.2",

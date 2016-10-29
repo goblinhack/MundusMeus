@@ -27,7 +27,7 @@ class Tp:
         if is_treasure:
             all_treasure_tps.append(name)
 
-        self.description = None
+        self.long_name = None
         self.short_name = None
         self.raw_name = None
         self.light_radius = None
@@ -90,8 +90,8 @@ class Tp:
         self.tiles.append(tile)
         mm.tp_set_tile(self, tile, **kw)
 
-    def set_description(self, value):
-        self.description = value
+    def set_long_name(self, value):
+        self.long_name = value
 
     def set_damage(self, value):
         self.damage = value

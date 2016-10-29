@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("floor")
+    return
 
 
-def floor_init(name, short_name, tiles=[]):
+def floor_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_floor(True)
     x.set_z_depth("floor")
@@ -22,7 +23,9 @@ def floor_init(name, short_name, tiles=[]):
 
 
 def init():
-    floor_init(name="floor1",         short_name="floor1",
+    floor_init(name="floor1",
+               short_name="dirty floor",
+               long_name="dirty floor",
                tiles=[
                       "floor1.1",
                       "floor1.2",

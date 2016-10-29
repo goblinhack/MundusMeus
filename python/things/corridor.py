@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("corridor")
+    return
 
 
-def corridor_init(name, short_name, tiles=[]):
+def corridor_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_corridor(True)
     x.set_z_depth("floor")
@@ -21,7 +22,9 @@ def corridor_init(name, short_name, tiles=[]):
 
 
 def init():
-    corridor_init(name="corridor1",         short_name="corridor1",
+    corridor_init(name="corridor1",
+                  short_name="dusty corridor",
+                  long_name="dusty corridor",
                   tiles=[
                          "corridor1.1",
                          "corridor1.2",

@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("start")
+    return
 
 
-def start_init(name, short_name, tiles=[]):
+def start_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_entrance(True)
     x.set_z_depth("floor2")
@@ -23,7 +24,9 @@ def start_init(name, short_name, tiles=[]):
 
 
 def init():
-    x = start_init(name="start1",         short_name="start1",
+    x = start_init(name="start1",
+                   short_name="stairs leading upwards",
+                   long_name="stairs leading upwards",
                    tiles=[
                           "start1.1",
                          ])

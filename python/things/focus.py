@@ -2,11 +2,12 @@ import tp
 
 
 def thing_init(t):
-    t.set_description("focus")
+    return
 
 
-def focus_init(name, short_name, tiles=[]):
+def focus_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
+    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("floor3")
     x.set_is_animated(True)
@@ -23,7 +24,9 @@ def focus_init(name, short_name, tiles=[]):
 
 
 def init():
-    focus_init(name="focus1",         short_name="focus1",
+    focus_init(name="focus1",
+               short_name="mouse focus",
+               long_name="mouse focus",
                tiles=[
                       "focus1.1",
                       "focus1.2",
@@ -59,7 +62,9 @@ def init():
                       "focus1.32",
                  ])
 
-    focus_init(name="focus2",         short_name="focus2",
+    focus_init(name="focus2",
+               short_name="mouse focus",
+               long_name="mouse focus",
                tiles=[
                       "focus2.1",
                       "focus2.2",
@@ -95,7 +100,9 @@ def init():
                       "focus2.32",
                  ])
 
-    focus_init(name="focus3",         short_name="focus3",
+    focus_init(name="focus3",
+               short_name="mouse focus",
+               long_name="mouse focus",
                tiles=[
                       "focus3.1",
                       "focus3.2",
