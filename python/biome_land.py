@@ -40,7 +40,6 @@ def biome_populate(self):
 
             if m.is_floor_at(x, y):
                 t = thing.Thing(self.level, tp_name="floor1")
-                t.set_depth(m.depth_map.cells[x][y])
                 t.push(x, y)
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
@@ -54,12 +53,10 @@ def biome_populate(self):
 
             if m.is_dusty_at(x, y):
                 t = thing.Thing(self.level, tp_name="dusty1")
-                t.set_depth(m.bridge_height[x][y])
                 t.push(x, y)
 
                 if m.bridge_height[x][y] > 0:
                     t = thing.Thing(self.level, tp_name="under-dusty1")
-                    t.set_depth(m.bridge_height[x][y])
                     t.push(x, y + 1)
 
                     if not m.is_lava_at(x, y) and \
@@ -74,12 +71,10 @@ def biome_populate(self):
 
             if m.is_corridor_at(x, y):
                 t = thing.Thing(self.level, tp_name="corridor1")
-                t.set_depth(m.bridge_height[x][y])
                 t.push(x, y)
 
                 if m.bridge_height[x][y] > 0:
                     t = thing.Thing(self.level, tp_name="under-corridor1")
-                    t.set_depth(m.bridge_height[x][y])
                     t.push(x, y + 1)
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
@@ -89,7 +84,6 @@ def biome_populate(self):
 
             if m.is_start_at(x, y):
                 t = thing.Thing(self.level, tp_name="start1")
-                t.set_depth(m.depth_map.cells[x][y])
                 t.push(x, y)
 
                 t = thing.Thing(self.level, tp_name="player1")
@@ -98,11 +92,9 @@ def biome_populate(self):
 
             if m.is_exit_at(x, y):
                 t = thing.Thing(self.level, tp_name="exit1")
-                t.set_depth(m.depth_map.cells[x][y])
                 t.push(x, y)
 
                 t = thing.Thing(self.level, tp_name="exit1-deco")
-                t.set_depth(m.depth_map.cells[x][y])
                 t.push(x, y - 1)
 
                 t = thing.Thing(self.level, tp_name="chasm_smoke1")
@@ -274,8 +266,6 @@ def biome_populate(self):
                     t = thing.Thing(self.level, tp_name="lava1")
                     t.push(x, y)
 
-                t.set_depth(m.depth_map.cells[x][y])
-
                 if random.randint(0, 100) < 30:
                     t = thing.Thing(self.level, tp_name="chasm_smoke2")
                     t.push(x, y)
@@ -327,8 +317,6 @@ def biome_populate(self):
                 else:
                     t = thing.Thing(self.level, tp_name=water)
                     t.push(x, y)
-
-                t.set_depth(m.depth_map.cells[x][y])
 
                 if put_treasure:
                     toughness = m.depth_map.cells[x][y] * 2
