@@ -287,7 +287,7 @@ def init_tiles_bigmap():
 def init_tiles_walls():
 
     mm.tex_load_tiled(
-            file="data/gfx/walls.tga",
+            file="data/gfx/land.tga",
             name="walls",
             width=64,
             height=64)
