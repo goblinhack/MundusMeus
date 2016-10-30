@@ -3,6 +3,7 @@ import random
 
 all_tps = {}
 all_treasure_tps = []
+all_plant_tps = []
 all_tree_tps = []
 
 
@@ -12,11 +13,13 @@ class Tp:
     def __init__(self,
                  name,
                  is_treasure=False,
+                 is_plant=False,
                  is_tree=False,
                  d1000_appearing_roll=0):
 
         self.name = name
         self.is_treasure = is_treasure
+        self.is_plant = is_plant
         self.is_tree = is_tree
         self.d1000_appearing_roll = d1000_appearing_roll
 
@@ -29,6 +32,8 @@ class Tp:
         all_tps[name] = self
         if is_treasure:
             all_treasure_tps.append(name)
+        if is_plant:
+            all_plant_tps.append(name)
         if is_tree:
             all_tree_tps.append(name)
 
@@ -63,6 +68,104 @@ class Tp:
         self.is_food = False
         self.is_weapon = False
         self.is_rrr1 = False
+        self.is_rrr2 = False
+        self.is_rrr3 = False
+        self.is_rrr4 = False
+        self.is_rrr5 = False
+        self.is_rrr6 = False
+        self.is_rrr7 = False
+        self.is_rrr8 = False
+        self.is_rrr9 = False
+        self.is_rrr10 = False
+        self.is_rrr11 = False
+        self.is_rrr12 = False
+        self.is_rrr13 = False
+        self.is_rrr14 = False
+        self.is_rrr15 = False
+        self.is_rrr16 = False
+        self.is_rrr17 = False
+        self.is_rrr18 = False
+        self.is_rrr19 = False
+        self.is_rrr20 = False
+        self.is_rrr21 = False
+        self.is_rrr22 = False
+        self.is_rrr23 = False
+        self.is_rrr24 = False
+        self.is_rrr25 = False
+        self.is_rrr26 = False
+        self.is_rrr27 = False
+        self.is_rrr28 = False
+        self.is_rrr29 = False
+        self.is_rrr30 = False
+        self.is_rrr31 = False
+        self.is_rrr32 = False
+        self.is_rrr33 = False
+        self.is_rrr34 = False
+        self.is_rrr35 = False
+        self.is_rrr36 = False
+        self.is_rrr37 = False
+        self.is_rrr38 = False
+        self.is_rrr39 = False
+        self.is_rrr40 = False
+        self.is_rrr41 = False
+        self.is_rrr42 = False
+        self.is_rrr43 = False
+        self.is_rrr44 = False
+        self.is_rrr45 = False
+        self.is_rrr46 = False
+        self.is_rrr47 = False
+        self.is_rrr48 = False
+        self.is_rrr49 = False
+        self.is_rrr50 = False
+        self.is_rrr51 = False
+        self.is_rrr52 = False
+        self.is_rrr53 = False
+        self.is_rrr54 = False
+        self.is_rrr55 = False
+        self.is_rrr56 = False
+        self.is_rrr57 = False
+        self.is_rrr58 = False
+        self.is_rrr59 = False
+        self.is_rrr60 = False
+        self.is_rrr61 = False
+        self.is_rrr62 = False
+        self.is_rrr63 = False
+        self.is_rrr64 = False
+        self.is_rrr65 = False
+        self.is_rrr66 = False
+        self.is_rrr67 = False
+        self.is_rrr68 = False
+        self.is_rrr69 = False
+        self.is_rrr70 = False
+        self.is_rrr71 = False
+        self.is_rrr72 = False
+        self.is_rrr73 = False
+        self.is_rrr74 = False
+        self.is_rrr75 = False
+        self.is_rrr76 = False
+        self.is_rrr77 = False
+        self.is_rrr78 = False
+        self.is_rrr79 = False
+        self.is_rrr80 = False
+        self.is_rrr81 = False
+        self.is_rrr82 = False
+        self.is_rrr83 = False
+        self.is_rrr84 = False
+        self.is_rrr85 = False
+        self.is_rrr86 = False
+        self.is_rrr87 = False
+        self.is_rrr88 = False
+        self.is_rrr89 = False
+        self.is_rrr90 = False
+        self.is_rrr91 = False
+        self.is_rrr92 = False
+        self.is_rrr93 = False
+        self.is_rrr94 = False
+        self.is_rrr95 = False
+        self.is_rrr96 = False
+        self.is_rrr97 = False
+        self.is_rrr98 = False
+        self.is_plant = False
         self.is_grass = False
         self.is_bridge = False
         self.is_movement_blocking = False
@@ -218,6 +321,398 @@ class Tp:
         self.is_rrr1 = value
         mm.tp_set_is_rrr1(self, value)
 
+    def set_is_rrr2(self, value):
+        self.is_rrr2 = value
+        mm.tp_set_is_rrr2(self, value)
+
+    def set_is_rrr3(self, value):
+        self.is_rrr3 = value
+        mm.tp_set_is_rrr3(self, value)
+
+    def set_is_rrr4(self, value):
+        self.is_rrr4 = value
+        mm.tp_set_is_rrr4(self, value)
+
+    def set_is_rrr5(self, value):
+        self.is_rrr5 = value
+        mm.tp_set_is_rrr5(self, value)
+
+    def set_is_rrr6(self, value):
+        self.is_rrr6 = value
+        mm.tp_set_is_rrr6(self, value)
+
+    def set_is_rrr7(self, value):
+        self.is_rrr7 = value
+        mm.tp_set_is_rrr7(self, value)
+
+    def set_is_rrr8(self, value):
+        self.is_rrr8 = value
+        mm.tp_set_is_rrr8(self, value)
+
+    def set_is_rrr9(self, value):
+        self.is_rrr9 = value
+        mm.tp_set_is_rrr9(self, value)
+
+    def set_is_rrr10(self, value):
+        self.is_rrr10 = value
+        mm.tp_set_is_rrr10(self, value)
+
+    def set_is_rrr11(self, value):
+        self.is_rrr11 = value
+        mm.tp_set_is_rrr11(self, value)
+
+    def set_is_rrr12(self, value):
+        self.is_rrr12 = value
+        mm.tp_set_is_rrr12(self, value)
+
+    def set_is_rrr13(self, value):
+        self.is_rrr13 = value
+        mm.tp_set_is_rrr13(self, value)
+
+    def set_is_rrr14(self, value):
+        self.is_rrr14 = value
+        mm.tp_set_is_rrr14(self, value)
+
+    def set_is_rrr15(self, value):
+        self.is_rrr15 = value
+        mm.tp_set_is_rrr15(self, value)
+
+    def set_is_rrr16(self, value):
+        self.is_rrr16 = value
+        mm.tp_set_is_rrr16(self, value)
+
+    def set_is_rrr17(self, value):
+        self.is_rrr17 = value
+        mm.tp_set_is_rrr17(self, value)
+
+    def set_is_rrr18(self, value):
+        self.is_rrr18 = value
+        mm.tp_set_is_rrr18(self, value)
+
+    def set_is_rrr19(self, value):
+        self.is_rrr19 = value
+        mm.tp_set_is_rrr19(self, value)
+
+    def set_is_rrr20(self, value):
+        self.is_rrr20 = value
+        mm.tp_set_is_rrr20(self, value)
+
+    def set_is_rrr21(self, value):
+        self.is_rrr21 = value
+        mm.tp_set_is_rrr21(self, value)
+
+    def set_is_rrr22(self, value):
+        self.is_rrr22 = value
+        mm.tp_set_is_rrr22(self, value)
+
+    def set_is_rrr23(self, value):
+        self.is_rrr23 = value
+        mm.tp_set_is_rrr23(self, value)
+
+    def set_is_rrr24(self, value):
+        self.is_rrr24 = value
+        mm.tp_set_is_rrr24(self, value)
+
+    def set_is_rrr25(self, value):
+        self.is_rrr25 = value
+        mm.tp_set_is_rrr25(self, value)
+
+    def set_is_rrr26(self, value):
+        self.is_rrr26 = value
+        mm.tp_set_is_rrr26(self, value)
+
+    def set_is_rrr27(self, value):
+        self.is_rrr27 = value
+        mm.tp_set_is_rrr27(self, value)
+
+    def set_is_rrr28(self, value):
+        self.is_rrr28 = value
+        mm.tp_set_is_rrr28(self, value)
+
+    def set_is_rrr29(self, value):
+        self.is_rrr29 = value
+        mm.tp_set_is_rrr29(self, value)
+
+    def set_is_rrr30(self, value):
+        self.is_rrr30 = value
+        mm.tp_set_is_rrr30(self, value)
+
+    def set_is_rrr31(self, value):
+        self.is_rrr31 = value
+        mm.tp_set_is_rrr31(self, value)
+
+    def set_is_rrr32(self, value):
+        self.is_rrr32 = value
+        mm.tp_set_is_rrr32(self, value)
+
+    def set_is_rrr33(self, value):
+        self.is_rrr33 = value
+        mm.tp_set_is_rrr33(self, value)
+
+    def set_is_rrr34(self, value):
+        self.is_rrr34 = value
+        mm.tp_set_is_rrr34(self, value)
+
+    def set_is_rrr35(self, value):
+        self.is_rrr35 = value
+        mm.tp_set_is_rrr35(self, value)
+
+    def set_is_rrr36(self, value):
+        self.is_rrr36 = value
+        mm.tp_set_is_rrr36(self, value)
+
+    def set_is_rrr37(self, value):
+        self.is_rrr37 = value
+        mm.tp_set_is_rrr37(self, value)
+
+    def set_is_rrr38(self, value):
+        self.is_rrr38 = value
+        mm.tp_set_is_rrr38(self, value)
+
+    def set_is_rrr39(self, value):
+        self.is_rrr39 = value
+        mm.tp_set_is_rrr39(self, value)
+
+    def set_is_rrr40(self, value):
+        self.is_rrr40 = value
+        mm.tp_set_is_rrr40(self, value)
+
+    def set_is_rrr41(self, value):
+        self.is_rrr41 = value
+        mm.tp_set_is_rrr41(self, value)
+
+    def set_is_rrr42(self, value):
+        self.is_rrr42 = value
+        mm.tp_set_is_rrr42(self, value)
+
+    def set_is_rrr43(self, value):
+        self.is_rrr43 = value
+        mm.tp_set_is_rrr43(self, value)
+
+    def set_is_rrr44(self, value):
+        self.is_rrr44 = value
+        mm.tp_set_is_rrr44(self, value)
+
+    def set_is_rrr45(self, value):
+        self.is_rrr45 = value
+        mm.tp_set_is_rrr45(self, value)
+
+    def set_is_rrr46(self, value):
+        self.is_rrr46 = value
+        mm.tp_set_is_rrr46(self, value)
+
+    def set_is_rrr47(self, value):
+        self.is_rrr47 = value
+        mm.tp_set_is_rrr47(self, value)
+
+    def set_is_rrr48(self, value):
+        self.is_rrr48 = value
+        mm.tp_set_is_rrr48(self, value)
+
+    def set_is_rrr49(self, value):
+        self.is_rrr49 = value
+        mm.tp_set_is_rrr49(self, value)
+
+    def set_is_rrr50(self, value):
+        self.is_rrr50 = value
+        mm.tp_set_is_rrr50(self, value)
+
+    def set_is_rrr51(self, value):
+        self.is_rrr51 = value
+        mm.tp_set_is_rrr51(self, value)
+
+    def set_is_rrr52(self, value):
+        self.is_rrr52 = value
+        mm.tp_set_is_rrr52(self, value)
+
+    def set_is_rrr53(self, value):
+        self.is_rrr53 = value
+        mm.tp_set_is_rrr53(self, value)
+
+    def set_is_rrr54(self, value):
+        self.is_rrr54 = value
+        mm.tp_set_is_rrr54(self, value)
+
+    def set_is_rrr55(self, value):
+        self.is_rrr55 = value
+        mm.tp_set_is_rrr55(self, value)
+
+    def set_is_rrr56(self, value):
+        self.is_rrr56 = value
+        mm.tp_set_is_rrr56(self, value)
+
+    def set_is_rrr57(self, value):
+        self.is_rrr57 = value
+        mm.tp_set_is_rrr57(self, value)
+
+    def set_is_rrr58(self, value):
+        self.is_rrr58 = value
+        mm.tp_set_is_rrr58(self, value)
+
+    def set_is_rrr59(self, value):
+        self.is_rrr59 = value
+        mm.tp_set_is_rrr59(self, value)
+
+    def set_is_rrr60(self, value):
+        self.is_rrr60 = value
+        mm.tp_set_is_rrr60(self, value)
+
+    def set_is_rrr61(self, value):
+        self.is_rrr61 = value
+        mm.tp_set_is_rrr61(self, value)
+
+    def set_is_rrr62(self, value):
+        self.is_rrr62 = value
+        mm.tp_set_is_rrr62(self, value)
+
+    def set_is_rrr63(self, value):
+        self.is_rrr63 = value
+        mm.tp_set_is_rrr63(self, value)
+
+    def set_is_rrr64(self, value):
+        self.is_rrr64 = value
+        mm.tp_set_is_rrr64(self, value)
+
+    def set_is_rrr65(self, value):
+        self.is_rrr65 = value
+        mm.tp_set_is_rrr65(self, value)
+
+    def set_is_rrr66(self, value):
+        self.is_rrr66 = value
+        mm.tp_set_is_rrr66(self, value)
+
+    def set_is_rrr67(self, value):
+        self.is_rrr67 = value
+        mm.tp_set_is_rrr67(self, value)
+
+    def set_is_rrr68(self, value):
+        self.is_rrr68 = value
+        mm.tp_set_is_rrr68(self, value)
+
+    def set_is_rrr69(self, value):
+        self.is_rrr69 = value
+        mm.tp_set_is_rrr69(self, value)
+
+    def set_is_rrr70(self, value):
+        self.is_rrr70 = value
+        mm.tp_set_is_rrr70(self, value)
+
+    def set_is_rrr71(self, value):
+        self.is_rrr71 = value
+        mm.tp_set_is_rrr71(self, value)
+
+    def set_is_rrr72(self, value):
+        self.is_rrr72 = value
+        mm.tp_set_is_rrr72(self, value)
+
+    def set_is_rrr73(self, value):
+        self.is_rrr73 = value
+        mm.tp_set_is_rrr73(self, value)
+
+    def set_is_rrr74(self, value):
+        self.is_rrr74 = value
+        mm.tp_set_is_rrr74(self, value)
+
+    def set_is_rrr75(self, value):
+        self.is_rrr75 = value
+        mm.tp_set_is_rrr75(self, value)
+
+    def set_is_rrr76(self, value):
+        self.is_rrr76 = value
+        mm.tp_set_is_rrr76(self, value)
+
+    def set_is_rrr77(self, value):
+        self.is_rrr77 = value
+        mm.tp_set_is_rrr77(self, value)
+
+    def set_is_rrr78(self, value):
+        self.is_rrr78 = value
+        mm.tp_set_is_rrr78(self, value)
+
+    def set_is_rrr79(self, value):
+        self.is_rrr79 = value
+        mm.tp_set_is_rrr79(self, value)
+
+    def set_is_rrr80(self, value):
+        self.is_rrr80 = value
+        mm.tp_set_is_rrr80(self, value)
+
+    def set_is_rrr81(self, value):
+        self.is_rrr81 = value
+        mm.tp_set_is_rrr81(self, value)
+
+    def set_is_rrr82(self, value):
+        self.is_rrr82 = value
+        mm.tp_set_is_rrr82(self, value)
+
+    def set_is_rrr83(self, value):
+        self.is_rrr83 = value
+        mm.tp_set_is_rrr83(self, value)
+
+    def set_is_rrr84(self, value):
+        self.is_rrr84 = value
+        mm.tp_set_is_rrr84(self, value)
+
+    def set_is_rrr85(self, value):
+        self.is_rrr85 = value
+        mm.tp_set_is_rrr85(self, value)
+
+    def set_is_rrr86(self, value):
+        self.is_rrr86 = value
+        mm.tp_set_is_rrr86(self, value)
+
+    def set_is_rrr87(self, value):
+        self.is_rrr87 = value
+        mm.tp_set_is_rrr87(self, value)
+
+    def set_is_rrr88(self, value):
+        self.is_rrr88 = value
+        mm.tp_set_is_rrr88(self, value)
+
+    def set_is_rrr89(self, value):
+        self.is_rrr89 = value
+        mm.tp_set_is_rrr89(self, value)
+
+    def set_is_rrr90(self, value):
+        self.is_rrr90 = value
+        mm.tp_set_is_rrr90(self, value)
+
+    def set_is_rrr91(self, value):
+        self.is_rrr91 = value
+        mm.tp_set_is_rrr91(self, value)
+
+    def set_is_rrr92(self, value):
+        self.is_rrr92 = value
+        mm.tp_set_is_rrr92(self, value)
+
+    def set_is_rrr93(self, value):
+        self.is_rrr93 = value
+        mm.tp_set_is_rrr93(self, value)
+
+    def set_is_rrr94(self, value):
+        self.is_rrr94 = value
+        mm.tp_set_is_rrr94(self, value)
+
+    def set_is_rrr95(self, value):
+        self.is_rrr95 = value
+        mm.tp_set_is_rrr95(self, value)
+
+    def set_is_rrr96(self, value):
+        self.is_rrr96 = value
+        mm.tp_set_is_rrr96(self, value)
+
+    def set_is_rrr97(self, value):
+        self.is_rrr97 = value
+        mm.tp_set_is_rrr97(self, value)
+
+    def set_is_rrr98(self, value):
+        self.is_rrr98 = value
+        mm.tp_set_is_rrr98(self, value)
+
+    def set_is_plant(self, value):
+        self.is_plant = value
+        mm.tp_set_is_plant(self, value)
+
     def set_is_tree(self, value):
         self.is_tree = value
         mm.tp_set_is_tree(self, value)
@@ -333,9 +828,22 @@ def get_random_treasure(toughness=0):
             return tp
 
 
+def get_random_plant():
+    while True:
+        tp = all_tps[random.choice(all_plant_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
 def get_random_tree():
-    tp = all_tps[random.choice(all_tree_tps)]
-    return tp
+    while True:
+        tp = all_tps[random.choice(all_tree_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
 
 
 def get_random_minable_treasure(toughness=0):

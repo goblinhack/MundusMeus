@@ -145,6 +145,104 @@ typedef struct tp_ {
     uint8_t is_hidden:1;
     uint8_t is_explosion:1;
     uint8_t is_rrr1:1;
+    uint8_t is_rrr2:1;
+    uint8_t is_rrr3:1;
+    uint8_t is_rrr4:1;
+    uint8_t is_rrr5:1;
+    uint8_t is_rrr6:1;
+    uint8_t is_rrr7:1;
+    uint8_t is_rrr8:1;
+    uint8_t is_rrr9:1;
+    uint8_t is_rrr10:1;
+    uint8_t is_rrr11:1;
+    uint8_t is_rrr12:1;
+    uint8_t is_rrr13:1;
+    uint8_t is_rrr14:1;
+    uint8_t is_rrr15:1;
+    uint8_t is_rrr16:1;
+    uint8_t is_rrr17:1;
+    uint8_t is_rrr18:1;
+    uint8_t is_rrr19:1;
+    uint8_t is_rrr20:1;
+    uint8_t is_rrr21:1;
+    uint8_t is_rrr22:1;
+    uint8_t is_rrr23:1;
+    uint8_t is_rrr24:1;
+    uint8_t is_rrr25:1;
+    uint8_t is_rrr26:1;
+    uint8_t is_rrr27:1;
+    uint8_t is_rrr28:1;
+    uint8_t is_rrr29:1;
+    uint8_t is_rrr30:1;
+    uint8_t is_rrr31:1;
+    uint8_t is_rrr32:1;
+    uint8_t is_rrr33:1;
+    uint8_t is_rrr34:1;
+    uint8_t is_rrr35:1;
+    uint8_t is_rrr36:1;
+    uint8_t is_rrr37:1;
+    uint8_t is_rrr38:1;
+    uint8_t is_rrr39:1;
+    uint8_t is_rrr40:1;
+    uint8_t is_rrr41:1;
+    uint8_t is_rrr42:1;
+    uint8_t is_rrr43:1;
+    uint8_t is_rrr44:1;
+    uint8_t is_rrr45:1;
+    uint8_t is_rrr46:1;
+    uint8_t is_rrr47:1;
+    uint8_t is_rrr48:1;
+    uint8_t is_rrr49:1;
+    uint8_t is_rrr50:1;
+    uint8_t is_rrr51:1;
+    uint8_t is_rrr52:1;
+    uint8_t is_rrr53:1;
+    uint8_t is_rrr54:1;
+    uint8_t is_rrr55:1;
+    uint8_t is_rrr56:1;
+    uint8_t is_rrr57:1;
+    uint8_t is_rrr58:1;
+    uint8_t is_rrr59:1;
+    uint8_t is_rrr60:1;
+    uint8_t is_rrr61:1;
+    uint8_t is_rrr62:1;
+    uint8_t is_rrr63:1;
+    uint8_t is_rrr64:1;
+    uint8_t is_rrr65:1;
+    uint8_t is_rrr66:1;
+    uint8_t is_rrr67:1;
+    uint8_t is_rrr68:1;
+    uint8_t is_rrr69:1;
+    uint8_t is_rrr70:1;
+    uint8_t is_rrr71:1;
+    uint8_t is_rrr72:1;
+    uint8_t is_rrr73:1;
+    uint8_t is_rrr74:1;
+    uint8_t is_rrr75:1;
+    uint8_t is_rrr76:1;
+    uint8_t is_rrr77:1;
+    uint8_t is_rrr78:1;
+    uint8_t is_rrr79:1;
+    uint8_t is_rrr80:1;
+    uint8_t is_rrr81:1;
+    uint8_t is_rrr82:1;
+    uint8_t is_rrr83:1;
+    uint8_t is_rrr84:1;
+    uint8_t is_rrr85:1;
+    uint8_t is_rrr86:1;
+    uint8_t is_rrr87:1;
+    uint8_t is_rrr88:1;
+    uint8_t is_rrr89:1;
+    uint8_t is_rrr90:1;
+    uint8_t is_rrr91:1;
+    uint8_t is_rrr92:1;
+    uint8_t is_rrr93:1;
+    uint8_t is_rrr94:1;
+    uint8_t is_rrr95:1;
+    uint8_t is_rrr96:1;
+    uint8_t is_rrr97:1;
+    uint8_t is_rrr98:1;
+    uint8_t is_plant:1;
     uint8_t is_tree:1;
     uint8_t is_grass:1;
     uint8_t is_bridge:1;
@@ -313,6 +411,496 @@ static inline uint8_t tp_is_animated_no_dir (tpp t)
 static inline uint8_t tp_is_rrr1 (tpp t)
 {
     return (t->is_rrr1);
+}
+
+static inline uint8_t tp_is_rrr2 (tpp t)
+{
+    return (t->is_rrr2);
+}
+
+static inline uint8_t tp_is_rrr3 (tpp t)
+{
+    return (t->is_rrr3);
+}
+
+static inline uint8_t tp_is_rrr4 (tpp t)
+{
+    return (t->is_rrr4);
+}
+
+static inline uint8_t tp_is_rrr5 (tpp t)
+{
+    return (t->is_rrr5);
+}
+
+static inline uint8_t tp_is_rrr6 (tpp t)
+{
+    return (t->is_rrr6);
+}
+
+static inline uint8_t tp_is_rrr7 (tpp t)
+{
+    return (t->is_rrr7);
+}
+
+static inline uint8_t tp_is_rrr8 (tpp t)
+{
+    return (t->is_rrr8);
+}
+
+static inline uint8_t tp_is_rrr9 (tpp t)
+{
+    return (t->is_rrr9);
+}
+
+static inline uint8_t tp_is_rrr10 (tpp t)
+{
+    return (t->is_rrr10);
+}
+
+static inline uint8_t tp_is_rrr11 (tpp t)
+{
+    return (t->is_rrr11);
+}
+
+static inline uint8_t tp_is_rrr12 (tpp t)
+{
+    return (t->is_rrr12);
+}
+
+static inline uint8_t tp_is_rrr13 (tpp t)
+{
+    return (t->is_rrr13);
+}
+
+static inline uint8_t tp_is_rrr14 (tpp t)
+{
+    return (t->is_rrr14);
+}
+
+static inline uint8_t tp_is_rrr15 (tpp t)
+{
+    return (t->is_rrr15);
+}
+
+static inline uint8_t tp_is_rrr16 (tpp t)
+{
+    return (t->is_rrr16);
+}
+
+static inline uint8_t tp_is_rrr17 (tpp t)
+{
+    return (t->is_rrr17);
+}
+
+static inline uint8_t tp_is_rrr18 (tpp t)
+{
+    return (t->is_rrr18);
+}
+
+static inline uint8_t tp_is_rrr19 (tpp t)
+{
+    return (t->is_rrr19);
+}
+
+static inline uint8_t tp_is_rrr20 (tpp t)
+{
+    return (t->is_rrr20);
+}
+
+static inline uint8_t tp_is_rrr21 (tpp t)
+{
+    return (t->is_rrr21);
+}
+
+static inline uint8_t tp_is_rrr22 (tpp t)
+{
+    return (t->is_rrr22);
+}
+
+static inline uint8_t tp_is_rrr23 (tpp t)
+{
+    return (t->is_rrr23);
+}
+
+static inline uint8_t tp_is_rrr24 (tpp t)
+{
+    return (t->is_rrr24);
+}
+
+static inline uint8_t tp_is_rrr25 (tpp t)
+{
+    return (t->is_rrr25);
+}
+
+static inline uint8_t tp_is_rrr26 (tpp t)
+{
+    return (t->is_rrr26);
+}
+
+static inline uint8_t tp_is_rrr27 (tpp t)
+{
+    return (t->is_rrr27);
+}
+
+static inline uint8_t tp_is_rrr28 (tpp t)
+{
+    return (t->is_rrr28);
+}
+
+static inline uint8_t tp_is_rrr29 (tpp t)
+{
+    return (t->is_rrr29);
+}
+
+static inline uint8_t tp_is_rrr30 (tpp t)
+{
+    return (t->is_rrr30);
+}
+
+static inline uint8_t tp_is_rrr31 (tpp t)
+{
+    return (t->is_rrr31);
+}
+
+static inline uint8_t tp_is_rrr32 (tpp t)
+{
+    return (t->is_rrr32);
+}
+
+static inline uint8_t tp_is_rrr33 (tpp t)
+{
+    return (t->is_rrr33);
+}
+
+static inline uint8_t tp_is_rrr34 (tpp t)
+{
+    return (t->is_rrr34);
+}
+
+static inline uint8_t tp_is_rrr35 (tpp t)
+{
+    return (t->is_rrr35);
+}
+
+static inline uint8_t tp_is_rrr36 (tpp t)
+{
+    return (t->is_rrr36);
+}
+
+static inline uint8_t tp_is_rrr37 (tpp t)
+{
+    return (t->is_rrr37);
+}
+
+static inline uint8_t tp_is_rrr38 (tpp t)
+{
+    return (t->is_rrr38);
+}
+
+static inline uint8_t tp_is_rrr39 (tpp t)
+{
+    return (t->is_rrr39);
+}
+
+static inline uint8_t tp_is_rrr40 (tpp t)
+{
+    return (t->is_rrr40);
+}
+
+static inline uint8_t tp_is_rrr41 (tpp t)
+{
+    return (t->is_rrr41);
+}
+
+static inline uint8_t tp_is_rrr42 (tpp t)
+{
+    return (t->is_rrr42);
+}
+
+static inline uint8_t tp_is_rrr43 (tpp t)
+{
+    return (t->is_rrr43);
+}
+
+static inline uint8_t tp_is_rrr44 (tpp t)
+{
+    return (t->is_rrr44);
+}
+
+static inline uint8_t tp_is_rrr45 (tpp t)
+{
+    return (t->is_rrr45);
+}
+
+static inline uint8_t tp_is_rrr46 (tpp t)
+{
+    return (t->is_rrr46);
+}
+
+static inline uint8_t tp_is_rrr47 (tpp t)
+{
+    return (t->is_rrr47);
+}
+
+static inline uint8_t tp_is_rrr48 (tpp t)
+{
+    return (t->is_rrr48);
+}
+
+static inline uint8_t tp_is_rrr49 (tpp t)
+{
+    return (t->is_rrr49);
+}
+
+static inline uint8_t tp_is_rrr50 (tpp t)
+{
+    return (t->is_rrr50);
+}
+
+static inline uint8_t tp_is_rrr51 (tpp t)
+{
+    return (t->is_rrr51);
+}
+
+static inline uint8_t tp_is_rrr52 (tpp t)
+{
+    return (t->is_rrr52);
+}
+
+static inline uint8_t tp_is_rrr53 (tpp t)
+{
+    return (t->is_rrr53);
+}
+
+static inline uint8_t tp_is_rrr54 (tpp t)
+{
+    return (t->is_rrr54);
+}
+
+static inline uint8_t tp_is_rrr55 (tpp t)
+{
+    return (t->is_rrr55);
+}
+
+static inline uint8_t tp_is_rrr56 (tpp t)
+{
+    return (t->is_rrr56);
+}
+
+static inline uint8_t tp_is_rrr57 (tpp t)
+{
+    return (t->is_rrr57);
+}
+
+static inline uint8_t tp_is_rrr58 (tpp t)
+{
+    return (t->is_rrr58);
+}
+
+static inline uint8_t tp_is_rrr59 (tpp t)
+{
+    return (t->is_rrr59);
+}
+
+static inline uint8_t tp_is_rrr60 (tpp t)
+{
+    return (t->is_rrr60);
+}
+
+static inline uint8_t tp_is_rrr61 (tpp t)
+{
+    return (t->is_rrr61);
+}
+
+static inline uint8_t tp_is_rrr62 (tpp t)
+{
+    return (t->is_rrr62);
+}
+
+static inline uint8_t tp_is_rrr63 (tpp t)
+{
+    return (t->is_rrr63);
+}
+
+static inline uint8_t tp_is_rrr64 (tpp t)
+{
+    return (t->is_rrr64);
+}
+
+static inline uint8_t tp_is_rrr65 (tpp t)
+{
+    return (t->is_rrr65);
+}
+
+static inline uint8_t tp_is_rrr66 (tpp t)
+{
+    return (t->is_rrr66);
+}
+
+static inline uint8_t tp_is_rrr67 (tpp t)
+{
+    return (t->is_rrr67);
+}
+
+static inline uint8_t tp_is_rrr68 (tpp t)
+{
+    return (t->is_rrr68);
+}
+
+static inline uint8_t tp_is_rrr69 (tpp t)
+{
+    return (t->is_rrr69);
+}
+
+static inline uint8_t tp_is_rrr70 (tpp t)
+{
+    return (t->is_rrr70);
+}
+
+static inline uint8_t tp_is_rrr71 (tpp t)
+{
+    return (t->is_rrr71);
+}
+
+static inline uint8_t tp_is_rrr72 (tpp t)
+{
+    return (t->is_rrr72);
+}
+
+static inline uint8_t tp_is_rrr73 (tpp t)
+{
+    return (t->is_rrr73);
+}
+
+static inline uint8_t tp_is_rrr74 (tpp t)
+{
+    return (t->is_rrr74);
+}
+
+static inline uint8_t tp_is_rrr75 (tpp t)
+{
+    return (t->is_rrr75);
+}
+
+static inline uint8_t tp_is_rrr76 (tpp t)
+{
+    return (t->is_rrr76);
+}
+
+static inline uint8_t tp_is_rrr77 (tpp t)
+{
+    return (t->is_rrr77);
+}
+
+static inline uint8_t tp_is_rrr78 (tpp t)
+{
+    return (t->is_rrr78);
+}
+
+static inline uint8_t tp_is_rrr79 (tpp t)
+{
+    return (t->is_rrr79);
+}
+
+static inline uint8_t tp_is_rrr80 (tpp t)
+{
+    return (t->is_rrr80);
+}
+
+static inline uint8_t tp_is_rrr81 (tpp t)
+{
+    return (t->is_rrr81);
+}
+
+static inline uint8_t tp_is_rrr82 (tpp t)
+{
+    return (t->is_rrr82);
+}
+
+static inline uint8_t tp_is_rrr83 (tpp t)
+{
+    return (t->is_rrr83);
+}
+
+static inline uint8_t tp_is_rrr84 (tpp t)
+{
+    return (t->is_rrr84);
+}
+
+static inline uint8_t tp_is_rrr85 (tpp t)
+{
+    return (t->is_rrr85);
+}
+
+static inline uint8_t tp_is_rrr86 (tpp t)
+{
+    return (t->is_rrr86);
+}
+
+static inline uint8_t tp_is_rrr87 (tpp t)
+{
+    return (t->is_rrr87);
+}
+
+static inline uint8_t tp_is_rrr88 (tpp t)
+{
+    return (t->is_rrr88);
+}
+
+static inline uint8_t tp_is_rrr89 (tpp t)
+{
+    return (t->is_rrr89);
+}
+
+static inline uint8_t tp_is_rrr90 (tpp t)
+{
+    return (t->is_rrr90);
+}
+
+static inline uint8_t tp_is_rrr91 (tpp t)
+{
+    return (t->is_rrr91);
+}
+
+static inline uint8_t tp_is_rrr92 (tpp t)
+{
+    return (t->is_rrr92);
+}
+
+static inline uint8_t tp_is_rrr93 (tpp t)
+{
+    return (t->is_rrr93);
+}
+
+static inline uint8_t tp_is_rrr94 (tpp t)
+{
+    return (t->is_rrr94);
+}
+
+static inline uint8_t tp_is_rrr95 (tpp t)
+{
+    return (t->is_rrr95);
+}
+
+static inline uint8_t tp_is_rrr96 (tpp t)
+{
+    return (t->is_rrr96);
+}
+
+static inline uint8_t tp_is_rrr97 (tpp t)
+{
+    return (t->is_rrr97);
+}
+
+static inline uint8_t tp_is_rrr98 (tpp t)
+{
+    return (t->is_rrr98);
+}
+
+static inline uint8_t tp_is_plant (tpp t)
+{
+    return (t->is_plant);
 }
 
 static inline uint8_t tp_is_tree (tpp t)

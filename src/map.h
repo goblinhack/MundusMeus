@@ -42,8 +42,8 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(Z_DEPTH_FLOOR2,            "floor2"),          \
     /* focus */                                               \
     list_macro(Z_DEPTH_FLOOR3,            "floor3"),          \
-    list_macro(Z_DEPTH_PLAYER,            "player"),          \
     list_macro(Z_DEPTH_WALL,              "wall"),            \
+    list_macro(Z_DEPTH_PLAYER,            "player"),          \
     list_macro(Z_DEPTH_LAVA_TOP,          "lava-top"),        \
     list_macro(Z_DEPTH_EXPLOSION,         "explosion"),       \
     list_macro(Z_DEPTH_ACTIONS,           "actions"),         \
