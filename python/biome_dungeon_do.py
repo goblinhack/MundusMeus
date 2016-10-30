@@ -19,7 +19,7 @@ ALL_DELTAS_BAR_MID = [(-1, -1), (0, -1), (1, -1),
                       (-1, 1), (0, 1), (1, 1)]
 
 
-class Maze:
+class Biome:
     def __init__(self, rooms, width=80, height=40,
                  rooms_on_level=20,
                  fixed_room_chance=10):
@@ -2189,9 +2189,9 @@ def main():
             random.seed(biome_seed)
 #           random.seed(1)
 
-            dungeon = Maze(width=width, height=height, rooms=fixed_rooms,
-                           rooms_on_level=15,
-                           fixed_room_chance=10)
+            dungeon = Biome(width=width, height=height, rooms=fixed_rooms,
+                            rooms_on_level=15,
+                            fixed_room_chance=10)
 
             if not dungeon.generate_failed:
                 break

@@ -5,7 +5,7 @@ import wid_map
 import thing
 import wid_popup
 import biome_dungeon
-#import biome_land
+import biome_land
 
 global g
 
@@ -30,7 +30,7 @@ class Game:
         #
         # And not a dungeon at that point in the world
         #
-        self.biome_create(is_dungeon=True, seed=7)
+        self.biome_create(is_land=True, seed=7)
 
         self.map_center_on_player(level_start=True)
         self.map_center_on_player(level_start=False)
@@ -189,9 +189,9 @@ class Game:
             self.biome_build = biome_dungeon.biome_build
             self.biome_populate = biome_dungeon.biome_populate
 
-#        if self.level.is_biome_land:
-#            self.biome_build = biome_land.biome_build
-#            self.biome_populate = biome_land.biome_populate
+        if self.level.is_biome_land:
+            self.biome_build = biome_land.biome_build
+            self.biome_populate = biome_land.biome_populate
 
         self.biome_build(self, seed=seed)
         self.biome_populate(self)

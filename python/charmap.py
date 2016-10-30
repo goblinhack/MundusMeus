@@ -5,6 +5,7 @@ DOOR = "D"
 WALL = "x"
 CWALL = "X"
 FLOOR = "."
+GRASS = "g"
 DUSTY = "\""
 START = "S"
 EXIT = "E"
@@ -36,6 +37,11 @@ charmap = {
         "bg": "black",
         "fg": "white",
         "is_floor": True,
+    },
+    GRASS: {
+        "bg": "black",
+        "fg": "green",
+        "is_grass": True,
     },
     DUSTY: {
         "bg": "black",

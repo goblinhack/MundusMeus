@@ -59,7 +59,7 @@ class Tp:
         self.is_weapon = False
         self.is_rrr1 = False
         self.is_rrr2 = False
-        self.is_rrr3 = False
+        self.is_grass = False
         self.is_bridge = False
         self.is_movement_blocking = False
         self.is_treasure = False
@@ -219,9 +219,9 @@ class Tp:
         self.is_rrr2 = value
         mm.tp_set_is_rrr2(self, value)
 
-    def set_is_rrr3(self, value):
-        self.is_rrr3 = value
-        mm.tp_set_is_rrr3(self, value)
+    def set_is_grass(self, value):
+        self.is_grass = value
+        mm.tp_set_is_grass(self, value)
 
     def set_is_bridge(self, value):
         self.is_bridge = value
