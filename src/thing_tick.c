@@ -23,7 +23,7 @@ static int thing_tick_all_things (levelp level)
             (t->y >= MAP_HEIGHT) ||
             (t->x < 0) ||
             (t->y < 0)) {
-            THING_ERR(t, "if off the map %f,%f", t->x, t->y);
+            THING_ERR(t, "is off the map %f,%f", t->x, t->y);
             continue;
         }
 
