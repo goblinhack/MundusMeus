@@ -34,10 +34,15 @@ def biome_populate(self):
                 t = thing.Thing(self.level, tp_name="grass1")
                 t.push(x, y)
 
-                if random.randint(0, 100) < 5:
+                if random.randint(0, 100) < 30:
                     r = tp.get_random_tree()
                     t = thing.Thing(self.level, tp_name=r.short_name)
                     t.push(x, y)
+                elif random.randint(0, 100) < 5:
+                    for i in range(random.randint(1, 10)):
+                        r = tp.get_random_plant()
+                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t.push(x, y)
 
             if m.is_start_at(x, y):
                 t = thing.Thing(self.level, tp_name="start1")
@@ -151,21 +156,6 @@ def biome_populate(self):
                     r = tp.get_random_minable_treasure(toughness=toughness)
                     t = thing.Thing(self.level, tp_name=r.short_name)
                     t.push(x, y)
-
-            if random.randint(0, 100) < 20:
-                if m.is_wall_at(x, y) and \
-                        m.is_grass_at(x, y + 1) and \
-                        not m.is_wall_at(x, y + 1):
-                    t = thing.Thing(self.level, tp_name="deco1")
-                    t.push(x, y)
-
-                    num = len(t.tp.tiles)
-                    which = m.getr(x, y)
-                    which += self.biome_seed
-                    which = which % num
-                    which += 1
-
-                    t.set_tilename("deco1." + str(which))
 
             if m.is_treasure_at(x, y):
                 toughness = self.level.xyz.z

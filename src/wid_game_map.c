@@ -91,9 +91,9 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         tile = tile_find(tilename);
 
         if (!tile) {
-            DIE("tile name %s from thing %s not found",
-            tilename,
-            tp_short_name(tp));
+            DIE("tile name [%s] from thing [%s] not found",
+                tilename,
+                tp_short_name(tp));
             return (0);
         }
     }
@@ -127,12 +127,24 @@ wid_game_map_replace_tile (double x, double y, thingp t)
      */
     double scale = tp_get_scale(tp);
 
-    if (scale != 1.0) {
-        wid_scaling_blit_to_pct_in(child, scale, scale, 500, 9999999);
+    if (tp_is_tree(tp)) {
+        dx = gauss(0.5, 0.1);
+        dy = gauss(0.5, 0.1);
+        scale = gauss(1.0, 0.2);
     }
 
-    if (tp_is_chasm_smoke(tp)) {
-        wid_scaling_blit_to_pct_in(child, 1.0, 2.0, 5000, 9999999);
+    if (tp_is_plant(tp)) {
+        dx = gauss(0.5, 0.1);
+        dy = gauss(0.5, 0.1);
+        scale = gauss(0.5, 0.1);
+    }
+
+    if (scale <= 0) {
+        scale = 1.0;
+    }
+
+    if (scale != 1.0) {
+        wid_scaling_blit_to_pct_in(child, scale, scale, 500, 9999999);
     }
 
     thing_wid_update(t, x + dx, y + dy, false /* smooth */);
