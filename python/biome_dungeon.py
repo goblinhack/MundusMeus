@@ -1,37 +1,37 @@
 import random
 import mm
 import thing
-import dungeon
+import biome_dungeon_do
 import rooms
 import tp
 
 
 def biome_build(self, seed):
-    self.dungeon_seed = seed
+    self.biome_seed = seed
 
     while True:
         fixed_rooms = rooms.create_fixed()
-        random.seed(self.dungeon_seed)
+        random.seed(self.biome_seed)
 
-        self.dungeon_seed += 1
-        self.dungeon_seed *= self.dungeon_seed
+        self.biome_seed += 1
+        self.biome_seed *= self.biome_seed
 
-        self.level.dungeon = dungeon.Maze(width=self.width,
-                                          height=self.height,
-                                          rooms=fixed_rooms,
-                                          rooms_on_level=15,
-                                          fixed_room_chance=10)
+        self.level.biome = biome_dungeon_do.Maze(width=self.width,
+                                                 height=self.height,
+                                                 rooms=fixed_rooms,
+                                                 rooms_on_level=15,
+                                                 fixed_room_chance=10)
 
-        if not self.level.dungeon.generate_failed:
+        if not self.level.biome.generate_failed:
             break
 
-    self.level.dungeon.dump_depth()
-    self.level.dungeon.dump(dungeon.Depth.floor)
-    self.level.dungeon.dump()
+    self.level.biome.dump_depth()
+    self.level.biome.dump(biome_dungeon_do.charmap.depth.floor)
+    self.level.biome.dump()
 
 
 def biome_populate(self):
-    m = self.level.dungeon
+    m = self.level.biome
 
     for y in range(1, mm.MAP_HEIGHT - 1):
         for x in range(1, mm.MAP_WIDTH - 1):
@@ -357,7 +357,7 @@ def biome_populate(self):
 
                 num = len(t.tp.tiles)
                 which = m.getr(x, y)
-                which += self.dungeon_seed
+                which += self.biome_seed
                 which = which % num
                 which += 1
 
@@ -369,7 +369,7 @@ def biome_populate(self):
 
                 num = len(t.tp.tiles)
                 which = m.getr(x, y)
-                which += self.dungeon_seed
+                which += self.biome_seed
                 which = which % num
                 which += 1
 
@@ -386,7 +386,7 @@ def biome_populate(self):
 
                     num = len(t.tp.tiles)
                     which = m.getr(x, y)
-                    which += self.dungeon_seed
+                    which += self.biome_seed
                     which = which % num
                     which += 1
 

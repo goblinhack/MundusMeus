@@ -6,124 +6,7 @@ import os
 import dmap
 import room
 import rooms
-
-SPACE = " "
-CORRIDOR = "#"
-DOOR = "D"
-WALL = "x"
-CWALL = "X"
-FLOOR = "."
-DUSTY = "\""
-START = "S"
-EXIT = "E"
-KEY = "k"
-CHASM = "C"
-LAVA = "L"
-WATER = "_"
-ROCK = "r"
-TREASURE = "$"
-OBJECT = "o"
-
-charmap = {
-    " ": {
-        "bg": "black",
-        "fg": "black",
-    },
-    WALL: {
-        "bg": "magenta",
-        "fg": "black",
-        "is_wall": True,
-        "is_movement_blocking": True,
-    },
-    CWALL: {
-        "bg": "blue",
-        "fg": "black",
-        "is_cwall": True,
-    },
-    FLOOR: {
-        "bg": "black",
-        "fg": "white",
-        "is_floor": True,
-    },
-    DUSTY: {
-        "bg": "black",
-        "fg": "white",
-        "is_dusty": True,
-    },
-    CORRIDOR: {
-        "bg": "black",
-        "fg": "yellow",
-        "is_corridor": True,
-    },
-    DOOR: {
-        "bg": "green",
-        "fg": "green",
-        "is_door": True,
-        "is_movement_blocking": True,
-    },
-    START: {
-        "bg": "white",
-        "fg": "red",
-        "is_start": True,
-        "is_movement_blocking": True,
-    },
-    EXIT: {
-        "bg": "white",
-        "fg": "red",
-        "is_exit": True,
-        "is_movement_blocking": True,
-    },
-    KEY: {
-        "bg": "white",
-        "fg": "yellow",
-        "is_key": True,
-        "is_movement_blocking": True,
-    },
-    CHASM: {
-        "bg": "black",
-        "fg": "black",
-        "is_chasm": True,
-        "is_dissolves_walls": True,
-    },
-    LAVA: {
-        "bg": "red",
-        "fg": "yellow",
-        "is_lava": True,
-        "is_dissolves_walls": True,
-    },
-    WATER: {
-        "bg": "black",
-        "fg": "blue",
-        "is_water": True,
-        "is_dissolves_walls": True,
-    },
-    ROCK: {
-        "bg": "black",
-        "fg": "red",
-        "is_rock": True,
-    },
-    OBJECT: {
-        "bg": "black",
-        "fg": "yellow",
-        "is_obj": True,
-        "is_movement_blocking": True,
-    },
-    TREASURE: {
-        "bg": "black",
-        "fg": "yellow",
-        "is_treasure": True,
-    },
-}
-
-
-class Enumeration(object):
-    def __init__(self, names):  # or *names, with no .split()
-        self.to_name = {}
-        for number, name in enumerate(names.split()):
-            setattr(self, name, number)
-            self.to_name[number] = name
-
-Depth = Enumeration("under floor wall obj max")
+import charmap
 
 XY_DELTAS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
@@ -226,7 +109,7 @@ class Maze:
         #
         # The map
         #
-        self.cells = [[[' ' for d in range(Depth.max)]
+        self.cells = [[[' ' for d in range(charmap.depth.max)]
                        for i in range(height)]
                       for j in range(width)]
         self.roomno_cells = [[-1 for i in range(height)]
@@ -476,11 +359,11 @@ class Maze:
 
             walked[x][y] = 1
 
-            c = self.cells[x][y][Depth.floor]
-            if c != FLOOR:
+            c = self.cells[x][y][charmap.depth.floor]
+            if c != charmap.FLOOR:
                 continue
 
-            self.cells[x][y][Depth.floor] = SPACE
+            self.cells[x][y][charmap.depth.floor] = charmap.SPACE
             r.append((x, y))
 
             #
@@ -573,58 +456,58 @@ class Maze:
         return False
 
     def is_anything_at(self, x, y):
-        for d in range(Depth.max):
+        for d in range(charmap.depth.max):
             c = self.getc(x, y, d)
-            if c != SPACE:
+            if c != charmap.SPACE:
                 return True
         return False
 
     def is_any_floor_at(self, x, y):
-        c = self.getc(x, y, Depth.floor)
+        c = self.getc(x, y, charmap.depth.floor)
         if c is None:
             return False
-        if "is_floor" in self.charmap[c] or \
-           "is_corridor" in self.charmap[c]:
+        if "is_floor" in charmap.charmap[c] or \
+           "is_corridor" in charmap.charmap[c]:
             return True
         return False
 
     def is_movement_blocking_at(self, x, y):
-        c = self.getc(x, y, Depth.wall)
+        c = self.getc(x, y, charmap.depth.wall)
         if c is None:
             return False
-        if "is_wall" in self.charmap[c] or \
-           "is_door" in self.charmap[c] or \
-           "is_obj" in self.charmap[c] or \
-           "is_start" in self.charmap[c] or \
-           "is_exit" in self.charmap[c] or \
-           "is_key" in self.charmap[c]:
+        if "is_wall" in charmap.charmap[c] or \
+           "is_door" in charmap.charmap[c] or \
+           "is_obj" in charmap.charmap[c] or \
+           "is_start" in charmap.charmap[c] or \
+           "is_exit" in charmap.charmap[c] or \
+           "is_key" in charmap.charmap[c]:
             return True
         return False
 
     def is_floor_at(self, x, y):
-        c = self.getc(x, y, Depth.floor)
+        c = self.getc(x, y, charmap.depth.floor)
         if c is not None:
-            if "is_floor" in self.charmap[c]:
+            if "is_floor" in charmap.charmap[c]:
                 return True
         return False
 
     def is_dusty_at(self, x, y):
-        c = self.getc(x, y, Depth.floor)
+        c = self.getc(x, y, charmap.depth.floor)
         if c is not None:
-            if "is_dusty" in self.charmap[c]:
+            if "is_dusty" in charmap.charmap[c]:
                 return True
         return False
 
     def is_floor_at_fast(self, x, y):
-        c = self.cells[x][y][Depth.floor]
-        if c == FLOOR:
+        c = self.cells[x][y][charmap.depth.floor]
+        if c == charmap.FLOOR:
             return True
         return False
 
     def is_corridor_at(self, x, y):
-        c = self.getc(x, y, Depth.floor)
+        c = self.getc(x, y, charmap.depth.floor)
         if c is not None:
-            if "is_corridor" in self.charmap[c]:
+            if "is_corridor" in charmap.charmap[c]:
                 return True
         return False
 
@@ -643,93 +526,93 @@ class Maze:
         return False
 
     def is_wall_at(self, x, y):
-        c = self.getc(x, y, Depth.wall)
+        c = self.getc(x, y, charmap.depth.wall)
         if c is not None:
-            if "is_wall" in self.charmap[c]:
+            if "is_wall" in charmap.charmap[c]:
                 return True
         return False
 
     def is_cwall_at(self, x, y):
-        c = self.getc(x, y, Depth.wall)
+        c = self.getc(x, y, charmap.depth.wall)
         if c is not None:
-            if "is_cwall" in self.charmap[c]:
+            if "is_cwall" in charmap.charmap[c]:
                 return True
         return False
 
     def is_door_at(self, x, y):
-        c = self.getc(x, y, Depth.wall)
+        c = self.getc(x, y, charmap.depth.wall)
         if c is not None:
-            if "is_door" in self.charmap[c]:
+            if "is_door" in charmap.charmap[c]:
                 return True
         return False
 
     def is_obj_at(self, x, y):
-        c = self.getc(x, y, Depth.obj)
+        c = self.getc(x, y, charmap.depth.obj)
         if c is not None:
-            if "is_obj" in self.charmap[c]:
+            if "is_obj" in charmap.charmap[c]:
                 return True
         return False
 
     def is_start_at(self, x, y):
-        c = self.getc(x, y, Depth.wall)
+        c = self.getc(x, y, charmap.depth.wall)
         if c is not None:
-            if "is_start" in self.charmap[c]:
+            if "is_start" in charmap.charmap[c]:
                 return True
         return False
 
     def is_exit_at(self, x, y):
-        c = self.getc(x, y, Depth.wall)
+        c = self.getc(x, y, charmap.depth.wall)
         if c is not None:
-            if "is_exit" in self.charmap[c]:
+            if "is_exit" in charmap.charmap[c]:
                 return True
         return False
 
     def is_lava_at(self, x, y):
-        c = self.getc(x, y, Depth.under)
+        c = self.getc(x, y, charmap.depth.under)
         if c is not None:
-            if "is_lava" in self.charmap[c]:
+            if "is_lava" in charmap.charmap[c]:
                 return True
         return False
 
     def is_treasure_at(self, x, y):
-        c = self.getc(x, y, Depth.obj)
+        c = self.getc(x, y, charmap.depth.obj)
         if c is not None:
-            if "is_treasure" in self.charmap[c]:
+            if "is_treasure" in charmap.charmap[c]:
                 return True
         return False
 
     def is_water_at(self, x, y):
-        c = self.getc(x, y, Depth.under)
+        c = self.getc(x, y, charmap.depth.under)
         if c is not None:
-            if "is_water" in self.charmap[c]:
+            if "is_water" in charmap.charmap[c]:
                 return True
         return False
 
     def is_chasm_at(self, x, y):
-        c = self.getc(x, y, Depth.under)
+        c = self.getc(x, y, charmap.depth.under)
         if c is not None:
-            if "is_chasm" in self.charmap[c]:
+            if "is_chasm" in charmap.charmap[c]:
                 return True
         return False
 
     def is_rock_at(self, x, y):
-        c = self.getc(x, y, Depth.wall)
+        c = self.getc(x, y, charmap.depth.wall)
         if c is not None:
-            if "is_rock" in self.charmap[c]:
+            if "is_rock" in charmap.charmap[c]:
                 return True
         return False
 
     def is_key_at(self, x, y):
-        c = self.getc(x, y, Depth.wall)
+        c = self.getc(x, y, charmap.depth.wall)
         if c is not None:
-            if "is_key" in self.charmap[c]:
+            if "is_key" in charmap.charmap[c]:
                 return True
         return False
 
     def is_dissolves_walls_at(self, x, y):
-        c = self.getc(x, y, Depth.under)
+        c = self.getc(x, y, charmap.depth.under)
         if c is not None:
-            if "is_dissolves_walls" in self.charmap[c]:
+            if "is_dissolves_walls" in charmap.charmap[c]:
                 return True
         return False
 
@@ -753,7 +636,7 @@ class Maze:
 
         for ry in range(room.height):
             for rx in range(room.width):
-                if vert_floor_slice[rx][ry] == FLOOR:
+                if vert_floor_slice[rx][ry] == charmap.FLOOR:
                     if self.is_any_floor_at(x + rx, y + ry):
                         return False
         return True
@@ -766,8 +649,8 @@ class Maze:
 
         self.roomno_locked[roomno] = False
 
-        for d in range(Depth.max):
-            dname = Depth.to_name[d]
+        for d in range(charmap.depth.max):
+            dname = charmap.depth.to_name[d]
             if dname in room.vert_slice:
                 rvert_slice = room.vert_slice[dname]
                 for ry in range(room.height):
@@ -775,10 +658,10 @@ class Maze:
                         rchar = rvert_slice[rx][ry]
                         tx = x + rx
                         ty = y + ry
-                        if rchar != SPACE:
+                        if rchar != charmap.SPACE:
                             self.putc(tx, ty, d, rchar)
                             self.putr(tx, ty, roomno)
-                        if rchar == DOOR:
+                        if rchar == charmap.DOOR:
                             self.roomno_locked[roomno] = True
 
         self.rooms_on_level += 1
@@ -804,7 +687,7 @@ class Maze:
     # Grow a corridor in the given direction
     #
     def room_corridor_draw(self, x, y, dx, dy, clen=0, fork_count=0,
-                           c=CORRIDOR):
+                           c=charmap.CORRIDOR):
         x += dx
         y += dy
 
@@ -818,7 +701,7 @@ class Maze:
         elif y >= self.height - 3:
             return
 
-        if self.getc(x, y, Depth.floor) is None:
+        if self.getc(x, y, charmap.depth.floor) is None:
             return
 
         if self.is_any_floor_at(x, y):
@@ -826,7 +709,7 @@ class Maze:
 
         clen += 1
 
-        self.putc(x, y, Depth.floor, c)
+        self.putc(x, y, charmap.depth.floor, c)
 
         #
         # Reached the end of a corridor?
@@ -856,7 +739,8 @@ class Maze:
     #
     # Grow a tunnel in the given direction
     #
-    def room_tunnel_draw(self, x, y, dx, dy, clen=0, fork_count=0, c=DUSTY):
+    def room_tunnel_draw(self, x, y, dx, dy, clen=0, fork_count=0,
+                         c=charmap.DUSTY):
         x += dx
         y += dy
 
@@ -881,14 +765,14 @@ class Maze:
                        not self.is_cwall_at(tx, ty) and \
                        not self.is_corridor_at(tx, ty) and \
                        not self.is_dusty_at(tx, ty):
-                        self.putc(tx, ty, Depth.wall, SPACE)
-                        self.putc(tx, ty, Depth.floor, FLOOR)
+                        self.putc(tx, ty, charmap.depth.wall, charmap.SPACE)
+                        self.putc(tx, ty, charmap.depth.floor, charmap.FLOOR)
             return
 
         clen += 1
 
-        self.putc(x, y, Depth.wall, SPACE)
-        self.putc(x, y, Depth.floor, c)
+        self.putc(x, y, charmap.depth.wall, charmap.SPACE)
+        self.putc(x, y, charmap.depth.floor, c)
 
         #
         # Reached the end of a corridor?
@@ -1017,13 +901,13 @@ class Maze:
             h = self.inuse[x][y+1]
 
             if not b:
-                self.room_corridor_draw(x, y, 0, - 1, c=CORRIDOR)
+                self.room_corridor_draw(x, y, 0, - 1, c=charmap.CORRIDOR)
             if not d:
-                self.room_corridor_draw(x, y, -1, 0, c=CORRIDOR)
+                self.room_corridor_draw(x, y, -1, 0, c=charmap.CORRIDOR)
             if not f:
-                self.room_corridor_draw(x, y, 1, 0, c=CORRIDOR)
+                self.room_corridor_draw(x, y, 1, 0, c=charmap.CORRIDOR)
             if not h:
-                self.room_corridor_draw(x, y, 0, 1, c=CORRIDOR)
+                self.room_corridor_draw(x, y, 0, 1, c=charmap.CORRIDOR)
 
     #
     # From a fixed list of random roomnos, return the next one. This
@@ -1193,7 +1077,7 @@ class Maze:
                         if not self.is_wall_at(x, y + 1):
                             nbrs += 1
                     if nbrs < 2:
-                        self.putc(x, y, Depth.floor, SPACE)
+                        self.putc(x, y, charmap.depth.floor, charmap.SPACE)
                         trimmed = True
 
     #
@@ -1260,7 +1144,10 @@ class Maze:
                         self.room_connection[roomno].add(n)
 
                 if len(rooms_adjoining_this_corridor) < 2:
-                    self.flood_replace(x, y, Depth.floor, CORRIDOR, SPACE)
+                    self.flood_replace(x, y,
+                                       charmap.depth.floor,
+                                       charmap.CORRIDOR,
+                                       charmap.SPACE)
 
     #
     # Display room connectivity info
@@ -1290,7 +1177,7 @@ class Maze:
                 if random.randint(0, 100) < self.room_locked_chance:
                     for e in self.room_exits[roomno]:
                         ex, ey = e
-                        self.putc(ex, ey, Depth.wall, DOOR)
+                        self.putc(ex, ey, charmap.depth.wall, charmap.DOOR)
                         self.roomno_locked[roomno] = True
 
     #
@@ -1462,8 +1349,10 @@ class Maze:
                 for dx in range(-1, 2):
                     for dy in range(-1, 2):
                         if not self.is_any_floor_at(x + dx, y + dy):
-                            self.putc(x + dx, y + dy, Depth.wall, WALL)
-                            self.putc(x + dx, y + dy, Depth.floor, FLOOR)
+                            self.putc(x + dx, y + dy,
+                                      charmap.depth.wall, charmap.WALL)
+                            self.putc(x + dx, y + dy,
+                                      charmap.depth.floor, charmap.FLOOR)
 
     #
     # Wrap corridors in walls that are not bridges
@@ -1489,7 +1378,8 @@ class Maze:
                         tx = x + dx
                         ty = y + dy
                         if not self.is_anything_at(tx, ty):
-                            self.putc(tx, ty, Depth.wall, CWALL)
+                            self.putc(tx, ty, charmap.depth.wall,
+                                      charmap.CWALL)
 
     #
     # Dissolve walls
@@ -1521,9 +1411,9 @@ class Maze:
                            self.is_door_at(x - 1, y) or \
                            self.is_door_at(x, y + 1) or \
                            self.is_door_at(x, y - 1):
-                            self.putc(x, y, Depth.wall, DOOR)
+                            self.putc(x, y, charmap.depth.wall, charmap.DOOR)
                         else:
-                            self.putc(x, y, Depth.wall, SPACE)
+                            self.putc(x, y, charmap.depth.wall, charmap.SPACE)
 
                         break
 
@@ -1553,7 +1443,7 @@ class Maze:
                         continue
 
                     if self.is_dissolves_walls_at(tx, ty):
-                        self.putc(x, y, Depth.wall, SPACE)
+                        self.putc(x, y, charmap.depth.wall, charmap.SPACE)
                         break
 
     #
@@ -1572,7 +1462,7 @@ class Maze:
                         break
 
                 if not ok:
-                    self.putc(x, y, Depth.wall, WALL)
+                    self.putc(x, y, charmap.depth.wall, charmap.WALL)
 
     #
     # Find all tiles where we can place objects
@@ -1621,7 +1511,7 @@ class Maze:
             if obstacle:
                 continue
 
-            self.putc(x, y, Depth.wall, START)
+            self.putc(x, y, charmap.depth.wall, charmap.START)
             return True
 
     #
@@ -1652,7 +1542,7 @@ class Maze:
             if obstacle:
                 continue
 
-            self.putc(x, y, Depth.wall, EXIT)
+            self.putc(x, y, charmap.depth.wall, charmap.EXIT)
             return True
 
     #
@@ -1703,7 +1593,7 @@ class Maze:
             if obstacle:
                 continue
 
-            self.putc(x, y, Depth.wall, KEY)
+            self.putc(x, y, charmap.depth.wall, charmap.KEY)
             return True
 
     def rooms_place_keys(self):
@@ -1739,7 +1629,8 @@ class Maze:
             y1 = random.randint(-10, self.height + 10)
             x2 = random.randint(-10, self.width + 10)
             y2 = random.randint(-10, self.height + 10)
-            self.line_draw((x1, y1), (x2, y2), Depth.floor, FLOOR)
+            self.line_draw((x1, y1), (x2, y2), charmap.depth.floor,
+                           charmap.FLOOR)
             cnt += 1
         #
         # Next draw straight across lines.
@@ -1750,7 +1641,8 @@ class Maze:
             y1 = random.randint(-10, self.height + 10)
             x2 = x1 + 100
             y2 = y1
-            self.line_draw((x1, y1), (x2, y2), Depth.floor, FLOOR)
+            self.line_draw((x1, y1), (x2, y2), charmap.depth.floor,
+                           charmap.FLOOR)
             cnt += 1
         #
         # Next draw straight down lines.
@@ -1761,7 +1653,8 @@ class Maze:
             y1 = random.randint(-10, self.height + 10)
             x2 = x1
             y2 = y1 + 100
-            self.line_draw((x1, y1), (x2, y2), Depth.floor, FLOOR)
+            self.line_draw((x1, y1), (x2, y2), charmap.depth.floor,
+                           charmap.FLOOR)
             cnt += 1
         #
         # Next randomly fill in with floor tiles. This will make large
@@ -1771,7 +1664,7 @@ class Maze:
         while cnt < 10:
             x = random.randint(0, self.width - 1)
             y = random.randint(0, self.height - 1)
-            self.flood_fill(x, y, Depth.floor, FLOOR)
+            self.flood_fill(x, y, charmap.depth.floor, charmap.FLOOR)
             cnt += 1
         #
         # Now carve out some empty regions. We could just do smaller
@@ -1783,7 +1676,8 @@ class Maze:
             y1 = random.randint(-10, self.height + 10)
             x2 = random.randint(-10, self.width + 10)
             y2 = random.randint(-10, self.height + 10)
-            self.line_draw((x1, y1), (x2, y2), Depth.floor, SPACE)
+            self.line_draw((x1, y1), (x2, y2), charmap.depth.floor,
+                           charmap.SPACE)
             cnt += 1
         cnt = 0
         while cnt < 10:
@@ -1791,7 +1685,8 @@ class Maze:
             y1 = random.randint(-10, self.height + 10)
             x2 = x1 + 100
             y2 = y1
-            self.line_draw((x1, y1), (x2, y2), Depth.floor, SPACE)
+            self.line_draw((x1, y1), (x2, y2), charmap.depth.floor,
+                           charmap.SPACE)
             cnt += 1
         cnt = 0
         while cnt < 10:
@@ -1799,7 +1694,8 @@ class Maze:
             y1 = random.randint(-10, self.height + 10)
             x2 = x1
             y2 = y1 + 100
-            self.line_draw((x1, y1), (x2, y2), Depth.floor, SPACE)
+            self.line_draw((x1, y1), (x2, y2), charmap.depth.floor,
+                           charmap.SPACE)
             cnt += 1
         #
         # Now pull each room out of the level with a kind of inverse
@@ -1851,19 +1747,19 @@ class Maze:
                         ry -= miny
                         rx += 1
                         ry += 1
-                        rcells[rx][ry] = FLOOR
+                        rcells[rx][ry] = charmap.FLOOR
 
                     for ry in range(rh):
                         for rx in range(rw):
-                            if rcells[rx][ry] == FLOOR:
-                                if rcells[rx-1][ry] == SPACE:
-                                    rcells[rx-1][ry] = WALL
-                                if rcells[rx+1][ry] == SPACE:
-                                    rcells[rx+1][ry] = WALL
-                                if rcells[rx][ry-1] == SPACE:
-                                    rcells[rx][ry-1] = WALL
-                                if rcells[rx][ry+1] == SPACE:
-                                    rcells[rx][ry+1] = WALL
+                            if rcells[rx][ry] == charmap.FLOOR:
+                                if rcells[rx-1][ry] == charmap.SPACE:
+                                    rcells[rx-1][ry] = charmap.WALL
+                                if rcells[rx+1][ry] == charmap.SPACE:
+                                    rcells[rx+1][ry] = charmap.WALL
+                                if rcells[rx][ry-1] == charmap.SPACE:
+                                    rcells[rx][ry-1] = charmap.WALL
+                                if rcells[rx][ry+1] == charmap.SPACE:
+                                    rcells[rx][ry+1] = charmap.WALL
 
                     vert_floor_slice = copy.deepcopy(rcells)
                     vert_wall_slice = copy.deepcopy(rcells)
@@ -1872,14 +1768,14 @@ class Maze:
 
                     for ry in range(0, rh):
                         for rx in range(0, rw):
-                            if vert_floor_slice[rx][ry] == WALL:
-                                vert_floor_slice[rx][ry] = FLOOR
-                            if vert_wall_slice[rx][ry] == FLOOR:
-                                vert_wall_slice[rx][ry] = SPACE
-                            if vert_wall_slice[rx][ry] == WALL:
+                            if vert_floor_slice[rx][ry] == charmap.WALL:
+                                vert_floor_slice[rx][ry] = charmap.FLOOR
+                            if vert_wall_slice[rx][ry] == charmap.FLOOR:
+                                vert_wall_slice[rx][ry] = charmap.SPACE
+                            if vert_wall_slice[rx][ry] == charmap.WALL:
                                 if rx % 2 == 0 and ry % 2 == 0:
                                     if random.randint(0, 100) < 50:
-                                        vert_wall_slice[rx][ry] = SPACE
+                                        vert_wall_slice[rx][ry] = charmap.SPACE
                     #
                     # To dump the room:
                     #
@@ -1909,7 +1805,7 @@ class Maze:
         # Zero out the map as we were lazy and used it for a scratchpad
         # when creating rooms.
         #
-        self.cells = [[[' ' for d in range(Depth.max)]
+        self.cells = [[[' ' for d in range(charmap.depth.max)]
                        for i in range(self.height)]
                       for j in range(self.width)]
 
@@ -1989,7 +1885,7 @@ class Maze:
     def add_water(self):
         x = random.randint(0, self.width - 1)
         y = random.randint(0, self.height - 1)
-        self.depth_map_flood(x, y, Depth.under, WATER)
+        self.depth_map_flood(x, y, charmap.depth.under, charmap.WATER)
 
     def remove_water(self):
         for y in range(self.height):
@@ -2001,18 +1897,18 @@ class Maze:
                     tx = x + dx
                     ty = y + dy
                     if self.is_lava_at(tx, ty) or self.is_chasm_at(tx, ty):
-                        self.putc(x, y, Depth.under, ROCK)
+                        self.putc(x, y, charmap.depth.under, charmap.ROCK)
                         break
 
     def add_lava(self):
         x = random.randint(0, self.width - 1)
         y = random.randint(0, self.height - 1)
-        self.depth_map_flood(x, y, Depth.under, LAVA)
+        self.depth_map_flood(x, y, charmap.depth.under, charmap.LAVA)
 
     def add_chasm(self):
         x = random.randint(0, self.width - 1)
         y = random.randint(0, self.height - 1)
-        self.depth_map_flood(x, y, Depth.under, CHASM)
+        self.depth_map_flood(x, y, charmap.depth.under, charmap.CHASM)
 
     #
     # Find empty spots in chasms and create some random bridges
@@ -2036,12 +1932,12 @@ class Maze:
                 if random.randint(0, 100) < 95:
                     continue
 
-                self.putc(x, y, Depth.floor, DUSTY)
+                self.putc(x, y, charmap.depth.floor, charmap.DUSTY)
 
-                self.room_corridor_draw(x, y, 0, - 1, c=DUSTY)
-                self.room_corridor_draw(x, y, -1, 0, c=DUSTY)
-                self.room_corridor_draw(x, y, 1, 0, c=DUSTY)
-                self.room_corridor_draw(x, y, 0, 1, c=DUSTY)
+                self.room_corridor_draw(x, y, 0, - 1, c=charmap.DUSTY)
+                self.room_corridor_draw(x, y, -1, 0, c=charmap.DUSTY)
+                self.room_corridor_draw(x, y, 1, 0, c=charmap.DUSTY)
+                self.room_corridor_draw(x, y, 0, 1, c=charmap.DUSTY)
 
     #
     # Find empty spots in lavas and create some random bridges
@@ -2065,12 +1961,12 @@ class Maze:
                 if random.randint(0, 100) < 95:
                     continue
 
-                self.putc(x, y, Depth.floor, DUSTY)
+                self.putc(x, y, charmap.depth.floor, charmap.DUSTY)
 
-                self.room_corridor_draw(x, y, 0, - 1, c=DUSTY)
-                self.room_corridor_draw(x, y, -1, 0, c=DUSTY)
-                self.room_corridor_draw(x, y, 1, 0, c=DUSTY)
-                self.room_corridor_draw(x, y, 0, 1, c=DUSTY)
+                self.room_corridor_draw(x, y, 0, - 1, c=charmap.DUSTY)
+                self.room_corridor_draw(x, y, -1, 0, c=charmap.DUSTY)
+                self.room_corridor_draw(x, y, 1, 0, c=charmap.DUSTY)
+                self.room_corridor_draw(x, y, 0, 1, c=charmap.DUSTY)
 
     #
     # Find empty spots in waters and create some random bridges
@@ -2094,12 +1990,12 @@ class Maze:
                 if random.randint(0, 100) < 95:
                     continue
 
-                self.putc(x, y, Depth.floor, DUSTY)
+                self.putc(x, y, charmap.depth.floor, charmap.DUSTY)
 
-                self.room_corridor_draw(x, y, 0, - 1, c=DUSTY)
-                self.room_corridor_draw(x, y, -1, 0, c=DUSTY)
-                self.room_corridor_draw(x, y, 1, 0, c=DUSTY)
-                self.room_corridor_draw(x, y, 0, 1, c=DUSTY)
+                self.room_corridor_draw(x, y, 0, - 1, c=charmap.DUSTY)
+                self.room_corridor_draw(x, y, -1, 0, c=charmap.DUSTY)
+                self.room_corridor_draw(x, y, 1, 0, c=charmap.DUSTY)
+                self.room_corridor_draw(x, y, 0, 1, c=charmap.DUSTY)
 
     #
     # Find empty spots in waters and create some random tunnels
@@ -2121,13 +2017,13 @@ class Maze:
                 if random.randint(0, 100) < 75:
                     continue
 
-                self.putc(x, y, Depth.wall, SPACE)
-                self.putc(x, y, Depth.floor, DUSTY)
+                self.putc(x, y, charmap.depth.wall, charmap.SPACE)
+                self.putc(x, y, charmap.depth.floor, charmap.DUSTY)
 
-                self.room_tunnel_draw(x, y, 0, - 1, c=DUSTY)
-                self.room_tunnel_draw(x, y, -1, 0, c=DUSTY)
-                self.room_tunnel_draw(x, y, 1, 0, c=DUSTY)
-                self.room_tunnel_draw(x, y, 0, 1, c=DUSTY)
+                self.room_tunnel_draw(x, y, 0, - 1, c=charmap.DUSTY)
+                self.room_tunnel_draw(x, y, -1, 0, c=charmap.DUSTY)
+                self.room_tunnel_draw(x, y, 1, 0, c=charmap.DUSTY)
+                self.room_tunnel_draw(x, y, 0, 1, c=charmap.DUSTY)
 
     #
     # Find empty spots in waters and create some random tunnels
@@ -2153,20 +2049,20 @@ class Maze:
                self.is_rock_at(x, y):
                 continue
 
-            self.putc(x, y, Depth.obj, TREASURE)
+            self.putc(x, y, charmap.depth.obj, charmap.TREASURE)
 
     def add_rock(self):
         for y in range(self.height):
             for x in range(self.width):
-                for d in reversed(range(Depth.max)):
+                for d in reversed(range(charmap.depth.max)):
                     c = self.cells[x][y][d]
                     if c != " ":
                         break
 
-                if c == SPACE:
-                    self.putc(x, y, Depth.wall, ROCK)
+                if c == charmap.SPACE:
+                    self.putc(x, y, charmap.depth.wall, charmap.ROCK)
 
-    def dump(self, max_depth=Depth.max):
+    def dump(self, max_depth=charmap.depth.max):
         from colored import fg, bg, attr
 
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -2174,14 +2070,14 @@ class Maze:
             for x in range(self.width):
                 for d in reversed(range(max_depth)):
                     c = self.cells[x][y][d]
-                    charmap = self.charmap[c]
-                    fg_name = charmap["fg"]
-                    bg_name = charmap["bg"]
+                    cmap = charmap.charmap[c]
+                    fg_name = cmap["fg"]
+                    bg_name = cmap["bg"]
                     if c != " ":
                         break
 
                 res = attr('reset')
-                if c == FLOOR:
+                if c == charmap.FLOOR:
                     r = self.roomno_cells[x][y]
                     if r == -1:
                         c = "!"
@@ -2200,7 +2096,7 @@ class Maze:
                         if r in self.roomno_depth:
                             d = self.roomno_depth[r]
                             c = chr(ord('0') + d)
-                elif c == WATER:
+                elif c == charmap.WATER:
                     if self.depth_map is not None:
                         depth = self.depth_map.cells[x][y] % 64
                         color = fg(depth % 255) + bg(0)
@@ -2212,7 +2108,7 @@ class Maze:
                 sys.stdout.write(color + c + res)
             print("")
 
-    def dump_depth(self, max_depth=Depth.max):
+    def dump_depth(self, max_depth=charmap.depth.max):
         from colored import fg, bg, attr
 
         for y in range(self.height):
@@ -2223,7 +2119,7 @@ class Maze:
                         break
 
                 res = attr('reset')
-                if c != SPACE:
+                if c != charmap.SPACE:
                     if self.depth_map is not None:
                         d = self.depth_map.cells[x][y] % 64
                         c = chr(ord('0') + d)
@@ -2285,22 +2181,23 @@ def main():
         width = 64
         height = 64
 
-        dungeon_seed = seed
-        dungeon_seed = 2
+        biome_seed = seed
+        biome_seed = 2
 
         while True:
             fixed_rooms = rooms.create_fixed()
-            random.seed(dungeon_seed)
+            random.seed(biome_seed)
 #           random.seed(1)
 
             dungeon = Maze(width=width, height=height, rooms=fixed_rooms,
-                        rooms_on_level=15,
-                        fixed_room_chance=10)
+                           rooms_on_level=15,
+                           fixed_room_chance=10)
+
             if not dungeon.generate_failed:
                 break
 
-            dungeon_seed += 1
-            dungeon_seed *= dungeon_seed
+            biome_seed += 1
+            biome_seed *= biome_seed
 
         print("Seed {0}".format(seed))
         dungeon.dump()
