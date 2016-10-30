@@ -16,11 +16,11 @@ def biome_build(self, seed):
         self.biome_seed += 1
         self.biome_seed *= self.biome_seed
 
-        self.level.biome = biome_dungeon_do.Maze(width=self.width,
-                                                 height=self.height,
-                                                 rooms=fixed_rooms,
-                                                 rooms_on_level=15,
-                                                 fixed_room_chance=10)
+        self.level.biome = biome_dungeon_do.Biome(width=self.width,
+                                                  height=self.height,
+                                                  rooms=fixed_rooms,
+                                                  rooms_on_level=15,
+                                                  fixed_room_chance=10)
 
         if not self.level.biome.generate_failed:
             break

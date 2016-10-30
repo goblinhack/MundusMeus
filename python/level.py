@@ -116,6 +116,7 @@ class Level:
 
                 for t in self.on_map[x][y]:
                     if t.tp.is_floor or \
+                       t.tp.is_grass or \
                        t.tp.is_corridor or \
                        t.tp.is_water:
                         d.cells[x][y] = dmap.FLOOR
