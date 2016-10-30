@@ -34,6 +34,11 @@ def biome_populate(self):
                 t = thing.Thing(self.level, tp_name="grass1")
                 t.push(x, y)
 
+                if random.randint(0, 100) < 5:
+                    r = tp.get_random_tree()
+                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t.push(x, y)
+
             if m.is_start_at(x, y):
                 t = thing.Thing(self.level, tp_name="start1")
                 t.push(x, y)

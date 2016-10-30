@@ -3,6 +3,7 @@ import random
 
 all_tps = {}
 all_treasure_tps = []
+all_tree_tps = []
 
 
 class Tp:
@@ -11,10 +12,12 @@ class Tp:
     def __init__(self,
                  name,
                  is_treasure=False,
+                 is_tree=False,
                  d1000_appearing_roll=0):
 
         self.name = name
         self.is_treasure = is_treasure
+        self.is_tree = is_tree
         self.d1000_appearing_roll = d1000_appearing_roll
 
         #
@@ -26,6 +29,8 @@ class Tp:
         all_tps[name] = self
         if is_treasure:
             all_treasure_tps.append(name)
+        if is_tree:
+            all_tree_tps.append(name)
 
         self.long_name = None
         self.short_name = None
@@ -58,11 +63,9 @@ class Tp:
         self.is_food = False
         self.is_weapon = False
         self.is_rrr1 = False
-        self.is_rrr2 = False
         self.is_grass = False
         self.is_bridge = False
         self.is_movement_blocking = False
-        self.is_treasure = False
         self.is_entrance = False
         self.is_exit = False
         self.is_chasm_smoke = False
@@ -215,9 +218,9 @@ class Tp:
         self.is_rrr1 = value
         mm.tp_set_is_rrr1(self, value)
 
-    def set_is_rrr2(self, value):
-        self.is_rrr2 = value
-        mm.tp_set_is_rrr2(self, value)
+    def set_is_tree(self, value):
+        self.is_tree = value
+        mm.tp_set_is_tree(self, value)
 
     def set_is_grass(self, value):
         self.is_grass = value
@@ -318,6 +321,7 @@ class Tp:
     def set_is_minable(self, value):
         self.is_minable = value
 
+
 def get_random_treasure(toughness=0):
     while True:
         tp = all_tps[random.choice(all_treasure_tps)]
@@ -328,6 +332,12 @@ def get_random_treasure(toughness=0):
         if roll >= tp.d1000_appearing_roll:
             return tp
 
+
+def get_random_tree():
+    tp = all_tps[random.choice(all_tree_tps)]
+    return tp
+
+
 def get_random_minable_treasure(toughness=0):
     while True:
         tp = all_tps[random.choice(all_treasure_tps)]
@@ -337,5 +347,3 @@ def get_random_minable_treasure(toughness=0):
         roll = random.randint(1, 1000) + toughness * 10
         if roll >= tp.d1000_appearing_roll:
             return tp
-
-
