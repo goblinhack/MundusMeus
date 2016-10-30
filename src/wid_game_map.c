@@ -128,14 +128,14 @@ wid_game_map_replace_tile (double x, double y, thingp t)
     double scale = tp_get_scale(tp);
 
     if (tp_is_tree(tp)) {
-        dx = gauss(0.5, 0.1);
-        dy = gauss(0.5, 0.1);
+        dx = gauss(0.0, 0.5);
+        dy = gauss(0.0, 0.5);
         scale = gauss(1.0, 0.2);
     }
 
     if (tp_is_plant(tp)) {
-        dx = gauss(0.5, 0.1);
-        dy = gauss(0.5, 0.1);
+        dx = gauss(0.0, 0.5);
+        dy = gauss(0.0, 0.5);
         scale = gauss(0.5, 0.1);
     }
 
@@ -145,6 +145,22 @@ wid_game_map_replace_tile (double x, double y, thingp t)
 
     if (scale != 1.0) {
         wid_scaling_blit_to_pct_in(child, scale, scale, 500, 9999999);
+    }
+
+    if (x + dx >= MAP_WIDTH) {
+        dx = 0;
+    }
+
+    if (y + dy >= MAP_HEIGHT) {
+        dy = 0;
+    }
+
+    if (x + dx < 0) {
+        dx = 0;
+    }
+
+    if (y + dy < 0) {
+        dy = 0;
     }
 
     thing_wid_update(t, x + dx, y + dy, false /* smooth */);

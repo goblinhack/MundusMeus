@@ -34,12 +34,17 @@ def biome_populate(self):
                 t = thing.Thing(self.level, tp_name="grass1")
                 t.push(x, y)
 
-                if random.randint(0, 100) < 30:
-                    r = tp.get_random_tree()
-                    t = thing.Thing(self.level, tp_name=r.short_name)
-                    t.push(x, y)
-                elif random.randint(0, 100) < 5:
-                    for i in range(random.randint(1, 10)):
+            if m.is_tree_at(x, y):
+                t = thing.Thing(self.level, tp_name="grass1")
+                t.push(x, y)
+
+                r = tp.get_random_tree()
+                t = thing.Thing(self.level, tp_name=r.short_name)
+                t.push(x, y)
+
+                if m.is_grass_at(x, y):
+
+                    if random.randint(0, 100) < 5:
                         r = tp.get_random_plant()
                         t = thing.Thing(self.level, tp_name=r.short_name)
                         t.push(x, y)
@@ -121,25 +126,11 @@ def biome_populate(self):
                     put_treasure = True
                     water = "water1-trans"
 
-                if m.is_grass_at(x, y):
-                    #
-                    # Underground water
-                    #
-                    t = thing.Thing(self.level, tp_name=water)
-                    t.push(x, y)
-
-                elif m.is_wall_at(x, y - 1) or \
-                        m.is_rock_at(x, y - 1):
-                    t = thing.Thing(self.level, tp_name=water + "-top")
-                    t.push(x, y)
-
-                elif m.is_grass_at(x, y - 1) and not m.is_grass_at(x, y):
-                    t = thing.Thing(self.level, tp_name=water + "-top")
-                    t.push(x, y)
-
-                else:
-                    t = thing.Thing(self.level, tp_name=water)
-                    t.push(x, y)
+                #
+                # Underground water
+                #
+                t = thing.Thing(self.level, tp_name=water)
+                t.push(x, y)
 
                 if put_treasure:
                     toughness = 1
