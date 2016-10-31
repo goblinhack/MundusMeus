@@ -22,6 +22,12 @@
 //#define myrand() rand()
 //#define mysrand(a) srand(a)
 
+extern size_t
+strlcpy_(char * dst, const char * src, size_t size);
+
+extern size_t
+strlcat_(char * dst, const char * src, size_t size);
+
 #ifdef _WIN32
 #include <windows.h>
 
@@ -156,11 +162,11 @@ typedef unsigned long long   uint64_t;
 
 #if defined(__MINGW32__) || defined(__linux__)
 /*
- * SDL provides SDL_strlcat so linking will work. This just fixes the
+ * SDL provides SDL_strlcat_ so linking will work. This just fixes the
  * warnings.
  */
-uint32_t strlcpy(char *dst, const char *src, uint32_t maxlen);
-uint32_t strlcat(char *dst, const char *src, uint32_t maxlen);
+uint32_t strlcpy_(char *dst, const char *src, uint32_t maxlen);
+uint32_t strlcat_(char *dst, const char *src, uint32_t maxlen);
 #endif
 
 /*

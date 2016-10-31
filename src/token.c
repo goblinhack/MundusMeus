@@ -182,11 +182,11 @@ void tokens_print_to (tokens_t *tokens, char *output, int32_t output_size)
     *output = '\0';
 
     while (cnt < tokens->cnt) {
-        strlcat(output, tokens->args[cnt], output_size);
+        strlcat_(output, tokens->args[cnt], output_size);
         cnt++;
 
         if (cnt < tokens->cnt) {
-            strlcat(output, " ", output_size);
+            strlcat_(output, " ", output_size);
         }
     }
 }

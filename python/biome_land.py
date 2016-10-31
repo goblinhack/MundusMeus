@@ -30,13 +30,13 @@ def biome_populate(self):
     for y in range(1, mm.MAP_HEIGHT - 1):
         for x in range(1, mm.MAP_WIDTH - 1):
 
+            grass = False
+
             if m.is_grass_at(x, y):
-                t = thing.Thing(self.level, tp_name="grass1")
-                t.push(x, y)
+                grass = True
 
             if m.is_tree_at(x, y):
-                t = thing.Thing(self.level, tp_name="grass1")
-                t.push(x, y)
+                grass = True
 
                 r = tp.get_random_tree()
                 t = thing.Thing(self.level, tp_name=r.short_name)
@@ -48,6 +48,30 @@ def biome_populate(self):
                         r = tp.get_random_plant()
                         t = thing.Thing(self.level, tp_name=r.short_name)
                         t.push(x, y)
+
+            if grass:
+                which = None
+                if m.is_water_at(x + 1, y):
+                    which = "grass1-left"
+                if m.is_water_at(x - 1, y):
+                    which = "grass1-right"
+                if m.is_water_at(x, y + 1):
+                    which = "grass1-top"
+                if m.is_water_at(x, y - 1):
+                    which = "grass1-bot"
+                if m.is_water_at(x + 1, y + 1):
+                    which = "grass1-tl"
+                if m.is_water_at(x - 1, y + 1):
+                    which = "grass1-tr"
+                if m.is_water_at(x + 1, y - 1):
+                    which = "grass1-bl"
+                if m.is_water_at(x - 1, y - 1):
+                    which = "grass1-br"
+
+                if which is not None:
+                    t = thing.Thing(self.level, tp_name="grass1")
+                    t.push(x, y)
+                    t.set_tilename(which)
 
             if m.is_start_at(x, y):
                 t = thing.Thing(self.level, tp_name="start1")
