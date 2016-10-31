@@ -160,15 +160,6 @@ typedef unsigned long long   uint64_t;
 #define DSEP "/"
 #define DCHAR '/'
 
-#if defined(__MINGW32__) || defined(__linux__)
-/*
- * SDL provides SDL_strlcat_ so linking will work. This just fixes the
- * warnings.
- */
-uint32_t strlcpy_(char *dst, const char *src, uint32_t maxlen);
-uint32_t strlcat_(char *dst, const char *src, uint32_t maxlen);
-#endif
-
 /*
  * Globals:
  */
