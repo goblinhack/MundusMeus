@@ -109,7 +109,7 @@ char *strsub (const char *in, const char *old, const char *replace_with)
     }
 
     *buf = '\0';
-    strlcpy(buf, in, at - in + 1);
+    strlcpy_(buf, in, at - in + 1);
     strcat(buf, replace_with);
     strcat(buf, at + oldlen);
 
@@ -251,8 +251,7 @@ int32_t strisregexp (const char *in)
     return (false);
 }
 
-#if defined(__MINGW32__) || defined(__linux__)
-uint32_t strlcpy (char *dst, const char *src, uint32_t maxlen)
+size_t strlcpy_ (char *dst, const char *src, size_t maxlen)
 {
     uint32_t srclen = strlen(src);
     if ( maxlen > 0 ) {
@@ -263,16 +262,15 @@ uint32_t strlcpy (char *dst, const char *src, uint32_t maxlen)
     return (srclen);
 }
 
-uint32_t strlcat (char *dst, const char *src, uint32_t maxlen)
+size_t strlcat_ (char *dst, const char *src, size_t maxlen)
 {
     uint32_t dstlen = strlen(dst);
     uint32_t srclen = strlen(src);
     if ( dstlen < maxlen ) {
-        strlcpy(dst+dstlen, src, maxlen-dstlen);
+        strlcpy_(dst+dstlen, src, maxlen-dstlen);
     }
     return (dstlen+srclen);
 }
-#endif
 
 /*
  * Shrink a string by the space needed for its escape characters.

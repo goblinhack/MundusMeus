@@ -240,13 +240,13 @@ static int32_t command_matches (const char *input,
                 completes_to[0] = '\0';
 
                 for (t = 0; t < longest_match; t++) {
-                    strlcat(completes_to, command->tokens.args[t],
+                    strlcat_(completes_to, command->tokens.args[t],
                             sizeof(completes_to));
-                    strlcat(completes_to, " ", sizeof(completes_to));
+                    strlcat_(completes_to, " ", sizeof(completes_to));
                 }
 
                 if (output) {
-                    strlcpy(output, completes_to, MAXSTR);
+                    strlcpy_(output, completes_to, MAXSTR);
                 }
             }
 
@@ -299,22 +299,22 @@ static int32_t command_matches (const char *input,
 
                     for (t = 0; t < longest_match; t++) {
                         if (strisregexp(command->tokens.args[t])) {
-                            strlcat(cand_expand_to, input_tokens.args[t],
+                            strlcat_(cand_expand_to, input_tokens.args[t],
                                     sizeof(cand_expand_to));
-                            strlcat(cand_expand_to, " ", sizeof(cand_expand_to));
+                            strlcat_(cand_expand_to, " ", sizeof(cand_expand_to));
                             continue;
                         }
 
-                        strlcat(cand_expand_to, command->tokens.args[t],
+                        strlcat_(cand_expand_to, command->tokens.args[t],
                                 sizeof(cand_expand_to));
-                        strlcat(cand_expand_to, " ", sizeof(cand_expand_to));
+                        strlcat_(cand_expand_to, " ", sizeof(cand_expand_to));
                     }
 
                     if (expands_to[0] != '\0') {
                         common_len = strcommon(expands_to, cand_expand_to);
                         expands_to[common_len] = '\0';
                     } else {
-                        strlcpy(expands_to, cand_expand_to,
+                        strlcpy_(expands_to, cand_expand_to,
                                 sizeof(expands_to));
                     }
                 }
@@ -324,7 +324,7 @@ static int32_t command_matches (const char *input,
              * Expands to:
              */
             if (output) {
-                strlcpy(output, expands_to, MAXSTR);
+                strlcpy_(output, expands_to, MAXSTR);
             }
         }
     }
@@ -361,7 +361,7 @@ uint8_t command_handle (const char *input,
 #endif
         py_exec(input);
 
-        strlcpy(history[history_at], input,
+        strlcpy_(history[history_at], input,
                 sizeof(history[history_at]));
 
         history_at++;
@@ -446,9 +446,9 @@ static void console_refresh (void)
     static char tmp[MAXSTR];
     static char cursor_char[2] = { '_', '\0' };
 
-    strlcpy(tmp, wid_text, cursor_x + 1);
-    strlcat(tmp, cursor_char, sizeof(tmp));
-    strlcat(tmp, wid_text + cursor_x, sizeof(tmp));
+    strlcpy_(tmp, wid_text, cursor_x + 1);
+    strlcat_(tmp, cursor_char, sizeof(tmp));
+    strlcat_(tmp, wid_text + cursor_x, sizeof(tmp));
 
     console_clear();
 
@@ -499,8 +499,8 @@ void console_tick (void)
 
     origlen = (uint32_t)strlen(wid_text);
 
-    strlcpy(beforecursor, wid_text, cursor_x + 1);
-    strlcpy(aftercursor, wid_text + cursor_x, sizeof(aftercursor));
+    strlcpy_(beforecursor, wid_text, cursor_x + 1);
+    strlcpy_(aftercursor, wid_text + cursor_x, sizeof(aftercursor));
 
     switch (c) {
         case '':
@@ -535,8 +535,8 @@ void console_tick (void)
         case '':
         case '':
             if (cursor_x > 0) {
-                strlcpy(updatedtext, beforecursor, cursor_x);
-                strlcat(updatedtext, aftercursor, sizeof(updatedtext));
+                strlcpy_(updatedtext, beforecursor, cursor_x);
+                strlcat_(updatedtext, aftercursor, sizeof(updatedtext));
 
                 cursor_x--;
 
@@ -561,7 +561,7 @@ void console_tick (void)
         case '\n':
         case '\r':
             if (origlen) {
-                strlcpy(entered, console_get_text(), sizeof(entered));
+                strlcpy_(entered, console_get_text(), sizeof(entered));
 
                 if (!command_handle(entered, updatedtext,
                                 true /* show ambiguous */,
@@ -576,7 +576,7 @@ void console_tick (void)
                     cursor_x = (uint32_t)strlen(updatedtext);;
                 }
 
-                strlcpy(history[history_at], updatedtext,
+                strlcpy_(history[history_at], updatedtext,
                         sizeof(history[history_at]));
 
                 history_at++;
@@ -653,8 +653,8 @@ void console_tick (void)
                 if (seq[1] == 51 && seq2[0] == 126) {
                     /* Delete key. */
                     if (cursor_x > 0) {
-                        strlcpy(updatedtext, beforecursor, cursor_x);
-                        strlcat(updatedtext, aftercursor, sizeof(updatedtext));
+                        strlcpy_(updatedtext, beforecursor, cursor_x);
+                        strlcat_(updatedtext, aftercursor, sizeof(updatedtext));
 
                         cursor_x--;
 
@@ -690,9 +690,9 @@ void console_tick (void)
                 break;
             }
 
-            strlcpy(updatedtext, beforecursor, cursor_x + 1);
-            strlcat(updatedtext, newchar, sizeof(updatedtext));
-            strlcat(updatedtext, aftercursor, sizeof(updatedtext));
+            strlcpy_(updatedtext, beforecursor, cursor_x + 1);
+            strlcat_(updatedtext, newchar, sizeof(updatedtext));
+            strlcat_(updatedtext, aftercursor, sizeof(updatedtext));
 
             cursor_x++;
 

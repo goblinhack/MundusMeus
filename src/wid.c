@@ -1394,9 +1394,9 @@ const char *wid_get_text_with_cursor (widp w)
         w->cursor = (uint32_t)strlen(w->text);
     }
 
-    strlcpy(tmp, w->text, w->cursor + 1);
-    strlcat(tmp, cursor_char, sizeof(tmp));
-    strlcat(tmp, w->text + w->cursor, sizeof(tmp));
+    strlcpy_(tmp, w->text, w->cursor + 1);
+    strlcat_(tmp, cursor_char, sizeof(tmp));
+    strlcat_(tmp, w->text + w->cursor, sizeof(tmp));
 
     return (tmp);
 }
@@ -1438,7 +1438,7 @@ void wid_set_text (widp w, const char *string)
             return;
         }
 
-        strlcpy(w->text, string, MAXSTR);
+        strlcpy_(w->text, string, MAXSTR);
     }
 
     if (!w->name && string) {
@@ -1937,6 +1937,10 @@ void wid_set_tilename (widp w, const char *name)
     tilep tile = tile_find(name);
     if (!tile) {
         ERR("failed to find wid tile %s", name);
+    }
+
+    if (!w) {
+        DIE("widget does not exist to set tile %s", name);
     }
 
     w->tile = tile;
@@ -5261,8 +5265,8 @@ uint8_t wid_receive_input (widp w, const SDL_KEYSYM *key)
         w->cursor = (uint32_t)strlen(origtext);
     }
 
-    strlcpy(beforecursor, origtext, w->cursor + 1);
-    strlcpy(aftercursor, origtext + w->cursor, sizeof(aftercursor));
+    strlcpy_(beforecursor, origtext, w->cursor + 1);
+    strlcpy_(aftercursor, origtext + w->cursor, sizeof(aftercursor));
 
     switch (key->mod) {
         case KMOD_LCTRL:
@@ -5304,8 +5308,8 @@ uint8_t wid_receive_input (widp w, const SDL_KEYSYM *key)
         switch (key->sym) {
             case SDLK_BACKSPACE:
                 if (w->cursor > 0) {
-                    strlcpy(updatedtext, beforecursor, w->cursor);
-                    strlcat(updatedtext, aftercursor, sizeof(updatedtext));
+                    strlcpy_(updatedtext, beforecursor, w->cursor);
+                    strlcat_(updatedtext, aftercursor, sizeof(updatedtext));
 
                     w->cursor--;
 
@@ -5337,7 +5341,7 @@ uint8_t wid_receive_input (widp w, const SDL_KEYSYM *key)
                 }
 
                 if (origlen && (w == wid_console_input_line)) {
-                    strlcpy(entered, wid_get_text(w), sizeof(entered));
+                    strlcpy_(entered, wid_get_text(w), sizeof(entered));
                     wid_scroll_text(w);
                     snprintf(tmp, sizeof(tmp), "> %s", entered);
                     wid_set_text(w->next, tmp);
@@ -5355,7 +5359,7 @@ uint8_t wid_receive_input (widp w, const SDL_KEYSYM *key)
                         w->cursor = (uint32_t)strlen(updatedtext);;
                     }
 
-                    strlcpy(history[history_at], updatedtext,
+                    strlcpy_(history[history_at], updatedtext,
                             sizeof(history[history_at]));
 
                     history_at++;
@@ -5479,9 +5483,9 @@ uint8_t wid_receive_input (widp w, const SDL_KEYSYM *key)
                     break;
                 }
 
-                strlcpy(updatedtext, beforecursor, w->cursor + 1);
-                strlcat(updatedtext, newchar, sizeof(updatedtext));
-                strlcat(updatedtext, aftercursor, sizeof(updatedtext));
+                strlcpy_(updatedtext, beforecursor, w->cursor + 1);
+                strlcat_(updatedtext, newchar, sizeof(updatedtext));
+                strlcat_(updatedtext, aftercursor, sizeof(updatedtext));
 
                 w->cursor++;
 
