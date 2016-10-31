@@ -30,7 +30,7 @@ class Game:
         #
         # And not a dungeon at that point in the world
         #
-        self.biome_create(is_land=True, seed=7)
+        self.biome_create(is_dungeon=True, seed=7)
 
         self.map_center_on_player(level_start=True)
         self.map_center_on_player(level_start=False)

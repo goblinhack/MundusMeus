@@ -57,22 +57,17 @@ sdl_help()
     log_warn "  For ubuntu SDL2 do: "
     log_warn "   sudo apt-get install libsdl2.0-dev"
     log_warn "   sudo apt-get install libsdl-mixer2.0-dev"
-    log_warn "   sudo apt-get install libsdl-net2.0-dev"
     log_warn ""
     log_warn "  For ubuntu SDL1.2 do: "
     log_warn "   sudo apt-get install libsdl1.2-dev"
     log_warn "   sudo apt-get install libsdl-mixer1.2-dev"
-    log_warn "   sudo apt-get install libsdl-net1.2-dev"
     log_warn "  or"
     log_warn "   sudo pacman -S sdl"
     log_warn "   sudo pacman -S sdl_mixer"
-    log_warn "   sudo pacman -S sdl_net"
     log_warn ""
     log_warn "  For macos, install Mac ports and then do: "
     log_warn "   sudo port install libsdl2"
-    log_warn "   sudo port install libsdl2_image"
     log_warn "   sudo port install libsdl2_mixer"
-    log_warn "   sudo port install libsdl2_net"
     log_warn "   sudo port install libsdl2_ttf"
 }
 
@@ -103,7 +98,6 @@ log_info "SDL1 config      : $SDL1_CONFIG"
 log_info "SDL1 version     : "`$SDL1_CONFIG --version`
 log_info "SDL1 include path: $SDL1_INC_PATH"
 log_info "SDL1 mixer.h     : $SDL1_MIXER"
-log_info "SDL1 net.h       : $SDL1_NET"
 log_info "SDL1 score       : $SDL1_SCORE"
 
 if [[ "$SDL2_CONFIG" != "" ]]; then
@@ -111,7 +105,6 @@ if [[ "$SDL2_CONFIG" != "" ]]; then
     log_info "SDL2 version     : "`$SDL2_CONFIG --version`
     log_info "SDL2 include path: $SDL2_INC_PATH"
     log_info "SDL2 mixer.h     : $SDL2_MIXER"
-    log_info "SDL2 net.h       : $SDL2_NET"
     log_info "SDL2 score       : $SDL2_SCORE"
 fi
 
@@ -121,7 +114,7 @@ USE_SDL2=0
 if [[ $SDL1_SCORE = "0" ]]; then
     if [[ $SDL2_SCORE = "0" ]]; then
         sdl_help
-        log_err "I need SDL1 or SDL2 and SDL net and SDL mixer"
+        log_err "I need SDL1 or SDL2 and SDL mixer"
         exit 1
     else
         SDL_CONFIG=$SDL2_CONFIG
@@ -130,7 +123,7 @@ if [[ $SDL1_SCORE = "0" ]]; then
 elif [[ $SDL2_SCORE = "0" ]]; then
     if [[ $SDL1_SCORE = "0" ]]; then
         sdl_help
-        log_err "I need SDL1 or SDL2 and SDL net and SDL mixer"
+        log_err "I need SDL1 or SDL2 and SDL mixer"
         exit 1
     else
         SDL_CONFIG=$SDL1_CONFIG
@@ -151,7 +144,7 @@ fi
 #
 # Gives warings at runtime on MACOS
 #
-SDL_LIBS=`$SDL_CONFIG --static-libs`
+SDL_LIBS=`$SDL_CONFIG --libs`
 
 if [ $? -ne 0 ]
 then
