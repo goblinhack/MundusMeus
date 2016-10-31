@@ -347,7 +347,6 @@ then
     log_warn "Hit enter to continue"
     read dummy
 
-    cd src
     makedepend *.c -p .o/ 2>/dev/null
 fi
 
