@@ -51,22 +51,53 @@ def biome_populate(self):
 
             if grass:
                 which = None
-                if m.is_water_at(x + 1, y):
-                    which = "grass1-left"
-                if m.is_water_at(x - 1, y):
+                # a b c
+                # d e f
+                # g h i
+                a = m.is_grass_at(x - 1, y - 1)
+                b = m.is_grass_at(x, y - 1)
+                c = m.is_grass_at(x + 1, y - 1)
+
+                d = m.is_grass_at(x - 1, y)
+#                e = m.is_grass_at(x, y)
+                f = m.is_grass_at(x + 1, y)
+
+                g = m.is_grass_at(x - 1, y + 1)
+                h = m.is_grass_at(x, y + 1)
+                i = m.is_grass_at(x + 1, y + 1)
+
+                if not b and not f and not h and not d:
+                    which = "grass1-node"
+                elif not f and b and h:
                     which = "grass1-right"
-                if m.is_water_at(x, y + 1):
+                elif not d and b and h:
+                    which = "grass1-left"
+                elif not b and d and f:
                     which = "grass1-top"
-                if m.is_water_at(x, y - 1):
+                elif not h and d and f:
                     which = "grass1-bot"
-                if m.is_water_at(x + 1, y + 1):
-                    which = "grass1-tl"
-                if m.is_water_at(x - 1, y + 1):
-                    which = "grass1-tr"
-                if m.is_water_at(x + 1, y - 1):
-                    which = "grass1-bl"
-                if m.is_water_at(x - 1, y - 1):
-                    which = "grass1-br"
+
+                elif not c and b and f:
+                    which = "grass1-l"
+                elif not i and g and h:
+                    which = "grass1-l90"
+                elif not g and d and h:
+                    which = "grass1-l180"
+                elif not a and d and b:
+                    which = "grass1-l270"
+
+                elif not d and not h and b and h:
+                    which = "grass1-br2"
+                elif not d and not b and g and h:
+                    which = "grass1-tl2"
+                elif not b and not g and d and h:
+                    which = "grass1-tr2"
+                elif not g and not h and d and b:
+                    which = "grass1-br2"
+                elif b and g and f and h and d:
+                    which = "grass1.1"
+                else:
+                    which = "grass1-node"
 
                 if which is not None:
                     t = thing.Thing(self.level, tp_name="grass1")

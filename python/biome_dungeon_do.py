@@ -955,7 +955,6 @@ class Biome(biome.Biome):
                 if not self.is_floor_at(x, y) and \
                    not self.is_corridor_at(x, y) and \
                    not self.is_dusty_at(x, y):
-                    sys.stdout.write("-")
                     continue
 
                 count = 1
