@@ -356,9 +356,23 @@ class Biome:
         return False
 
     def is_grass_at(self, x, y):
-        c = self.getc(x, y, charmap.depth.floor)
+        c = self.getc(x, y, charmap.depth.grass)
         if c is not None:
             if "is_grass" in charmap.charmap[c]:
+                return True
+        return False
+
+    def is_dirt_at(self, x, y):
+        c = self.getc(x, y, charmap.depth.dirt)
+        if c is not None:
+            if "is_dirt" in charmap.charmap[c]:
+                return True
+        return False
+
+    def is_sand_at(self, x, y):
+        c = self.getc(x, y, charmap.depth.sand)
+        if c is not None:
+            if "is_sand" in charmap.charmap[c]:
                 return True
         return False
 

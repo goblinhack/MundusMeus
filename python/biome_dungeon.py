@@ -33,8 +33,8 @@ def biome_build(self, seed):
 def biome_populate(self):
     m = self.level.biome
 
-    for y in range(1, mm.MAP_HEIGHT - 1):
-        for x in range(1, mm.MAP_WIDTH - 1):
+    for y in range(0, mm.MAP_HEIGHT):
+        for x in range(0, mm.MAP_WIDTH):
 
             place_stalactite = False
 
