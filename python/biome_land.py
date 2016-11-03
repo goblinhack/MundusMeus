@@ -27,82 +27,150 @@ def biome_build(self, seed):
 def biome_populate(self):
     m = self.level.biome
 
-    for y in range(1, mm.MAP_HEIGHT - 1):
-        for x in range(1, mm.MAP_WIDTH - 1):
+    for y in range(0, mm.MAP_HEIGHT):
+        for x in range(0, mm.MAP_WIDTH):
 
-            grass = False
-
+            grass1 = False
             if m.is_grass_at(x, y):
-                grass = True
+                grass1 = True
+
+            dirt1 = False
+            if m.is_dirt_at(x, y):
+                dirt1 = True
+
+            sand1 = False
+            if m.is_sand_at(x, y):
+                sand1 = True
 
             if m.is_tree_at(x, y):
-                grass = True
+                grass1 = True
 
                 r = tp.get_random_tree()
                 t = thing.Thing(self.level, tp_name=r.short_name)
                 t.push(x, y)
 
                 if m.is_grass_at(x, y):
-
                     if random.randint(0, 100) < 5:
                         r = tp.get_random_plant()
                         t = thing.Thing(self.level, tp_name=r.short_name)
                         t.push(x, y)
 
-            if grass:
-                which = None
-                # a b c
-                # d e f
-                # g h i
-                a = m.is_grass_at(x - 1, y - 1)
-                b = m.is_grass_at(x, y - 1)
-                c = m.is_grass_at(x + 1, y - 1)
+            if grass1:
+                t = thing.Thing(self.level, tp_name="grass1")
+                t.push(x, y)
+                t.set_tilename("grass1.1")
 
-                d = m.is_grass_at(x - 1, y)
-#                e = m.is_grass_at(x, y)
-                f = m.is_grass_at(x + 1, y)
+            if dirt1:
+                t = thing.Thing(self.level, tp_name="dirt1")
+                t.push(x, y)
+                t.set_tilename("dirt1.1")
 
-                g = m.is_grass_at(x - 1, y + 1)
-                h = m.is_grass_at(x, y + 1)
-                i = m.is_grass_at(x + 1, y + 1)
+            if sand1:
+                t = thing.Thing(self.level, tp_name="sand1")
+                t.push(x, y)
+                t.set_tilename("sand1.1")
 
-                if not b and not f and not h and not d:
-                    which = "grass1-node"
-                elif not f and b and h:
-                    which = "grass1-right"
-                elif not d and b and h:
-                    which = "grass1-left"
-                elif not b and d and f:
-                    which = "grass1-top"
-                elif not h and d and f:
-                    which = "grass1-bot"
-
-                elif not c and b and f:
-                    which = "grass1-l"
-                elif not i and g and h:
-                    which = "grass1-l90"
-                elif not g and d and h:
-                    which = "grass1-l180"
-                elif not a and d and b:
-                    which = "grass1-l270"
-
-                elif not d and not h and b and h:
-                    which = "grass1-br2"
-                elif not d and not b and g and h:
-                    which = "grass1-tl2"
-                elif not b and not g and d and h:
-                    which = "grass1-tr2"
-                elif not g and not h and d and b:
-                    which = "grass1-br2"
-                elif b and g and f and h and d:
-                    which = "grass1.1"
-                else:
-                    which = "grass1-node"
-
-                if which is not None:
-                    t = thing.Thing(self.level, tp_name="grass1")
+            if not grass1:
+                if m.is_grass_at(x - 1, y):
+                    t = thing.Thing(self.level, tp_name="grass1-deco")
                     t.push(x, y)
-                    t.set_tilename(which)
+                    t.set_tilename("grass1-right")
+                if m.is_grass_at(x + 1, y):
+                    t = thing.Thing(self.level, tp_name="grass1-deco")
+                    t.push(x, y)
+                    t.set_tilename("grass1-left")
+                if m.is_grass_at(x, y - 1):
+                    t = thing.Thing(self.level, tp_name="grass1-deco")
+                    t.push(x, y)
+                    t.set_tilename("grass1-bot")
+                if m.is_grass_at(x, y + 1):
+                    t = thing.Thing(self.level, tp_name="grass1-deco")
+                    t.push(x, y)
+                    t.set_tilename("grass1-top")
+                if m.is_grass_at(x - 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="grass1-deco")
+                    t.push(x, y)
+                    t.set_tilename("grass1-br")
+                if m.is_grass_at(x + 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="grass1-deco")
+                    t.push(x, y)
+                    t.set_tilename("grass1-bl")
+                if m.is_grass_at(x - 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="grass1-deco")
+                    t.push(x, y)
+                    t.set_tilename("grass1-tr")
+                if m.is_grass_at(x + 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="grass1-deco")
+                    t.push(x, y)
+                    t.set_tilename("grass1-tl")
+
+            if not dirt1:
+                if m.is_dirt_at(x - 1, y):
+                    t = thing.Thing(self.level, tp_name="dirt1-deco")
+                    t.push(x, y)
+                    t.set_tilename("dirt1-right")
+                if m.is_dirt_at(x + 1, y):
+                    t = thing.Thing(self.level, tp_name="dirt1-deco")
+                    t.push(x, y)
+                    t.set_tilename("dirt1-left")
+                if m.is_dirt_at(x, y - 1):
+                    t = thing.Thing(self.level, tp_name="dirt1-deco")
+                    t.push(x, y)
+                    t.set_tilename("dirt1-bot")
+                if m.is_dirt_at(x, y + 1):
+                    t = thing.Thing(self.level, tp_name="dirt1-deco")
+                    t.push(x, y)
+                    t.set_tilename("dirt1-top")
+                if m.is_dirt_at(x - 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="dirt1-deco")
+                    t.push(x, y)
+                    t.set_tilename("dirt1-br")
+                if m.is_dirt_at(x + 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="dirt1-deco")
+                    t.push(x, y)
+                    t.set_tilename("dirt1-bl")
+                if m.is_dirt_at(x - 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="dirt1-deco")
+                    t.push(x, y)
+                    t.set_tilename("dirt1-tr")
+                if m.is_dirt_at(x + 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="dirt1-deco")
+                    t.push(x, y)
+                    t.set_tilename("dirt1-tl")
+
+            if not sand1:
+                if m.is_sand_at(x - 1, y):
+                    t = thing.Thing(self.level, tp_name="sand1-deco")
+                    t.push(x, y)
+                    t.set_tilename("sand1-right")
+                if m.is_sand_at(x + 1, y):
+                    t = thing.Thing(self.level, tp_name="sand1-deco")
+                    t.push(x, y)
+                    t.set_tilename("sand1-left")
+                if m.is_sand_at(x, y - 1):
+                    t = thing.Thing(self.level, tp_name="sand1-deco")
+                    t.push(x, y)
+                    t.set_tilename("sand1-bot")
+                if m.is_sand_at(x, y + 1):
+                    t = thing.Thing(self.level, tp_name="sand1-deco")
+                    t.push(x, y)
+                    t.set_tilename("sand1-top")
+                if m.is_sand_at(x - 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="sand1-deco")
+                    t.push(x, y)
+                    t.set_tilename("sand1-br")
+                if m.is_sand_at(x + 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="sand1-deco")
+                    t.push(x, y)
+                    t.set_tilename("sand1-bl")
+                if m.is_sand_at(x - 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="sand1-deco")
+                    t.push(x, y)
+                    t.set_tilename("sand1-tr")
+                if m.is_sand_at(x + 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="sand1-deco")
+                    t.push(x, y)
+                    t.set_tilename("sand1-tl")
 
             if m.is_start_at(x, y):
                 t = thing.Thing(self.level, tp_name="start1")

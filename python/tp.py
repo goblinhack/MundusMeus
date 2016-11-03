@@ -163,8 +163,8 @@ class Tp:
         self.is_rrr94 = False
         self.is_rrr95 = False
         self.is_rrr96 = False
-        self.is_rrr97 = False
-        self.is_rrr98 = False
+        self.is_dirt = False
+        self.is_sand = False
         self.is_plant = False
         self.is_grass = False
         self.is_bridge = False
@@ -701,13 +701,13 @@ class Tp:
         self.is_rrr96 = value
         mm.tp_set_is_rrr96(self, value)
 
-    def set_is_rrr97(self, value):
-        self.is_rrr97 = value
-        mm.tp_set_is_rrr97(self, value)
+    def set_is_dirt(self, value):
+        self.is_dirt = value
+        mm.tp_set_is_dirt(self, value)
 
-    def set_is_rrr98(self, value):
-        self.is_rrr98 = value
-        mm.tp_set_is_rrr98(self, value)
+    def set_is_sand(self, value):
+        self.is_sand = value
+        mm.tp_set_is_sand(self, value)
 
     def set_is_plant(self, value):
         self.is_plant = value
