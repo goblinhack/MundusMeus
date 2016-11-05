@@ -7457,10 +7457,9 @@ static void wid_gc_force (widp w)
     }
 }
 
-#define LIGHT_LEVELS 2
 static const double MAX_LIGHT_STRENGTH = 1000.0;
-static double ray_depth[MAX_LIGHT_RAYS][LIGHT_LEVELS];
-static double ray_rad[MAX_LIGHT_RAYS][LIGHT_LEVELS];
+static double ray_depth[MAX_LIGHT_RAYS];
+static double ray_rad[MAX_LIGHT_RAYS];
 
 static int wid_light_count;
 
@@ -7482,6 +7481,26 @@ static void wid_light_init (void)
     wid_light_count = 0;
 }
 
+static uint8_t tpp_blocks_light_shinging_up (tpp tp)
+{
+    if (tp_is_floor(tp)) {
+        return (true);
+    }
+    if (tp_is_corridor(tp)) {
+        return (true);
+    }
+    if (tp_is_wall(tp)) {
+        return (true);
+    }
+    if (tp_is_dusty(tp)) {
+        return (true);
+    }
+    if (tp_is_chasm_smoke(tp)) {
+        return (true);
+    }
+    return (false);
+}
+
 static void wid_light_add (widp w, fpoint at, double strength, color c)
 {
     thingp t = w->thing;
@@ -7492,23 +7511,8 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
      */
     if (tp_get_z_depth(tp) == Z_DEPTH_LAVA) {
         levelp level = &game.level;
-        if (map_is_wall_at(level, (int)t->x, (int)t->y)) {
-            return;
-        }
-
-        if (map_is_floor_at(level, (int)t->x, (int)t->y)) {
-            return;
-        }
-        
-        if (map_is_corridor_at(level, (int)t->x, (int)t->y)) {
-            return;
-        }
-
-        if (map_is_dusty_at(level, (int)t->x, (int)t->y)) {
-            return;
-        }
-
-        if (map_is_chasm_smoke_at(level, (int)t->x, (int)t->y)) {
+        if (map_is_x_at(level, (int)t->x, (int)t->y, 
+                        tpp_blocks_light_shinging_up)) {
             return;
         }
     }
@@ -7968,8 +7972,7 @@ static void map_light_add_ray_depth (fpoint p,
                                      fpoint light_pos,
                                      fpoint light_end,
                                      double rad,
-                                     int deg,
-                                     int soft_shadow)
+                                     int deg)
 {
     double len = DISTANCE(light_pos.x, light_pos.y,
                           light_end.x, light_end.y);
@@ -7978,31 +7981,12 @@ static void map_light_add_ray_depth (fpoint p,
         len = light->strength;
     }
 
-    if (soft_shadow) {
-        if (!ray_depth[deg][0]) {
-            ray_depth[deg][1] = len;
-            ray_rad  [deg][1] = rad;
-        } else if (!ray_depth[deg][1]) {
-            ray_depth[deg][1] = len;
-            ray_rad  [deg][1] = rad;
-        } else if (len < ray_depth[deg][1]) {
-            ray_depth[deg][1] = len;
-            ray_rad  [deg][1] = rad;
-        }
-    } else {
-        if (!ray_depth[deg][0]) {
-            ray_depth[deg][0] = len;
-            ray_rad  [deg][0] = rad;
-
-            ray_depth[deg][1] = len;
-            ray_rad  [deg][1] = rad;
-        } else if (len < ray_depth[deg][0]) {
-            ray_depth[deg][0] = len;
-            ray_rad  [deg][0] = rad;
-
-            ray_depth[deg][1] = len;
-            ray_rad  [deg][1] = rad;
-        }
+    if (!ray_depth[deg]) {
+        ray_depth[deg] = len;
+        ray_rad  [deg] = rad;
+    } else if (len < ray_depth[deg]) {
+        ray_depth[deg] = len;
+        ray_rad  [deg] = rad;
     }
 }
 
@@ -8071,7 +8055,7 @@ static void wid_light_calculate_for_single_obstacle (widp w,
         int r = 0;
 
         for (i = 0; i < light->max_light_rays; i++, r += dr) {
-            ray_depth[i][0] = light_radius;
+            ray_depth[i] = light_radius;
         }
 
         return;
@@ -8246,8 +8230,7 @@ static void wid_light_calculate_for_single_obstacle (widp w,
                             light_pos, light_end,
                             &intersect);
 
-            map_light_add_ray_depth(P[0], light, light_pos, intersect,
-                                    rad, deg, soft_shadow);
+            map_light_add_ray_depth(P[0], light, light_pos, intersect, rad, deg);
 
             rad += dr;
             if (rad >= RAD_360) {
@@ -8260,53 +8243,6 @@ static void wid_light_calculate_for_single_obstacle (widp w,
             }
         }
     }
-}
-
-/*
- * Smooth out the ray lenghts to avoid jagged jumps in distance.
- */
-static void wid_lighting_smooth (wid_light *light)
-{
-    double ray_depth_tmp[MAX_LIGHT_RAYS][LIGHT_LEVELS];
-    uint8_t pass;
-
-    for (pass = 0; pass <= 1; pass++) {
-        uint16_t i;
-        uint16_t max_light_rays = light->max_light_rays;
-        uint16_t before;
-        uint16_t after;
-
-        for (i = 0; i < max_light_rays; i++) {
-
-            if (i == 0) {
-                before = max_light_rays - 1;
-                after = i + 1;
-            } else if (i == max_light_rays - 1) {
-                before = i - 1;
-                after = 0;
-            } else {
-                before = i - 1;
-                after = i + 1;
-            }
-
-            double a = ray_depth[before][pass];
-            double b = ray_depth[i][pass];
-            double c = ray_depth[after][pass];
-
-            if (a == 0) {
-                a = light->strength;
-            }
-            if (b == 0) {
-                b = light->strength;
-            }
-            if (c == 0) {
-                c = light->strength;
-            }
-            ray_depth_tmp[i][pass] = (a + b + c) / 3.0;
-        }
-    }
-
-    memcpy(ray_depth, ray_depth_tmp, sizeof(ray_depth));
 }
 
 /*
@@ -8374,14 +8310,12 @@ static void wid_lighting_calculate (widp w,
      */
     memset(ray_depth, 0, sizeof(ray_depth));
 
-    int i, j;
+    int i;
     double dr = RAD_360 / (double) light->max_light_rays;
     double rad = 0;
 
     for (i = 0; i < light->max_light_rays; i++) {
-        for (j = 0; j < LIGHT_LEVELS; j++) {
-            ray_rad[i][j] = rad;
-        }
+        ray_rad[i] = rad;
         rad += dr;
     }
 
@@ -8406,13 +8340,6 @@ static void wid_lighting_calculate (widp w,
             }
         }
     }
-
-    /*
-     * Seems to add nothing.
-     */
-    if (/* DISABLES CODE */ (0)) {
-        wid_lighting_smooth(light);
-    }
 }
 
 /*
@@ -8420,19 +8347,15 @@ static void wid_lighting_calculate (widp w,
  */
 static void wid_lighting_render (widp w,
                                  const int light_index,
-                                 const int light_level)
+                                 double rotation,
+                                 double fade)
 {
     wid_light *light = &wid_lights[light_index];
     fpoint light_pos = light->at;
     double light_radius = light->strength;
 
-    /*
-     * No need for soft shadows in small lights
-     */
-    if (light_level == 1) {
-        if (light->ostrength < 1.0) {
-            return;
-        }
+    if (light->ostrength < 1.0) {
+        return;
     }
 
     int16_t maxx;
@@ -8446,8 +8369,8 @@ static void wid_lighting_render (widp w,
         return;
     }
 
-    double visible_width = light_radius + 3;
-    double visible_height = light_radius + 3;
+    double visible_width = light_radius;
+    double visible_height = light_radius;
 
     uint16_t max_light_rays = light->max_light_rays;
 
@@ -8525,12 +8448,7 @@ static void wid_lighting_render (widp w,
         light_delta += (0.005 * (myrand() % 100));
     }
 
-    if ((red == 0.0) && (green == 0.0) && (blue == 0.0)) {
-        red = 1.0;
-        green = 1.0;
-        blue = 1.0;
-    }
-    alpha = 0.0;
+    alpha *= fade;
 
     {
         int i;
@@ -8538,13 +8456,25 @@ static void wid_lighting_render (widp w,
         blit_init();
 
         /*
+         * Load the light texture we overlay on the triangle fan.
+         */
+        {
+            static texp t;
+            if (!t) {
+                t = tex_load("light", "light");
+            }
+
+            buf_tex = tex_get_gl_binding(t);
+        }
+
+        /*
          * Walk the light rays in a circle.
          */
-        push_point(light_pos.x, light_pos.y, 255, 255, 255, 255);
+        push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 255, 255, 255, 255);
 
         for (i = 0; i < max_light_rays; i++) {
-            double p1_len = ray_depth[i][light_level];
-            double rad = ray_rad[i][light_level];
+            double p1_len = ray_depth[i];
+            double rad = ray_rad[i] + rotation;
 
             if (p1_len == 0) {
                 p1_len = light_radius;
@@ -8554,18 +8484,30 @@ static void wid_lighting_render (widp w,
 
             double cosr = fcos(rad);
             double sinr = fsin(rad);
+
+            /*
+             * Center the texture.
+             */
+            double dl = p1_len / light_radius;
+            double t1x = cosr * dl;
+            double t1y = sinr * dl;
+            t1x /= 2.0;
+            t1y /= 2.0;
+            t1x += 0.5;
+            t1y += 0.5;
+
             double p1x = light_pos.x + cosr * p1_len;
             double p1y = light_pos.y + sinr * p1_len;
 
-            push_point(p1x, p1y, red, green, blue, alpha);
+            push_tex_point(t1x, t1y, p1x, p1y, red, green, blue, alpha);
         }
 
         /*
          * Complete the circle with the first point again.
          */
         i = 0; {
-            double p1_len = ray_depth[i][light_level];
-            double rad = ray_rad[i][light_level];
+            double p1_len = ray_depth[i];
+            double rad = ray_rad[i] + rotation;
             if (p1_len == 0) {
                 p1_len = light_radius;
             }
@@ -8574,43 +8516,25 @@ static void wid_lighting_render (widp w,
 
             double cosr = fcos(rad);
             double sinr = fsin(rad);
+
+            /*
+             * Center the texture.
+             */
+            double dl = p1_len / light_radius;
+            double t1x = cosr * dl;
+            double t1y = sinr * dl;
+            t1x /= 2.0;
+            t1y /= 2.0;
+            t1x += 0.5;
+            t1y += 0.5;
+
             double p1x = light_pos.x + cosr * p1_len;
             double p1y = light_pos.y + sinr * p1_len;
 
-            push_point(p1x, p1y, red, green, blue, alpha);
+            push_tex_point(t1x, t1y, p1x, p1y, red, green, blue, alpha);
         }
 
-        blit_flush_triangle_fan();
-    }
-
-    debug = 1;
-    if (debug && thing_is_player(light->t)) {
-        int i;
-
-        color c = RED;
-        c.a = 255;
-        glcolor(c);
-
-        /*
-         * Walk the light rays in a circle.
-         */
-        for (i = 0; i < max_light_rays; i++) {
-            double p1_len = ray_depth[i][light_level];
-
-            if (p1_len == 0) {
-                p1_len = light_radius;
-            }
-
-            double rad = ray_rad[i][light_level];
-            double cosr = fcos(rad);
-            double sinr = fsin(rad);
-            double p2x = light_pos.x + cosr * p1_len;
-            double p2y = light_pos.y + sinr * p1_len;
-            double p1x = light_pos.x + cosr * 0.5;
-            double p1y = light_pos.y + sinr * 0.5;
-
-            gl_blitline(p1x, p1y, p2x, p2y);
-        }
+        blit_flush_tex_triangle_fan();
     }
 }
 
@@ -8618,9 +8542,7 @@ static void wid_lighting_render (widp w,
  * Walk all widgets next to this light source and find light intersections.
  */
 #if 0
-static void wid_lighting_debug (widp w,
-                                 const int light_index,
-                                 const int light_level)
+static void wid_lighting_debug (widp w, const int light_index)
 {
     wid_light *light = &wid_lights[light_index];
     fpoint light_pos = light->at;
@@ -8674,7 +8596,7 @@ static void wid_lighting_debug (widp w,
          * Walk the light rays in a circle.
          */
         for (i = 0; i < max_light_rays; i++, r += dr) {
-            double p1_len = ray_depth[i][light_level];
+            double p1_len = ray_depth[i];
             if (p1_len == 0) {
                 p1_len = light_radius;
             }
@@ -9465,13 +9387,18 @@ static void wid_display (widp w,
                 /*
                  * Draw the light sources. First pass is for solid obstacles.
                  */
-                wid_lighting_render(w, i, 0);
+                wid_light *light = &wid_lights[i];
 
-                /*
-                 * This for soft shadows.
-                 */
-                if (!level_explosion_flash_effect) {
-                    wid_lighting_render(w, i, 1);
+                thingp t = light->w->thing;
+
+                if (thing_is_player(t)) {
+                    wid_lighting_render(w, i, 0.0, 0.25);
+                    wid_lighting_render(w, i, 0.025, 0.25);
+                    wid_lighting_render(w, i, -0.025, 0.25);
+                    wid_lighting_render(w, i, 0.05, 0.10);
+                    wid_lighting_render(w, i, -0.05, 0.10);
+                } else {
+                    wid_lighting_render(w, i, 0.0, 1.0);
                 }
             }
 
@@ -9564,7 +9491,6 @@ static void wid_display (widp w,
     if (w->on_display) {
         (w->on_display)(w, tl, br);
     }
-
 
     /*
      * Undo any push we did earlier.

@@ -97,6 +97,7 @@ void blit_flush_triangles(void);
 void blit_flush_colored_triangles(void);
 void blit_flush_triangle_fan(void);
 void blit_flush_triangle_strip(void);
+void blit_flush_tex_triangle_fan(void);
 void blit_fini(void);
 void gl_blitquad(float tlx, float tly, float brx, float bry);
 void gl_blitsquare(float tlx, float tly, float brx, float bry);
@@ -456,6 +457,19 @@ void blit_colored (int tex,
     gl_push_rgba(p, r1, g1, b1, a1); \
 } \
 
+/*
+ * gl_push_tex_point
+ */
+#define gl_push_tex_point(p, p_end, \
+                          tx, ty, \
+                          x1, y1, \
+                          r1, g1, b1, a1) \
+{ \
+    gl_push_texcoord(p, tx, ty); \
+    gl_push_vertex(p, x1, y1); \
+    gl_push_rgba(p, r1, g1, b1, a1); \
+} \
+
 #define triangle_colored(x1, y1, \
                          x2, y2, \
                          x3, y3, \
@@ -479,6 +493,15 @@ void blit_colored (int tex,
                   bufp_end, \
                   x1, y1, \
                   r1, g1, b1, a1); \
+} \
+
+#define push_tex_point(tx, ty, x1, y1, r1, g1, b1, a1) \
+{ \
+    gl_push_tex_point(bufp, \
+                      bufp_end, \
+                      tx, ty, \
+                      x1, y1, \
+                      r1, g1, b1, a1); \
 } \
 
 /*

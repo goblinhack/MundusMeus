@@ -284,6 +284,24 @@ def init_tiles_bigmap():
                      arr=tiles)
 
 
+def init_tiles_light():
+
+    mm.tex_load_tiled(
+            file="data/gfx/light.tga",
+            name="light",
+            width=512,
+            height=512)
+
+    tiles = [
+        "light",
+    ]
+
+    mm.tile_load_arr(tex_name="light",
+                     tex_name_black_and_white="",
+                     width=512, height=512,
+                     arr=tiles)
+
+
 def init_tiles_walls():
 
     mm.tex_load_tiled(
@@ -6567,3 +6585,4 @@ init_tiles_walls()
 init_tiles_land()
 init_tiles_powerups()
 init_tiles_items()
+init_tiles_light()

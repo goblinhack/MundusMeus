@@ -32,9 +32,9 @@ def treasure1_init(d1000_roll,
     x.set_is_treasure(True)
     x.set_is_minable(is_minable)
 
-    x.set_light_radius(1)
-    x.set_light_tint("gray20")
-    x.set_is_candle_light(True)
+#    x.set_light_radius(1)
+#    x.set_light_tint("gray20")
+#    x.set_is_candle_light(True)
 
     if tiles is not None:
         for t in tiles:
