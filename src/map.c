@@ -47,9 +47,9 @@ thingp map_is_tp_at (levelp level, int32_t x, int32_t y, tpp tp)
     return (0);
 }
 
-static tpp map_is_x_at (levelp level,
-                        int32_t x, int32_t y,
-                        map_is_at_callback callback)
+tpp map_is_x_at (levelp level,
+                 int32_t x, int32_t y,
+                 map_is_at_callback callback)
 {
     widp grid_wid;
     widp w;

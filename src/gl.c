@@ -380,6 +380,61 @@ void blit_flush_triangle_fan (void)
     blit_init();
 }
 
+void blit_flush_tex_triangle_fan (void)
+{
+    if (gl_array_buf == bufp) {
+        return;
+    }
+
+    /*
+     * Display all the tiles selected above in one blast.
+     */
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+    static long nvertices;
+
+    nvertices = ((char*)bufp - (char*)gl_array_buf) /
+                    NUMBER_BYTES_PER_VERTICE;
+
+    glBindTexture(GL_TEXTURE_2D, buf_tex);
+
+    glTexCoordPointer(
+        NUMBER_DIMENSIONS_PER_COORD, // (u,v)
+        GL_FLOAT,
+        NUMBER_BYTES_PER_VERTICE,
+        gl_array_buf);
+
+    glVertexPointer(
+        NUMBER_DIMENSIONS_PER_COORD, // (x,y)
+        GL_FLOAT,
+        NUMBER_BYTES_PER_VERTICE,
+        ((char*)gl_array_buf) +
+            sizeof(GLfloat) *        // skip (x,y)
+            NUMBER_DIMENSIONS_PER_COORD);
+
+    glColorPointer(
+        NUMBER_COMPONENTS_PER_COLOR, // (r,g,b,a)
+        GL_FLOAT,
+        NUMBER_BYTES_PER_VERTICE,
+        ((char*)gl_array_buf) +
+            sizeof(GLfloat) *        // skip (x,y)
+            NUMBER_DIMENSIONS_PER_COORD +
+            sizeof(GLfloat) *        // skip (u,v)
+            NUMBER_DIMENSIONS_PER_COORD);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei) nvertices);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+
+    blit_init();
+}
+
 void blit_flush_triangle_strip (void)
 {
     if (gl_array_buf == bufp) {
