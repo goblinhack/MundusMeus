@@ -239,7 +239,6 @@ typedef struct tp_ {
     uint8_t is_rrr93:1;
     uint8_t is_rrr94:1;
     uint8_t is_rrr95:1;
-    uint8_t is_rrr96:1;
     uint8_t is_dirt:1;
     uint8_t is_sand:1;
     uint8_t is_plant:1;
@@ -883,9 +882,9 @@ static inline uint8_t tp_is_rrr95 (tpp t)
     return (t->is_rrr95);
 }
 
-static inline uint8_t tp_is_rrr96 (tpp t)
+static inline uint8_t tp_is_hidden (tpp t)
 {
-    return (t->is_rrr96);
+    return (t->is_hidden);
 }
 
 static inline uint8_t tp_is_dirt (tpp t)
@@ -996,11 +995,6 @@ static inline uint8_t tp_is_effect_pulse (tpp t)
 static inline uint8_t tp_is_effect_rotate_2way (tpp t)
 {
     return (t->is_effect_rotate_2way);
-}
-
-static inline uint8_t tp_is_hidden (tpp t)
-{
-    return (t->is_hidden);
 }
 
 static inline uint8_t tp_is_explosion (tpp t)

@@ -63,87 +63,57 @@
 /*
  * So we don't hog all the CPU when not in video sync mode
  */
-#define MAIN_LOOP_DELAY             5
+#define MAIN_LOOP_DELAY                         5
 
 /*
  * Max long string size
  */
-#define MAXSTR                      1024
+#define MAXSTR                                  1024
 
 /*
  * Light sources
  */
-#define MAX_LIGHT_RAYS              360
-#define MAX_LIGHTS                  8000
+#define MAX_LIGHT_RAYS                          360
+#define MAX_LIGHTS                              8000
 
 /*
  * Screen sizes.
  */
-#define DEFAULT_VIDEO_WIDTH         1008
-#define DEFAULT_VIDEO_HEIGHT        672
+#define DEFAULT_VIDEO_WIDTH                     1008
+#define DEFAULT_VIDEO_HEIGHT                    672
 
 /*
  * Map. How many tiles across and down.
  */
-#define MAP_WIDTH                   64
-#define MAP_HEIGHT                  64
+#define MAP_WIDTH                               64
+#define MAP_HEIGHT                              64
 
 /*
  * The number of tiles per screen.
  */
-#define TILES_SCREEN_WIDTH          24
-#define TILES_SCREEN_HEIGHT         13
-#define TILES_ANIM_MAX              10000
-
-/*
- * Torchlight flickering parameters.
- */
-#define MAP_LIGHT_CANDLELIGHT_FLICKER_RATE      20
+#define TILES_SCREEN_WIDTH                      24
+#define TILES_SCREEN_HEIGHT                     13
+#define TILES_ANIM_MAX                          10000
 
 /*
  * Any more than this and you can peek over walls.
  */
 #define MAP_LIGHT_CANDLELIGHT_FLICKER_RADIUS    20
-#define MAP_LIGHT_CANDLELIGHT_RADIUS            30
-
-#define MAP_THINGS_PER_CELL         250
 
 /*
  * Tile pixel width.
  */
-#define TILE_WIDTH                  64
-#define TILE_HEIGHT                 64
+#define TILE_WIDTH                              64
+#define TILE_HEIGHT                             64
 
 /*
  * The width of wall blocks and floor tiles not counting shadow pixels
  */
-#define TILE_PIX_WIDTH              24
-#define TILE_PIX_HEIGHT             24
+#define TILE_PIX_WIDTH                          24
+#define TILE_PIX_HEIGHT                         24
 
-/*
- * The width including shadow pixels.
- */
-#define TILE_PIX_WITH_SHADOW_WIDTH  TILE_WIDTH
-#define TILE_PIX_WITH_SHADOW_HEIGHT TILE_HEIGHT
-
-/*
- * Padding for tiles on the edge of the smooth scroll. Has to be quite wide so
- * that we can see the light from other player when off screen.
- */
-#define TILES_SCREEN_LIGHT_WIDTH_PAD      8
-#define TILES_SCREEN_LIGHT_HEIGHT_PAD     8
-
-/*
- * But for fluid we want it to be as few tiles as we can as we have to do a
- * lot of water rendering.
- */
-#define TILES_SCREEN_FLUID_WIDTH_PAD      2
-#define TILES_SCREEN_FLUID_HEIGHT_PAD     2
-
-/*
- * Floor tiles occupy more space.
- */
-#define TILE_FLOOR_SCALE                  2
+#define TILES_SCREEN_LIGHT_WIDTH_PAD            2
+#define TILES_SCREEN_LIGHT_HEIGHT_PAD           2
 
 /*
  * Console

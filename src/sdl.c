@@ -1454,33 +1454,13 @@ void sdl_loop (void)
         }
 
         levelp level = &game.level;
+
+        level = &game.level;
         if (level) {
             /*
-             * Fire global timers.
+             * Let things wriggle.
              */
-            if (player) {
-                /*
-                 * When the player moves, the monsters move.
-                 */
-                if (player_move(level)) {
-                }
-            }
-
-            levelp level = &game.level;
-            if (level) {
-                /*
-                 * Let things do AI.
-                 */
-                thing_tick_all(level);
-            }
-
-            level = &game.level;
-            if (level) {
-                /*
-                 * Let things wriggle.
-                 */
-                thing_animate_all(level);
-            }
+            thing_animate_all(level);
         }
 
         /*
@@ -1541,7 +1521,7 @@ void sdl_loop (void)
 
         blit_flush();
 
-        SDL_Delay(MAIN_LOOP_DELAY);
+//        SDL_Delay(MAIN_LOOP_DELAY);
 
         /*
          * Flip

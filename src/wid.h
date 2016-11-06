@@ -409,8 +409,6 @@ void wid_effect_pulses(widp);
 void wid_effect_sways(widp);
 widp wid_find_matching(widp, fpoint tl, fpoint br, uint8_t z_depth);
 widp wid_grid_find(widp, fpoint tl, fpoint br, uint8_t z_depth);
-widp wid_grid_find_first(widp parent, uint32_t x, uint32_t y, uint8_t depth);
-widp wid_grid_find_next(widp parent, widp w, uint32_t x, uint32_t y, uint8_t depth);
 widp wid_grid_find_top(widp, fpoint tl, fpoint br);
 widp wid_grid_find_thing_template(widp parent,
                                   uint32_t x,
@@ -997,3 +995,115 @@ extern const int32_t wid_swipe_delay;
 extern const int32_t wid_pulse_delay;
 extern const int32_t wid_scaling_forever_delay;
 extern char *wid_tooltip_string;
+
+/*
+ * Find the first widget in the grid at this tile co-ordinate.
+ */
+static inline
+widp wid_grid_find_first (widp parent, uint32_t x, uint32_t y,
+                          uint8_t depth)
+{
+    widgridnode *node;
+    widgrid *grid;
+    widp w;
+
+    grid = parent->grid;
+    if (unlikely(!grid)) {
+        return (0);
+    }
+
+    if (unlikely(x >= grid->width)) {
+        return (0);
+    }
+
+    if (unlikely(y >= grid->height)) {
+        return (0);
+    }
+
+    /*
+     * Now find the node in the (hopefully small) tree.
+     */
+    tree_root **gridtree = grid->grid_of_trees[depth] + (y * grid->width) + x;
+
+    /*
+     * Trees should be already allocated.
+     */
+    if (!*gridtree) {
+        ERR("no gridtree");
+    }
+
+    node = (typeof(node)) tree_first((*gridtree)->node);
+    if (!node) {
+        return (0);
+    }
+
+    fast_verify(node);
+
+    w = node->wid;
+    if (!w) {
+        return (0);
+    }
+
+    fast_verify(w);
+    return (w);
+}
+
+/*
+ * Find the next widget in the grid at this tile co-ordinate.
+ */
+static inline
+widp wid_grid_find_next (widp parent, widp w, uint32_t x, uint32_t y,
+                         uint8_t depth)
+{
+    widgridnode *node;
+    widgrid *grid;
+
+    grid = parent->grid;
+    if (unlikely(!grid)) {
+        return (0);
+    }
+
+    if (unlikely(x >= grid->width)) {
+        return (0);
+    }
+
+    if (unlikely(y >= grid->height)) {
+        return (0);
+    }
+
+    for (;;) {
+        /*
+         * Now find the node in the (hopefully small) tree.
+         */
+        tree_root **gridtree =
+                        grid->grid_of_trees[depth] + (y * grid->width) + x;
+
+        /*
+         * Trees should be already allocated.
+         */
+        if (!*gridtree) {
+            ERR("no gridtree");
+        }
+
+        node = (typeof(node)) tree_get_next(*gridtree, (*gridtree)->node,
+                                            &w->gridnode->tree.node);
+        if (!node) {
+            return (0);
+        }
+
+        fast_verify(node);
+
+        w = node->wid;
+        if (!w) {
+            return (0);
+        }
+
+        if (!w->being_destroyed) {
+            break;
+        }
+    }
+
+    fast_verify(w);
+
+    return (w);
+}
