@@ -180,26 +180,26 @@ def biome_populate(self):
                 t.push(x, y)
                 self.player = t
 
-            if m.is_wall_at(x, y):
-                t = thing.Thing(self.level, tp_name="wall1")
+            if m.is_rock_at(x, y):
+                t = thing.Thing(self.level, tp_name="landrock1")
                 t.push(x, y)
 
-                if m.is_wall_at(x, y-1):
+                if m.is_rock_at(x, y-1):
                     b = True
                 else:
                     b = False
 
-                if m.is_wall_at(x-1, y):
+                if m.is_rock_at(x-1, y):
                     d = True
                 else:
                     d = False
 
-                if m.is_wall_at(x+1, y):
+                if m.is_rock_at(x+1, y):
                     f = True
                 else:
                     f = False
 
-                if m.is_wall_at(x, y+1):
+                if m.is_rock_at(x, y+1):
                     h = True
                 else:
                     h = False
@@ -208,37 +208,37 @@ def biome_populate(self):
                 # d e f
                 # g h i
                 if b and d and f and h:
-                    t.set_tilename("wall1-x")
+                    t.set_tilename("landrock1-x")
                 elif b and d and f:
-                    t.set_tilename("wall1-t180")
+                    t.set_tilename("landrock1-t180")
                 elif b and d and h:
-                    t.set_tilename("wall1-t90")
+                    t.set_tilename("landrock1-t90")
                 elif b and f and h:
-                    t.set_tilename("wall1-t270")
+                    t.set_tilename("landrock1-t270")
                 elif d and f and h:
-                    t.set_tilename("wall1-t")
+                    t.set_tilename("landrock1-t")
                 elif b and h:
-                    t.set_tilename("wall1-up-down")
+                    t.set_tilename("landrock1-up-down")
                 elif d and f:
-                    t.set_tilename("wall1-left-right")
+                    t.set_tilename("landrock1-left-right")
                 elif b and f:
-                    t.set_tilename("wall1-l")
+                    t.set_tilename("landrock1-l")
                 elif h and f:
-                    t.set_tilename("wall1-l90")
+                    t.set_tilename("landrock1-l90")
                 elif d and h:
-                    t.set_tilename("wall1-l180")
+                    t.set_tilename("landrock1-l180")
                 elif b and d:
-                    t.set_tilename("wall1-l270")
+                    t.set_tilename("landrock1-l270")
                 elif b:
-                    t.set_tilename("wall1-n180")
+                    t.set_tilename("landrock1-n180")
                 elif f:
-                    t.set_tilename("wall1-n270")
+                    t.set_tilename("landrock1-n270")
                 elif h:
-                    t.set_tilename("wall1-n")
+                    t.set_tilename("landrock1-n")
                 elif d:
-                    t.set_tilename("wall1-n90")
+                    t.set_tilename("landrock1-n90")
                 else:
-                    t.set_tilename("wall1-node")
+                    t.set_tilename("landrock1-node")
 
             if m.is_water_at(x, y):
 
@@ -256,16 +256,6 @@ def biome_populate(self):
                 t.push(x, y)
 
                 if put_treasure:
-                    toughness = 1
-                    r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(self.level, tp_name=r.short_name)
-                    t.push(x, y)
-
-            if m.is_rock_at(x, y):
-                t = thing.Thing(self.level, tp_name="rock1")
-                t.push(x, y)
-
-                if random.randint(0, 100) < 5:
                     toughness = 1
                     r = tp.get_random_minable_treasure(toughness=toughness)
                     t = thing.Thing(self.level, tp_name=r.short_name)

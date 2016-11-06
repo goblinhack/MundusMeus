@@ -1815,7 +1815,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr91)
     TP_SET_DECL(is_rrr92)
     TP_SET_DECL(is_rrr93)
-    TP_SET_DECL(is_rrr94)
+    TP_SET_DECL(is_landrock)
     TP_SET_DECL(is_rrr95)
     TP_SET_DECL(is_hidden)
     TP_SET_DECL(is_dirt)

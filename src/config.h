@@ -112,8 +112,8 @@
 #define TILE_PIX_WIDTH                          24
 #define TILE_PIX_HEIGHT                         24
 
-#define TILES_SCREEN_LIGHT_WIDTH_PAD            2
-#define TILES_SCREEN_LIGHT_HEIGHT_PAD           2
+#define TILES_SCREEN_LIGHT_WIDTH_PAD            4
+#define TILES_SCREEN_LIGHT_HEIGHT_PAD           4
 
 /*
  * Console

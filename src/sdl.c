@@ -1521,7 +1521,7 @@ void sdl_loop (void)
 
         blit_flush();
 
-//        SDL_Delay(MAIN_LOOP_DELAY);
+        SDL_Delay(MAIN_LOOP_DELAY);
 
         /*
          * Flip
