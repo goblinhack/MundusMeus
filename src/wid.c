@@ -3993,120 +3993,6 @@ widp wid_grid_find_tp_is (widp parent,
 }
 
 /*
- * Find the first widget in the grid at this tile co-ordinate.
- */
-widp wid_grid_find_first (widp parent, uint32_t x, uint32_t y,
-                          uint8_t depth)
-{
-    widgridnode *node;
-    widgrid *grid;
-    widp w;
-
-    if (!parent) {
-        return (0);
-    }
-
-    grid = parent->grid;
-    if (!grid) {
-        return (0);
-    }
-
-    if (x >= grid->width) {
-        return (0);
-    }
-
-    if (y >= grid->height) {
-        return (0);
-    }
-
-    /*
-     * Now find the node in the (hopefully small) tree.
-     */
-    tree_root **gridtree = grid->grid_of_trees[depth] + (y * grid->width) + x;
-
-    /*
-     * Trees should be already allocated.
-     */
-    if (!*gridtree) {
-        ERR("no gridtree");
-    }
-
-    node = (typeof(node)) tree_first((*gridtree)->node);
-    if (!node) {
-        return (0);
-    }
-
-    fast_verify(node);
-
-    w = node->wid;
-    if (!w) {
-        return (0);
-    }
-
-    fast_verify(w);
-    return (w);
-}
-
-/*
- * Find the next widget in the grid at this tile co-ordinate.
- */
-widp wid_grid_find_next (widp parent, widp w, uint32_t x, uint32_t y,
-                         uint8_t depth)
-{
-    widgridnode *node;
-    widgrid *grid;
-
-    grid = parent->grid;
-    if (!grid) {
-        DIE("no grid wid in wid_grid_find_next");
-    }
-
-    if (x >= grid->width) {
-        return (0);
-    }
-
-    if (y >= grid->height) {
-        return (0);
-    }
-
-    for (;;) {
-        /*
-         * Now find the node in the (hopefully small) tree.
-         */
-        tree_root **gridtree =
-                        grid->grid_of_trees[depth] + (y * grid->width) + x;
-
-        /*
-         * Trees should be already allocated.
-         */
-        if (!*gridtree) {
-            ERR("no gridtree");
-        }
-
-        node = (typeof(node)) tree_get_next(*gridtree, (*gridtree)->node,
-                                            &w->gridnode->tree.node);
-        if (!node) {
-            return (0);
-        }
-
-        fast_verify(node);
-
-        w = node->wid;
-        if (!w) {
-            return (0);
-        }
-
-        if (!w->being_destroyed) {
-            break;
-        }
-    }
-
-    fast_verify(w);
-
-    return (w);
-}
-
-/*
  * Fast find in a 2d array of trees of highest z value wid.
  */
 widp wid_grid_find_top (widp parent, fpoint tl, fpoint br)
@@ -7595,6 +7481,17 @@ static void wid_display_fast (widp w,
     double obry;
     widp p;
 
+    thingp t = wid_get_thing(w);
+    tpp tp = 0;
+
+    if (likely(t != 0)) {
+        tp = thing_tp(t);
+
+        if (tp_is_hidden(tp)) {
+            return;
+        }
+    }
+
     /*
      * Record the original pre clip sizes for text centering.
      */
@@ -7623,12 +7520,7 @@ static void wid_display_fast (widp w,
     /*
      * Does this thing light up its environment?
      */
-    thingp t = wid_get_thing(w);
-    tpp tp = 0;
-
     if (likely(t != 0)) {
-        tp = thing_tp(t);
-
         /*
          * Reset lighting for this thing before it is lit.
          */
@@ -9324,9 +9216,9 @@ static void wid_display (widp w,
 
         memset(floor_offset, 0, sizeof(floor_offset));
 
-                for (y = miny; y < maxy; y++) {
-        for (z = 0; z < Z_DEPTH; z++) {
-            for (x = maxx - 1; x >= minx; x--) {
+        for (y = miny; y < maxy; y++) {
+            for (z = 0; z < Z_DEPTH; z++) {
+                for (x = maxx - 1; x >= minx; x--) {
 
                     tree_root **tree =
                         w->grid->grid_of_trees[z] + (y * w->grid->width) + x;

@@ -14,17 +14,6 @@
 #include "player.h"
 #include "python.h"
 
-double last_playery;
-double last_playerx;
-
-uint32_t tile_width;
-uint32_t tile_height;
-
-uint32_t player_action_bar_changed_at;
-
-uint32_t tile_width;
-uint32_t tile_height;
-
 static void wid_game_map_set_thing_template (widp w, tpp t)
 {
     wid_set_thing_template(w, t);
@@ -189,6 +178,10 @@ wid_game_map_replace_tile (double x, double y, thingp t)
      */
     if (tp_is_animated(thing_tp(t))) {
         thing_animate(t);
+    }
+
+    if (tp_is_player(thing_tp(t))) {
+        player = t;
     }
 
     /*

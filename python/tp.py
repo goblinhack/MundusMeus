@@ -162,7 +162,7 @@ class Tp:
         self.is_rrr93 = False
         self.is_rrr94 = False
         self.is_rrr95 = False
-        self.is_rrr96 = False
+        self.is_hidden = False
         self.is_dirt = False
         self.is_sand = False
         self.is_plant = False
@@ -697,9 +697,9 @@ class Tp:
         self.is_rrr95 = value
         mm.tp_set_is_rrr95(self, value)
 
-    def set_is_rrr96(self, value):
-        self.is_rrr96 = value
-        mm.tp_set_is_rrr96(self, value)
+    def set_is_hidden(self, value):
+        self.is_hidden = value
+        mm.tp_set_is_hidden(self, value)
 
     def set_is_dirt(self, value):
         self.is_dirt = value
