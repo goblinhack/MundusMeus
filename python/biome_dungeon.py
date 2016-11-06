@@ -44,7 +44,7 @@ def biome_populate(self):
                 t.push(x, y)
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
-                    if random.randint(0, 1000) < 5:
+                    if random.randint(0, 1000) < 2:
                         t = thing.Thing(self.level, tp_name="torch1")
                         t.push(x, y)
 
@@ -68,7 +68,7 @@ def biome_populate(self):
                         t.push(x, y)
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
-                    if random.randint(0, 1000) < 5:
+                    if random.randint(0, 1000) < 2:
                         t = thing.Thing(self.level, tp_name="torch1")
                         t.push(x, y)
 
@@ -83,7 +83,7 @@ def biome_populate(self):
                     t.push(x, y + 1)
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
-                    if random.randint(0, 1000) < 5:
+                    if random.randint(0, 1000) < 2:
                         t = thing.Thing(self.level, tp_name="torch1")
                         t.push(x, y)
 

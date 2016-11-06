@@ -1819,7 +1819,7 @@ def init_tiles_land():
         "tree3",
         "",
         "",
-        "",
+        "tree4",
         "",
         "",
         "",
