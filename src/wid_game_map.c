@@ -120,7 +120,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         /*
          * Side offsets make the trees move into rocks...
          */
-        dx = gauss(0.0, 0.1);
+        dx = gauss(0.0, 0.0);
         dy = gauss(0.0, 0.5);
         scale = gauss(1.0, 0.2);
     }
