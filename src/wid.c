@@ -7816,7 +7816,7 @@ static void wid_display_fast (widp w,
         }
     }
 
-    debug = 1;
+    debug = 0;
     if (unlikely((debug > 1) && t)) {
         double mx, my;
 
