@@ -3,12 +3,12 @@ import mm
 
 def init_tex():
 
-    mm.tex_load(file="data/gfx/wid1.tga",       name="wid1")
-    mm.tex_load(file="data/gfx/wid2.tga",       name="wid2")
-    mm.tex_load(file="data/gfx/sword.tga",      name="sword")
-    mm.tex_load(file="data/gfx/title.tga",      name="main_title")
-    mm.tex_load(file="data/gfx/map.tga",        name="map")
-    mm.tex_load(file="data/gfx/bigmap.tga",     name="bigmap")
+    mm.tex_load(file="data/gfx/wid1.tga", name="wid1")
+    mm.tex_load(file="data/gfx/wid2.tga", name="wid2")
+    mm.tex_load(file="data/gfx/sword.tga", name="sword")
+    mm.tex_load(file="data/gfx/title.tga", name="main_title")
+    mm.tex_load(file="data/gfx/world/0/map.tga", name="map")
+    mm.tex_load(file="data/gfx/world/0/topo.tga", name="topo")
 
 
 def init_tiles_wid1():
@@ -266,19 +266,19 @@ def init_tiles_wid3():
             scale=0.5)
 
 
-def init_tiles_bigmap():
+def init_tiles_map():
 
     mm.tex_load_tiled(
-            file="data/gfx/bigmap.tga",
-            name="bigmap",
+            file="data/gfx/world/0/map.tga",
+            name="map",
             width=2048,
             height=2048)
 
     tiles = [
-        "bigmap",
+        "map",
     ]
 
-    mm.tile_load_arr(tex_name="bigmap",
+    mm.tile_load_arr(tex_name="map",
                      tex_name_black_and_white="",
                      width=2048, height=2048,
                      arr=tiles)
@@ -6578,7 +6578,6 @@ init_tiles_button_plain()
 init_tiles_button_red()
 init_tiles_button_green()
 init_tiles_icon1()
-init_tiles_bigmap()
 init_tiles_sea()
 init_tiles_chars()
 init_tiles_walls()
@@ -6586,3 +6585,4 @@ init_tiles_land()
 init_tiles_powerups()
 init_tiles_items()
 init_tiles_light()
+# init_tiles_map()

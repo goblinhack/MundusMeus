@@ -22,6 +22,8 @@
 #include "thing.h"
 #include "wid_tiles.h"
 
+#define WID_DISABLE_LIGHT
+
 #ifdef ENABLE_WID_PTRCHECK
 #undef fast_verify
 #define fast_verify verify
@@ -7816,7 +7818,9 @@ static void wid_display_fast (widp w,
         }
     }
 
-    debug = 0;
+#ifdef WID_DISABLE_LIGHT
+    debug = 1;
+#endif
     if (unlikely((debug > 1) && t)) {
         double mx, my;
 
