@@ -10,7 +10,10 @@ import biome
 
 
 class Biome(biome.Biome):
-    def __init__(self, rooms, width=80, height=40,
+    def __init__(self,
+                 rooms,
+                 level=None,
+                 width=80, height=40,
                  rooms_on_level=20,
                  fixed_room_chance=10):
 

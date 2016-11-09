@@ -40,5 +40,6 @@ def init():
     x = plant1_init(d1000_roll=1, tiles=["plant2"])
     x = plant1_init(d1000_roll=10, tiles=["plant3"])
     x = plant1_init(d1000_roll=10, tiles=["plant4"])
+    x = plant1_init(d1000_roll=100, tiles=["plant5"])
 
 init()

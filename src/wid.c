@@ -22,7 +22,7 @@
 #include "thing.h"
 #include "wid_tiles.h"
 
-#define WID_DISABLE_LIGHT
+#undef WID_DISABLE_LIGHT
 
 #ifdef ENABLE_WID_PTRCHECK
 #undef fast_verify
