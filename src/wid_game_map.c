@@ -122,7 +122,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
          */
         dx = gauss(0.0, 0.0);
         dy = gauss(0.0, 0.5);
-        scale = gauss(1.0, 0.2);
+        scale = gauss(1.0, 0.05);
     }
 
     if (tp_is_plant(tp)) {

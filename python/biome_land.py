@@ -5,7 +5,7 @@ import biome_land_do
 import tp
 
 
-def biome_build(self, seed):
+def biome_build(self, level=None, seed=0):
     self.biome_seed = seed
 
     while True:
@@ -14,7 +14,8 @@ def biome_build(self, seed):
         self.biome_seed += 1
         self.biome_seed *= self.biome_seed
 
-        self.level.biome = biome_land_do.Biome(width=self.width,
+        self.level.biome = biome_land_do.Biome(level=level,
+                                               width=self.width,
                                                height=self.height)
 
         if not self.level.biome.generate_failed:
@@ -50,7 +51,7 @@ def biome_populate(self):
                 t.push(x, y)
 
                 if m.is_grass_at(x, y):
-                    if random.randint(0, 100) < 5:
+                    if random.randint(0, 100) < 10:
                         r = tp.get_random_plant()
                         t = thing.Thing(self.level, tp_name=r.short_name)
                         t.push(x, y)
@@ -58,17 +59,21 @@ def biome_populate(self):
             if grass1:
                 t = thing.Thing(self.level, tp_name="grass1")
                 t.push(x, y)
-                t.set_tilename("grass1.1")
+
+                if random.randint(0, 100) < 10:
+
+                    r = tp.get_random_plant()
+                    for i in range(1, random.randint(1, 10)):
+                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t.push(x, y)
 
             if dirt1:
                 t = thing.Thing(self.level, tp_name="dirt1")
                 t.push(x, y)
-                t.set_tilename("dirt1.1")
 
             if sand1:
                 t = thing.Thing(self.level, tp_name="sand1")
                 t.push(x, y)
-                t.set_tilename("sand1.1")
 
             if not grass1:
                 if m.is_grass_at(x - 1, y):

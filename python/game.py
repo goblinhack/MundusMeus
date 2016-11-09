@@ -20,7 +20,7 @@ class Game:
         #
         # Create the world
         #
-        p = util.Xyz(0, 0, 0)
+        p = util.Xyz(45, 42, 0)
         self.world.push_level(p)
         self.level = self.world.get_level()
         self.level.set_dim(self.width, self.height)
@@ -194,7 +194,7 @@ class Game:
             self.biome_build = biome_land.biome_build
             self.biome_populate = biome_land.biome_populate
 
-        self.biome_build(self, seed=seed)
+        self.biome_build(self, level=self.level, seed=seed)
         self.biome_populate(self)
 
 

@@ -6,7 +6,7 @@ import rooms
 import tp
 
 
-def biome_build(self, seed):
+def biome_build(self, level=None, seed=0):
     self.biome_seed = seed
 
     while True:
@@ -16,7 +16,8 @@ def biome_build(self, seed):
         self.biome_seed += 1
         self.biome_seed *= self.biome_seed
 
-        self.level.biome = biome_dungeon_do.Biome(width=self.width,
+        self.level.biome = biome_dungeon_do.Biome(level=level,
+                                                  width=self.width,
                                                   height=self.height,
                                                   rooms=fixed_rooms,
                                                   rooms_on_level=15,
