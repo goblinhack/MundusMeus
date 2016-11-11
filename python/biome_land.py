@@ -21,7 +21,6 @@ def biome_build(self, level=None, seed=0):
         if not self.level.biome.generate_failed:
             break
 
-    self.level.biome.dump(biome_land_do.charmap.depth.floor)
     self.level.biome.dump()
 
 

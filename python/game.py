@@ -20,7 +20,7 @@ class Game:
         #
         # Create the world
         #
-        p = util.Xyz(45, 42, 0)
+        p = util.Xyz(23, 42, 0)
         self.world.push_level(p)
         self.level = self.world.get_level()
         self.level.set_dim(self.width, self.height)
