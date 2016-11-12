@@ -93,6 +93,12 @@ def biome_populate(self):
                 t = thing.Thing(self.level, tp_name="sand1")
                 t.push(x, y)
 
+                if not grass1:
+                    if random.randint(0, 1000) < 5:
+                        r = tp.get_random_small_rock()
+                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t.push(x, y)
+
             if not grass1:
                 if m.is_grass_at(x - 1, y):
                     t = thing.Thing(self.level, tp_name="grass1-deco")
