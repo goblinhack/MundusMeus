@@ -4,6 +4,7 @@ import random
 all_tps = {}
 all_treasure_tps = []
 all_plant_tps = []
+all_small_rock_tps = []
 all_marsh_plant_tps = []
 all_tree_tps = []
 
@@ -15,6 +16,7 @@ class Tp:
                  name,
                  is_treasure=False,
                  is_plant=False,
+                 is_small_rock=False,
                  is_marsh_plant=False,
                  is_tree=False,
                  d1000_appearing_roll=0):
@@ -22,6 +24,7 @@ class Tp:
         self.name = name
         self.is_treasure = is_treasure
         self.is_plant = is_plant
+        self.is_small_rock = is_small_rock
         self.is_marsh_plant = is_marsh_plant
         self.is_tree = is_tree
         self.d1000_appearing_roll = d1000_appearing_roll
@@ -37,6 +40,8 @@ class Tp:
             all_treasure_tps.append(name)
         if is_plant:
             all_plant_tps.append(name)
+        if is_small_rock:
+            all_small_rock_tps.append(name)
         if is_marsh_plant:
             all_marsh_plant_tps.append(name)
         if is_tree:
@@ -163,7 +168,7 @@ class Tp:
         self.is_rrr89 = False
         self.is_rrr90 = False
         self.is_rrr91 = False
-        self.is_rrr92 = False
+        self.is_small_rock = False
         self.is_marsh_plant = False
         self.is_landrock = False
         self.is_snow = False
@@ -686,9 +691,9 @@ class Tp:
         self.is_rrr91 = value
         mm.tp_set_is_rrr91(self, value)
 
-    def set_is_rrr92(self, value):
-        self.is_rrr92 = value
-        mm.tp_set_is_rrr92(self, value)
+    def set_is_small_rock(self, value):
+        self.is_small_rock = value
+        mm.tp_set_is_small_rock(self, value)
 
     def set_is_marsh_plant(self, value):
         self.is_marsh_plant = value
@@ -836,6 +841,15 @@ def get_random_treasure(toughness=0):
 def get_random_plant():
     while True:
         tp = all_tps[random.choice(all_plant_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
+def get_random_small_rock():
+    while True:
+        tp = all_tps[random.choice(all_small_rock_tps)]
 
         roll = random.randint(1, 1000)
         if roll >= tp.d1000_appearing_roll:
