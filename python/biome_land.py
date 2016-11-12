@@ -59,12 +59,25 @@ def biome_populate(self):
                 t = thing.Thing(self.level, tp_name="grass1")
                 t.push(x, y)
 
-                if random.randint(0, 100) < 10:
+                if m.is_water_at(x - 1, y) or \
+                   m.is_water_at(x + 1, y) or \
+                   m.is_water_at(x, y - 1) or \
+                   m.is_water_at(x, y + 1):
 
-                    r = tp.get_random_plant()
+                    r = tp.get_random_marsh_plant()
                     for i in range(1, random.randint(1, 10)):
                         t = thing.Thing(self.level, tp_name=r.short_name)
                         t.push(x, y)
+                    if random.randint(0, 100) < 10:
+                        r = tp.get_random_plant()
+                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t.push(x, y)
+                else:
+                    if random.randint(0, 100) < 10:
+                        r = tp.get_random_plant()
+                        for i in range(1, random.randint(1, 10)):
+                            t = thing.Thing(self.level, tp_name=r.short_name)
+                            t.push(x, y)
 
             if dirt1:
                 t = thing.Thing(self.level, tp_name="dirt1")
@@ -252,12 +265,8 @@ def biome_populate(self):
 
             if m.is_water_at(x, y):
 
-                water = "water1"
+                water = "water2"
                 put_treasure = False
-
-                if random.randint(0, 10000) < 5:
-                    put_treasure = True
-                    water = "water1-trans"
 
                 #
                 # Underground water
