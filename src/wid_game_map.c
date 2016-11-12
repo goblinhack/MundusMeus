@@ -165,6 +165,12 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         wid_set_blit_y_offset(child, wid_get_height(child) * -d * 0.10);
     }
 
+    if (tp_is_dirt(tp) || tp_is_grass(tp)) {
+        if ((myrand() % 100) < 20) {
+            t->depth = myrand() % 15;
+        }
+    }
+
 #if 0
     if (tp_is_dirt(tp)) {
         wid_set_blit_y_offset(child, - wid_get_height(child) * 0.10);
