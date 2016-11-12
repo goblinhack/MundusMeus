@@ -4,6 +4,7 @@ import random
 all_tps = {}
 all_treasure_tps = []
 all_plant_tps = []
+all_marsh_plant_tps = []
 all_tree_tps = []
 
 
@@ -14,12 +15,14 @@ class Tp:
                  name,
                  is_treasure=False,
                  is_plant=False,
+                 is_marsh_plant=False,
                  is_tree=False,
                  d1000_appearing_roll=0):
 
         self.name = name
         self.is_treasure = is_treasure
         self.is_plant = is_plant
+        self.is_marsh_plant = is_marsh_plant
         self.is_tree = is_tree
         self.d1000_appearing_roll = d1000_appearing_roll
 
@@ -34,6 +37,8 @@ class Tp:
             all_treasure_tps.append(name)
         if is_plant:
             all_plant_tps.append(name)
+        if is_marsh_plant:
+            all_marsh_plant_tps.append(name)
         if is_tree:
             all_tree_tps.append(name)
 
@@ -159,7 +164,7 @@ class Tp:
         self.is_rrr90 = False
         self.is_rrr91 = False
         self.is_rrr92 = False
-        self.is_rrr93 = False
+        self.is_marsh_plant = False
         self.is_landrock = False
         self.is_snow = False
         self.is_hidden = False
@@ -685,9 +690,9 @@ class Tp:
         self.is_rrr92 = value
         mm.tp_set_is_rrr92(self, value)
 
-    def set_is_rrr93(self, value):
-        self.is_rrr93 = value
-        mm.tp_set_is_rrr93(self, value)
+    def set_is_marsh_plant(self, value):
+        self.is_marsh_plant = value
+        mm.tp_set_is_marsh_plant(self, value)
 
     def set_is_landrock(self, value):
         self.is_landrock = value
@@ -831,6 +836,15 @@ def get_random_treasure(toughness=0):
 def get_random_plant():
     while True:
         tp = all_tps[random.choice(all_plant_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
+def get_random_marsh_plant():
+    while True:
+        tp = all_tps[random.choice(all_marsh_plant_tps)]
 
         roll = random.randint(1, 1000)
         if roll >= tp.d1000_appearing_roll:

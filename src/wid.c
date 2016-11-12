@@ -7931,11 +7931,11 @@ static void wid_light_calculate_for_single_obstacle (widp w,
 
     uint8_t soft_shadow = 0;
 
-    if (pass == 0) {
-        if (!thing_is_shadow_caster(t)) {
-            return;
-        }
+    if (!thing_is_shadow_caster(t)) {
+        return;
+    }
 
+    if (pass == 0) {
         if (thing_is_shadow_caster_soft(t)) {
             soft_shadow = 1;
         }

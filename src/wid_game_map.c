@@ -131,6 +131,12 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         scale = gauss(0.5, 0.1);
     }
 
+    if (tp_is_marsh_plant(tp)) {
+        dx = gauss(0.0, 1.0);
+        dy = gauss(0.0, 1.0);
+        scale = gauss(1.0, 0.5);
+    }
+
     if (scale <= 0) {
         scale = 1.0;
     }
@@ -165,7 +171,11 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         wid_set_blit_y_offset(child, wid_get_height(child) * -d * 0.10);
     }
 
-    if (tp_is_dirt(tp) || tp_is_grass(tp)) {
+    if (tp_is_dirt(tp) || 
+        tp_is_grass(tp) || 
+        tp_is_sand(tp) || 
+        tp_is_snow(tp) || 
+        tp_is_water(tp)) {
         if ((myrand() % 100) < 20) {
             t->depth = myrand() % 15;
         }
