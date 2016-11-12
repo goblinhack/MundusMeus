@@ -15,6 +15,8 @@ def wall_init(name):
     x.set_blit_top_off(1)
     x.set_blit_bot_off(1)
 
+#    x.set_is_shadow_caster_soft(True)
+    x.set_is_shadow_caster(True)
     x.set_tile(tile=name + "-up-down", is_join_vert=True)
     x.set_tile(tile=name + "-left-right", is_join_horiz=True)
     x.set_tile(tile=name + "-t180", is_join_t180=True)

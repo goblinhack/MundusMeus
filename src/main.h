@@ -427,6 +427,9 @@ struct game_ {
      * Something happened that needs to tick the monsters/level/game.
      */
     int need_tick;
+
+    int biome_set_is_land;
+    int biome_set_is_dungeon;
 };
 
 extern struct game_ game;

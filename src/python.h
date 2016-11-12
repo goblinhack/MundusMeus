@@ -87,6 +87,9 @@ PyObject *wid_tiles_load_(PyObject *obj, PyObject *args, PyObject *keywds);
 
 PyObject *dmap_process_(PyObject *obj, PyObject *args, PyObject *keywds);
 
+PyObject *biome_set_is_land_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *biome_set_is_dungeon_(PyObject *obj, PyObject *args, PyObject *keywds);
+
 #define PY_PROTO(__fn__)                                                    \
 PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds);
 

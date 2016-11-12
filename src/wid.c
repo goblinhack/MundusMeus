@@ -8251,10 +8251,6 @@ static void wid_lighting_render (widp w,
     fpoint light_pos = light->at;
     double light_radius = light->strength;
 
-    if (light->ostrength < 1.0) {
-        return;
-    }
-
     int16_t maxx;
     int16_t minx;
     int16_t maxy;
@@ -8346,6 +8342,10 @@ static void wid_lighting_render (widp w,
     }
 
     alpha *= fade;
+
+    if (light_radius < 1.0) {
+        alpha = 0;
+    }
 
     {
         int i;

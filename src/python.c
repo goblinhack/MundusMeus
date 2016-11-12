@@ -1850,6 +1850,16 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "process a djkstra map"},
 
+    {"biome_set_is_land",
+        (PyCFunction)biome_set_is_land_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change biome type"},
+
+    {"biome_set_is_dungeon",
+        (PyCFunction)biome_set_is_dungeon_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change biome type"},
+
     {0, 0, 0, 0}   /* sentinel */
 };
 

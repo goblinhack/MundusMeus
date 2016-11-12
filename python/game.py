@@ -162,10 +162,14 @@ class Game:
         #
         level = self.level
 
-        t = level.tp_find(x, y, "ember1")
-        if t is None:
-            t = thing.Thing(self.level, tp_name="ember1")
-            t.push(x, y)
+        #
+        # If in a dungeon place a trail of breadcrumbs
+        #
+        if level.is_biome_dungeon:
+            t = level.tp_find(x, y, "ember1")
+            if t is None:
+                t = thing.Thing(self.level, tp_name="ember1")
+                t.push(x, y)
 
         self.map_center_on_player(level_start=False)
 
