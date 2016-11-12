@@ -7758,7 +7758,7 @@ static void wid_display_fast (widp w,
 
                 tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
 
-            } else if (tp_is_water(tp)) {
+            } else if (tp_is_water(tp) || tp_is_dirt(tp)) {
                 color a = WHITE;
                 color b = WHITE;
                 color c = WHITE;

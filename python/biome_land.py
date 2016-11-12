@@ -70,6 +70,12 @@ def biome_populate(self):
                 t = thing.Thing(self.level, tp_name="dirt1")
                 t.push(x, y)
 
+                if random.randint(0, 100) < 5:
+                    for i in range(1, random.randint(1, 10)):
+                        r = tp.get_random_plant()
+                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t.push(x, y)
+
             if sand1:
                 t = thing.Thing(self.level, tp_name="sand1")
                 t.push(x, y)
@@ -249,7 +255,7 @@ def biome_populate(self):
                 water = "water1"
                 put_treasure = False
 
-                if random.randint(0, 100) < 5:
+                if random.randint(0, 10000) < 5:
                     put_treasure = True
                     water = "water1-trans"
 

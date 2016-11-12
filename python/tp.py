@@ -161,7 +161,7 @@ class Tp:
         self.is_rrr92 = False
         self.is_rrr93 = False
         self.is_landrock = False
-        self.is_rrr95 = False
+        self.is_snow = False
         self.is_hidden = False
         self.is_dirt = False
         self.is_sand = False
@@ -693,9 +693,9 @@ class Tp:
         self.is_landrock = value
         mm.tp_set_is_landrock(self, value)
 
-    def set_is_rrr95(self, value):
-        self.is_rrr95 = value
-        mm.tp_set_is_rrr95(self, value)
+    def set_is_snow(self, value):
+        self.is_snow = value
+        mm.tp_set_is_snow(self, value)
 
     def set_is_hidden(self, value):
         self.is_hidden = value
