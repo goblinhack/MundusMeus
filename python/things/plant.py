@@ -37,12 +37,13 @@ def init():
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
+    # high numbers means rate, low means common
     x = plant1_init(d1000_roll=1, tiles=["plant2"])
     x = plant1_init(d1000_roll=10, tiles=["plant3"])
     x = plant1_init(d1000_roll=10, tiles=["plant4"])
     x = plant1_init(d1000_roll=100, tiles=["plant5"])
     x = plant1_init(d1000_roll=100, tiles=["plant5"])
     x = plant1_init(d1000_roll=100, tiles=["plant6"])
-    x = plant1_init(d1000_roll=1, tiles=["plant7"])
+    x = plant1_init(d1000_roll=900, tiles=["plant7"])
 
 init()

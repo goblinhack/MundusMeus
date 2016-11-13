@@ -6111,6 +6111,10 @@ void wid_move_delta (widp w, double dx, double dy)
     if (!w->grid) {
         wid_update_internal(w);
     }
+
+    if (w->scrollbar_owner) {
+        w->scrollbar_owner->grid_centered_on_player = true;
+    }
 }
 
 void wid_move_delta_pct (widp w, double dx, double dy)
@@ -6629,6 +6633,12 @@ void wid_mouse_motion (int32_t x, int32_t y,
                     if (w->scrollbar_vert) {
                         wid_move_delta(w->scrollbar_vert, 0, -wheely);
                         done = true;
+
+                        /*
+                         * If this is a grid, then we've manually scrolled 
+                         * away from the player.
+                         */
+                        w->grid_centered_on_player = false;
                     }
                 }
 
@@ -6636,6 +6646,12 @@ void wid_mouse_motion (int32_t x, int32_t y,
                     if (w->scrollbar_horiz) {
                         wid_move_delta(w->scrollbar_horiz, -wheelx, 0);
                         done = true;
+
+                        /*
+                         * If this is a grid, then we've manually scrolled 
+                         * away from the player.
+                         */
+                        w->grid_centered_on_player = false;
                     }
                 }
 
@@ -7394,14 +7410,18 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
     thingp t = w->thing;
     tpp tp = thing_tp(t);
 
-    /*
-     * No light source that are under the floor when not visible.
-     */
-    if (tp_get_z_depth(tp) == Z_DEPTH_LAVA) {
-        levelp level = &game.level;
-        if (map_is_x_at(level, (int)t->x, (int)t->y, 
-                        tpp_blocks_light_shinging_up)) {
-            return;
+    if (game.biome_set_is_land) {
+        strength *= 2.0;
+    } else {
+        /*
+         * No light source that are under the floor when not visible.
+         */
+        if (tp_get_z_depth(tp) == Z_DEPTH_LAVA) {
+            levelp level = &game.level;
+            if (map_is_x_at(level, (int)t->x, (int)t->y, 
+                            tpp_blocks_light_shinging_up)) {
+                return;
+            }
         }
     }
 
@@ -7709,7 +7729,12 @@ static void wid_display_fast (widp w,
         } else
 #endif
         {
-            if (tp_is_floor(tp)) {
+            if (tp_is_floor(tp) ||
+                tp_is_sand(tp) ||
+                tp_is_grass(tp) ||
+                tp_is_snow(tp) ||
+                tp_is_dirt(tp)) {
+
                 color a = WHITE;
                 color b = WHITE;
                 color c = WHITE;
@@ -7758,7 +7783,7 @@ static void wid_display_fast (widp w,
 
                 tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
 
-            } else if (tp_is_water(tp) || tp_is_dirt(tp)) {
+            } else if (tp_is_water(tp)) {
                 color a = WHITE;
                 color b = WHITE;
                 color c = WHITE;
@@ -8339,6 +8364,10 @@ static void wid_lighting_render (widp w,
     if (thing_is_explosion(t)) {
         light_delta += 3;
         light_delta += (0.005 * (myrand() % 100));
+    }
+
+    if (game.biome_set_is_land) {
+        light_delta += 0.75;
     }
 
     alpha *= fade;
@@ -9163,7 +9192,7 @@ static void wid_display (widp w,
         int16_t maxy;
         int16_t miny;
 
-        if (player) {
+        if (player && w->grid_centered_on_player) {
             const uint32_t visible_width =
                     TILES_SCREEN_WIDTH / 2 + TILES_SCREEN_LIGHT_WIDTH_PAD;
             const uint32_t visible_height =

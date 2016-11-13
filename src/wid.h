@@ -638,6 +638,7 @@ typedef struct wid_ {
     uint8_t do_not_lower:1;
     uint8_t can_be_atteched_now:1;
     uint8_t animate:1;
+    uint8_t grid_centered_on_player:1;
 
     /*
      * Optionally set to the previous wid in a list
