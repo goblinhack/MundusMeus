@@ -145,19 +145,19 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         wid_scaling_blit_to_pct_in(child, scale, scale, 500, 9999999);
     }
 
-    if (x + dx >= MAP_WIDTH) {
+    if (x + dx >= MAP_WIDTH - 1) {
         dx = 0;
     }
 
-    if (y + dy >= MAP_HEIGHT) {
+    if (y + dy >= MAP_HEIGHT - 1) {
         dy = 0;
     }
 
-    if (x + dx < 0) {
+    if (x + dx <= 1) {
         dx = 0;
     }
 
-    if (y + dy < 0) {
+    if (y + dy <= 1) {
         dy = 0;
     }
 

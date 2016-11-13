@@ -168,6 +168,9 @@ class Level:
                 tx = x + dx
                 ty = y + dy
 
+                if tx >= self.width or ty >= self.height or tx < 0 or ty < 0:
+                    continue
+
                 if walked[tx][ty]:
                     continue
 

@@ -20,7 +20,7 @@ class Game:
         #
         # Create the world
         #
-        p = util.Xyz(24, 30, 0)
+        p = util.Xyz(24, 20, 0)
         self.world.push_level(p)
         self.level = self.world.get_level()
         self.level.set_dim(self.width, self.height)
@@ -181,8 +181,8 @@ class Game:
         self.level.set_biome(is_land=is_land,
                              is_dungeon=is_dungeon)
 
-        for y in range(1, mm.MAP_HEIGHT - 1):
-            for x in range(1, mm.MAP_WIDTH - 1):
+        for y in range(0, mm.MAP_HEIGHT):
+            for x in range(0, mm.MAP_WIDTH):
 
                 t = thing.Thing(self.level, tp_name="none")
                 t.push(x, y)
