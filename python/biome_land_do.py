@@ -56,6 +56,7 @@ class Biome(biome.Biome):
                 is_sand = False
                 is_gravel = False
                 is_snow = False
+                is_ice = False
 
                 if r == 113 and g == 89 and b == 145:
                     # dark purple
@@ -64,41 +65,48 @@ class Biome(biome.Biome):
                     else:
                         is_gravel = True
 
-                if r == 142 and g == 83 and b == 215:
+                elif r == 142 and g == 83 and b == 215:
                     # purple, trees
                     is_tree = True
 
-                if r == 169 and g == 167 and b == 137:
+                elif r == 169 and g == 167 and b == 137:
                     # tan
                     is_gravel = True
 
-                if r == 234 and g == 12 and b == 43:
+                elif r == 234 and g == 12 and b == 43:
                     # red
                     is_dirt = True
 
-                if r == 101 and g == 168 and b == 76:
+                elif r == 101 and g == 168 and b == 76:
                     # light green
                     is_grass = True
 
-                if r == 77 and g == 129 and b == 47:
+                elif r == 77 and g == 129 and b == 47:
                     # darker green
                     is_grass = True
 
-                if r == 43 and g == 128 and b == 172:
+                elif r == 43 and g == 128 and b == 172:
                     # darker blue
                     is_water = True
 
-                if r == 147 and g == 193 and b == 218:
+                elif r == 147 and g == 193 and b == 218:
                     # light blue
                     is_water = True
 
-                if r == 240 and g == 243 and b == 237:
-                    # yellowish
-                    is_sand = True
-
-                if r == 203 and g == 194 and b == 116:
+                elif r == 203 and g == 194 and b == 116:
                     # yellowish
                     is_snow = True
+
+                elif r == 240 and g == 243 and b == 237:
+                    # white
+                    is_snow = True
+
+                elif r == 215 and g == 239 and b == 251:
+                    # yellowish
+                    is_ice = True
+
+                else:
+                    mm.die("unhandled color {0}, {1}, {2}".format(r, g, b))
 
                 if is_grass:
                     if random.randint(0, 1000) < 5:
@@ -139,7 +147,19 @@ class Biome(biome.Biome):
                     self.putc(x, y, charmap.depth.gravel, charmap.GRAVEL)
 
                 if is_snow:
-                    pass
+                    if random.randint(0, 1000) < 5:
+                        self.putc(x, y, charmap.depth.wall, charmap.ROCK)
+
+                    self.putc(x, y, charmap.depth.snow, charmap.SNOW)
+                    self.putc(x, y, charmap.depth.ice, charmap.ICE)
+                    self.putc(x, y, charmap.depth.under, charmap.WATER)
+
+                if is_ice:
+                    if random.randint(0, 1000) < 5:
+                        self.putc(x, y, charmap.depth.snow, charmap.SNOW)
+
+                    self.putc(x, y, charmap.depth.ice, charmap.ICE)
+                    self.putc(x, y, charmap.depth.under, charmap.WATER)
 
         #
         # Place start

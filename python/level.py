@@ -121,6 +121,8 @@ class Level:
                     if t.tp.is_floor or \
                        t.tp.is_grass or \
                        t.tp.is_dirt or \
+                       t.tp.is_snow or \
+                       t.tp.is_ice or \
                        t.tp.is_gravel or \
                        t.tp.is_snow or \
                        t.tp.is_sand or \

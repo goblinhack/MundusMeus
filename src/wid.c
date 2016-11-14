@@ -8367,7 +8367,7 @@ static void wid_lighting_render (widp w,
     }
 
     if (game.biome_set_is_land) {
-        light_delta += 0.75;
+        light_delta += 0.25;
     }
 
     alpha *= fade;

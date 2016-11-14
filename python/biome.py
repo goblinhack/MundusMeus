@@ -369,6 +369,20 @@ class Biome:
                 return True
         return False
 
+    def is_snow_at(self, x, y):
+        c = self.getc(x, y, charmap.depth.snow)
+        if c is not None:
+            if "is_snow" in charmap.charmap[c]:
+                return True
+        return False
+
+    def is_ice_at(self, x, y):
+        c = self.getc(x, y, charmap.depth.ice)
+        if c is not None:
+            if "is_ice" in charmap.charmap[c]:
+                return True
+        return False
+
     def is_dirt_at(self, x, y):
         c = self.getc(x, y, charmap.depth.dirt)
         if c is not None:

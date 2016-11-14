@@ -46,6 +46,14 @@ def biome_populate(self):
             if m.is_gravel_at(x, y):
                 gravel1 = True
 
+            snow1 = False
+            if m.is_snow_at(x, y):
+                snow1 = True
+
+            ice1 = False
+            if m.is_ice_at(x, y):
+                ice1 = True
+
             if m.is_tree_at(x, y):
                 r = tp.get_random_tree()
                 t = thing.Thing(self.level, tp_name=r.short_name)
@@ -103,6 +111,14 @@ def biome_populate(self):
                     r = tp.get_random_small_rock()
                     t = thing.Thing(self.level, tp_name=r.short_name)
                     t.push(x, y)
+
+            if ice1:
+                t = thing.Thing(self.level, tp_name="ice1")
+                t.push(x, y)
+
+            if snow1:
+                t = thing.Thing(self.level, tp_name="snow1")
+                t.push(x, y)
 
             if not grass1:
                 if m.is_grass_at(x - 1, y):
@@ -239,6 +255,74 @@ def biome_populate(self):
                     t = thing.Thing(self.level, tp_name="gravel1-deco")
                     t.push(x, y)
                     t.set_tilename("gravel1-tl")
+
+            if not ice1:
+                if m.is_ice_at(x - 1, y):
+                    t = thing.Thing(self.level, tp_name="ice1-deco")
+                    t.push(x, y)
+                    t.set_tilename("ice1-right")
+                if m.is_ice_at(x + 1, y):
+                    t = thing.Thing(self.level, tp_name="ice1-deco")
+                    t.push(x, y)
+                    t.set_tilename("ice1-left")
+                if m.is_ice_at(x, y - 1):
+                    t = thing.Thing(self.level, tp_name="ice1-deco")
+                    t.push(x, y)
+                    t.set_tilename("ice1-bot")
+                if m.is_ice_at(x, y + 1):
+                    t = thing.Thing(self.level, tp_name="ice1-deco")
+                    t.push(x, y)
+                    t.set_tilename("ice1-top")
+                if m.is_ice_at(x - 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="ice1-deco")
+                    t.push(x, y)
+                    t.set_tilename("ice1-br")
+                if m.is_ice_at(x + 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="ice1-deco")
+                    t.push(x, y)
+                    t.set_tilename("ice1-bl")
+                if m.is_ice_at(x - 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="ice1-deco")
+                    t.push(x, y)
+                    t.set_tilename("ice1-tr")
+                if m.is_ice_at(x + 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="ice1-deco")
+                    t.push(x, y)
+                    t.set_tilename("ice1-tl")
+
+            if not snow1:
+                if m.is_snow_at(x - 1, y):
+                    t = thing.Thing(self.level, tp_name="snow1-deco")
+                    t.push(x, y)
+                    t.set_tilename("snow1-right")
+                if m.is_snow_at(x + 1, y):
+                    t = thing.Thing(self.level, tp_name="snow1-deco")
+                    t.push(x, y)
+                    t.set_tilename("snow1-left")
+                if m.is_snow_at(x, y - 1):
+                    t = thing.Thing(self.level, tp_name="snow1-deco")
+                    t.push(x, y)
+                    t.set_tilename("snow1-bot")
+                if m.is_snow_at(x, y + 1):
+                    t = thing.Thing(self.level, tp_name="snow1-deco")
+                    t.push(x, y)
+                    t.set_tilename("snow1-top")
+                if m.is_snow_at(x - 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="snow1-deco")
+                    t.push(x, y)
+                    t.set_tilename("snow1-br")
+                if m.is_snow_at(x + 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="snow1-deco")
+                    t.push(x, y)
+                    t.set_tilename("snow1-bl")
+                if m.is_snow_at(x - 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="snow1-deco")
+                    t.push(x, y)
+                    t.set_tilename("snow1-tr")
+                if m.is_snow_at(x + 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="snow1-deco")
+                    t.push(x, y)
+                    t.set_tilename("snow1-tl")
 
             if m.is_start_at(x, y):
                 t = thing.Thing(self.level, tp_name="start1")
