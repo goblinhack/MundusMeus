@@ -6,6 +6,7 @@ WALL = "x"
 CWALL = "X"
 FLOOR = "."
 GRASS = "g"
+GRAVEL = "^"
 TREE = "t"
 SAND = ":"
 DIRT = ","
@@ -45,6 +46,11 @@ charmap = {
         "bg": "black",
         "fg": "green",
         "is_grass": True,
+    },
+    GRAVEL: {
+        "bg": "black",
+        "fg": "green",
+        "is_gravel": True,
     },
     TREE: {
         "bg": "black",
@@ -139,4 +145,4 @@ class Enumeration(object):
             setattr(self, name, number)
             self.to_name[number] = name
 
-depth = Enumeration("under sand dirt grass floor wall obj max")
+depth = Enumeration("under sand dirt gravel grass floor wall obj max")
