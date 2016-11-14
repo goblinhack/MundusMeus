@@ -167,7 +167,7 @@ class Tp:
         self.is_rrr88 = False
         self.is_rrr89 = False
         self.is_rrr90 = False
-        self.is_rrr91 = False
+        self.is_gravel = False
         self.is_small_rock = False
         self.is_marsh_plant = False
         self.is_landrock = False
@@ -687,9 +687,9 @@ class Tp:
         self.is_rrr90 = value
         mm.tp_set_is_rrr90(self, value)
 
-    def set_is_rrr91(self, value):
-        self.is_rrr91 = value
-        mm.tp_set_is_rrr91(self, value)
+    def set_is_gravel(self, value):
+        self.is_gravel = value
+        mm.tp_set_is_gravel(self, value)
 
     def set_is_small_rock(self, value):
         self.is_small_rock = value

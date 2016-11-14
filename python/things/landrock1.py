@@ -12,6 +12,7 @@ def landrock_init(name):
     x.set_is_movement_blocking(True)
     x.set_is_landrock(True)
     x.set_z_depth("wall")
+    x.set_is_shadow_caster(True)
 
     x.set_tile(tile=name + "-up-down", is_join_vert=True)
     x.set_tile(tile=name + "-left-right", is_join_horiz=True)

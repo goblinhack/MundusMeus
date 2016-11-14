@@ -12,7 +12,7 @@ def player_init(name, short_name, long_name):
     x.set_is_player(True)
     x.set_z_depth("player")
     x.set_light_radius(10)
-    x.set_light_tint("orange")
+    x.set_light_tint("white")
     x.set_is_candle_light(True)
 
     x.set_tile(tile=name)

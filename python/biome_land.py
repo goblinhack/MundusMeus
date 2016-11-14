@@ -42,18 +42,14 @@ def biome_populate(self):
             if m.is_sand_at(x, y):
                 sand1 = True
 
-            if m.is_tree_at(x, y):
-                grass1 = True
+            gravel1 = False
+            if m.is_gravel_at(x, y):
+                gravel1 = True
 
+            if m.is_tree_at(x, y):
                 r = tp.get_random_tree()
                 t = thing.Thing(self.level, tp_name=r.short_name)
                 t.push(x, y)
-
-                if m.is_grass_at(x, y):
-                    if random.randint(0, 100) < 10:
-                        r = tp.get_random_plant()
-                        t = thing.Thing(self.level, tp_name=r.short_name)
-                        t.push(x, y)
 
             if grass1:
                 t = thing.Thing(self.level, tp_name="grass1")
@@ -98,6 +94,15 @@ def biome_populate(self):
                         r = tp.get_random_small_rock()
                         t = thing.Thing(self.level, tp_name=r.short_name)
                         t.push(x, y)
+
+            if gravel1:
+                t = thing.Thing(self.level, tp_name="gravel1")
+                t.push(x, y)
+
+                if random.randint(0, 1000) < 50:
+                    r = tp.get_random_small_rock()
+                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t.push(x, y)
 
             if not grass1:
                 if m.is_grass_at(x - 1, y):
@@ -200,6 +205,40 @@ def biome_populate(self):
                     t = thing.Thing(self.level, tp_name="sand1-deco")
                     t.push(x, y)
                     t.set_tilename("sand1-tl")
+
+            if not gravel1:
+                if m.is_gravel_at(x - 1, y):
+                    t = thing.Thing(self.level, tp_name="gravel1-deco")
+                    t.push(x, y)
+                    t.set_tilename("gravel1-right")
+                if m.is_gravel_at(x + 1, y):
+                    t = thing.Thing(self.level, tp_name="gravel1-deco")
+                    t.push(x, y)
+                    t.set_tilename("gravel1-left")
+                if m.is_gravel_at(x, y - 1):
+                    t = thing.Thing(self.level, tp_name="gravel1-deco")
+                    t.push(x, y)
+                    t.set_tilename("gravel1-bot")
+                if m.is_gravel_at(x, y + 1):
+                    t = thing.Thing(self.level, tp_name="gravel1-deco")
+                    t.push(x, y)
+                    t.set_tilename("gravel1-top")
+                if m.is_gravel_at(x - 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="gravel1-deco")
+                    t.push(x, y)
+                    t.set_tilename("gravel1-br")
+                if m.is_gravel_at(x + 1, y - 1):
+                    t = thing.Thing(self.level, tp_name="gravel1-deco")
+                    t.push(x, y)
+                    t.set_tilename("gravel1-bl")
+                if m.is_gravel_at(x - 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="gravel1-deco")
+                    t.push(x, y)
+                    t.set_tilename("gravel1-tr")
+                if m.is_gravel_at(x + 1, y + 1):
+                    t = thing.Thing(self.level, tp_name="gravel1-deco")
+                    t.push(x, y)
+                    t.set_tilename("gravel1-tl")
 
             if m.is_start_at(x, y):
                 t = thing.Thing(self.level, tp_name="start1")

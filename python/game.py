@@ -20,7 +20,7 @@ class Game:
         #
         # Create the world
         #
-        p = util.Xyz(24, 20, 0)
+        p = util.Xyz(23, 23, 0)
         self.world.push_level(p)
         self.level = self.world.get_level()
         self.level.set_dim(self.width, self.height)
@@ -146,6 +146,8 @@ class Game:
     def player_tick(self):
 
         p = self.player
+        if len(p.path) == 0:
+            return True
 
         p.path.pop()
         if len(p.path) < 1:

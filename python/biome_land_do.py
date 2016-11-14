@@ -54,19 +54,23 @@ class Biome(biome.Biome):
                 is_grass = False
                 is_water = False
                 is_sand = False
+                is_gravel = False
                 is_snow = False
 
                 if r == 113 and g == 89 and b == 145:
-                    # dark purple, edge of trees
-                    is_tree = True
+                    # dark purple
+                    if random.randint(0, 1000) < 900:
+                        is_rock = True
+                    else:
+                        is_gravel = True
 
                 if r == 142 and g == 83 and b == 215:
                     # purple, trees
                     is_tree = True
 
                 if r == 169 and g == 167 and b == 137:
-                    # tan, low rock
-                    is_rock = True
+                    # tan
+                    is_gravel = True
 
                 if r == 234 and g == 12 and b == 43:
                     # red
@@ -122,11 +126,17 @@ class Biome(biome.Biome):
                     self.putc(x, y, charmap.depth.under, charmap.WATER)
 
                 if is_dirt:
+                    if random.randint(0, 1000) < 5:
+                        self.putc(x, y, charmap.depth.floor, charmap.TREE)
+
                     self.putc(x, y, charmap.depth.dirt, charmap.DIRT)
-                    self.putc(x, y, charmap.depth.sand, charmap.SAND)
+                    self.putc(x, y, charmap.depth.sand, charmap.GRAVEL)
 
                 if is_sand:
                     self.putc(x, y, charmap.depth.sand, charmap.SAND)
+
+                if is_gravel:
+                    self.putc(x, y, charmap.depth.gravel, charmap.GRAVEL)
 
                 if is_snow:
                     pass
