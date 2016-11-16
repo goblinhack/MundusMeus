@@ -137,6 +137,12 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         scale = gauss(1.0, 0.5);
     }
 
+    if (tp_is_ice(tp)) {
+        dx = gauss(0.0, 0.2);
+        dy = gauss(0.0, 0.2);
+//        scale = gauss(1.0, 0.3);
+    }
+
     if (scale <= 0) {
         scale = 1.0;
     }
@@ -174,7 +180,6 @@ wid_game_map_replace_tile (double x, double y, thingp t)
     if (tp_is_dirt(tp) || 
         tp_is_grass(tp) || 
         tp_is_sand(tp) || 
-        tp_is_snow(tp) || 
         tp_is_water(tp)) {
         if ((myrand() % 100) < 20) {
             t->depth = myrand() % 15;

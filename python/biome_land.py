@@ -256,40 +256,6 @@ def biome_populate(self):
                     t.push(x, y)
                     t.set_tilename("gravel1-tl")
 
-            if not ice1:
-                if m.is_ice_at(x - 1, y):
-                    t = thing.Thing(self.level, tp_name="ice1-deco")
-                    t.push(x, y)
-                    t.set_tilename("ice1-right")
-                if m.is_ice_at(x + 1, y):
-                    t = thing.Thing(self.level, tp_name="ice1-deco")
-                    t.push(x, y)
-                    t.set_tilename("ice1-left")
-                if m.is_ice_at(x, y - 1):
-                    t = thing.Thing(self.level, tp_name="ice1-deco")
-                    t.push(x, y)
-                    t.set_tilename("ice1-bot")
-                if m.is_ice_at(x, y + 1):
-                    t = thing.Thing(self.level, tp_name="ice1-deco")
-                    t.push(x, y)
-                    t.set_tilename("ice1-top")
-                if m.is_ice_at(x - 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="ice1-deco")
-                    t.push(x, y)
-                    t.set_tilename("ice1-br")
-                if m.is_ice_at(x + 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="ice1-deco")
-                    t.push(x, y)
-                    t.set_tilename("ice1-bl")
-                if m.is_ice_at(x - 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="ice1-deco")
-                    t.push(x, y)
-                    t.set_tilename("ice1-tr")
-                if m.is_ice_at(x + 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="ice1-deco")
-                    t.push(x, y)
-                    t.set_tilename("ice1-tl")
-
             if not snow1:
                 if m.is_snow_at(x - 1, y):
                     t = thing.Thing(self.level, tp_name="snow1-deco")

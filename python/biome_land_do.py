@@ -151,14 +151,16 @@ class Biome(biome.Biome):
                         self.putc(x, y, charmap.depth.wall, charmap.ROCK)
 
                     self.putc(x, y, charmap.depth.snow, charmap.SNOW)
-                    self.putc(x, y, charmap.depth.ice, charmap.ICE)
-                    self.putc(x, y, charmap.depth.under, charmap.WATER)
+
+                    if random.randint(0, 1000) < 5:
+                        self.putc(x, y, charmap.depth.sand, charmap.GRAVEL)
+                    else:
+                        self.putc(x, y, charmap.depth.under, charmap.WATER)
 
                 if is_ice:
-                    if random.randint(0, 1000) < 5:
-                        self.putc(x, y, charmap.depth.snow, charmap.SNOW)
+                    if random.randint(0, 100) < 95:
+                        self.putc(x, y, charmap.depth.ice, charmap.ICE)
 
-                    self.putc(x, y, charmap.depth.ice, charmap.ICE)
                     self.putc(x, y, charmap.depth.under, charmap.WATER)
 
         #
