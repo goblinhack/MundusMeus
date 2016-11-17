@@ -185,8 +185,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
 
     if (tp_is_dirt(tp) || 
         tp_is_grass(tp) || 
-        tp_is_sand(tp) || 
-        tp_is_water(tp)) {
+        tp_is_sand(tp)) {
         if ((myrand() % 100) < 20) {
             t->depth = myrand() % 15;
         }
