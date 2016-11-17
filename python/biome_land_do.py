@@ -158,7 +158,7 @@ class Biome(biome.Biome):
                         self.putc(x, y, charmap.depth.under, charmap.WATER)
 
                 if is_ice:
-                    if random.randint(0, 100) < 95:
+                    if random.randint(0, 100) < 35:
                         self.putc(x, y, charmap.depth.ice, charmap.ICE)
 
                     self.putc(x, y, charmap.depth.under, charmap.WATER)

@@ -140,7 +140,13 @@ wid_game_map_replace_tile (double x, double y, thingp t)
     if (tp_is_ice(tp)) {
         dx = gauss(0.0, 0.2);
         dy = gauss(0.0, 0.2);
-//        scale = gauss(1.0, 0.3);
+        scale = gauss(1.0, 0.3);
+
+        if ((myrand() < 100) < 5) {
+            wid_bounce_to_pct_in(child, 0.1, 0.9, 
+                                 myrand() % 20000 + 5000, 
+                                 99999);
+        }
     }
 
     if (scale <= 0) {
