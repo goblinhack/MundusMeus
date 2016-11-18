@@ -1980,41 +1980,6 @@ void wid_set_tilename (widp w, const char *name)
     }
 }
 
-void wid_set_tile (widp w, tilep tile)
-{
-    fast_verify(w);
-
-    w->tile = tile;
-    if (!w->first_tile) {
-        w->first_tile = tile;
-    }
-
-    thingp t = wid_get_thing(w);
-
-    if (t && tp_is_cats_eyes(thing_tp(t))) {
-        char tmp[SMALL_STRING_LEN_MAX];
-        const char *name = tile_name(tile);
-
-        snprintf(tmp, sizeof(tmp), "%s-eyes", name);
-
-        tilep tile = tile_find(tmp);
-        if (!tile) {
-            snprintf(tmp + strlen(name) - 1, sizeof(tmp), "-eyes");
-            tile = tile_find(tmp);
-            if (!tile) {
-                /*
-                 * Not all tiles, like if the player is dying, need to have
-                 * cats eyes.
-                 *
-                ERR("failed to set wid tile %s for eyes", tmp);
-                 */
-            }
-        }
-
-        w->tile_eyes = tile;
-    }
-}
-
 /*
  * Scale a tile defined by its corners and recenter it based on the graphics
  * in that tile.
@@ -6758,7 +6723,7 @@ void wid_joy_button (int32_t x, int32_t y)
         if (sdl_joy_buttons[b]) {
             if (time_have_x_tenths_passed_since(2, ts[b])) {
                 changed = true;
-                ts[b] = time_get_time_ms();
+                ts[b] = time_get_time_ms_cached();
             }
         }
     }
@@ -7411,7 +7376,7 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
     tpp tp = thing_tp(t);
 
     if (game.biome_set_is_land) {
-        strength *= 2.0;
+        return;
     } else {
         /*
          * No light source that are under the floor when not visible.
@@ -7846,6 +7811,11 @@ static void wid_display_fast (widp w,
 #ifdef WID_DISABLE_LIGHT
     debug = 1;
 #endif
+
+    if (game.biome_set_is_land) {
+        debug = 1;
+    }
+
     if (unlikely((debug > 1) && t)) {
         double mx, my;
 
@@ -9502,7 +9472,7 @@ void wid_gc_all_force (void)
  */
 void wid_tick_all (void)
 {
-    wid_time = time_get_time_ms();
+    wid_time = time_get_time_ms_cached();
 
     widp w;
 

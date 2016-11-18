@@ -789,7 +789,7 @@ static void sdl_event (SDL_Event * event)
                 }
             }
 
-            ts = time_get_time_ms();
+            ts = time_get_time_ms_cached();
         }
 
         double wheel_x = event->wheel.x;
@@ -1148,7 +1148,7 @@ static void sdl_tick (void)
     }
 
     if ((mx != 0) || (my != 0)) {
-        ts = time_get_time_ms();
+        ts = time_get_time_ms_cached();
 
         accel *= ENABLE_JOY_SCROLL_SPEED_SCALE;
 
@@ -1522,6 +1522,8 @@ void sdl_loop (void)
         blit_flush();
 
         SDL_Delay(MAIN_LOOP_DELAY);
+
+        time_get_time_ms();
 
         /*
          * Flip
