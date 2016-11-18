@@ -34,7 +34,7 @@ void thing_animate (thingp t)
         /*
          * If within the animate time of this frame, keep with it.
          */
-        if (t->timestamp_change_to_next_frame > time_get_time_ms()) {
+        if (t->timestamp_change_to_next_frame > time_get_time_ms_cached()) {
             return;
         }
 
@@ -75,7 +75,8 @@ void thing_animate (thingp t)
         /*
          * If walking and now we've stopped, choose the idle no dir tile.
          */
-        if (!thing_is_dead(t) && !t->is_moving) {
+        if (thing_is_player(t) &&
+            !thing_is_dead(t) && !t->is_moving) {
 
             thing_tilep new_tile;
 
@@ -547,5 +548,5 @@ void thing_animate (thingp t)
         delay = delay + (myrand() % delay) / 10;
     }
 
-    t->timestamp_change_to_next_frame = time_get_time_ms() + delay;
+    t->timestamp_change_to_next_frame = time_get_time_ms_cached() + delay;
 }

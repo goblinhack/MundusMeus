@@ -389,7 +389,6 @@ void wid_set_text_scaling(widp, double val);
 void wid_set_text_top(widp, uint8_t val);
 void wid_set_tilename(widp, const char *name);
 void wid_set_tile2name(widp, const char *name);
-void wid_set_tile(widp, tilep);
 void wid_set_tile2(widp, tilep);
 void wid_set_z_depth(widp, uint8_t);
 uint8_t wid_get_z_depth(widp);
@@ -1107,4 +1106,42 @@ widp wid_grid_find_next (widp parent, widp w, uint32_t x, uint32_t y,
     fast_verify(w);
 
     return (w);
+}
+
+static inline
+void wid_set_tile (widp w, tilep tile)
+{
+    fast_verify(w);
+
+    w->tile = tile;
+    if (!w->first_tile) {
+        w->first_tile = tile;
+    }
+
+#if 0
+    thingp t = wid_get_thing(w);
+
+    if (t && tp_is_cats_eyes(thing_tp(t))) {
+        char tmp[SMALL_STRING_LEN_MAX];
+        const char *name = tile_name(tile);
+
+        snprintf(tmp, sizeof(tmp), "%s-eyes", name);
+
+        tilep tile = tile_find(tmp);
+        if (!tile) {
+            snprintf(tmp + strlen(name) - 1, sizeof(tmp), "-eyes");
+            tile = tile_find(tmp);
+            if (!tile) {
+                /*
+                 * Not all tiles, like if the player is dying, need to have
+                 * cats eyes.
+                 *
+                ERR("failed to set wid tile %s for eyes", tmp);
+                 */
+            }
+        }
+
+        w->tile_eyes = tile;
+    }
+#endif
 }
