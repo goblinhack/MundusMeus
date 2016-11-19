@@ -48,7 +48,7 @@ def treasure1_init(d1000_roll,
 
 
 def init():
-    # high numbers means rate, low means common
+    # high numbers means rare, low means common
     x = treasure1_init(d1000_roll=950, tiles=["gem1.1", "gem1.2", "gem1.3", ])
     x.set_scale(0.3)
 
