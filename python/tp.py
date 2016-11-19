@@ -5,6 +5,7 @@ all_tps = {}
 all_treasure_tps = []
 all_plant_tps = []
 all_small_rock_tps = []
+all_snow_mound_tps = []
 all_marsh_plant_tps = []
 all_tree_tps = []
 all_tree_snow_tps = []
@@ -18,19 +19,42 @@ class Tp:
                  is_treasure=False,
                  is_plant=False,
                  is_small_rock=False,
+                 is_snow_mound=False,
                  is_marsh_plant=False,
                  is_tree=False,
                  is_tree_snow=False,
                  d1000_appearing_roll=0):
 
         self.name = name
-        self.is_treasure = is_treasure
-        self.is_plant = is_plant
-        self.is_small_rock = is_small_rock
-        self.is_marsh_plant = is_marsh_plant
-        self.is_tree = is_tree
-        self.is_tree_snow = is_tree_snow
         self.d1000_appearing_roll = d1000_appearing_roll
+
+        self.is_treasure = is_treasure
+        if is_treasure:
+            all_treasure_tps.append(name)
+
+        self.is_small_rock = is_small_rock
+        if is_small_rock:
+            all_small_rock_tps.append(name)
+
+        self.is_snow_mound = is_snow_mound
+        if is_snow_mound:
+            all_snow_mound_tps.append(name)
+
+        self.is_plant = is_plant
+        if is_plant:
+            all_plant_tps.append(name)
+
+        self.is_marsh_plant = is_marsh_plant
+        if is_marsh_plant:
+            all_marsh_plant_tps.append(name)
+
+        self.is_tree = is_tree
+        if is_tree:
+            all_tree_tps.append(name)
+
+        self.is_tree_snow = is_tree_snow
+        if is_tree_snow:
+            all_tree_snow_tps.append(name)
 
         #
         # Load it into the game engine
@@ -39,19 +63,6 @@ class Tp:
         self.set_raw_name(name)
 
         all_tps[name] = self
-        if is_treasure:
-            all_treasure_tps.append(name)
-        if is_plant:
-            all_plant_tps.append(name)
-        if is_small_rock:
-            all_small_rock_tps.append(name)
-        if is_marsh_plant:
-            all_marsh_plant_tps.append(name)
-        if is_tree:
-            all_tree_tps.append(name)
-        if is_tree_snow:
-            all_tree_snow_tps.append(name)
-
         self.long_name = None
         self.short_name = None
         self.raw_name = None
@@ -168,7 +179,7 @@ class Tp:
         self.is_rrr84 = False
         self.is_rrr85 = False
         self.is_rrr86 = False
-        self.is_rrr87 = False
+        self.is_snow_mound = False
         self.is_rock = False
         self.is_ice = False
         self.is_ice = False
@@ -676,9 +687,9 @@ class Tp:
         self.is_rrr86 = value
         mm.tp_set_is_rrr86(self, value)
 
-    def set_is_rrr87(self, value):
-        self.is_rrr87 = value
-        mm.tp_set_is_rrr87(self, value)
+    def set_is_snow_mound(self, value):
+        self.is_snow_mound = value
+        mm.tp_set_is_snow_mound(self, value)
 
     def set_is_ice(self, value):
         self.is_ice = value
@@ -691,6 +702,10 @@ class Tp:
     def set_is_small_rock(self, value):
         self.is_small_rock = value
         mm.tp_set_is_small_rock(self, value)
+
+    def set_is_snow_mound(self, value):
+        self.is_snow_mound = value
+        mm.tp_set_is_snow_mound(self, value)
 
     def set_is_marsh_plant(self, value):
         self.is_marsh_plant = value
@@ -851,6 +866,15 @@ def get_random_plant():
 def get_random_small_rock():
     while True:
         tp = all_tps[random.choice(all_small_rock_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
+def get_random_snow_mound():
+    while True:
+        tp = all_tps[random.choice(all_snow_mound_tps)]
 
         roll = random.randint(1, 1000)
         if roll >= tp.d1000_appearing_roll:
