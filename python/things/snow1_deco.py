@@ -24,18 +24,18 @@ def snow_deco1_init(name, short_name, long_name, tiles=[]):
 
 
 def init():
-    snow_deco1_init(name="snow1-deco",
+    snow_deco1_init(name="snow1_deco",
                     short_name="snow",
                     long_name="snow",
                     tiles=[
-                           "snow1-tl",
-                           "snow1-top",
-                           "snow1-tr",
-                           "snow1-left",
-                           "snow1-right",
-                           "snow1-bl",
-                           "snow1-bot",
-                           "snow1-br",
+                           "snow1_tl",
+                           "snow1_top",
+                           "snow1_tr",
+                           "snow1_left",
+                           "snow1_right",
+                           "snow1_bl",
+                           "snow1_bot",
+                           "snow1_br",
                           ])
 
 init()

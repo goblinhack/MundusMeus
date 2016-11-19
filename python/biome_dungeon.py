@@ -59,7 +59,7 @@ def biome_populate(self):
                 t.push(x, y)
 
                 if m.bridge_height[x][y] > 0:
-                    t = thing.Thing(self.level, tp_name="under-dusty1")
+                    t = thing.Thing(self.level, tp_name="under_dusty1")
                     t.set_depth(m.bridge_height[x][y])
                     t.push(x, y + 1)
 
@@ -79,7 +79,7 @@ def biome_populate(self):
                 t.push(x, y)
 
                 if m.bridge_height[x][y] > 0:
-                    t = thing.Thing(self.level, tp_name="under-corridor1")
+                    t = thing.Thing(self.level, tp_name="under_corridor1")
                     t.set_depth(m.bridge_height[x][y])
                     t.push(x, y + 1)
 
@@ -102,7 +102,7 @@ def biome_populate(self):
                 t.set_depth(m.depth_map.cells[x][y])
                 t.push(x, y)
 
-                t = thing.Thing(self.level, tp_name="exit1-deco")
+                t = thing.Thing(self.level, tp_name="exit1_deco")
                 t.set_depth(m.depth_map.cells[x][y])
                 t.push(x, y - 1)
 

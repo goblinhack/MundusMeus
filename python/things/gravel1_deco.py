@@ -24,7 +24,7 @@ def gravel_deco1_init(name, short_name, long_name, tiles=[]):
 
 
 def init():
-    gravel_deco1_init(name="gravel1-deco",
+    gravel_deco1_init(name="gravel1_deco",
                       short_name="gravel",
                       long_name="gravel",
                       tiles=[

@@ -7,6 +7,7 @@ all_plant_tps = []
 all_small_rock_tps = []
 all_marsh_plant_tps = []
 all_tree_tps = []
+all_tree_snow_tps = []
 
 
 class Tp:
@@ -19,6 +20,7 @@ class Tp:
                  is_small_rock=False,
                  is_marsh_plant=False,
                  is_tree=False,
+                 is_tree_snow=False,
                  d1000_appearing_roll=0):
 
         self.name = name
@@ -27,6 +29,7 @@ class Tp:
         self.is_small_rock = is_small_rock
         self.is_marsh_plant = is_marsh_plant
         self.is_tree = is_tree
+        self.is_tree_snow = is_tree_snow
         self.d1000_appearing_roll = d1000_appearing_roll
 
         #
@@ -46,6 +49,8 @@ class Tp:
             all_marsh_plant_tps.append(name)
         if is_tree:
             all_tree_tps.append(name)
+        if is_tree_snow:
+            all_tree_snow_tps.append(name)
 
         self.long_name = None
         self.short_name = None
@@ -683,10 +688,6 @@ class Tp:
         self.is_ice = value
         mm.tp_set_is_ice(self, value)
 
-    def set_is_ice(self, value):
-        self.is_ice = value
-        mm.tp_set_is_ice(self, value)
-
     def set_is_gravel(self, value):
         self.is_gravel = value
         mm.tp_set_is_gravel(self, value)
@@ -726,6 +727,10 @@ class Tp:
     def set_is_tree(self, value):
         self.is_tree = value
         mm.tp_set_is_tree(self, value)
+
+    def set_is_tree_snow(self, value):
+        self.is_tree_snow = value
+        mm.tp_set_is_tree_snow(self, value)
 
     def set_is_grass(self, value):
         self.is_grass = value
@@ -868,6 +873,15 @@ def get_random_marsh_plant():
 def get_random_tree():
     while True:
         tp = all_tps[random.choice(all_tree_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
+def get_random_tree_snow():
+    while True:
+        tp = all_tps[random.choice(all_tree_snow_tps)]
 
         roll = random.randint(1, 1000)
         if roll >= tp.d1000_appearing_roll:

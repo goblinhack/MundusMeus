@@ -24,7 +24,7 @@ def grass_deco1_init(name, short_name, long_name, tiles=[]):
 
 
 def init():
-    grass_deco1_init(name="grass1-deco",
+    grass_deco1_init(name="grass1_deco",
                      short_name="grass",
                      long_name="grass",
                      tiles=[
