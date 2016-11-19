@@ -36,5 +36,7 @@ def init():
     # high numbers means rate, low means common
     marsh_plant1_init(d1000_roll=100, tiles=["marsh_plant1"])
     marsh_plant1_init(d1000_roll=100, tiles=["marsh_plant2"])
+    marsh_plant1_init(d1000_roll=100, tiles=["marsh_plant3"])
+    marsh_plant1_init(d1000_roll=100, tiles=["marsh_plant4"])
 
 init()
