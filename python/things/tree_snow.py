@@ -33,7 +33,7 @@ def tree_snow1_init(d1000_roll, tiles=[]):
 
 
 def init():
-    # high numbers means rate, low means common
+    # high numbers means rare, low means common
     x = tree_snow1_init(d1000_roll=1, tiles=["tree_snow1"])
     x.set_blit_top_off(1)
 

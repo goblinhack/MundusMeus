@@ -134,13 +134,9 @@ class Biome(biome.Biome):
                         self.putc(x, y, charmap.depth.sand, charmap.SAND)
 
                 if is_rock:
-                    if random.randint(0, 1000) < 10:
-                        self.putc(x, y, charmap.depth.gravel, charmap.GRAVEL)
-
-                    if random.randint(0, 1000) < 10:
+                    if random.randint(0, 1000) < 50:
                         self.putc(x, y, charmap.depth.grass, charmap.GRASS)
-
-                    if random.randint(0, 1000) < 10:
+                    else:
                         self.putc(x, y, charmap.depth.gravel, charmap.GRAVEL)
 
                     self.putc(x, y, charmap.depth.wall, charmap.ROCK)

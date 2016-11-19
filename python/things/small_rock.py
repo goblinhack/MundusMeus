@@ -33,7 +33,7 @@ def small_rock1_init(d1000_roll, tiles=[]):
 
 
 def init():
-    # high numbers means rate, low means common
+    # high numbers means rare, low means common
     small_rock1_init(d1000_roll=1, tiles=["small_rock1"])
     small_rock1_init(d1000_roll=1, tiles=["small_rock2"])
     small_rock1_init(d1000_roll=1, tiles=["small_rock3"])
