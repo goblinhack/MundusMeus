@@ -134,7 +134,7 @@ static int32_t wid_highest_priority = 1;
 static int32_t wid_lowest_priority = -1;
 
 static double light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
-static double floor_depth[MAP_WIDTH][MAP_HEIGHT];
+static double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH];
 static int light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
 static double floor_offset[MAP_WIDTH][MAP_HEIGHT];
 
@@ -7694,9 +7694,13 @@ static void wid_display_fast (widp w,
         } else
 #endif
         {
+            int z = tp_get_z_depth(tp);
+
             if (tp_is_floor(tp) ||
                 tp_is_sand(tp) ||
                 tp_is_grass(tp) ||
+                tp_is_landrock(tp) ||
+                tp_is_gravel(tp) ||
                 tp_is_snow(tp) ||
                 tp_is_dirt(tp)) {
 
@@ -7705,13 +7709,13 @@ static void wid_display_fast (widp w,
                 color c = WHITE;
                 color d = WHITE;
 
-                floor_depth[tx][ty] = t->depth;
+                floor_depth[tx][ty][z] = t->depth;
 
                 double depth;
                 double depth_scale = 0.4;
 
-                if (floor_depth[tx][ty]) {
-                    depth = (floor_depth[tx][ty]) / 64.0;
+                if (floor_depth[tx][ty][z]) {
+                    depth = (floor_depth[tx][ty][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     a.r *= depth;
@@ -7719,8 +7723,8 @@ static void wid_display_fast (widp w,
                     a.b *= depth;
                 }
 
-                if (floor_depth[tx+1][ty]) {
-                    depth = (floor_depth[tx+1][ty]) / 64.0;
+                if (floor_depth[tx+1][ty][z]) {
+                    depth = (floor_depth[tx+1][ty][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     b.r *= depth;
@@ -7728,8 +7732,8 @@ static void wid_display_fast (widp w,
                     b.b *= depth;
                 }
 
-                if (floor_depth[tx][ty+1]) {
-                    depth = (floor_depth[tx][ty+1]) / 64.0;
+                if (floor_depth[tx][ty+1][z]) {
+                    depth = (floor_depth[tx][ty+1][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     c.r *= depth;
@@ -7737,8 +7741,8 @@ static void wid_display_fast (widp w,
                     c.b *= depth;
                 }
 
-                if (floor_depth[tx+1][ty+1]) {
-                    depth = (floor_depth[tx+1][ty+1]) / 64.0;
+                if (floor_depth[tx+1][ty+1][z]) {
+                    depth = (floor_depth[tx+1][ty+1][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     d.r *= depth;
@@ -7754,7 +7758,7 @@ static void wid_display_fast (widp w,
                 color c = WHITE;
                 color d = WHITE;
 
-                floor_depth[tx][ty] = t->depth;
+                floor_depth[tx][ty][z] = t->depth;
 
                 a.g = 150 + 100.0 * light_pulse_amount[tx][ty];
                 b.g = 150 + 100.0 * light_pulse_amount[tx + 1][ty];
@@ -7764,8 +7768,8 @@ static void wid_display_fast (widp w,
                 double depth;
                 double depth_scale = 0.7;
 
-                if (floor_depth[tx][ty]) {
-                    depth = (floor_depth[tx][ty]) / 64.0;
+                if (floor_depth[tx][ty][z]) {
+                    depth = (floor_depth[tx][ty][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     a.r *= depth;
@@ -7773,8 +7777,8 @@ static void wid_display_fast (widp w,
                     a.b *= depth;
                 }
 
-                if (floor_depth[tx+1][ty]) {
-                    depth = (floor_depth[tx+1][ty]) / 64.0;
+                if (floor_depth[tx+1][ty][z]) {
+                    depth = (floor_depth[tx+1][ty][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     b.r *= depth;
@@ -7782,8 +7786,8 @@ static void wid_display_fast (widp w,
                     b.b *= depth;
                 }
 
-                if (floor_depth[tx][ty+1]) {
-                    depth = (floor_depth[tx][ty+1]) / 64.0;
+                if (floor_depth[tx][ty+1][z]) {
+                    depth = (floor_depth[tx][ty+1][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     c.r *= depth;
@@ -7791,8 +7795,8 @@ static void wid_display_fast (widp w,
                     c.b *= depth;
                 }
 
-                if (floor_depth[tx+1][ty+1]) {
-                    depth = (floor_depth[tx+1][ty+1]) / 64.0;
+                if (floor_depth[tx+1][ty+1][z]) {
+                    depth = (floor_depth[tx+1][ty+1][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     d.r *= depth;

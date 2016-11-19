@@ -44,11 +44,11 @@ def init():
     x.set_is_candle_light(True)
     x.set_blit_bot_off(0)
 
-    x = exit_init(name="exit1-deco",
+    x = exit_init(name="exit1_deco",
                   short_name="a warning sign for fools",
                   long_name="a warning sign for fools",
                   tiles=[
-                         "exit1-deco.1",
+                         "exit1_deco.1",
                         ])
     x.thing_pushed = thing_pushed
     x.set_z_depth("explosion")
