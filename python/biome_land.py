@@ -125,6 +125,11 @@ def biome_populate(self):
                 t = thing.Thing(self.level, tp_name="snow1")
                 t.push(x, y)
 
+                if random.randint(0, 1000) < 50:
+                    r = tp.get_random_snow_mound()
+                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t.push(x, y)
+
             if not grass1:
                 if m.is_grass_at(x - 1, y):
                     t = thing.Thing(self.level, tp_name="grass1_deco")
