@@ -1809,7 +1809,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr85)
     TP_SET_DECL(is_rrr86)
     TP_SET_DECL(is_rrr87)
-    TP_SET_DECL(is_rrr88)
+    TP_SET_DECL(is_rock)
     TP_SET_DECL(is_ice)
     TP_SET_DECL(is_ice)
     TP_SET_DECL(is_gravel)

@@ -7699,6 +7699,7 @@ static void wid_display_fast (widp w,
             if (tp_is_floor(tp) ||
                 tp_is_sand(tp) ||
                 tp_is_grass(tp) ||
+                tp_is_rock(tp) ||
                 tp_is_landrock(tp) ||
                 tp_is_gravel(tp) ||
                 tp_is_snow(tp) ||

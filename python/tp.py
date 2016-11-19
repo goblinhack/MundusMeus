@@ -169,7 +169,7 @@ class Tp:
         self.is_rrr85 = False
         self.is_rrr86 = False
         self.is_rrr87 = False
-        self.is_rrr88 = False
+        self.is_rock = False
         self.is_ice = False
         self.is_ice = False
         self.is_gravel = False
@@ -680,10 +680,6 @@ class Tp:
         self.is_rrr87 = value
         mm.tp_set_is_rrr87(self, value)
 
-    def set_is_rrr88(self, value):
-        self.is_rrr88 = value
-        mm.tp_set_is_rrr88(self, value)
-
     def set_is_ice(self, value):
         self.is_ice = value
         mm.tp_set_is_ice(self, value)
@@ -822,7 +818,7 @@ class Tp:
 
     def set_is_rock(self, value):
         self.is_rock = value
-        mm.tp_set_is_wall(self, value)
+        mm.tp_set_is_rock(self, value)
 
     def set_is_water(self, value):
         self.is_water = value
