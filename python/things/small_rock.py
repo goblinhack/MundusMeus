@@ -36,5 +36,9 @@ def init():
     # high numbers means rate, low means common
     small_rock1_init(d1000_roll=1, tiles=["small_rock1"])
     small_rock1_init(d1000_roll=1, tiles=["small_rock2"])
+    small_rock1_init(d1000_roll=1, tiles=["small_rock3"])
+    small_rock1_init(d1000_roll=1, tiles=["small_rock4"])
+    small_rock1_init(d1000_roll=1, tiles=["small_rock5"])
+    small_rock1_init(d1000_roll=1, tiles=["small_rock6"])
 
 init()
