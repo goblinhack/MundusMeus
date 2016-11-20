@@ -9,6 +9,7 @@ all_snow_mound_tps = []
 all_marsh_plant_tps = []
 all_tree_tps = []
 all_tree_snow_tps = []
+all_tree_conifer_tps = []
 
 
 class Tp:
@@ -23,6 +24,7 @@ class Tp:
                  is_marsh_plant=False,
                  is_tree=False,
                  is_tree_snow=False,
+                 is_tree_conifer=False,
                  d1000_appearing_roll=0):
 
         self.name = name
@@ -55,6 +57,10 @@ class Tp:
         self.is_tree_snow = is_tree_snow
         if is_tree_snow:
             all_tree_snow_tps.append(name)
+
+        self.is_tree_conifer = is_tree_conifer
+        if is_tree_conifer:
+            all_tree_conifer_tps.append(name)
 
         #
         # Load it into the game engine
@@ -178,7 +184,7 @@ class Tp:
         self.is_rrr83 = False
         self.is_rrr84 = False
         self.is_rrr85 = False
-        self.is_rrr86 = False
+        self.is_tree_conifer = False
         self.is_snow_mound = False
         self.is_rock = False
         self.is_ice = False
@@ -683,9 +689,9 @@ class Tp:
         self.is_rrr85 = value
         mm.tp_set_is_rrr85(self, value)
 
-    def set_is_rrr86(self, value):
-        self.is_rrr86 = value
-        mm.tp_set_is_rrr86(self, value)
+    def set_is_tree_conifer(self, value):
+        self.is_tree_conifer = value
+        mm.tp_set_is_tree_conifer(self, value)
 
     def set_is_snow_mound(self, value):
         self.is_snow_mound = value
@@ -702,10 +708,6 @@ class Tp:
     def set_is_small_rock(self, value):
         self.is_small_rock = value
         mm.tp_set_is_small_rock(self, value)
-
-    def set_is_snow_mound(self, value):
-        self.is_snow_mound = value
-        mm.tp_set_is_snow_mound(self, value)
 
     def set_is_marsh_plant(self, value):
         self.is_marsh_plant = value
@@ -742,6 +744,10 @@ class Tp:
     def set_is_tree_snow(self, value):
         self.is_tree_snow = value
         mm.tp_set_is_tree_snow(self, value)
+
+    def set_is_tree_conifer(self, value):
+        self.is_tree_conifer = value
+        mm.tp_set_is_tree_conifer(self, value)
 
     def set_is_grass(self, value):
         self.is_grass = value
@@ -902,6 +908,15 @@ def get_random_tree():
 def get_random_tree_snow():
     while True:
         tp = all_tps[random.choice(all_tree_snow_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
+def get_random_tree_conifer():
+    while True:
+        tp = all_tps[random.choice(all_tree_conifer_tps)]
 
         roll = random.randint(1, 1000)
         if roll >= tp.d1000_appearing_roll:

@@ -36,36 +36,25 @@ def init():
     # high numbers means rare, low means common
     x = tree1_init(d1000_roll=1, tiles=["tree1"])
     x.set_blit_top_off(1)
+    x.set_blit_left_off(1)
+    x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=1, tiles=["tree2"])
-    x.set_blit_top_off(1)
-
-    x = tree1_init(d1000_roll=1, tiles=["tree3"])
+    x = tree1_init(d1000_roll=950, tiles=["tree2"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=10, tiles=["tree4"])
+    x = tree1_init(d1000_roll=950, tiles=["tree3"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=800, tiles=["tree5"])
+    x = tree1_init(d1000_roll=1, tiles=["tree4"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=800, tiles=["tree6"])
-    x.set_blit_top_off(1)
-    x.set_blit_left_off(1)
-    x.set_blit_right_off(1)
-
-    x = tree1_init(d1000_roll=1, tiles=["tree7"])
-    x.set_blit_top_off(1)
-    x.set_blit_left_off(1)
-    x.set_blit_right_off(1)
-
-    x = tree1_init(d1000_roll=1, tiles=["tree8"])
+    x = tree1_init(d1000_roll=1, tiles=["tree5"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
