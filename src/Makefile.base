@@ -57,6 +57,7 @@ GAME_OBJECTS=				\
     $(OBJDIR)/wid.o 			\
     $(OBJDIR)/wid_anim.o 		\
     $(OBJDIR)/snow.o 			\
+    $(OBJDIR)/rain.o 			\
     $(OBJDIR)/wid_button.o 		\
     $(OBJDIR)/wid_console.o 		\
     $(OBJDIR)/wid_game_map.o 		\

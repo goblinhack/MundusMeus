@@ -22,6 +22,7 @@
 #include "thing.h"
 #include "wid_tiles.h"
 #include "snow.h"
+#include "rain.h"
 
 #undef WID_DISABLE_LIGHT
 
@@ -9366,8 +9367,12 @@ static void wid_display (widp w,
 #endif
         }
 
+//        if (game.biome_set_is_land) {
+//            snow_tick(1);
+//        }
+//
         if (game.biome_set_is_land) {
-            snow_tick(1);
+            rain_tick(100);
         }
     } else {
         widp child;
