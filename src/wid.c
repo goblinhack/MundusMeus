@@ -7713,6 +7713,7 @@ static void wid_display_fast (widp w,
                 tp_is_rock(tp) ||
                 tp_is_landrock(tp) ||
                 tp_is_gravel(tp) ||
+                tp_is_gravel_snow(tp) ||
                 tp_is_snow(tp) ||
                 tp_is_dirt(tp)) {
 
@@ -9284,9 +9285,9 @@ static void wid_display (widp w,
 //            snow_tick(1);
 //        }
 //
-        if (game.biome_set_is_land) {
-            rain_tick(100);
-        }
+//        if (game.biome_set_is_land) {
+//            rain_tick(100);
+//        }
         if ((w->grid) && !debug) {
             /*
              * Light source.

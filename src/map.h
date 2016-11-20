@@ -38,7 +38,7 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(Z_DEPTH_ROCK,              "rock"),            \
     list_macro(Z_DEPTH_SAND1,             "sand1"),           \
     list_macro(Z_DEPTH_DIRT1,             "dirt1"),           \
-    list_macro(Z_DEPTH_GRAVEL1,           "gravel1"),         \
+    list_macro(Z_DEPTH_GRAVEL,           "gravel"),         \
     list_macro(Z_DEPTH_GRASS1,            "grass1"),          \
     list_macro(Z_DEPTH_SNOW,              "snow1"),           \
     list_macro(Z_DEPTH_ICE,               "ice1"),            \
