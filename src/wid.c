@@ -7388,6 +7388,8 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
         if (game.biome_set_is_land) {
             strength *= 2;
         }
+// XXX
+c = DARKBLUE;
     } else {
         /*
          * No light source that are under the floor when not visible.
@@ -8391,7 +8393,11 @@ static void wid_lighting_render (widp w,
         /*
          * Walk the light rays in a circle.
          */
-        push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 255, 255, 255, 255);
+        if (thing_is_candle_light(t)) {
+            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 255, 255, 255, 255);
+        } else {
+            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 0, 0, 255, 10);
+        }
 
         for (i = 0; i < max_light_rays; i++) {
             double p1_len = ray_depth[i];

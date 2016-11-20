@@ -51,6 +51,10 @@ def biome_populate(self):
     for y in range(0, mm.MAP_HEIGHT):
         for x in range(0, mm.MAP_WIDTH):
 
+            if random.randint(0, 1000) < 2:
+                t = thing.Thing(self.level, tp_name="torch1")
+                t.push(x, y)
+
             grass1 = False
             if m.is_grass_at(x, y):
                 grass1 = True
