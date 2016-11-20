@@ -7378,7 +7378,16 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
     tpp tp = thing_tp(t);
 
     if (game.biome_set_is_land) {
-        return;
+        /*
+         * No shining water on surface.
+         */
+        if (tp_is_water(tp)) {
+            return;
+        }
+
+        if (game.biome_set_is_land) {
+            strength *= 2;
+        }
     } else {
         /*
          * No light source that are under the floor when not visible.
@@ -7819,10 +7828,6 @@ static void wid_display_fast (widp w,
     debug = 1;
 #endif
 
-    if (game.biome_set_is_land) {
-        debug = 1;
-    }
-
 #if 0
     if (unlikely((debug > 1) && t)) {
         double mx, my;
@@ -7912,6 +7917,8 @@ static void wid_light_calculate_for_single_obstacle (widp w,
     if (!t) {
         return;
     }
+
+    tpp tp = thing_tp(t);
 
     /*
      * No blocking our own light.
@@ -8011,6 +8018,11 @@ static void wid_light_calculate_for_single_obstacle (widp w,
          * So no little breaks between walls allow light through.
          */
         double fudge = 0.01;
+
+        if (tp_is_landrock(tp)) {
+            fudge = 0.11;
+        }
+
         etlx = (double)otlx + ((tile->px1-fudge) * (double)owidth);
         etly = (double)otly + ((tile->py1-fudge) * (double)oheight);
         ebrx = (double)otlx + ((tile->px2+fudge) * (double)owidth);
@@ -8345,6 +8357,9 @@ static void wid_lighting_render (widp w,
         light_delta += (0.005 * (myrand() % 100));
     }
 
+    /*
+     * See through things more.
+     */
     if (game.biome_set_is_land) {
         light_delta += 0.25;
     }
@@ -9265,6 +9280,13 @@ static void wid_display (widp w,
 
         blit_flush();
 
+//        if (game.biome_set_is_land) {
+//            snow_tick(1);
+//        }
+//
+        if (game.biome_set_is_land) {
+            rain_tick(100);
+        }
         if ((w->grid) && !debug) {
             /*
              * Light source.
@@ -9367,13 +9389,6 @@ static void wid_display (widp w,
 #endif
         }
 
-//        if (game.biome_set_is_land) {
-//            snow_tick(1);
-//        }
-//
-        if (game.biome_set_is_land) {
-            rain_tick(100);
-        }
     } else {
         widp child;
 

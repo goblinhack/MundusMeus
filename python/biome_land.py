@@ -27,6 +27,27 @@ def biome_build(self, level=None, seed=0):
 def biome_populate(self):
     m = self.level.biome
 
+    snow_count = 0
+    poor_soil_count = 0
+
+    for y in range(0, mm.MAP_HEIGHT):
+        for x in range(0, mm.MAP_WIDTH):
+            if m.is_snow_at(x, y):
+                snow_count += 1
+
+            if not m.is_grass_at(x, y):
+                poor_soil_count += 1
+
+    threshold = mm.MAP_WIDTH * mm.MAP_HEIGHT
+
+    is_snowy = False
+    if snow_count > 0:
+        is_snowy = True
+
+    is_poor_soil = False
+    if poor_soil_count > threshold / 2:
+        is_poor_soil = True
+
     for y in range(0, mm.MAP_HEIGHT):
         for x in range(0, mm.MAP_WIDTH):
 
@@ -55,8 +76,12 @@ def biome_populate(self):
                 ice1 = True
 
             if m.is_tree_at(x, y):
-                if random.randint(1, 1000) > self.level.xyz.y * 60:
-                    r = tp.get_random_snow_tree()
+                if is_snowy:
+                    r = tp.get_random_tree_snow()
+                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t.push(x, y)
+                elif is_poor_soil:
+                    r = tp.get_random_tree_conifer()
                     t = thing.Thing(self.level, tp_name=r.short_name)
                     t.push(x, y)
                 else:
