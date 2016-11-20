@@ -1926,7 +1926,7 @@ def init_tiles_land():
         "marsh_plant2",
         "marsh_plant3",
         "marsh_plant4",
-        "",
+        "snow_flake",
         "",
         "",
         "",

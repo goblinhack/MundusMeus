@@ -21,6 +21,7 @@
 #include "math_util.h"
 #include "thing.h"
 #include "wid_tiles.h"
+#include "snow.h"
 
 #undef WID_DISABLE_LIGHT
 
@@ -7821,6 +7822,7 @@ static void wid_display_fast (widp w,
         debug = 1;
     }
 
+#if 0
     if (unlikely((debug > 1) && t)) {
         double mx, my;
 
@@ -7862,6 +7864,7 @@ static void wid_display_fast (widp w,
 
         }
     }
+#endif
 }
 
 static void map_light_add_ray_depth (fpoint p,
@@ -9361,6 +9364,10 @@ static void wid_display (widp w,
                 }
             }
 #endif
+        }
+
+        if (game.biome_set_is_land) {
+            snow_tick(1);
         }
     } else {
         widp child;
