@@ -183,7 +183,7 @@ class Tp:
         self.is_rrr82 = False
         self.is_rrr83 = False
         self.is_rrr84 = False
-        self.is_rrr85 = False
+        self.is_gravel_snow = False
         self.is_tree_conifer = False
         self.is_snow_mound = False
         self.is_rock = False
@@ -685,9 +685,9 @@ class Tp:
         self.is_rrr84 = value
         mm.tp_set_is_rrr84(self, value)
 
-    def set_is_rrr85(self, value):
-        self.is_rrr85 = value
-        mm.tp_set_is_rrr85(self, value)
+    def set_is_gravel_snow(self, value):
+        self.is_gravel_snow = value
+        mm.tp_set_is_gravel_snow(self, value)
 
     def set_is_tree_conifer(self, value):
         self.is_tree_conifer = value

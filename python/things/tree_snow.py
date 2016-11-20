@@ -40,14 +40,4 @@ def init():
     x = tree_snow1_init(d1000_roll=1, tiles=["tree_snow2"])
     x.set_blit_top_off(1)
 
-    x = tree_snow1_init(d1000_roll=1, tiles=["tree_snow3"])
-    x.set_blit_top_off(1)
-    x.set_blit_left_off(1)
-    x.set_blit_right_off(1)
-
-    x = tree_snow1_init(d1000_roll=10, tiles=["tree_snow4"])
-    x.set_blit_top_off(1)
-    x.set_blit_left_off(1)
-    x.set_blit_right_off(1)
-
 init()

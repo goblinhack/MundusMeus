@@ -191,6 +191,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
 
     if (tp_is_dirt(tp) || 
         tp_is_gravel(tp) || 
+        tp_is_gravel_snow(tp) || 
         tp_is_rock(tp) || 
         tp_is_dirt(tp)) {
         t->depth = myrand() % 100;

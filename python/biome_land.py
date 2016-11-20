@@ -41,7 +41,7 @@ def biome_populate(self):
     threshold = mm.MAP_WIDTH * mm.MAP_HEIGHT
 
     is_snowy = False
-    if snow_count > 0:
+    if poor_soil_count > threshold / 8:
         is_snowy = True
 
     is_poor_soil = False
@@ -63,9 +63,9 @@ def biome_populate(self):
             if m.is_sand_at(x, y):
                 sand1 = True
 
-            gravel1 = False
+            gravel = False
             if m.is_gravel_at(x, y):
-                gravel1 = True
+                gravel = True
 
             snow1 = False
             if m.is_snow_at(x, y):
@@ -133,9 +133,13 @@ def biome_populate(self):
                         t = thing.Thing(self.level, tp_name=r.short_name)
                         t.push(x, y)
 
-            if gravel1:
-                t = thing.Thing(self.level, tp_name="gravel1")
-                t.push(x, y)
+            if gravel:
+                if is_snowy:
+                    t = thing.Thing(self.level, tp_name="gravel_snow")
+                    t.push(x, y)
+                else:
+                    t = thing.Thing(self.level, tp_name="gravel")
+                    t.push(x, y)
 
                 if random.randint(0, 1000) < 50:
                     r = tp.get_random_small_rock()
@@ -257,39 +261,39 @@ def biome_populate(self):
                     t.push(x, y)
                     t.set_tilename("sand1-tl")
 
-            if not gravel1:
+            if not gravel:
                 if m.is_gravel_at(x - 1, y):
-                    t = thing.Thing(self.level, tp_name="gravel1_deco")
+                    t = thing.Thing(self.level, tp_name="gravel_deco")
                     t.push(x, y)
-                    t.set_tilename("gravel1-right")
+                    t.set_tilename("gravel-right")
                 if m.is_gravel_at(x + 1, y):
-                    t = thing.Thing(self.level, tp_name="gravel1_deco")
+                    t = thing.Thing(self.level, tp_name="gravel_deco")
                     t.push(x, y)
-                    t.set_tilename("gravel1-left")
+                    t.set_tilename("gravel-left")
                 if m.is_gravel_at(x, y - 1):
-                    t = thing.Thing(self.level, tp_name="gravel1_deco")
+                    t = thing.Thing(self.level, tp_name="gravel_deco")
                     t.push(x, y)
-                    t.set_tilename("gravel1-bot")
+                    t.set_tilename("gravel-bot")
                 if m.is_gravel_at(x, y + 1):
-                    t = thing.Thing(self.level, tp_name="gravel1_deco")
+                    t = thing.Thing(self.level, tp_name="gravel_deco")
                     t.push(x, y)
-                    t.set_tilename("gravel1-top")
+                    t.set_tilename("gravel-top")
                 if m.is_gravel_at(x - 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="gravel1_deco")
+                    t = thing.Thing(self.level, tp_name="gravel_deco")
                     t.push(x, y)
-                    t.set_tilename("gravel1-br")
+                    t.set_tilename("gravel-br")
                 if m.is_gravel_at(x + 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="gravel1_deco")
+                    t = thing.Thing(self.level, tp_name="gravel_deco")
                     t.push(x, y)
-                    t.set_tilename("gravel1-bl")
+                    t.set_tilename("gravel-bl")
                 if m.is_gravel_at(x - 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="gravel1_deco")
+                    t = thing.Thing(self.level, tp_name="gravel_deco")
                     t.push(x, y)
-                    t.set_tilename("gravel1-tr")
+                    t.set_tilename("gravel-tr")
                 if m.is_gravel_at(x + 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="gravel1_deco")
+                    t = thing.Thing(self.level, tp_name="gravel_deco")
                     t.push(x, y)
-                    t.set_tilename("gravel1-tl")
+                    t.set_tilename("gravel-tl")
 
             if not snow1:
                 if m.is_snow_at(x - 1, y):
