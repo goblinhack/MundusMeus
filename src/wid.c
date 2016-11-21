@@ -8393,10 +8393,10 @@ static void wid_lighting_render (widp w,
         /*
          * Walk the light rays in a circle.
          */
-        if (thing_is_candle_light(t)) {
-            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 255, 255, 255, 255);
+        if (thing_is_player(t)) {
+            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 20, 20, 255, 5);
         } else {
-            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 0, 0, 255, 10);
+            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 255, 255, 255, 255);
         }
 
         for (i = 0; i < max_light_rays; i++) {

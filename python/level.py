@@ -110,6 +110,7 @@ class Level:
                     if t.tp.is_wall or \
                        t.tp.is_rock or \
                        t.tp.is_door or \
+                       t.tp.is_landrock or \
                        t.tp.is_cwall:
                         skip = True
                         break
@@ -124,6 +125,7 @@ class Level:
                        t.tp.is_snow or \
                        t.tp.is_ice or \
                        t.tp.is_gravel or \
+                       t.tp.is_gravel_snow or \
                        t.tp.is_snow or \
                        t.tp.is_sand or \
                        t.tp.is_corridor or \

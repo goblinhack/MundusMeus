@@ -20,8 +20,10 @@ class Game:
         #
         # Create the world
         #
-        p = util.Xyz(26, 20, 0)
-        self.world.push_level(p)
+        where = util.Xyz(28, 20, 0)
+        self.world.push_level(where)
+
+        self.move_count = 0
         self.level = self.world.get_level()
         self.level.set_dim(self.width, self.height)
 
@@ -37,12 +39,42 @@ class Game:
         self.map_center_on_player(level_start=False)
 
         self.wid_map_summary = None
+        self.player_location_update()
 
     def destroy(self):
         self.world.destroy()
 
     def tick(self):
-        self.player_tick()
+        self.move_count += 1
+        mm.game_set_move_count(self.move_count)
+        self.player_location_update()
+        self.player_get_next_move()
+
+    def player_location_update(self):
+
+        level = self.level
+        player = self.player
+
+        if self.wid_map_summary:
+            self.wid_map_summary.destroy()
+
+        self.wid_map_summary = wid_popup.WidPopup(name="wid_map_summary",
+                                                  width=1.0)
+        w = self.wid_map_summary
+        text = "Move %%fg=green${0}%%fg=reset$ ".format(self.move_count)
+        text += "World %%fg=green${0},{1}%%fg=reset$ ".format(level.xyz.x,
+                                                              level.xyz.y)
+        if level.xyz.z > 0:
+            text += "Depth %%fg=green${2} feet%%fg=reset ".format(level.xyz.z
+                                                                  * 10)
+
+        text += "@ %%fg=green${0},{1}%%fg=reset ".format(player.x, player.y)
+
+        w.add_text(font="vsmall", text=text)
+
+        w.set_color(bg=True, tl=True, br=True, name="blue", alpha=0.2)
+        w.update()
+        w.move_to_bottom()
 
     #
     # The scrollable map for the level
@@ -92,27 +124,18 @@ class Game:
         t = w.thing
         t.set_tp("focus2")
 
-        p = self.player
+        #
+        # Check we can get back from the chosen point to the player.
+        #
+        player = self.player
         path = self.level.dmap_solve(self.player.x, self.player.y, t.x, t.y)
-        if (p.x, p.y) in path:
+        if (player.x, player.y) in path:
             for o in path:
                 (x, y) = o
 
                 t = level.tp_find(x, y, "none")
                 if t is not None:
                     t.set_tp("focus2")
-
-        if self.wid_map_summary:
-            self.wid_map_summary.destroy()
-
-        self.wid_map_summary = wid_popup.WidPopup(name="wid_map_summary",
-                                                  width=1.0)
-        w = self.wid_map_summary
-        w.add_text(font="vsmall",
-                   text="some boring text {0} {1} x ".format(p.x, p.y))
-        w.set_color(bg=True, tl=True, br=True, name="blue", alpha=0.2)
-        w.update()
-        w.move_to_bottom()
 
     #
     # Move the player to the chosen tile
@@ -127,7 +150,7 @@ class Game:
         #
         # Set up the player move chain
         #
-        p = self.player
+        player = self.player
         path = level.dmap_solve(self.player.x, self.player.y, t.x, t.y)
 
         if len(path) < 2:
@@ -136,28 +159,28 @@ class Game:
         #
         # Only if the destination is in a valid path
         #
-        if (p.x, p.y) in path:
-            p.path = path
+        if (player.x, player.y) in path:
+            player.path = path
 
-            self.player_tick()
+            self.player_get_next_move()
 
         return True
 
-    def player_tick(self):
+    def player_get_next_move(self):
 
-        p = self.player
-        if len(p.path) == 0:
+        player = self.player
+        if len(player.path) == 0:
             return True
 
-        p.path.pop()
-        if len(p.path) < 1:
+        player.path.pop()
+        if len(player.path) < 1:
             return True
 
         #
         # Move the player. [-1] is the player. [-2] is the adjacent cell.
         #
-        x, y = p.path[-1]
-        p.move(x, y)
+        x, y = player.path[-1]
+        player.move(x, y)
 
         #
         # Place a light ember so the player can see where they've been

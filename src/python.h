@@ -89,6 +89,11 @@ PyObject *dmap_process_(PyObject *obj, PyObject *args, PyObject *keywds);
 
 PyObject *biome_set_is_land_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *biome_set_is_dungeon_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *game_set_sound_volume_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *game_set_music_volume_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *game_set_display_sync_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *game_set_full_screen_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *game_set_move_count_(PyObject *obj, PyObject *args, PyObject *keywds);
 
 #define PY_PROTO(__fn__)                                                    \
 PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds);
