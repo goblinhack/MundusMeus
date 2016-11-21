@@ -1860,6 +1860,31 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "change biome type"},
 
+    {"game_set_sound_volume",
+        (PyCFunction)game_set_sound_volume_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_music_volume",
+        (PyCFunction)game_set_music_volume_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_display_sync",
+        (PyCFunction)game_set_display_sync_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_full_screen",
+        (PyCFunction)game_set_full_screen_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_move_count",
+        (PyCFunction)game_set_move_count_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
     {0, 0, 0, 0}   /* sentinel */
 };
 

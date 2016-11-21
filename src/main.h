@@ -394,6 +394,11 @@ struct game_ {
 
     uint32_t tick;
 
+    /*
+     * Need python to tick the game
+     */
+    int need_tick;
+
     widp wid_map;
     widp wid_grid;
     widp wid_horiz_scroll;
@@ -414,22 +419,18 @@ struct game_ {
     int32_t video_gl_height;
     float xscale;
     float yscale;
-    int32_t sound_volume;
-    int32_t music_volume;
-    int32_t display_sync;
-    int32_t full_screen;
-    int32_t fps_counter;
 
     double tile_width;
     double tile_height;
-
-    /*
-     * Something happened that needs to tick the monsters/level/game.
-     */
-    int need_tick;
+    int fps_counter;
 
     int biome_set_is_land;
     int biome_set_is_dungeon;
+    int sound_volume;
+    int music_volume;
+    int display_sync;
+    int full_screen;
+    int move_count;
 };
 
 extern struct game_ game;
