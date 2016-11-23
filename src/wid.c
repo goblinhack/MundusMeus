@@ -23,6 +23,7 @@
 #include "wid_tiles.h"
 #include "snow.h"
 #include "rain.h"
+#include "time_of_day.h"
 
 #undef WID_DISABLE_LIGHT
 
@@ -8394,9 +8395,13 @@ static void wid_lighting_render (widp w,
          * Walk the light rays in a circle.
          */
         if (thing_is_player(t)) {
-            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 20, 20, 255, 5);
+            color c = time_of_day_to_light_color();
+
+            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
+                           c.r, c.g, c.g, c.a);
         } else {
-            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 255, 255, 255, 255);
+            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
+                           255, 255, 255, 255);
         }
 
         for (i = 0; i < max_light_rays; i++) {
@@ -9287,13 +9292,14 @@ static void wid_display (widp w,
 
         blit_flush();
 
-//        if (game.biome_set_is_land) {
-//            snow_tick(1);
-//        }
-//
-//        if (game.biome_set_is_land) {
-//            rain_tick(100);
-//        }
+        if (game.biome_set_is_land) {
+            snow_tick(game.snow_amount);
+        }
+
+        if (game.biome_set_is_land) {
+            rain_tick(game.rain_amount);
+        }
+
         if ((w->grid) && !debug) {
             /*
              * Light source.

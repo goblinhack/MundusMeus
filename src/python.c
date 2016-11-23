@@ -1885,6 +1885,511 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "change game type"},
 
+    {"game_set_moves_per_day",
+        (PyCFunction)game_set_moves_per_day_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz1",
+        (PyCFunction)game_set_zzz1_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz2",
+        (PyCFunction)game_set_zzz2_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz3",
+        (PyCFunction)game_set_zzz3_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz4",
+        (PyCFunction)game_set_zzz4_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz5",
+        (PyCFunction)game_set_zzz5_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz6",
+        (PyCFunction)game_set_zzz6_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz7",
+        (PyCFunction)game_set_zzz7_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz8",
+        (PyCFunction)game_set_zzz8_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz9",
+        (PyCFunction)game_set_zzz9_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz10",
+        (PyCFunction)game_set_zzz10_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz11",
+        (PyCFunction)game_set_zzz11_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz12",
+        (PyCFunction)game_set_zzz12_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz13",
+        (PyCFunction)game_set_zzz13_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz14",
+        (PyCFunction)game_set_zzz14_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz15",
+        (PyCFunction)game_set_zzz15_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz16",
+        (PyCFunction)game_set_zzz16_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz17",
+        (PyCFunction)game_set_zzz17_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz18",
+        (PyCFunction)game_set_zzz18_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz19",
+        (PyCFunction)game_set_zzz19_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz20",
+        (PyCFunction)game_set_zzz20_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz21",
+        (PyCFunction)game_set_zzz21_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz22",
+        (PyCFunction)game_set_zzz22_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz23",
+        (PyCFunction)game_set_zzz23_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz24",
+        (PyCFunction)game_set_zzz24_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz25",
+        (PyCFunction)game_set_zzz25_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz26",
+        (PyCFunction)game_set_zzz26_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz27",
+        (PyCFunction)game_set_zzz27_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz28",
+        (PyCFunction)game_set_zzz28_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz29",
+        (PyCFunction)game_set_zzz29_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz30",
+        (PyCFunction)game_set_zzz30_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz31",
+        (PyCFunction)game_set_zzz31_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz32",
+        (PyCFunction)game_set_zzz32_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz33",
+        (PyCFunction)game_set_zzz33_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz34",
+        (PyCFunction)game_set_zzz34_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz35",
+        (PyCFunction)game_set_zzz35_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz36",
+        (PyCFunction)game_set_zzz36_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz37",
+        (PyCFunction)game_set_zzz37_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz38",
+        (PyCFunction)game_set_zzz38_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz39",
+        (PyCFunction)game_set_zzz39_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz40",
+        (PyCFunction)game_set_zzz40_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz41",
+        (PyCFunction)game_set_zzz41_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz42",
+        (PyCFunction)game_set_zzz42_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz43",
+        (PyCFunction)game_set_zzz43_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz44",
+        (PyCFunction)game_set_zzz44_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz45",
+        (PyCFunction)game_set_zzz45_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz46",
+        (PyCFunction)game_set_zzz46_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz47",
+        (PyCFunction)game_set_zzz47_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz48",
+        (PyCFunction)game_set_zzz48_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz49",
+        (PyCFunction)game_set_zzz49_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz50",
+        (PyCFunction)game_set_zzz50_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz51",
+        (PyCFunction)game_set_zzz51_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz52",
+        (PyCFunction)game_set_zzz52_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz53",
+        (PyCFunction)game_set_zzz53_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz54",
+        (PyCFunction)game_set_zzz54_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz55",
+        (PyCFunction)game_set_zzz55_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz56",
+        (PyCFunction)game_set_zzz56_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz57",
+        (PyCFunction)game_set_zzz57_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz58",
+        (PyCFunction)game_set_zzz58_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz59",
+        (PyCFunction)game_set_zzz59_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz60",
+        (PyCFunction)game_set_zzz60_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz61",
+        (PyCFunction)game_set_zzz61_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz62",
+        (PyCFunction)game_set_zzz62_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz63",
+        (PyCFunction)game_set_zzz63_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz64",
+        (PyCFunction)game_set_zzz64_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz65",
+        (PyCFunction)game_set_zzz65_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz66",
+        (PyCFunction)game_set_zzz66_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz67",
+        (PyCFunction)game_set_zzz67_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz68",
+        (PyCFunction)game_set_zzz68_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz69",
+        (PyCFunction)game_set_zzz69_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz70",
+        (PyCFunction)game_set_zzz70_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz71",
+        (PyCFunction)game_set_zzz71_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz72",
+        (PyCFunction)game_set_zzz72_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz73",
+        (PyCFunction)game_set_zzz73_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz74",
+        (PyCFunction)game_set_zzz74_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz75",
+        (PyCFunction)game_set_zzz75_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz76",
+        (PyCFunction)game_set_zzz76_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz77",
+        (PyCFunction)game_set_zzz77_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz78",
+        (PyCFunction)game_set_zzz78_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz79",
+        (PyCFunction)game_set_zzz79_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz80",
+        (PyCFunction)game_set_zzz80_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz81",
+        (PyCFunction)game_set_zzz81_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz82",
+        (PyCFunction)game_set_zzz82_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz83",
+        (PyCFunction)game_set_zzz83_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz84",
+        (PyCFunction)game_set_zzz84_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz85",
+        (PyCFunction)game_set_zzz85_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz86",
+        (PyCFunction)game_set_zzz86_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz87",
+        (PyCFunction)game_set_zzz87_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz88",
+        (PyCFunction)game_set_zzz88_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz89",
+        (PyCFunction)game_set_zzz89_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz90",
+        (PyCFunction)game_set_zzz90_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz91",
+        (PyCFunction)game_set_zzz91_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz92",
+        (PyCFunction)game_set_zzz92_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz93",
+        (PyCFunction)game_set_zzz93_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz94",
+        (PyCFunction)game_set_zzz94_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz95",
+        (PyCFunction)game_set_zzz95_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz96",
+        (PyCFunction)game_set_zzz96_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz97",
+        (PyCFunction)game_set_zzz97_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_zzz98",
+        (PyCFunction)game_set_zzz98_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_rain_amount",
+        (PyCFunction)game_set_rain_amount_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
+    {"game_set_snow_amount",
+        (PyCFunction)game_set_snow_amount_,
+        METH_VARARGS | METH_KEYWORDS,
+        "change game type"},
+
     {0, 0, 0, 0}   /* sentinel */
 };
 
