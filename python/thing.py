@@ -24,6 +24,11 @@ class Thing:
         self.y = -1
         self.on_map = False
 
+        #
+        # Ordered list of locations to walk to
+        #
+        self.nexthops = []
+
 #        self.log("Created thing")
 
         if self.thing_id in self.level.all_things:

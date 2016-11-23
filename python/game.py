@@ -20,10 +20,21 @@ class Game:
         #
         # Create the world
         #
-        where = util.Xyz(28, 20, 0)
+        where = util.Xyz(28, 40, 0)
         self.world.push_level(where)
 
         self.move_count = 0
+        mm.game_set_move_count(self.move_count)
+
+        self.moves_per_day = 0
+        mm.game_set_moves_per_day(1000)
+
+        self.rain_amount = 0
+        mm.game_set_rain_amount(0)
+
+        self.snow_amount = 0
+        mm.game_set_snow_amount(0)
+
         self.level = self.world.get_level()
         self.level.set_dim(self.width, self.height)
 
@@ -47,6 +58,13 @@ class Game:
     def tick(self):
         self.move_count += 1
         mm.game_set_move_count(self.move_count)
+
+        self.rain_amount = 0
+        mm.game_set_rain_amount(0)
+
+        self.snow_amount = 0
+        mm.game_set_snow_amount(0)
+
         self.player_location_update()
         self.player_get_next_move()
 
@@ -108,7 +126,7 @@ class Game:
     #
     # Mouse is over a map tile; show the route back to the player
     #
-    def map_mouse_over_tile(self, w, relx, rely, wheelx, wheely):
+    def map_mouse_over(self, w, relx, rely, wheelx, wheely):
 
         level = self.level
         for x in range(0, level.width):
@@ -128,9 +146,10 @@ class Game:
         # Check we can get back from the chosen point to the player.
         #
         player = self.player
-        path = self.level.dmap_solve(self.player.x, self.player.y, t.x, t.y)
-        if (player.x, player.y) in path:
-            for o in path:
+        nexthops = self.level.dmap_solve(self.player.x, self.player.y,
+                                         t.x, t.y)
+        if (player.x, player.y) in nexthops:
+            for o in nexthops:
                 (x, y) = o
 
                 t = level.tp_find(x, y, "none")
@@ -140,7 +159,7 @@ class Game:
     #
     # Move the player to the chosen tile
     #
-    def map_mouse_down_tile(self, w, x, y, button):
+    def map_mouse_down(self, w, x, y, button):
 
         level = self.level
 
@@ -151,35 +170,46 @@ class Game:
         # Set up the player move chain
         #
         player = self.player
-        path = level.dmap_solve(self.player.x, self.player.y, t.x, t.y)
+        nexthops = level.dmap_solve(self.player.x, self.player.y, t.x, t.y)
 
-        if len(path) < 2:
+        if len(nexthops) < 2:
             return True
 
         #
-        # Only if the destination is in a valid path
+        # Only if the destination is in a valid nexthops
         #
-        if (player.x, player.y) in path:
-            player.path = path
+        if (player.x, player.y) in nexthops:
+            player.nexthops = nexthops
 
             self.player_get_next_move()
 
         return True
 
+    #
+    # Player input
+    #
+    def map_key_down(self, w, sym, mod):
+
+        if sym == mm.SDLK_PERIOD:
+            self.tick()
+            return True
+
+        return False
+
     def player_get_next_move(self):
 
         player = self.player
-        if len(player.path) == 0:
+        if len(player.nexthops) == 0:
             return True
 
-        player.path.pop()
-        if len(player.path) < 1:
+        player.nexthops.pop()
+        if len(player.nexthops) < 1:
             return True
 
         #
         # Move the player. [-1] is the player. [-2] is the adjacent cell.
         #
-        x, y = player.path[-1]
+        x, y = player.nexthops[-1]
         player.move(x, y)
 
         #
@@ -212,8 +242,9 @@ class Game:
                 t = thing.Thing(self.level, tp_name="none")
                 t.push(x, y)
                 t.wid.game = self
-                t.wid.set_on_m_over_b(game_mouse_over_tile)
-                t.wid.set_on_m_down(game_mouse_down_tile)
+                t.wid.set_on_m_over_b(game_map_mouse_over)
+                t.wid.set_on_m_down(game_map_mouse_down)
+                t.wid.set_on_key_down(game_key_down)
 
         if self.level.is_biome_dungeon:
             self.biome_build = biome_dungeon.biome_build
@@ -227,17 +258,22 @@ class Game:
         self.biome_populate(self)
 
 
-def game_mouse_over_tile(w, relx, rely, wheelx, wheely):
+def game_map_mouse_over(w, relx, rely, wheelx, wheely):
     if w.game is None:
         return
-    w.game.map_mouse_over_tile(w, relx, rely, wheelx, wheely)
+    w.game.map_mouse_over(w, relx, rely, wheelx, wheely)
 
 
-def game_mouse_down_tile(w, x, y, button):
+def game_map_mouse_down(w, x, y, button):
     if w.game is None:
         return False
-    return w.game.map_mouse_down_tile(w, x, y, button)
+    return w.game.map_mouse_down(w, x, y, button)
 
+
+def game_key_down(w, sym, mod):
+    if w.game is None:
+        return False
+    return w.game.map_key_down(w, sym, mod)
 
 g = None
 
