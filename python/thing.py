@@ -10,8 +10,8 @@ class Thing:
         self.level = level
         self.tp_name = tp_name
 
-        level.world.max_thing_id += 1
-        self.thing_id = level.world.max_thing_id
+        level.game.max_thing_id += 1
+        self.thing_id = level.game.max_thing_id
         self.name = "{0}:{1}".format(self.thing_id, self.tp_name)
 
         if tp_name not in tp.all_tps:
