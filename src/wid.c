@@ -8401,16 +8401,18 @@ static void wid_lighting_render (widp w,
             c.b = game.daylight_color_b;
             c.a = game.daylight_color_a;
 
-            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
-                           255, 255, 255, c.a);
-
             red = ((double)c.r) / 255.0;
             green = ((double)c.g) / 255.0;
             blue = ((double)c.b) / 255.0;
             alpha = ((double)c.a) / 255.0;
+
+            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
+                           red, green, blue, alpha);
+
+            alpha /= 2.0;
         } else {
             push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
-                           255, 255, 255, 255);
+                           1.0, 1.0, 1.0, 1.0);
         }
 
         for (i = 0; i < max_light_rays; i++) {
