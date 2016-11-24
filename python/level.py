@@ -6,8 +6,8 @@ import dmap
 
 class Level:
 
-    def __init__(self, world, xyz):
-        self.world = world
+    def __init__(self, game, xyz):
+        self.game = game
         self.xyz = xyz
         self.all_things = {}
         self.is_biome_land = False
@@ -39,7 +39,7 @@ class Level:
     def save(self):
         self.log("Save level")
 
-        with open(str(self.world) + str(self), 'wb') as f:
+        with open(str(self), 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
 
     def set_dim(self, width, height):
@@ -65,16 +65,6 @@ class Level:
                 return t
 
         return None
-
-#    def describe_tile(self, x, y):
-#        if x >= self.width or y >= self.height or x < 0 or y < 0:
-#            return None
-#
-#        for t in self.on_map[x][y]:
-#            if t.tp.name == tp_name:
-#                return t
-#
-#        return None
 
     def is_movement_blocking_at(self, x, y):
         if x >= self.width or y >= self.height or x < 0 or y < 0:

@@ -11,6 +11,7 @@ def focus_init(name, short_name, long_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_z_depth("floor3")
     x.set_is_animated(True)
+    x.set_is_focus(True)
 
     if tiles is not None:
         for t in tiles:

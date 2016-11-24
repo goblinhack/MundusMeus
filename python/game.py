@@ -1,12 +1,13 @@
-import world
 import util
 import mm
+import level
 import wid_map
 import thing
 import wid_popup
 import biome_dungeon
 import biome_land
 import time_of_day
+import pickle
 
 global g
 
@@ -14,42 +15,67 @@ global g
 class Game:
 
     def __init__(self):
-        self.world = world.World(0)
 
+        #
+        # Max thing ID in use in any level. This grows forever.
+        #
         (self.width, self.height) = (mm.MAP_WIDTH, mm.MAP_HEIGHT)
 
-        #
-        # Create the world
-        #
-        where = util.Xyz(28, 40, 0)
-        self.world.push_level(where)
+    def load_failed_init_new_game(self):
 
+        self.seed = 0
         self.move_count = 0
-        mm.game_set_move_count(self.move_count)
+        self.moves_per_day = 1000
+        self.rain_amount = 0
+        self.snow_amount = 0
+        self.max_thing_id = 1
+        self.seed = 9
+        self.where = util.Xyz(28, 40, 0)
+        self.level = level.Level(game=self, xyz=self.where)
+        self.level.set_dim(self.width, self.height)
 
-        self.moves_per_day = 48
+        self.map_wid_create()
+
+    def post_load_init(self):
+
+        mm.game_set_move_count(self.move_count)
         mm.game_set_moves_per_day(self.moves_per_day)
+        mm.game_set_snow_amount(self.snow_amount)
+        mm.game_set_rain_amount(self.rain_amount)
 
         time_of_day.set_lighting(self,
                                  move=self.move_count,
                                  moves_per_day=self.moves_per_day)
 
-        self.rain_amount = 0
-        mm.game_set_rain_amount(0)
-
-        self.snow_amount = 0
-        mm.game_set_snow_amount(0)
-
-        self.level = self.world.get_level()
-        self.level.set_dim(self.width, self.height)
-
-        self.map_wid_create()
+        if not self.was_loaded:
+            self.biome_create(is_land=True, seed=self.seed)
+#        self.biome_create(is_dungeon=True, seed=self.seed)
 
         #
-        # And not a dungeon at that point in the world
+        # Create or recreate the focus widgets
         #
-#        self.biome_create(is_dungeon=True, seed=7)
-        self.biome_create(is_land=True, seed=9)
+        level = self.level
+
+        for y in range(0, mm.MAP_HEIGHT):
+            for x in range(0, mm.MAP_WIDTH):
+
+                t = level.tp_find(x, y, "focus1")
+                if t is not None:
+                    t.set_tp("none")
+                else:
+                    t = level.tp_find(x, y, "focus2")
+                    if t is not None:
+                        t.set_tp("none")
+
+                t = level.tp_find(x, y, "none")
+                if t is None:
+                    t = thing.Thing(self.level, tp_name="none")
+                    t.push(x, y)
+
+                t.wid.game = self
+                t.wid.set_on_m_over_b(game_map_mouse_over)
+                t.wid.set_on_m_down(game_map_mouse_down)
+                t.wid.set_on_key_down(game_key_down)
 
         self.map_center_on_player(level_start=True)
         self.map_center_on_player(level_start=False)
@@ -57,8 +83,59 @@ class Game:
         self.wid_map_summary = None
         self.player_location_update()
 
+    def save(self):
+        mm.con("Saving game @ {0}".format(str(self.level)))
+
+        with open(".current", 'wb') as f:
+            pickle.dump(self.width, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.height, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.max_thing_id, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.where, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.move_count, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.moves_per_day, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.snow_amount, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.rain_amount, f, pickle.HIGHEST_PROTOCOL)
+
+        self.level.save()
+
+    def load(self):
+        mm.con("Loading game")
+
+        with open(".current", 'rb') as f:
+            self.width = pickle.load(f)
+            self.height = pickle.load(f)
+            self.seed = pickle.load(f)
+            self.max_thing_id = pickle.load(f)
+            self.where = pickle.load(f)
+            self.move_count = pickle.load(f)
+            self.moves_per_day = pickle.load(f)
+            self.snow_amount = pickle.load(f)
+            self.rain_amount = pickle.load(f)
+
+            self.level = level.Level(game=self, xyz=self.where)
+
+            mm.con("Loading level @ {0}".format(str(self.level)))
+
+            self.map_wid_create()
+
+            with open(str(self.level), 'rb') as f:
+                self.level = pickle.load(f)
+
+                for thing_id in self.level.all_things:
+                    t = self.level.all_things[thing_id]
+                    mm.thing_new(t, t.tp_name)
+                    t.on_map = False
+                    t.push(t.x, t.y)
+
+                    tp = t.tp
+                    if tp.is_player:
+                        self.player = t
+
+            mm.con("Loaded level @ {0}".format(str(self.level)))
+
     def destroy(self):
-        self.world.destroy()
+        self.level.destroy()
 
     def tick(self):
         self.move_count += 1
@@ -204,6 +281,9 @@ class Game:
             self.tick()
             return True
 
+        if sym == mm.SDLK_s:
+            self.save()
+
         return False
 
     def player_get_next_move(self):
@@ -239,22 +319,12 @@ class Game:
         self.map_center_on_player(level_start=False)
 
     #
-    # Create a rendom dungeon
+    # Create a random dungeon
     #
     def biome_create(self, seed, is_land=False, is_dungeon=False):
 
         self.level.set_biome(is_land=is_land,
                              is_dungeon=is_dungeon)
-
-        for y in range(0, mm.MAP_HEIGHT):
-            for x in range(0, mm.MAP_WIDTH):
-
-                t = thing.Thing(self.level, tp_name="none")
-                t.push(x, y)
-                t.wid.game = self
-                t.wid.set_on_m_over_b(game_map_mouse_over)
-                t.wid.set_on_m_down(game_map_mouse_down)
-                t.wid.set_on_key_down(game_key_down)
 
         if self.level.is_biome_dungeon:
             self.biome_build = biome_dungeon.biome_build
@@ -292,3 +362,16 @@ def game_new():
     global g
 
     g = Game()
+
+    try:
+        g.load()
+        g.was_loaded = True
+
+    except Exception as inst:
+        mm.con("Loading failed, init new game")
+        mm.con(str(inst))
+
+        g.load_failed_init_new_game()
+        g.was_loaded = False
+
+    g.post_load_init()
