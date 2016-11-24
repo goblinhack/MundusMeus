@@ -6,6 +6,7 @@ import thing
 import wid_popup
 import biome_dungeon
 import biome_land
+import time_of_day
 
 global g
 
@@ -26,8 +27,11 @@ class Game:
         self.move_count = 0
         mm.game_set_move_count(self.move_count)
 
-        self.moves_per_day = 0
-        mm.game_set_moves_per_day(1000)
+        self.moves_per_day = 200
+        mm.game_set_moves_per_day(self.moves_per_day)
+
+        time_of_day.set_lighting(move=self.move_count,
+                                 moves_per_day=self.moves_per_day)
 
         self.rain_amount = 0
         mm.game_set_rain_amount(0)
@@ -58,6 +62,8 @@ class Game:
     def tick(self):
         self.move_count += 1
         mm.game_set_move_count(self.move_count)
+        time_of_day.set_lighting(move=self.move_count,
+                                 moves_per_day=self.moves_per_day)
 
         self.rain_amount = 0
         mm.game_set_rain_amount(0)

@@ -1333,52 +1333,52 @@ PyObject *game_set_zzz94_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_zzz95_ (PyObject *obj, PyObject *args, 
+PyObject *game_set_daylight_color_a_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
     static char *kwlist[] = {"value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
-                                     &game.zzz95)) {
+                                     &game.daylight_color_a)) {
         Py_RETURN_NONE;
     }
 
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_zzz96_ (PyObject *obj, PyObject *args, 
+PyObject *game_set_daylight_color_b_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
     static char *kwlist[] = {"value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
-                                     &game.zzz96)) {
+                                     &game.daylight_color_b)) {
         Py_RETURN_NONE;
     }
 
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_zzz97_ (PyObject *obj, PyObject *args, 
+PyObject *game_set_daylight_color_g_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
     static char *kwlist[] = {"value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
-                                     &game.zzz97)) {
+                                     &game.daylight_color_g)) {
         Py_RETURN_NONE;
     }
 
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_zzz98_ (PyObject *obj, PyObject *args, 
+PyObject *game_set_daylight_color_r_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
     static char *kwlist[] = {"value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
-                                     &game.zzz98)) {
+                                     &game.daylight_color_r)) {
         Py_RETURN_NONE;
     }
 

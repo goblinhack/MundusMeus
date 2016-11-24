@@ -2360,23 +2360,23 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "change game type"},
 
-    {"game_set_zzz95",
-        (PyCFunction)game_set_zzz95_,
+    {"game_set_daylight_color_a",
+        (PyCFunction)game_set_daylight_color_a_,
         METH_VARARGS | METH_KEYWORDS,
         "change game type"},
 
-    {"game_set_zzz96",
-        (PyCFunction)game_set_zzz96_,
+    {"game_set_daylight_color_b",
+        (PyCFunction)game_set_daylight_color_b_,
         METH_VARARGS | METH_KEYWORDS,
         "change game type"},
 
-    {"game_set_zzz97",
-        (PyCFunction)game_set_zzz97_,
+    {"game_set_daylight_color_g",
+        (PyCFunction)game_set_daylight_color_g_,
         METH_VARARGS | METH_KEYWORDS,
         "change game type"},
 
-    {"game_set_zzz98",
-        (PyCFunction)game_set_zzz98_,
+    {"game_set_daylight_color_r",
+        (PyCFunction)game_set_daylight_color_r_,
         METH_VARARGS | METH_KEYWORDS,
         "change game type"},
 

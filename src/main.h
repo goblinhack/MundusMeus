@@ -526,10 +526,10 @@ struct game_ {
     int zzz92;
     int zzz93;
     int zzz94;
-    int zzz95;
-    int zzz96;
-    int zzz97;
-    int zzz98;
+    int daylight_color_a;
+    int daylight_color_b;
+    int daylight_color_g;
+    int daylight_color_r;
     int rain_amount;
     int snow_amount;
 };

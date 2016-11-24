@@ -23,7 +23,6 @@
 #include "wid_tiles.h"
 #include "snow.h"
 #include "rain.h"
-#include "time_of_day.h"
 
 #undef WID_DISABLE_LIGHT
 
@@ -8395,10 +8394,20 @@ static void wid_lighting_render (widp w,
          * Walk the light rays in a circle.
          */
         if (thing_is_player(t)) {
-            color c = time_of_day_to_light_color();
+            color c;
+
+            c.r = game.daylight_color_r;
+            c.g = game.daylight_color_g;
+            c.b = game.daylight_color_b;
+            c.a = game.daylight_color_a;
 
             push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
-                           c.r, c.g, c.g, c.a);
+                           255, 255, 255, c.a);
+
+            red = ((double)c.r) / 255.0;
+            green = ((double)c.g) / 255.0;
+            blue = ((double)c.b) / 255.0;
+            alpha = ((double)c.a) / 255.0;
         } else {
             push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
                            255, 255, 255, 255);
