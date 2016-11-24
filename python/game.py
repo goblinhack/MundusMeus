@@ -27,10 +27,11 @@ class Game:
         self.move_count = 0
         mm.game_set_move_count(self.move_count)
 
-        self.moves_per_day = 200
+        self.moves_per_day = 48
         mm.game_set_moves_per_day(self.moves_per_day)
 
-        time_of_day.set_lighting(move=self.move_count,
+        time_of_day.set_lighting(self,
+                                 move=self.move_count,
                                  moves_per_day=self.moves_per_day)
 
         self.rain_amount = 0
@@ -62,7 +63,8 @@ class Game:
     def tick(self):
         self.move_count += 1
         mm.game_set_move_count(self.move_count)
-        time_of_day.set_lighting(move=self.move_count,
+        time_of_day.set_lighting(self,
+                                 move=self.move_count,
                                  moves_per_day=self.moves_per_day)
 
         self.rain_amount = 0
@@ -94,6 +96,8 @@ class Game:
 
         text += "@ %%fg=green${0},{1}%%fg=reset ".format(player.x, player.y)
 
+        text += "Hour %%fg=green${0} Day {1}%%fg=reset ".format(self.hour_str,
+                                                                self.day)
         w.add_text(font="vsmall", text=text)
 
         w.set_color(bg=True, tl=True, br=True, name="blue", alpha=0.2)
