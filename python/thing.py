@@ -69,8 +69,12 @@ class Thing:
         self.log("@ {0},{1}".format(self.x, self.y))
 
     def move(self, x, y):
+
+        self.level.on_map[self.x][self.y].remove(self)
         self.x = x
         self.y = y
+        self.level.on_map[self.x][self.y].append(self)
+
         mm.thing_move(self, x, y)
 
     def push(self, x, y):
