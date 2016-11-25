@@ -37,7 +37,7 @@ class Thing:
 
         self.level.all_things[self.thing_id] = self
 
-        mm.thing_new(self, tp_name)
+        mm.thing_new(self, self.thing_id, tp_name)
 
         if self.tp.thing_init is not None:
             self.tp.thing_init(self)

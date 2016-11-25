@@ -67,3 +67,21 @@ class WidMap:
 
         self.wid_vert_scroll.update()
         self.wid_horiz_scroll.update()
+
+    def destroy(self):
+
+        if self.wid_map is not None:
+            self.wid_map.destroy()
+            self.wid_map = None
+
+        if self.wid_grid is not None:
+            self.wid_grid.destroy()
+            self.wid_grid = None
+
+        if self.wid_vert_scroll is not None:
+            self.wid_vert_scroll.destroy()
+            self.wid_vert_scroll = None
+
+        if self.wid_horiz_scroll is not None:
+            self.wid_horiz_scroll.destroy()
+            self.wid_horiz_scroll = None

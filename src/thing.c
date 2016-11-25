@@ -31,7 +31,9 @@ void thing_fini (void)
     }
 }
 
-thingp thing_new (const char *name, const char *tp_name)
+thingp thing_new (const char *name, 
+                  long int thing_id,
+                  const char *tp_name)
 {
     thingp t;
 
@@ -46,6 +48,7 @@ thingp thing_new (const char *name, const char *tp_name)
     t = myzalloc(sizeof(*t), "a thing");
 
     t->tree.key = dupstr(name, "TREE KEY: thing");
+    t->thing_id = thing_id;
 
     if (!tree_insert(things, &t->tree.node)) {
         ERR("thing insert name [%s] failed", name);

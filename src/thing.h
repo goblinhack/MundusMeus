@@ -15,7 +15,7 @@
 
 uint8_t thing_init(void);
 void thing_fini(void);
-thingp thing_new(const char *name, const char *tp_name);
+thingp thing_new(const char *name, long int thing_id, const char *tp_name);
 void thing_destroyed_(thingp t, const char *reason);
 void thing_set_tilename_(thingp t, const char *tilename);
 void thing_set_tp_(thingp t, const char *tp);
@@ -92,6 +92,11 @@ enum {
 typedef struct thing_ {
 
     tree_key_string tree;
+
+    /*
+     * Allocated in python
+     */
+    long int thing_id;
 
     /*
      * Pointer to common settings for this thing.

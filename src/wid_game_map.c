@@ -64,6 +64,11 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         return (0);
     }
 
+    /*
+     * Ensure placement of random offsets is the same for this thing
+     */
+    mysrand(t->thing_id);
+
     thing_tiles = tp_get_tiles(tp);
     if (thing_tiles) {
         thing_tilep thing_tile;
@@ -224,16 +229,6 @@ wid_game_map_replace_tile (double x, double y, thingp t)
     if (tp_is_player(thing_tp(t))) {
         player = t;
     }
-
-    /*
-     * This adds it to the grid wid.
-     */
-#ifdef DEBUG_CLIENT_THING
-    wid_update(child);
-    char name[20];
-    sprintf(name, "%d",thing_id(t));
-    wid_set_text(child,name);
-#endif
 
     /*
      * This adds it to the grid wid.
