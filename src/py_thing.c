@@ -12,11 +12,13 @@ PyObject *thing_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;
     const char *tp_name;
+    long int thing_id = 0;
 
-    static char *kwlist[] = {"thing", "tp", 0};
+    static char *kwlist[] = {"thing", "thing_id", "tp", 0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ls", kwlist,
                                      &py_class,
+                                     &thing_id,
                                      &tp_name)) {
         return (0);
     }
@@ -32,7 +34,7 @@ PyObject *thing_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
         return (0);
     }
 
-    thing_new(thing_name, tp_name);
+    thing_new(thing_name, thing_id, tp_name);
 
     myfree(thing_name);
 

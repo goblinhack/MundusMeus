@@ -124,7 +124,7 @@ class Game:
 
                 for thing_id in self.level.all_things:
                     t = self.level.all_things[thing_id]
-                    mm.thing_new(t, t.tp_name)
+                    mm.thing_new(t, thing_id, t.tp_name)
                     t.on_map = False
                     t.push(t.x, t.y)
 
@@ -186,6 +186,11 @@ class Game:
     #
     def map_wid_create(self):
         self.wid_map = wid_map.WidMap(mm.MAP_WIDTH, mm.MAP_HEIGHT)
+
+    def map_wid_destroy(self):
+        if self.wid_map is not None:
+            self.wid_map.destroy()
+            self.wid_map = None
 
     def map_center_on_player(self, level_start):
         px = self.player.x / mm.MAP_WIDTH
@@ -366,12 +371,18 @@ def game_new():
     try:
         g.load()
         g.was_loaded = True
-
     except Exception as inst:
-        mm.con("Loading failed, init new game")
-        mm.con(str(inst))
+        mm.con("Loading failed, init new game, error [{0}]".format(inst))
+        g.map_wid_destroy()
 
-        g.load_failed_init_new_game()
-        g.was_loaded = False
+        try:
+            g = Game()
+            g.was_loaded = False
+            g.load_failed_init_new_game()
+        except Exception as inst:
+            mm.err("Failed to make a new level, error [{0}]".format(inst))
 
-    g.post_load_init()
+    try:
+        g.post_load_init()
+    except Exception as inst:
+        mm.err("Failed to finalize level, error [{0}]".format(inst))
