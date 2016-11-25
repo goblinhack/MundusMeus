@@ -94,13 +94,13 @@ def load_one_plugin(filepath):
 
 def load_all_plugins():
     for filename in find_plugins(dirname(__file__), '*.py'):
-        mm.con("Loading " + filename)
+        mm.log("Loading " + filename)
         load_one_plugin(filename)
 
 
 def load_plugin(plugin):
     for filename in find_plugins(os.getcwd(), plugin):
-        mm.con("Loading " + filename)
+        mm.log("Loading " + filename)
         load_one_plugin(filename)
 
 

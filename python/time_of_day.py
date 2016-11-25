@@ -10,7 +10,7 @@ def set_lighting(game, move=0, moves_per_day=0):
     hour = int(hour)
 
     game.hour = hour
-    game.day = move % moves_per_day
+    game.day = int(1 + (move / moves_per_day))
 
     colors = [
         {
