@@ -8,6 +8,7 @@ import biome_dungeon
 import biome_land
 import time_of_day
 import pickle
+import os.path
 
 global g
 
@@ -20,6 +21,8 @@ class Game:
         # Max thing ID in use in any level. This grows forever.
         #
         (self.width, self.height) = (mm.MAP_WIDTH, mm.MAP_HEIGHT)
+        self.wid_map = None
+        self.save_file = ".save_file"
 
     def load_failed_init_new_game(self):
 
@@ -56,6 +59,9 @@ class Game:
         #
         level = self.level
 
+        mm.biome_set_is_land(value=level.is_biome_land)
+        mm.biome_set_is_dungeon(value=level.is_biome_dungeon)
+
         for y in range(0, mm.MAP_HEIGHT):
             for x in range(0, mm.MAP_WIDTH):
 
@@ -86,7 +92,7 @@ class Game:
     def save(self):
         mm.con("Saving game @ {0}".format(str(self.level)))
 
-        with open(".current", 'wb') as f:
+        with open(self.save_file, 'wb') as f:
             pickle.dump(self.width, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.height, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
@@ -98,11 +104,12 @@ class Game:
             pickle.dump(self.rain_amount, f, pickle.HIGHEST_PROTOCOL)
 
         self.level.save()
+        print(len(self.level.all_things))
 
     def load(self):
         mm.con("Loading game")
 
-        with open(".current", 'rb') as f:
+        with open(self.save_file, 'rb') as f:
             self.width = pickle.load(f)
             self.height = pickle.load(f)
             self.seed = pickle.load(f)
@@ -156,7 +163,6 @@ class Game:
     def player_location_update(self):
 
         level = self.level
-        player = self.player
 
         if self.wid_map_summary:
             self.wid_map_summary.destroy()
@@ -164,17 +170,22 @@ class Game:
         self.wid_map_summary = wid_popup.WidPopup(name="wid_map_summary",
                                                   width=1.0)
         w = self.wid_map_summary
-        text = "Move %%fg=green${0}%%fg=reset$ ".format(self.move_count)
+
+        text = ""
+        text += "Hour %%fg=green${0}%%fg=reset$ ".format(self.hour_str)
+        text += "Day %%fg=green${0}%%fg=reset$ ".format(self.day)
         text += "World %%fg=green${0},{1}%%fg=reset$ ".format(level.xyz.x,
                                                               level.xyz.y)
+
+        text += "Move %%fg=green${0}%%fg=reset$ ".format(self.move_count)
+
         if level.xyz.z > 0:
-            text += "Depth %%fg=green${2} feet%%fg=reset ".format(level.xyz.z
+            text += "Depth %%fg=green${0} feet%%fg=reset ".format(level.xyz.z
                                                                   * 10)
 
-        text += "@ %%fg=green${0},{1}%%fg=reset ".format(player.x, player.y)
+#        player = self.player
+#        text += "@ %%fg=green${0},{1}%%fg=reset ".format(player.x, player.y)
 
-        text += "Hour %%fg=green${0} Day {1}%%fg=reset ".format(self.hour_str,
-                                                                self.day)
         w.add_text(font="vsmall", text=text)
 
         w.set_color(bg=True, tl=True, br=True, name="blue", alpha=0.2)
@@ -185,6 +196,7 @@ class Game:
     # The scrollable map for the level
     #
     def map_wid_create(self):
+        self.map_wid_destroy()
         self.wid_map = wid_map.WidMap(mm.MAP_WIDTH, mm.MAP_HEIGHT)
 
     def map_wid_destroy(self):
@@ -216,11 +228,12 @@ class Game:
                                                                delay=500)
 
     #
-    # Mouse is over a map tile; show the route back to the player
+    # Get rid of the path indicators where the player will move
     #
-    def map_mouse_over(self, w, relx, rely, wheelx, wheely):
+    def map_clear_focus(self):
 
         level = self.level
+
         for x in range(0, level.width):
             for y in range(0, level.height):
                 t = level.tp_find(x, y, "focus2")
@@ -230,6 +243,27 @@ class Game:
                 t = level.tp_find(x, y, "focus1")
                 if t is not None:
                     t.set_tp("none")
+
+    #
+    # Mouse is over a map tile; show the route back to the player
+    #
+    def map_mouse_over(self, w, relx, rely, wheelx, wheely):
+
+        #
+        # Want to scroll without the focus moving
+        #
+        if wheelx != 0 or wheely != 0:
+            return False
+
+        #
+        # When the map is scrolling, no focus change
+        #
+        if relx == 0 and rely == 0:
+            return False
+
+        level = self.level
+
+        self.map_clear_focus()
 
         t = w.thing
         t.set_tp("focus2")
@@ -275,12 +309,16 @@ class Game:
 
             self.player_get_next_move()
 
+        self.map_clear_focus()
+
         return True
 
     #
     # Player input
     #
     def map_key_down(self, w, sym, mod):
+
+        self.map_clear_focus()
 
         if sym == mm.SDLK_PERIOD:
             self.tick()
@@ -367,20 +405,23 @@ def game_new():
     global g
 
     g = Game()
-
-    try:
-        g.load()
-        g.was_loaded = True
-    except Exception as inst:
-        mm.con("Loading failed, init new game, error [{0}]".format(inst))
-        g.map_wid_destroy()
-
+    if os.path.isfile(g.save_file):
         try:
-            g = Game()
-            g.was_loaded = False
-            g.load_failed_init_new_game()
+            g.load()
+            g.was_loaded = True
         except Exception as inst:
-            mm.err("Failed to make a new level, error [{0}]".format(inst))
+            mm.con("Loading failed, init new game, error [{0}]".format(inst))
+            g.map_wid_destroy()
+
+            try:
+                g = Game()
+                g.was_loaded = False
+                g.load_failed_init_new_game()
+            except Exception as inst:
+                mm.err("Failed to make a new level, error [{0}]".format(inst))
+    else:
+        g.was_loaded = False
+        g.load_failed_init_new_game()
 
     try:
         g.post_load_init()

@@ -53,9 +53,6 @@ class Level:
         self.is_biome_land = is_land
         self.is_biome_dungeon = is_dungeon
 
-        mm.biome_set_is_land(value=is_land)
-        mm.biome_set_is_dungeon(value=is_dungeon)
-
     def tp_find(self, x, y, tp_name):
         if x >= self.width or y >= self.height or x < 0 or y < 0:
             return None
