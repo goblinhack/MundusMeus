@@ -7486,6 +7486,9 @@ static void wid_display_fast (widp w,
 
     if (likely(t != 0)) {
         tp = thing_tp(t);
+        if (!tp) {
+            DIE("no tp for thing");
+        }
 
         if (tp_is_hidden(tp)) {
             return;

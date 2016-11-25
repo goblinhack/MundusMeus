@@ -87,6 +87,8 @@
  */
 #define MAP_WIDTH                               64
 #define MAP_HEIGHT                              64
+#define WORLD_WIDTH                             128
+#define WORLD_HEIGHT                            128
 
 /*
  * The number of tiles per screen.

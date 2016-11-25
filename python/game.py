@@ -9,6 +9,7 @@ import biome_land
 import time_of_day
 import pickle
 import os.path
+import copy
 
 global g
 
@@ -360,6 +361,49 @@ class Game:
                 t.push(x, y)
 
         self.map_center_on_player(level_start=False)
+
+        if x == 0 or x == mm.MAP_WIDTH - 1 or y == 0 or y == mm.MAP_HEIGHT - 1:
+            player.pop()
+            c = copy.deepcopy(player)
+
+            player.destroy()
+            player = None
+            self.player = None
+
+            self.save()
+            level.destroy()
+            g.map_wid_destroy()
+
+            if x == 0:
+                x = mm.MAP_WIDTH - 1
+                g.where.x -= 1
+                if g.where.x < 0:
+                    g.where.x = mm.WORLD_WIDTH - 1
+
+            if x == mm.MAP_WIDTH - 1:
+                x = 0
+                g.where.x += 1
+                if g.where.x >= mm.WORLD_WIDTH:
+                    g.where.x = 0
+
+            if y == 0:
+                y = mm.MAP_HEIGHT - 1
+                g.where.y -= 1
+                if g.where.y < 0:
+                    g.where.y = mm.WORLD_HEIGHT - 1
+
+            if y == mm.MAP_HEIGHT - 1:
+                y = 0
+                g.where.y += 1
+                if g.where.y >= mm.WORLD_HEIGHT:
+                    g.where.y = 0
+
+            self.level = level.Level(game=self, xyz=self.where)
+            self.map_wid_create()
+
+            player = thing.Thing(self.level, c.tp_name)
+            player.push(x, y)
+            self.player = player
 
     #
     # Create a random dungeon

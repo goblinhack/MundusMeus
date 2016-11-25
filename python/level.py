@@ -18,8 +18,10 @@ class Level:
 
     def destroy(self):
         self.log("Destroying level {")
-        for key, value in self.all_things.items():
-            value.destroy()
+
+        for thing_id in self.all_things:
+            t = self.level.all_things[thing_id]
+            t.destroy()
 
         self.all_things = {}
         self.log("} Destroyed level")

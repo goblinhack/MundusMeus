@@ -2559,6 +2559,8 @@ static void python_add_consts (void)
 {
     PyModule_AddIntConstant(mm_mod, "MAP_WIDTH", MAP_WIDTH);
     PyModule_AddIntConstant(mm_mod, "MAP_HEIGHT", MAP_HEIGHT);
+    PyModule_AddIntConstant(mm_mod, "WORLD_WIDTH", WORLD_WIDTH);
+    PyModule_AddIntConstant(mm_mod, "WORLD_HEIGHT", WORLD_HEIGHT);
     PyModule_AddIntConstant(mm_mod, "TILES_SCREEN_WIDTH", TILES_SCREEN_WIDTH);
     PyModule_AddIntConstant(mm_mod, "TILES_SCREEN_HEIGHT", TILES_SCREEN_HEIGHT);
 
