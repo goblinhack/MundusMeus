@@ -38,8 +38,6 @@ class Game:
         self.seed = 0
         self.move_count = 0
         self.moves_per_day = 1000
-        self.rain_amount = 0
-        self.snow_amount = 0
         self.max_thing_id = 1
         self.seed = 9
         self.where = util.Xyz(24, 37, 0)
@@ -92,8 +90,6 @@ class Game:
         l = self.level
         mm.game_set_move_count(self.move_count)
         mm.game_set_moves_per_day(self.moves_per_day)
-        mm.game_set_snow_amount(self.snow_amount)
-        mm.game_set_rain_amount(self.rain_amount)
 
         time_of_day.set_lighting(self,
                                  move=self.move_count,
@@ -140,8 +136,6 @@ class Game:
             pickle.dump(self.where, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.move_count, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.moves_per_day, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.snow_amount, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.rain_amount, f, pickle.HIGHEST_PROTOCOL)
 
         l.save()
 
@@ -156,8 +150,6 @@ class Game:
             self.where = pickle.load(f)
             self.move_count = pickle.load(f)
             self.moves_per_day = pickle.load(f)
-            self.snow_amount = pickle.load(f)
-            self.rain_amount = pickle.load(f)
             self.load_level()
 
     def destroy(self):
@@ -165,18 +157,15 @@ class Game:
         l.destroy()
 
     def tick(self):
+
+        l = self.level
         self.move_count += 1
         mm.game_set_move_count(self.move_count)
         time_of_day.set_lighting(self,
                                  move=self.move_count,
                                  moves_per_day=self.moves_per_day)
 
-        self.rain_amount = 0
-        mm.game_set_rain_amount(0)
-
-        self.snow_amount = 0
-        mm.game_set_snow_amount(0)
-
+        l.tick()
         self.player_location_update()
         self.player_get_next_move()
 

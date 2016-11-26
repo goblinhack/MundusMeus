@@ -2,6 +2,7 @@ import pickle
 import traceback
 import mm
 import dmap
+import math
 
 
 class Level:
@@ -34,6 +35,21 @@ class Level:
         self.all_things = {}
         self.debug("} Destroyed level")
         del self
+
+    def tick(self):
+
+        s = math.sin(self.game.move_count / (math.pi * 11))
+        if self.is_snowy:
+            if s > 0:
+                mm.game_set_snow_amount(int(s * 50))
+            else:
+                mm.game_set_snow_amount(0)
+
+        if self.is_grassy or self.is_watery:
+            if s > 0:
+                mm.game_set_rain_amount(int(s * 50))
+            else:
+                mm.game_set_rain_amount(0)
 
     def log(self, msg):
         mm.log("p-level: {0}: {1}".format(str(self), msg))
