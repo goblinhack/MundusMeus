@@ -29,7 +29,7 @@ class Thing:
         #
         self.nexthops = []
 
-#        self.log("Created thing")
+#        self.debug("Created thing")
 
         if self.thing_id in self.level.all_things:
             self.err("Already in level list")
@@ -48,17 +48,22 @@ class Thing:
     def destroy(self, reason="no reason"):
         if self.on_map:
             self.pop()
-        self.log("Destroying thing, {0}".format(reason) + " {")
+
+#        self.debug("Destroying thing, {0}".format(reason) + " {")
 
         if self.thing_id in self.level.all_things:
-            self.level.all_things[self.thing_id] = []
+            del self.level.all_things[self.thing_id]
 
         mm.thing_destroyed(self, reason)
 
-        self.log("} " + "Destroyed thing, {0}".format(reason))
+#        self.debug("} " + "Destroyed thing, {0}".format(reason))
         del self
 
     def log(self, msg):
+        mm.log("p-thing {0}: {1}".format(str(self), msg))
+
+    def debug(self, msg):
+        return
         mm.log("p-thing {0}: {1}".format(str(self), msg))
 
     def err(self, msg):

@@ -6,28 +6,40 @@ import dmap
 
 class Level:
 
-    def __init__(self, game, xyz):
+    def __init__(self, game, xyz, width, height):
         self.game = game
         self.xyz = xyz
         self.all_things = {}
         self.is_biome_land = False
         self.is_biome_dungeon = False
+        self.width = width
+        self.height = height
+
+        self.on_map = [[[] for x in range(width)] for y in range(height)]
+        self.dmaps = [[None for x in range(width)] for y in range(height)]
 
     def __str__(self):
         return "l{0}".format(str(self.xyz))
 
     def destroy(self):
-        self.log("Destroying level {")
+        self.debug("Destroying level {")
 
-        for thing_id in self.all_things:
-            t = self.level.all_things[thing_id]
+        #
+        # to avoid dictionary changed size during iteration, walk the keys
+        #
+        for thing_id in list(self.all_things.keys()):
+            t = self.all_things[thing_id]
             t.destroy()
 
         self.all_things = {}
-        self.log("} Destroyed level")
+        self.debug("} Destroyed level")
         del self
 
     def log(self, msg):
+        mm.log("p-level: {0}: {1}".format(str(self), msg))
+
+    def debug(self, msg):
+        return
         mm.log("p-level: {0}: {1}".format(str(self), msg))
 
     def err(self, msg):
@@ -39,17 +51,10 @@ class Level:
             self.all_things[i].dump()
 
     def save(self):
-        self.log("Save level")
+        self.debug("Save level")
 
         with open(str(self), 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
-
-    def set_dim(self, width, height):
-        self.width = width
-        self.height = height
-
-        self.on_map = [[[] for x in range(width)] for y in range(height)]
-        self.dmaps = [[None for x in range(width)] for y in range(height)]
 
     def set_biome(self, is_land=False, is_dungeon=False):
         self.is_biome_land = is_land
