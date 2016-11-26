@@ -40,7 +40,7 @@ class Game:
         self.moves_per_day = 1000
         self.max_thing_id = 1
         self.seed = 9
-        self.where = util.Xyz(24, 37, 0)
+        self.where = util.Xyz(24, 6, 0)
         self.load_level()
 
     def load_level(self):
@@ -119,6 +119,7 @@ class Game:
         self.map_center_on_player(level_start=True)
         self.map_center_on_player(level_start=False)
 
+        l.tick()
         self.wid_player_location = None
         self.player_location_update()
         self.save()
