@@ -24,8 +24,16 @@ class Game:
         (self.width, self.height) = (mm.MAP_WIDTH, mm.MAP_HEIGHT)
         self.wid_map = None
         self.save_file = ".save_file"
+        self.player = None
 
-    def load_failed_init_new_game(self):
+    def load_empty_level(self):
+        self.level = level.Level(game=self,
+                                 xyz=self.where,
+                                 width=self.width,
+                                 height=self.height)
+        self.map_wid_create()
+
+    def game_load_failed_init_new_game(self):
 
         self.seed = 0
         self.move_count = 0
@@ -35,13 +43,48 @@ class Game:
         self.max_thing_id = 1
         self.seed = 9
         self.where = util.Xyz(28, 40, 0)
-        self.level = level.Level(game=self, xyz=self.where)
-        self.level.set_dim(self.width, self.height)
+        self.load_level()
 
-        self.map_wid_create()
+    def load_level(self):
 
-    def post_load_init(self):
+        self.load_empty_level()
+        l = self.level
 
+        mm.con("Loading level @ {0}".format(str(l)))
+
+        if os.path.isfile(str(l)):
+            with open(str(l), 'rb') as f:
+                self.level = pickle.load(f)
+                l = self.level
+
+                mm.con("Depickled level @ {0}".format(str(l)))
+
+                for thing_id in l.all_things:
+                    t = l.all_things[thing_id]
+                    mm.thing_new(t, thing_id, t.tp_name)
+                    t.on_map = False
+                    t.push(t.x, t.y)
+
+                    tp = t.tp
+                    if tp.is_player:
+                        self.player = t
+
+            if self.player is None:
+                mm.die("No player found on level")
+        else:
+            mm.con("Did not find level @ {0}, create it".format(str(l)))
+            self.biome_create(is_land=True, seed=self.seed)
+#            self.biome_create(is_dungeon=True, seed=self.seed)
+
+        mm.con("Loaded level @ {0}".format(str(l)))
+
+        l = self.level
+        mm.biome_set_is_land(value=l.is_biome_land)
+        mm.biome_set_is_dungeon(value=l.is_biome_dungeon)
+
+    def load_level_finalize(self):
+
+        l = self.level
         mm.game_set_move_count(self.move_count)
         mm.game_set_moves_per_day(self.moves_per_day)
         mm.game_set_snow_amount(self.snow_amount)
@@ -51,32 +94,20 @@ class Game:
                                  move=self.move_count,
                                  moves_per_day=self.moves_per_day)
 
-        if not self.was_loaded:
-            self.biome_create(is_land=True, seed=self.seed)
-#        self.biome_create(is_dungeon=True, seed=self.seed)
-
-        #
-        # Create or recreate the focus widgets
-        #
-        level = self.level
-
-        mm.biome_set_is_land(value=level.is_biome_land)
-        mm.biome_set_is_dungeon(value=level.is_biome_dungeon)
-
         for y in range(0, mm.MAP_HEIGHT):
             for x in range(0, mm.MAP_WIDTH):
 
-                t = level.tp_find(x, y, "focus1")
+                t = l.tp_find(x, y, "focus1")
                 if t is not None:
                     t.set_tp("none")
                 else:
-                    t = level.tp_find(x, y, "focus2")
+                    t = l.tp_find(x, y, "focus2")
                     if t is not None:
                         t.set_tp("none")
 
-                t = level.tp_find(x, y, "none")
+                t = l.tp_find(x, y, "none")
                 if t is None:
-                    t = thing.Thing(self.level, tp_name="none")
+                    t = thing.Thing(l, tp_name="none")
                     t.push(x, y)
 
                 t.wid.game = self
@@ -87,11 +118,14 @@ class Game:
         self.map_center_on_player(level_start=True)
         self.map_center_on_player(level_start=False)
 
-        self.wid_map_summary = None
+        self.wid_player_location = None
         self.player_location_update()
+        self.save()
 
     def save(self):
-        mm.con("Saving game @ {0}".format(str(self.level)))
+        l = self.level
+
+        mm.con("Saving game @ {0}".format(str(l)))
 
         with open(self.save_file, 'wb') as f:
             pickle.dump(self.width, f, pickle.HIGHEST_PROTOCOL)
@@ -104,8 +138,7 @@ class Game:
             pickle.dump(self.snow_amount, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.rain_amount, f, pickle.HIGHEST_PROTOCOL)
 
-        self.level.save()
-        print(len(self.level.all_things))
+        l.save()
 
     def load(self):
         mm.con("Loading game")
@@ -120,30 +153,11 @@ class Game:
             self.moves_per_day = pickle.load(f)
             self.snow_amount = pickle.load(f)
             self.rain_amount = pickle.load(f)
-
-            self.level = level.Level(game=self, xyz=self.where)
-
-            mm.con("Loading level @ {0}".format(str(self.level)))
-
-            self.map_wid_create()
-
-            with open(str(self.level), 'rb') as f:
-                self.level = pickle.load(f)
-
-                for thing_id in self.level.all_things:
-                    t = self.level.all_things[thing_id]
-                    mm.thing_new(t, thing_id, t.tp_name)
-                    t.on_map = False
-                    t.push(t.x, t.y)
-
-                    tp = t.tp
-                    if tp.is_player:
-                        self.player = t
-
-            mm.con("Loaded level @ {0}".format(str(self.level)))
+            self.load_level()
 
     def destroy(self):
-        self.level.destroy()
+        l = self.level
+        l.destroy()
 
     def tick(self):
         self.move_count += 1
@@ -163,25 +177,31 @@ class Game:
 
     def player_location_update(self):
 
-        level = self.level
+        l = self.level
+        if self.wid_player_location:
+            self.wid_player_location.destroy()
 
-        if self.wid_map_summary:
-            self.wid_map_summary.destroy()
-
-        self.wid_map_summary = wid_popup.WidPopup(name="wid_map_summary",
-                                                  width=1.0)
-        w = self.wid_map_summary
+        self.wid_player_location = wid_popup.WidPopup(
+                name="wid_player_location",
+                width=1.0)
+        w = self.wid_player_location
 
         text = ""
-        text += "Hour %%fg=green${0}%%fg=reset$ ".format(self.hour_str)
-        text += "Day %%fg=green${0}%%fg=reset$ ".format(self.day)
-        text += "World %%fg=green${0},{1}%%fg=reset$ ".format(level.xyz.x,
-                                                              level.xyz.y)
 
-        text += "Move %%fg=green${0}%%fg=reset$ ".format(self.move_count)
+        text += "%%fg=white$Hour %%fg=green${0}%%fg=reset$ ".format(
+                self.hour_str)
 
-        if level.xyz.z > 0:
-            text += "Depth %%fg=green${0} feet%%fg=reset ".format(level.xyz.z
+        text += "%%fg=white$Day %%fg=green${0}%%fg=reset$ ".format(
+                self.day)
+
+        text += "%%fg=white$World %%fg=green${0},{1}%%fg=reset$ ".format(
+                l.xyz.x, l.xyz.y)
+
+        text += "%%fg=white$Move %%fg=green${0}%%fg=reset$ ".format(
+                self.move_count)
+
+        if l.xyz.z > 0:
+            text += "Depth %%fg=green${0} feet%%fg=reset ".format(l.xyz.z
                                                                   * 10)
 
 #        player = self.player
@@ -233,15 +253,14 @@ class Game:
     #
     def map_clear_focus(self):
 
-        level = self.level
-
-        for x in range(0, level.width):
-            for y in range(0, level.height):
-                t = level.tp_find(x, y, "focus2")
+        l = self.level
+        for x in range(0, l.width):
+            for y in range(0, l.height):
+                t = l.tp_find(x, y, "focus2")
                 if t is not None:
                     t.set_tp("none")
 
-                t = level.tp_find(x, y, "focus1")
+                t = l.tp_find(x, y, "focus1")
                 if t is not None:
                     t.set_tp("none")
 
@@ -262,7 +281,7 @@ class Game:
         if relx == 0 and rely == 0:
             return False
 
-        level = self.level
+        l = self.level
 
         self.map_clear_focus()
 
@@ -273,13 +292,12 @@ class Game:
         # Check we can get back from the chosen point to the player.
         #
         player = self.player
-        nexthops = self.level.dmap_solve(self.player.x, self.player.y,
-                                         t.x, t.y)
+        nexthops = l.dmap_solve(self.player.x, self.player.y, t.x, t.y)
         if (player.x, player.y) in nexthops:
             for o in nexthops:
                 (x, y) = o
 
-                t = level.tp_find(x, y, "none")
+                t = l.tp_find(x, y, "none")
                 if t is not None:
                     t.set_tp("focus2")
 
@@ -288,7 +306,7 @@ class Game:
     #
     def map_mouse_down(self, w, x, y, button):
 
-        level = self.level
+        l = self.level
 
         t = w.thing
         t.set_tp("focus1")
@@ -297,7 +315,7 @@ class Game:
         # Set up the player move chain
         #
         player = self.player
-        nexthops = level.dmap_solve(self.player.x, self.player.y, t.x, t.y)
+        nexthops = l.dmap_solve(self.player.x, self.player.y, t.x, t.y)
 
         if len(nexthops) < 2:
             return True
@@ -349,18 +367,16 @@ class Game:
         #
         # Place a light ember so the player can see where they've been
         #
-        level = self.level
+        l = self.level
 
         #
         # If in a dungeon place a trail of breadcrumbs
         #
-        if level.is_biome_dungeon:
-            t = level.tp_find(x, y, "ember1")
+        if l.is_biome_dungeon:
+            t = l.tp_find(x, y, "ember1")
             if t is None:
-                t = thing.Thing(self.level, tp_name="ember1")
+                t = thing.Thing(l, tp_name="ember1")
                 t.push(x, y)
-
-        self.map_center_on_player(level_start=False)
 
         if x == 0 or x == mm.MAP_WIDTH - 1 or y == 0 or y == mm.MAP_HEIGHT - 1:
             player.pop()
@@ -368,60 +384,73 @@ class Game:
 
             player.destroy()
             player = None
-            self.player = None
 
             self.save()
-            level.destroy()
-            g.map_wid_destroy()
+
+            mm.con("Destroying old level @ {0}".format(str(l)))
+            l.destroy()
+            self.map_wid_destroy()
+            mm.con("Destroyed old level @ {0}".format(str(l)))
+
+            if self.wid_player_location:
+                self.wid_player_location.destroy()
+                self.wid_player_location = None
 
             if x == 0:
                 x = mm.MAP_WIDTH - 1
-                g.where.x -= 1
-                if g.where.x < 0:
-                    g.where.x = mm.WORLD_WIDTH - 1
+                self.where.x -= 1
+                if self.where.x < 0:
+                    self.where.x = mm.WORLD_WIDTH - 1
 
-            if x == mm.MAP_WIDTH - 1:
+            elif x == mm.MAP_WIDTH - 1:
                 x = 0
-                g.where.x += 1
-                if g.where.x >= mm.WORLD_WIDTH:
-                    g.where.x = 0
+                self.where.x += 1
+                if self.where.x >= mm.WORLD_WIDTH:
+                    self.where.x = 0
 
-            if y == 0:
+            elif y == 0:
                 y = mm.MAP_HEIGHT - 1
-                g.where.y -= 1
-                if g.where.y < 0:
-                    g.where.y = mm.WORLD_HEIGHT - 1
+                self.where.y -= 1
+                if self.where.y < 0:
+                    self.where.y = mm.WORLD_HEIGHT - 1
 
-            if y == mm.MAP_HEIGHT - 1:
+            elif y == mm.MAP_HEIGHT - 1:
                 y = 0
-                g.where.y += 1
-                if g.where.y >= mm.WORLD_HEIGHT:
-                    g.where.y = 0
+                self.where.y += 1
+                if self.where.y >= mm.WORLD_HEIGHT:
+                    self.where.y = 0
 
-            self.level = level.Level(game=self, xyz=self.where)
-            self.map_wid_create()
+            self.load_level()
+            l = self.level
 
-            player = thing.Thing(self.level, c.tp_name)
+            player = thing.Thing(l, c.tp_name)
             player.push(x, y)
             self.player = player
+
+            self.load_level_finalize()
+            mm.con("Loaded next level @ {0}".format(str(l)))
+
+            self.save()
+
+        self.map_center_on_player(level_start=False)
 
     #
     # Create a random dungeon
     #
     def biome_create(self, seed, is_land=False, is_dungeon=False):
 
-        self.level.set_biome(is_land=is_land,
-                             is_dungeon=is_dungeon)
+        l = self.level
+        l.set_biome(is_land=is_land, is_dungeon=is_dungeon)
 
-        if self.level.is_biome_dungeon:
+        if l.is_biome_dungeon:
             self.biome_build = biome_dungeon.biome_build
             self.biome_populate = biome_dungeon.biome_populate
 
-        if self.level.is_biome_land:
+        if l.is_biome_land:
             self.biome_build = biome_land.biome_build
             self.biome_populate = biome_land.biome_populate
 
-        self.biome_build(self, level=self.level, seed=seed)
+        self.biome_build(self, l, seed=seed)
         self.biome_populate(self)
 
 
@@ -452,22 +481,13 @@ def game_new():
     if os.path.isfile(g.save_file):
         try:
             g.load()
-            g.was_loaded = True
         except Exception as inst:
             mm.con("Loading failed, init new game, error [{0}]".format(inst))
             g.map_wid_destroy()
 
-            try:
-                g = Game()
-                g.was_loaded = False
-                g.load_failed_init_new_game()
-            except Exception as inst:
-                mm.err("Failed to make a new level, error [{0}]".format(inst))
+            g = Game()
+            g.game_load_failed_init_new_game()
     else:
-        g.was_loaded = False
-        g.load_failed_init_new_game()
+        g.game_load_failed_init_new_game()
 
-    try:
-        g.post_load_init()
-    except Exception as inst:
-        mm.err("Failed to finalize level, error [{0}]".format(inst))
+    g.load_level_finalize()

@@ -103,7 +103,7 @@ def biome_populate(self):
                    m.is_water_at(x, y + 1):
 
                     r = tp.get_random_marsh_plant()
-                    for i in range(1, random.randint(1, 10)):
+                    for i in range(1, random.randint(1, 5)):
                         t = thing.Thing(self.level, tp_name=r.short_name)
                         t.push(x, y)
 
@@ -114,7 +114,7 @@ def biome_populate(self):
                 else:
                     if random.randint(0, 100) < 10:
                         r = tp.get_random_plant()
-                        for i in range(1, random.randint(1, 10)):
+                        for i in range(1, random.randint(1, 5)):
                             t = thing.Thing(self.level, tp_name=r.short_name)
                             t.push(x, y)
 
@@ -123,7 +123,7 @@ def biome_populate(self):
                 t.push(x, y)
 
                 if random.randint(0, 200) < 5:
-                    for i in range(1, random.randint(1, 10)):
+                    for i in range(1, random.randint(1, 5)):
                         r = tp.get_random_plant()
                         t = thing.Thing(self.level, tp_name=r.short_name)
                         t.push(x, y)
@@ -335,12 +335,13 @@ def biome_populate(self):
                     t.set_tilename("snow1_tl")
 
             if m.is_start_at(x, y):
-                t = thing.Thing(self.level, tp_name="start1")
-                t.push(x, y)
+                if self.player is None:
+                    t = thing.Thing(self.level, tp_name="start1")
+                    t.push(x, y)
 
-                t = thing.Thing(self.level, tp_name="player1")
-                t.push(x, y)
-                self.player = t
+                    t = thing.Thing(self.level, tp_name="player1")
+                    t.push(x, y)
+                    self.player = t
 
             if m.is_rock_at(x, y):
                 t = thing.Thing(self.level, tp_name="landrock1")

@@ -7552,38 +7552,38 @@ static void wid_display_fast (widp w,
         }
     }
 
-    if (pass == 0) {
-        int light_source = false;
+    if (tp) {
+        if (pass == 0) {
+            int light_source = false;
 
-        double light_radius = tp_get_light_radius(tp);
+            double light_radius = tp_get_light_radius(tp);
 
-        if (light_radius > 0.0) {
-            light_source = true;
-        }
-
-        if (light_source) {
-            fpoint light_pos;
-
-            /*
-             * Widget tiles and textures.
-             */
-            tilep tile = wid_get_tile(w);
-            if (tile) {
-                light_pos.x = otlx + (((tile->px1 + tile->px2) / 2.0) * wid_get_width(w));
-                light_pos.y = otly + (((tile->py1 + tile->py2) / 2.0) * wid_get_height(w));
-            } else {
-                light_pos.x = otlx + wid_get_width(w) / 2;
-                light_pos.y = otly + wid_get_height(w) / 2;
+            if (light_radius > 0.0) {
+                light_source = true;
             }
 
-            wid_light_add(w, light_pos, light_radius, tp_light_color(tp));
-        }
-    }
+            if (light_source) {
+                fpoint light_pos;
 
-    /*
-     * For light embers
-     */
-    if (tp) {
+                /*
+                * Widget tiles and textures.
+                */
+                tilep tile = wid_get_tile(w);
+                if (tile) {
+                    light_pos.x = otlx + (((tile->px1 + tile->px2) / 2.0) * wid_get_width(w));
+                    light_pos.y = otly + (((tile->py1 + tile->py2) / 2.0) * wid_get_height(w));
+                } else {
+                    light_pos.x = otlx + wid_get_width(w) / 2;
+                    light_pos.y = otly + wid_get_height(w) / 2;
+                }
+
+                wid_light_add(w, light_pos, light_radius, tp_light_color(tp));
+            }
+        }
+
+        /*
+         * For light embers
+         */
         if (tp_is_hidden(tp)) {
             return;
         }
@@ -7653,19 +7653,24 @@ static void wid_display_fast (widp w,
      */
     double blit_y_offset = w->blit_y_offset;
 
-    int tx = t->x;
-    int ty = t->y;
+    int tx = 0;
+    int ty = 0;
 
-    if (tp_is_corridor(tp) || tp_is_dusty(tp) || tp_is_bridge(tp)) {
-        floor_offset[tx][ty] = blit_y_offset;
-    } else if (tp_is_lava(tp) || tp_is_water(tp)) {
-        blit_y_offset = 0;
-    } else {
-        blit_y_offset += floor_offset[tx][ty];
+    if (tp) {
+        tx = t->x;
+        ty = t->y;
+
+        if (tp_is_corridor(tp) || tp_is_dusty(tp) || tp_is_bridge(tp)) {
+            floor_offset[tx][ty] = blit_y_offset;
+        } else if (tp_is_lava(tp) || tp_is_water(tp)) {
+            blit_y_offset = 0;
+        } else {
+            blit_y_offset += floor_offset[tx][ty];
+        }
+
+        tl.y += blit_y_offset;
+        br.y += blit_y_offset;
     }
-
-    tl.y += blit_y_offset;
-    br.y += blit_y_offset;
 
     /*
      * Allow slime molds to look either way without bothering to create the
@@ -7703,7 +7708,7 @@ static void wid_display_fast (widp w,
         blit_flush();
         wid_display(w, true, &child_updated_scissors, false);
         blit_init();
-    } else {
+    } else if (tp) {
 #ifdef ENABLE_BLACK_AND_WHITE
         if (unlikely(black_and_white)) {
             tile_blit_fat_black_and_white(tp, tile, 0, tl, br);
