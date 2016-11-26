@@ -41,13 +41,13 @@ class Level:
         s = math.sin(self.game.move_count / (math.pi * 11))
         if self.is_snowy:
             if s > 0:
-                mm.game_set_snow_amount(int(s * 50))
+                mm.game_set_snow_amount(int(s * 100))
             else:
                 mm.game_set_snow_amount(0)
 
         if self.is_grassy or self.is_watery:
             if s > 0:
-                mm.game_set_rain_amount(int(s * 50))
+                mm.game_set_rain_amount(int(s * 100))
             else:
                 mm.game_set_rain_amount(0)
 

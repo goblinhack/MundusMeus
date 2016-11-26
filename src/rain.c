@@ -31,7 +31,7 @@ void rain_tick (int intensity)
     double drop_h = drop_w;
 
     double tile_height = h / TILES_SCREEN_HEIGHT;
-    double fall_speed = 5.00;
+    double fall_speed = 10.00;
     double drop_fade = 255.0 / TILES_SCREEN_HEIGHT;
 
     static double wind = 0.5;
