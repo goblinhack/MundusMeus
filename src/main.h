@@ -525,7 +525,7 @@ struct game_ {
     int zzz91;
     int zzz92;
     int zzz93;
-    int zzz94;
+    int sdl_delay;
     int daylight_color_a;
     int daylight_color_b;
     int daylight_color_g;

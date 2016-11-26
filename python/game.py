@@ -35,6 +35,7 @@ class Game:
 
     def game_load_failed_init_new_game(self):
 
+        self.sdl_delay = 10
         self.seed = 0
         self.move_count = 0
         self.moves_per_day = 1000
