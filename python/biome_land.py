@@ -25,34 +25,68 @@ def biome_build(self, level=None, seed=0):
 
 
 def biome_populate(self):
-    m = self.level.biome
+    l = self.level
+    m = l.biome
 
+    #
+    # Get the feel of the level for weather effects
+    #
     snow_count = 0
-    poor_soil_count = 0
+    grass_count = 0
+    water_count = 0
+    dirt_count = 0
+    gravel_count = 0
 
     for y in range(0, mm.MAP_HEIGHT):
         for x in range(0, mm.MAP_WIDTH):
             if m.is_snow_at(x, y):
                 snow_count += 1
 
-            if not m.is_grass_at(x, y):
-                poor_soil_count += 1
+            if m.is_grass_at(x, y):
+                grass_count += 1
+
+            if m.is_water_at(x, y):
+                grass_count += 1
+
+            if m.is_dirt_at(x, y):
+                dirt_count += 1
+
+            if m.is_gravel_at(x, y):
+                dirt_count += 1
 
     threshold = mm.MAP_WIDTH * mm.MAP_HEIGHT
 
-    is_snowy = False
-    if poor_soil_count > threshold / 8:
-        is_snowy = True
+    l.is_snowy = False
+    if snow_count > threshold / 2:
+        l.is_snowy = True
+
+    l.is_grassy = False
+    if grass_count > threshold / 2:
+        l.is_grassy = True
+
+    if dirt_count > threshold / 2:
+        l.is_grassy = True
+
+    if gravel_count > threshold / 2:
+        l.is_grassy = True
+
+    if gravel_count > threshold / 2:
+        l.is_gravel = True
+
+    l.is_watery = False
+    if water_count > threshold / 2:
+        print("is watery")
+        l.is_watery = True
 
     is_poor_soil = False
-    if poor_soil_count > threshold / 2:
+    if grass_count < threshold / 2:
         is_poor_soil = True
 
     for y in range(0, mm.MAP_HEIGHT):
         for x in range(0, mm.MAP_WIDTH):
 
             if random.randint(0, 1000) < 2:
-                t = thing.Thing(self.level, tp_name="torch1")
+                t = thing.Thing(l, tp_name="torch1")
                 t.push(x, y)
 
             grass1 = False
@@ -80,21 +114,21 @@ def biome_populate(self):
                 ice1 = True
 
             if m.is_tree_at(x, y):
-                if is_snowy:
+                if l.is_snowy:
                     r = tp.get_random_tree_snow()
-                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t = thing.Thing(l, tp_name=r.short_name)
                     t.push(x, y)
                 elif is_poor_soil:
                     r = tp.get_random_tree_conifer()
-                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t = thing.Thing(l, tp_name=r.short_name)
                     t.push(x, y)
                 else:
                     r = tp.get_random_tree()
-                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t = thing.Thing(l, tp_name=r.short_name)
                     t.push(x, y)
 
             if grass1:
-                t = thing.Thing(self.level, tp_name="grass1")
+                t = thing.Thing(l, tp_name="grass1")
                 t.push(x, y)
 
                 if m.is_water_at(x - 1, y) or \
@@ -104,247 +138,247 @@ def biome_populate(self):
 
                     r = tp.get_random_marsh_plant()
                     for i in range(1, random.randint(1, 5)):
-                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t = thing.Thing(l, tp_name=r.short_name)
                         t.push(x, y)
 
                     if random.randint(0, 1000) < 10:
                         r = tp.get_random_plant()
-                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t = thing.Thing(l, tp_name=r.short_name)
                         t.push(x, y)
                 else:
                     if random.randint(0, 100) < 10:
                         r = tp.get_random_plant()
                         for i in range(1, random.randint(1, 5)):
-                            t = thing.Thing(self.level, tp_name=r.short_name)
+                            t = thing.Thing(l, tp_name=r.short_name)
                             t.push(x, y)
 
             if dirt1:
-                t = thing.Thing(self.level, tp_name="dirt1")
+                t = thing.Thing(l, tp_name="dirt1")
                 t.push(x, y)
 
                 if random.randint(0, 200) < 5:
                     for i in range(1, random.randint(1, 5)):
                         r = tp.get_random_plant()
-                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t = thing.Thing(l, tp_name=r.short_name)
                         t.push(x, y)
 
             if sand1:
-                t = thing.Thing(self.level, tp_name="sand1")
+                t = thing.Thing(l, tp_name="sand1")
                 t.push(x, y)
 
                 if not grass1:
                     if random.randint(0, 1000) < 5:
                         r = tp.get_random_small_rock()
-                        t = thing.Thing(self.level, tp_name=r.short_name)
+                        t = thing.Thing(l, tp_name=r.short_name)
                         t.push(x, y)
 
             if gravel:
-                if is_snowy:
-                    t = thing.Thing(self.level, tp_name="gravel_snow")
+                if l.is_snowy:
+                    t = thing.Thing(l, tp_name="gravel_snow")
                     t.push(x, y)
                 else:
-                    t = thing.Thing(self.level, tp_name="gravel")
+                    t = thing.Thing(l, tp_name="gravel")
                     t.push(x, y)
 
                 if random.randint(0, 1000) < 50:
                     r = tp.get_random_small_rock()
-                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t = thing.Thing(l, tp_name=r.short_name)
                     t.push(x, y)
 
             if ice1:
-                t = thing.Thing(self.level, tp_name="ice1")
+                t = thing.Thing(l, tp_name="ice1")
                 t.push(x, y)
 
             if snow1:
-                t = thing.Thing(self.level, tp_name="snow1")
+                t = thing.Thing(l, tp_name="snow1")
                 t.push(x, y)
 
                 if random.randint(0, 1000) < 50:
                     r = tp.get_random_snow_mound()
-                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t = thing.Thing(l, tp_name=r.short_name)
                     t.push(x, y)
 
             if not grass1:
                 if m.is_grass_at(x - 1, y):
-                    t = thing.Thing(self.level, tp_name="grass1_deco")
+                    t = thing.Thing(l, tp_name="grass1_deco")
                     t.push(x, y)
                     t.set_tilename("grass1-right")
                 if m.is_grass_at(x + 1, y):
-                    t = thing.Thing(self.level, tp_name="grass1_deco")
+                    t = thing.Thing(l, tp_name="grass1_deco")
                     t.push(x, y)
                     t.set_tilename("grass1-left")
                 if m.is_grass_at(x, y - 1):
-                    t = thing.Thing(self.level, tp_name="grass1_deco")
+                    t = thing.Thing(l, tp_name="grass1_deco")
                     t.push(x, y)
                     t.set_tilename("grass1-bot")
                 if m.is_grass_at(x, y + 1):
-                    t = thing.Thing(self.level, tp_name="grass1_deco")
+                    t = thing.Thing(l, tp_name="grass1_deco")
                     t.push(x, y)
                     t.set_tilename("grass1-top")
                 if m.is_grass_at(x - 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="grass1_deco")
+                    t = thing.Thing(l, tp_name="grass1_deco")
                     t.push(x, y)
                     t.set_tilename("grass1-br")
                 if m.is_grass_at(x + 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="grass1_deco")
+                    t = thing.Thing(l, tp_name="grass1_deco")
                     t.push(x, y)
                     t.set_tilename("grass1-bl")
                 if m.is_grass_at(x - 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="grass1_deco")
+                    t = thing.Thing(l, tp_name="grass1_deco")
                     t.push(x, y)
                     t.set_tilename("grass1-tr")
                 if m.is_grass_at(x + 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="grass1_deco")
+                    t = thing.Thing(l, tp_name="grass1_deco")
                     t.push(x, y)
                     t.set_tilename("grass1-tl")
 
             if not dirt1:
                 if m.is_dirt_at(x - 1, y):
-                    t = thing.Thing(self.level, tp_name="dirt1_deco")
+                    t = thing.Thing(l, tp_name="dirt1_deco")
                     t.push(x, y)
                     t.set_tilename("dirt1-right")
                 if m.is_dirt_at(x + 1, y):
-                    t = thing.Thing(self.level, tp_name="dirt1_deco")
+                    t = thing.Thing(l, tp_name="dirt1_deco")
                     t.push(x, y)
                     t.set_tilename("dirt1-left")
                 if m.is_dirt_at(x, y - 1):
-                    t = thing.Thing(self.level, tp_name="dirt1_deco")
+                    t = thing.Thing(l, tp_name="dirt1_deco")
                     t.push(x, y)
                     t.set_tilename("dirt1-bot")
                 if m.is_dirt_at(x, y + 1):
-                    t = thing.Thing(self.level, tp_name="dirt1_deco")
+                    t = thing.Thing(l, tp_name="dirt1_deco")
                     t.push(x, y)
                     t.set_tilename("dirt1-top")
                 if m.is_dirt_at(x - 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="dirt1_deco")
+                    t = thing.Thing(l, tp_name="dirt1_deco")
                     t.push(x, y)
                     t.set_tilename("dirt1-br")
                 if m.is_dirt_at(x + 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="dirt1_deco")
+                    t = thing.Thing(l, tp_name="dirt1_deco")
                     t.push(x, y)
                     t.set_tilename("dirt1-bl")
                 if m.is_dirt_at(x - 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="dirt1_deco")
+                    t = thing.Thing(l, tp_name="dirt1_deco")
                     t.push(x, y)
                     t.set_tilename("dirt1-tr")
                 if m.is_dirt_at(x + 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="dirt1_deco")
+                    t = thing.Thing(l, tp_name="dirt1_deco")
                     t.push(x, y)
                     t.set_tilename("dirt1-tl")
 
             if not sand1:
                 if m.is_sand_at(x - 1, y):
-                    t = thing.Thing(self.level, tp_name="sand1_deco")
+                    t = thing.Thing(l, tp_name="sand1_deco")
                     t.push(x, y)
                     t.set_tilename("sand1-right")
                 if m.is_sand_at(x + 1, y):
-                    t = thing.Thing(self.level, tp_name="sand1_deco")
+                    t = thing.Thing(l, tp_name="sand1_deco")
                     t.push(x, y)
                     t.set_tilename("sand1-left")
                 if m.is_sand_at(x, y - 1):
-                    t = thing.Thing(self.level, tp_name="sand1_deco")
+                    t = thing.Thing(l, tp_name="sand1_deco")
                     t.push(x, y)
                     t.set_tilename("sand1-bot")
                 if m.is_sand_at(x, y + 1):
-                    t = thing.Thing(self.level, tp_name="sand1_deco")
+                    t = thing.Thing(l, tp_name="sand1_deco")
                     t.push(x, y)
                     t.set_tilename("sand1-top")
                 if m.is_sand_at(x - 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="sand1_deco")
+                    t = thing.Thing(l, tp_name="sand1_deco")
                     t.push(x, y)
                     t.set_tilename("sand1-br")
                 if m.is_sand_at(x + 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="sand1_deco")
+                    t = thing.Thing(l, tp_name="sand1_deco")
                     t.push(x, y)
                     t.set_tilename("sand1-bl")
                 if m.is_sand_at(x - 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="sand1_deco")
+                    t = thing.Thing(l, tp_name="sand1_deco")
                     t.push(x, y)
                     t.set_tilename("sand1-tr")
                 if m.is_sand_at(x + 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="sand1_deco")
+                    t = thing.Thing(l, tp_name="sand1_deco")
                     t.push(x, y)
                     t.set_tilename("sand1-tl")
 
             if not gravel:
                 if m.is_gravel_at(x - 1, y):
-                    t = thing.Thing(self.level, tp_name="gravel_deco")
+                    t = thing.Thing(l, tp_name="gravel_deco")
                     t.push(x, y)
                     t.set_tilename("gravel-right")
                 if m.is_gravel_at(x + 1, y):
-                    t = thing.Thing(self.level, tp_name="gravel_deco")
+                    t = thing.Thing(l, tp_name="gravel_deco")
                     t.push(x, y)
                     t.set_tilename("gravel-left")
                 if m.is_gravel_at(x, y - 1):
-                    t = thing.Thing(self.level, tp_name="gravel_deco")
+                    t = thing.Thing(l, tp_name="gravel_deco")
                     t.push(x, y)
                     t.set_tilename("gravel-bot")
                 if m.is_gravel_at(x, y + 1):
-                    t = thing.Thing(self.level, tp_name="gravel_deco")
+                    t = thing.Thing(l, tp_name="gravel_deco")
                     t.push(x, y)
                     t.set_tilename("gravel-top")
                 if m.is_gravel_at(x - 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="gravel_deco")
+                    t = thing.Thing(l, tp_name="gravel_deco")
                     t.push(x, y)
                     t.set_tilename("gravel-br")
                 if m.is_gravel_at(x + 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="gravel_deco")
+                    t = thing.Thing(l, tp_name="gravel_deco")
                     t.push(x, y)
                     t.set_tilename("gravel-bl")
                 if m.is_gravel_at(x - 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="gravel_deco")
+                    t = thing.Thing(l, tp_name="gravel_deco")
                     t.push(x, y)
                     t.set_tilename("gravel-tr")
                 if m.is_gravel_at(x + 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="gravel_deco")
+                    t = thing.Thing(l, tp_name="gravel_deco")
                     t.push(x, y)
                     t.set_tilename("gravel-tl")
 
             if not snow1:
                 if m.is_snow_at(x - 1, y):
-                    t = thing.Thing(self.level, tp_name="snow1_deco")
+                    t = thing.Thing(l, tp_name="snow1_deco")
                     t.push(x, y)
                     t.set_tilename("snow1_right")
                 if m.is_snow_at(x + 1, y):
-                    t = thing.Thing(self.level, tp_name="snow1_deco")
+                    t = thing.Thing(l, tp_name="snow1_deco")
                     t.push(x, y)
                     t.set_tilename("snow1_left")
                 if m.is_snow_at(x, y - 1):
-                    t = thing.Thing(self.level, tp_name="snow1_deco")
+                    t = thing.Thing(l, tp_name="snow1_deco")
                     t.push(x, y)
                     t.set_tilename("snow1_bot")
                 if m.is_snow_at(x, y + 1):
-                    t = thing.Thing(self.level, tp_name="snow1_deco")
+                    t = thing.Thing(l, tp_name="snow1_deco")
                     t.push(x, y)
                     t.set_tilename("snow1_top")
                 if m.is_snow_at(x - 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="snow1_deco")
+                    t = thing.Thing(l, tp_name="snow1_deco")
                     t.push(x, y)
                     t.set_tilename("snow1_br")
                 if m.is_snow_at(x + 1, y - 1):
-                    t = thing.Thing(self.level, tp_name="snow1_deco")
+                    t = thing.Thing(l, tp_name="snow1_deco")
                     t.push(x, y)
                     t.set_tilename("snow1_bl")
                 if m.is_snow_at(x - 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="snow1_deco")
+                    t = thing.Thing(l, tp_name="snow1_deco")
                     t.push(x, y)
                     t.set_tilename("snow1_tr")
                 if m.is_snow_at(x + 1, y + 1):
-                    t = thing.Thing(self.level, tp_name="snow1_deco")
+                    t = thing.Thing(l, tp_name="snow1_deco")
                     t.push(x, y)
                     t.set_tilename("snow1_tl")
 
             if m.is_start_at(x, y):
                 if self.player is None:
-                    t = thing.Thing(self.level, tp_name="start1")
+                    t = thing.Thing(l, tp_name="start1")
                     t.push(x, y)
 
-                    t = thing.Thing(self.level, tp_name="player1")
+                    t = thing.Thing(l, tp_name="player1")
                     t.push(x, y)
                     self.player = t
 
             if m.is_rock_at(x, y):
-                t = thing.Thing(self.level, tp_name="landrock1")
+                t = thing.Thing(l, tp_name="landrock1")
                 t.push(x, y)
 
                 if m.is_rock_at(x, y-1):
@@ -411,18 +445,18 @@ def biome_populate(self):
                 #
                 # Underground water
                 #
-                t = thing.Thing(self.level, tp_name=water)
+                t = thing.Thing(l, tp_name=water)
                 t.push(x, y)
 
                 if put_treasure:
                     toughness = 1
                     r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(self.level, tp_name=r.short_name)
+                    t = thing.Thing(l, tp_name=r.short_name)
                     t.push(x, y)
 
             if m.is_treasure_at(x, y):
-                toughness = self.level.xyz.z
+                toughness = l.xyz.z
 
                 r = tp.get_random_treasure(toughness=1)
-                t = thing.Thing(self.level, tp_name=r.short_name)
+                t = thing.Thing(l, tp_name=r.short_name)
                 t.push(x, y)
