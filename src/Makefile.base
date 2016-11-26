@@ -19,7 +19,6 @@ GAME_OBJECTS=				\
     $(OBJDIR)/dmap.o 			\
     $(OBJDIR)/glshapes.o 		\
     $(OBJDIR)/init_fn.o 		\
-    $(OBJDIR)/level.o 			\
     $(OBJDIR)/log.o 			\
     $(OBJDIR)/main.o 			\
     $(OBJDIR)/map.o 			\

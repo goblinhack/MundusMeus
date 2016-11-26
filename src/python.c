@@ -2718,7 +2718,6 @@ void python_init (void)
     Py_Initialize();
 
     py_add_to_path(GFX_PATH);
-    py_add_to_path(LEVELS_PATH);
     py_add_to_path(WORLD_PATH);
     py_add_to_path(DATA_PATH);
     py_add_to_path(PYTHON_PATH);
