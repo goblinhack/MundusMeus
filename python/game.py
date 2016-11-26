@@ -79,8 +79,8 @@ class Game:
                 mm.die("No player found on level")
         else:
             mm.con("Did not find level @ {0}, create it".format(str(l)))
-            self.biome_create(is_land=True, seed=self.seed)
-#            self.biome_create(is_dungeon=True, seed=self.seed)
+            self.biome_create(is_dungeon=True, seed=self.seed)
+#            self.biome_create(is_land=True, seed=self.seed)
 
         mm.con("Loaded level @ {0}".format(str(l)))
 
