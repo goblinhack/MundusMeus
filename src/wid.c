@@ -8272,7 +8272,8 @@ static void wid_lighting_calculate (widp w,
 static void wid_lighting_render (widp w,
                                  const int light_index,
                                  double rotation,
-                                 double fade)
+                                 double fade,
+                                 double scale)
 {
     wid_light *light = &wid_lights[light_index];
     fpoint light_pos = light->at;
@@ -8413,6 +8414,7 @@ static void wid_lighting_render (widp w,
             green = ((double)c.g) / 255.0;
             blue = ((double)c.b) / 255.0;
             alpha = ((double)c.a) / 255.0;
+            alpha *= fade;
 
             push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
                            red, green, blue, alpha);
@@ -8432,6 +8434,7 @@ static void wid_lighting_render (widp w,
             }
 
             p1_len += game.tile_width * light_delta;
+            p1_len *= scale;
 
             double cosr = fcos(rad);
             double sinr = fsin(rad);
@@ -8464,6 +8467,7 @@ static void wid_lighting_render (widp w,
             }
 
             p1_len += game.tile_width * light_delta;
+            p1_len *= scale;
 
             double cosr = fcos(rad);
             double sinr = fsin(rad);
@@ -9351,13 +9355,20 @@ static void wid_display (widp w,
                 thingp t = light->w->thing;
 
                 if (thing_is_player(t)) {
-                    wid_lighting_render(w, i, 0.0, 0.25);
-                    wid_lighting_render(w, i, 0.025, 0.25);
-                    wid_lighting_render(w, i, -0.025, 0.25);
-                    wid_lighting_render(w, i, 0.05, 0.10);
-                    wid_lighting_render(w, i, -0.05, 0.10);
+                    double x;
+                    double fade = 0.1;
+
+                    for (x = 1.5; x >= 1.0; x -= 0.05) {
+                        wid_lighting_render(w, i, 0.0, fade, x);
+                        fade *= 1.10;
+                    }
+
+                    wid_lighting_render(w, i, 0.025, 0.25, 1.0);
+                    wid_lighting_render(w, i, -0.025, 0.25, 1.0);
+                    wid_lighting_render(w, i, 0.05, 0.10, 1.0);
+                    wid_lighting_render(w, i, -0.05, 0.10, 1.0);
                 } else {
-                    wid_lighting_render(w, i, 0.0, 1.0);
+                    wid_lighting_render(w, i, 0.0, 1.0, 1.0);
                 }
             }
 
