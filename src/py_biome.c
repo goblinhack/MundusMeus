@@ -1320,13 +1320,13 @@ PyObject *game_set_zzz93_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_zzz94_ (PyObject *obj, PyObject *args, 
+PyObject *game_set_sdl_delay_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
     static char *kwlist[] = {"value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
-                                     &game.zzz94)) {
+                                     &game.sdl_delay)) {
         Py_RETURN_NONE;
     }
 

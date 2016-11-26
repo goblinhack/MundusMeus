@@ -2355,8 +2355,8 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "change game type"},
 
-    {"game_set_zzz94",
-        (PyCFunction)game_set_zzz94_,
+    {"game_set_sdl_delay",
+        (PyCFunction)game_set_sdl_delay_,
         METH_VARARGS | METH_KEYWORDS,
         "change game type"},
 

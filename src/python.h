@@ -188,7 +188,7 @@ PyObject *game_set_zzz90_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *game_set_zzz91_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *game_set_zzz92_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *game_set_zzz93_(PyObject *obj, PyObject *args, PyObject *keywds);
-PyObject *game_set_zzz94_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *game_set_sdl_delay_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *game_set_daylight_color_a_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *game_set_daylight_color_b_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *game_set_daylight_color_g_(PyObject *obj, PyObject *args, PyObject *keywds);
