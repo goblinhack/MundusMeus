@@ -95,8 +95,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
     /*
      * Make a new thing.
      */
-    child = wid_new_square_button(game.wid_grid,
-                                  "map tile");
+    child = wid_new_square_button(game.wid_grid, "map tile");
 
     wid_set_mode(child, WID_MODE_NORMAL);
     wid_set_no_shape(child);
@@ -207,16 +206,6 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         tp_is_sand(tp)) {
         t->depth = myrand() % 50;
     }
-
-#if 0
-    if (tp_is_dirt(tp)) {
-        wid_set_blit_y_offset(child, - wid_get_height(child) * 0.10);
-    }
-
-    if (tp_is_sand(tp)) {
-        wid_set_blit_y_offset(child, - wid_get_height(child) * 0.30);
-    }
-#endif
 
     /*
      * If this is a pre-existing thing perhaps being recreated ona new level
