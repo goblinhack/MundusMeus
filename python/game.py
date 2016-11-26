@@ -68,6 +68,8 @@ class Game:
                 for thing_id in l.all_things:
                     t = l.all_things[thing_id]
                     t.push(t.x, t.y)
+                    if t.tilename is not None:
+                        t.set_tilename(t.tilename)
 
                     tp = t.tp
                     if tp.is_player:

@@ -23,6 +23,7 @@ class Thing:
         self.x = -1
         self.y = -1
         self.on_map = False
+        self.tilename = None
 
         #
         # Ordered list of locations to walk to
@@ -114,6 +115,7 @@ class Thing:
         self.long_name = value
 
     def set_tilename(self, name):
+        self.tilename = name
         mm.thing_set_tilename(self, name)
 
     def set_tp(self, tp_name):

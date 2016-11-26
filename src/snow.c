@@ -34,7 +34,7 @@ void snow_tick (int intensity)
     double fall_speed = 1.80;
     double flake_fade = 255.0 / TILES_SCREEN_HEIGHT;
 
-    static double wind = 0.5;
+    static double wind = 0.1;
 
     static tilep tile;
     if (!tile) {
