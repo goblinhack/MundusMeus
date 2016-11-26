@@ -31,7 +31,7 @@ void snow_tick (int intensity)
     double flake_h = flake_w;
 
     double tile_height = h / TILES_SCREEN_HEIGHT;
-    double fall_speed = 0.80;
+    double fall_speed = 1.80;
     double flake_fade = 255.0 / TILES_SCREEN_HEIGHT;
 
     static double wind = 0.5;
