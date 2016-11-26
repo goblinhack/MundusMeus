@@ -147,13 +147,6 @@ int thing_tick_all (levelp level)
         return (false);
     }
 
-    /*
-     * Do per tick stuff for the level
-     */
-    if (!level_tick(level)) {
-        return (false);
-    }
-
     game.tick++;
 
     if (!thing_tick_all_things(level)) {

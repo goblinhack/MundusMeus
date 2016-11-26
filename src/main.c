@@ -31,7 +31,6 @@ static char **ARGV;
 char *EXEC_FULL_PATH_AND_NAME;
 char *EXEC_DIR;
 char *DATA_PATH;
-char *LEVELS_PATH;
 char *WORLD_PATH;
 char *PYTHON_PATH;
 char *TTF_PATH;
@@ -59,8 +58,6 @@ void quit (void)
     LOG("sdl_exit()");
     sdl_exit();
 
-    LOG("level_fini()");
-    level_fini();
     LOG("player_fini()");
     player_fini();
     LOG("tp_fini()");
@@ -117,11 +114,6 @@ void quit (void)
     if (PYTHON_PATH) {
         myfree(PYTHON_PATH);
         PYTHON_PATH = 0;
-    }
-
-    if (LEVELS_PATH) {
-        myfree(LEVELS_PATH);
-        LEVELS_PATH = 0;
     }
 
     if (WORLD_PATH) {
@@ -351,21 +343,6 @@ static void find_python_dir (void)
 }
 
 /*
- * Hunt down the level/ dir.
- */
-static void find_level_dir (void)
-{
-    LEVELS_PATH = dynprintf("%sdata" DSEP "levels" DSEP, EXEC_DIR);
-    if (dir_exists(LEVELS_PATH)) {
-        return;
-    }
-
-    myfree(LEVELS_PATH);
-
-    LEVELS_PATH = dupstr(EXEC_DIR, __FUNCTION__);
-}
-
-/*
  * Hunt down the world/ dir.
  */
 static void find_world_dir (void)
@@ -418,12 +395,10 @@ static void find_file_locations (void)
     find_exec_dir();
     find_data_dir();
     find_python_dir();
-    find_level_dir();
     find_world_dir();
     find_ttf_dir();
     find_gfx_dir();
 
-    DBG("Level path  : \"%s\"", LEVELS_PATH);
     DBG("Gfx path    : \"%s\"", GFX_PATH);
     DBG("Font path   : \"%s\"", TTF_PATH);
 }
@@ -560,10 +535,6 @@ int32_t main (int32_t argc, char *argv[])
 #endif
 
     py_call_void("init2");
-
-    action_init_fn_create(&init_fns,
-                          (action_init_fn_callback)level_init,
-                          0, "level_init");
 
     action_init_fn_create(&init_fns,
                           (action_init_fn_callback)player_init,

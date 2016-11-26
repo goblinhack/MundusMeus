@@ -11,9 +11,6 @@
 #include "map.h"
 
 static uint8_t level_init_done;
-static uint8_t level_init_done;
-static void level_set_walls(levelp level);
-static void level_update_incremental(levelp level);
 
 uint8_t level_init (void)
 {
@@ -55,132 +52,9 @@ void level_destroy (levelp *plevel, uint8_t keep_player)
     level = 0;
 }
 
-void level_update_slow (levelp level)
-{
-    level_set_walls(level);
-
-    /*
-     * One time generate of expensive wander map
-     */
-#if 0
-    dmap_generate_map_wander(level);
-#endif
-
-    level_update_incremental(level);
-}
-
-static void level_update_incremental (levelp level)
-{
-    level_set_walls(level);
-
-    /*
-     * Regenerate player dmaps as things like doors may have been opened.
-     */
-#if 0
-    dmap_generate(level, true /* force */);
-#endif
-}
-
 widp level_get_map (levelp level)
 {
     return (game.wid_grid);
-}
-
-static void level_set_walls (levelp level)
-{
-    int32_t x;
-    int32_t y;
-    int32_t z;
-
-    widp w = game.wid_grid;
-    if (!w) {
-        return;
-    }
-
-    if (!level) {
-        return;
-    }
-
-    if (!w->grid) {
-        DIE("no grid wid set for game wid_grid");
-    }
-
-    int i;
-    for (i = 0; i < DMAP_MAP_MAX; i++) {
-        memset(level->dmap[i].walls, '+',
-            sizeof(level->dmap[i].walls));
-        memset(level->dmap[i].walls, '+',
-            sizeof(level->dmap[i].walls));
-    }
-
-    memset(level->walls.walls, '+',
-           sizeof(level->walls.walls));
-    memset(level->doors.walls, '+',
-           sizeof(level->doors.walls));
-
-    for (z = Z_DEPTH_WALL; z < Z_DEPTH; z++) {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            for (y = 0; y < MAP_HEIGHT; y++) {
-
-                tree_root **tree =
-                    w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
-                widgridnode *node;
-
-                TREE_WALK_REVERSE_UNSAFE_INLINE(
-                                    *tree,
-                                    node,
-                                    tree_prev_tree_wid_compare_func) {
-
-                    widp w = node->wid;
-
-                    thingp t = wid_get_thing(w);
-                    if (!t) {
-                        continue;
-                    }
-
-                    /*
-                     * Identify obstacles.
-                     */
-                    if (thing_is_door(t)) {
-                        level->dmap[DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_WALLS].walls[x][y] = '+';
-                        continue;
-                    }
-
-                    /*
-                     * Same as above, but treat doors as passable.
-                     */
-                    if (thing_is_door(t)) {
-                        level->dmap[DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_PASSABLE].walls[x][y] = ' ';
-                        continue;
-                    }
-
-                    char c = 0;
-
-                    if (thing_is_wall(t)) {
-                        if (!map_is_wall_at(level, x, y - 1)) {
-                            c = ' ';
-                        }
-                    }
-
-                    if (c) {
-                        level->dmap[DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_WALLS].walls[x][y] = c;
-                        level->dmap[DMAP_MAP_PLAYER_TARGET_TREAT_DOORS_AS_PASSABLE].walls[x][y] = c;
-                        level->doors.walls[x][y] = c;
-                    }
-                }
-            }
-        }
-    }
-
-#if 0
-    for (y = 0; y < MAP_HEIGHT; y++) {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            printf("%c", level->doors.walls[x][y]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-#endif
 }
 
 /*
@@ -203,22 +77,4 @@ void level_finished_all (void)
 
     levelp level = &game.level;
     level_finished(level, false /* keep_player */);
-}
-
-int level_tick (levelp level)
-{
-    if (!level) {
-        return (false);
-    }
-
-    static uint32_t last_tick;
-    if (!time_have_x_tenths_passed_since(LEVEL_TICK_DELAY_TENTHS, last_tick)) {
-        return (true);
-    }
-
-    last_tick = time_get_time_ms();
-
-    level_update_incremental(level);
-
-    return (true);
 }
