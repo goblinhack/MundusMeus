@@ -42,7 +42,7 @@ class Game:
         self.snow_amount = 0
         self.max_thing_id = 1
         self.seed = 9
-        self.where = util.Xyz(28, 40, 0)
+        self.where = util.Xyz(24, 37, 0)
         self.load_level()
 
     def load_level(self):
@@ -63,6 +63,11 @@ class Game:
                     t = l.all_things[thing_id]
                     mm.thing_new(t, thing_id, t.tp_name)
                     t.on_map = False
+
+                mm.con("Pushing things on level @ {0}".format(str(l)))
+
+                for thing_id in l.all_things:
+                    t = l.all_things[thing_id]
                     t.push(t.x, t.y)
 
                     tp = t.tp
@@ -269,6 +274,9 @@ class Game:
     #
     def map_mouse_over(self, w, relx, rely, wheelx, wheely):
 
+        if len(self.player.nexthops) > 0:
+            return False
+
         #
         # Want to scroll without the focus moving
         #
@@ -379,12 +387,15 @@ class Game:
                 t.push(x, y)
 
         if x == 0 or x == mm.MAP_WIDTH - 1 or y == 0 or y == mm.MAP_HEIGHT - 1:
+            mm.con("Level move")
             player.pop()
-            c = copy.deepcopy(player)
+            c = copy.copy(player)
 
+            mm.con("Destroy player")
             player.destroy()
             player = None
 
+            mm.con("Save before changing level @ {0}".format(str(l)))
             self.save()
 
             mm.con("Destroying old level @ {0}".format(str(l)))
