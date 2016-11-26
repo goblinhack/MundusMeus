@@ -7388,8 +7388,6 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
         if (game.biome_set_is_land) {
             strength *= 2;
         }
-// XXX
-c = DARKBLUE;
     } else {
         /*
          * No light source that are under the floor when not visible.
@@ -7720,6 +7718,7 @@ static void wid_display_fast (widp w,
             if (tp_is_floor(tp) ||
                 tp_is_sand(tp) ||
                 tp_is_grass(tp) ||
+                tp_is_water(tp) ||
                 tp_is_rock(tp) ||
                 tp_is_landrock(tp) ||
                 tp_is_gravel(tp) ||
@@ -7736,60 +7735,6 @@ static void wid_display_fast (widp w,
 
                 double depth;
                 double depth_scale = 0.4;
-
-                if (floor_depth[tx][ty][z]) {
-                    depth = (floor_depth[tx][ty][z]) / 64.0;
-                    depth *= depth_scale;
-                    depth = 1.0 - depth;
-                    a.r *= depth;
-                    a.g *= depth;
-                    a.b *= depth;
-                }
-
-                if (floor_depth[tx+1][ty][z]) {
-                    depth = (floor_depth[tx+1][ty][z]) / 64.0;
-                    depth *= depth_scale;
-                    depth = 1.0 - depth;
-                    b.r *= depth;
-                    b.g *= depth;
-                    b.b *= depth;
-                }
-
-                if (floor_depth[tx][ty+1][z]) {
-                    depth = (floor_depth[tx][ty+1][z]) / 64.0;
-                    depth *= depth_scale;
-                    depth = 1.0 - depth;
-                    c.r *= depth;
-                    c.g *= depth;
-                    c.b *= depth;
-                }
-
-                if (floor_depth[tx+1][ty+1][z]) {
-                    depth = (floor_depth[tx+1][ty+1][z]) / 64.0;
-                    depth *= depth_scale;
-                    depth = 1.0 - depth;
-                    d.r *= depth;
-                    d.g *= depth;
-                    d.b *= depth;
-                }
-
-                tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
-
-            } else if (tp_is_water(tp)) {
-                color a = WHITE;
-                color b = WHITE;
-                color c = WHITE;
-                color d = WHITE;
-
-                floor_depth[tx][ty][z] = t->depth;
-
-                a.g = 150 + 100.0 * light_pulse_amount[tx][ty];
-                b.g = 150 + 100.0 * light_pulse_amount[tx + 1][ty];
-                c.g = 150 + 100.0 * light_pulse_amount[tx][ty + 1];
-                d.g = 150 + 100.0 * light_pulse_amount[tx + 1][ty + 1];
-
-                double depth;
-                double depth_scale = 0.7;
 
                 if (floor_depth[tx][ty][z]) {
                     depth = (floor_depth[tx][ty][z]) / 64.0;
