@@ -9303,9 +9303,16 @@ static void wid_display (widp w,
                     double x;
                     double fade = 0.1;
 
-                    for (x = 1.5; x >= 1.0; x -= 0.05) {
-                        wid_lighting_render(w, i, 0.0, fade, x);
-                        fade *= 1.10;
+                    if (game.biome_set_is_land) {
+                        for (x = 1.5; x >= 1.0; x -= 0.05) {
+                            wid_lighting_render(w, i, 0.0, fade, x);
+                            fade *= 1.10;
+                        }
+                    } else {
+                        for (x = 1.1; x >= 1.0; x -= 0.05) {
+                            wid_lighting_render(w, i, 0.0, fade, x);
+                            fade *= 1.10;
+                        }
                     }
 
                     wid_lighting_render(w, i, 0.025, 0.25, 1.0);

@@ -105,7 +105,7 @@ def init():
 
     x.set_blit_top_off(1)
 
-    x.set_light_radius(0.1)
+    x.set_light_radius(1.1)
     x.set_light_tint("gray50")
     x.set_light_pulse_amount(0.002)
     x.set_is_candle_light(True)
