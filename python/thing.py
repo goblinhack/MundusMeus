@@ -2,16 +2,18 @@ import traceback
 import mm
 import wid
 import tp
+import game
 
 
 class Thing:
 
     def __init__(self, level, tp_name):
+
         self.level = level
         self.tp_name = tp_name
 
-        level.game.max_thing_id += 1
-        self.thing_id = level.game.max_thing_id
+        game.g.max_thing_id += 1
+        self.thing_id = game.g.max_thing_id
         self.name = "{0}:{1}".format(self.thing_id, self.tp_name)
 
         if tp_name not in tp.all_tps:
@@ -42,6 +44,16 @@ class Thing:
 
         if self.tp.thing_init is not None:
             self.tp.thing_init(self)
+
+    def __getstate__(self):
+        result = self.__dict__.copy()
+        del result['wid']
+        del result['tp']
+        del result['level']
+        return result
+
+    def __setstate__(self, dict):
+        self.__dict__ = dict
 
     def __str__(self):
         return "{0}:{1}".format(self.thing_id, self.tp_name)
