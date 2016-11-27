@@ -16,6 +16,10 @@ class Level:
         self.width = width
         self.height = height
 
+        self.is_snowy = False
+        self.is_grassy = False
+        self.is_watery = False
+
         self.on_map = [[[] for x in range(width)] for y in range(height)]
         self.dmaps = [[None for x in range(width)] for y in range(height)]
 
