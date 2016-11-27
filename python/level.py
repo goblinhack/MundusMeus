@@ -3,12 +3,13 @@ import traceback
 import mm
 import dmap
 import math
+import game
+import tp
 
 
 class Level:
 
-    def __init__(self, game, xyz, width, height):
-        self.game = game
+    def __init__(self, xyz, width, height):
         self.xyz = xyz
         self.all_things = {}
         self.is_biome_land = False
@@ -42,7 +43,7 @@ class Level:
 
     def tick(self):
 
-        s = math.sin(self.game.move_count / (math.pi * 11))
+        s = math.sin(game.g.move_count / (math.pi * 11))
         if self.is_snowy:
             if s > 0:
                 mm.game_set_snow_amount(int(s * 100))
@@ -74,7 +75,58 @@ class Level:
         self.debug("Save level")
 
         with open(str(self), 'wb') as f:
-            pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.xyz, f, pickle.HIGHEST_PROTOCOL)
+
+            pickle.dump(self.all_things, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.is_biome_land, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.is_biome_dungeon, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.width, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.height, f, pickle.HIGHEST_PROTOCOL)
+
+            pickle.dump(self.is_snowy, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.is_grassy, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.is_watery, f, pickle.HIGHEST_PROTOCOL)
+
+    def load(self):
+        self.debug("Load level")
+
+        with open(str(self), 'rb') as f:
+            self.xyz = pickle.load(f)
+
+            self.all_things = pickle.load(f)
+            self.is_biome_land = pickle.load(f)
+            self.is_biome_dungeon = pickle.load(f)
+            self.width = pickle.load(f)
+            self.height = pickle.load(f)
+
+            self.is_snowy = pickle.load(f)
+            self.is_grassy = pickle.load(f)
+            self.is_watery = pickle.load(f)
+
+            for thing_id in self.all_things:
+                t = self.all_things[thing_id]
+                mm.thing_new(t, thing_id, t.tp_name)
+
+            mm.con("Pushing things on level @ {0}".format(str(self)))
+
+            for thing_id in self.all_things:
+                t = self.all_things[thing_id]
+                t.level = self
+                t.tp = tp.all_tps[t.tp_name]
+
+                if t.on_map:
+                    t.on_map = False
+                    t.push(t.x, t.y)
+                    if t.tilename is not None:
+                        t.set_tilename(t.tilename)
+
+                if t.tp.is_player:
+                    game.g.player = t
+
+            mm.con("Re-creaed all things on level @ {0}".format(str(self)))
+
+            if game.g.player is None:
+                mm.die("No player found on level")
 
     def set_biome(self, is_land=False, is_dungeon=False):
         self.is_biome_land = is_land

@@ -27,8 +27,7 @@ class Game:
         self.player = None
 
     def load_empty_level(self):
-        self.level = level.Level(game=self,
-                                 xyz=self.where,
+        self.level = level.Level(xyz=self.where,
                                  width=self.width,
                                  height=self.height)
         self.map_wid_create()
@@ -49,40 +48,16 @@ class Game:
         self.load_empty_level()
         l = self.level
 
-        mm.con("Loading level @ {0}".format(str(l)))
-
         if os.path.isfile(str(l)):
-            with open(str(l), 'rb') as f:
-                self.level = pickle.load(f)
-                l = self.level
+            mm.con("Loading level @ {0}".format(str(l)))
 
-                mm.con("Depickled level @ {0}".format(str(l)))
-
-                for thing_id in l.all_things:
-                    t = l.all_things[thing_id]
-                    mm.thing_new(t, thing_id, t.tp_name)
-                    t.on_map = False
-
-                mm.con("Pushing things on level @ {0}".format(str(l)))
-
-                for thing_id in l.all_things:
-                    t = l.all_things[thing_id]
-                    t.push(t.x, t.y)
-                    if t.tilename is not None:
-                        t.set_tilename(t.tilename)
-
-                    tp = t.tp
-                    if tp.is_player:
-                        self.player = t
-
-            if self.player is None:
-                mm.die("No player found on level")
+            l.load()
         else:
-            mm.con("Did not find level @ {0}, create it".format(str(l)))
+            mm.con("Creating level @ {0}".format(str(l)))
             self.biome_create(is_dungeon=True, seed=self.seed)
 #            self.biome_create(is_land=True, seed=self.seed)
 
-        mm.con("Loaded level @ {0}".format(str(l)))
+        mm.con("Created level @ {0}".format(str(l)))
 
         l = self.level
         mm.biome_set_is_land(value=l.is_biome_land)
