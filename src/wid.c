@@ -8367,7 +8367,7 @@ static void wid_lighting_render (widp w,
             alpha /= 2.0;
         } else {
             push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
-                           1.0, 1.0, 1.0, 1.0);
+                           red, green, blue, alpha);
         }
 
         for (i = 0; i < max_light_rays; i++) {
