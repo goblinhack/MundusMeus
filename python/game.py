@@ -26,6 +26,9 @@ class Game:
         self.save_file = ".save_file"
         self.player = None
 
+        self.nexthops = None
+        self.saved_nexthops = []
+
     def load_empty_level(self):
         self.level = level.Level(xyz=self.where,
                                  width=self.width,
@@ -227,15 +230,14 @@ class Game:
     def map_clear_focus(self):
 
         l = self.level
-        for x in range(0, l.width):
-            for y in range(0, l.height):
-                t = l.tp_find(x, y, "focus2")
-                if t is not None:
-                    t.set_tp("none")
+        for (x, y) in self.saved_nexthops:
+            t = l.tp_find(x, y, "focus2")
+            if t is not None:
+                t.set_tp("none")
 
-                t = l.tp_find(x, y, "focus1")
-                if t is not None:
-                    t.set_tp("none")
+            t = l.tp_find(x, y, "focus1")
+            if t is not None:
+                t.set_tp("none")
 
     #
     # Mouse is over a map tile; show the route back to the player
@@ -269,6 +271,8 @@ class Game:
         #
         player = self.player
         nexthops = l.dmap_solve(self.player.x, self.player.y, t.x, t.y)
+        self.saved_nexthops = nexthops
+
         if (player.x, player.y) in nexthops:
             for o in nexthops:
                 (x, y) = o
