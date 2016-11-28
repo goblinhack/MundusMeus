@@ -57,8 +57,8 @@ class Game:
             l.load()
         else:
             mm.con("Creating level @ {0}".format(str(l)))
-            self.biome_create(is_dungeon=True, seed=self.seed)
-#            self.biome_create(is_land=True, seed=self.seed)
+            self.biome_create(is_land=True, seed=self.seed)
+#            self.biome_create(is_dungeon=True, seed=self.seed)
 
         mm.con("Created level @ {0}".format(str(l)))
 
@@ -264,7 +264,7 @@ class Game:
         self.map_clear_focus()
 
         t = w.thing
-        t.set_tp("focus2")
+        t.set_tp("focus1")
 
         #
         # Check we can get back from the chosen point to the player.
@@ -272,6 +272,7 @@ class Game:
         player = self.player
         nexthops = l.dmap_solve(self.player.x, self.player.y, t.x, t.y)
         self.saved_nexthops = nexthops
+        self.saved_nexthops.append((t.x, t.y))
 
         if (player.x, player.y) in nexthops:
             for o in nexthops:
@@ -288,12 +289,10 @@ class Game:
 
         l = self.level
 
-        t = w.thing
-        t.set_tp("focus1")
-
         #
         # Set up the player move chain
         #
+        t = w.thing
         player = self.player
         nexthops = l.dmap_solve(self.player.x, self.player.y, t.x, t.y)
 
@@ -307,8 +306,6 @@ class Game:
             player.nexthops = nexthops
 
             self.player_get_next_move()
-
-        self.map_clear_focus()
 
         return True
 

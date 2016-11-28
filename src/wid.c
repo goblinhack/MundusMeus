@@ -7384,10 +7384,6 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
         if (tp_is_water(tp)) {
             return;
         }
-
-        if (game.biome_set_is_land) {
-            strength *= 2;
-        }
     } else {
         /*
          * No light source that are under the floor when not visible.
@@ -8302,8 +8298,65 @@ static void wid_lighting_render (widp w,
     /*
      * Flickering light
      */
-    if (thing_is_candle_light(t)) {
-        light_delta += (0.001 * (myrand() % 100));
+    if (thing_is_player(t) && game.biome_set_is_land) {
+        /*
+         * No candle light on the surface for you matey.
+         */
+        p1_len *= 2.0;
+
+    } else if (thing_is_candle_light(t)) {
+        light_delta += (0.002 * (myrand() % 100));
+
+#if 0
+        /*
+         * Not that great looking.
+         */
+        if (thing_is_player(t)) {
+            static const_color player_color[] = {
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_RED,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_YELLOW,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+                CONST_WHITE,
+            };
+
+            static unsigned long which;
+            if (which >= ARRAY_SIZE(player_color)) {
+                which = 0;
+            }
+
+            red = player_color[which].r;
+            green = player_color[which].g;
+            blue = player_color[which].b;
+            which ++;
+        }
+#endif
     }
 
     /*
@@ -8347,7 +8400,7 @@ static void wid_lighting_render (widp w,
         /*
          * Walk the light rays in a circle.
          */
-        if (thing_is_player(t)) {
+        if (thing_is_player(t) && game.biome_set_is_land) {
             color c;
 
             c.r = game.daylight_color_r;
