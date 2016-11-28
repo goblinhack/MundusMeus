@@ -12,6 +12,7 @@ def door1_init(name, short_name, long_name, tiles=[]):
     x.set_z_depth("wall")
     x.set_is_movement_blocking(True)
     x.set_is_door(True)
+    x.set_is_shadow_caster(True)
 
     if tiles is not None:
         for t in tiles:

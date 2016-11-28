@@ -138,6 +138,8 @@ def set_lighting_hour(hour):
 
 def set_lighting(game, move=0, moves_per_day=0):
 
+    l = game.level
+
     move_in_day = (move + (moves_per_day / 2)) % moves_per_day
 
     hour = ((move_in_day * 24) / moves_per_day) % 24
@@ -192,6 +194,12 @@ def set_lighting(game, move=0, moves_per_day=0):
     game.hour = hour
     game.day = int(1 + (move / moves_per_day))
     game.hour_str = colors[hour]["hour_str"]
+
+    if l.is_biome_dungeon:
+        r = 255
+        g = 255
+        b = 255
+        a = 255
 
     mm.game_set_daylight_color_r(r)
     mm.game_set_daylight_color_g(g)
