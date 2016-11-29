@@ -113,6 +113,17 @@ def biome_populate(self):
             if m.is_ice_at(x, y):
                 ice1 = True
 
+            if is_poor_soil:
+                if random.randint(0, 1000) < 2:
+                    if l.is_snowy:
+                        r = tp.get_random_dungeon()
+                        t = thing.Thing(l, tp_name=r.short_name)
+                        t.push(x, y)
+                    else:
+                        r = tp.get_random_snow_dungeon()
+                        t = thing.Thing(l, tp_name=r.short_name)
+                        t.push(x, y)
+
             if m.is_tree_at(x, y):
                 if l.is_snowy:
                     r = tp.get_random_tree_snow()

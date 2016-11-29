@@ -120,7 +120,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
      */
     double scale = tp_get_scale(tp);
 
-    if (tp_is_tree(tp)) {
+    if (tp_is_tree(tp) || tp_is_snow_mound(tp)) {
         /*
          * Side offsets make the trees move into rocks...
          */

@@ -7692,7 +7692,7 @@ static void wid_display_fast (widp w,
 
     if (unlikely(!tile)) {
         /*
-         * light ember.
+         * light ember. 
          */
         return;
     }
@@ -8302,8 +8302,6 @@ static void wid_lighting_render (widp w,
         /*
          * No candle light on the surface for you matey.
          */
-        p1_len *= 2.0;
-
     } else if (thing_is_candle_light(t)) {
         light_delta += (0.002 * (myrand() % 100));
 
@@ -8365,13 +8363,6 @@ static void wid_lighting_render (widp w,
     if (thing_is_explosion(t)) {
         light_delta += 3;
         light_delta += (0.005 * (myrand() % 100));
-    }
-
-    /*
-     * See through things more.
-     */
-    if (game.biome_set_is_land) {
-        light_delta += 0.25;
     }
 
     alpha *= fade;
@@ -9356,16 +9347,9 @@ static void wid_display (widp w,
                     double x;
                     double fade = 0.1;
 
-                    if (game.biome_set_is_land) {
-                        for (x = 1.5; x >= 1.0; x -= 0.05) {
-                            wid_lighting_render(w, i, 0.0, fade, x);
-                            fade *= 1.10;
-                        }
-                    } else {
-                        for (x = 1.1; x >= 1.0; x -= 0.05) {
-                            wid_lighting_render(w, i, 0.0, fade, x);
-                            fade *= 1.10;
-                        }
+                    for (x = 1.5; x >= 1.0; x -= 0.05) {
+                        wid_lighting_render(w, i, 0.0, fade, x);
+                        fade *= 1.10;
                     }
 
                     wid_lighting_render(w, i, 0.025, 0.25, 1.0);

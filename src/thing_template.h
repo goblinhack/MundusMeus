@@ -225,8 +225,8 @@ typedef struct tp_ {
     uint8_t is_rrr79:1;
     uint8_t is_rrr80:1;
     uint8_t is_rrr81:1;
-    uint8_t is_rrr82:1;
-    uint8_t is_rrr83:1;
+    uint8_t is_dungeon_snow:1;
+    uint8_t is_dungeon:1;
     uint8_t is_focus:1;
     uint8_t is_gravel_snow:1;
     uint8_t is_tree_conifer:1;
@@ -811,14 +811,14 @@ static inline uint8_t tp_is_rrr81 (tpp t)
     return (t->is_rrr81);
 }
 
-static inline uint8_t tp_is_rrr82 (tpp t)
+static inline uint8_t tp_is_dungeon_snow (tpp t)
 {
-    return (t->is_rrr82);
+    return (t->is_dungeon_snow);
 }
 
-static inline uint8_t tp_is_rrr83 (tpp t)
+static inline uint8_t tp_is_dungeon (tpp t)
 {
-    return (t->is_rrr83);
+    return (t->is_dungeon);
 }
 
 static inline uint8_t tp_is_focus (tpp t)

@@ -10,6 +10,8 @@ all_marsh_plant_tps = []
 all_tree_tps = []
 all_tree_snow_tps = []
 all_tree_conifer_tps = []
+all_dungeon_tps = []
+all_dungeon_snow_tps = []
 
 
 class Tp:
@@ -25,6 +27,8 @@ class Tp:
                  is_tree=False,
                  is_tree_snow=False,
                  is_tree_conifer=False,
+                 is_dungeon=False,
+                 is_dungeon_snow=False,
                  d1000_appearing_roll=0):
 
         self.name = name
@@ -61,6 +65,14 @@ class Tp:
         self.is_tree_conifer = is_tree_conifer
         if is_tree_conifer:
             all_tree_conifer_tps.append(name)
+
+        self.is_dungeon = is_dungeon
+        if is_dungeon:
+            all_dungeon_tps.append(name)
+
+        self.is_dungeon_snow = is_dungeon_snow
+        if is_dungeon_snow:
+            all_dungeon_snow_tps.append(name)
 
         #
         # Load it into the game engine
@@ -180,8 +192,8 @@ class Tp:
         self.is_rrr79 = False
         self.is_rrr80 = False
         self.is_rrr81 = False
-        self.is_rrr82 = False
-        self.is_rrr83 = False
+        self.is_dungeon_snow = False
+        self.is_dungeon = False
         self.is_focus = False
         self.is_gravel_snow = False
         self.is_tree_conifer = False
@@ -673,13 +685,13 @@ class Tp:
         self.is_rrr81 = value
         mm.tp_set_is_rrr81(self, value)
 
-    def set_is_rrr82(self, value):
-        self.is_rrr82 = value
-        mm.tp_set_is_rrr82(self, value)
+    def set_is_dungeon_snow(self, value):
+        self.is_dungeon_snow = value
+        mm.tp_set_is_dungeon_snow(self, value)
 
-    def set_is_rrr83(self, value):
-        self.is_rrr83 = value
-        mm.tp_set_is_rrr83(self, value)
+    def set_is_dungeon(self, value):
+        self.is_dungeon = value
+        mm.tp_set_is_dungeon(self, value)
 
     def set_is_focus(self, value):
         self.is_focus = value
@@ -688,10 +700,6 @@ class Tp:
     def set_is_gravel_snow(self, value):
         self.is_gravel_snow = value
         mm.tp_set_is_gravel_snow(self, value)
-
-    def set_is_tree_conifer(self, value):
-        self.is_tree_conifer = value
-        mm.tp_set_is_tree_conifer(self, value)
 
     def set_is_snow_mound(self, value):
         self.is_snow_mound = value
@@ -917,6 +925,24 @@ def get_random_tree_snow():
 def get_random_tree_conifer():
     while True:
         tp = all_tps[random.choice(all_tree_conifer_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
+def get_random_dungeon():
+    while True:
+        tp = all_tps[random.choice(all_dungeon_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
+def get_random_dungeon_snow():
+    while True:
+        tp = all_tps[random.choice(all_dungeon_snow_tps)]
 
         roll = random.randint(1, 1000)
         if roll >= tp.d1000_appearing_roll:
