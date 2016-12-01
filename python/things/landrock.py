@@ -36,6 +36,6 @@ def landrock_init(name):
 
 
 def init():
-    landrock_init(name="landrock1")
+    landrock_init(name="landrock")
 
 init()

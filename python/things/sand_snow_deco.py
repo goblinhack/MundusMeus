@@ -9,7 +9,7 @@ def sand_deco1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
     x.set_long_name(short_name)
     x.set_short_name(short_name)
-    x.set_z_depth("sand1")
+    x.set_z_depth("sand")
     x.set_is_sand(True)
 
     if tiles is not None:
@@ -24,18 +24,18 @@ def sand_deco1_init(name, short_name, long_name, tiles=[]):
 
 
 def init():
-    sand_deco1_init(name="sand1_deco",
+    sand_deco1_init(name="sand_snow_deco",
                     short_name="sand",
                     long_name="sand",
                     tiles=[
-                           "sand1-tl",
-                           "sand1-top",
-                           "sand1-tr",
-                           "sand1-left",
-                           "sand1-right",
-                           "sand1-bl",
-                           "sand1-bot",
-                           "sand1-br",
+                           "sand_snow-tl",
+                           "sand_snow-top",
+                           "sand_snow-tr",
+                           "sand_snow-left",
+                           "sand_snow-right",
+                           "sand_snow-bl",
+                           "sand_snow-bot",
+                           "sand_snow-br",
                           ])
 
 init()

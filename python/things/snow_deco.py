@@ -9,7 +9,7 @@ def snow_deco1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
     x.set_long_name(short_name)
     x.set_short_name(short_name)
-    x.set_z_depth("snow1")
+    x.set_z_depth("snow")
     x.set_is_snow(True)
 
     if tiles is not None:
@@ -24,18 +24,18 @@ def snow_deco1_init(name, short_name, long_name, tiles=[]):
 
 
 def init():
-    snow_deco1_init(name="snow1_deco",
+    snow_deco1_init(name="snow_deco",
                     short_name="snow",
                     long_name="snow",
                     tiles=[
-                           "snow1_tl",
-                           "snow1_top",
-                           "snow1_tr",
-                           "snow1_left",
-                           "snow1_right",
-                           "snow1_bl",
-                           "snow1_bot",
-                           "snow1_br",
+                           "snow_tl",
+                           "snow_top",
+                           "snow_tr",
+                           "snow_left",
+                           "snow_right",
+                           "snow_bl",
+                           "snow_bot",
+                           "snow_br",
                           ])
 
 init()

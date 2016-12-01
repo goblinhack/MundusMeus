@@ -1443,7 +1443,7 @@ void color_init (void)
     color_set(1 /* include in palette */, "slategray", &SLATEGRAY, 112, 128, 144, 255);
     color_set(1 /* include in palette */, "slate_grey", &SLATE_GREY, 112, 128, 144, 255);
     color_set(1 /* include in palette */, "slategrey", &SLATEGREY, 112, 128, 144, 255);
-    color_set(1 /* include in palette */, "snow1", &SNOW1, 255, 250, 250, 255);
+    color_set(1 /* include in palette */, "snow", &SNOW1, 255, 250, 250, 255);
     color_set(1 /* include in palette */, "snow2", &SNOW2, 238, 233, 233, 255);
     color_set(1 /* include in palette */, "snow3", &SNOW3, 205, 201, 201, 255);
     color_set(1 /* include in palette */, "snow4", &SNOW4, 139, 137, 137, 255);

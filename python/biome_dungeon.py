@@ -65,7 +65,7 @@ def biome_populate(self):
 
                     if not m.is_lava_at(x, y) and \
                        not m.is_water_at(x, y):
-                        t = thing.Thing(self.level, tp_name="rock1")
+                        t = thing.Thing(self.level, tp_name="rock")
                         t.push(x, y)
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
@@ -345,7 +345,7 @@ def biome_populate(self):
 
             if m.is_rock_at(x, y):
                 place_stalactite = True
-                t = thing.Thing(self.level, tp_name="rock1")
+                t = thing.Thing(self.level, tp_name="rock")
                 t.push(x, y)
 
                 if random.randint(0, 100) < 5:

@@ -9,7 +9,7 @@ def grass_deco1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
     x.set_long_name(short_name)
     x.set_short_name(short_name)
-    x.set_z_depth("grass1")
+    x.set_z_depth("grass")
     x.set_is_grass(True)
 
     if tiles is not None:
@@ -24,18 +24,18 @@ def grass_deco1_init(name, short_name, long_name, tiles=[]):
 
 
 def init():
-    grass_deco1_init(name="grass1_deco",
+    grass_deco1_init(name="grass_snow_deco",
                      short_name="grass",
                      long_name="grass",
                      tiles=[
-                            "grass1-tl",
-                            "grass1-top",
-                            "grass1-tr",
-                            "grass1-left",
-                            "grass1-right",
-                            "grass1-bl",
-                            "grass1-bot",
-                            "grass1-br",
+                            "grass_snow-tl",
+                            "grass_snow-top",
+                            "grass_snow-tr",
+                            "grass_snow-left",
+                            "grass_snow-right",
+                            "grass_snow-bl",
+                            "grass_snow-bot",
+                            "grass_snow-br",
                             ])
 
 init()

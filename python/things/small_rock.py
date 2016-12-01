@@ -8,7 +8,7 @@ def thing_init(t):
 total_small_rock = 0
 
 
-def small_rock1_init(d1000_roll, tiles=[]):
+def small_rock_init(d1000_roll, tiles=[]):
 
     global total_small_rock
 
@@ -34,11 +34,11 @@ def small_rock1_init(d1000_roll, tiles=[]):
 
 def init():
     # high numbers means rare, low means common
-    small_rock1_init(d1000_roll=1, tiles=["small_rock1"])
-    small_rock1_init(d1000_roll=1, tiles=["small_rock2"])
-    small_rock1_init(d1000_roll=1, tiles=["small_rock3"])
-    small_rock1_init(d1000_roll=1, tiles=["small_rock4"])
-    small_rock1_init(d1000_roll=1, tiles=["small_rock5"])
-    small_rock1_init(d1000_roll=1, tiles=["small_rock6"])
+    small_rock_init(d1000_roll=1, tiles=["small_rock"])
+    small_rock_init(d1000_roll=1, tiles=["small_rock2"])
+    small_rock_init(d1000_roll=1, tiles=["small_rock3"])
+    small_rock_init(d1000_roll=1, tiles=["small_rock4"])
+    small_rock_init(d1000_roll=1, tiles=["small_rock5"])
+    small_rock_init(d1000_roll=1, tiles=["small_rock6"])
 
 init()

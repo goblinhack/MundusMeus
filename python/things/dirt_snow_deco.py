@@ -9,7 +9,7 @@ def dirt_deco1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
     x.set_long_name(short_name)
     x.set_short_name(short_name)
-    x.set_z_depth("dirt1")
+    x.set_z_depth("dirt")
     x.set_is_dirt(True)
 
     if tiles is not None:
@@ -24,18 +24,18 @@ def dirt_deco1_init(name, short_name, long_name, tiles=[]):
 
 
 def init():
-    dirt_deco1_init(name="dirt1_deco",
+    dirt_deco1_init(name="dirt_snow_deco",
                     short_name="dirt",
                     long_name="dirt",
                     tiles=[
-                           "dirt1-tl",
-                           "dirt1-top",
-                           "dirt1-tr",
-                           "dirt1-left",
-                           "dirt1-right",
-                           "dirt1-bl",
-                           "dirt1-bot",
-                           "dirt1-br",
+                           "dirt_snow-tl",
+                           "dirt_snow-top",
+                           "dirt_snow-tr",
+                           "dirt_snow-left",
+                           "dirt_snow-right",
+                           "dirt_snow-bl",
+                           "dirt_snow-bot",
+                           "dirt_snow-br",
                           ])
 
 init()
