@@ -12,6 +12,8 @@ ICE = "I"
 TREE = "t"
 SAND = ":"
 DIRT = ","
+DUNGEON = "*"
+ROAD = "="
 DUSTY = "\""
 START = "S"
 EXIT = "E"
@@ -73,6 +75,16 @@ charmap = {
         "bg": "black",
         "fg": "black",
         "is_dirt": True,
+    },
+    DUNGEON: {
+        "bg": "black",
+        "fg": "white",
+        "is_dungeon": True,
+    },
+    ROAD: {
+        "bg": "black",
+        "fg": "white",
+        "is_road": True,
     },
     SAND: {
         "bg": "yellow",
@@ -157,4 +169,5 @@ class Enumeration(object):
             setattr(self, name, number)
             self.to_name[number] = name
 
-depth = Enumeration("under sand dirt gravel snow ice grass floor wall obj max")
+depth = Enumeration("under sand dirt gravel road snow " +
+                    "ice grass floor wall obj max")

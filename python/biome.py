@@ -369,6 +369,20 @@ class Biome:
                 return True
         return False
 
+    def is_road_at(self, x, y):
+        c = self.getc(x, y, charmap.depth.road)
+        if c is not None:
+            if "is_road" in charmap.charmap[c]:
+                return True
+        return False
+
+    def is_dungeon_at(self, x, y):
+        c = self.getc(x, y, charmap.depth.floor)
+        if c is not None:
+            if "is_dungeon" in charmap.charmap[c]:
+                return True
+        return False
+
     def is_snow_at(self, x, y):
         c = self.getc(x, y, charmap.depth.snow)
         if c is not None:
