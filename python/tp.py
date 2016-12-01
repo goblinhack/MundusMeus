@@ -190,8 +190,8 @@ class Tp:
         self.is_rrr77 = False
         self.is_rrr78 = False
         self.is_rrr79 = False
-        self.is_rrr80 = False
-        self.is_rrr81 = False
+        self.is_road_snow = False
+        self.is_road = False
         self.is_dungeon_snow = False
         self.is_dungeon = False
         self.is_focus = False
@@ -677,13 +677,13 @@ class Tp:
         self.is_rrr79 = value
         mm.tp_set_is_rrr79(self, value)
 
-    def set_is_rrr80(self, value):
-        self.is_rrr80 = value
-        mm.tp_set_is_rrr80(self, value)
+    def set_is_road_snow(self, value):
+        self.is_road_snow = value
+        mm.tp_set_is_road_snow(self, value)
 
-    def set_is_rrr81(self, value):
-        self.is_rrr81 = value
-        mm.tp_set_is_rrr81(self, value)
+    def set_is_road(self, value):
+        self.is_road = value
+        mm.tp_set_is_road(self, value)
 
     def set_is_dungeon_snow(self, value):
         self.is_dungeon_snow = value

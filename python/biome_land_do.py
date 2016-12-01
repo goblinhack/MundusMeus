@@ -57,6 +57,8 @@ class Biome(biome.Biome):
                 is_gravel = False
                 is_snow = False
                 is_ice = False
+                is_dungeon = False
+                is_road = False
 
                 if r == 113 and g == 89 and b == 145:
                     # dark purple
@@ -105,8 +107,23 @@ class Biome(biome.Biome):
                     # yellowish
                     is_ice = True
 
+                elif r == 0 and g == 30 and b == 255:
+                    # blue
+                    is_dungeon = True
+
+                elif r == 0 and g == 255 and b == 72:
+                    # green
+                    is_road = True
+
                 else:
-                    mm.die("unhandled color {0}, {1}, {2}".format(r, g, b))
+                    mm.die("unhandled color {0}, {1}, {2} " +
+                           "at {3}, {4}".format(r, g, b, x, y))
+
+                if is_dungeon:
+                    self.putc(x, y, charmap.depth.floor, charmap.DUNGEON)
+
+                if is_road:
+                    self.putc(x, y, charmap.depth.road, charmap.ROAD)
 
                 if is_grass:
                     if random.randint(0, 1000) < 10:

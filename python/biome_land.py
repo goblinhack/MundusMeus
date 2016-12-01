@@ -34,12 +34,14 @@ def biome_populate(self):
     snow_count = 0
     grass_count = 0
     water_count = 0
-    dirt_count = 0
-    gravel_count = 0
+    poor_quality_ground_count = 0
 
     for y in range(0, mm.MAP_HEIGHT):
         for x in range(0, mm.MAP_WIDTH):
             if m.is_snow_at(x, y):
+                snow_count += 1
+
+            if m.is_ice_at(x, y):
                 snow_count += 1
 
             if m.is_grass_at(x, y):
@@ -49,33 +51,26 @@ def biome_populate(self):
                 grass_count += 1
 
             if m.is_dirt_at(x, y):
-                dirt_count += 1
+                poor_quality_ground_count += 1
 
             if m.is_gravel_at(x, y):
-                dirt_count += 1
+                poor_quality_ground_count += 1
 
     threshold = mm.MAP_WIDTH * mm.MAP_HEIGHT
 
     l.is_snowy = False
-    if snow_count > threshold / 2:
+    if snow_count > threshold / 4:
         l.is_snowy = True
 
     l.is_grassy = False
     if grass_count > threshold / 2:
         l.is_grassy = True
 
-    if dirt_count > threshold / 2:
+    if poor_quality_ground_count > threshold / 2:
         l.is_grassy = True
-
-    if gravel_count > threshold / 2:
-        l.is_grassy = True
-
-    if gravel_count > threshold / 2:
-        l.is_gravel = True
 
     l.is_watery = False
     if water_count > threshold / 2:
-        print("is watery")
         l.is_watery = True
 
     is_poor_soil = False
@@ -85,16 +80,17 @@ def biome_populate(self):
     for y in range(0, mm.MAP_HEIGHT):
         for x in range(0, mm.MAP_WIDTH):
 
-            if random.randint(0, 1000) < 2:
-                t = thing.Thing(l, tp_name="torch1")
-                t.push(x, y)
-
             grass1 = False
             if m.is_grass_at(x, y):
                 grass1 = True
 
             dirt1 = False
             if m.is_dirt_at(x, y):
+
+                if random.randint(0, 1000) < 2:
+                    t = thing.Thing(l, tp_name="torch1")
+                    t.push(x, y)
+
                 dirt1 = True
 
             sand1 = False
@@ -113,16 +109,19 @@ def biome_populate(self):
             if m.is_ice_at(x, y):
                 ice1 = True
 
-            if is_poor_soil:
-                if random.randint(0, 1000) < 2:
-                    if l.is_snowy:
-                        r = tp.get_random_dungeon()
-                        t = thing.Thing(l, tp_name=r.short_name)
-                        t.push(x, y)
-                    else:
-                        r = tp.get_random_snow_dungeon()
-                        t = thing.Thing(l, tp_name=r.short_name)
-                        t.push(x, y)
+            road = False
+            if m.is_road_at(x, y):
+                road = True
+
+            if m.is_dungeon_at(x, y):
+                if l.is_snowy:
+                    r = tp.get_random_dungeon()
+                    t = thing.Thing(l, tp_name=r.short_name)
+                    t.push(x, y)
+                else:
+                    r = tp.get_random_dungeon_snow()
+                    t = thing.Thing(l, tp_name=r.short_name)
+                    t.push(x, y)
 
             if m.is_tree_at(x, y):
                 if l.is_snowy:
@@ -141,27 +140,28 @@ def biome_populate(self):
             if grass1:
                 t = thing.Thing(l, tp_name="grass1")
                 t.push(x, y)
+                print(l.is_snowy)
+                if not l.is_snowy:
+                    if m.is_water_at(x - 1, y) or \
+                       m.is_water_at(x + 1, y) or \
+                       m.is_water_at(x, y - 1) or \
+                       m.is_water_at(x, y + 1):
 
-                if m.is_water_at(x - 1, y) or \
-                   m.is_water_at(x + 1, y) or \
-                   m.is_water_at(x, y - 1) or \
-                   m.is_water_at(x, y + 1):
-
-                    r = tp.get_random_marsh_plant()
-                    for i in range(1, random.randint(1, 5)):
-                        t = thing.Thing(l, tp_name=r.short_name)
-                        t.push(x, y)
-
-                    if random.randint(0, 1000) < 10:
-                        r = tp.get_random_plant()
-                        t = thing.Thing(l, tp_name=r.short_name)
-                        t.push(x, y)
-                else:
-                    if random.randint(0, 100) < 10:
-                        r = tp.get_random_plant()
+                        r = tp.get_random_marsh_plant()
                         for i in range(1, random.randint(1, 5)):
                             t = thing.Thing(l, tp_name=r.short_name)
                             t.push(x, y)
+
+                        if random.randint(0, 1000) < 10:
+                            r = tp.get_random_plant()
+                            t = thing.Thing(l, tp_name=r.short_name)
+                            t.push(x, y)
+                    else:
+                        if random.randint(0, 100) < 10:
+                            r = tp.get_random_plant()
+                            for i in range(1, random.randint(1, 5)):
+                                t = thing.Thing(l, tp_name=r.short_name)
+                                t.push(x, y)
 
             if dirt1:
                 t = thing.Thing(l, tp_name="dirt1")
@@ -194,6 +194,14 @@ def biome_populate(self):
                 if random.randint(0, 1000) < 50:
                     r = tp.get_random_small_rock()
                     t = thing.Thing(l, tp_name=r.short_name)
+                    t.push(x, y)
+
+            if road:
+                if l.is_snowy:
+                    t = thing.Thing(l, tp_name="road_snow")
+                    t.push(x, y)
+                else:
+                    t = thing.Thing(l, tp_name="road")
                     t.push(x, y)
 
             if ice1:
