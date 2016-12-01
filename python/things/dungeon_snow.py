@@ -8,7 +8,7 @@ def thing_init(t):
 total_dungeon_snow = 0
 
 
-def dungeon_snow1_init(d1000_roll, tiles=[]):
+def dungeon_snow_init(d1000_roll, tiles=[]):
 
     global total_dungeon_snow
 
@@ -34,7 +34,12 @@ def dungeon_snow1_init(d1000_roll, tiles=[]):
 
 def init():
     # high numbers means rare, low means common
-    x = dungeon_snow1_init(d1000_roll=1, tiles=["dungeon_snow1"])
+    x = dungeon_snow_init(d1000_roll=1, tiles=["dungeon_snow"])
+    x.set_blit_top_off(2)
+    x.set_blit_left_off(1)
+    x.set_blit_right_off(1)
+
+    x = dungeon_snow_init(d1000_roll=1, tiles=["dungeon_snow2"])
     x.set_blit_top_off(2)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)

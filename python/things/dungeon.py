@@ -57,10 +57,4 @@ def init():
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    # high numbers means rare, low means common
-    x = dungeon1_init(d1000_roll=1, tiles=["dungeon5"])
-    x.set_blit_top_off(2)
-    x.set_blit_left_off(1)
-    x.set_blit_right_off(1)
-
 init()
