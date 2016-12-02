@@ -7729,6 +7729,9 @@ static void wid_display_fast (widp w,
 
                 floor_depth[tx][ty][z] = t->depth;
 
+                int tx2 = (tx + 1) % MAP_WIDTH;
+                int ty2 = (ty + 1) % MAP_HEIGHT;
+
                 double depth;
                 double depth_scale = 0.4;
 
@@ -7741,8 +7744,8 @@ static void wid_display_fast (widp w,
                     a.b *= depth;
                 }
 
-                if (floor_depth[tx+1][ty][z]) {
-                    depth = (floor_depth[tx+1][ty][z]) / 64.0;
+                if (floor_depth[tx2][ty][z]) {
+                    depth = (floor_depth[tx2][ty][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     b.r *= depth;
@@ -7750,8 +7753,8 @@ static void wid_display_fast (widp w,
                     b.b *= depth;
                 }
 
-                if (floor_depth[tx][ty+1][z]) {
-                    depth = (floor_depth[tx][ty+1][z]) / 64.0;
+                if (floor_depth[tx][ty2][z]) {
+                    depth = (floor_depth[tx][ty2][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     c.r *= depth;
@@ -7759,8 +7762,8 @@ static void wid_display_fast (widp w,
                     c.b *= depth;
                 }
 
-                if (floor_depth[tx+1][ty+1][z]) {
-                    depth = (floor_depth[tx+1][ty+1][z]) / 64.0;
+                if (floor_depth[tx2][ty2][z]) {
+                    depth = (floor_depth[tx2][ty2][z]) / 64.0;
                     depth *= depth_scale;
                     depth = 1.0 - depth;
                     d.r *= depth;

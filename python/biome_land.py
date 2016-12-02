@@ -81,10 +81,12 @@ def biome_populate(self):
         grass_str = "grass_snow"
         dirt_str = "dirt_snow"
         sand_str = "sand_snow"
+        landrock_str = "landrock_snow"
     else:
         grass_str = "grass"
         dirt_str = "dirt"
         sand_str = "sand"
+        landrock_str = "landrock"
 
     for y in range(0, mm.MAP_HEIGHT):
         for x in range(0, mm.MAP_WIDTH):
@@ -405,8 +407,12 @@ def biome_populate(self):
                     self.player = t
 
             if m.is_rock_at(x, y):
-                t = thing.Thing(l, tp_name="landrock")
-                t.push(x, y)
+                if l.is_snowy:
+                    t = thing.Thing(l, tp_name="landrock_snow")
+                    t.push(x, y)
+                else:
+                    t = thing.Thing(l, tp_name="landrock")
+                    t.push(x, y)
 
                 if m.is_rock_at(x, y-1):
                     b = True
@@ -432,37 +438,37 @@ def biome_populate(self):
                 # d e f
                 # g h i
                 if b and d and f and h:
-                    t.set_tilename("landrock-x")
+                    t.set_tilename(landrock_str + "-x")
                 elif b and d and f:
-                    t.set_tilename("landrock-t180")
+                    t.set_tilename(landrock_str + "-t180")
                 elif b and d and h:
-                    t.set_tilename("landrock-t90")
+                    t.set_tilename(landrock_str + "-t90")
                 elif b and f and h:
-                    t.set_tilename("landrock-t270")
+                    t.set_tilename(landrock_str + "-t270")
                 elif d and f and h:
-                    t.set_tilename("landrock-t")
+                    t.set_tilename(landrock_str + "-t")
                 elif b and h:
-                    t.set_tilename("landrock-up-down")
+                    t.set_tilename(landrock_str + "-up-down")
                 elif d and f:
-                    t.set_tilename("landrock-left-right")
+                    t.set_tilename(landrock_str + "-left-right")
                 elif b and f:
-                    t.set_tilename("landrock-l")
+                    t.set_tilename(landrock_str + "-l")
                 elif h and f:
-                    t.set_tilename("landrock-l90")
+                    t.set_tilename(landrock_str + "-l90")
                 elif d and h:
-                    t.set_tilename("landrock-l180")
+                    t.set_tilename(landrock_str + "-l180")
                 elif b and d:
-                    t.set_tilename("landrock-l270")
+                    t.set_tilename(landrock_str + "-l270")
                 elif b:
-                    t.set_tilename("landrock-n180")
+                    t.set_tilename(landrock_str + "-n180")
                 elif f:
-                    t.set_tilename("landrock-n270")
+                    t.set_tilename(landrock_str + "-n270")
                 elif h:
-                    t.set_tilename("landrock-n")
+                    t.set_tilename(landrock_str + "-n")
                 elif d:
-                    t.set_tilename("landrock-n90")
+                    t.set_tilename(landrock_str + "-n90")
                 else:
-                    t.set_tilename("landrock-node")
+                    t.set_tilename(landrock_str + "-node")
 
             if m.is_water_at(x, y):
 
