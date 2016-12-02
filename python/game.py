@@ -37,7 +37,7 @@ class Game:
 
     def game_load_failed_init_new_game(self):
 
-        self.sdl_delay = 10
+        self.sdl_delay = 5
         self.seed = 0
         self.move_count = 0
         self.moves_per_day = 1000
@@ -71,6 +71,7 @@ class Game:
         l = self.level
         mm.game_set_move_count(self.move_count)
         mm.game_set_moves_per_day(self.moves_per_day)
+        mm.game_set_sdl_delay(self.sdl_delay)
 
         time_of_day.set_lighting(self,
                                  move=self.move_count,
