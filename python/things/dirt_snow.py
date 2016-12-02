@@ -10,6 +10,7 @@ def dirt_init(name, short_name, long_name, tiles=[]):
     x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_dirt(True)
+    x.set_is_dirt_snow(True)
     x.set_z_depth("dirt")
 
     if tiles is not None:
