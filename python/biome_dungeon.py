@@ -90,11 +90,11 @@ def biome_populate(self):
 
             if m.is_start_at(x, y):
 
-                if self.player is None:
-                    t = thing.Thing(self.level, tp_name="start1")
-                    t.set_depth(m.depth_map.cells[x][y])
-                    t.push(x, y)
+                t = thing.Thing(self.level, tp_name="start1")
+                t.set_depth(m.depth_map.cells[x][y])
+                t.push(x, y)
 
+                if self.player is None:
                     t = thing.Thing(self.level, tp_name="player1")
                     t.push(x, y)
                     self.player = t

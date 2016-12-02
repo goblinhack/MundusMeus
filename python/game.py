@@ -57,8 +57,10 @@ class Game:
             l.load()
         else:
             mm.con("Creating level @ {0}".format(str(l)))
-            self.biome_create(is_land=True, seed=self.seed)
-#            self.biome_create(is_dungeon=True, seed=self.seed)
+            if self.where.z < 0:
+                self.biome_create(is_dungeon=True, seed=self.seed)
+            else:
+                self.biome_create(is_land=True, seed=self.seed)
 
         mm.con("Created level @ {0}".format(str(l)))
 
@@ -106,6 +108,69 @@ class Game:
         self.player_location_update()
         self.save()
 
+    def change_level(self, lx, ly, lz):
+
+        player = self.player
+        l = self.level
+        x = player.x
+        y = player.y
+
+        if x == 0:
+            x = mm.MAP_WIDTH - 1
+
+        elif x == mm.MAP_WIDTH - 1:
+            x = 0
+
+        elif y == 0:
+            y = mm.MAP_HEIGHT - 1
+
+        elif y == mm.MAP_HEIGHT - 1:
+            y = 0
+
+        if l.tp_is(x, y, "is_dungeon"):
+            x = -1
+            y = -1
+
+        mm.con("Level move")
+        player.pop()
+        c = copy.copy(player)
+
+        mm.con("Destroy player")
+        player.destroy()
+        player = None
+
+        mm.con("Save before changing level @ {0}".format(str(l)))
+        self.save()
+
+        mm.con("Destroying old level @ {0}".format(str(l)))
+        l.destroy()
+        self.map_wid_destroy()
+        mm.con("Destroyed old level @ {0}".format(str(l)))
+
+        if self.wid_player_location:
+            self.wid_player_location.destroy()
+            self.wid_player_location = None
+
+        self.where.x = lx
+        self.where.y = ly
+        self.where.z = lz
+
+        self.load_level()
+        l = self.level
+
+        player = thing.Thing(l, c.tp_name)
+
+        if x == -1 and y == -1:
+            (x, y) = l.tp_is_where("is_entrance")
+
+        player.push(x, y)
+        self.player = player
+
+        self.load_level_finalize()
+        mm.con("Loaded next level @ {0}".format(str(l)))
+
+        self.save()
+
     def save(self):
         l = self.level
 
@@ -115,6 +180,7 @@ class Game:
             pickle.dump(self.width, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.height, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.sdl_delay, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.max_thing_id, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.where, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.move_count, f, pickle.HIGHEST_PROTOCOL)
@@ -129,6 +195,7 @@ class Game:
             self.width = pickle.load(f)
             self.height = pickle.load(f)
             self.seed = pickle.load(f)
+            self.sel_delay = pickle.load(f)
             self.max_thing_id = pickle.load(f)
             self.where = pickle.load(f)
             self.move_count = pickle.load(f)
@@ -356,62 +423,40 @@ class Game:
                 t = thing.Thing(l, tp_name="ember1")
                 t.push(x, y)
 
+        level_dx = 0
+        level_dy = 0
+        level_dz = 0
+        level_change = False
+
         if x == 0 or x == mm.MAP_WIDTH - 1 or y == 0 or y == mm.MAP_HEIGHT - 1:
-            mm.con("Level move")
-            player.pop()
-            c = copy.copy(player)
-
-            mm.con("Destroy player")
-            player.destroy()
-            player = None
-
-            mm.con("Save before changing level @ {0}".format(str(l)))
-            self.save()
-
-            mm.con("Destroying old level @ {0}".format(str(l)))
-            l.destroy()
-            self.map_wid_destroy()
-            mm.con("Destroyed old level @ {0}".format(str(l)))
-
-            if self.wid_player_location:
-                self.wid_player_location.destroy()
-                self.wid_player_location = None
-
             if x == 0:
                 x = mm.MAP_WIDTH - 1
-                self.where.x -= 1
-                if self.where.x < 0:
-                    self.where.x = mm.WORLD_WIDTH - 1
+                level_dx = -1
+                level_change = True
 
             elif x == mm.MAP_WIDTH - 1:
                 x = 0
-                self.where.x += 1
-                if self.where.x >= mm.WORLD_WIDTH:
-                    self.where.x = 0
+                level_dx = 1
+                level_change = True
 
             elif y == 0:
                 y = mm.MAP_HEIGHT - 1
-                self.where.y -= 1
-                if self.where.y < 0:
-                    self.where.y = mm.WORLD_HEIGHT - 1
+                level_dy = -1
+                level_change = True
 
             elif y == mm.MAP_HEIGHT - 1:
                 y = 0
-                self.where.y += 1
-                if self.where.y >= mm.WORLD_HEIGHT:
-                    self.where.y = 0
+                level_dy = 1
+                level_change = True
 
-            self.load_level()
-            l = self.level
+        if l.tp_is(x, y, "is_dungeon"):
+            level_dz = -1
+            level_change = True
 
-            player = thing.Thing(l, c.tp_name)
-            player.push(x, y)
-            self.player = player
-
-            self.load_level_finalize()
-            mm.con("Loaded next level @ {0}".format(str(l)))
-
-            self.save()
+        if level_change:
+            self.change_level(self.where.x + level_dx,
+                              self.where.y + level_dy,
+                              self.where.z + level_dz)
 
         self.map_center_on_player(level_start=False)
 
