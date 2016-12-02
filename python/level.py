@@ -142,6 +142,29 @@ class Level:
 
         return None
 
+    def tp_is(self, x, y, value):
+        if x >= self.width or y >= self.height or x < 0 or y < 0:
+            return None
+
+        for t in self.on_map[x][y]:
+            v = getattr(t.tp, value)
+            if v is not None:
+                if v:
+                    return (x, y)
+
+        return None
+
+    def tp_is_where(self, value):
+        for y in range(self.height):
+            for x in range(self.width):
+                for t in self.on_map[x][y]:
+                    v = getattr(t.tp, value)
+                    if v is not None:
+                        if v:
+                            return (x, y)
+
+        return None
+
     def is_movement_blocking_at(self, x, y):
         if x >= self.width or y >= self.height or x < 0 or y < 0:
             return False
