@@ -187,9 +187,9 @@ class Tp:
         self.is_rrr74 = False
         self.is_rrr75 = False
         self.is_rrr76 = False
-        self.is_rrr77 = False
-        self.is_rrr78 = False
-        self.is_rrr79 = False
+        self.is_sand_snow = False
+        self.is_dirt_snow = False
+        self.is_grass_snow = False
         self.is_road_snow = False
         self.is_road = False
         self.is_dungeon_snow = False
@@ -665,17 +665,17 @@ class Tp:
         self.is_rrr76 = value
         mm.tp_set_is_rrr76(self, value)
 
-    def set_is_rrr77(self, value):
-        self.is_rrr77 = value
-        mm.tp_set_is_rrr77(self, value)
+    def set_is_sand_snow(self, value):
+        self.is_sand_snow = value
+        mm.tp_set_is_sand_snow(self, value)
 
-    def set_is_rrr78(self, value):
-        self.is_rrr78 = value
-        mm.tp_set_is_rrr78(self, value)
+    def set_is_dirt_snow(self, value):
+        self.is_dirt_snow = value
+        mm.tp_set_is_dirt_snow(self, value)
 
-    def set_is_rrr79(self, value):
-        self.is_rrr79 = value
-        mm.tp_set_is_rrr79(self, value)
+    def set_is_grass_snow(self, value):
+        self.is_grass_snow = value
+        mm.tp_set_is_grass_snow(self, value)
 
     def set_is_road_snow(self, value):
         self.is_road_snow = value
