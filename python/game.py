@@ -162,14 +162,13 @@ class Game:
 
         if x == -1 and y == -1:
             (x, y) = l.tp_is_where("is_entrance")
+            mm.con("Entrance on {0},{1} level @ {2}".format(x, y, str(l)))
 
         player.push(x, y)
         self.player = player
 
         self.load_level_finalize()
         mm.con("Loaded next level @ {0}".format(str(l)))
-
-        self.save()
 
     def save(self):
         l = self.level
