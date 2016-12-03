@@ -2944,9 +2944,16 @@ static void wid_destroy_immediate (widp w)
 
     if (w->name) {
         if (!strcmp(w->name, "wid_game_map")) {
-            game.wid_map = 0;
+            if (w == game.wid_map) {
+                game.wid_map = 0;
+                LOG("Destroy game map");
+            }
+            LOG("Destroy game wid map");
         } else if (!strcmp(w->name, "wid_game_map_grid")) {
-            game.wid_grid = 0;
+            if (w == game.wid_grid) {
+                game.wid_grid = 0;
+                LOG("Destroy game wid grid");
+            }
         }
     }
 
@@ -3160,6 +3167,7 @@ widp wid_new_container (widp parent, const char *name)
 
     if (!strcmp(name, "wid_game_map_grid")) {
         game.wid_grid = w;
+        LOG("Create game wid grid");
     }
 
     return (w);
