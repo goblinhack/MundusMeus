@@ -13,7 +13,7 @@ def none_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
     x.set_long_name(short_name)
     x.set_short_name(short_name)
-    x.set_z_depth("floor3")
+    x.set_z_depth("player")
     x.set_is_animated(True)
     x.set_is_hidden(True)
     x.set_is_focus(True)

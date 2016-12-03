@@ -2946,13 +2946,13 @@ static void wid_destroy_immediate (widp w)
         if (!strcmp(w->name, "wid_game_map")) {
             if (w == game.wid_map) {
                 game.wid_map = 0;
-                LOG("Destroy game map");
+                LOG("Destroy game map %p", w);
             }
             LOG("Destroy game wid map");
         } else if (!strcmp(w->name, "wid_game_map_grid")) {
             if (w == game.wid_grid) {
                 game.wid_grid = 0;
-                LOG("Destroy game wid grid");
+                LOG("Destroy game wid grid %p", w);
             }
         }
     }
@@ -3167,7 +3167,7 @@ widp wid_new_container (widp parent, const char *name)
 
     if (!strcmp(name, "wid_game_map_grid")) {
         game.wid_grid = w;
-        LOG("Create game wid grid");
+        LOG("Create game wid grid %p", w);
     }
 
     return (w);
@@ -9317,9 +9317,7 @@ static void wid_display (widp w,
 
         if (game.biome_set_is_land) {
             snow_tick(game.snow_amount);
-        }
 
-        if (game.biome_set_is_land) {
             rain_tick(game.rain_amount);
         }
 
@@ -9358,9 +9356,16 @@ static void wid_display (widp w,
                     double x;
                     double fade = 0.1;
 
-                    for (x = 1.5; x >= 1.0; x -= 0.05) {
-                        wid_lighting_render(w, i, 0.0, fade, x);
-                        fade *= 1.10;
+                    if (game.biome_set_is_land) {
+                        for (x = 1.5; x >= 1.0; x -= 0.05) {
+                            wid_lighting_render(w, i, 0.0, fade, x);
+                            fade *= 1.10;
+                        }
+                    } else {
+                        for (x = 1.1; x >= 1.0; x -= 0.05) {
+                            wid_lighting_render(w, i, 0.0, fade, x);
+                            fade *= 1.10;
+                        }
                     }
 
                     wid_lighting_render(w, i, 0.025, 0.25, 1.0);
