@@ -37,7 +37,7 @@ class Game:
 
     def game_load_failed_init_new_game(self):
 
-        self.sdl_delay = 5
+        self.sdl_delay = 2
         self.seed = 0
         self.move_count = 0
         self.moves_per_day = 1000
@@ -194,7 +194,7 @@ class Game:
             self.width = pickle.load(f)
             self.height = pickle.load(f)
             self.seed = pickle.load(f)
-            self.sel_delay = pickle.load(f)
+            self.sdl_delay = pickle.load(f)
             self.max_thing_id = pickle.load(f)
             self.where = pickle.load(f)
             self.move_count = pickle.load(f)

@@ -22,11 +22,6 @@
 #undef ENABLE_BLACK_AND_WHITE
 
 /*
- * Keep loading files simple and in the dir we expect.
- */
-#undef ENABLE_DIR_TRAVERSAL_IN_WIDGETS
-
-/*
  * Other windows are darker when popups appear
  */
 #undef ENABLE_FADE_OUT_OTHER_WIDGETS_WHEN_FOCUS_LOCKED
