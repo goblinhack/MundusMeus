@@ -56,6 +56,7 @@ void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
     double y1;
     double y2;
 
+#if 0
     if (tp && tp_is_wall(tp)) {
         /*
          * Clipped 0.5 pixels
@@ -73,6 +74,12 @@ void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
         y1 = tile->oy1;
         y2 = tile->oy2;
     }
+#else
+    x1 = tile->x1;
+    x2 = tile->x2;
+    y1 = tile->y1;
+    y2 = tile->y2;
+#endif
 
     if (unlikely(tp != 0)) {
         double left_off  = (double)tp_get_blit_left_off(tp);
@@ -125,6 +132,7 @@ void tile_blit_fat2 (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
     double y1;
     double y2;
 
+#if 0
     if (tp && tp_is_wall(tp)) {
         /*
          * Clipped 0.5 pixels
@@ -142,6 +150,12 @@ void tile_blit_fat2 (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
         y1 = tile->oy1;
         y2 = tile->oy2;
     }
+#else
+    x1 = tile->x1;
+    x2 = tile->x2;
+    y1 = tile->y1;
+    y2 = tile->y2;
+#endif
 
     if (unlikely(tp != 0)) {
         double left_off  = (double)tp_get_blit_left_off(tp);

@@ -7392,6 +7392,10 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
         if (tp_is_water(tp)) {
             return;
         }
+
+        if (tp_is_player(tp)) {
+            strength *= 2.0;
+        }
     } else {
         /*
          * No light source that are under the floor when not visible.
