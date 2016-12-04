@@ -10,6 +10,7 @@ import time_of_day
 import pickle
 import os.path
 import copy
+import wid_console
 
 global g
 
@@ -28,6 +29,7 @@ class Game:
 
         self.nexthops = None
         self.saved_nexthops = []
+        wid_console.create()
 
     def load_empty_level(self):
         self.level = level.Level(xyz=self.where,

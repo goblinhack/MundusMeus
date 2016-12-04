@@ -357,26 +357,6 @@ int tp_get_speed (tpp t)
     return (t->speed);
 }
 
-int32_t tp_get_blit_top_off (tpp t)
-{
-    return (t->blit_top_off);
-}
-
-int32_t tp_get_blit_bot_off (tpp t)
-{
-    return (t->blit_bot_off);
-}
-
-int32_t tp_get_blit_left_off (tpp t)
-{
-    return (t->blit_left_off);
-}
-
-int32_t tp_get_blit_right_off (tpp t)
-{
-    return (t->blit_right_off);
-}
-
 double tp_get_light_radius (tpp t)
 {
     return (t->light_radius);
