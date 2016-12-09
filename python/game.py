@@ -280,8 +280,8 @@ class Game:
         dx = 1.0 / mm.MAP_WIDTH
         dy = 1.0 / mm.MAP_HEIGHT
 
-        px = px - dx * tm
-        py = py - dy * th
+        px = px - dx * (tm - 0.5)
+        py = py - dy * (th - 0.5)
 
         if level_start:
             self.wid_map.wid_vert_scroll.move_to_vert_pct(pct=px)
