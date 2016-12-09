@@ -50,7 +50,7 @@ static fontp font_load (const char *name, const char *file, int size)
     }
 
     if (!name) {
-        DIE("no name for font");
+        DIE("no name for font %s", __FUNCTION__);
         return (0);
     }
 
@@ -76,7 +76,7 @@ fontp font_find (const char *file)
     font *result;
 
     if (!file) {
-        DIE("no filename given for font find");
+        DIE("no filename given for font find %s", __FUNCTION__);
     }
 
     memset(&target, 0, sizeof(target));

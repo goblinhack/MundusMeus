@@ -212,7 +212,7 @@ gl_push (float **P,
     float *p = *P;
 
     if (unlikely(p >= p_end)) {
-        DIE("overflow on gl bug");
+        DIE("overflow on gl bug %s", __FUNCTION__);
     }
 
     if (likely(!first)) {

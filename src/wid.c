@@ -3786,7 +3786,7 @@ widp wid_grid_find (widp parent, fpoint tl, fpoint br,
 
     grid = parent->grid;
     if (!grid) {
-        DIE("no grid wid in wid_grid_find");
+        DIE1("no grid wid in wid_grid_find");
     }
 
     /*
@@ -3865,7 +3865,7 @@ widp wid_grid_find_thing_template (widp parent,
 
     grid = parent->grid;
     if (!grid) {
-        DIE("no grid wid in wid_grid_find_thing_template");
+        DIE1("no grid wid in wid_grid_find_thing_template");
     }
 
     /*
@@ -3927,7 +3927,7 @@ widp wid_grid_find_tp_is (widp parent,
 
     grid = parent->grid;
     if (!grid) {
-        DIE("no grid wid in wid_grid_find_tp_is");
+        DIE1("no grid wid in wid_grid_find_tp_is");
     }
 
     /*
@@ -7493,7 +7493,7 @@ static void wid_display_fast (widp w,
     if (likely(t != 0)) {
         tp = thing_tp(t);
         if (!tp) {
-            DIE("no tp for thing");
+            DIE1("no tp for thing");
         }
 
         if (tp_is_hidden(tp)) {

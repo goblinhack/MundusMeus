@@ -208,10 +208,17 @@ typedef uint8_t (*tp_is_callback)(tpp);
 
 /*
  * log.c
+ *
+ * MSVC sucks, hence 2 macros.
  */
-#define DIE(args...)                                                          \
+#define DIE1(args)                                                            \
     DYING("Died at %s:%s():%u", __FILE__, __FUNCTION__, __LINE__);            \
     CROAK(args);                                                              \
+    exit(1);
+
+#define DIE(args, ...)                                                        \
+    DYING("Died at %s:%s():%u", __FILE__, __FUNCTION__, __LINE__);            \
+    CROAK(args, __VA_ARGS__);                                                 \
     exit(1);
 
 extern uint8_t croaked;

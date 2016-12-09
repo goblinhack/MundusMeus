@@ -446,7 +446,7 @@ static ptrcheck *ptrcheck_verify_pointer (const void *ptr,
         }
     }
 
-    DIE("Fatal error");
+    DIE1("Fatal error");
 
     return (0);
 }
@@ -690,7 +690,7 @@ void ptrcheck_leak_print (void)
     }
 
     if (!leak) {
-        DIE("No memory leaks!");
+        DIE1("No memory leaks!");
     }
 }
 
