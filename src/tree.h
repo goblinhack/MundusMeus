@@ -9,7 +9,36 @@
 #ifndef TREE_H
 #define TREE_H
 
+#ifndef _MSC_VER
 #include <strings.h>
+#else
+int strcasecmp(const char* s1, const char* s2)
+{
+	for (;;) {
+		int c1 = tolower(*((unsigned char*)s1++));
+		int c2 = tolower(*((unsigned char*)s2++));
+
+		if ((c1 != c2) || (c1 == '\0')) {
+			return(c1 - c2);
+		}
+	}
+}
+
+int strncasecmp(const char* s1, const char* s2, size_t n)
+{
+	for (; n != 0; --n) {
+		int c1 = tolower(*((unsigned char*)s1++));
+		int c2 = tolower(*((unsigned char*)s2++));
+
+		if ((c1 != c2) || (c1 == '\0')) {
+			return(c1 - c2);
+		}
+	}
+
+	return(0);
+}
+#endif
+
 #include <stdlib.h>
 
 typedef enum { RB_RED, RB_BLACK } node_color;
@@ -306,8 +335,8 @@ tree_node *tree_prev_ ## compare_func (tree_root *root, tree_node *node)    \
 static inline int8_t
 tree_key_int32_compare_func (const tree_node *a, const tree_node *b)
 {
-    tree_key_int *A = (typeof(A))a;
-    tree_key_int *B = (typeof(B))b;
+    tree_key_int *A = (decltype(A))a;
+    tree_key_int *B = (decltype(B))b;
 
     if (A->key < B->key) {
         return (-1);
