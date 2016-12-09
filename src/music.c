@@ -67,7 +67,7 @@ musicp music_load (const char *file, const char *name_alias)
         all_music = tree_alloc(TREE_KEY_STRING, "TREE ROOT: music");
     }
 
-    musicp m = (typeof(m)) myzalloc(sizeof(*m), "TREE NODE: music");
+    musicp m = (TYPEOF(m)) myzalloc(sizeof(*m), "TREE NODE: music");
     m->tree.key = dupstr(name_alias, "TREE KEY: music");
 
     if (!tree_insert(all_music, &m->tree.node)) {
@@ -117,7 +117,7 @@ musicp music_find (const char *name_alias)
     memset(&target, 0, sizeof(target));
     target.tree.key = (char*) name_alias;
 
-    result = (typeof(result)) tree_find(all_music, &target.tree.node);
+    result = (TYPEOF(result)) tree_find(all_music, &target.tree.node);
     if (!result) {
         return (0);
     }

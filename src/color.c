@@ -776,7 +776,7 @@ static void color_set (int include_in_palette,
         colors = tree_alloc(TREE_KEY_STRING, "TREE ROOT: colors");
     }
 
-    val = (typeof(val)) myzalloc(sizeof(*val), "TREE NODE: color");
+    val = (TYPEOF(val)) myzalloc(sizeof(*val), "TREE NODE: color");
     val->tree.key = dupstr(name, "TREE KEY: color");
     val->c = *c;
     val->include_in_palette = include_in_palette;
@@ -1552,7 +1552,7 @@ color string2color (const char **s)
     memset(&find, 0, sizeof(find));
     find.tree.key = tmp;
 
-    target = (typeof(target)) tree_find(colors, &find.tree.node);
+    target = (TYPEOF(target)) tree_find(colors, &find.tree.node);
     if (!target) {
         ERR("Unknown color [%s]", tmp);
         return (WHITE);
@@ -1593,7 +1593,7 @@ const char *string2colorname (const char **s)
     memset(&find, 0, sizeof(find));
     find.tree.key = tmp;
 
-    target = (typeof(target)) tree_find(colors, &find.tree.node);
+    target = (TYPEOF(target)) tree_find(colors, &find.tree.node);
     if (!target) {
         ERR("Unknown color [%s]", tmp);
         return (0);
@@ -1610,7 +1610,7 @@ color color_find (const char *s)
     memset(&find, 0, sizeof(find));
     find.tree.key = (char*)s;
 
-    target = (typeof(target)) tree_find(colors, &find.tree.node);
+    target = (TYPEOF(target)) tree_find(colors, &find.tree.node);
     if (!target) {
         ERR("Unknown color [%s]", s);
         return (WHITE);
@@ -1627,7 +1627,7 @@ const char *color_find_name (const char *s)
     memset(&find, 0, sizeof(find));
     find.tree.key = (char*)s;
 
-    target = (typeof(target)) tree_find(colors, &find.tree.node);
+    target = (TYPEOF(target)) tree_find(colors, &find.tree.node);
     if (!target) {
         ERR("Unknown color [%s]", s);
         return (0);
@@ -1640,7 +1640,7 @@ const char *color_find_nth (int nth)
 {
     tree_color_val *target;
 
-    target = (typeof(target)) tree_root_get_nth(colors, nth);
+    target = (TYPEOF(target)) tree_root_get_nth(colors, nth);
     if (!target) {
         ERR("cannot find nth color %d", nth);
         return (0);

@@ -47,7 +47,7 @@ const char *enum_name ## _val2str (enum_name val)               \
         ENUM_NAME(ENUM_LIST_MACRO_STRING)                       \
     };                                                          \
                                                                 \
-    if (val >= (typeof(val)) ARRAY_SIZE(arr)) {                 \
+    if (val >= (TYPEOF(val)) ARRAY_SIZE(arr)) {                 \
         return ("[bad]");                                       \
     }                                                           \
                                                                 \
@@ -82,7 +82,7 @@ enum_name enum_name ## _str2val (const char *val)               \
         FOR_ALL_IN_ARRAY(iter, arr) {                           \
             enum_key *enummap;                                  \
                                                                 \
-            enummap = (typeof(enummap))                         \
+            enummap = (TYPEOF(enummap))                         \
                 myzalloc(sizeof(*enummap),                      \
                          "TREE NODE: ENUM map " # enum_name);   \
                                                                 \
@@ -107,13 +107,13 @@ enum_name enum_name ## _str2val (const char *val)               \
     memset(&target, 0, sizeof(target));                         \
     target.tree.key = (char*) val;                              \
                                                                 \
-    result = (typeof(result))                                   \
+    result = (TYPEOF(result))                                   \
         tree_find(enum_name ## _tree, &target.tree.node);       \
     if (!result) {                                              \
         return ((enum_name)-1);                                 \
     }                                                           \
                                                                 \
-    return ((typeof(enum_name))result->val);                    \
+    return ((TYPEOF(enum_name))result->val);                    \
 }                                                               \
                                                                 \
 void enum_name ## _destroy (void)                               \

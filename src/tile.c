@@ -79,7 +79,7 @@ void tile_load_arr (const char *tex_name,
                 tiles = tree_alloc(TREE_KEY_STRING, "TREE ROOT: tile");
             }
 
-            t = (typeof(t)) myzalloc(sizeof(*t), "TREE NODE: tile");
+            t = (TYPEOF(t)) myzalloc(sizeof(*t), "TREE NODE: tile");
             t->tree.key = dupstr(name, "TREE KEY: tile");
 
             if (!tree_insert(tiles, &t->tree.node)) {
@@ -219,7 +219,7 @@ tilep tile_find (const char *name)
     memset(&target, 0, sizeof(target));
     target.tree.key = (char*) name;
 
-    result = (typeof(result)) tree_find(tiles, &target.tree.node);
+    result = (TYPEOF(result)) tree_find(tiles, &target.tree.node);
     if (!result) {
         return (0);
     }
@@ -295,7 +295,7 @@ tilep string2tile (const char **s)
     memset(&find, 0, sizeof(find));
     find.tree.key = tmp;
 
-    target = (typeof(target)) tree_find(tiles, &find.tree.node);
+    target = (TYPEOF(target)) tree_find(tiles, &find.tree.node);
     if (!target) {
         DIE("unknown tile [%s]", tmp);
     }

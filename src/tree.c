@@ -1228,7 +1228,7 @@ void tree_empty (tree_root *root, tree_destroy_func func)
             case TREE_KEY_POINTER:
                 break;
             case TREE_KEY_STRING: {
-                tree_key_string *A = (typeof(A))node;
+                tree_key_string *A = (TYPEOF(A))node;
 
                 myfree(A->key);
             }
@@ -1266,7 +1266,7 @@ tree_alloc_internal (tree_key_type type,
 {
     tree_root *root;
 
-    root = (typeof(root)) myzalloc(sizeof(*root), tree_name);
+    root = (TYPEOF(root)) myzalloc(sizeof(*root), tree_name);
     root->type = type;
     root->compare_func = compare_func;
 

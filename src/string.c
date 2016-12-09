@@ -65,7 +65,7 @@ char *substr (const char *in, int32_t pos, int32_t len)
         len = slen - pos;
     }
 
-    out = (typeof(out)) mymalloc(len + sizeof((char)'\0'), "substr");
+    out = (TYPEOF(out)) mymalloc(len + sizeof((char)'\0'), "substr");
     if (!out) {
         return (0);
     }
@@ -103,7 +103,7 @@ char *strsub (const char *in, const char *old, const char *replace_with)
     newlen = (uint32_t)strlen(replace_with);
 
     len = (uint32_t)strlen(in) - oldlen + newlen;
-    buf = (typeof(buf)) myzalloc(len + sizeof((char)'\0'), "strsub 2");
+    buf = (TYPEOF(buf)) myzalloc(len + sizeof((char)'\0'), "strsub 2");
     if (!buf) {
         return (0);
     }
@@ -133,7 +133,7 @@ char *strappend (const char *in, const char *append)
 
     newlen = (uint32_t)strlen(append);
     len = (uint32_t)strlen(in) + newlen;
-    buf = (typeof(buf)) myzalloc(len + sizeof((char)'\0'), "strappend");
+    buf = (TYPEOF(buf)) myzalloc(len + sizeof((char)'\0'), "strappend");
     if (!buf) {
         return (0);
     }
@@ -161,7 +161,7 @@ char *strprepend (const char *in, const char *prepend)
 
     newlen = (uint32_t)strlen(prepend);
     len = (uint32_t)strlen(in) + newlen;
-    buf = (typeof(buf)) myzalloc(len + sizeof((char)'\0'), "strprepend");
+    buf = (TYPEOF(buf)) myzalloc(len + sizeof((char)'\0'), "strprepend");
     if (!buf) {
         return (0);
     }
@@ -386,7 +386,7 @@ uint8_t hex_dump (void *addr, uint64_t offset, uint64_t len)
     uint8_t skipping_blanks = false;
     uint8_t empty[HEX_DUMP_WIDTH] = {0};
     uint8_t buf[HEX_DUMP_WIDTH + 1];
-    uint8_t *pc = (typeof(pc)) addr;
+    uint8_t *pc = (TYPEOF(pc)) addr;
     uint64_t i;
     uint32_t x;
 
@@ -467,7 +467,7 @@ uint8_t hex_dump_log (void *addr, uint64_t offset, uint64_t len)
     uint8_t skipping_blanks = false;
     uint8_t empty[HEX_DUMP_WIDTH] = {0};
     uint8_t buf[HEX_DUMP_WIDTH + 1];
-    uint8_t *pc = (typeof(pc)) addr;
+    uint8_t *pc = (TYPEOF(pc)) addr;
     uint64_t i;
     uint32_t x;
 

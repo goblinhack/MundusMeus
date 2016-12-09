@@ -444,7 +444,7 @@ thing_tilep thing_tile_random (tree_rootp root)
 
     do {
 
-        thing_tile = (typeof(thing_tile)) tree_root_get_random(root);
+        thing_tile = (TYPEOF(thing_tile)) tree_root_get_random(root);
 
         /*
          * Filter out terminal state tiles.
@@ -466,7 +466,7 @@ thing_tilep thing_tile_first (tree_rootp root)
 {
     thing_tilep thing_tile;
 
-    thing_tile = (typeof(thing_tile)) tree_root_first(root);
+    thing_tile = (TYPEOF(thing_tile)) tree_root_first(root);
 
     if (thing_tile) {
         verify(thing_tile);
@@ -485,7 +485,7 @@ thing_tilep thing_tile_next (tree_rootp root, thing_tilep in)
     memset(&cursor, 0, sizeof(cursor));
     cursor.tree.key = in->tree.key;
 
-    next = (typeof(next)) tree_get_next(root,
+    next = (TYPEOF(next)) tree_get_next(root,
                                         tree_root_top(root),
                                         &cursor.tree.node);
     if (next) {

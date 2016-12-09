@@ -58,7 +58,7 @@ static fontp font_load (const char *name, const char *file, int size)
         font_all = tree_alloc(TREE_KEY_STRING, "TREE ROOT: font");
     }
 
-    t = (typeof(t)) myzalloc(sizeof(font), "TREE NODE: font");
+    t = (TYPEOF(t)) myzalloc(sizeof(font), "TREE NODE: font");
     t->tree.key = dupstr(name, "TREE KEY: font");
 
     if (!tree_insert(font_all, &t->tree.node)) {
@@ -82,7 +82,7 @@ fontp font_find (const char *file)
     memset(&target, 0, sizeof(target));
     target.tree.key = (char*) file;
 
-    result = (typeof(result)) tree_find(font_all, &target.tree.node);
+    result = (TYPEOF(result)) tree_find(font_all, &target.tree.node);
     if (!result) {
         return (0);
     }

@@ -69,7 +69,7 @@ init_fnp action_init_fn_create (tree_rootp *root,
         *root = tree_alloc(TREE_KEY_INTEGER, "TREE ROOT: init_fns");
     }
 
-    t = (typeof(t)) myzalloc(sizeof(*t), "TREE NODE: init");
+    t = (TYPEOF(t)) myzalloc(sizeof(*t), "TREE NODE: init");
 
     t->context = context;
     t->callback = callback;
@@ -90,7 +90,7 @@ uint8_t action_init_fns_tick (tree_rootp *root)
         return (false);
     }
 
-    t = (typeof(t)) tree_root_first(*root);
+    t = (TYPEOF(t)) tree_root_first(*root);
     if (!t) {
         return (false);
     }

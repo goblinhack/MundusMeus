@@ -15,8 +15,10 @@ typedef __int32 int32_t;
 typedef unsigned __int32 uint32_t;
 typedef __int64 int64_t;
 typedef unsigned __int64 uint64_t;
+#define TYPEOF decltype
 #else
 #include <stdint.h>
+#define TYPEOF typeof
 #endif
 
 #include <assert.h>
@@ -90,7 +92,7 @@ static inline void uSleep (int waitTime)
 #define ARRAY_SIZE(_array_)             (sizeof(_array_)/sizeof(_array_[0]))
 
 #define FOR_ALL_IN_ARRAY(iterator, _array_)                                 \
-    typeof(&_array_[0]) iterator;                                           \
+    TYPEOF(&_array_[0]) iterator;                                           \
     for ((iterator) = (_array_);                                            \
          (iterator) < ((_array_) + ARRAY_SIZE(_array_));                    \
          (iterator)++)
@@ -207,7 +209,7 @@ typedef uint8_t (*tp_is_callback)(tpp);
 /*
  * log.c
  */
-#define DIE(args, ...)                                                          \
+#define DIE(args...)                                                          \
     DYING("Died at %s:%s():%u", __FILE__, __FUNCTION__, __LINE__);            \
     CROAK(args);                                                              \
     exit(1);

@@ -242,7 +242,7 @@ tree_rootp map_all_things_is_x_at (levelp level,
                                         "TREE ROOT: map find things");
                     }
 
-                    node = (typeof(node))
+                    node = (TYPEOF(node))
                         myzalloc(sizeof(*node), "TREE NODE: map find thing");
 
                     node->tree.key = (void*)thing_it;
@@ -304,7 +304,7 @@ tree_rootp map_all_things_is_x (levelp level,
                                                 "TREE ROOT: map find things");
                             }
 
-                            node = (typeof(node))
+                            node = (TYPEOF(node))
                                 myzalloc(sizeof(*node), "TREE NODE: map find thing");
 
                             node->tree.key = (void*)thing_it;

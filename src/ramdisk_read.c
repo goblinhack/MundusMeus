@@ -127,7 +127,7 @@ unsigned char *ramdisk_load (const char *filename, int32_t *outlen)
             myfree(alt_filename);
         }
 
-        uint8_t *copy = (typeof(copy))
+        uint8_t *copy = (TYPEOF(copy))
                         mymalloc((int)ramfile->len + 1, "ramdisk load");
         if (!copy) {
             DBG("no memory for loading ramdisk copy, %s", filename);
@@ -165,7 +165,7 @@ unsigned char *ramdisk_load (const char *filename, int32_t *outlen)
 #ifdef USE_MINIZ
         int32_t err;
 
-        out = (typeof(out)) mymalloc(ramfile->orig_len, "RAMDISK scratchpad");
+        out = (TYPEOF(out)) mymalloc(ramfile->orig_len, "RAMDISK scratchpad");
         if (!out) {
             ERR("no memory for ramdisk, %s", filename);
         }
@@ -185,7 +185,7 @@ unsigned char *ramdisk_load (const char *filename, int32_t *outlen)
 #endif
 
 #ifdef USE_STB_IMAGE
-        out = (typeof(out))
+        out = (TYPEOF(out))
             stbi_zlib_decode_malloc((const char *)ramfile->data,
                                     ramfile->len, &outlenl);
         if (!out) {

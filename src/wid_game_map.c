@@ -76,7 +76,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         /*
          * Get the first anim tile.
          */
-        thing_tile = (typeof(thing_tile)) tree_root_get_random(thing_tiles);
+        thing_tile = (TYPEOF(thing_tile)) tree_root_get_random(thing_tiles);
 
         /*
          * Find the real tile that corresponds to this name.

@@ -108,7 +108,7 @@ static void wid_console_log_ (const char *s)
                                           "TREE ROOT: wid_console lines");
         }
 
-        node = (typeof(node)) myzalloc(sizeof(*node),
+        node = (TYPEOF(node)) myzalloc(sizeof(*node),
                                        "TREE NODE: wid_console log");
         node->tree.key = log_wid_console_buffered_lines++;
         node->buf = dupstr(s, "TREE KEY: wid_console log");

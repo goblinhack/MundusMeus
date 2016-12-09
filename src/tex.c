@@ -381,7 +381,7 @@ texp tex_find (const char *file)
     memset(&target, 0, sizeof(target));
     target.tree.key = (char*) file;
 
-    result = (typeof(result)) tree_find(textures, &target.tree.node);
+    result = (TYPEOF(result)) tree_find(textures, &target.tree.node);
     if (!result) {
         return (0);
     }
@@ -493,7 +493,7 @@ texp tex_from_surface (SDL_Surface *surface,
         textures = tree_alloc(TREE_KEY_STRING, "TREE ROOT: tex");
     }
 
-    t = (typeof(t)) myzalloc(sizeof(*t), "TREE NODE: tex");
+    t = (TYPEOF(t)) myzalloc(sizeof(*t), "TREE NODE: tex");
     t->tree.key = dupstr(name, "TREE KEY: tex");
 
     if (!tree_insert(textures, &t->tree.node)) {
@@ -839,7 +839,7 @@ texp string2tex (const char **s)
     memset(&find, 0, sizeof(find));
     find.tree.key = tmp;
 
-    target = (typeof(target)) tree_find(textures, &find.tree.node);
+    target = (TYPEOF(target)) tree_find(textures, &find.tree.node);
     if (!target) {
         DIE("unknown tex [%s]", tmp);
     }

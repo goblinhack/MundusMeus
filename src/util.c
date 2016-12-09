@@ -93,7 +93,7 @@ char *dupstr_ (const char *in,
 
     char *ptr = strdup(in);
 #ifdef ENABLE_PTRCHECK
-    uint32_t size = (typeof(size)) strlen(in);
+    uint32_t size = (TYPEOF(size)) strlen(in);
 #endif
 
     if (!ptr) {

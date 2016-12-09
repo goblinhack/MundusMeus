@@ -178,13 +178,13 @@ static hash_t *hash_init (uint32_t hash_size)
     hash_t *hash_table;
 
     hash_table =
-        (typeof(hash_table))
+        (TYPEOF(hash_table))
             local_zalloc(sizeof(hash_t));
 
     hash_table->hash_size = hash_size;
 
     hash_table->elements =
-        (typeof(hash_table->elements))
+        (TYPEOF(hash_table->elements))
                 local_zalloc(hash_size * sizeof(hash_elem_t *));
 
     return (hash_table);
@@ -220,7 +220,7 @@ static void hash_add (hash_t *hash_table, ptrcheck *context)
         return;
     }
 
-    elem = (typeof(elem)) local_zalloc(sizeof(*elem));
+    elem = (TYPEOF(elem)) local_zalloc(sizeof(*elem));
     elem->context = context;
     elem->next = *slot;
     *slot = elem;
@@ -496,7 +496,7 @@ void *ptrcheck_alloc (const void *ptr,
      */
     if (!ringbuf_next) {
         ringbuf_next =
-            (typeof(ringbuf_next))
+            (TYPEOF(ringbuf_next))
                 local_zalloc(sizeof(ptrcheck) * ringbuf_max_size);
 
         ringbuf_base = ringbuf_next;
@@ -507,7 +507,7 @@ void *ptrcheck_alloc (const void *ptr,
      * Allocate a block of data to describe the pointer and owner.
      */
     context =
-        (typeof(context))
+        (TYPEOF(context))
             local_zalloc(sizeof(ptrcheck));
 
     /*
@@ -763,9 +763,9 @@ void ptrcheck_usage_print (void)
             memset(&find, 0, sizeof(find));
             find.tree.key = (char*)context->what;
 
-            target = (typeof(target)) tree_find(root, &find.tree.node);
+            target = (TYPEOF(target)) tree_find(root, &find.tree.node);
             if (!target) {
-                node = (typeof(node)) myzalloc(sizeof(*node),
+                node = (TYPEOF(node)) myzalloc(sizeof(*node),
                                                "TREE NODE: show mem");
                 node->tree.key = (char*)context->what;
                 node->total = context->size;

@@ -176,7 +176,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
     }	                                                                        \
 	                                                                        \
     tp->__field__ = (__str2val__)(value);                                       \
-    if (tp->__field__ == (typeof(tp->__field__))-1) {                           \
+    if (tp->__field__ == (TYPEOF(tp->__field__))-1) {                           \
         ERR("%s, cannot find enum %s", __FUNCTION__, value);	                \
         goto done;	                                                        \
     }	                                                                        \

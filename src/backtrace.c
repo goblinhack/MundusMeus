@@ -50,7 +50,7 @@ traceback *traceback_alloc (void)
 #ifndef WIN32
     traceback *tb;
 
-    tb = (typeof(tb)) malloc(sizeof(*tb));
+    tb = (TYPEOF(tb)) malloc(sizeof(*tb));
 
     tb->size = backtrace(tb->array, MAX_TRACEBACK);
 

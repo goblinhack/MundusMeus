@@ -20,7 +20,7 @@ static uint8_t wid_popup_button_selected (widp w)
 {
     wid_popup_callback callback;
 
-    callback = (typeof(callback)) wid_get_context(w);
+    callback = (TYPEOF(callback)) wid_get_context(w);
 
     if (!callback) {
         return (false);
