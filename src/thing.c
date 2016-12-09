@@ -161,7 +161,7 @@ thingp thing_find (const char *name)
     // memset(&target, 0, sizeof(target)); intentional for speed
     target.tree.key = (char*) name;
 
-    result = (typeof(result)) tree_find(things, &target.tree.node);
+    result = (TYPEOF(result)) tree_find(things, &target.tree.node);
     if (!result) {
         return (0);
     }

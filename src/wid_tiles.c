@@ -50,7 +50,7 @@ wid_tilesp wid_tiles_load (const char *name, double scale)
         wid_tiles_all = tree_alloc(TREE_KEY_STRING, "TREE ROOT: wid_tiles");
     }
 
-    t = (typeof(t)) myzalloc(sizeof(*t), "TREE NODE: wid_tiles");
+    t = (TYPEOF(t)) myzalloc(sizeof(*t), "TREE NODE: wid_tiles");
     t->tree.key = dupstr(name, "TREE KEY: wid_tiles");
 
     if (!tree_insert(wid_tiles_all, &t->tree.node)) {
@@ -200,7 +200,7 @@ wid_tilesp wid_tiles_find (const char *file)
     memset(&target, 0, sizeof(target));
     target.tree.key = (char*) file;
 
-    result = (typeof(result)) tree_find(wid_tiles_all, &target.tree.node);
+    result = (TYPEOF(result)) tree_find(wid_tiles_all, &target.tree.node);
     if (!result) {
         return (0);
     }

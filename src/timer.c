@@ -97,7 +97,7 @@ timerp action_timer_create (tree_rootp *root,
 
     verify(*root);
 
-    t = (typeof(t)) myzalloc(sizeof(*t), "TREE NODE: timer");
+    t = (TYPEOF(t)) myzalloc(sizeof(*t), "TREE NODE: timer");
 
     t->expires_when = time_get_time_ms() + duration_m_s;
     if (jitter) {
@@ -134,7 +134,7 @@ void action_timers_tick (tree_rootp *root)
     for (;;) {
         verify(*root);
 
-        t = (typeof(t)) tree_root_first(*root);
+        t = (TYPEOF(t)) tree_root_first(*root);
         if (!t) {
             return;
         }

@@ -112,7 +112,7 @@ tree_root *dirlist (const char *dir,
         myfree(dir_and_file);
         dir_and_file = tmp;
 
-        node = (typeof(node)) myzalloc(sizeof(*node), "TREE NODE: dirlist");
+        node = (TYPEOF(node)) myzalloc(sizeof(*node), "TREE NODE: dirlist");
 
         node->is_file = !S_ISDIR(s.st_mode);
 
@@ -146,7 +146,7 @@ tree_root *dirlist (const char *dir,
                 }
             }
 
-            node = (typeof(node)) myzalloc(sizeof(*node), "TREE NODE: dirlist");
+            node = (TYPEOF(node)) myzalloc(sizeof(*node), "TREE NODE: dirlist");
             node->is_file = true;
 
             /*

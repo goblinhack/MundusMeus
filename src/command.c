@@ -118,7 +118,7 @@ void command_add (command_fn_t callback,
         commands = tree_alloc(TREE_KEY_STRING, "TREE ROOT: commands");
     }
 
-    command_t *command = (typeof(command))
+    command_t *command = (TYPEOF(command))
                     myzalloc(sizeof(*command), "TREE NODE: command");
     command->tree.key = dupstr(input, "TREE KEY: command");
     command->callback = callback;
@@ -680,7 +680,7 @@ void console_tick (void)
             return;
 
         default: {
-            if (origlen >= (typeof(origlen)) sizeof(updatedtext) - 1) {
+            if (origlen >= (TYPEOF(origlen)) sizeof(updatedtext) - 1) {
                 break;
             }
 

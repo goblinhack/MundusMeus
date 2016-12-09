@@ -166,7 +166,7 @@ tree_root *split (const char *text, uint32_t max_line_len)
          */
         line_len = (uint32_t)(line_end - line_start);
 
-        node = (typeof(node)) myzalloc(sizeof(*node),
+        node = (TYPEOF(node)) myzalloc(sizeof(*node),
                                         "TREE NODE: split");
         node->tree.key = key++;
         node->line = (char *)myzalloc(line_len + 1, "TREE KEY: split");

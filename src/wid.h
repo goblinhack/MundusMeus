@@ -916,8 +916,8 @@ static inline uint8_t wid_is_moving (widp w)
 static inline int8_t
 tree_wid_compare_func (const tree_node *a, const tree_node *b)
 {
-    widp A = (typeof(A))a;
-    widp B = (typeof(B))b;
+    widp A = (TYPEOF(A))a;
+    widp B = (TYPEOF(B))b;
 
     if (A->tree.priority > B->tree.priority) {
         return (-1);
@@ -960,8 +960,8 @@ tree_wid_compare_func (const tree_node *a, const tree_node *b)
 static inline int8_t
 tree_wid_compare_func_fast (const tree_node *a, const tree_node *b)
 {
-    widp A = (typeof(A))a;
-    widp B = (typeof(B))b;
+    widp A = (TYPEOF(A))a;
+    widp B = (TYPEOF(B))b;
 
     if (A->tree.br.y > B->tree.br.y) {
         return (-1);
@@ -1032,7 +1032,7 @@ widp wid_grid_find_first (widp parent, uint32_t x, uint32_t y,
         ERR("no gridtree");
     }
 
-    node = (typeof(node)) tree_first((*gridtree)->node);
+    node = (TYPEOF(node)) tree_first((*gridtree)->node);
     if (!node) {
         return (0);
     }
@@ -1085,7 +1085,7 @@ widp wid_grid_find_next (widp parent, widp w, uint32_t x, uint32_t y,
             ERR("no gridtree");
         }
 
-        node = (typeof(node)) tree_get_next(*gridtree, (*gridtree)->node,
+        node = (TYPEOF(node)) tree_get_next(*gridtree, (*gridtree)->node,
                                             &w->gridnode->tree.node);
         if (!node) {
             return (0);

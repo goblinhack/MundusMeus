@@ -227,7 +227,7 @@ static uint8_t wid_numpad_button_m_event (widp w,
                                                 int32_t x, int32_t y,
                                                 uint32_t button)
 {
-    int focus = (typeof(focus)) (uintptr_t) wid_get_context2(w);
+    int focus = (TYPEOF(focus)) (uintptr_t) wid_get_context2(w);
     int focusx = (focus & 0xff);
     int focusy = (focus & 0xff00) >> 8;
 
@@ -591,7 +591,7 @@ static void wid_numpad_mover (widp w,
         return;
     }
 
-    int focus = (typeof(focus)) (uintptr_t) wid_get_context2(w);
+    int focus = (TYPEOF(focus)) (uintptr_t) wid_get_context2(w);
     int focusx = (focus & 0xff);
     int focusy = (focus & 0xff00) >> 8;
 

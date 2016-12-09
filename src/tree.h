@@ -231,112 +231,112 @@ tree_node *tree_prev_ ## compare_func (tree_root *root, tree_node *node)    \
 }                                                                           \
 
 #define TREE_WALK(ROOT, NODE)                                               \
-    typeof((NODE)->tree) saved_key;                                         \
+    TYPEOF((NODE)->tree) saved_key;                                         \
     extern int32_t gcc_no_warn;                                             \
                                                                             \
     if (ROOT)                                                               \
                                                                             \
-    for ((NODE) = (typeof(NODE)) tree_first((ROOT)->node);                  \
+    for ((NODE) = (TYPEOF(NODE)) tree_first((ROOT)->node);                  \
                                                                             \
         gcc_no_warn =                                                       \
             (NODE) ? saved_key = (NODE)->tree, 0 : 0, (NODE);               \
                                                                             \
-        (NODE) = (typeof(NODE))                                             \
+        (NODE) = (TYPEOF(NODE))                                             \
             tree_get_next((ROOT), (ROOT)->node, &saved_key.node))
 
 #define TREE_WALK_INLINE(ROOT, NODE, tree_get_next_func)                    \
-    typeof((NODE)->tree) saved_key;                                         \
+    TYPEOF((NODE)->tree) saved_key;                                         \
     extern int32_t gcc_no_warn;                                             \
                                                                             \
     if (ROOT)                                                               \
                                                                             \
-    for ((NODE) = (typeof(NODE)) tree_first((ROOT)->node);                  \
+    for ((NODE) = (TYPEOF(NODE)) tree_first((ROOT)->node);                  \
                                                                             \
         gcc_no_warn =                                                       \
             (NODE) ? saved_key = (NODE)->tree, 0 : 0, (NODE);               \
                                                                             \
-        (NODE) = (typeof(NODE))                                             \
+        (NODE) = (TYPEOF(NODE))                                             \
             (tree_get_next_func)((ROOT), (ROOT)->node, &saved_key.node))
 
 
 #define TREE_WALK_REVERSE(ROOT, NODE)                                       \
-    typeof((NODE)->tree) saved_key;                                         \
+    TYPEOF((NODE)->tree) saved_key;                                         \
     extern int32_t gcc_no_warn;                                             \
                                                                             \
     if (ROOT)                                                               \
                                                                             \
-    for ((NODE) = (typeof(NODE)) tree_last((ROOT)->node);                   \
+    for ((NODE) = (TYPEOF(NODE)) tree_last((ROOT)->node);                   \
                                                                             \
         gcc_no_warn =                                                       \
             (NODE) ? saved_key = (NODE)->tree, 0 : 0, (NODE);               \
                                                                             \
-        (NODE) = (typeof(NODE))                                             \
+        (NODE) = (TYPEOF(NODE))                                             \
             tree_get_prev((ROOT), (ROOT)->node, &saved_key.node))
 
 #define TREE_WALK_UNSAFE(ROOT, NODE)                                        \
-    typeof(NODE) NEXT;                                                      \
+    TYPEOF(NODE) NEXT;                                                      \
                                                                             \
-    for (NEXT = (NODE) = (typeof(NODE)) tree_root_first((ROOT));            \
+    for (NEXT = (NODE) = (TYPEOF(NODE)) tree_root_first((ROOT));            \
          (NODE = (NEXT)) != 0;                                              \
-         NEXT = (typeof(NODE)) tree_next((ROOT), (tree_node*)(NODE)))       \
+         NEXT = (TYPEOF(NODE)) tree_next((ROOT), (tree_node*)(NODE)))       \
 
 #define TREE_WALK_REVERSE_UNSAFE(ROOT, NODE)                                \
-    typeof(NODE) PREV;                                                      \
+    TYPEOF(NODE) PREV;                                                      \
                                                                             \
-    for (PREV = (NODE) = (typeof(NODE)) tree_root_last((ROOT));             \
+    for (PREV = (NODE) = (TYPEOF(NODE)) tree_root_last((ROOT));             \
          (NODE = (PREV)) != 0;                                              \
-         PREV = (typeof(NODE)) tree_prev((ROOT), (tree_node*)(NODE)))       \
+         PREV = (TYPEOF(NODE)) tree_prev((ROOT), (tree_node*)(NODE)))       \
 
 #define TREE_WALK_REVERSE_UNSAFE_INLINE(ROOT, NODE, tree_prev_func)         \
-    typeof(NODE) PREV;                                                      \
+    TYPEOF(NODE) PREV;                                                      \
                                                                             \
-    for (PREV = (NODE) = (typeof(NODE)) tree_root_last((ROOT));             \
+    for (PREV = (NODE) = (TYPEOF(NODE)) tree_root_last((ROOT));             \
          (NODE = (PREV)) != 0;                                              \
-         PREV = (typeof(NODE)) (tree_prev_func)((ROOT), (tree_node*)(NODE))) \
+         PREV = (TYPEOF(NODE)) (tree_prev_func)((ROOT), (tree_node*)(NODE))) \
 
 #define TREE_OFFSET_WALK_UNSAFE(ROOT, OUT)                                 \
-    typeof(OUT) NEXT;                                                      \
-    typeof(OUT) NODE;                                                      \
+    TYPEOF(OUT) NEXT;                                                      \
+    TYPEOF(OUT) NODE;                                                      \
                                                                            \
-    for (NEXT = (NODE) = (typeof(NODE))                                    \
+    for (NEXT = (NODE) = (TYPEOF(NODE))                                    \
          getnode2ctx((ROOT), (tree_node**) &(OUT), tree_root_first((ROOT))); \
          (NODE = (NEXT)) != 0;                                             \
-         NEXT = (typeof(NODE))                                             \
+         NEXT = (TYPEOF(NODE))                                             \
          getnode2ctx((ROOT), (tree_node**) &(OUT),                         \
                      tree_next((ROOT), (tree_node*)(NODE))))               \
 
 #define TREE_OFFSET_WALK_REVERSE_UNSAFE(ROOT, OUT)                         \
-    typeof(OUT) PREV;                                                      \
-    typeof(OUT) NODE;                                                      \
+    TYPEOF(OUT) PREV;                                                      \
+    TYPEOF(OUT) NODE;                                                      \
                                                                            \
-    for (PREV = (NODE) = (typeof(NODE))                                    \
+    for (PREV = (NODE) = (TYPEOF(NODE))                                    \
          getnode2ctx((ROOT), (tree_node**) &(OUT), tree_root_last((ROOT))); \
          (NODE = (PREV)) != 0;                                             \
-         PREV = (typeof(NODE))                                             \
+         PREV = (TYPEOF(NODE))                                             \
          getnode2ctx((ROOT), (tree_node**) &(OUT),                         \
                      tree_prev((ROOT), (tree_node*)(NODE))))               \
 
 #define TREE_OFFSET_WALK(ROOT, NODE, NAME)                                  \
-    typeof((NODE)->NAME) saved_key;                                         \
+    TYPEOF((NODE)->NAME) saved_key;                                         \
     extern int32_t gcc_no_warn;                                             \
                                                                             \
     if (ROOT)                                                               \
                                                                             \
-    for ((NODE) = (typeof(NODE))                                            \
+    for ((NODE) = (TYPEOF(NODE))                                            \
          retnode2ctx(ROOT, tree_first((ROOT)->node));                       \
                                                                             \
         gcc_no_warn =                                                       \
             (NODE) ? saved_key = (NODE)->NAME, 0 : 0, (NODE);               \
                                                                             \
-        (NODE) = (typeof(NODE))                                             \
+        (NODE) = (TYPEOF(NODE))                                             \
             retnode2ctx(ROOT,                                               \
                 tree_get_next((ROOT), (ROOT)->node, &saved_key.node)))
 
 static inline int8_t
 tree_key_int32_compare_func (const tree_node *a, const tree_node *b)
 {
-    tree_key_int *A = (decltype(A))a;
-    tree_key_int *B = (decltype(B))b;
+    tree_key_int *A = (TYPEOF(A))a;
+    tree_key_int *B = (TYPEOF(B))b;
 
     if (A->key < B->key) {
         return (-1);
@@ -352,8 +352,8 @@ tree_key_int32_compare_func (const tree_node *a, const tree_node *b)
 static inline int8_t
 tree_key_two_int32_compare_func (const tree_node *a, const tree_node *b)
 {
-    tree_key_two_int *A = (typeof(A))a;
-    tree_key_two_int *B = (typeof(B))b;
+    tree_key_two_int *A = (TYPEOF(A))a;
+    tree_key_two_int *B = (TYPEOF(B))b;
 
     if (A->key2 < B->key2) {
         return (-1);
@@ -377,8 +377,8 @@ tree_key_two_int32_compare_func (const tree_node *a, const tree_node *b)
 static inline int8_t
 tree_key_three_int32_compare_func (const tree_node *a, const tree_node *b)
 {
-    tree_key_three_int *A = (typeof(A))a;
-    tree_key_three_int *B = (typeof(B))b;
+    tree_key_three_int *A = (TYPEOF(A))a;
+    tree_key_three_int *B = (TYPEOF(B))b;
 
     if (A->key2 < B->key2) {
         return (-1);
@@ -410,8 +410,8 @@ tree_key_three_int32_compare_func (const tree_node *a, const tree_node *b)
 static inline int8_t
 tree_key_four_int32_compare_func (const tree_node *a, const tree_node *b)
 {
-    tree_key_four_int *A = (typeof(A))a;
-    tree_key_four_int *B = (typeof(B))b;
+    tree_key_four_int *A = (TYPEOF(A))a;
+    tree_key_four_int *B = (TYPEOF(B))b;
 
     if (A->key2 < B->key2) {
         return (-1);
@@ -451,8 +451,8 @@ tree_key_four_int32_compare_func (const tree_node *a, const tree_node *b)
 static inline int8_t tree_key_string_compare_func (const tree_node *a,
                                              const tree_node *b)
 {
-    tree_key_string *A = (typeof(A))a;
-    tree_key_string *B = (typeof(B))b;
+    tree_key_string *A = (TYPEOF(A))a;
+    tree_key_string *B = (TYPEOF(B))b;
 
     return (strcasecmp(A->key, B->key));
 }
@@ -460,8 +460,8 @@ static inline int8_t tree_key_string_compare_func (const tree_node *a,
 static inline int8_t tree_key_pointer_compare_func (const tree_node *a,
                                                      const tree_node *b)
 {
-    tree_key_pointer *A = (typeof(A))a;
-    tree_key_pointer *B = (typeof(B))b;
+    tree_key_pointer *A = (TYPEOF(A))a;
+    tree_key_pointer *B = (TYPEOF(B))b;
 
     if (A->key < B->key) {
         return (-1);

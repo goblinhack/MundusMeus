@@ -77,7 +77,7 @@ static soundp sound_load (double volume, const char *filename, const char *name_
         all_sound = tree_alloc(TREE_KEY_STRING, "TREE ROOT: sound");
     }
 
-    soundp m = (typeof(m)) myzalloc(sizeof(*m), "TREE NODE: sound");
+    soundp m = (TYPEOF(m)) myzalloc(sizeof(*m), "TREE NODE: sound");
     m->tree.key = dupstr(name_alias, "TREE KEY: sound");
 
     if (!tree_insert(all_sound, &m->tree.node)) {
@@ -126,7 +126,7 @@ soundp sound_find (const char *name_alias)
     memset(&target, 0, sizeof(target));
     target.tree.key = (char*) name_alias;
 
-    result = (typeof(result)) tree_find(all_sound, &target.tree.node);
+    result = (TYPEOF(result)) tree_find(all_sound, &target.tree.node);
     if (!result) {
         return (0);
     }

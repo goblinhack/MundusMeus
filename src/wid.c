@@ -1525,7 +1525,7 @@ void wid_get_mxy (widp w, double *x, double *y)
  */
 fontp wid_get_font (widp w)
 {
-    uint32_t mode = (typeof(mode)) wid_get_mode(w); // for c++, no enum walk
+    uint32_t mode = (TYPEOF(mode)) wid_get_mode(w); // for c++, no enum walk
     wid_cfg *cfg = &w->cfg[mode];
 
     if (cfg->font) {
@@ -1554,7 +1554,7 @@ fontp wid_get_font (widp w)
  */
 fontp wid_get_mode_font (widp w)
 {
-    uint32_t mode = (typeof(mode)) wid_get_mode(w); // for c++, no enum walk
+    uint32_t mode = (TYPEOF(mode)) wid_get_mode(w); // for c++, no enum walk
     wid_cfg *cfg = &w->cfg[mode];
 
     return (cfg->font);
@@ -2074,7 +2074,7 @@ void wid_set_thing (widp w, thingp t)
          * again then the tile will appear to wobble as a new center is
          * chosen.* i.e. the inventory screen with a torch.
          */
-        tile = (typeof(tile)) tree_root_first(tiles);
+        tile = (TYPEOF(tile)) tree_root_first(tiles);
         if (!tile) {
             return;
         }
@@ -2109,7 +2109,7 @@ void wid_set_thing_template (widp w, tpp t)
         return;
     }
 
-    tile = (typeof(tile)) tree_root_get_random(tiles);
+    tile = (TYPEOF(tile)) tree_root_get_random(tiles);
     if (!tile) {
         return;
     }
@@ -2178,7 +2178,7 @@ void wid_set_radius (widp w, fsize val)
  */
 color wid_get_color (widp w, wid_color which)
 {
-    uint32_t mode = (typeof(mode)) wid_get_mode(w); // for c++, no enum walk
+    uint32_t mode = (TYPEOF(mode)) wid_get_mode(w); // for c++, no enum walk
     wid_cfg *cfg = &w->cfg[mode];
 
     if (cfg->color_set[which]) {
@@ -2207,7 +2207,7 @@ color wid_get_color (widp w, wid_color which)
  */
 color wid_get_mode_color (widp w, wid_color which)
 {
-    uint32_t mode = (typeof(mode)) wid_get_mode(w); // for c++, no enum walk
+    uint32_t mode = (TYPEOF(mode)) wid_get_mode(w); // for c++, no enum walk
     wid_cfg *cfg = &w->cfg[mode];
 
     return (cfg->colors[which]);
@@ -2818,7 +2818,7 @@ static widp wid_new (widp parent)
 {
     widp w;
 
-    w = (typeof(w)) myzalloc(sizeof(*w), "widget");
+    w = (TYPEOF(w)) myzalloc(sizeof(*w), "widget");
     w->parent = parent;
     w->timestamp_created = wid_time;
 

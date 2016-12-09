@@ -252,7 +252,7 @@ tpp tp_find (const char *name)
     // memset(&target, 0, sizeof(target)); intentional for speed
     target.tree.key = (char*) name;
 
-    result = (typeof(result)) tree_find(thing_templates, &target.tree.node);
+    result = (TYPEOF(result)) tree_find(thing_templates, &target.tree.node);
     if (!result) {
         return (0);
     }
@@ -309,7 +309,7 @@ tpp string2thing_template (const char **s)
     memset(&find, 0, sizeof(find));
     find.tree.key = tmp;
 
-    target = (typeof(target)) tree_find(thing_templates, &find.tree.node);
+    target = (TYPEOF(target)) tree_find(thing_templates, &find.tree.node);
     if (!target) {
         ERR("unknown thing [%s]", tmp);
     }
