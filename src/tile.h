@@ -41,7 +41,7 @@ void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
 {
     if (unlikely(!tile)) {
         if (!name) {
-            DIE("no name for tile blit");
+            DIE("no name for tile blit, %s", __FUNCTION__);
         }
 
         tile = tile_find(name);

@@ -42,7 +42,7 @@ wid_tilesp wid_tiles_load (const char *name, double scale)
     }
 
     if (!name) {
-        DIE("no name for wid_tiles");
+        DIE1("no name for wid_tiles");
         return (0);
     }
 
@@ -194,7 +194,7 @@ wid_tilesp wid_tiles_find (const char *file)
     wid_tiles *result;
 
     if (!file) {
-        DIE("no filename given for wid_tiles find");
+        DIE1("no filename given for wid_tiles find");
     }
 
     memset(&target, 0, sizeof(target));

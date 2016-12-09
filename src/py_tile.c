@@ -94,7 +94,7 @@ PyObject *tile_get_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
     }
 
     if (!name) {
-        DIE("no tile name");
+        DIE1("no tile name");
     }
 
     tile = tile_find(name);
@@ -124,7 +124,7 @@ PyObject *tile_get_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     }
 
     if (!name) {
-        DIE("no tile name");
+        DIE1("no tile name");
     }
 
     tile = tile_find(name);

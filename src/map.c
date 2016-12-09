@@ -18,7 +18,7 @@ thingp map_is_tp_at (levelp level, int32_t x, int32_t y, tpp tp)
 
     grid_wid = game.wid_grid;
     if (!grid_wid) {
-        DIE("no grid wid");
+        DIE1("no grid wid");
     }
 
     /*
@@ -56,7 +56,7 @@ tpp map_is_x_at (levelp level,
 
     grid_wid = game.wid_grid;
     if (!grid_wid) {
-        DIE("no grid wid");
+        DIE1("no grid wid");
     }
 
     uint8_t z;
@@ -95,7 +95,7 @@ uint8_t map_count_x_at (levelp level,
 
     grid_wid = game.wid_grid;
     if (!grid_wid) {
-        DIE("no grid wid");
+        DIE1("no grid wid");
     }
 
     /*
@@ -170,7 +170,7 @@ thingp map_thing_is_x_at (levelp level,
 
     grid_wid = game.wid_grid;
     if (!grid_wid) {
-        DIE("no grid wid");
+        DIE1("no grid wid");
     }
 
     /*
@@ -216,7 +216,7 @@ tree_rootp map_all_things_is_x_at (levelp level,
 
     grid_wid = game.wid_grid;
     if (!grid_wid) {
-        DIE("no grid wid");
+        DIE1("no grid wid");
     }
 
     /*
@@ -275,7 +275,7 @@ tree_rootp map_all_things_is_x (levelp level,
 
     grid_wid = game.wid_grid;
     if (!grid_wid) {
-        DIE("no grid wid");
+        DIE1("no grid wid");
     }
 
     uint8_t z;

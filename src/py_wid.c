@@ -225,7 +225,7 @@ PyObject *wid_set_shape_ (PyObject *obj, PyObject *args, PyObject *keywds)
     } else if (shape_square_outline) {
         wid_set_square_outline(w);
     } else {
-        DIE("no wid shape type set");
+        DIE1("no wid shape type set");
     }
 
     Py_RETURN_NONE;

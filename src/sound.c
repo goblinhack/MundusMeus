@@ -52,7 +52,7 @@ void sound_fini (void)
 static soundp sound_load (double volume, const char *filename, const char *name_alias)
 {
     if (!music_init_done) {
-        DIE("need music init")
+        DIE1("need music init")
         return (0);
     }
 
