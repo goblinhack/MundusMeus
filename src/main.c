@@ -4,7 +4,10 @@
  * See the LICENSE file for license.
  */
 
+#ifndef _MSC_VER
 #include <libgen.h>
+#endif
+
 #include "slre.h"
 #include "python.h"
 

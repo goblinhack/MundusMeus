@@ -29,8 +29,12 @@ void thing_sanity(thingp);
 int thing_tick_all(levelp level);
 void thing_animate_all(levelp level);
 void thing_wake(thingp t);
+#ifdef _MSC_VER
+void thing_dead(thingp, thingp killer, const char *fmt, ...);
+#else
 void thing_dead(thingp, thingp killer,
                 const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
+#endif
 void thing_set_wid(thingp, widp);
 widp thing_wid(thingp);
 const char *thing_logname(thingp);
