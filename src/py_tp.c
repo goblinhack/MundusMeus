@@ -14,7 +14,7 @@ PyObject *tp_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;
 
-    static char *kwlist[] = {"tp", 0};
+    static char *kwlist[] = {(char*) "tp", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, &py_class)) {
         return (0);
@@ -40,14 +40,15 @@ PyObject *tp_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
-#define TP_BODY_SET_STRING(__field__)                                               \
+#define TP_BODY_SET_STRING(__field__)                                           \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
     char *tp_name = 0;	                                                        \
     char *value = 0;	                                                        \
+    tpp tp;                                                                  \
 	                                                                        \
-    static char *kwlist[] = {"class", "value", 0};	                        \
+    static char *kwlist[] = {(char*) "class", (char*) "value", 0};	        \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, &py_class,    \
                                      &value)) {	                                \
@@ -72,7 +73,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
 	                                                                        \
     DBG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, tp_name, value);	        \
 	                                                                        \
-    tpp tp = tp_find(tp_name);	                                                \
+    tp = tp_find(tp_name);	                                                \
     if (!tp) {	                                                                \
         ERR("%s, cannot find tp %s", __FUNCTION__, tp_name);	                \
         goto done;	                                                        \
@@ -89,14 +90,15 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define TP_BODY_SET_STRING_FN(__field__, __fn__)                                    \
+#define TP_BODY_SET_STRING_FN(__field__, __fn__)                                \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
     char *tp_name = 0;	                                                        \
     char *value = 0;	                                                        \
+    tpp tp;                                                                     \
 	                                                                        \
-    static char *kwlist[] = {"class", "value", 0};	                        \
+    static char *kwlist[] = {(char*) "class", (char*) "value", 0};	        \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, &py_class,    \
                                      &value)) {	                                \
@@ -121,7 +123,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
 	                                                                        \
     DBG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, tp_name, value);	        \
 	                                                                        \
-    tpp tp = tp_find(tp_name);	                                                \
+    tp = tp_find(tp_name);	                                                \
     if (!tp) {	                                                                \
         ERR("%s, cannot find tp %s", __FUNCTION__, tp_name);	                \
         goto done;	                                                        \
@@ -145,8 +147,9 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;	                                                \
     char *tp_name = 0;	                                                        \
     char *value = 0;	                                                        \
+    tpp tp;                                                                     \
 	                                                                        \
-    static char *kwlist[] = {"class", "value", 0};	                        \
+    static char *kwlist[] = {(char*) "class", (char*) "value", 0};	        \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, &py_class,    \
                                      &value)) {	                                \
@@ -169,7 +172,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    tpp tp = tp_find(tp_name);	                                                \
+    tp = tp_find(tp_name);	                                                \
     if (!tp) {	                                                                \
         ERR("%s, cannot find tp %s", __FUNCTION__, tp_name);	                \
         goto done;	                                                        \
@@ -181,7 +184,8 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
-    DBG("python-to-c: %s(%s -> \"%s\"[%d])", __FUNCTION__, tp_name, value, tp->__field__);	\
+    DBG("python-to-c: %s(%s -> \"%s\"[%d])", __FUNCTION__, tp_name, value,      \
+        tp->__field__);	                                                        \
 	                                                                        \
     value = 0;	                                                                \
 	                                                                        \
@@ -193,14 +197,15 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define TP_BODY_SET_INT(__field__)                                                  \
+#define TP_BODY_SET_INT(__field__)                                              \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
     char *tp_name = 0;	                                                        \
     int value = 0;	                                                        \
+    tpp tp;                                                                     \
 	                                                                        \
-    static char *kwlist[] = {"class", "value", 0};	                        \
+    static char *kwlist[] = {(char*) "class", (char*) "value", 0};	        \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, &py_class,    \
                                      &value)) {	                                \
@@ -220,7 +225,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
 	                                                                        \
     DBG("python-to-c: %s(%s -> %d)", __FUNCTION__, tp_name, value);	        \
 	                                                                        \
-    tpp tp = tp_find(tp_name);	                                                \
+    tp = tp_find(tp_name);	                                                \
     if (!tp) {	                                                                \
         ERR("%s, cannot find tp %s", __FUNCTION__, tp_name);	                \
         goto done;	                                                        \
@@ -236,14 +241,15 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define TP_BODY_SET_DOUBLE(__field__)                                               \
+#define TP_BODY_SET_DOUBLE(__field__)                                           \
 PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
     char *tp_name = 0;	                                                        \
     double value = 0;	                                                        \
+    tpp tp;                                                                     \
 	                                                                        \
-    static char *kwlist[] = {"class", "value", 0};	                        \
+    static char *kwlist[] = {(char*) "class", (char*) "value", 0};	        \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|d", kwlist, &py_class,    \
                                      &value)) {	                                \
@@ -255,7 +261,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
         return (0);	                                                        \
     }	                                                                        \
 	                                                                        \
-    tp_name = py_obj_attr_str(py_class, "name");	                        \
+    tp_name = py_obj_attr_str(py_class, (char*) "name");	                \
     if (!tp_name) {	                                                        \
         ERR("%s, missing tp name", __FUNCTION__);	                        \
         goto done;	                                                        \
@@ -263,7 +269,7 @@ PyObject *tp_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)
 	                                                                        \
     DBG("python-to-c: %s(%s -> %g)", __FUNCTION__, tp_name, value);	        \
 	                                                                        \
-    tpp tp = tp_find(tp_name);	                                                \
+    tp = tp_find(tp_name);	                                                \
     if (!tp) {	                                                                \
         ERR("%s, cannot find tp %s", __FUNCTION__, tp_name);	                \
         goto done;	                                                        \
@@ -363,84 +369,84 @@ PyObject *tp_set_tile (PyObject *obj, PyObject *args, PyObject *keywds)
     int is_dead_on_end_of_anim = 0;
 	
     static char *kwlist[] = {
-        "class",
-        "tile",
-        "delay_ms",
-        "is_moving",
-        "is_jumping",
-        "begin_jump",
-        "is_join_block",
-        "is_join_horiz",
-        "is_join_vert",
-        "is_join_node",
-        "is_join_left",
-        "is_join_right",
-        "is_join_top",
-        "is_join_bot",
-        "is_join_tl",
-        "is_join_tr",
-        "is_join_bl",
-        "is_join_br",
-        "is_join_t",
-        "is_join_t90",
-        "is_join_t180",
-        "is_join_t270",
-        "is_join_x",
-        "is_join_tl2",
-        "is_join_tr2",
-        "is_join_bl2",
-        "is_join_br2",
-        "is_join_t_1",
-        "is_join_t_2",
-        "is_join_t_3",
-        "is_join_t90_1",
-        "is_join_t90_2",
-        "is_join_t90_3",
-        "is_join_t180_1",
-        "is_join_t180_2",
-        "is_join_t180_3",
-        "is_join_t270_1",
-        "is_join_t270_2",
-        "is_join_t270_3",
-        "is_join_x1",
-        "is_join_x1_270",
-        "is_join_x1_180",
-        "is_join_x1_90",
-        "is_join_x2",
-        "is_join_x2_270",
-        "is_join_x2_180",
-        "is_join_x2_90",
-        "is_join_x3",
-        "is_join_x3_180",
-        "is_join_x4",
-        "is_join_x4_270",
-        "is_join_x4_180",
-        "is_join_x4_90",
-        "is_join_horiz2",
-        "is_join_vert2",
-        "is_dir_left",
-        "is_dir_right",
-        "is_dir_up",
-        "is_dir_down",
-        "is_dir_none",
-        "is_yyy5",
-        "is_yyy6",
-        "is_yyy7",
-        "is_yyy8",
-        "is_yyy9",
-        "is_yyy10",
-        "is_yyy11",
-        "is_yyy12",
-        "is_yyy13",
-        "is_yyy14",
-        "is_yyy15",
-        "is_submerged",
-        "is_sleeping",
-        "is_open",
-        "is_dead",
-        "is_bloodied",
-        "is_end_of_anim",
-        "is_dead_on_end_of_anim",
+        (char*) "class",
+        (char*) "tile",
+        (char*) "delay_ms",
+        (char*) "is_moving",
+        (char*) "is_jumping",
+        (char*) "begin_jump",
+        (char*) "is_join_block",
+        (char*) "is_join_horiz",
+        (char*) "is_join_vert",
+        (char*) "is_join_node",
+        (char*) "is_join_left",
+        (char*) "is_join_right",
+        (char*) "is_join_top",
+        (char*) "is_join_bot",
+        (char*) "is_join_tl",
+        (char*) "is_join_tr",
+        (char*) "is_join_bl",
+        (char*) "is_join_br",
+        (char*) "is_join_t",
+        (char*) "is_join_t90",
+        (char*) "is_join_t180",
+        (char*) "is_join_t270",
+        (char*) "is_join_x",
+        (char*) "is_join_tl2",
+        (char*) "is_join_tr2",
+        (char*) "is_join_bl2",
+        (char*) "is_join_br2",
+        (char*) "is_join_t_1",
+        (char*) "is_join_t_2",
+        (char*) "is_join_t_3",
+        (char*) "is_join_t90_1",
+        (char*) "is_join_t90_2",
+        (char*) "is_join_t90_3",
+        (char*) "is_join_t180_1",
+        (char*) "is_join_t180_2",
+        (char*) "is_join_t180_3",
+        (char*) "is_join_t270_1",
+        (char*) "is_join_t270_2",
+        (char*) "is_join_t270_3",
+        (char*) "is_join_x1",
+        (char*) "is_join_x1_270",
+        (char*) "is_join_x1_180",
+        (char*) "is_join_x1_90",
+        (char*) "is_join_x2",
+        (char*) "is_join_x2_270",
+        (char*) "is_join_x2_180",
+        (char*) "is_join_x2_90",
+        (char*) "is_join_x3",
+        (char*) "is_join_x3_180",
+        (char*) "is_join_x4",
+        (char*) "is_join_x4_270",
+        (char*) "is_join_x4_180",
+        (char*) "is_join_x4_90",
+        (char*) "is_join_horiz2",
+        (char*) "is_join_vert2",
+        (char*) "is_dir_left",
+        (char*) "is_dir_right",
+        (char*) "is_dir_up",
+        (char*) "is_dir_down",
+        (char*) "is_dir_none",
+        (char*) "is_yyy5",
+        (char*) "is_yyy6",
+        (char*) "is_yyy7",
+        (char*) "is_yyy8",
+        (char*) "is_yyy9",
+        (char*) "is_yyy10",
+        (char*) "is_yyy11",
+        (char*) "is_yyy12",
+        (char*) "is_yyy13",
+        (char*) "is_yyy14",
+        (char*) "is_yyy15",
+        (char*) "is_submerged",
+        (char*) "is_sleeping",
+        (char*) "is_open",
+        (char*) "is_dead",
+        (char*) "is_bloodied",
+        (char*) "is_end_of_anim",
+        (char*) "is_dead_on_end_of_anim",
         0
     };
 	
@@ -533,6 +539,8 @@ PyObject *tp_set_tile (PyObject *obj, PyObject *args, PyObject *keywds)
         return (0);	
     }	
 	
+    tpp tp;
+
     tp_name = py_obj_attr_str(py_class, "name");	
     if (!tp_name) {	
         ERR("%s, missing tp name", __FUNCTION__);	
@@ -541,7 +549,7 @@ PyObject *tp_set_tile (PyObject *obj, PyObject *args, PyObject *keywds)
 	
     DBG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, tp_name, tile);	
 	
-    tpp tp = tp_find(tp_name);	
+    tp = tp_find(tp_name);	
     if (!tp) {	
         ERR("%s, cannot find tp %s", __FUNCTION__, tp_name);	
         goto done;	

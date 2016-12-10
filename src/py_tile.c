@@ -10,13 +10,13 @@
 
 PyObject *tile_load_arr_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
-    char *tex_name = "unset tex_name";
-    char *tex_name_black_and_white = "unset tex_name_black_and_white";
+    char *tex_name = 0;
+    char *tex_name_black_and_white = 0;
     int width = 0;
     int height = 0;
     PyObject *e = 0;
 
-    static char *kwlist[] = {"tex_name", "tex_name_black_and_white", "width", "height", "arr", 0};
+    static char *kwlist[] = {(char*) "tex_name", (char*) "tex_name_black_and_white", (char*) "width", (char*) "height", (char*) "arr", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "ssiiO", kwlist, &tex_name, &tex_name_black_and_white, &width, &height, &e)) {
         Py_RETURN_NONE;
@@ -84,7 +84,7 @@ PyObject *tile_get_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
     tilep tile = 0;
 
     static char *kwlist[] = {
-        "name",
+        (char*) "name",
         0
     };
 
@@ -114,7 +114,7 @@ PyObject *tile_get_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     tilep tile = 0;
 
     static char *kwlist[] = {
-        "name",
+        (char*) "name",
         0
     };
 

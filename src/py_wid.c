@@ -20,10 +20,10 @@ PyObject *wid_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
 
     static char *kwlist[] = {
-        "wid",
-        "parent",
-        "name",
-        "tiles",
+        (char*) "wid",
+        (char*) "parent",
+        (char*) "name",
+        (char*) "tiles",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|Kss", kwlist,
@@ -70,11 +70,11 @@ PyObject *wid_new_scrollbar_ (PyObject *obj, PyObject *args, PyObject *keywds)
     int vert = false;
 
     static char *kwlist[] = {
-        "wid",
-        "parent",
-        "owner",
-        "horiz",
-        "vert",
+        (char*) "wid",
+        (char*) "parent",
+        (char*) "owner",
+        (char*) "horiz",
+        (char*) "vert",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "OKK|ii", kwlist,
@@ -116,13 +116,13 @@ PyObject *wid_new_grid_ (PyObject *obj, PyObject *args, PyObject *keywds)
     double tile_height = false;
 
     static char *kwlist[] = {
-        "wid",
-        "parent",
-        "name",
-        "across",
-        "down",
-        "tile_width",
-        "tile_height",
+        (char*) "wid",
+        (char*) "parent",
+        (char*) "name",
+        (char*) "across",
+        (char*) "down",
+        (char*) "tile_width",
+        (char*) "tile_height",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, 
@@ -169,7 +169,7 @@ PyObject *wid_destroy_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid", 0};
+    static char *kwlist[] = {(char*) "wid", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
@@ -193,12 +193,12 @@ PyObject *wid_set_shape_ (PyObject *obj, PyObject *args, PyObject *keywds)
     int shape_square = 0;
     int shape_square_outline = 0;
 
-    static char *kwlist[] = {"wid",
-        "none",
-        "rounded_small",
-        "rounded_large",
-        "square",
-        "square_outline",
+    static char *kwlist[] = {(char*) "wid",
+        (char*) "none",
+        (char*) "rounded_small",
+        (char*) "rounded_large",
+        (char*) "square",
+        (char*) "square_outline",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|iiiii", kwlist,
@@ -237,8 +237,8 @@ PyObject *wid_set_tooltip_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     char *text = 0;
 
-    static char *kwlist[] = {"wid",
-        "text",
+    static char *kwlist[] = {(char*) "wid",
+        (char*) "text",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
@@ -261,8 +261,8 @@ PyObject *wid_set_tiles_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     char *tiles = 0;
 
-    static char *kwlist[] = {"wid",
-        "tiles",
+    static char *kwlist[] = {(char*) "wid",
+        (char*) "tiles",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
@@ -291,11 +291,11 @@ PyObject *wid_set_pos_ (PyObject *obj, PyObject *args, PyObject *keywds)
     double x2 = 0;
     double y2 = 0;
 
-    static char *kwlist[] = {"wid",
-        "x1",
-        "y1",
-        "x2",
-        "y2",
+    static char *kwlist[] = {(char*) "wid",
+        (char*) "x1",
+        (char*) "y1",
+        (char*) "x2",
+        (char*) "y2",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dddd", kwlist,
@@ -332,11 +332,11 @@ PyObject *wid_set_pos_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     double x2 = 0;
     double y2 = 0;
 
-    static char *kwlist[] = {"wid",
-        "x1",
-        "y1",
-        "x2",
-        "y2",
+    static char *kwlist[] = {(char*) "wid",
+        (char*) "x1",
+        (char*) "y1",
+        (char*) "x2",
+        (char*) "y2",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dddd", kwlist,
@@ -382,20 +382,20 @@ PyObject *wid_set_text_ (PyObject *obj, PyObject *args, PyObject *keywds)
     double scaling = -1;
     int top = -1;
 
-    static char *kwlist[] = {"wid",
-        "text",
-        "font",
-        "outline",
-        "color",
-        "advance",
-        "bot",
-        "centerx",
-        "centery",
-        "fixed_width",
-        "lhs",
-        "rhs",
-        "scaling",
-        "top",
+    static char *kwlist[] = {(char*) "wid",
+        (char*) "text",
+        (char*) "font",
+        (char*) "outline",
+        (char*) "color",
+        (char*) "advance",
+        (char*) "bot",
+        (char*) "centerx",
+        (char*) "centery",
+        (char*) "fixed_width",
+        (char*) "lhs",
+        (char*) "rhs",
+        (char*) "scaling",
+        (char*) "top",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ssisdiiiiiidi", kwlist,
@@ -491,14 +491,14 @@ PyObject *wid_set_color_ (PyObject *obj, PyObject *args, PyObject *keywds)
     int blit = 0;
     double alpha = -1;
 
-    static char *kwlist[] = {"wid",
-        "name",
-        "bg",
-        "tl",
-        "br",
-        "text",
-        "blit",
-        "alpha",
+    static char *kwlist[] = {(char*) "wid",
+        (char*) "name",
+        (char*) "bg",
+        (char*) "tl",
+        (char*) "br",
+        (char*) "text",
+        (char*) "blit",
+        (char*) "alpha",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|siiiiid", kwlist,
@@ -558,8 +558,8 @@ PyObject *wid_set_tex_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     char *name = 0;
 
-    static char *kwlist[] = {"wid_id",
-        "name",
+    static char *kwlist[] = {(char*) "wid_id",
+        (char*) "name",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
@@ -581,7 +581,7 @@ PyObject *wid_set_raise_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id",
+    static char *kwlist[] = {(char*) "wid_id",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
@@ -602,7 +602,7 @@ PyObject *wid_set_lower_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id",
+    static char *kwlist[] = {(char*) "wid_id",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
@@ -623,7 +623,7 @@ PyObject *wid_set_update_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id",
+    static char *kwlist[] = {(char*) "wid_id",
         0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
@@ -645,7 +645,7 @@ PyObject *wid_set_bevel_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     double value = 1.0;
 
-    static char *kwlist[] = {"wid_id", "value", 0};
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|d", kwlist,
                                      &py_class,
@@ -667,7 +667,7 @@ PyObject *wid_set_bevelled_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     int value = 1;
 
-    static char *kwlist[] = {"wid_id", "value", 0};
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
@@ -689,7 +689,7 @@ PyObject *wid_set_cursor_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     int value = 1;
 
-    static char *kwlist[] = {"wid_id", "value", 0};
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
@@ -711,7 +711,7 @@ PyObject *wid_set_do_not_lower_ (PyObject *obj, PyObject *args, PyObject *keywds
     widp w;
     int value = 1;
 
-    static char *kwlist[] = {"wid_id", "value", 0};
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
@@ -733,7 +733,7 @@ PyObject *wid_set_do_not_raise_ (PyObject *obj, PyObject *args, PyObject *keywds
     widp w;
     int value = 1;
 
-    static char *kwlist[] = {"wid_id", "value", 0};
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
@@ -755,7 +755,7 @@ PyObject *wid_set_focusable_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     int value = 1;
 
-    static char *kwlist[] = {"wid_id", "value", 0};
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
@@ -777,7 +777,7 @@ PyObject *wid_set_movable_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w;
     int value = 1;
 
-    static char *kwlist[] = {"wid_id", "value", 0};
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
@@ -799,7 +799,7 @@ PyObject *wid_set_movable_bounded_ (PyObject *obj, PyObject *args, PyObject *key
     widp w;
     int value = 1;
 
-    static char *kwlist[] = {"wid_id", "value", 0};
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
@@ -821,7 +821,7 @@ PyObject *wid_set_movable_horiz_ (PyObject *obj, PyObject *args, PyObject *keywd
     widp w;
     int value = 1;
 
-    static char *kwlist[] = {"wid_id", "value", 0};
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
@@ -843,7 +843,7 @@ PyObject *wid_set_movable_vert_ (PyObject *obj, PyObject *args, PyObject *keywds
     widp w;
     int value = 1;
 
-    static char *kwlist[] = {"wid_id", "value", 0};
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
                                      &py_class,
@@ -864,7 +864,7 @@ PyObject *wid_get_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id", 0};
+    static char *kwlist[] = {(char*) "wid_id", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
@@ -892,7 +892,7 @@ PyObject *wid_get_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id", 0};
+    static char *kwlist[] = {(char*) "wid_id", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
@@ -923,7 +923,7 @@ PyObject *wid_get_pos_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id", 0};
+    static char *kwlist[] = {(char*) "wid_id", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
@@ -948,7 +948,7 @@ PyObject *wid_get_pos_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id", 0};
+    static char *kwlist[] = {(char*) "wid_id", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
@@ -978,7 +978,7 @@ PyObject *wid_get_parent_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id", 0};
+    static char *kwlist[] = {(char*) "wid_id", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
@@ -997,7 +997,7 @@ PyObject *wid_get_top_parent_ (PyObject *obj, PyObject *args, PyObject *keywds)
     PyObject *py_class = 0;
     widp w;
 
-    static char *kwlist[] = {"wid_id", 0};
+    static char *kwlist[] = {(char*) "wid_id", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist,
                                      &py_class)) {
@@ -1020,7 +1020,7 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     double d2 = 0;                                                              \
     int i1 = 0;                                                                 \
 	                                                                        \
-    static char *kwlist[] = {"wid_id", #n1, #n2, #n3, 0};                       \
+    static char *kwlist[] = {(char*) "wid_id", (char*) #n1, (char*) #n2, (char*) #n3, 0};               \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ddi", kwlist, &py_class,  \
                                      &d1, &d2, &i1)) {	                        \
@@ -1050,7 +1050,7 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     int i1 = 0;                                                                 \
     int i2 = 0;                                                                 \
 	                                                                        \
-    static char *kwlist[] = {"wid_id", #n1, #n2, #n3, #n4, 0};                  \
+    static char *kwlist[] = {(char*) "wid_id", (char*) #n1, (char*) #n2, (char*) #n3, (char*) #n4, 0};                  \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ddii", kwlist, &py_class, \
                                      &d1, &d2, &i1, &i2)) {	                \
@@ -1078,7 +1078,7 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     double d1 = 0;                                                              \
     double d2 = 0;                                                              \
 	                                                                        \
-    static char *kwlist[] = {"wid_id", #n1, #n2, 0};                            \
+    static char *kwlist[] = {(char*) "wid_id", (char*) #n1, (char*) #n2, 0};                            \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dd", kwlist, &py_class,   \
                                      &d1, &d2)) {	                        \
@@ -1105,7 +1105,7 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     widp w;                                                                     \
     double d1 = 0;                                                              \
 	                                                                        \
-    static char *kwlist[] = {"wid_id", #n1, 0};                                 \
+    static char *kwlist[] = {(char*) "wid_id", (char*) #n1, 0};                                 \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|d", kwlist, &py_class,    \
                                      &d1)) {	                                \
@@ -1134,7 +1134,7 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     int n2 = 0;                                                                 \
     int n3 = 0;                                                                 \
 	                                                                        \
-    static char *kwlist[] = {"wid_id", #n1, #n2, #n3, 0};                       \
+    static char *kwlist[] = {(char*) "wid_id", (char*) #n1, (char*) #n2, (char*) #n3, 0};                       \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|iii", kwlist, &py_class,  \
                                      &n1, &n2, &n3)) {	                        \
@@ -1161,7 +1161,7 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     widp w;                                                                     \
     int n1 = 0;                                                                 \
 	                                                                        \
-    static char *kwlist[] = {"wid_id", #n1, 0};                                 \
+    static char *kwlist[] = {(char*) "wid_id", (char*) #n1, 0};                                 \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist, &py_class,    \
                                      &n1)) {	                                \
@@ -1187,7 +1187,7 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     PyObject *py_class = 0;	                                                \
     widp w;                                                                     \
 	                                                                        \
-    static char *kwlist[] = {"wid_id", 0};                                      \
+    static char *kwlist[] = {(char*) "wid_id", 0};                                      \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, &py_class)) {	\
         return (0);	                                                        \
@@ -1385,7 +1385,7 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
     PyObject *py_class = 0;	                                                \
     widp w;                                                                     \
 	                                                                        \
-    static char *kwlist[] = {"wid_id", 0};                                      \
+    static char *kwlist[] = {(char*) "wid_id", 0};                                      \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, &py_class)) {	\
         return (0);	                                                        \

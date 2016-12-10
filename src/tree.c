@@ -81,7 +81,7 @@ static tree_node *uncle (const tree_node * node)
  */
 static node_color tree_node_color (const tree_node * node)
 {
-    return (node ? (node_color)node->color : RB_BLACK);
+    return (node ? ((node_color)node->color) : RB_BLACK);
 }
 
 /*

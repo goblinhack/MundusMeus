@@ -12,6 +12,7 @@
 #include "frameobject.h"
 
 static PyObject *mm_mod;
+PyMODINIT_FUNC python_m_y_module_create(void);
 
 #define PY_BODY_DOUBLE_DOUBLE_INT_FN(__fn__, n1, n2, n3)                        \
 PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         \
@@ -101,7 +102,7 @@ PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds)         
 {	                                                                        \
     int n1 = 0;                                                                 \
 	                                                                        \
-    static char *kwlist[] = {#n1, 0};                                           \
+    static char *kwlist[] = {(char*) #n1, 0};                                   \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist,                 \
                                      &n1)) {	                                \
@@ -2402,7 +2403,7 @@ static struct PyModuleDef python_c_MODULE = {
     0, 0, 0, 0
 };
 
-static PyMODINIT_FUNC
+PyMODINIT_FUNC
 python_m_y_module_create (void)
 {
    PyObject *m = PyModule_Create(&python_c_MODULE);
@@ -2475,7 +2476,7 @@ void py_err (void)
 
 void py_exec (const char *str)
 {
-    char *stdOutErr =
+    char stdOutErr[] =
 "import sys\n\
 import mm\n\
 class CatchOutErr:\n\
@@ -2542,7 +2543,7 @@ static void py_add_to_path (const char *path)
     /* Convert to wide chars. */
     wc_len = sizeof(wchar_t) * (strlen(new_path) + 1);
 
-    wc_new_path = myzalloc(wc_len, "wchar str");
+    wc_new_path = (wchar_t *) myzalloc(wc_len, "wchar str");
     if (!wc_new_path) {
         DIE1("path alloc fail");
     }

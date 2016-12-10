@@ -14,7 +14,6 @@
  * Various global timers.
  */
 tree_rootp level_timers;
-tree_rootp level_timers;
 
 void action_timers_destroy (tree_rootp *root)
 {

@@ -10,10 +10,10 @@
 
 PyObject *wid_tiles_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
-    char *a = "unset file";
+    char *a = 0;
     double scale = 1.0;
 
-    static char *kwlist[] = {"name", "scale", 0};
+    static char *kwlist[] = {(char*) "name", (char*) "scale", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "sd", kwlist, &a, &scale)) {
         Py_RETURN_NONE;

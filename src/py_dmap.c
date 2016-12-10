@@ -15,7 +15,7 @@ PyObject *dmap_process_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     PyObject *e = 0;
 
-    static char *kwlist[] = {"arr", 0};
+    static char *kwlist[] = {(char*) "arr", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, &e)) {
         Py_RETURN_NONE;

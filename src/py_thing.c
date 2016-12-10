@@ -14,7 +14,7 @@ PyObject *thing_new_ (PyObject *obj, PyObject *args, PyObject *keywds)
     const char *tp_name;
     long int thing_id = 0;
 
-    static char *kwlist[] = {"thing", "thing_id", "tp", 0};
+    static char *kwlist[] = {(char*) "thing", (char*) "thing_id", (char*) "tp", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|ls", kwlist,
                                      &py_class,
@@ -194,7 +194,7 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define THING_BODY_SET_INT(__field__)                                                  \
+#define THING_BODY_SET_INT(__field__)                                           \
 PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
@@ -237,7 +237,7 @@ done:	                                                                        \
     Py_RETURN_NONE;	                                                        \
 }	                                                                        \
 
-#define THING_BODY_SET_DOUBLE(__field__)                                               \
+#define THING_BODY_SET_DOUBLE(__field__)                                        \
 PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds)\
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
@@ -286,8 +286,9 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
     PyObject *py_class = 0;	                                                \
     char *thing_name = 0;	                                                \
     const char *value = 0;	                                                \
+    thingp tp;                                                                  \
 	                                                                        \
-    static char *kwlist[] = {"class", "value", 0};	                        \
+    static char *kwlist[] = {(char*) "class", (char*) "value", 0};	        \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist, &py_class,    \
                                      &value)) {	                                \
@@ -312,7 +313,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 	                                                                        \
     /* LOG("python-to-c: %s(%s -> \"%s\")", __FUNCTION__, thing_name, value); */	\
 	                                                                        \
-    thingp tp = thing_find(thing_name);	                                        \
+    tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
         ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
@@ -334,8 +335,9 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
     PyObject *py_class = 0;	                                                \
     char *thing_name = 0;	                                                \
     double d1 = 0;                                                              \
+    thingp tp;                                                                  \
 	                                                                        \
-    static char *kwlist[] = {"class", "value", 0};	                        \
+    static char *kwlist[] = {(char*) "class", (char*) "value", 0};	        \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|d", kwlist, &py_class,    \
                                      &d1)) {	                                \
@@ -355,7 +357,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 	                                                                        \
     /* LOG("python-to-c: %s(%s -> %f)", __FUNCTION__, thing_name, d1);	 */     \
 	                                                                        \
-    thingp tp = thing_find(thing_name);	                                        \
+    tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
         ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
@@ -378,8 +380,9 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
     char *thing_name = 0;	                                                \
     double d1 = 0;                                                              \
     double d2 = 0;                                                              \
+    thingp tp;                                                                  \
 	                                                                        \
-    static char *kwlist[] = {"class", "x", "y", 0};	                        \
+    static char *kwlist[] = {(char*) "class", (char*) "x", (char*) "y", 0};	                        \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dd", kwlist, &py_class,   \
                                      &d1, &d2)) {	                        \
@@ -399,7 +402,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 	                                                                        \
     /* LOG("python-to-c: %s(%s -> %f, %f)", __FUNCTION__, thing_name, d1, d2); */	\
 	                                                                        \
-    thingp tp = thing_find(thing_name);	                                        \
+    tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
         ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
@@ -423,8 +426,9 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
     double d1 = 0;                                                              \
     double d2 = 0;                                                              \
     PyObject *o = 0;                                                            \
+    thingp tp;                                                                  \
 	                                                                        \
-    static char *kwlist[] = {"class", "x", "y", 0};	                        \
+    static char *kwlist[] = {(char*) "class", (char*) "x", (char*) "y", 0};	                        \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|dd", kwlist, &py_class,   \
                                      &d1, &d2)) {	                        \
@@ -444,7 +448,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 	                                                                        \
     /* LOG("python-to-c: %s(%s -> %f, %f)", __FUNCTION__, thing_name, d1, d2);	 */ \
 	                                                                        \
-    thingp tp = thing_find(thing_name);	                                        \
+    tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
         ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
@@ -465,8 +469,9 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 {	                                                                        \
     PyObject *py_class = 0;	                                                \
     char *thing_name = 0;	                                                \
+    thingp tp;                                                                  \
 	                                                                        \
-    static char *kwlist[] = {"class", 0};	                                \
+    static char *kwlist[] = {(char*) "class", 0};	                        \
 	                                                                        \
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", kwlist, &py_class)) {   \
         return (0);	                                                        \
@@ -485,7 +490,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 	                                                                        \
     /* LOG("python-to-c: %s(%s)", __FUNCTION__, thing_name); */	                \
 	                                                                        \
-    thingp tp = thing_find(thing_name);	                                        \
+    tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
         ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
