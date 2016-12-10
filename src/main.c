@@ -154,11 +154,7 @@ void restart (void)
 
     args[0] = executable;
 
-#ifdef _WIN32
-    execve(executable, (const char *const *) args, 0);
-#else
     execve(executable, (char *const *) args, 0);
-#endif
 }
 
 void die (void)

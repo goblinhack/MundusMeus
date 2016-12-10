@@ -10,7 +10,7 @@
 #include "glapi.h"
 #include "tile.h"
 
-static const int nflakes = 10000;
+#define nflakes 10000
 
 typedef struct {
     int active;

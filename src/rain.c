@@ -10,7 +10,7 @@
 #include "glapi.h"
 #include "tile.h"
 
-static const int ndrops = 20000;
+#define ndrops 20000
 
 typedef struct {
     int active;

@@ -780,9 +780,9 @@ static inline color gl_color_current (void)
 static inline int color_cmp (color a, color b)
 {
     return ((a.r == b.r) &&
-            (b.g == b.g) &&
-            (b.b == b.b) &&
-            (b.a == b.a));
+            (a.g == b.g) &&
+            (a.b == b.b) &&
+            (a.a == b.a));
 }
 
 extern color COLOR_NONE;
