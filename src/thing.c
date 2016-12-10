@@ -45,7 +45,7 @@ thingp thing_new (const char *name,
         things = tree_alloc(TREE_KEY_STRING, "TREE ROOT: thing");
     }
 
-    t = myzalloc(sizeof(*t), "a thing");
+    t = (thingp) myzalloc(sizeof(*t), "a thing");
 
     t->tree.key = dupstr(name, "TREE KEY: thing");
     t->thing_id = thing_id;

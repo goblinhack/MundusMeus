@@ -19,11 +19,11 @@ PyObject *ttf_text_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
     fontp f = 0;
 
     static char *kwlist[] = {
-        "font",
-        "text",
-        "scale",
-        "advance",
-        "fixed_width",
+        (char*) "font",
+        (char*) "text",
+        (char*) "scale",
+        (char*) "advance",
+        (char*) "fixed_width",
         0
     };
 
@@ -66,11 +66,11 @@ PyObject *ttf_text_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     fontp f = 0;
 
     static char *kwlist[] = {
-        "font",
-        "text",
-        "scale",
-        "advance",
-        "fixed_width",
+        (char*) "font",
+        (char*) "text",
+        (char*) "scale",
+        (char*) "advance",
+        (char*) "fixed_width",
         0
     };
 

@@ -11,10 +11,10 @@
 
 PyObject *tex_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
-    char *a = "unset file";
-    char *b = "unset name";
+    char *a = 0;
+    char *b = 0;
 
-    static char *kwlist[] = {"file", "name", 0};
+    static char *kwlist[] = {(char*) "file", (char*) "name", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "ss", kwlist, &a, &b)) {
         Py_RETURN_NONE;
@@ -38,9 +38,9 @@ PyObject *tex_load_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
 PyObject *tex_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
-    char *tex = "unset tex";
+    char *tex = 0;
 
-    static char *kwlist[] = {"tex", 0};
+    static char *kwlist[] = {(char*) "tex", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "s", kwlist, &tex)) {
         Py_RETURN_NONE;
@@ -58,11 +58,11 @@ PyObject *tex_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
 PyObject *tex_pixel_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
-    char *tex = "unset tex";
+    char *tex = 0;
     int x = 0;
     int y = 0;
 
-    static char *kwlist[] = {"tex", "x", "y", 0};
+    static char *kwlist[] = {(char*) "tex", (char*) "x", (char*) "y", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "sii", kwlist, &tex, &x, &y)) {
         Py_RETURN_NONE;
@@ -84,12 +84,12 @@ PyObject *tex_pixel_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
 PyObject *tex_load_tiled_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
-    char *a = "unset file";
-    char *b = "unset name";
+    char *a = 0;
+    char *b = 0;
     int c = 0;
     int d = 0;
 
-    static char *kwlist[] = {"file", "name", "width", "height", 0};
+    static char *kwlist[] = {(char*) "file", (char*) "name", (char*) "width", (char*) "height", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "ssii", kwlist, &a, &b, &c, &d)) {
         Py_RETURN_NONE;

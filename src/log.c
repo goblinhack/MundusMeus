@@ -405,7 +405,7 @@ static void msg_ (uint32_t level,
         }
         break;
 
-    case OVER_THING:
+    case OVER_THING: {
         /*
          * Center a widget over the thing.
          */
@@ -440,6 +440,7 @@ static void msg_ (uint32_t level,
         wid_set_z_depth(w, Z_DEPTH_ACTIONS);
         wid_raise(w);
         break;
+    }
 
     case SOUND:
         vsnprintf(buf, sizeof(buf), fmt, args);

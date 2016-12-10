@@ -768,7 +768,7 @@ static void sdl_event (SDL_Event * event)
 
 #if (SDL_MAJOR_VERSION == 2) || \
         (SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION > 2) /* { */
-    case SDL_MOUSEWHEEL:
+    case SDL_MOUSEWHEEL: {
         DBG("Mouse: wheel scrolled %d in x and %d in y in window %d",
             event->wheel.x, event->wheel.y, event->wheel.windowID);
 
@@ -805,6 +805,7 @@ static void sdl_event (SDL_Event * event)
         wid_mouse_visible = 1;
         wid_mouse_motion(mouse_x, mouse_y, 0, 0, -wheel_x, wheel_y);
         break;
+    }
 #endif /* } */
 
     case SDL_MOUSEMOTION:
@@ -861,7 +862,7 @@ static void sdl_event (SDL_Event * event)
         wid_mouse_up(event->button.button, mouse_x, mouse_y);
         break;
 
-    case SDL_JOYAXISMOTION:
+    case SDL_JOYAXISMOTION: {
         DBG("Joystick %d: axis %d moved by %d",
             event->jaxis.which, event->jaxis.axis, event->jaxis.value);
 
@@ -869,7 +870,7 @@ static void sdl_event (SDL_Event * event)
         int value = event->jaxis.value;
 
         if (!sdl_joy_axes) {
-            sdl_joy_axes = myzalloc(sizeof(int) * joy_naxes, "joy axes");
+            sdl_joy_axes = (int*) myzalloc(sizeof(int) * joy_naxes, "joy axes");
         }
 
         sdl_joy_axes[axis] = value;
@@ -900,6 +901,7 @@ static void sdl_event (SDL_Event * event)
         }
 
         break;
+    }
 
     case SDL_JOYBALLMOTION:
         DBG("Joystick %d: ball %d moved by %d,%d",
@@ -1567,7 +1569,8 @@ static void sdl_screenshot_ (void)
 
     static int count;
     char *filename = dynprintf("screenshot.%d.ppm", ++count);
-    unsigned char * pixels = mymalloc(w*h*4, "screenshot"); // 4 bytes for RGBA
+    unsigned char * pixels = (unsigned char *)
+                    mymalloc(w*h*4, "screenshot"); // 4 bytes for RGBA
 
     fp = fopen(filename, "w");
 

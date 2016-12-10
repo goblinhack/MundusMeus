@@ -10,7 +10,7 @@
 PyObject *biome_set_is_land_ (PyObject *obj, PyObject *args, 
                               PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.biome_set_is_land)) {
@@ -23,7 +23,7 @@ PyObject *biome_set_is_land_ (PyObject *obj, PyObject *args,
 PyObject *biome_set_is_dungeon_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.biome_set_is_dungeon)) {
@@ -36,7 +36,7 @@ PyObject *biome_set_is_dungeon_ (PyObject *obj, PyObject *args,
 PyObject *game_set_sound_volume_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.sound_volume)) {
@@ -49,7 +49,7 @@ PyObject *game_set_sound_volume_ (PyObject *obj, PyObject *args,
 PyObject *game_set_music_volume_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.music_volume)) {
@@ -62,7 +62,7 @@ PyObject *game_set_music_volume_ (PyObject *obj, PyObject *args,
 PyObject *game_set_display_sync_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.display_sync)) {
@@ -75,7 +75,7 @@ PyObject *game_set_display_sync_ (PyObject *obj, PyObject *args,
 PyObject *game_set_full_screen_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.full_screen)) {
@@ -88,7 +88,7 @@ PyObject *game_set_full_screen_ (PyObject *obj, PyObject *args,
 PyObject *game_set_move_count_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.move_count)) {
@@ -101,7 +101,7 @@ PyObject *game_set_move_count_ (PyObject *obj, PyObject *args,
 PyObject *game_set_moves_per_day_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.moves_per_day)) {
@@ -114,7 +114,7 @@ PyObject *game_set_moves_per_day_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz1_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz1)) {
@@ -127,7 +127,7 @@ PyObject *game_set_zzz1_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz2_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz2)) {
@@ -140,7 +140,7 @@ PyObject *game_set_zzz2_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz3_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz3)) {
@@ -153,7 +153,7 @@ PyObject *game_set_zzz3_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz4_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz4)) {
@@ -166,7 +166,7 @@ PyObject *game_set_zzz4_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz5_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz5)) {
@@ -179,7 +179,7 @@ PyObject *game_set_zzz5_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz6_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz6)) {
@@ -192,7 +192,7 @@ PyObject *game_set_zzz6_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz7_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz7)) {
@@ -205,7 +205,7 @@ PyObject *game_set_zzz7_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz8_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz8)) {
@@ -218,7 +218,7 @@ PyObject *game_set_zzz8_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz9_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz9)) {
@@ -231,7 +231,7 @@ PyObject *game_set_zzz9_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz10_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz10)) {
@@ -244,7 +244,7 @@ PyObject *game_set_zzz10_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz11_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz11)) {
@@ -257,7 +257,7 @@ PyObject *game_set_zzz11_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz12_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz12)) {
@@ -270,7 +270,7 @@ PyObject *game_set_zzz12_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz13_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz13)) {
@@ -283,7 +283,7 @@ PyObject *game_set_zzz13_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz14_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz14)) {
@@ -296,7 +296,7 @@ PyObject *game_set_zzz14_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz15_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz15)) {
@@ -309,7 +309,7 @@ PyObject *game_set_zzz15_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz16_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz16)) {
@@ -322,7 +322,7 @@ PyObject *game_set_zzz16_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz17_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz17)) {
@@ -335,7 +335,7 @@ PyObject *game_set_zzz17_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz18_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz18)) {
@@ -348,7 +348,7 @@ PyObject *game_set_zzz18_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz19_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz19)) {
@@ -361,7 +361,7 @@ PyObject *game_set_zzz19_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz20_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz20)) {
@@ -374,7 +374,7 @@ PyObject *game_set_zzz20_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz21_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz21)) {
@@ -387,7 +387,7 @@ PyObject *game_set_zzz21_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz22_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz22)) {
@@ -400,7 +400,7 @@ PyObject *game_set_zzz22_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz23_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz23)) {
@@ -413,7 +413,7 @@ PyObject *game_set_zzz23_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz24_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz24)) {
@@ -426,7 +426,7 @@ PyObject *game_set_zzz24_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz25_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz25)) {
@@ -439,7 +439,7 @@ PyObject *game_set_zzz25_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz26_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz26)) {
@@ -452,7 +452,7 @@ PyObject *game_set_zzz26_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz27_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz27)) {
@@ -465,7 +465,7 @@ PyObject *game_set_zzz27_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz28_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz28)) {
@@ -478,7 +478,7 @@ PyObject *game_set_zzz28_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz29_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz29)) {
@@ -491,7 +491,7 @@ PyObject *game_set_zzz29_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz30_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz30)) {
@@ -504,7 +504,7 @@ PyObject *game_set_zzz30_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz31_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz31)) {
@@ -517,7 +517,7 @@ PyObject *game_set_zzz31_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz32_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz32)) {
@@ -530,7 +530,7 @@ PyObject *game_set_zzz32_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz33_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz33)) {
@@ -543,7 +543,7 @@ PyObject *game_set_zzz33_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz34_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz34)) {
@@ -556,7 +556,7 @@ PyObject *game_set_zzz34_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz35_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz35)) {
@@ -569,7 +569,7 @@ PyObject *game_set_zzz35_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz36_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz36)) {
@@ -582,7 +582,7 @@ PyObject *game_set_zzz36_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz37_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz37)) {
@@ -595,7 +595,7 @@ PyObject *game_set_zzz37_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz38_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz38)) {
@@ -608,7 +608,7 @@ PyObject *game_set_zzz38_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz39_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz39)) {
@@ -621,7 +621,7 @@ PyObject *game_set_zzz39_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz40_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz40)) {
@@ -634,7 +634,7 @@ PyObject *game_set_zzz40_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz41_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz41)) {
@@ -647,7 +647,7 @@ PyObject *game_set_zzz41_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz42_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz42)) {
@@ -660,7 +660,7 @@ PyObject *game_set_zzz42_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz43_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz43)) {
@@ -673,7 +673,7 @@ PyObject *game_set_zzz43_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz44_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz44)) {
@@ -686,7 +686,7 @@ PyObject *game_set_zzz44_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz45_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz45)) {
@@ -699,7 +699,7 @@ PyObject *game_set_zzz45_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz46_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz46)) {
@@ -712,7 +712,7 @@ PyObject *game_set_zzz46_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz47_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz47)) {
@@ -725,7 +725,7 @@ PyObject *game_set_zzz47_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz48_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz48)) {
@@ -738,7 +738,7 @@ PyObject *game_set_zzz48_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz49_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz49)) {
@@ -751,7 +751,7 @@ PyObject *game_set_zzz49_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz50_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz50)) {
@@ -764,7 +764,7 @@ PyObject *game_set_zzz50_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz51_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz51)) {
@@ -777,7 +777,7 @@ PyObject *game_set_zzz51_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz52_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz52)) {
@@ -790,7 +790,7 @@ PyObject *game_set_zzz52_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz53_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz53)) {
@@ -803,7 +803,7 @@ PyObject *game_set_zzz53_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz54_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz54)) {
@@ -816,7 +816,7 @@ PyObject *game_set_zzz54_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz55_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz55)) {
@@ -829,7 +829,7 @@ PyObject *game_set_zzz55_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz56_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz56)) {
@@ -842,7 +842,7 @@ PyObject *game_set_zzz56_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz57_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz57)) {
@@ -855,7 +855,7 @@ PyObject *game_set_zzz57_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz58_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz58)) {
@@ -868,7 +868,7 @@ PyObject *game_set_zzz58_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz59_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz59)) {
@@ -881,7 +881,7 @@ PyObject *game_set_zzz59_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz60_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz60)) {
@@ -894,7 +894,7 @@ PyObject *game_set_zzz60_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz61_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz61)) {
@@ -907,7 +907,7 @@ PyObject *game_set_zzz61_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz62_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz62)) {
@@ -920,7 +920,7 @@ PyObject *game_set_zzz62_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz63_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz63)) {
@@ -933,7 +933,7 @@ PyObject *game_set_zzz63_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz64_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz64)) {
@@ -946,7 +946,7 @@ PyObject *game_set_zzz64_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz65_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz65)) {
@@ -959,7 +959,7 @@ PyObject *game_set_zzz65_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz66_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz66)) {
@@ -972,7 +972,7 @@ PyObject *game_set_zzz66_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz67_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz67)) {
@@ -985,7 +985,7 @@ PyObject *game_set_zzz67_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz68_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz68)) {
@@ -998,7 +998,7 @@ PyObject *game_set_zzz68_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz69_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz69)) {
@@ -1011,7 +1011,7 @@ PyObject *game_set_zzz69_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz70_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz70)) {
@@ -1024,7 +1024,7 @@ PyObject *game_set_zzz70_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz71_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz71)) {
@@ -1037,7 +1037,7 @@ PyObject *game_set_zzz71_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz72_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz72)) {
@@ -1050,7 +1050,7 @@ PyObject *game_set_zzz72_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz73_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz73)) {
@@ -1063,7 +1063,7 @@ PyObject *game_set_zzz73_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz74_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz74)) {
@@ -1076,7 +1076,7 @@ PyObject *game_set_zzz74_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz75_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz75)) {
@@ -1089,7 +1089,7 @@ PyObject *game_set_zzz75_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz76_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz76)) {
@@ -1102,7 +1102,7 @@ PyObject *game_set_zzz76_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz77_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz77)) {
@@ -1115,7 +1115,7 @@ PyObject *game_set_zzz77_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz78_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz78)) {
@@ -1128,7 +1128,7 @@ PyObject *game_set_zzz78_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz79_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz79)) {
@@ -1141,7 +1141,7 @@ PyObject *game_set_zzz79_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz80_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz80)) {
@@ -1154,7 +1154,7 @@ PyObject *game_set_zzz80_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz81_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz81)) {
@@ -1167,7 +1167,7 @@ PyObject *game_set_zzz81_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz82_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz82)) {
@@ -1180,7 +1180,7 @@ PyObject *game_set_zzz82_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz83_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz83)) {
@@ -1193,7 +1193,7 @@ PyObject *game_set_zzz83_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz84_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz84)) {
@@ -1206,7 +1206,7 @@ PyObject *game_set_zzz84_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz85_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz85)) {
@@ -1219,7 +1219,7 @@ PyObject *game_set_zzz85_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz86_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz86)) {
@@ -1232,7 +1232,7 @@ PyObject *game_set_zzz86_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz87_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz87)) {
@@ -1245,7 +1245,7 @@ PyObject *game_set_zzz87_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz88_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz88)) {
@@ -1258,7 +1258,7 @@ PyObject *game_set_zzz88_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz89_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz89)) {
@@ -1271,7 +1271,7 @@ PyObject *game_set_zzz89_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz90_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz90)) {
@@ -1284,7 +1284,7 @@ PyObject *game_set_zzz90_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz91_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz91)) {
@@ -1297,7 +1297,7 @@ PyObject *game_set_zzz91_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz92_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz92)) {
@@ -1310,7 +1310,7 @@ PyObject *game_set_zzz92_ (PyObject *obj, PyObject *args,
 PyObject *game_set_zzz93_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.zzz93)) {
@@ -1323,7 +1323,7 @@ PyObject *game_set_zzz93_ (PyObject *obj, PyObject *args,
 PyObject *game_set_sdl_delay_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.sdl_delay)) {
@@ -1336,7 +1336,7 @@ PyObject *game_set_sdl_delay_ (PyObject *obj, PyObject *args,
 PyObject *game_set_daylight_color_a_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.daylight_color_a)) {
@@ -1349,7 +1349,7 @@ PyObject *game_set_daylight_color_a_ (PyObject *obj, PyObject *args,
 PyObject *game_set_daylight_color_b_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.daylight_color_b)) {
@@ -1362,7 +1362,7 @@ PyObject *game_set_daylight_color_b_ (PyObject *obj, PyObject *args,
 PyObject *game_set_daylight_color_g_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.daylight_color_g)) {
@@ -1375,7 +1375,7 @@ PyObject *game_set_daylight_color_g_ (PyObject *obj, PyObject *args,
 PyObject *game_set_daylight_color_r_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.daylight_color_r)) {
@@ -1388,7 +1388,7 @@ PyObject *game_set_daylight_color_r_ (PyObject *obj, PyObject *args,
 PyObject *game_set_rain_amount_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.rain_amount)) {
@@ -1401,7 +1401,7 @@ PyObject *game_set_rain_amount_ (PyObject *obj, PyObject *args,
 PyObject *game_set_snow_amount_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
-    static char *kwlist[] = {"value", 0};
+    static char *kwlist[] = {(char*) "value", 0};
 
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "i", kwlist, 
                                      &game.snow_amount)) {

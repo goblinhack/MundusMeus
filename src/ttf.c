@@ -159,7 +159,8 @@ void ttf_text_size (font **f, const char *text_in,
 		    text += 5;
                     (void)string2tile(&text);
 
-                    x += (*f)->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance * tile_stretch;
+                    x += (*f)->glyphs[(int)TTF_FIXED_WIDTH_CHAR].width * 
+                                    scaling * advance * tile_stretch;
 
 		    found_format_string = false;
 		    continue;
@@ -173,15 +174,15 @@ void ttf_text_size (font **f, const char *text_in,
             x = ((((x-x_start) / TTF_TABSTOP) + 1.0) * TTF_TABSTOP);
             x = x + x_start;
         } else if (c == '~') {
-            x += (*f)->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+            x += (*f)->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
         } else {
             if (fixed_width) {
-                x += (*f)->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+                x += (*f)->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
             } else {
                 if (c == TTF_CURSOR_CHAR) {
-                    x += (*f)->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+                    x += (*f)->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
                 } else {
-                    x += (*f)->glyphs[c].width * scaling * advance;
+                    x += (*f)->glyphs[(int) c].width * scaling * advance;
                 }
             }
         }
@@ -357,7 +358,7 @@ static void ttf_puts_internal (font *f, const char *text,
 
                     double bx = x;
 
-                    x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (0.125);
+                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (0.125);
 
                     tl.x = (x);
                     tl.y = (y);
@@ -369,7 +370,7 @@ static void ttf_puts_internal (font *f, const char *text,
                     tile_blit_at(tile, 0, tl, br);
 
                     x = bx;
-                    x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance * tile_stretch;
+                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * tile_stretch;
 
 		    found_format_string = false;
 		    continue;
@@ -383,10 +384,10 @@ static void ttf_puts_internal (font *f, const char *text,
             x = ((((x-x_start) / TTF_TABSTOP) + 1) * TTF_TABSTOP);
             x = x + x_start;
         } else if (c == '~') {
-            x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+            x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
         } else {
-            double maxc = f->glyphs[TTF_FIXED_WIDTH_CHAR].width;
-            double thisc = f->glyphs[c].width;
+            double maxc = f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width;
+            double thisc = f->glyphs[(int) c].width;
 
             if (fixed_width) {
                 thisc = maxc;
@@ -411,7 +412,7 @@ static void ttf_puts_internal (font *f, const char *text,
                 x += pad;
             } else {
                 if (c == TTF_CURSOR_CHAR) {
-                    x += f->glyphs[TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
                 } else {
                     x += f->glyphs[c].width * scaling * advance;
                 }
