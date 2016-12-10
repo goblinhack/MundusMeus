@@ -15,9 +15,23 @@ typedef __int32 int32_t;
 typedef unsigned __int32 uint32_t;
 typedef __int64 int64_t;
 typedef unsigned __int64 uint64_t;
-#define TYPEOF decltype
 #else
 #include <stdint.h>
+#endif
+
+#ifdef __cplusplus
+/*
+ * If decltype is not defined.
+ */
+#include <map> 
+template<typename T> 
+struct decltype_t 
+{ 
+typedef T type; 
+}; 
+
+#define TYPEOF(expr) decltype_t<decltype(expr)>::type 
+#else
 #define TYPEOF typeof
 #endif
 
