@@ -94,11 +94,13 @@ if [ "$SDL2_CONFIG" != "" ]; then
     fi
 fi
 
-log_info "SDL1 config      : $SDL1_CONFIG"
-log_info "SDL1 version     : "`$SDL1_CONFIG --version`
-log_info "SDL1 include path: $SDL1_INC_PATH"
-log_info "SDL1 mixer.h     : $SDL1_MIXER"
-log_info "SDL1 score       : $SDL1_SCORE"
+if [[ "$SDL1_CONFIG" != "" ]]; then
+    log_info "SDL1 config      : $SDL1_CONFIG"
+    log_info "SDL1 version     : "`$SDL1_CONFIG --version`
+    log_info "SDL1 include path: $SDL1_INC_PATH"
+    log_info "SDL1 mixer.h     : $SDL1_MIXER"
+    log_info "SDL1 score       : $SDL1_SCORE"
+fi
 
 if [[ "$SDL2_CONFIG" != "" ]]; then
     log_info "SDL2 config      : $SDL2_CONFIG"
@@ -325,12 +327,19 @@ rm -f Makefile
 cat Makefile.base | sed '/DO NOT DELETE/,$d' > Makefile.tmp
 mv Makefile.tmp Makefile
 
-if [ -x ../makedepend ]
-then
-    ../makedepend *.c -p .o/ 2>/dev/null
-else
-    makedepend *.c -p .o/ 2>/dev/null
-fi
+case `uname` in
+    *MSYS*)
+        makedepend *.c -p .o/ 2>/dev/null
+
+        if [ $? -ne 0 ]
+        then
+            ../third-party/makedepend *.c -p .o/ 2>/dev/null
+        fi
+        ;;
+    *)
+        makedepend *.c -p .o/ 2>/dev/null
+        ;;
+esac
 
 if [ $? -ne 0 ]
 then
@@ -344,7 +353,7 @@ then
     log_warn "  tar xvf makedepend-1.0.5.tar.gz"
     log_warn "  cd makedepend-1.0.5"
     log_warn "  ./configure"
-    log_warn "Hit enter to continue"
+    log_warn "Hit enter to continue; I'll ignore this error. It's not essential."
     read dummy
 
     makedepend *.c -p .o/ 2>/dev/null
@@ -385,6 +394,12 @@ case `uname` in
         LDLIBS="$LDLIBS -L/mingw64/x86_64-w64-mingw32/lib/"
 	LDLIBS=`echo $LDLIBS | sed -e 's/-lmingw32 //g'`
 	LDLIBS="$LDLIBS -lopengl32"
+	LDLIBS="$LDLIBS -funwind-tables"
+
+        #
+        # Missing -ldl on mingw64 for some reason
+        #
+        LDLIBS=$(echo $LDLIBS | sed 's/ -ldl//g')
         ;;
     *MINGW*)
 	EXE=".exe"
@@ -414,11 +429,12 @@ case `uname` in
         WERROR="-Werror"
         COMPILER_WARN="-Wmissing-prototypes"
 	;;
-    *)
+    MSYs*)
 	EXE=""
 	LDLIBS="$LDLIBS -funwind-tables"
 	LDLIBS="$LDLIBS -rdynamic"
 	LDLIBS="$LDLIBS -lGL"
+
         #
         # Better to leave off for production
         #

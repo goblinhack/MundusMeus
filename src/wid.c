@@ -1057,6 +1057,7 @@ static uint8_t wid_m_over_b (widp w, uint32_t x, uint32_t y,
         /*
          * If the mouse is over the pop up window, move the window a bit
          */
+#if 0
         int32_t mx = game.video_gl_width / 2;
         int32_t wx = wid_get_width(wid_popup_tooltip) / 2;
         int32_t maxy = (game.video_gl_height * 0.2) +
@@ -1075,7 +1076,6 @@ static uint8_t wid_m_over_b (widp w, uint32_t x, uint32_t y,
             atx = 0.75;
         }
 
-#if 0
         wid_move_to_pct_centered(wid_popup_tooltip, atx, -0.5);
         wid_move_to_pct_centered_in(wid_popup_tooltip, atx, 0.2, 10);
 #endif
@@ -7868,8 +7868,7 @@ static void map_light_add_ray_depth (fpoint p,
  */
 static void wid_light_calculate_for_single_obstacle (widp w,
                                                      int z,
-                                                     int light_index,
-                                                     int pass)
+                                                     int light_index)
 {
     const wid_light *light = &wid_lights[light_index];
     int32_t owidth;
@@ -7907,16 +7906,8 @@ static void wid_light_calculate_for_single_obstacle (widp w,
         return;
     }
 
-    uint8_t soft_shadow = 0;
-
     if (!thing_is_shadow_caster(t)) {
         return;
-    }
-
-    if (pass == 0) {
-        if (thing_is_shadow_caster_soft(t)) {
-            soft_shadow = 1;
-        }
     }
 
     double light_radius = light->strength;
@@ -8183,7 +8174,7 @@ static void wid_lighting_calculate (widp w,
     }
 
     int32_t x, y;
-    uint8_t z, pass;
+    uint8_t z;
 
     /*
      * Blit the light map to a FBO. First generate the right ray lengths.
@@ -8199,23 +8190,21 @@ static void wid_lighting_calculate (widp w,
         rad += dr;
     }
 
-    for (pass = 0; pass <= 1; pass++) {
-        for (z = Z_DEPTH_WALL; z < Z_DEPTH_EXPLOSION; z++) {
-            for (x = maxx - 1; x >= minx; x--) {
-                for (y = miny; y < maxy; y++) {
+    for (z = Z_DEPTH_WALL; z < Z_DEPTH_EXPLOSION; z++) {
+        for (x = maxx - 1; x >= minx; x--) {
+            for (y = miny; y < maxy; y++) {
 
-                    tree_root **tree =
-                        w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
+                tree_root **tree =
+                    w->grid->grid_of_trees[z] + (y * w->grid->width) + x;
 
-                    widgridnode *node;
+                widgridnode *node;
 
-                    TREE_WALK_REVERSE_UNSAFE_INLINE(
-                                *tree, node,
-                                tree_prev_tree_wid_compare_func_fast) {
+                TREE_WALK_REVERSE_UNSAFE_INLINE(
+                            *tree, node,
+                            tree_prev_tree_wid_compare_func_fast) {
 
-                        wid_light_calculate_for_single_obstacle(
-                                    node->wid, z, light_index, pass);
-                    }
+                    wid_light_calculate_for_single_obstacle(
+                                node->wid, z, light_index);
                 }
             }
         }
@@ -8581,8 +8570,8 @@ static void wid_display (widp w,
 {
     thingp t = wid_get_thing(w);
     uint8_t did_push_matrix;
-    int32_t clip_height;
-    int32_t clip_width;
+    int32_t clip_height = 0;
+    int32_t clip_width = 0;
     uint8_t fading;
     uint8_t hidden;
     uint8_t always_hidden;

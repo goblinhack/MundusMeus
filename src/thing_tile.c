@@ -497,7 +497,7 @@ thing_tilep thing_tile_next (tree_rootp root, thing_tilep in)
 
 thing_tilep thing_tile_get_xy (tree_root *root, int x, int y)
 {
-    static const int R = 128;
+#define R 128
     static int rands[R][R];
     static int done;
 

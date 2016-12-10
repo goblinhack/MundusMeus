@@ -35,8 +35,6 @@ cat <<%%
 
 . ./scripts/common.sh
 
-ln -sf data data
-
 LOG=./build.log
 MAINTAINER=goblinhack@gmail.com
 
@@ -54,11 +52,17 @@ tech_support()
         (apt --installed list | grep gcc) 2>/dev/null
         (apt --installed list | grep clang) 2>/dev/null
 
+        # msys2
+        pacman -Q 2>/dev/null
+
         echo
         echo compilers
         echo ===================================================
         clang --version  2>/dev/null
         gcc --version  2>/dev/null
+        # msys2
+        /mingw64/bin/gcc.exe --version 2>/dev/null
+
         uname -a 
     ) >> $LOG 2>&1
 }

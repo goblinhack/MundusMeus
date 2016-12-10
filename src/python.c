@@ -1203,11 +1203,9 @@ err_out:
 int py_obj_attr_int (const PyObject *py_obj, const char *attr)
 {
     PyObject *py_encstr;
-    char *str;
     int i = 0;
 
     py_encstr = 0;
-    str = 0;
 
     if (!PyObject_HasAttrString((PyObject *)py_obj, attr)) {
         ERR("Object is a %s, not a string object.",
@@ -1237,11 +1235,9 @@ err_out:
 uint64_t py_obj_attr_uint64 (const PyObject *py_obj, const char *attr)
 {
     PyObject *py_encstr;
-    char *str;
     uint64_t i = 0;
 
     py_encstr = 0;
-    str = 0;
 
     if (!PyObject_HasAttrString((PyObject *)py_obj, attr)) {
         ERR("Object is a %s, not a string object.",

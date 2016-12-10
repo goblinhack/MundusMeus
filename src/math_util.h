@@ -343,7 +343,9 @@ static inline void getIntersection (fpoint a0,
     /* the intersection [(x1,y1), (x2, y2)]
        it might be a line or a single point. If it is a line,
        then x1 = x2 and y1 = y2.  */
-    double x1, y1, x2, y2;
+    double x1, y1;
+    // double x2;
+    // double y2;
 
     if (a0.x == a1.x) {
         // Case (A)
@@ -351,7 +353,7 @@ static inline void getIntersection (fpoint a0,
         // nicely in a mathematical way. But we directly know that
         //
         x1 = a0.x;
-        x2 = x1;
+//        x2 = x1;
         if (b0.x == b1.x) {
             // Case (AA): all x are the same!
             // Normalize
@@ -377,7 +379,7 @@ static inline void getIntersection (fpoint a0,
             // in both cases:
             // get the relavant y intervall
             y1 = b0.y;
-            y2 = min(a1.y, b1.y);
+//            y2 = min(a1.y, b1.y);
         } else {
             // Case (AB)
             // we can mathematically represent line b as
@@ -388,14 +390,14 @@ static inline void getIntersection (fpoint a0,
                 (b0.x - b1.x);
             t = b0.y - m*b0.x;
             y1 = m*x1 + t;
-            y2 = y1;
+//            y2 = y1;
         }
     } else if (b0.x == b1.x) {
         // Case (B)
         // essentially the same as Case (AB), but with
         // a and b switched
         x1 = b0.x;
-        x2 = x1;
+//        x2 = x1;
 
         swap(a0, b0);
         swap(a1, b1);
@@ -405,7 +407,7 @@ static inline void getIntersection (fpoint a0,
             (b0.x - b1.x);
         t = b0.y - m*b0.x;
         y1 = m*x1 + t;
-        y2 = y1;
+//        y2 = y1;
     } else {
         // Case (C)
         // Both lines can be represented mathematically
@@ -437,9 +439,9 @@ static inline void getIntersection (fpoint a0,
 
             // get the relavant x intervall
             x1 = b0.x;
-            x2 = min(a1.x, b1.x);
+//            x2 = min(a1.x, b1.x);
             y1 = ma*x1+ta;
-            y2 = ma*x2+ta;
+//            y2 = ma*x2+ta;
         } else {
             // Case (CB): only a point as intersection:
             // y = ma*x+ta
@@ -449,8 +451,8 @@ static inline void getIntersection (fpoint a0,
             // x = (tb - ta)/(ma-mb)
             x1 = (tb-ta)/(ma-mb);
             y1 = ma*x1+ta;
-            x2 = x1;
-            y2 = y1;
+//            x2 = x1;
+//            y2 = y1;
         }
     }
 
