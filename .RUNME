@@ -19,56 +19,112 @@
 
 . ./scripts/common.sh
 
-for i in \
-    /opt/local/bin/sdl2-config \
-    /usr/local/bin/sdl2-config \
-    /usr/bin/sdl2-config \
-    /mingw/bin/sdl2-config \
-    /mingw64/bin/sdl2-config
-do
-    if [ -x $i ]
-    then
-        SDL2_CONFIG=$i
-        break
-    fi
-done
+case `uname` in
+    *MING*|*MSYS*)
+        for i in \
+            /mingw/bin/sdl2-config \
+            /mingw64/bin/sdl2-config
+        do
+            if [ -x $i ]
+            then
+                SDL2_CONFIG=$i
+                break
+            fi
+        done
+    ;;
+    *)
+        for i in \
+            /opt/local/bin/sdl2-config \
+            /usr/local/bin/sdl2-config \
+            /usr/bin/sdl2-config 
+        do
+            if [ -x $i ]
+            then
+                SDL2_CONFIG=$i
+                break
+            fi
+        done
+    ;;
+esac
+
 
 #
 # Prefer SDL over SDL2 as it seems more common
 #
-for i in \
-    /opt/local/bin/sdl-config \
-    /usr/local/bin/sdl-config \
-    /usr/bin/sdl-config \
-    /mingw/bin/sdl-config \
-    /mingw64/bin/sdl-config
-do
-    if [ -x $i ]
-    then
-        SDL1_CONFIG=$i
-        break
-    fi
-done
+case `uname` in
+    *MING*|*MSYS*)
+        for i in \
+            /mingw/bin/sdl-config \
+            /mingw64/bin/sdl-config 
+        do
+            if [ -x $i ]
+            then
+                SDL1_CONFIG=$i
+                break
+            fi
+        done
+    ;;
+    *)
+        for i in \
+            /opt/local/bin/sdl-config \
+            /usr/local/bin/sdl-config \
+            /usr/bin/sdl-config
+        do
+            if [ -x $i ]
+            then
+                SDL1_CONFIG=$i
+                break
+            fi
+        done
+    ;;
+esac
+
 
 sdl_help()
 {
     log_warn "Is SDL 1.2 or 1.3 installed? If not:"
 
-    log_warn "  For ubuntu SDL2 do: "
-    log_warn "   sudo apt-get install libsdl2.0-dev"
-    log_warn "   sudo apt-get install libsdl-mixer2.0-dev"
-    log_warn ""
-    log_warn "  For ubuntu SDL1.2 do: "
-    log_warn "   sudo apt-get install libsdl1.2-dev"
-    log_warn "   sudo apt-get install libsdl-mixer1.2-dev"
-    log_warn "  or"
-    log_warn "   sudo pacman -S sdl"
-    log_warn "   sudo pacman -S sdl_mixer"
-    log_warn ""
-    log_warn "  For macos, install Mac ports and then do: "
-    log_warn "   sudo port install libsdl2"
-    log_warn "   sudo port install libsdl2_mixer"
-    log_warn "   sudo port install libsdl2_ttf"
+    case `uname` in
+    *MING*|*MSYS*)
+        log_warn "   Installed already:"
+        pacman -Ss | grep '^mingw64/' | grep SDL | sed 's/^mingw64.//g' | grep installed
+        log_warn "   Will try to install needed packages:"
+
+        pacman -S \
+            mingw-w64-x86_64-SDL \
+            mingw-w64-x86_64-SDL2 \
+            mingw-w64-x86_64-SDL2_gfx \
+            mingw-w64-x86_64-SDL2_image \
+            mingw-w64-x86_64-SDL2_mixer \
+            mingw-w64-x86_64-SDL2_net \
+            mingw-w64-x86_64-SDL2_ttf \
+            mingw-w64-x86_64-SDL_gfx \
+            mingw-w64-x86_64-SDL_image \
+            mingw-w64-x86_64-SDL_mixer \
+            mingw-w64-x86_64-SDL_net \
+            mingw-w64-x86_64-SDL_ttf
+
+        log_warn "Ok, try RUNME again"
+        exit 1
+        ;;
+
+    *Darwin*)
+        log_warn "Install MAC ports then install:"
+        log_warn "   sudo port install libsdl2"
+        log_warn "   sudo port install libsdl2_mixer"
+        log_warn "   sudo port install libsdl2_ttf"
+        ;;
+
+    *)
+        log_warn "  For ubuntu SDL2 do: "
+        log_warn "   sudo apt-get install libsdl2.0-dev"
+        log_warn "   sudo apt-get install libsdl-mixer2.0-dev"
+        log_warn ""
+        log_warn "  For ubuntu SDL1.2 do: "
+        log_warn "   sudo apt-get install libsdl1.2-dev"
+        log_warn "   sudo apt-get install libsdl-mixer1.2-dev"
+        ;;
+    esac
 }
 
 SDL1_SCORE=0
@@ -115,8 +171,8 @@ USE_SDL2=0
 
 if [[ $SDL1_SCORE = "0" ]]; then
     if [[ $SDL2_SCORE = "0" ]]; then
-        sdl_help
         log_err "I need SDL1 or SDL2 and SDL mixer"
+        sdl_help
         exit 1
     else
         SDL_CONFIG=$SDL2_CONFIG
@@ -124,8 +180,8 @@ if [[ $SDL1_SCORE = "0" ]]; then
     fi
 elif [[ $SDL2_SCORE = "0" ]]; then
     if [[ $SDL1_SCORE = "0" ]]; then
-        sdl_help
         log_err "I need SDL1 or SDL2 and SDL mixer"
+        sdl_help
         exit 1
     else
         SDL_CONFIG=$SDL1_CONFIG
@@ -181,44 +237,96 @@ else
     LDLIBS="$LDLIBS -lSDL_mixer"
 fi
 
-for i in \
-    /opt/local/bin/python3-config \
-    /usr/local/bin/python3-config \
-    /usr/bin/python3-config \
-    /mingw/bin/python3-config \
-    /mingw64/bin/python3-config
-do
-    if [ -x $i ]
-    then
-        Python3_CONFIG=$i
-        break
-    fi
-done
+case `uname` in
+    *MING*|*MSYS*)
+        for i in \
+            /mingw/bin/python3-config \
+            /mingw64/bin/python3-config 
+        do
+            if [ -x $i ]
+            then
+                Python3_CONFIG=$i
+                break
+            fi
+        done
+    ;;
+    *)
+        for i in \
+            /opt/local/bin/python3-config \
+            /usr/local/bin/python3-config \
+            /usr/bin/python3-config 
+        do
+            if [ -x $i ]
+            then
+                Python3_CONFIG=$i
+                break
+            fi
+        done
+    ;;
+esac
+
 
 #
 # Prefer Python over Python3 as it seems more common
 #
-for i in \
-    /opt/local/bin/python-config \
-    /usr/local/bin/python-config \
-    /usr/bin/python-config \
-    /mingw/bin/python-config \
-    /mingw64/bin/python-config
-do
-    if [ -x $i ]
-    then
-        Python2_CONFIG=$i
-        break
-    fi
-done
+case `uname` in
+    *MING*|*MSYS*)
+        for i in \
+            /mingw/bin/python-config \
+            /mingw64/bin/python-config 
+        do
+            if [ -x $i ]
+            then
+                Python2_CONFIG=$i
+                break
+            fi
+        done
+    ;;
+    *)
+        for i in \
+            /opt/local/bin/python-config \
+            /usr/local/bin/python-config \
+            /usr/bin/python-config
+        do
+            if [ -x $i ]
+            then
+                Python2_CONFIG=$i
+                break
+            fi
+        done
+    ;;
+esac
+
 
 python_help()
 {
     log_warn "Is python3 installed ?"
-    log_warn "  For ubuntu Python3 do: "
-    log_warn "  For ubuntu Python2 do: "
-    log_warn "  For macos, install Mac ports and then do: "
-    log_warn "   sudo port install python3*"
+
+    case `uname` in
+    *MING*|*MSYS*)
+        log_warn "   Installed already:"
+        pacman -Ss | grep '^mingw64/' | grep python3 | sed 's/^mingw64.//g' | grep installed
+        log_warn "   Will try to install needed packages:"
+
+        pacman -S \
+            mingw-w64-x86_64-python3 \
+            mingw-w64-x86_64-python3-pip \
+            mingw-w64-x86_64-python3-py
+
+        log_warn "Ok, try RUNME again"
+        exit 1
+        ;;
+
+    *Darwin*)
+        log_warn "Install MAC ports then install:"
+        log_warn "   sudo port install python3*"
+        ;;
+
+    *)
+        log_warn "  For ubuntu Python3 do: "
+        log_warn "   TBD..."
+        ;;
+    esac
 }
 
 Python2_SCORE=0
@@ -259,8 +367,8 @@ USE_Python3=0
 
 if [[ $Python2_SCORE = "0" ]]; then
     if [[ $Python3_SCORE = "0" ]]; then
-        python_help
         log_err "I need Python3"
+        python_help
         exit 1
     else
         Python_CONFIG=$Python3_CONFIG
@@ -268,14 +376,14 @@ if [[ $Python2_SCORE = "0" ]]; then
     fi
 elif [[ $Python3_SCORE = "0" ]]; then
     if [[ $Python2_SCORE = "0" ]]; then
-        python_help
         log_err "I need Python3"
+        python_help
         exit 1
     else
 #        Python_CONFIG=$Python2_CONFIG
 #        USE_Python2=1
-        python_help
         log_err "I need Python3"
+        python_help
         exit 1
     fi
 else
@@ -284,8 +392,8 @@ else
         Python_CONFIG=$Python3_CONFIG
         USE_Python3=1
     else
-        python_help
         log_err "I need Python3"
+        python_help
         exit 1
 #        log_info "Prefer Python2"
 #        Python_CONFIG=$Python2_CONFIG
@@ -328,11 +436,10 @@ cat Makefile.base | sed '/DO NOT DELETE/,$d' > Makefile.tmp
 mv Makefile.tmp Makefile
 
 case `uname` in
-    *MSYS*)
+    *MING*|*MSYS*)
         makedepend *.c -p .o/ 2>/dev/null
 
-        if [ $? -ne 0 ]
-        then
+        if [ $? -ne 0 ]; then
             ../third-party/makedepend *.c -p .o/ 2>/dev/null
         fi
         ;;
@@ -341,19 +448,26 @@ case `uname` in
         ;;
 esac
 
-if [ $? -ne 0 ]
-then
+if [ $? -ne 0 ]; then
+
     log_warn "Is makedepend installed? If not:"
     log_warn "  For ubuntu do: sudo apt-get install xutils-dev"
     log_warn "  For MAC    do: sudo port install makedepend"
     log_warn "  For MingW  do: look in third-party for Win32 binary"
-    echo
-    log_warn "If you still can't find it, I have the source in third-party"
-    log_warn "  cd third-party"
-    log_warn "  tar xvf makedepend-1.0.5.tar.gz"
-    log_warn "  cd makedepend-1.0.5"
-    log_warn "  ./configure"
-    log_warn "Hit enter to continue; I'll ignore this error. It's not essential."
+
+    case `uname` in
+        *MING*|*MSYS*)
+            echo
+            log_warn "If you still can't find it, I have the source in third-party"
+            log_warn "  cd third-party"
+            log_warn "  tar xvf makedepend-1.0.5.tar.gz"
+            log_warn "  cd makedepend-1.0.5"
+            log_warn "  ./configure"
+            ;;
+    esac
+
+    log_warn "Hit enter to continue; I'll ignore this error."
+    log_warn "It's not essential. Rebuilds will be slower is all."
     read dummy
 
     makedepend *.c -p .o/ 2>/dev/null
@@ -399,7 +513,7 @@ case `uname` in
         #
         # Missing -ldl on mingw64 for some reason
         #
-        LDLIBS=$(echo $LDLIBS | sed 's/ -ldl//g')
+#        LDLIBS=$(echo $LDLIBS | sed 's/ -ldl//g')
         ;;
     *MINGW*)
 	EXE=".exe"

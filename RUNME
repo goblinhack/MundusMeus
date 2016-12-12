@@ -83,7 +83,7 @@ run ./.RUNME $LOG
 
 if [ $? -ne 0 ]; then
 
-    log_err "Sorry for the screwup!"
+    log_err "Build failed."
     log_err "Enter 'y' if I can send $LOG to $MAINTAINER ?"
     read ans
 
@@ -96,7 +96,7 @@ if [ $? -ne 0 ]; then
         fi
     else
         log_err "Ok. If you could send file $LOG manually to $MAINTAINER, would be appreciated."
-        log_err "Sorry for the screwup!"
+        log_err "Build failed."
     fi
 
     log "Thanks"
