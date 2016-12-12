@@ -26,11 +26,6 @@ void thing_wid_move (thingp t,
 
     thing_move_to(t, x, y);
 
-    int odd = false;
-    if (((int)y) & 1) {
-       odd = true;
-    }
-
     double height = game.tile_height;
     double width = game.tile_width;
 
