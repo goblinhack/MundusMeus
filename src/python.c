@@ -2514,7 +2514,7 @@ static void py_add_to_path (const char *path)
     py_cur_path = PySys_GetObject("path");
 
     LOG(" ");
-    LOG("Will add %s to python path");
+    LOG("Will add %s to python path", path);
     LOG("Current system python path:");
 
     for (i = 0; i < PyList_Size(py_cur_path); i++) {
