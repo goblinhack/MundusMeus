@@ -2513,8 +2513,16 @@ static void py_add_to_path (const char *path)
     new_path = dupstr(path, __FUNCTION__);
     py_cur_path = PySys_GetObject("path");
 
+    LOG(" ");
+    LOG("Will add %s to python path");
+    LOG("Current system python path:");
+
     for (i = 0; i < PyList_Size(py_cur_path); i++) {
+#ifdef _WIN32
+        char *tmp = strappend(new_path, ";");
+#else
         char *tmp = strappend(new_path, ":");
+#endif
         myfree(new_path);
         new_path = tmp;
 
@@ -2528,6 +2536,8 @@ static void py_add_to_path (const char *path)
         if (!item) {
             continue;
         }
+
+        LOG("  %s", item);
 
         tmp = strappend(new_path, item);
         myfree(new_path);
@@ -2718,7 +2728,10 @@ void python_init (void)
     py_add_to_path(WORLD_PATH);
     py_add_to_path(DATA_PATH);
     py_add_to_path(PYTHON_PATH);
+
+#ifdef __APPLE__
     py_add_to_path("/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/");
+#endif
 
     mm_mod = PyImport_ImportModule("mm");
     if (!mm_mod) {
