@@ -21,11 +21,14 @@
 
 case `uname` in
     *MING*|*MSYS*)
-        pacman --force --noconfirm -S mingw-w64-x86_64-python3-pip
+        log_info "Installing python dependancies:"
         pacman --force --noconfirm -S mingw-w64-x86_64-python3
+        pacman --force --noconfirm -S mingw-w64-x86_64-python3-pip
         /mingw64/bin/pip3 install colored
         /mingw64/bin/pip3 install hexdump
-        ;;
+    ;;
+    *)
+    ;;
 esac
 
 case `uname` in
@@ -683,7 +686,18 @@ make $CORES $* all
 if [ $? -eq 0 ]
 then
     echo
-    log_info "Run mundusmeus to start"
+    case `uname` in
+        *MING*|*MSYS*)
+
+            log_info "You likely will need the following to run:"
+            log_info "export PYTHONPATH=/mingw64/lib/python3.5/:/mingw64/lib/python3.5/lib-dynload:/mingw64/lib/python3.5/site-packages/"
+            log_info "Run mundusmeus.exe to start"
+            ;;
+        *)
+            log_info "Run mundusmeus to start"
+            ;;
+    esac
+    log_info "Check stderr.txt for any errors"
 
     rm -f Makefile.bak
 else
