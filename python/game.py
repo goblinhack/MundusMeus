@@ -24,7 +24,7 @@ class Game:
         #
         (self.width, self.height) = (mm.MAP_WIDTH, mm.MAP_HEIGHT)
         self.wid_map = None
-        self.save_file = ".save_file"
+        self.save_file = "save_file"
         self.player = None
 
         self.nexthops = None
@@ -497,6 +497,7 @@ def game_key_down(w, sym, mod):
     if w.game is None:
         return False
     return w.game.map_key_down(w, sym, mod)
+
 
 g = None
 

@@ -21,6 +21,15 @@
 
 case `uname` in
     *MING*|*MSYS*)
+        pacman --force --noconfirm -S mingw-w64-x86_64-python3-pip
+        pacman --force --noconfirm -S mingw-w64-x86_64-python3
+        /mingw64/bin/pip3 install colored
+        /mingw64/bin/pip3 install hexdump
+        ;;
+esac
+
+case `uname` in
+    *MING*|*MSYS*)
         for i in \
             /mingw/bin/sdl2-config \
             /mingw64/bin/sdl2-config
