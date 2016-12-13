@@ -3,6 +3,7 @@ import os
 import fnmatch
 from os.path import dirname, basename
 import imp
+import sys
 
 
 def find_plugins(directory, pattern):
@@ -105,6 +106,9 @@ def load_plugin(plugin):
 
 
 def init1():
+    sys.stdout = open("stdout.txt", "a")
+    sys.stderr = open("stderr.txt", "a")
+
     """ game defaults """
     mm.game_video_pix_width = 0
     mm.game_video_pix_height = 0
@@ -154,5 +158,6 @@ def init2():
 #    print(w)
 
     game.game_new()
+
 
 init1()
