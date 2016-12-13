@@ -123,7 +123,7 @@ class Level:
                 if t.tp.is_player:
                     game.g.player = t
 
-            mm.con("Re-creaed all things on level @ {0}".format(str(self)))
+            mm.con("Re-created all things on level @ {0}".format(str(self)))
 
             if game.g.player is None:
                 mm.die("No player found on level")
