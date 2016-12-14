@@ -425,7 +425,7 @@ static void parse_args (int32_t argc, char *argv[])
     /*
      * Parse format args
      */
-    CON("program: %s", argv[0]);
+    CON("Program name: \"%s\"", argv[0]);
     for (i = 1; i < argc; i++) {
         CON("  arg: \"%s\"", argv[i]);
     }
@@ -469,7 +469,7 @@ int32_t main (int32_t argc, char *argv[])
 
     find_file_locations();
 
-    python_init();
+    python_init(argv);
 
     if (!config_init()) {
 	ERR("Config init");

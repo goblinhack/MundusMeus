@@ -21,9 +21,12 @@
 
 case `uname` in
     *MING*|*MSYS*)
+        # Goog link for mingw install hints
+        #         log_info "Installing python dependancies:"
         log_info "Installing python dependancies:"
         pacman --force --noconfirm -S mingw-w64-x86_64-python3
         pacman --force --noconfirm -S mingw-w64-x86_64-python3-pip
+        pacman --force --noconfirm -S mingw-w64-x86_64-python3-cx_Freeze
         /mingw64/bin/pip3 install colored
         /mingw64/bin/pip3 install hexdump
     ;;
