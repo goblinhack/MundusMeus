@@ -2510,12 +2510,12 @@ static void py_add_to_path (const char *path)
     wchar_t *wc_new_path;
     char *item;
 
-    new_path = dupstr(path, __FUNCTION__);
-    py_cur_path = PySys_GetObject("path");
-
     LOG(" ");
     LOG("Will add %s to python path", path);
     LOG("Current system python path:");
+
+    new_path = dupstr(path, __FUNCTION__);
+    py_cur_path = PySys_GetObject("path");
 
     for (i = 0; i < PyList_Size(py_cur_path); i++) {
 #ifdef _WIN32
@@ -2718,11 +2718,47 @@ static void python_add_consts (void)
     PyModule_AddIntConstant(mm_mod, "SDLK_UNDO", SDLK_UNDO);
 }
 
-void python_init (void)
+void python_init (char *argv[])
 {
-    PyImport_AppendInittab("mm", python_m_y_module_create);
+     _putenv_s("PYTHONPATH", "python3.5/;python3.5/lib-dynload");
+#if 0
+    PyRun_SimpleString("import sys; sys.path.append('./python3.5/')\n"); 
+    PyRun_SimpleString("import sys; sys.path.append('./python3.5/lib-dynload')\n"); 
+#endif
+#ifdef __WIN32
+    {
+        int wc_len;
+        wchar_t *wc_new_str;
+        const char *str = argv[0];
 
+        /* Convert to wide chars. */
+        wc_len = sizeof(wchar_t) * (strlen(str) + 1);
+
+        wc_new_str = (wchar_t *) myzalloc(wc_len, "wchar str");
+        if (!wc_new_str) {
+            DIE1("program name alloc fail");
+        }
+
+        LOG("Set python program name: \"%s\"", str);
+
+        mbstowcs(wc_new_str, str, wc_len);
+        Py_SetProgramName(wc_new_str);
+        myfree(wc_new_str);
+    }
+#endif
+
+    LOG("Adding mm module");
+    PyImport_AppendInittab("mm", python_m_y_module_create);
+    LOG("Done adding mm module");
+
+    LOG("Done cCalling Py_Initialize");
+    LOG("Calling Py_Initialize");
     Py_Initialize();
+
+#if  0
+    py_add_to_path("./python3.5/");
+    py_add_to_path("./python3.5/lib-dynload");
+#endif
 
     py_add_to_path(GFX_PATH);
     py_add_to_path(WORLD_PATH);
