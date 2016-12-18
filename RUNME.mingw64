@@ -117,17 +117,14 @@ then
 	log_err "Install failed. I'll try and continue."
 fi
     
-/mingw64/bin/pip3 install colored
-if [[ $? -ne 0 ]];
-then
-	log_err "Install failed for pip3 colored. I'll try and continue."
-fi
-
-/mingw64/bin/pip3 install hexdump
-if [[ $? -ne 0 ]];
-then
-	log_err "Install failed for pip3 hexdump I'll try and continue."
-fi
+for i in colored hexdump flake8
+do
+    /mingw64/bin/pip3 install $i
+    if [[ $? -ne 0 ]];
+    then
+            log_err "Install failed for pip3 hexdump I'll try and continue."
+    fi
+done
 
 mycp()
 {
