@@ -2720,12 +2720,13 @@ static void python_add_consts (void)
 
 void python_init (char *argv[])
 {
-     _putenv_s("PYTHONPATH", "python/;python3.5/;python3.5/lib-dynload;python3.5/site-packages");
 #if 0
     PyRun_SimpleString("import sys; sys.path.append('./python3.5/')\n"); 
     PyRun_SimpleString("import sys; sys.path.append('./python3.5/lib-dynload')\n"); 
 #endif
 #ifdef __WIN32
+     _putenv_s("PYTHONPATH", "python/;python3.5/;python3.5/lib-dynload;python3.5/site-packages");
+
     {
         int wc_len;
         wchar_t *wc_new_str;
