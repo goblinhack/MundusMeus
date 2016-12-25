@@ -145,7 +145,7 @@ void wid_console_log (const char *s)
 {
     tree_string_split_node *n;
     tree_root *d;
-    int chars_per_line = 80;
+    int chars_per_line = 200;
 
     d = split(s, chars_per_line);
 

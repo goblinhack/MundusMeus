@@ -1141,10 +1141,6 @@ err_out:
         Py_XDECREF(py_encstr);
     }
 
-    if (PyErr_Occurred()) {
-        ERR("string conversion failed");
-    }
-
     return (outstr);
 }
 
@@ -1295,10 +1291,6 @@ err_out:
 
     if (py_encstr) {
         Py_XDECREF(py_encstr);
-    }
-
-    if (PyErr_Occurred()) {
-        ERR("string conversion failed");
     }
 
     return (outstr);
