@@ -131,7 +131,7 @@ class Level:
             mm.con("Re-created all things on level @ {0}".format(str(self)))
 
             if game.g.player is None:
-                mm.die("No player found on level")
+                raise NameError("No player found on level")
 
     def set_biome(self, is_land=False, is_dungeon=False):
         self.is_biome_land = is_land

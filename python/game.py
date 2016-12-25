@@ -53,20 +53,24 @@ class Game:
         self.load_empty_level()
         l = self.level
 
-        if os.path.isfile(str(l)):
+        f = os.path.normcase(os.path.join(os.getenv("APPDATA"), str(l)))
+        mm.con("Loading level from {0}".format(f))
+
+        if os.path.isfile(f):
             try:
-                mm.con("Loading level @ {0}".format(str(l)))
+                mm.con("Loading level @ {0}".format(f))
                 l.load()
                 need_new_level = False
-                mm.con("Loaded level @ {0}".format(str(l)))
+                mm.con("Loaded level @ {0} success".format(f))
             except Exception as inst:
                 mm.con("Loading level failed, error [{0}]".format(inst))
                 need_new_level = True
         else:
+            mm.con("Loading level failed, is not a file: {0}".format(l))
             need_new_level = True
 
         if need_new_level:
-            mm.con("Creating level @ {0}".format(str(l)))
+            mm.con("Need to create a new level @ {0}".format(str(l)))
             if self.where.z < 0:
                 self.biome_create(is_dungeon=True, seed=self.seed)
             else:
@@ -182,12 +186,12 @@ class Game:
 
     def save(self):
         l = self.level
-
+        s = os.path.normcase(
+                os.path.join(os.getenv("APPDATA"), self.save_file))
         mm.con("Saving game @ {0}".format(str(l)))
+        mm.con("Saving game to {0}".format(s))
 
-        with open(os.path.normcase(
-                   os.path.join(os.getenv("APPDATA"),
-                                self.save_file)), 'wb') as f:
+        with open(s, 'wb') as f:
             pickle.dump(self.width, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.height, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
@@ -200,11 +204,13 @@ class Game:
         l.save()
 
     def load(self):
-        mm.con("Loading game")
 
-        with open(os.path.normcase(
-                  os.path.join(os.getenv("APPDATA"),
-                               self.save_file)), 'rb') as f:
+        s = os.path.normcase(os.path.join(os.getenv("APPDATA"),
+                                          self.save_file))
+
+        with open(s, 'rb') as f:
+            mm.con("Loading game header from {0}".format(s))
+
             self.width = pickle.load(f)
             self.height = pickle.load(f)
             self.seed = pickle.load(f)
@@ -213,7 +219,10 @@ class Game:
             self.where = pickle.load(f)
             self.move_count = pickle.load(f)
             self.moves_per_day = pickle.load(f)
+
+            mm.con("Loading game level data from {0}".format(s))
             self.load_level()
+            mm.con("Loading game level success from {0}".format(s))
 
     def destroy(self):
         l = self.level
@@ -518,22 +527,24 @@ def game_new():
     global g
 
     game_dir = os.path.join(os.getenv("APPDATA"), "mundusmeus")
+    game_dir = game_dir.lstrip()
+    game_dir = game_dir.rstrip()
 
     if not os.path.isdir(game_dir):
         os.mkdir(game_dir)
-    os.environ["APPDATA"] = game_dir
+
+    mm.con("Appdata dir is " + game_dir)
 
     g = Game()
-    if os.path.isfile(g.save_file):
-        try:
-            g.load()
-        except Exception as inst:
-            mm.con("Loading failed, init new game, error [{0}]".format(inst))
-            g.map_wid_destroy()
 
-            g = Game()
-            g.game_load_failed_init_new_game()
-    else:
+    try:
+        g.load()
+
+    except Exception as inst:
+        mm.con("Loading failed, init new game, error [{0}]".format(inst))
+        g.map_wid_destroy()
+
+        g = Game()
         g.game_load_failed_init_new_game()
 
     g.load_level_finalize()
