@@ -5,6 +5,7 @@ import dmap
 import math
 import game
 import tp
+import os
 
 
 class Level:
@@ -74,7 +75,9 @@ class Level:
     def save(self):
         self.debug("Save level")
 
-        with open(str(self), 'wb') as f:
+        with open(os.path.normcase(
+                  os.path.join(os.getenv('APPDATA'),
+                               str(self))), 'wb') as f:
             pickle.dump(self.xyz, f, pickle.HIGHEST_PROTOCOL)
 
             pickle.dump(self.all_things, f, pickle.HIGHEST_PROTOCOL)
@@ -90,7 +93,9 @@ class Level:
     def load(self):
         self.debug("Load level")
 
-        with open(str(self), 'rb') as f:
+        with open(os.path.normcase(
+                  os.path.join(os.getenv('APPDATA'),
+                               str(self))), 'rb') as f:
             self.xyz = pickle.load(f)
 
             self.all_things = pickle.load(f)
