@@ -54,10 +54,18 @@ class Game:
         l = self.level
 
         if os.path.isfile(str(l)):
-            mm.con("Loading level @ {0}".format(str(l)))
-
-            l.load()
+            try:
+                mm.con("Loading level @ {0}".format(str(l)))
+                l.load()
+                need_new_level = False
+                mm.con("Loaded level @ {0}".format(str(l)))
+            except Exception as inst:
+                mm.con("Loading level failed, error [{0}]".format(inst))
+                need_new_level = True
         else:
+            need_new_level = True
+
+        if need_new_level:
             mm.con("Creating level @ {0}".format(str(l)))
             if self.where.z < 0:
                 self.biome_create(is_dungeon=True, seed=self.seed)
@@ -177,7 +185,9 @@ class Game:
 
         mm.con("Saving game @ {0}".format(str(l)))
 
-        with open(self.save_file, 'wb') as f:
+        with open(os.path.normcase(
+                   os.path.join(os.getenv("APPDATA"),
+                                self.save_file)), 'wb') as f:
             pickle.dump(self.width, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.height, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
@@ -192,7 +202,9 @@ class Game:
     def load(self):
         mm.con("Loading game")
 
-        with open(self.save_file, 'rb') as f:
+        with open(os.path.normcase(
+                  os.path.join(os.getenv("APPDATA"),
+                               self.save_file)), 'rb') as f:
             self.width = pickle.load(f)
             self.height = pickle.load(f)
             self.seed = pickle.load(f)
@@ -504,6 +516,12 @@ g = None
 
 def game_new():
     global g
+
+    game_dir = os.path.join(os.getenv("APPDATA"), "mundusmeus")
+
+    if not os.path.isdir(game_dir):
+        os.mkdir(game_dir)
+    os.environ["APPDATA"] = game_dir
 
     g = Game()
     if os.path.isfile(g.save_file):

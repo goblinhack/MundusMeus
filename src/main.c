@@ -450,8 +450,22 @@ int32_t main (int32_t argc, char *argv[])
 {
     mysrand(time(0));
 
+#ifdef _WIN32
+    char *dir = dynprintf("%s%s%s", getenv("APPDATA"), DSEP, "mundusmeus");
+    mkdir(dir);
+    myfree(dir);
+
+    char *out = dynprintf("%s%s%s%s%s", getenv("APPDATA"), DSEP, "mundusmeus", DSEP, "stdout.txt");
+    LOG_STDOUT = fopen(out, "w+");
+    myfree(out);
+
+    char *err = dynprintf("%s%s%s%s%s", getenv("APPDATA"), DSEP, "mundusmeus", DSEP, "stdout.txt");
+    LOG_STDERR = fopen(err, "w+");
+    myfree(out);
+#else
     LOG_STDOUT = fopen("stdout.txt", "w+");
     LOG_STDERR = fopen("stderr.txt", "w+");
+#endif
 
     ramdisk_init();
 

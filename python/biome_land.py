@@ -21,7 +21,8 @@ def biome_build(self, level=None, seed=0):
         if not self.level.biome.generate_failed:
             break
 
-    self.level.biome.dump()
+    if False:
+        self.level.biome.dump()
 
 
 def biome_populate(self):
