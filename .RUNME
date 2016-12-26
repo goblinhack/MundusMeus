@@ -31,12 +31,12 @@ case `uname` in
         /mingw64/bin/pip3 install hexdump
     ;;
     *Darwin*)
-        sudo port install python3-pip
+        port install python3-pip
         pip3 install colored
         pip3 install hexdump
     ;;
     *)
-        sudo apt-get install python3-pip3
+        apt-get install python3-pip3
         pip3 install colored
         pip3 install hexdump
     ;;
@@ -348,6 +348,7 @@ python_help()
     *)
         log_warn "  For ubuntu Python3 do: "
         log_warn "   sudo apt-get install python3-dev"
+        log_warn "   sudo apt-get install python3-pip"
         ;;
     esac
 }
