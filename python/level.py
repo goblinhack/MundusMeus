@@ -76,7 +76,7 @@ class Level:
         self.debug("Save level")
 
         with open(os.path.normcase(
-                  os.path.join(os.getenv('APPDATA'),
+                  os.path.join(os.environ["APPDATA"],
                                str(self))), 'wb') as f:
             pickle.dump(self.xyz, f, pickle.HIGHEST_PROTOCOL)
 
@@ -94,7 +94,7 @@ class Level:
         self.debug("Load level")
 
         with open(os.path.normcase(
-                  os.path.join(os.getenv('APPDATA'),
+                  os.path.join(os.environ["APPDATA"],
                                str(self))), 'rb') as f:
             self.xyz = pickle.load(f)
 

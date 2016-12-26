@@ -53,7 +53,7 @@ class Game:
         self.load_empty_level()
         l = self.level
 
-        f = os.path.normcase(os.path.join(os.getenv("APPDATA"), str(l)))
+        f = os.path.normcase(os.path.join(os.environ["APPDATA"], str(l)))
         mm.con("Loading level from {0}".format(f))
 
         if os.path.isfile(f):
@@ -187,7 +187,7 @@ class Game:
     def save(self):
         l = self.level
         s = os.path.normcase(
-                os.path.join(os.getenv("APPDATA"), self.save_file))
+                os.path.join(os.environ["APPDATA"], self.save_file))
         mm.con("Saving game @ {0}".format(str(l)))
         mm.con("Saving game to {0}".format(s))
 
@@ -205,7 +205,7 @@ class Game:
 
     def load(self):
 
-        s = os.path.normcase(os.path.join(os.getenv("APPDATA"),
+        s = os.path.normcase(os.path.join(os.environ["APPDATA"],
                                           self.save_file))
 
         with open(s, 'rb') as f:
@@ -526,12 +526,7 @@ g = None
 def game_new():
     global g
 
-    game_dir = os.path.join(os.getenv("APPDATA"), "mundusmeus")
-    game_dir = game_dir.lstrip()
-    game_dir = game_dir.rstrip()
-
-    if not os.path.isdir(game_dir):
-        os.mkdir(game_dir)
+    game_dir = os.path.join(os.environ["APPDATA"], "mundusmeus")
 
     mm.con("Appdata dir is " + game_dir)
 

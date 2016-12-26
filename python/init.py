@@ -109,7 +109,7 @@ def load_plugin(plugin):
     for filename in find_plugins(os.getcwd(), plugin):
         load_one_plugin(filename)
 
-    for filename in find_plugins(os.getenv("APPDATA"), plugin):
+    for filename in find_plugins(os.environ["APPDATA"], plugin):
         load_one_plugin(filename)
 
 
@@ -122,16 +122,16 @@ def init1():
         os.mkdir(os.environ['APPDATA'])
 
     os.environ['APPDATA'] = os.path.normcase(
-            os.path.join(os.getenv("APPDATA"), "mundusmeus"))
+            os.path.join(os.environ["APPDATA"], "mundusmeus"))
 
     if not os.path.isdir(os.environ['APPDATA']):
         os.mkdir(os.environ['APPDATA'])
 
     sys.stdout = os.path.normcase(
-            os.path.join(os.getenv("APPDATA"), "stdout.txt"))
+            os.path.join(os.environ["APPDATA"], "stdout.txt"))
 
-    sys.stdout = os.path.normcase(
-            os.path.join(os.getenv("APPDATA"), "stderr.txt"))
+    sys.stderr = os.path.normcase(
+            os.path.join(os.environ["APPDATA"], "stderr.txt"))
 
     """ game defaults """
     mm.game_video_pix_width = 0
