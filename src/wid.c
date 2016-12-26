@@ -139,6 +139,7 @@ static double light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
 static double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH];
 static int light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
 static double floor_offset[MAP_WIDTH][MAP_HEIGHT];
+static texp light_fade_texp;
 
 /*
  * History for all text widgets.
@@ -8470,6 +8471,8 @@ static void wid_lighting_render (widp w,
             push_tex_point(t1x, t1y, p1x, p1y, red, green, blue, alpha);
         }
 
+        buf_tex = tex_get_gl_binding(light_fade_texp);
+
         blit_flush_tex_triangle_fan();
     }
 }
@@ -9318,18 +9321,17 @@ static void wid_display (widp w,
             glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
             /*
+             * Make the light fade off at the edges.
+             */
+            if (!light_fade_texp) {
+                light_fade_texp = tex_load("light", "light");
+            }
+
+            /*
              * Don't make the shadows dark as it looks too dark on the 
-             * surface.
+             * surface. Instead we use a light alpha overlay.
              */
             if (game.biome_set_is_land) {
-
-                static texp t;
-                if (!t) {
-                    t = tex_load("light", "light");
-                }
-
-                buf_tex = tex_get_gl_binding(t);
-
                 blit_init();
 
                 color c = WHITE;
