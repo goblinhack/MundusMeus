@@ -127,11 +127,11 @@ def init1():
     if not os.path.isdir(os.environ['APPDATA']):
         os.mkdir(os.environ['APPDATA'])
 
-    sys.stdout = os.path.normcase(
-            os.path.join(os.environ["APPDATA"], "stdout.txt"))
+    sys.stdout = open(os.path.normcase(
+            os.path.join(os.environ["APPDATA"], "stdout.txt")), "a")
 
-    sys.stderr = os.path.normcase(
-            os.path.join(os.environ["APPDATA"], "stderr.txt"))
+    sys.stderr = open(os.path.normcase(
+            os.path.join(os.environ["APPDATA"], "stderr.txt")), "a")
 
     """ game defaults """
     mm.game_video_pix_width = 0

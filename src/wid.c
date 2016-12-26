@@ -9321,7 +9321,8 @@ static void wid_display (widp w,
              * Don't make the shadows dark as it looks too dark on the 
              * surface.
              */
-            {
+            if (game.biome_set_is_land) {
+
                 static texp t;
                 if (!t) {
                     t = tex_load("light", "light");
@@ -9330,8 +9331,11 @@ static void wid_display (widp w,
                 buf_tex = tex_get_gl_binding(t);
 
                 blit_init();
+
                 color c = WHITE;
+
                 c.a = 200;
+
                 glcolor(c);
 
                 uint32_t tw = game.video_pix_width;
