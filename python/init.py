@@ -115,8 +115,17 @@ def load_plugin(plugin):
 
 def init1():
 
+    if "APPDATA" not in os.environ:
+        os.environ['APPDATA'] = "appdata"
+
+    if not os.path.isdir(os.environ['APPDATA']):
+        os.mkdir(os.environ['APPDATA'])
+
     os.environ['APPDATA'] = os.path.normcase(
             os.path.join(os.getenv("APPDATA"), "mundusmeus"))
+
+    if not os.path.isdir(os.environ['APPDATA']):
+        os.mkdir(os.environ['APPDATA'])
 
     sys.stdout = os.path.normcase(
             os.path.join(os.getenv("APPDATA"), "stdout.txt"))
