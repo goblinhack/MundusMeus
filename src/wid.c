@@ -8381,18 +8381,6 @@ static void wid_lighting_render (widp w,
         blit_init();
 
         /*
-         * Load the light texture we overlay on the triangle fan.
-         */
-        {
-            static texp t;
-            if (!t) {
-                t = tex_load("light", "light");
-            }
-
-            buf_tex = tex_get_gl_binding(t);
-        }
-
-        /*
          * Walk the light rays in a circle.
          */
         if (thing_is_player(t) && game.biome_set_is_land) {
@@ -9328,6 +9316,32 @@ static void wid_display (widp w,
              * We want to merge successive light sources together.
              */
             glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+            /*
+             * Don't make the shadows dark as it looks too dark on the 
+             * surface.
+             */
+            {
+                static texp t;
+                if (!t) {
+                    t = tex_load("light", "light");
+                }
+
+                buf_tex = tex_get_gl_binding(t);
+
+                blit_init();
+                color c = WHITE;
+                c.a = 200;
+                glcolor(c);
+
+                uint32_t tw = game.video_pix_width;
+                uint32_t th = game.video_pix_height;
+                double window_w = tw;
+                double window_h = th;
+
+                blit(buf_tex, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
+                blit_flush();
+            }
 
             blit_init();
 

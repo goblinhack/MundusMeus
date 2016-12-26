@@ -145,9 +145,10 @@ def biome_populate(self):
                     t = thing.Thing(l, tp_name=r.short_name)
                     t.push(x, y)
                 else:
-                    r = tp.get_random_tree()
-                    t = thing.Thing(l, tp_name=r.short_name)
-                    t.push(x, y)
+                    for i in range(1, random.randint(1, 10)):
+                        r = tp.get_random_tree()
+                        t = thing.Thing(l, tp_name=r.short_name)
+                        t.push(x, y)
 
             if grass:
                 t = thing.Thing(l, tp_name=grass_str + "")

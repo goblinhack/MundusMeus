@@ -77,7 +77,7 @@ def get_game_tile_height():
 def save_game_config():
     with open(os.path.normcase(
                os.path.join(
-                os.getenv("APPDATA"), 'mundusmeus-config.py')), 'w') as f:
+                os.environ["APPDATA"], 'mundusmeus-config.py')), 'w') as f:
 
         f.write("import mm\n")
         f.write("mm.game_video_pix_width=%d\n" % mm.game_video_pix_width)
