@@ -7,9 +7,17 @@ import game
 
 class Thing:
 
-    def __init__(self, level, tp_name):
+    def __init__(self, tp_name, chunk=None, level=None, x=None, y=None):
 
-        self.level = level
+        if x is not None:
+            (chunk, offset_x, offset_y) = level.xy_to_chunk_xy(x, y)
+            self.level = level
+            do_push = True
+        else:
+            self.level = chunk.level
+            do_push = False
+
+        self.chunk = chunk
         self.tp_name = tp_name
 
         game.g.max_thing_id += 1
@@ -20,7 +28,6 @@ class Thing:
             self.err("Thing template {0} does not exist".format(tp_name))
 
         self.tp = tp.all_tps[tp_name]
-        self.level = level
 
         self.x = -1
         self.y = -1
@@ -34,16 +41,25 @@ class Thing:
 
 #        self.debug("Created thing")
 
+        #
+        # Save on the level all things list. We can't save onto the chunk
+        # yet as that depends on the thing co-ords which we do not have
+        # until it is pushed.
+        #
         if self.thing_id in self.level.all_things:
             self.err("Already in level list")
             return
 
+        chunk.all_things[self.thing_id] = self
         self.level.all_things[self.thing_id] = self
 
         mm.thing_new(self, self.thing_id, tp_name)
 
         if self.tp.thing_init is not None:
             self.tp.thing_init(self)
+
+        if do_push:
+            self.push(x, y)
 
     def __getstate__(self):
         result = self.__dict__.copy()
@@ -87,24 +103,29 @@ class Thing:
         self.log("@ {0},{1}".format(self.x, self.y))
 
     def move(self, x, y):
+        self.chunk.thing_pop(self.offset_x, self.offset_y, self)
 
-        self.level.on_map[self.x][self.y].remove(self)
         self.x = x
         self.y = y
-        self.level.on_map[self.x][self.y].append(self)
+
+        (self.chunk, self.offset_x, self.offset_y) = \
+            self.level.xy_to_chunk_xy(x, y)
+        self.chunk.thing_push(self.offset_x, self.offset_y, self)
 
         mm.thing_move(self, x, y)
 
     def push(self, x, y):
-        self.x = x
-        self.y = y
-
         if self.on_map:
             self.err("Already on the map at {0},{1}".format(self.x, self.y))
             return
-
         self.on_map = True
-        self.level.thing_push(x, y, self)
+
+        self.x = x
+        self.y = y
+        (self.chunk, self.offset_x, self.offset_y) = \
+            self.level.xy_to_chunk_xy(x, y)
+
+        self.chunk.thing_push(self.offset_x, self.offset_y, self)
 
         self.wid_id = mm.thing_push(self, x, y)
         self.wid = wid.Wid(name=self.tp_name, wid_id=self.wid_id)
@@ -118,10 +139,10 @@ class Thing:
         if not self.on_map:
             self.err("Is not on the map")
             return
-
-        self.level.on_map[self.x][self.y].remove(self)
-        mm.thing_pop(self)
         self.on_map = False
+
+        self.chunk.thing_pop(self.offset_x, self.offset_y, self)
+        mm.thing_pop(self)
 
     def set_long_name(self, value=""):
         self.long_name = value

@@ -195,7 +195,7 @@ def set_lighting(game, move=0, moves_per_day=0):
     game.day = int(1 + (move / moves_per_day))
     game.hour_str = colors[hour]["hour_str"]
 
-    if l.is_biome_dungeon:
+    if l.active_chunk.is_biome_dungeon:
         r = 255
         g = 255
         b = 255

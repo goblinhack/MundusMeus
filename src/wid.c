@@ -1690,6 +1690,23 @@ void wid_set_movable_bounded (widp w, uint8_t val)
     w->movable_bounded_set = true;
 }
 
+uint8_t wid_get_movable_no_user_scroll (widp w)
+{
+    if (w->movable_no_user_scroll_set) {
+        return (w->movable_no_user_scroll);
+    }
+
+    return (false);
+}
+
+void wid_set_movable_no_user_scroll (widp w, uint8_t val)
+{
+    fast_verify(w);
+
+    w->movable_no_user_scroll = val;
+    w->movable_no_user_scroll_set = true;
+}
+
 uint8_t wid_get_text_lhs (widp w)
 {
     return (w->text_lhs);
@@ -5108,11 +5125,11 @@ void wid_scroll_with_input (widp w, const char *str)
 
 uint8_t wid_receive_input (widp w, const SDL_KEYSYM *key)
 {
-    char beforecursor[MAXSTR];
-    char updatedtext[MAXSTR];
-    char aftercursor[MAXSTR];
-    char entered[MAXSTR];
-    char tmp[MAXSTR];
+    static char beforecursor[MAXSTR];
+    static char updatedtext[MAXSTR];
+    static char aftercursor[MAXSTR];
+    static char entered[MAXSTR];
+    static char tmp[MAXSTR];
     const char *origtext;
     char newchar[2];
     uint32_t origlen;
@@ -6606,7 +6623,9 @@ void wid_mouse_motion (int32_t x, int32_t y,
                  * then scroll for it.
                  */
                 if (wheely) {
-                    if (w->scrollbar_vert) {
+                    if (w->scrollbar_vert &&
+                        !wid_get_movable_no_user_scroll(w->scrollbar_vert)) {
+
                         wid_move_delta(w->scrollbar_vert, 0, -wheely);
                         done = true;
 
@@ -6619,7 +6638,9 @@ void wid_mouse_motion (int32_t x, int32_t y,
                 }
 
                 if (wheelx) {
-                    if (w->scrollbar_horiz) {
+                    if (w->scrollbar_horiz &&
+                        !wid_get_movable_no_user_scroll(w->scrollbar_horiz)) {
+
                         wid_move_delta(w->scrollbar_horiz, -wheelx, 0);
                         done = true;
 
@@ -6985,9 +7006,78 @@ static widp wid_key_up_handler (int32_t x, int32_t y)
     return (0);
 }
 
+#ifdef DEBUG_GL_BLEND
+static int vals[] = {
+
+/* GL_ZERO                           */ 0,
+/* GL_ONE                            */ 1,
+/* GL_SRC_COLOR                      */ 0x0300,
+/* GL_ONE_MINUS_SRC_COLOR            */ 0x0301,
+/* GL_SRC_ALPHA                      */ 0x0302,
+/* GL_ONE_MINUS_SRC_ALPHA            */ 0x0303,
+/* GL_DST_ALPHA                      */ 0x0304,
+/* GL_ONE_MINUS_DST_ALPHA            */ 0x0305,
+/* GL_DST_COLOR                      */ 0x0306,
+/* GL_ONE_MINUS_DST_COLOR            */ 0x0307,
+/* GL_SRC_ALPHA_SATURATE             */ 0x0308,
+/* GL_FUNC_ADD                       */ 0x8006,
+/* GL_BLEND_EQUATION                 */ 0x8009,
+/* GL_BLEND_EQUATION_RGB             */ 0x8009    /* same as BLEND_EQUATION */,
+/* GL_BLEND_EQUATION_ALPHA           */ 0x883D,
+/* GL_FUNC_SUBTRACT                  */ 0x800A,
+/* GL_FUNC_REVERSE_SUBTRACT          */ 0x800B,
+/* GL_BLEND_DST_RGB                  */ 0x80C8,
+/* GL_BLEND_SRC_RGB                  */ 0x80C9,
+/* GL_BLEND_DST_ALPHA                */ 0x80CA,
+/* GL_BLEND_SRC_ALPHA                */ 0x80CB,
+/* GL_CONSTANT_COLOR                 */ 0x8001,
+/* GL_ONE_MINUS_CONSTANT_COLOR       */ 0x8002,
+/* GL_CONSTANT_ALPHA                 */ 0x8003,
+/* GL_ONE_MINUS_CONSTANT_ALPHA       */ 0x8004,
+/* GL_BLEND_COLOR */ 0x8005,
+};
+
+/*
+ * Add this somewhere
+ */
+CON("%d %d", i1, i2);
+glBlendFunc(vals[i1], vals[i2]);
+
+static int i1;
+static int i2;
+#endif
+
 void wid_key_down (const struct SDL_KEYSYM *key, int32_t x, int32_t y)
 {
     widp w;
+
+#ifdef DEBUG_GL_BLEND
+if (wid_event_to_char(key) == '+') {
+    usleep(100000);
+    i1 ++;
+    if (i1 >= (int)ARRAY_SIZE(vals)) {
+	i1 = 0;
+	i2 ++;
+	if (i2 >= (int)ARRAY_SIZE(vals)) {
+	    i2 = 0;
+	}
+    }
+    return;
+}
+
+if (wid_event_to_char(key) == '-') {
+    usleep(100000);
+    i1 --;
+    if (i1 < 0) {
+	i1 = (int)ARRAY_SIZE(vals);
+	i2 --;
+	if (i2 < 0) {
+	    i2 = (int)ARRAY_SIZE(vals);
+	}
+    }
+    return;
+}
+#endif
 
     if (wid_focus &&
         !wid_is_hidden(wid_focus) &&
@@ -9345,6 +9435,7 @@ static void wid_display (widp w,
                 double window_w = tw;
                 double window_h = th;
 
+		buf_tex = tex_get_gl_binding(light_fade_texp);
                 blit(buf_tex, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
                 blit_flush();
             }
@@ -9407,20 +9498,22 @@ static void wid_display (widp w,
             double window_w = tw;
             double window_h = th;
 
-            /*
-             * Stretch the shadow so when the screen shakes the borders are
-             * black as well. This is a bit of a hack but it also makes the
-             * lights look nice with a kind of halo effect.
-             */
             blit_init();
             glcolor(WHITE);
             blit(fbo_tex_id1, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
             blit_flush();
 
-            /*
-             * If we redraw light sources, like torches then they appear
-             * in front of the wall decos. So skip this.
-             */
+	    glBlendFunc(GL_ZERO, GL_SRC_ALPHA);
+
+	    /*
+	     * Add a halo to final blit
+	     */
+            blit_init();
+            glcolor(WHITE);
+	    buf_tex = tex_get_gl_binding(light_fade_texp);
+            blit(buf_tex, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
+            blit_flush();
+
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 #if 0

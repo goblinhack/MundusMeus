@@ -1567,6 +1567,11 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "wid_set_movable_bounded"},
 
+    {"wid_set_movable_no_user_scroll",
+        (PyCFunction)wid_set_movable_no_user_scroll_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_movable_no_user_scroll"},
+
     {"wid_set_movable_horiz",
         (PyCFunction)wid_set_movable_horiz_,
         METH_VARARGS | METH_KEYWORDS,
@@ -2556,6 +2561,10 @@ static void py_add_to_path (const char *path)
 
 static void python_add_consts (void)
 {
+    PyModule_AddIntConstant(mm_mod, "CHUNK_ACROSS", CHUNK_ACROSS);
+    PyModule_AddIntConstant(mm_mod, "CHUNK_DOWN", CHUNK_DOWN);
+    PyModule_AddIntConstant(mm_mod, "CHUNK_WIDTH", CHUNK_WIDTH);
+    PyModule_AddIntConstant(mm_mod, "CHUNK_HEIGHT", CHUNK_HEIGHT);
     PyModule_AddIntConstant(mm_mod, "MAP_WIDTH", MAP_WIDTH);
     PyModule_AddIntConstant(mm_mod, "MAP_HEIGHT", MAP_HEIGHT);
     PyModule_AddIntConstant(mm_mod, "WORLD_WIDTH", WORLD_WIDTH);

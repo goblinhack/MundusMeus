@@ -4,9 +4,10 @@ import thing
 import biome_dungeon_do
 import rooms
 import tp
+import game
 
 
-def biome_build(self, level=None, seed=0):
+def biome_build(self, chunk=None, seed=0):
     self.biome_seed = seed
 
     while True:
@@ -16,108 +17,115 @@ def biome_build(self, level=None, seed=0):
         self.biome_seed += 1
         self.biome_seed *= self.biome_seed
 
-        self.level.biome = biome_dungeon_do.Biome(level=level,
-                                                  width=self.width,
-                                                  height=self.height,
+        self.chunk.biome = biome_dungeon_do.Biome(chunk=chunk,
                                                   rooms=fixed_rooms,
-                                                  rooms_on_level=15,
+                                                  rooms_on_chunk=15,
                                                   fixed_room_chance=10)
 
-        if not self.level.biome.generate_failed:
+        if not self.chunk.biome.generate_failed:
             break
 
-#    self.level.biome.dump_depth()
-#    self.level.biome.dump(biome_dungeon_do.charmap.depth.floor)
-#    self.level.biome.dump()
+#    self.chunk.biome.dump_depth()
+#    self.chunk.biome.dump(biome_dungeon_do.charmap.depth.floor)
+#    self.chunk.biome.dump()
 
 
 def biome_populate(self):
-    m = self.level.biome
+    c = self
+    m = self.biome
 
-    for y in range(0, mm.MAP_HEIGHT):
-        for x in range(0, mm.MAP_WIDTH):
+    for y in range(0, mm.CHUNK_HEIGHT):
+        for x in range(0, mm.CHUNK_WIDTH):
+
+            tx = x + self.base_x
+            ty = y + self.base_y
 
             place_stalactite = False
 
             if m.is_floor_at(x, y):
-                t = thing.Thing(self.level, tp_name="floor1")
+                t = thing.Thing(chunk=c, tp_name="floor1")
                 t.set_depth(m.depth_map.cells[x][y])
-                t.push(x, y)
+                t.push(tx, ty)
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
                     if random.randint(0, 1000) < 2:
-                        t = thing.Thing(self.level, tp_name="torch1")
-                        t.push(x, y)
+                        t = thing.Thing(chunk=c, tp_name="torch1")
+                        t.push(tx, ty)
 
             if random.randint(0, 1000) < 5:
-                t = thing.Thing(self.level, tp_name="torch1")
-                t.push(x, y)
+                t = thing.Thing(chunk=c, tp_name="torch1")
+                t.push(tx, ty)
 
             if m.is_dusty_at(x, y):
-                t = thing.Thing(self.level, tp_name="dusty1")
+                t = thing.Thing(chunk=c, tp_name="dusty1")
                 t.set_depth(m.bridge_height[x][y])
-                t.push(x, y)
+                t.push(tx, ty)
 
                 if m.bridge_height[x][y] > 0:
-                    t = thing.Thing(self.level, tp_name="under_dusty1")
+                    t = thing.Thing(chunk=c, tp_name="under_dusty1")
                     t.set_depth(m.bridge_height[x][y])
-                    t.push(x, y + 1)
+                    t.push(tx, ty + 1)
 
                     if not m.is_lava_at(x, y) and \
                        not m.is_water_at(x, y):
-                        t = thing.Thing(self.level, tp_name="rock")
-                        t.push(x, y)
+                        t = thing.Thing(chunk=c, tp_name="rock")
+                        t.push(tx, ty)
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
                     if random.randint(0, 1000) < 2:
-                        t = thing.Thing(self.level, tp_name="torch1")
-                        t.push(x, y)
+                        t = thing.Thing(chunk=c, tp_name="torch1")
+                        t.push(tx, ty)
 
             if m.is_corridor_at(x, y):
-                t = thing.Thing(self.level, tp_name="corridor1")
+                t = thing.Thing(chunk=c, tp_name="corridor1")
                 t.set_depth(m.bridge_height[x][y])
-                t.push(x, y)
+                t.push(tx, ty)
 
                 if m.bridge_height[x][y] > 0:
-                    t = thing.Thing(self.level, tp_name="under_corridor1")
+                    t = thing.Thing(chunk=c,
+                                    tp_name="under_corridor1")
                     t.set_depth(m.bridge_height[x][y])
-                    t.push(x, y + 1)
+                    t.push(tx, ty + 1)
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
                     if random.randint(0, 1000) < 2:
-                        t = thing.Thing(self.level, tp_name="torch1")
-                        t.push(x, y)
+                        t = thing.Thing(chunk=c, tp_name="torch1")
+                        t.push(tx, ty)
 
             if m.is_start_at(x, y):
 
-                t = thing.Thing(self.level, tp_name="start1")
+                t = thing.Thing(chunk=self, tp_name="start1")
                 t.set_depth(m.depth_map.cells[x][y])
-                t.push(x, y)
+                t.push(tx, ty)
 
-                if self.player is None:
-                    t = thing.Thing(self.level, tp_name="player1")
-                    t.push(x, y)
-                    self.player = t
+                if game.g.player is None:
+                    #
+                    # Create the player on the active central chunk
+                    #
+                    if self.cx == 1 and self.cy == 1:
+                        t = thing.Thing(chunk=c, tp_name="player1")
+                        t.push(tx, ty)
+                        game.g.player = t
 
             if m.is_exit_at(x, y):
-                t = thing.Thing(self.level, tp_name="exit1")
+                t = thing.Thing(chunk=c, tp_name="exit1")
                 t.set_depth(m.depth_map.cells[x][y])
-                t.push(x, y)
+                t.push(tx, ty)
 
-                t = thing.Thing(self.level, tp_name="exit1_deco")
+                t = thing.Thing(chunk=c, tp_name="exit1_deco")
                 t.set_depth(m.depth_map.cells[x][y])
-                t.push(x, y - 1)
+                t.push(tx, ty - 1)
 
-                t = thing.Thing(self.level, tp_name="chasm_smoke1")
-                t.push(x, y)
+                t = thing.Thing(chunk=c, tp_name="chasm_smoke1")
+                t.push(tx, ty)
 
-                t = thing.Thing(self.level, tp_name="chasm_smoke1")
-                t.push(x, y - 1)
+                t = thing.Thing(chunk=c, tp_name="chasm_smoke1")
+                t.push(tx, ty - 1)
 
             if m.is_wall_at(x, y):
                 place_stalactite = True
-                t = thing.Thing(self.level, tp_name="wall1")
-                t.push(x, y)
+                t = thing.Thing(chunk=c, tp_name="wall1")
+                t.push(tx, ty)
 
                 if m.is_wall_at(x, y-1):
                     b = True
@@ -176,8 +184,8 @@ def biome_populate(self):
                     t.set_tilename("wall1-node")
 
             if m.is_cwall_at(x, y):
-                t = thing.Thing(self.level, tp_name="cwall1")
-                t.push(x, y)
+                t = thing.Thing(chunk=c, tp_name="cwall1")
+                t.push(tx, ty)
 
                 if m.is_cwall_at(x, y-1):
                     b = True
@@ -243,51 +251,51 @@ def biome_populate(self):
                     #
                     # Underground lava
                     #
-                    t = thing.Thing(self.level, tp_name="lava1")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name="lava1")
+                    t.push(tx, ty)
 
                 elif m.is_wall_at(x, y - 1) or \
                         m.is_rock_at(x, y - 1) or \
                         m.is_cwall_at(x, y - 1):
 
-                    t = thing.Thing(self.level, tp_name="lava1-top")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name="lava1-top")
+                    t.push(tx, ty)
 
                 elif m.is_floor_at(x, y - 1) and not m.is_floor_at(x, y):
-                    t = thing.Thing(self.level, tp_name="lava1-top")
-                    t.push(x, y)
-                    t = thing.Thing(self.level, tp_name="lava1")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name="lava1-top")
+                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, tp_name="lava1")
+                    t.push(tx, ty)
 
                 elif m.is_corridor_at(x, y - 1) and \
                         not m.is_corridor_at(x, y):
-                    t = thing.Thing(self.level, tp_name="lava1-top")
-                    t.push(x, y)
-                    t = thing.Thing(self.level, tp_name="lava1")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name="lava1-top")
+                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, tp_name="lava1")
+                    t.push(tx, ty)
 
                 elif m.is_dusty_at(x, y - 1) and \
                         not m.is_dusty_at(x, y):
-                    t = thing.Thing(self.level, tp_name="lava1-top")
-                    t.push(x, y)
-                    t = thing.Thing(self.level, tp_name="lava1")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name="lava1-top")
+                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, tp_name="lava1")
+                    t.push(tx, ty)
 
                 else:
-                    t = thing.Thing(self.level, tp_name="lava1")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name="lava1")
+                    t.push(tx, ty)
 
                 t.set_depth(m.depth_map.cells[x][y])
 
                 if random.randint(0, 100) < 30:
-                    t = thing.Thing(self.level, tp_name="chasm_smoke2")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name="chasm_smoke2")
+                    t.push(tx, ty)
 
                 if random.randint(0, 100) < 5:
                     toughness = m.depth_map.cells[x][y] * 20
                     r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(self.level, tp_name=r.short_name)
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name=r.short_name)
+                    t.push(tx, ty)
 
             if m.is_water_at(x, y):
 
@@ -304,59 +312,59 @@ def biome_populate(self):
                     #
                     # Underground water
                     #
-                    t = thing.Thing(self.level, tp_name=water)
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name=water)
+                    t.push(tx, ty)
 
                 elif m.is_wall_at(x, y - 1) or \
                         m.is_rock_at(x, y - 1) or \
                         m.is_cwall_at(x, y - 1):
-                    t = thing.Thing(self.level, tp_name=water + "-top")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name=water + "-top")
+                    t.push(tx, ty)
 
                 elif m.is_floor_at(x, y - 1) and not m.is_floor_at(x, y):
-                    t = thing.Thing(self.level, tp_name=water + "-top")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name=water + "-top")
+                    t.push(tx, ty)
 
                 elif m.is_corridor_at(x, y - 1) and \
                         not m.is_corridor_at(x, y):
-                    t = thing.Thing(self.level, tp_name=water + "-top")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name=water + "-top")
+                    t.push(tx, ty)
 
                 elif m.is_dusty_at(x, y - 1) and \
                         not m.is_dusty_at(x, y):
-                    t = thing.Thing(self.level, tp_name=water + "-top")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name=water + "-top")
+                    t.push(tx, ty)
 
                 else:
-                    t = thing.Thing(self.level, tp_name=water)
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name=water)
+                    t.push(tx, ty)
 
                 t.set_depth(m.depth_map.cells[x][y])
 
                 if put_treasure:
                     toughness = m.depth_map.cells[x][y] * 2
                     r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(self.level, tp_name=r.short_name)
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name=r.short_name)
+                    t.push(tx, ty)
 
                 if random.randint(0, 100) < 5:
-                    t = thing.Thing(self.level, tp_name="chasm_smoke2")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name="chasm_smoke2")
+                    t.push(tx, ty)
 
             if m.is_rock_at(x, y):
                 place_stalactite = True
-                t = thing.Thing(self.level, tp_name="rock")
-                t.push(x, y)
+                t = thing.Thing(chunk=c, tp_name="rock")
+                t.push(tx, ty)
 
                 if random.randint(0, 100) < 5:
                     toughness = m.depth_map.cells[x][y]
                     r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(self.level, tp_name=r.short_name)
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name=r.short_name)
+                    t.push(tx, ty)
 
             if m.is_door_at(x, y):
-                t = thing.Thing(self.level, tp_name="door1")
-                t.push(x, y)
+                t = thing.Thing(chunk=c, tp_name="door1")
+                t.push(tx, ty)
 
                 num = len(t.tp.tiles)
                 which = m.getr(x, y)
@@ -367,8 +375,8 @@ def biome_populate(self):
                 t.set_tilename("door1." + str(which))
 
             if m.is_key_at(x, y):
-                t = thing.Thing(self.level, tp_name="key1")
-                t.push(x, y)
+                t = thing.Thing(chunk=c, tp_name="key1")
+                t.push(tx, ty)
 
                 num = len(t.tp.tiles)
                 which = m.getr(x, y)
@@ -384,8 +392,8 @@ def biome_populate(self):
                 if m.is_wall_at(x, y) and \
                         m.is_floor_at(x, y + 1) and \
                         not m.is_wall_at(x, y + 1):
-                    t = thing.Thing(self.level, tp_name="deco1")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name="deco1")
+                    t.push(tx, ty)
 
                     num = len(t.tp.tiles)
                     which = m.getr(x, y)
@@ -396,15 +404,15 @@ def biome_populate(self):
                     t.set_tilename("deco1." + str(which))
 
             if m.is_treasure_at(x, y):
-                toughness = self.level.xyz.z
+                toughness = self.chunk.xyz.z
 
                 roomno = m.getr(x, y)
                 if roomno != -1:
                     toughness += m.roomno_depth[roomno]
 
                 r = tp.get_random_treasure(toughness=toughness)
-                t = thing.Thing(self.level, tp_name=r.short_name)
-                t.push(x, y)
+                t = thing.Thing(chunk=c, tp_name=r.short_name)
+                t.push(tx, ty)
 
             if m.is_chasm_at(x, y):
                 if m.is_floor_at(x, y) or \
@@ -438,11 +446,11 @@ def biome_populate(self):
                     continue
 
                 if random.randint(0, 100) < 10:
-                    t = thing.Thing(self.level, tp_name="chasm_smoke2")
-                    t.push(x, y)
+                    t = thing.Thing(chunk=c, tp_name="chasm_smoke2")
+                    t.push(tx, ty)
 
                 continue
 
             if place_stalactite:
-                t = thing.Thing(self.level, tp_name="stalactite1")
-                t.push(x, y)
+                t = thing.Thing(chunk=c, tp_name="stalactite1")
+                t.push(tx, ty)

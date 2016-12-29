@@ -1,29 +1,73 @@
-import pickle
 import traceback
 import mm
 import dmap
 import math
 import game
-import tp
-import os
+import chunk
+import util
 
 
 class Level:
 
-    def __init__(self, xyz, width, height):
+    def __init__(self, xyz):
         self.xyz = xyz
+
+        #
+        # This is where the active chunk is. The active chunk is surrounded
+        # by other chunks that although things can move in them, it will not
+        # contain the player
+        #
+        where = util.Xyz(0, 0, 0)
+
+        #
+        # All things in all chunks. We have per chunk all_things too.
+        #
         self.all_things = {}
-        self.is_biome_land = False
-        self.is_biome_dungeon = False
-        self.width = width
-        self.height = height
 
-        self.is_snowy = False
-        self.is_grassy = False
-        self.is_watery = False
+        #
+        # Create all chunks
+        #
+        self.chunk = [[None for x in range(mm.CHUNK_WIDTH)]
+                      for y in range(mm.CHUNK_HEIGHT)]
 
-        self.on_map = [[[] for x in range(width)] for y in range(height)]
-        self.dmaps = [[None for x in range(width)] for y in range(height)]
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                self.chunk[cx][cy] = chunk.Chunk()
+
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                where.x = xyz.x - 1 + cx
+                where.y = xyz.y - 1 + cy
+                where.z = xyz.z
+                self.chunk[cx][cy].new(self, where, cx, cy)
+
+        self.active_chunk = self.chunk[1][1]
+
+        #
+        # The dmap spans all chunks so we can have things move between chunks
+        #
+        self.dmaps = [[None for x in range(mm.MAP_WIDTH)]
+                      for y in range(mm.MAP_HEIGHT)]
+
+    #
+    # Convert from co-ordinates that are the width of all chunks to chunk
+    # local co-ords
+    #
+    def xy_to_chunk_xy(self, x, y):
+
+        cx = (int)(x / mm.CHUNK_WIDTH)
+        cy = (int)(y / mm.CHUNK_HEIGHT)
+        offset_x = (int)(x % mm.CHUNK_WIDTH)
+        offset_y = (int)(y % mm.CHUNK_HEIGHT)
+
+        return (self.chunk[cx][cy], offset_x, offset_y)
+
+    #
+    # Convert from co-ordinates that are the chunc-local
+    #
+    def chunk_xy_to_xy(self, cx, cy, x, y):
+
+        return (x + cx * mm.CHUNK_WIDTH, y + cy * mm.CHUNK_HEIGHT)
 
     def __str__(self):
         return "l{0}".format(str(self.xyz))
@@ -31,27 +75,23 @@ class Level:
     def destroy(self):
         self.debug("Destroying level {")
 
-        #
-        # to avoid dictionary changed size during iteration, walk the keys
-        #
-        for thing_id in list(self.all_things.keys()):
-            t = self.all_things[thing_id]
-            t.destroy()
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                self.chunk[cx][cy].destroy()
 
-        self.all_things = {}
         self.debug("} Destroyed level")
         del self
 
     def tick(self):
 
         s = math.sin(game.g.move_count / (math.pi * 11))
-        if self.is_snowy:
+        if self.active_chunk.is_snowy:
             if s > 0:
                 mm.game_set_snow_amount(int(s * 100))
             else:
                 mm.game_set_snow_amount(0)
 
-        if self.is_grassy or self.is_watery:
+        if self.active_chunk.is_grassy or self.active_chunk.is_watery:
             if s > 0:
                 mm.game_set_rain_amount(int(s * 100))
             else:
@@ -69,138 +109,70 @@ class Level:
         traceback.print_stack()
 
     def dump(self):
-        for i in self.all_things:
-            self.all_things[i].dump()
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                self.chunk[cx][cy].dump()
 
     def save(self):
         self.debug("Save level")
 
-        with open(os.path.normcase(
-                  os.path.join(os.environ["APPDATA"],
-                               str(self))), 'wb') as f:
-            pickle.dump(self.xyz, f, pickle.HIGHEST_PROTOCOL)
-
-            pickle.dump(self.all_things, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.is_biome_land, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.is_biome_dungeon, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.width, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.height, f, pickle.HIGHEST_PROTOCOL)
-
-            pickle.dump(self.is_snowy, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.is_grassy, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.is_watery, f, pickle.HIGHEST_PROTOCOL)
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                self.chunk[cx][cy].save()
 
     def load(self):
         self.debug("Load level")
 
-        with open(os.path.normcase(
-                  os.path.join(os.environ["APPDATA"],
-                               str(self))), 'rb') as f:
-            self.xyz = pickle.load(f)
-
-            self.all_things = pickle.load(f)
-            self.is_biome_land = pickle.load(f)
-            self.is_biome_dungeon = pickle.load(f)
-            self.width = pickle.load(f)
-            self.height = pickle.load(f)
-
-            self.is_snowy = pickle.load(f)
-            self.is_grassy = pickle.load(f)
-            self.is_watery = pickle.load(f)
-
-            for thing_id in self.all_things:
-                t = self.all_things[thing_id]
-                mm.thing_new(t, thing_id, t.tp_name)
-
-            mm.con("Pushing things on level @ {0}".format(str(self)))
-
-            for thing_id in self.all_things:
-                t = self.all_things[thing_id]
-                t.level = self
-                t.tp = tp.all_tps[t.tp_name]
-
-                if t.on_map:
-                    t.on_map = False
-                    t.push(t.x, t.y)
-                    if t.tilename is not None:
-                        t.set_tilename(t.tilename)
-
-                if t.tp.is_player:
-                    game.g.player = t
-
-            mm.con("Re-created all things on level @ {0}".format(str(self)))
-
-            if game.g.player is None:
-                raise NameError("No player found on level")
-
-    def set_biome(self, is_land=False, is_dungeon=False):
-        self.is_biome_land = is_land
-        self.is_biome_dungeon = is_dungeon
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                self.chunk[cx][cy].save()
 
     def tp_find(self, x, y, tp_name):
-        if x >= self.width or y >= self.height or x < 0 or y < 0:
+        if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
             return None
 
-        for t in self.on_map[x][y]:
-            if t.tp.name == tp_name:
-                return t
-
-        return None
+        (chunk, x, y) = self.xy_to_chunk_xy(x, y)
+        return chunk.tp_find(x, y, tp_name)
 
     def tp_is(self, x, y, value):
-        if x >= self.width or y >= self.height or x < 0 or y < 0:
+        if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
             return None
 
-        for t in self.on_map[x][y]:
-            v = getattr(t.tp, value)
-            if v is not None:
-                if v:
-                    return (x, y)
-
-        return None
+        (chunk, x, y) = self.xy_to_chunk_xy(x, y)
+        return chunk.tp_is(x, y, value)
 
     def tp_is_where(self, value):
-        for y in range(self.height):
-            for x in range(self.width):
-                for t in self.on_map[x][y]:
-                    v = getattr(t.tp, value)
-                    if v is not None:
-                        if v:
-                            return (x, y)
-
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                where = self.chunk[cx][cy].is_where(value)
+                if where is not None:
+                    (where.x, where.y) = \
+                        self.chunk_xy_to_xy(cx, cy, where.x, where.y)
+                    return where
         return None
 
     def is_movement_blocking_at(self, x, y):
-        if x >= self.width or y >= self.height or x < 0 or y < 0:
-            return False
-
-        for t in self.on_map[x][y]:
-            if t.tp.is_movement_blocking:
-                return True
-
+        (chunk, ox, oy) = self.xy_to_chunk_xy(x, y)
+        if chunk.is_movement_blocking_at(ox, oy):
+            return True
         return False
-
-    def thing_push(self, x, y, t):
-        if x >= self.width or y >= self.height or x < 0 or y < 0:
-            mm.err("thing_push: map oob {0} {1}".format(x, y))
-            return
-
-        self.on_map[x][y].append(t)
 
     def dmap_create(self, px, py):
 
-        d = dmap.Dmap(width=self.width, height=self.height)
+        d = dmap.Dmap(width=mm.MAP_WIDTH, height=mm.MAP_HEIGHT)
 
         self.dmaps[px][py] = d
 
-        for y in range(self.height):
-            for x in range(self.width):
+        for y in range(mm.MAP_HEIGHT):
+            for x in range(mm.MAP_WIDTH):
                 d.cells[x][y] = dmap.WALL
 
-        for y in range(self.height):
-            for x in range(self.width):
+        for y in range(mm.MAP_HEIGHT):
+            for x in range(mm.MAP_WIDTH):
+                (chunk, ox, oy) = self.xy_to_chunk_xy(x, y)
+
                 skip = False
-                for t in self.on_map[x][y]:
+                for t in chunk.on_map[ox][oy]:
                     if t.tp.is_wall or \
                        t.tp.is_rock or \
                        t.tp.is_door or \
@@ -212,7 +184,7 @@ class Level:
                 if skip:
                     continue
 
-                for t in self.on_map[x][y]:
+                for t in chunk.on_map[ox][oy]:
                     if t.tp.is_floor or \
                        t.tp.is_grass or \
                        t.tp.is_dirt or \
@@ -235,8 +207,8 @@ class Level:
         if self.dmaps[ex][ey] is None:
             self.dmap_create(ex, ey)
 
-        walked = [[0 for i in range(self.height)]
-                  for j in range(self.width)]
+        walked = [[0 for i in range(mm.MAP_HEIGHT)]
+                  for j in range(mm.MAP_WIDTH)]
 
         out_path = []
         x = sx
@@ -267,7 +239,8 @@ class Level:
                 tx = x + dx
                 ty = y + dy
 
-                if tx >= self.width or ty >= self.height or tx < 0 or ty < 0:
+                if tx >= mm.MAP_WIDTH or ty >= mm.MAP_HEIGHT or \
+                   tx < 0 or ty < 0:
                     continue
 
                 if walked[tx][ty]:
@@ -293,8 +266,8 @@ class Level:
 
     def dmap_path_debug(self, d, path):
 
-        d.debug = [[0 for i in range(self.height)]
-                   for j in range(self.width)]
+        d.debug = [[0 for i in range(mm.MAP_HEIGHT)]
+                   for j in range(mm.MAP_WIDTH)]
 
         for p in path:
             x, y = p

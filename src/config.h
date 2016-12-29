@@ -53,7 +53,7 @@
 /*
  * Max long string size
  */
-#define MAXSTR                                  1024
+#define MAXSTR                                  4096
 
 /*
  * Light sources
@@ -70,16 +70,23 @@
 /*
  * Map. How many tiles across and down.
  */
-#define MAP_WIDTH                               64
-#define MAP_HEIGHT                              64
+#define CHUNK_ACROSS                            (3)
+#define CHUNK_DOWN                              (3)
+
+#define CHUNK_WIDTH                             (16)
+#define CHUNK_HEIGHT                            (16)
+
+#define MAP_WIDTH                               (CHUNK_WIDTH*CHUNK_ACROSS)
+#define MAP_HEIGHT                              (CHUNK_HEIGHT*CHUNK_DOWN)
+
 #define WORLD_WIDTH                             128
 #define WORLD_HEIGHT                            128
 
 /*
  * The number of tiles per screen.
  */
-#define TILES_SCREEN_WIDTH                      24
-#define TILES_SCREEN_HEIGHT                     11
+#define TILES_SCREEN_WIDTH                      25
+#define TILES_SCREEN_HEIGHT                     12
 #define TILES_ANIM_MAX                          10000
 
 /*

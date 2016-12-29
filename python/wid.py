@@ -162,6 +162,9 @@ class Wid:
     def set_movable(self, **kw):
         mm.wid_set_movable(self, **kw)
 
+    def set_movable_no_user_scroll(self, **kw):
+        mm.wid_set_movable_no_user_scroll(self, **kw)
+
     def set_movable_bounded(self, **kw):
         mm.wid_set_movable_bounded(self, **kw)
 

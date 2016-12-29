@@ -32,6 +32,7 @@ PyObject *wid_set_do_not_raise_(PyObject *obj, PyObject *args, PyObject *keywds)
 PyObject *wid_set_focusable_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_movable_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_movable_bounded_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_set_movable_no_user_scroll_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_movable_horiz_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_movable_vert_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_get_size_(PyObject *obj, PyObject *args, PyObject *keywds);

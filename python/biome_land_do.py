@@ -8,9 +8,9 @@ import mm
 
 
 class Biome(biome.Biome):
-    def __init__(self, level=None, width=80, height=40):
-        self.width = width
-        self.height = height
+    def __init__(self, chunk=None):
+        self.width = mm.CHUNK_WIDTH
+        self.height = mm.CHUNK_HEIGHT
 
         #
         # Set if we fail to generate
@@ -21,14 +21,14 @@ class Biome(biome.Biome):
         # The map
         #
         self.cells = [[[' ' for d in range(charmap.depth.max)]
-                       for i in range(height)]
-                      for j in range(width)]
+                       for i in range(self.height)]
+                      for j in range(self.width)]
         self.debug("^^^ init biome land ^^^")
 
-        mx = level.xyz.x
-        my = level.xyz.y
-        ox = mx * mm.MAP_WIDTH
-        oy = my * mm.MAP_HEIGHT
+        mx = chunk.xyz.x
+        my = chunk.xyz.y
+        ox = mx * mm.CHUNK_WIDTH
+        oy = my * mm.CHUNK_HEIGHT
 
         #
         # Get colors in image

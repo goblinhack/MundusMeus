@@ -4,8 +4,6 @@ import level
 import wid_map
 import thing
 import wid_popup
-import biome_dungeon
-import biome_land
 import time_of_day
 import pickle
 import os.path
@@ -22,7 +20,6 @@ class Game:
         #
         # Max thing ID in use in any level. This grows forever.
         #
-        (self.width, self.height) = (mm.MAP_WIDTH, mm.MAP_HEIGHT)
         self.wid_map = None
         self.save_file = "save_file"
         self.player = None
@@ -31,56 +28,24 @@ class Game:
         self.saved_nexthops = []
         wid_console.create()
 
-    def load_empty_level(self):
-        self.level = level.Level(xyz=self.where,
-                                 width=self.width,
-                                 height=self.height)
-        self.map_wid_create()
-
-    def game_load_failed_init_new_game(self):
+    def new_game(self):
 
         self.sdl_delay = 2
-        self.seed = 0
         self.move_count = 0
         self.moves_per_day = 1000
         self.max_thing_id = 1
         self.seed = 9
-        self.where = util.Xyz(74, 70, 0)
+        self.where = util.Xyz(74*4, 70*4, 0)
         self.load_level()
 
     def load_level(self):
 
-        self.load_empty_level()
+        self.map_wid_create()
+        self.level = level.Level(xyz=self.where)
         l = self.level
 
-        f = os.path.normcase(os.path.join(os.environ["APPDATA"], str(l)))
-        mm.con("Loading level from {0}".format(f))
-
-        if os.path.isfile(f):
-            try:
-                mm.con("Loading level @ {0}".format(f))
-                l.load()
-                need_new_level = False
-                mm.con("Loaded level @ {0} success".format(f))
-            except Exception as inst:
-                mm.con("Loading level failed, error [{0}]".format(inst))
-                need_new_level = True
-        else:
-            mm.con("Loading level failed, is not a file: {0}".format(l))
-            need_new_level = True
-
-        if need_new_level:
-            mm.con("Need to create a new level @ {0}".format(str(l)))
-            if self.where.z < 0:
-                self.biome_create(is_dungeon=True, seed=self.seed)
-            else:
-                self.biome_create(is_land=True, seed=self.seed)
-
-        mm.con("Created level @ {0}".format(str(l)))
-
-        l = self.level
-        mm.biome_set_is_land(value=l.is_biome_land)
-        mm.biome_set_is_dungeon(value=l.is_biome_dungeon)
+        mm.biome_set_is_land(value=l.active_chunk.is_biome_land)
+        mm.biome_set_is_dungeon(value=l.active_chunk.is_biome_dungeon)
 
     def load_level_finalize(self):
 
@@ -106,8 +71,7 @@ class Game:
 
                 t = l.tp_find(x, y, "none")
                 if t is None:
-                    t = thing.Thing(l, tp_name="none")
-                    t.push(x, y)
+                    t = thing.Thing(level=l, tp_name="none", x=x, y=y)
 
                 t.wid.game = self
                 t.wid.set_on_m_over_b(game_map_mouse_over)
@@ -172,7 +136,7 @@ class Game:
         self.load_level()
         l = self.level
 
-        player = thing.Thing(l, c.tp_name)
+        player = thing.Thing(level=l, tp_name=c.tp_name)
 
         if x == -1 and y == -1:
             (x, y) = l.tp_is_where("is_entrance")
@@ -192,8 +156,6 @@ class Game:
         mm.con("Saving game to {0}".format(s))
 
         with open(s, 'wb') as f:
-            pickle.dump(self.width, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.height, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.sdl_delay, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.max_thing_id, f, pickle.HIGHEST_PROTOCOL)
@@ -211,8 +173,6 @@ class Game:
         with open(s, 'rb') as f:
             mm.con("Loading game header from {0}".format(s))
 
-            self.width = pickle.load(f)
-            self.height = pickle.load(f)
             self.seed = pickle.load(f)
             self.sdl_delay = pickle.load(f)
             self.max_thing_id = pickle.load(f)
@@ -324,10 +284,10 @@ class Game:
             t = l.tp_find(x, y, "focus2")
             if t is not None:
                 t.set_tp("none")
-
-            t = l.tp_find(x, y, "focus1")
-            if t is not None:
-                t.set_tp("none")
+            else:
+                t = l.tp_find(x, y, "focus1")
+                if t is not None:
+                    t.set_tp("none")
 
     #
     # Mouse is over a map tile; show the route back to the player
@@ -439,11 +399,10 @@ class Game:
         #
         # If in a dungeon place a trail of breadcrumbs
         #
-        if l.is_biome_dungeon:
+        if l.active_chunk.is_biome_dungeon:
             t = l.tp_find(x, y, "ember1")
             if t is None:
-                t = thing.Thing(l, tp_name="ember1")
-                t.push(x, y)
+                t = thing.Thing(level=l, tp_name="ember1", x=x, y=y)
 
         level_dx = 0
         level_dy = 0
@@ -482,25 +441,6 @@ class Game:
 
         self.map_center_on_player(level_start=False)
 
-    #
-    # Create a random dungeon
-    #
-    def biome_create(self, seed, is_land=False, is_dungeon=False):
-
-        l = self.level
-        l.set_biome(is_land=is_land, is_dungeon=is_dungeon)
-
-        if l.is_biome_dungeon:
-            self.biome_build = biome_dungeon.biome_build
-            self.biome_populate = biome_dungeon.biome_populate
-
-        if l.is_biome_land:
-            self.biome_build = biome_land.biome_build
-            self.biome_populate = biome_land.biome_populate
-
-        self.biome_build(self, l, seed=seed)
-        self.biome_populate(self)
-
 
 def game_map_mouse_over(w, relx, rely, wheelx, wheely):
     if w.game is None:
@@ -531,15 +471,10 @@ def game_new():
     mm.con("Appdata dir is " + game_dir)
 
     g = Game()
-
-    try:
+    s = os.path.normcase(os.path.join(os.environ["APPDATA"], g.save_file))
+    if os.path.isfile(s):
         g.load()
-
-    except Exception as inst:
-        mm.con("Loading failed, init new game, error [{0}]".format(inst))
-        g.map_wid_destroy()
-
-        g = Game()
-        g.game_load_failed_init_new_game()
+    else:
+        g.new_game()
 
     g.load_level_finalize()

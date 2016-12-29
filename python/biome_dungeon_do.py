@@ -7,18 +7,18 @@ import dmap
 import room
 import charmap
 import biome
+import mm
 
 
 class Biome(biome.Biome):
     def __init__(self,
                  rooms,
-                 level=None,
-                 width=80, height=40,
-                 rooms_on_level=20,
+                 chunk=None,
+                 rooms_on_chunk=20,
                  fixed_room_chance=10):
 
-        self.width = width
-        self.height = height
+        self.width = mm.CHUNK_WIDTH
+        self.height = mm.CHUNK_HEIGHT
         self.charmap = charmap
 
         #
@@ -38,9 +38,9 @@ class Biome(biome.Biome):
         self.fixed_room_count = len(self.rooms)
 
         #
-        # How many rooms on the level.
+        # How many rooms on the chunk.
         #
-        self.rooms_on_level = 0
+        self.rooms_on_chunk = 0
 
         #
         # Chance of a corridor splitting
@@ -95,7 +95,7 @@ class Biome(biome.Biome):
         self.room_occupiable_tiles = {}
 
         #
-        # z Depths of the level
+        # z Depths of the chunk
         #
         self.depth_map = None
 
@@ -103,10 +103,10 @@ class Biome(biome.Biome):
         # The map
         #
         self.cells = [[[' ' for d in range(charmap.depth.max)]
-                       for i in range(height)]
-                      for j in range(width)]
-        self.roomno_cells = [[-1 for i in range(height)]
-                             for j in range(width)]
+                       for i in range(self.height)]
+                      for j in range(self.width)]
+        self.roomno_cells = [[-1 for i in range(self.height)]
+                             for j in range(self.width)]
 
         #
         # Create all randomly shaped rooms.
@@ -128,7 +128,7 @@ class Biome(biome.Biome):
         # First room goes in the center. The rest hang off of its
         # corridors.
         #
-        if not self.rooms_place_all(rooms_on_level):
+        if not self.rooms_place_all(rooms_on_chunk):
             self.generate_failed = True
             return
 
@@ -202,7 +202,7 @@ class Biome(biome.Biome):
         self.debug("^^^ placed keys ^^^")
 
         #
-        # Create a random depth map for the level
+        # Create a random depth map for the chunk
         #
         self.add_depth_map()
         self.debug("^^^ placed depth map ^^^")
@@ -294,7 +294,7 @@ class Biome(biome.Biome):
         return True
 
     #
-    # Dump a room onto the level. No checks
+    # Dump a room onto the chunk. No checks
     #
     def room_place(self, roomno, x, y):
         room = self.rooms[roomno]
@@ -316,7 +316,7 @@ class Biome(biome.Biome):
                         if rchar == charmap.DOOR:
                             self.roomno_locked[roomno] = True
 
-        self.rooms_on_level += 1
+        self.rooms_on_chunk += 1
 
         #
         # Keep track of what rooms we've added. We'll work out what joins
@@ -326,7 +326,7 @@ class Biome(biome.Biome):
         self.roomnos.add(roomno)
 
     #
-    # Try to push a room on the level
+    # Try to push a room on the chunk
     #
     def room_place_if_no_overlaps(self, roomno, x, y):
         if not self.room_can_be_placed(roomno, x, y):
@@ -449,7 +449,7 @@ class Biome(biome.Biome):
         self.room_tunnel_draw(x, y, dx, dy, clen, fork_count + 1, c)
 
     #
-    # Search the whole level for possible room exits
+    # Search the whole chunk for possible room exits
     #
     def rooms_find_all_exits(self):
         self.inuse = [[0 for i in range(self.height)]
@@ -628,7 +628,7 @@ class Biome(biome.Biome):
         return placed_a_room
 
     #
-    # Place the first room in a level, in the center ish. First room should
+    # Place the first room in a chunk, in the center ish. First room should
     # not be a fixed room.
     #
     def room_place_first(self):
@@ -670,16 +670,16 @@ class Biome(biome.Biome):
     #
     # Place remaining rooms hanging off of the corridors of the last.
     #
-    def rooms_place_remaining(self, rooms_on_level):
+    def rooms_place_remaining(self, rooms_on_chunk):
         self.corridor_ends = []
         self.rooms_all_grow_new_corridors()
 
         room_place_tries = 0
-        while self.rooms_on_level < rooms_on_level:
+        while self.rooms_on_chunk < rooms_on_chunk:
             room_place_tries += 1
-            if room_place_tries > rooms_on_level * 8:
+            if room_place_tries > rooms_on_chunk * 8:
                 print("Tried to place rooms for too long, made {0} rooms".
-                      format(self.rooms_on_level))
+                      format(self.rooms_on_chunk))
                 return False
 
             #
@@ -694,11 +694,11 @@ class Biome(biome.Biome):
     #
     # Place all rooms
     #
-    def rooms_place_all(self, rooms_on_level):
+    def rooms_place_all(self, rooms_on_chunk):
         self.roomnos = set()
         if not self.room_place_first():
             return False
-        if not self.rooms_place_remaining(rooms_on_level):
+        if not self.rooms_place_remaining(rooms_on_chunk):
             return False
         self.roomnos = sorted(self.roomnos)
         return True
@@ -1349,7 +1349,7 @@ class Biome(biome.Biome):
                            charmap.SPACE)
             cnt += 1
         #
-        # Now pull each room out of the level with a kind of inverse
+        # Now pull each room out of the chunk with a kind of inverse
         # flood fill.
         #
         cnt = 0
