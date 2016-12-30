@@ -239,6 +239,8 @@ void wid_game_map_scroll_chunk (int dx, int dy)
 {
     widp w = game.wid_grid;
 
+    w->grid->bounds_locked = true;
+
     if (!w) {
         return;
     }
@@ -275,6 +277,7 @@ void wid_game_map_scroll_chunk (int dx, int dy)
 
                     if (s >= (int) ARRAY_SIZE(scratch)) {
                         ERR("exceeded scratch pad size when moving things");
+                        return;
                     }
 
                     scratch[s++] = node->wid;
@@ -286,6 +289,7 @@ void wid_game_map_scroll_chunk (int dx, int dy)
     while (--s > 0) {
         widp w = scratch[s];
 
+        wid_move_end(w);
         wid_move_delta(w, px, py);
 
         thingp t = wid_get_thing(w);
@@ -308,10 +312,10 @@ void wid_game_map_scroll_chunk (int dx, int dy)
     extern double floor_offset[MAP_WIDTH][MAP_HEIGHT];
 
     for (x = 0; x < MAP_WIDTH; x++) {
-        int nx = ((int)(x + tdx)) % MAP_WIDTH; 
+        uint32_t nx = ((uint32_t)(x + tdx)) % MAP_WIDTH; 
 
         for (y = 0; y < MAP_HEIGHT; y++) {
-            int ny = ((int)(y + tdy)) % MAP_HEIGHT; 
+            uint32_t ny = ((uint32_t)(y + tdy)) % MAP_HEIGHT; 
 
             copy_light_pulse_amount[nx][ny] = light_pulse_amount[x][y];
             copy_light_pulse_dir[nx][ny] = light_pulse_dir[x][y];
@@ -320,10 +324,10 @@ void wid_game_map_scroll_chunk (int dx, int dy)
     }
 
     for (x = 0; x < MAP_WIDTH; x++) {
-        int nx = ((int)(x + tdx)) % MAP_WIDTH; 
+        uint32_t nx = ((uint32_t)(x + tdx)) % MAP_WIDTH; 
 
         for (y = 0; y < MAP_HEIGHT; y++) {
-            int ny = ((int)(y + tdy)) % MAP_HEIGHT; 
+            uint32_t ny = ((uint32_t)(y + tdy)) % MAP_HEIGHT; 
 
             for (z = 0; z < Z_DEPTH; z++) {
                 copy_floor_depth[nx][ny][z] = floor_depth[x][y][z];
@@ -335,4 +339,6 @@ void wid_game_map_scroll_chunk (int dx, int dy)
     memcpy(floor_depth, copy_floor_depth, sizeof(floor_depth));
     memcpy(light_pulse_dir, copy_light_pulse_dir, sizeof(light_pulse_dir));
     memcpy(floor_offset, copy_floor_offset, sizeof(floor_offset));
+
+    wid_update(game.wid_grid);
 }

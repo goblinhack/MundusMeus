@@ -71,7 +71,7 @@ class Thing:
 
         if "level" not in result:
             self.dump()
-            mm.die("Thing has no level")
+            self.die("Thing has no level")
         del result['level']
 
         if "wid" in result:
@@ -89,6 +89,9 @@ class Thing:
         if self.on_map:
             self.pop()
 
+        if self == game.g.player:
+            self.dump()
+            self.die("ark")
 #        self.debug("Destroying thing, {0}".format(reason) + " {")
 
         if self.thing_id in self.level.all_things:
@@ -102,32 +105,26 @@ class Thing:
     def log(self, msg):
         mm.log("p-thing {0}: {1}".format(str(self), msg))
 
+    def con(self, msg):
+        mm.con("p-thing {0}: {1}".format(str(self), msg))
+
     def debug(self, msg):
         return
         mm.log("p-thing {0}: {1}".format(str(self), msg))
 
     def err(self, msg):
-        mm.err("p-thing {0}: ERROR: {1}".format(self.name, msg))
         traceback.print_stack()
+        mm.err("p-thing {0}: ERROR: {1}".format(self.name, msg))
 
     def die(self, msg):
+        traceback.print_stack()
         mm.die("p-thing {0}: ERROR: {1}".format(self.name, msg))
 
     def dump(self):
-        self.log("@ {0},{1}".format(self.x, self.y))
+        self.log("@ {0},{1} on chunk {2}".format(self.x, self.y, self.chunk))
 
     def move(self, x, y):
-        if self.chunk is None:
-            self.die("thing has no chunk when trying to move")
-
-        self.chunk.thing_pop(self.offset_x, self.offset_y, self)
-
-        self.x = x
-        self.y = y
-
-        (self.chunk, self.offset_x, self.offset_y) = \
-            self.level.xy_to_chunk_xy(x, y)
-        self.chunk.thing_push(self.offset_x, self.offset_y, self)
+        self.update_pos(x, y)
 
         mm.thing_move(self, x, y)
 
@@ -135,8 +132,21 @@ class Thing:
         if self.chunk is None:
             self.die("thing has no chunk when trying to move")
 
+        if game.g.player == self:
+            self.con("moved off chunk {0}".format(self.chunk))
+
+        self.chunk.thing_pop(self.offset_x, self.offset_y, self)
+
         self.x = x
         self.y = y
+
+        (self.chunk, self.offset_x, self.offset_y) = \
+            self.level.xy_to_chunk_xy(self.x, self.y)
+
+        self.chunk.thing_push(self.offset_x, self.offset_y, self)
+
+        if game.g.player == self:
+            self.con("moved to chunk {0}".format(self.chunk))
 
     def push(self, x, y):
         if self.on_map:

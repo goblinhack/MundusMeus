@@ -35,11 +35,10 @@ class Chunk:
                        for y in range(mm.CHUNK_HEIGHT)]
 
         f = os.path.normcase(os.path.join(os.environ["APPDATA"], str(self)))
-        mm.con("Loading chunk from {0}".format(f))
 
         if os.path.isfile(f):
             try:
-                mm.con("Loading chunk @ {0}".format(f))
+                mm.con("Chunk {0} loading".format(f))
                 self.load()
                 need_new_chunk = False
                 mm.con("Loaded chunk @ {0} success".format(f))
@@ -47,17 +46,14 @@ class Chunk:
                 mm.con("Loading chunk failed, error [{0}]".format(inst))
                 need_new_chunk = True
         else:
-            mm.con("Loading chunk failed, is not a file: {0}".format(self))
             need_new_chunk = True
 
         if need_new_chunk:
-            mm.con("Need to create a new chunk @ {0}".format(str(self)))
+            mm.con("Chunk {0} creating".format(str(self)))
             if self.xyz.z < 0:
                 self.biome_create(is_dungeon=True, seed=game.g.seed)
             else:
                 self.biome_create(is_land=True, seed=game.g.seed)
-
-        mm.con("Created chunk @ {0}".format(str(self)))
 
     #
     # Create a random biome
@@ -75,13 +71,13 @@ class Chunk:
             self.biome_build = biome_land.biome_build
             self.biome_populate = biome_land.biome_populate
 
-        mm.con("Biome build")
+        mm.log("Biome build")
         self.biome_build(self, seed=game.g.seed)
 
-        mm.con("Biome populate")
+        mm.log("Biome populate")
         self.biome_populate(self)
 
-        mm.con("Biome create done")
+        mm.log("Biome create done")
 
     def __str__(self):
         return "l{0}".format(str(self.xyz))
@@ -182,6 +178,7 @@ class Chunk:
             for thing_id in self.all_things:
                 t = self.all_things[thing_id]
                 t.chunk = self
+                t.level = self.level
                 t.tp = tp.all_tps[t.tp_name]
 
                 if t.on_map:
@@ -192,8 +189,6 @@ class Chunk:
 
                 if t.tp.is_player:
                     game.g.player = t
-
-            mm.con("Re-created all things on chunk @ {0}".format(str(self)))
 
             if game.g.player is None:
                 raise NameError("No player found on chunk")

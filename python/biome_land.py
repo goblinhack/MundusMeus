@@ -148,6 +148,7 @@ def biome_populate(self):
                     t.push(tx, ty)
                 else:
                     for i in range(1, random.randint(1, 10)):
+                        break
                         r = tp.get_random_tree()
                         t = thing.Thing(chunk=c, tp_name=r.short_name)
                         t.push(tx, ty)

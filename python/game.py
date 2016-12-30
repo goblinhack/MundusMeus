@@ -81,10 +81,6 @@ class Game:
         self.map_center_on_player(level_start=True)
         self.map_center_on_player(level_start=False)
 
-        l.tick()
-        self.player_location_update()
-        self.save()
-
     def save(self):
         l = self.level
         s = os.path.normcase(
@@ -167,8 +163,11 @@ class Game:
             text += "Depth %%fg=green${0} feet%%fg=reset ".format(l.xyz.z
                                                                   * 10)
 
-#        player = self.player
-#        text += "@ %%fg=green${0},{1}%%fg=reset ".format(player.x, player.y)
+        player = self.player
+        text += "@ %%fg=green${0},{1}%%fg=reset ".format(player.x, player.y)
+        text += "offset %%fg=green${0},{1}%%fg=reset ".format(player.offset_x,
+                                                              player.offset_y)
+        text += "chunk %%fg=green${0}%%fg=reset ".format(player.chunk)
 
         w.add_text(font="vsmall", text=text)
 
@@ -408,3 +407,6 @@ def game_new():
         g.new_game()
 
     g.load_level_finalize()
+    g.level.tick()
+    g.player_location_update()
+    g.save()
