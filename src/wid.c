@@ -135,10 +135,10 @@ static void wid_display(widp w,
 static int32_t wid_highest_priority = 1;
 static int32_t wid_lowest_priority = -1;
 
-static double light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
-static double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH];
-static int light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
-static double floor_offset[MAP_WIDTH][MAP_HEIGHT];
+double light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
+double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH];
+int light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
+double floor_offset[MAP_WIDTH][MAP_HEIGHT];
 static texp light_fade_texp;
 
 /*

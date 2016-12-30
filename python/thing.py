@@ -110,10 +110,16 @@ class Thing:
         mm.err("p-thing {0}: ERROR: {1}".format(self.name, msg))
         traceback.print_stack()
 
+    def die(self, msg):
+        mm.die("p-thing {0}: ERROR: {1}".format(self.name, msg))
+
     def dump(self):
         self.log("@ {0},{1}".format(self.x, self.y))
 
     def move(self, x, y):
+        if self.chunk is None:
+            self.die("thing has no chunk when trying to move")
+
         self.chunk.thing_pop(self.offset_x, self.offset_y, self)
 
         self.x = x
@@ -124,6 +130,13 @@ class Thing:
         self.chunk.thing_push(self.offset_x, self.offset_y, self)
 
         mm.thing_move(self, x, y)
+
+    def update_pos(self, x, y):
+        if self.chunk is None:
+            self.die("thing has no chunk when trying to move")
+
+        self.x = x
+        self.y = y
 
     def push(self, x, y):
         if self.on_map:

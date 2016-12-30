@@ -254,8 +254,8 @@ void wid_game_map_scroll_chunk (int dx, int dy)
 
     double px = -((double)grid->pixwidth) * CHUNK_WIDTH * (double) dx;
     double py = -((double)grid->pixheight) * CHUNK_HEIGHT * (double) dy;
-    double tdx = -((double)grid->pixwidth) * CHUNK_WIDTH * (double) dx;
-    double tdy = -((double)grid->pixheight) * CHUNK_HEIGHT * (double) dy;
+    double tdx = -CHUNK_WIDTH * (double) dx;
+    double tdy = -CHUNK_HEIGHT * (double) dy;
 
     static widp scratch[512*1024];
     int s = 0;
@@ -293,4 +293,46 @@ void wid_game_map_scroll_chunk (int dx, int dy)
             thing_move_to(t, t->x + tdx, t->y + tdy);
         }
     }
+
+    /*
+     * Scroll the various lighting effects we overlay on the map.
+     */
+    double copy_light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
+    double copy_floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH];
+    int copy_light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
+    double copy_floor_offset[MAP_WIDTH][MAP_HEIGHT];
+
+    extern double light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
+    extern double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH];
+    extern int light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
+    extern double floor_offset[MAP_WIDTH][MAP_HEIGHT];
+
+    for (x = 0; x < MAP_WIDTH; x++) {
+        int nx = ((int)(x + tdx)) % MAP_WIDTH; 
+
+        for (y = 0; y < MAP_HEIGHT; y++) {
+            int ny = ((int)(y + tdy)) % MAP_HEIGHT; 
+
+            copy_light_pulse_amount[nx][ny] = light_pulse_amount[x][y];
+            copy_light_pulse_dir[nx][ny] = light_pulse_dir[x][y];
+            copy_floor_offset[nx][ny] = floor_offset[x][y];
+        }
+    }
+
+    for (x = 0; x < MAP_WIDTH; x++) {
+        int nx = ((int)(x + tdx)) % MAP_WIDTH; 
+
+        for (y = 0; y < MAP_HEIGHT; y++) {
+            int ny = ((int)(y + tdy)) % MAP_HEIGHT; 
+
+            for (z = 0; z < Z_DEPTH; z++) {
+                copy_floor_depth[nx][ny][z] = floor_depth[x][y][z];
+            }
+        }
+    }
+
+    memcpy(light_pulse_amount, copy_light_pulse_amount, sizeof(light_pulse_amount));
+    memcpy(floor_depth, copy_floor_depth, sizeof(floor_depth));
+    memcpy(light_pulse_dir, copy_light_pulse_dir, sizeof(light_pulse_dir));
+    memcpy(floor_offset, copy_floor_offset, sizeof(floor_offset));
 }

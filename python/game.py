@@ -20,6 +20,7 @@ class Game:
         # Max thing ID in use in any level. This grows forever.
         #
         self.wid_map = None
+        self.wid_player_location = None
         self.save_file = "save_file"
         self.player = None
 
@@ -63,10 +64,10 @@ class Game:
                 t = l.tp_find(x, y, "focus1")
                 if t is not None:
                     t.set_tp("none")
-                else:
-                    t = l.tp_find(x, y, "focus2")
-                    if t is not None:
-                        t.set_tp("none")
+
+                t = l.tp_find(x, y, "focus2")
+                if t is not None:
+                    t.set_tp("none")
 
                 t = l.tp_find(x, y, "none")
                 if t is None:
@@ -81,7 +82,6 @@ class Game:
         self.map_center_on_player(level_start=False)
 
         l.tick()
-        self.wid_player_location = None
         self.player_location_update()
         self.save()
 

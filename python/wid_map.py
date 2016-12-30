@@ -62,8 +62,8 @@ class WidMap:
                                         parent=self.wid_map.wid_id,
                                         owner=self.wid_grid.wid_id)
 
-        self.wid_horiz_scroll.set_movable_no_user_scroll(value=True)
-        self.wid_vert_scroll.set_movable_no_user_scroll(value=True)
+#        self.wid_horiz_scroll.set_movable_no_user_scroll(value=True)
+#        self.wid_vert_scroll.set_movable_no_user_scroll(value=True)
 
         self.wid_horiz_scroll.visible()
         self.wid_vert_scroll.visible()

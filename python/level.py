@@ -49,91 +49,98 @@ class Level:
 
         mm.con("Level scroll {0},{1},{2}".format(dx, dy, dz))
 
-        zap_chunks = set()
+        (c, ox, oy) = self.xy_to_chunk_xy(game.g.player.x, game.g.player.y)
+        mm.con("BEFORE c {0} {1} x y {2} {3} o {4} {5}".
+               format(c.xyz.x, c.xyz.y, ox, oy, game.g.player.x, game.g.player.y))
 
-        if dx < 0:
-            zap_chunks.add((2, 0))
-            zap_chunks.add((2, 1))
-            zap_chunks.add((2, 2))
-        if dy < 0:
-            zap_chunks.add((0, 2))
-            zap_chunks.add((1, 2))
-            zap_chunks.add((2, 2))
-        if dx > 0:
-            zap_chunks.add((0, 0))
-            zap_chunks.add((0, 1))
-            zap_chunks.add((0, 2))
-        if dy > 0:
-            zap_chunks.add((0, 0))
-            zap_chunks.add((1, 0))
-            zap_chunks.add((2, 0))
+        game.g.map_clear_focus()
 
-        for z in zap_chunks:
-            (cx, cy) = z
-            self.chunk[cx][cy].save()
-            self.chunk[cx][cy].destroy()
+        #
+        # Get rid of chunks that fall off the map
+        #
+        cdx = -1 * dx
+        cdy = -1 * dy
+
+        new_chunk = [[None for x in range(mm.CHUNK_WIDTH)]
+                     for y in range(mm.CHUNK_HEIGHT)]
+
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                x = cx + cdx
+                y = cy + cdy
+                if x < 0 or y < 0 or \
+                        x >= mm.CHUNK_ACROSS or \
+                        y >= mm.CHUNK_DOWN:
+                    mm.con("XXX zap {0} {1}".format(cx, cy))
+                    self.chunk[cx][cy].save()
+                    self.chunk[cx][cy].destroy()
+                else:
+                    new_chunk[x][y] = self.chunk[cx][cy]
+
+        self.chunk = new_chunk
+
+        self.active_chunk = self.chunk[1][1]
 
         mm.game_scroll_chunk(dx, dy)
 
-#        player = self.player
-#        l = self.level
-#        x = player.x
-#        y = player.y
-#
-#        if x == 0:
-#            x = mm.MAP_WIDTH - 1
-#
-#        elif x == mm.MAP_WIDTH - 1:
-#            x = 0
-#
-#        elif y == 0:
-#            y = mm.MAP_HEIGHT - 1
-#
-#        elif y == mm.MAP_HEIGHT - 1:
-#            y = 0
-#
-#        if l.tp_is(x, y, "is_dungeon"):
-#            x = -1
-#            y = -1
-#
-#        mm.con("Level move")
-#        player.pop()
-#        c = copy.copy(player)
-#
-#        mm.con("Destroy player")
-#        player.destroy()
-#        player = None
-#
-#        mm.con("Save before changing level @ {0}".format(str(l)))
-#        self.save()
-#
-#        mm.con("Destroying old level @ {0}".format(str(l)))
-#        l.destroy()
-#        self.map_wid_destroy()
-#        mm.con("Destroyed old level @ {0}".format(str(l)))
-#
-#        if self.wid_player_location:
-#            self.wid_player_location.destroy()
-#            self.wid_player_location = None
-#
-#        self.where.x = lx
-#        self.where.y = ly
-#        self.where.z = lz
-#
-#        self.load_level()
-#        l = self.level
-#
-#        player = thing.Thing(level=l, tp_name=c.tp_name)
-#
-#        if x == -1 and y == -1:
-#            (x, y) = l.tp_is_where("is_entrance")
-#            mm.con("Entrance on {0},{1} level @ {2}".format(x, y, str(l)))
-#
-#        player.push(x, y)
-#        self.player = player
-#
-#        self.load_level_finalize()
-#        mm.con("Loaded next level @ {0}".format(str(l)))
+        #
+        # Move things so they will align with where their chunk moved
+        #
+        dx *= mm.CHUNK_WIDTH
+        dy *= mm.CHUNK_HEIGHT
+        dx *= -1
+        dy *= -1
+
+        for thing_id in list(self.all_things.keys()):
+            t = self.all_things[thing_id]
+            if t is None:
+                mm.die("thing id {0} not found during scrolling".format(
+                    thing_id))
+
+            t.update_pos(t.x + dx, t.y + dy)
+
+        #
+        # Add new chunks that scrolled into the map
+        #
+        self.xyz.x += dx
+        self.xyz.y += dy
+
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                if self.chunk[cx][cy] is None:
+                    mm.con("XXX new {0} {1}".format(cx, cy))
+                    where = util.Xyz(0, 0, 0)
+                    where.x = self.xyz.x - 1 + cx
+                    where.y = self.xyz.y - 1 + cy
+                    where.z = self.xyz.z
+                    self.chunk[cx][cy] = chunk.Chunk(self, where, cx, cy)
+
+        for place, item in enumerate(game.g.player.nexthops):
+            (x, y) = item
+            x += dx
+            y += dy
+            item = (x, y)
+            game.g.player.nexthops[place] = item
+
+        for place, item in enumerate(game.g.saved_nexthops):
+            (x, y) = item
+            x += dx
+            y += dy
+            item = (x, y)
+            game.g.saved_nexthops[place] = item
+
+        game.g.load_level_finalize()
+
+        (c, ox, oy) = self.xy_to_chunk_xy(game.g.player.x, game.g.player.y)
+        mm.con("BEFORE c {0} {1} x y {2} {3} o {4} {5}".
+               format(c.xyz.x, c.xyz.y, ox, oy, game.g.player.x, game.g.player.y))
+        for thing_id in list(self.all_things.keys()):
+            t = self.all_things[thing_id]
+            if t is None:
+                mm.die("thing id {0} not found during scrolling".format(
+                    thing_id))
+
+            t.move(t.x, t.y)
 
     #
     # Convert from co-ordinates that are the width of all chunks to chunk
