@@ -234,3 +234,63 @@ wid_game_map_replace_tile (double x, double y, thingp t)
 
     return (child);
 }
+
+void wid_game_map_scroll_chunk (int dx, int dy)
+{
+    widp w = game.wid_grid;
+
+    if (!w) {
+        return;
+    }
+
+    widgrid *grid;
+
+    grid = w->grid;
+    if (!grid) {
+        return;
+    }
+
+    int32_t x, y, z;
+
+    double px = -((double)grid->pixwidth) * CHUNK_WIDTH * (double) dx;
+    double py = -((double)grid->pixheight) * CHUNK_HEIGHT * (double) dy;
+    double tdx = -((double)grid->pixwidth) * CHUNK_WIDTH * (double) dx;
+    double tdy = -((double)grid->pixheight) * CHUNK_HEIGHT * (double) dy;
+
+    static widp scratch[512*1024];
+    int s = 0;
+
+    for (z = 0; z < Z_DEPTH; z++) {
+        for (x = 0; x < MAP_WIDTH; x++) {
+            for (y = 0; y < MAP_HEIGHT; y++) {
+
+                tree_root **tree;
+                tree = grid->grid_of_trees[z] + (y * grid->width) + x;
+
+                widgridnode *node;
+
+                TREE_WALK_REVERSE_UNSAFE_INLINE(
+                            *tree, node,
+                            tree_prev_tree_wid_compare_func_fast) {
+
+                    if (s >= (int) ARRAY_SIZE(scratch)) {
+                        ERR("exceeded scratch pad size when moving things");
+                    }
+
+                    scratch[s++] = node->wid;
+                }
+            }
+        }
+    }
+
+    while (--s > 0) {
+        widp w = scratch[s];
+
+        wid_move_delta(w, px, py);
+
+        thingp t = wid_get_thing(w);
+        if (t) {
+            thing_move_to(t, t->x + tdx, t->y + tdy);
+        }
+    }
+}

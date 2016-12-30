@@ -195,6 +195,7 @@ PyObject *game_set_daylight_color_g_(PyObject *obj, PyObject *args, PyObject *ke
 PyObject *game_set_daylight_color_r_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *game_set_rain_amount_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *game_set_snow_amount_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *game_scroll_chunk_(PyObject *obj, PyObject *args, PyObject *keywds);
 
 #define PY_PROTO(__fn__)                                                    \
 PyObject *__fn__ ## _ (PyObject *obj, PyObject *args, PyObject *keywds);

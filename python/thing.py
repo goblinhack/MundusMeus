@@ -63,9 +63,20 @@ class Thing:
 
     def __getstate__(self):
         result = self.__dict__.copy()
-        del result['wid']
+
+        if "tp" not in result:
+            self.dump()
+            mm.die("Thing has no template")
         del result['tp']
+
+        if "level" not in result:
+            self.dump()
+            mm.die("Thing has no level")
         del result['level']
+
+        if "wid" in result:
+            del result['wid']
+
         return result
 
     def __setstate__(self, dict):

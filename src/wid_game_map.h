@@ -13,3 +13,4 @@ void wid_game_map_scroll_adjust(levelp levle, uint8_t adjust);
 uint8_t wid_game_map_player_move(levelp level);
 
 widp wid_game_map_replace_tile(double x, double y, thingp t);
+void wid_game_map_scroll_chunk(int dx, int dy);

@@ -7,7 +7,6 @@ import wid_popup
 import time_of_day
 import pickle
 import os.path
-import copy
 import wid_console
 
 global g
@@ -85,68 +84,6 @@ class Game:
         self.wid_player_location = None
         self.player_location_update()
         self.save()
-
-    def change_level(self, lx, ly, lz):
-
-        player = self.player
-        l = self.level
-        x = player.x
-        y = player.y
-
-        if x == 0:
-            x = mm.MAP_WIDTH - 1
-
-        elif x == mm.MAP_WIDTH - 1:
-            x = 0
-
-        elif y == 0:
-            y = mm.MAP_HEIGHT - 1
-
-        elif y == mm.MAP_HEIGHT - 1:
-            y = 0
-
-        if l.tp_is(x, y, "is_dungeon"):
-            x = -1
-            y = -1
-
-        mm.con("Level move")
-        player.pop()
-        c = copy.copy(player)
-
-        mm.con("Destroy player")
-        player.destroy()
-        player = None
-
-        mm.con("Save before changing level @ {0}".format(str(l)))
-        self.save()
-
-        mm.con("Destroying old level @ {0}".format(str(l)))
-        l.destroy()
-        self.map_wid_destroy()
-        mm.con("Destroyed old level @ {0}".format(str(l)))
-
-        if self.wid_player_location:
-            self.wid_player_location.destroy()
-            self.wid_player_location = None
-
-        self.where.x = lx
-        self.where.y = ly
-        self.where.z = lz
-
-        self.load_level()
-        l = self.level
-
-        player = thing.Thing(level=l, tp_name=c.tp_name)
-
-        if x == -1 and y == -1:
-            (x, y) = l.tp_is_where("is_entrance")
-            mm.con("Entrance on {0},{1} level @ {2}".format(x, y, str(l)))
-
-        player.push(x, y)
-        self.player = player
-
-        self.load_level_finalize()
-        mm.con("Loaded next level @ {0}".format(str(l)))
 
     def save(self):
         l = self.level
@@ -409,35 +346,28 @@ class Game:
         level_dz = 0
         level_change = False
 
-        if x == 0 or x == mm.MAP_WIDTH - 1 or y == 0 or y == mm.MAP_HEIGHT - 1:
-            if x == 0:
-                x = mm.MAP_WIDTH - 1
-                level_dx = -1
-                level_change = True
+        if x <= mm.CHUNK_WIDTH:
+            level_dx = -1
+            level_change = True
 
-            elif x == mm.MAP_WIDTH - 1:
-                x = 0
-                level_dx = 1
-                level_change = True
+        elif x >= mm.CHUNK_WIDTH * 2:
+            level_dx = 1
+            level_change = True
 
-            elif y == 0:
-                y = mm.MAP_HEIGHT - 1
-                level_dy = -1
-                level_change = True
+        if y <= mm.CHUNK_WIDTH:
+            level_dy = -1
+            level_change = True
 
-            elif y == mm.MAP_HEIGHT - 1:
-                y = 0
-                level_dy = 1
-                level_change = True
+        elif y >= mm.CHUNK_WIDTH * 2:
+            level_dy = 1
+            level_change = True
 
         if l.tp_is(x, y, "is_dungeon"):
             level_dz = -1
             level_change = True
 
         if level_change:
-            self.change_level(self.where.x + level_dx,
-                              self.where.y + level_dy,
-                              self.where.z + level_dz)
+            l.scroll(level_dx, level_dy, level_dz)
 
         self.map_center_on_player(level_start=False)
 

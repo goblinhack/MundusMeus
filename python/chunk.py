@@ -7,16 +7,18 @@ import tp
 import os
 import biome_dungeon
 import biome_land
+import copy
 
 
 class Chunk:
 
-    def __init__(self):
-        pass
+    def __init__(self, level, xyz, cx, cy):
 
-    def new(self, level, xyz, cx, cy):
+        level.chunk[cx][cy] = self
         self.level = level
-        self.xyz = xyz
+        self.xyz = copy.copy(xyz)
+        self.debug("New chunk")
+
         self.all_things = {}
         self.is_biome_land = False
         self.is_biome_dungeon = False
@@ -124,7 +126,6 @@ class Chunk:
         mm.log("p-chunk: {0}: {1}".format(str(self), msg))
 
     def debug(self, msg):
-        return
         mm.log("p-chunk: {0}: {1}".format(str(self), msg))
 
     def err(self, msg):

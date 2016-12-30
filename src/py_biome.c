@@ -6,6 +6,7 @@
 
 #include "python.h"
 #include "main.h"
+#include "wid_game_map.h"
 
 PyObject *biome_set_is_land_ (PyObject *obj, PyObject *args, 
                               PyObject *keywds)
@@ -1294,8 +1295,7 @@ PyObject *game_set_zzz91_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_zzz92_ (PyObject *obj, PyObject *args, 
-                                 PyObject *keywds)
+PyObject *game_set_zzz92_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     static char *kwlist[] = {(char*) "value", 0};
 
@@ -1307,8 +1307,7 @@ PyObject *game_set_zzz92_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_zzz93_ (PyObject *obj, PyObject *args, 
-                                 PyObject *keywds)
+PyObject *game_set_zzz93_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     static char *kwlist[] = {(char*) "value", 0};
 
@@ -1320,8 +1319,7 @@ PyObject *game_set_zzz93_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_sdl_delay_ (PyObject *obj, PyObject *args, 
-                                 PyObject *keywds)
+PyObject *game_set_sdl_delay_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     static char *kwlist[] = {(char*) "value", 0};
 
@@ -1333,8 +1331,7 @@ PyObject *game_set_sdl_delay_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_daylight_color_a_ (PyObject *obj, PyObject *args, 
-                                 PyObject *keywds)
+PyObject *game_set_daylight_color_a_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     static char *kwlist[] = {(char*) "value", 0};
 
@@ -1346,8 +1343,7 @@ PyObject *game_set_daylight_color_a_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_daylight_color_b_ (PyObject *obj, PyObject *args, 
-                                 PyObject *keywds)
+PyObject *game_set_daylight_color_b_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     static char *kwlist[] = {(char*) "value", 0};
 
@@ -1359,8 +1355,7 @@ PyObject *game_set_daylight_color_b_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_daylight_color_g_ (PyObject *obj, PyObject *args, 
-                                 PyObject *keywds)
+PyObject *game_set_daylight_color_g_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     static char *kwlist[] = {(char*) "value", 0};
 
@@ -1372,8 +1367,7 @@ PyObject *game_set_daylight_color_g_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_daylight_color_r_ (PyObject *obj, PyObject *args, 
-                                 PyObject *keywds)
+PyObject *game_set_daylight_color_r_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     static char *kwlist[] = {(char*) "value", 0};
 
@@ -1385,8 +1379,7 @@ PyObject *game_set_daylight_color_r_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_rain_amount_ (PyObject *obj, PyObject *args, 
-                                 PyObject *keywds)
+PyObject *game_set_rain_amount_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     static char *kwlist[] = {(char*) "value", 0};
 
@@ -1398,8 +1391,7 @@ PyObject *game_set_rain_amount_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_set_snow_amount_ (PyObject *obj, PyObject *args, 
-                                 PyObject *keywds)
+PyObject *game_set_snow_amount_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     static char *kwlist[] = {(char*) "value", 0};
 
@@ -1407,6 +1399,22 @@ PyObject *game_set_snow_amount_ (PyObject *obj, PyObject *args,
                                      &game.snow_amount)) {
         Py_RETURN_NONE;
     }
+
+    Py_RETURN_NONE;
+}
+
+PyObject *game_scroll_chunk_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    static char *kwlist[] = {(char*) "dx", (char*) "dy", 0};
+    int dx = 0;
+    int dy = 0;
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "ii", kwlist, 
+                                     &dx, &dy)) {
+        Py_RETURN_NONE;
+    }
+
+    wid_game_map_scroll_chunk(dx, dy);
 
     Py_RETURN_NONE;
 }
