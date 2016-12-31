@@ -206,9 +206,9 @@ class Game:
             self.wid_map.wid_vert_scroll.move_to_vert_pct(pct=px)
             self.wid_map.wid_horiz_scroll.move_to_horiz_pct(pct=py)
         else:
-            self.wid_map.wid_vert_scroll.move_to_vert_pct_in(pct=py, delay=200)
+            self.wid_map.wid_vert_scroll.move_to_vert_pct_in(pct=py, delay=500)
             self.wid_map.wid_horiz_scroll.move_to_horiz_pct_in(pct=px,
-                                                               delay=200)
+                                                               delay=500)
 
     #
     # Get rid of the path indicators where the player will move
@@ -367,6 +367,7 @@ class Game:
 
         if level_change:
             l.scroll(level_dx, level_dy, level_dz)
+            return
 
         self.map_center_on_player(level_start=False)
 
