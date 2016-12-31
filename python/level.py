@@ -196,8 +196,12 @@ class Level:
         mm.log("p-level: {0}: {1}".format(str(self), msg))
 
     def err(self, msg):
+        mm.con("".join(traceback.format_stack()))
         mm.err("p-level: {0}: ERROR: {1}".format(str(self), msg))
-        traceback.print_stack()
+
+    def die(self, msg):
+        mm.con("".join(traceback.format_stack()))
+        mm.die("p-level: {0}: ERROR: {1}".format(str(self), msg))
 
     def dump(self):
         for cx in range(0, mm.CHUNK_ACROSS):

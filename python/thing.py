@@ -113,11 +113,11 @@ class Thing:
         mm.log("p-thing {0}: {1}".format(str(self), msg))
 
     def err(self, msg):
-        traceback.print_stack()
+        mm.con("".join(traceback.format_stack()))
         mm.err("p-thing {0}: ERROR: {1}".format(self.name, msg))
 
     def die(self, msg):
-        traceback.print_stack()
+        mm.con("".join(traceback.format_stack()))
         mm.die("p-thing {0}: ERROR: {1}".format(self.name, msg))
 
     def dump(self):

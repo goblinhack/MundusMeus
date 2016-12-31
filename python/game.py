@@ -206,9 +206,9 @@ class Game:
             self.wid_map.wid_vert_scroll.move_to_vert_pct(pct=px)
             self.wid_map.wid_horiz_scroll.move_to_horiz_pct(pct=py)
         else:
-            self.wid_map.wid_vert_scroll.move_to_vert_pct_in(pct=py, delay=500)
+            self.wid_map.wid_vert_scroll.move_to_vert_pct_in(pct=py, delay=200)
             self.wid_map.wid_horiz_scroll.move_to_horiz_pct_in(pct=px,
-                                                               delay=500)
+                                                               delay=200)
 
     #
     # Get rid of the path indicators where the player will move
@@ -345,19 +345,19 @@ class Game:
         level_dz = 0
         level_change = False
 
-        if x <= mm.CHUNK_WIDTH:
+        if x <= mm.CHUNK_WIDTH / 2:
             level_dx = -1
             level_change = True
 
-        elif x >= mm.CHUNK_WIDTH * 2:
+        elif x >= mm.CHUNK_WIDTH * 2 + mm.CHUNK_WIDTH / 2:
             level_dx = 1
             level_change = True
 
-        if y <= mm.CHUNK_WIDTH:
+        if y <= mm.CHUNK_HEIGHT / 2:
             level_dy = -1
             level_change = True
 
-        elif y >= mm.CHUNK_WIDTH * 2:
+        elif y >= mm.CHUNK_HEIGHT * 2 + mm.CHUNK_HEIGHT / 2:
             level_dy = 1
             level_change = True
 

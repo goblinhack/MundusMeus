@@ -181,8 +181,12 @@ class Wid:
         mm.log("p-wid {0}: {1}".format(str(self), msg))
 
     def err(self, msg):
+        mm.con("".join(traceback.format_stack()))
         mm.err("p-wid {0}: ERROR: {1}".format(self.name, msg))
-        traceback.print_stack()
+
+    def die(self, msg):
+        mm.con("".join(traceback.format_stack()))
+        mm.die("p-wid {0}: ERROR: {1}".format(self.name, msg))
 
     def dump(self):
         self.log("@ {0},{1}".format(self.x, self.y))

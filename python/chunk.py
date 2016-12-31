@@ -125,8 +125,12 @@ class Chunk:
         mm.log("p-chunk: {0}: {1}".format(str(self), msg))
 
     def err(self, msg):
+        mm.con("".join(traceback.format_stack()))
         mm.err("p-chunk: {0}: ERROR: {1}".format(str(self), msg))
-        traceback.print_stack()
+
+    def die(self, msg):
+        mm.con("".join(traceback.format_stack()))
+        mm.die("p-chunk: {0}: ERROR: {1}".format(str(self), msg))
 
     def dump(self):
         for i in self.all_things:
@@ -246,6 +250,7 @@ class Chunk:
             return
 
         self.on_map[x][y].append(t)
+        self.all_things[t.thing_id] = t
 
     def thing_pop(self, x, y, t):
         if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
@@ -253,3 +258,5 @@ class Chunk:
             return
 
         self.on_map[x][y].remove(t)
+        if t.thing_id in self.all_things:
+            del self.all_things[t.thing_id]
