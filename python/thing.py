@@ -20,8 +20,8 @@ class Thing:
         self.chunk = chunk
         self.tp_name = tp_name
 
-        game.g.max_thing_id += 1
-        self.thing_id = game.g.max_thing_id
+        chunk.max_thing_id += 1
+        self.thing_id = chunk.max_thing_id
         self.name = "{0}:{1}".format(self.thing_id, self.tp_name)
 
         if tp_name not in tp.all_tps:
@@ -47,7 +47,8 @@ class Thing:
         # until it is pushed.
         #
         if self.thing_id in self.level.all_things:
-            self.err("Already in level list")
+            self.die("thing ID {0} is already in the level list".format(
+                     self.thing_id))
             return
 
         chunk.all_things[self.thing_id] = self
@@ -66,12 +67,12 @@ class Thing:
 
         if "tp" not in result:
             self.dump()
-            mm.die("Thing has no template")
+            mm.die("Trying to save thing that has no template")
         del result['tp']
 
         if "level" not in result:
             self.dump()
-            self.die("Thing has no level")
+            self.die("Trying to save thing that has no level")
         del result['level']
 
         if "wid" in result:
@@ -83,7 +84,10 @@ class Thing:
         self.__dict__ = dict
 
     def __str__(self):
-        return "{0}:{1}".format(self.thing_id, self.tp_name)
+        return "{0}.{1}:{2}".format(
+                self.thing_id / self.chunk.thing_id_per_level,
+                self.thing_id % self.chunk.thing_id_per_level,
+                self.tp_name)
 
     def destroy(self, reason="no reason"):
         if self.on_map:
@@ -109,7 +113,6 @@ class Thing:
         mm.con("p-thing {0}: {1}".format(str(self), msg))
 
     def debug(self, msg):
-        return
         mm.log("p-thing {0}: {1}".format(str(self), msg))
 
     def err(self, msg):
@@ -118,7 +121,7 @@ class Thing:
 
     def die(self, msg):
         mm.con("".join(traceback.format_stack()))
-        mm.die("p-thing {0}: ERROR: {1}".format(self.name, msg))
+        mm.die("p-thing {0}: FATAL ERROR: {1}".format(self.name, msg))
 
     def dump(self):
         self.log("@ {0},{1} on chunk {2}".format(self.x, self.y, self.chunk))
@@ -142,6 +145,10 @@ class Thing:
 
         (self.chunk, self.offset_x, self.offset_y) = \
             self.level.xy_to_chunk_xy(self.x, self.y)
+
+        if self.chunk is None:
+            self.die("thing has no chunk at new position {0}, {1}",
+                     self.x, self.y)
 
         self.chunk.thing_push(self.offset_x, self.offset_y, self)
 

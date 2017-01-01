@@ -2872,7 +2872,8 @@ static void wid_destroy_immediate_internal (widp w)
     if (w->thing) {
         ERR("wid for thing %p still set", w->thing);
         fast_verify(w->thing);
-        DIE("thing %s still set", thing_logname(w->thing));
+        DIE("thing %p, name %s still set when destorying widget",
+            w->thing, thing_logname(w->thing));
     }
 
     if (w->on_destroy) {
@@ -9503,16 +9504,18 @@ static void wid_display (widp w,
             blit(fbo_tex_id1, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
             blit_flush();
 
+#ifdef ADD_HALO
 	    glBlendFunc(GL_ZERO, GL_SRC_ALPHA);
 
 	    /*
 	     * Add a halo to final blit
 	     */
             blit_init();
-            glcolor(WHITE);
+            glcolor(c);
 	    buf_tex = tex_get_gl_binding(light_fade_texp);
             blit(buf_tex, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
             blit_flush();
+#endif
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

@@ -19,6 +19,9 @@ class Chunk:
         self.xyz = copy.copy(xyz)
         self.debug("New chunk")
 
+        self.thing_id_per_level = 10000
+        self.max_thing_id = ((xyz.y * mm.WORLD_WIDTH) + xyz.x) * (xyz.z + 1)
+        self.max_thing_id *= self.thing_id_per_level
         self.all_things = {}
         self.is_biome_land = False
         self.is_biome_dungeon = False
@@ -144,6 +147,7 @@ class Chunk:
                                str(self))), 'wb') as f:
             pickle.dump(self.xyz, f, pickle.HIGHEST_PROTOCOL)
 
+            pickle.dump(self.max_thing_id, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.all_things, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.is_biome_land, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.is_biome_dungeon, f, pickle.HIGHEST_PROTOCOL)
@@ -162,6 +166,7 @@ class Chunk:
                                str(self))), 'rb') as f:
             self.xyz = pickle.load(f)
 
+            self.max_thing_id = pickle.load(f)
             self.all_things = pickle.load(f)
             self.is_biome_land = pickle.load(f)
             self.is_biome_dungeon = pickle.load(f)

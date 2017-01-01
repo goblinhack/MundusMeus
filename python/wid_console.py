@@ -15,7 +15,7 @@ def create():
         w.add_text(text="test1")
         w.add_text(text="test2")
         w.add_text(text="test3")
-        w.set_color(bg=True, tl=True, br=True, name="red", alpha=200)
+        w.set_color(bg=True, tl=True, br=True, name="red", alpha=0)
         w.update()
 
 

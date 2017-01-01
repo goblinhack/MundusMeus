@@ -33,7 +33,6 @@ class Game:
         self.sdl_delay = 2
         self.move_count = 0
         self.moves_per_day = 1000
-        self.max_thing_id = 1
         self.seed = 9
         self.where = util.Xyz(74*4, 70*4, 0)
         self.load_level()
@@ -91,7 +90,6 @@ class Game:
         with open(s, 'wb') as f:
             pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.sdl_delay, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.max_thing_id, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.where, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.move_count, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.moves_per_day, f, pickle.HIGHEST_PROTOCOL)
@@ -108,7 +106,6 @@ class Game:
 
             self.seed = pickle.load(f)
             self.sdl_delay = pickle.load(f)
-            self.max_thing_id = pickle.load(f)
             self.where = pickle.load(f)
             self.move_count = pickle.load(f)
             self.moves_per_day = pickle.load(f)
