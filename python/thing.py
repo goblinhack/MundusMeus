@@ -135,25 +135,23 @@ class Thing:
         if self.chunk is None:
             self.die("thing has no chunk when trying to move")
 
-        if game.g.player == self:
-            self.con("moved off chunk {0}".format(self.chunk))
-
         self.chunk.thing_pop(self.offset_x, self.offset_y, self)
 
         self.x = x
         self.y = y
 
+        old_chunk = self.chunk
         (self.chunk, self.offset_x, self.offset_y) = \
-            self.level.xy_to_chunk_xy(self.x, self.y)
+            self.level.xy_to_chunk_xy(x, y)
+        if old_chunk != self.chunk:
+            self.con("moved from {0} to chunk {1}".format(
+                     old_chunk, self.chunk))
 
         if self.chunk is None:
             self.die("thing has no chunk at new position {0}, {1}",
                      self.x, self.y)
 
         self.chunk.thing_push(self.offset_x, self.offset_y, self)
-
-        if game.g.player == self:
-            self.con("moved to chunk {0}".format(self.chunk))
 
     def push(self, x, y):
         if self.on_map:
@@ -163,8 +161,16 @@ class Thing:
 
         self.x = x
         self.y = y
+        old_chunk = self.chunk
         (self.chunk, self.offset_x, self.offset_y) = \
             self.level.xy_to_chunk_xy(x, y)
+        if old_chunk != self.chunk:
+            self.con("push, moved from {0} to chunk {1}".format(
+                     old_chunk, self.chunk))
+
+        if self.chunk is None:
+            self.die("thing has no chunk during push to {0}, {1}",
+                     self.x, self.y)
 
         self.chunk.thing_push(self.offset_x, self.offset_y, self)
 

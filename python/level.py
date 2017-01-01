@@ -151,6 +151,10 @@ class Level:
         offset_x = (int)(x % mm.CHUNK_WIDTH)
         offset_y = (int)(y % mm.CHUNK_HEIGHT)
 
+        if self.chunk[cx][cy] is None:
+            self.die("Position {0} {1} maps to no known chunk".format(
+                     x, y))
+
         return (self.chunk[cx][cy], offset_x, offset_y)
 
     #
