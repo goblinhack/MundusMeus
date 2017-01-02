@@ -40,18 +40,17 @@ class Chunk:
 
         if os.path.isfile(f):
             try:
-                mm.con("Chunk {0} loading".format(f))
+                mm.con("Chunk {0}: Loading".format(f))
                 self.load()
                 need_new_chunk = False
-                mm.con("Loaded chunk @ {0} success".format(f))
             except Exception as inst:
-                mm.con("Loading chunk failed, error [{0}]".format(inst))
+                mm.con("Chunk {0}: Loading failed, {1}".format(f))
                 need_new_chunk = True
         else:
             need_new_chunk = True
 
         if need_new_chunk:
-            mm.con("Chunk {0} creating".format(str(self)))
+            mm.con("Chunk {0}: Creating".format(str(self)))
             if self.xyz.z < 0:
                 self.biome_create(is_dungeon=True, seed=game.g.seed)
             else:
@@ -121,25 +120,28 @@ class Chunk:
                 mm.game_set_rain_amount(0)
 
     def log(self, msg):
-        mm.log("p-chunk: {0}: {1}".format(str(self), msg))
+        mm.log("Chunk {0}: {1}".format(str(self), msg))
+
+    def con(self, msg):
+        mm.con("Chunk {0}: {1}".format(str(self), msg))
 
     def debug(self, msg):
-        mm.log("p-chunk: {0}: {1}".format(str(self), msg))
+        mm.log("Chunk {0}: {1}".format(str(self), msg))
 
     def err(self, msg):
         mm.con("".join(traceback.format_stack()))
-        mm.err("p-chunk: {0}: ERROR: {1}".format(str(self), msg))
+        mm.err("Chunk {0}: ERROR: {1}".format(str(self), msg))
 
     def die(self, msg):
         mm.con("".join(traceback.format_stack()))
-        mm.die("p-chunk: {0}: ERROR: {1}".format(str(self), msg))
+        mm.die("Chunk {0}: ERROR: {1}".format(str(self), msg))
 
     def dump(self):
         for i in self.all_things:
             self.all_things[i].dump()
 
     def save(self):
-        self.debug("Save chunk")
+        self.con("Save")
 
         with open(os.path.normcase(
                   os.path.join(os.environ["APPDATA"],
@@ -158,7 +160,7 @@ class Chunk:
             pickle.dump(self.is_watery, f, pickle.HIGHEST_PROTOCOL)
 
     def load(self):
-        self.debug("Load chunk")
+        self.con("Load")
 
         with open(os.path.normcase(
                   os.path.join(os.environ["APPDATA"],
@@ -179,9 +181,6 @@ class Chunk:
             for thing_id in self.all_things:
                 t = self.all_things[thing_id]
                 t.loaded(self, self.level)
-
-            if game.g.player is None:
-                raise NameError("No player found on chunk")
 
     def set_biome(self, is_land=False, is_dungeon=False):
         self.is_biome_land = is_land

@@ -45,9 +45,12 @@ class Level:
         self.dmaps = [[None for x in range(mm.MAP_WIDTH)]
                       for y in range(mm.MAP_HEIGHT)]
 
+        if game.g.player is None:
+            raise NameError("No player found on any chunk")
+
     def scroll(self, dx, dy, dz):
 
-        mm.con("Level scroll dx {0} dy {1} dz {2}".format(dx, dy, dz))
+        self.con("Scroll dx {0}, dy {1}, dz {2}".format(dx, dy, dz))
 
         game.g.map_clear_focus()
 
@@ -72,7 +75,7 @@ class Level:
                         y >= mm.CHUNK_DOWN:
 
                     c = self.chunk[cx][cy]
-                    mm.con("Chunk {0} scrolled off".format(c))
+                    mm.con("Chunk {0}: Scrolled off of map".format(c))
                     c.save()
                     c.destroy()
                 else:
@@ -115,7 +118,7 @@ class Level:
                     where.z = self.xyz.z
                     self.chunk[cx][cy] = chunk.Chunk(self, where, cx, cy)
                     c = self.chunk[cx][cy]
-                    mm.con("Chunk {0} scrolled on".format(c))
+                    mm.con("Chunk {0}: Scrolled onto map".format(c))
 
                 c = self.chunk[cx][cy]
                 c.cx = cx
@@ -139,6 +142,7 @@ class Level:
 
         game.g.load_level_finalize()
         game.g.player_location_update()
+        game.g.save()
 
     #
     # Convert from co-ordinates that are the width of all chunks to chunk
@@ -163,6 +167,23 @@ class Level:
     def chunk_xy_to_xy(self, cx, cy, x, y):
 
         return (x + cx * mm.CHUNK_WIDTH, y + cy * mm.CHUNK_HEIGHT)
+
+    def log(self, msg):
+        mm.log("Level {0}: {1}".format(str(self), msg))
+
+    def con(self, msg):
+        mm.con("Level {0}: {1}".format(str(self), msg))
+
+    def debug(self, msg):
+        mm.log("Level {0}: {1}".format(str(self), msg))
+
+    def err(self, msg):
+        mm.con("".join(traceback.format_stack()))
+        mm.err("Level {0}: ERROR: {1}".format(self.name, msg))
+
+    def die(self, msg):
+        mm.con("".join(traceback.format_stack()))
+        mm.die("Level {0}: FATAL ERROR: {1}".format(self.name, msg))
 
     def __str__(self):
         return "l{0}".format(str(self.xyz))
@@ -191,21 +212,6 @@ class Level:
                 mm.game_set_rain_amount(int(s * 100))
             else:
                 mm.game_set_rain_amount(0)
-
-    def log(self, msg):
-        mm.log("p-level: {0}: {1}".format(str(self), msg))
-
-    def debug(self, msg):
-        return
-        mm.log("p-level: {0}: {1}".format(str(self), msg))
-
-    def err(self, msg):
-        mm.con("".join(traceback.format_stack()))
-        mm.err("p-level: {0}: ERROR: {1}".format(str(self), msg))
-
-    def die(self, msg):
-        mm.con("".join(traceback.format_stack()))
-        mm.die("p-level: {0}: ERROR: {1}".format(str(self), msg))
 
     def dump(self):
         for cx in range(0, mm.CHUNK_ACROSS):

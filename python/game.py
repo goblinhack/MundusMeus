@@ -84,8 +84,7 @@ class Game:
         l = self.level
         s = os.path.normcase(
                 os.path.join(os.environ["APPDATA"], self.save_file))
-        mm.con("Saving game @ {0}".format(str(l)))
-        mm.con("Saving game to {0}".format(s))
+        mm.con("Game: save @ chunk {0} to {1}".format(str(l), s))
 
         with open(s, 'wb') as f:
             pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)

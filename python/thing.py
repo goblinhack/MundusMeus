@@ -89,6 +89,8 @@ class Thing:
         result["x"] -= self.chunk.base_x
         result["y"] -= self.chunk.base_y
 
+        if self.tp.is_player:
+            self.con("Save player on chunk {0}".format(self.chunk))
         return result
 
     def loaded(self, chunk, level):
@@ -143,21 +145,21 @@ class Thing:
         del self
 
     def log(self, msg):
-        mm.log("p-thing {0}: {1}".format(str(self), msg))
+        mm.log("Thing {0}: {1}".format(str(self), msg))
 
     def con(self, msg):
-        mm.con("p-thing {0}: {1}".format(str(self), msg))
+        mm.con("Thing {0}: {1}".format(str(self), msg))
 
     def debug(self, msg):
-        mm.log("p-thing {0}: {1}".format(str(self), msg))
+        mm.log("Thing {0}: {1}".format(str(self), msg))
 
     def err(self, msg):
         mm.con("".join(traceback.format_stack()))
-        mm.err("p-thing {0}: ERROR: {1}".format(self.name, msg))
+        mm.err("Thing {0}: ERROR: {1}".format(self.name, msg))
 
     def die(self, msg):
         mm.con("".join(traceback.format_stack()))
-        mm.die("p-thing {0}: FATAL ERROR: {1}".format(self.name, msg))
+        mm.die("Thing {0}: FATAL ERROR: {1}".format(self.name, msg))
 
     def dump(self):
         self.log("@ {0},{1} on chunk {2}".format(self.x, self.y, self.chunk))
@@ -180,7 +182,7 @@ class Thing:
         (self.chunk, self.offset_x, self.offset_y) = \
             self.level.xy_to_chunk_xy(x, y)
         if old_chunk != self.chunk:
-            self.con("moved from {0} to chunk {1}".format(
+            self.con("Moved from {0} to chunk {1}".format(
                      old_chunk, self.chunk))
 
         if self.chunk is None:
@@ -201,7 +203,7 @@ class Thing:
         (self.chunk, self.offset_x, self.offset_y) = \
             self.level.xy_to_chunk_xy(x, y)
         if old_chunk != self.chunk:
-            self.con("push, moved from {0} to chunk {1}".format(
+            self.con("Push, moved from {0} to chunk {1}".format(
                      old_chunk, self.chunk))
 
         if self.chunk is None:
