@@ -75,10 +75,46 @@ class Thing:
             self.die("Trying to save thing that has no level")
         del result['level']
 
+        if "chunk" not in result:
+            self.dump()
+            self.die("Trying to save thing that has no chunk")
+        del result['chunk']
+
         if "wid" in result:
             del result['wid']
 
+        #
+        # Thing co-ords are saved as offsets
+        #
+        result["x"] -= self.chunk.base_x
+        result["y"] -= self.chunk.base_y
+
         return result
+
+    def loaded(self, chunk, level):
+
+        level.all_things[self.thing_id] = self
+
+        self.chunk = chunk
+        self.level = chunk.level
+        self.tp = tp.all_tps[self.tp_name]
+
+        #
+        # Thing co-ords are saved as offsets
+        #
+        self.x += chunk.base_x
+        self.y += chunk.base_y
+
+        mm.thing_new(self, self.thing_id, self.tp_name)
+
+        if self.on_map:
+            self.on_map = False
+            self.push(self.x, self.y)
+            if self.tilename is not None:
+                self.set_tilename(self.tilename)
+
+        if self.tp.is_player:
+            game.g.player = self
 
     def __setstate__(self, dict):
         self.__dict__ = dict

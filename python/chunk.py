@@ -3,7 +3,6 @@ import traceback
 import mm
 import math
 import game
-import tp
 import os
 import biome_dungeon
 import biome_land
@@ -179,25 +178,7 @@ class Chunk:
 
             for thing_id in self.all_things:
                 t = self.all_things[thing_id]
-                self.level.all_things[thing_id] = t
-                mm.thing_new(t, thing_id, t.tp_name)
-
-            mm.con("Pushing things on chunk @ {0}".format(str(self)))
-
-            for thing_id in self.all_things:
-                t = self.all_things[thing_id]
-                t.chunk = self
-                t.level = self.level
-                t.tp = tp.all_tps[t.tp_name]
-
-                if t.on_map:
-                    t.on_map = False
-                    t.push(t.x, t.y)
-                    if t.tilename is not None:
-                        t.set_tilename(t.tilename)
-
-                if t.tp.is_player:
-                    game.g.player = t
+                t.loaded(self, self.level)
 
             if game.g.player is None:
                 raise NameError("No player found on chunk")
