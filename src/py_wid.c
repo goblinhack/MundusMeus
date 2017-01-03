@@ -68,6 +68,7 @@ PyObject *wid_new_scrollbar_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp owner;
     int horiz = false;
     int vert = false;
+    const char *name = 0;
 
     static char *kwlist[] = {
         (char*) "wid",
@@ -75,14 +76,16 @@ PyObject *wid_new_scrollbar_ (PyObject *obj, PyObject *args, PyObject *keywds)
         (char*) "owner",
         (char*) "horiz",
         (char*) "vert",
+        (char*) "name",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "OKK|ii", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "OKK|iis", kwlist,
                                      &py_class,
                                      &i_parent,
                                      &i_owner,
                                      &horiz,
-                                     &vert)) {
+                                     &vert,
+                                     &name)) {
         return (0);
     }
 
@@ -94,11 +97,11 @@ PyObject *wid_new_scrollbar_ (PyObject *obj, PyObject *args, PyObject *keywds)
     widp w = 0;
 
     if (horiz) {
-        w = wid_new_horiz_scroll_bar(parent, owner);
+        w = wid_new_horiz_scroll_bar(parent, name, owner);
     }
 
     if (vert) {
-        w = wid_new_vert_scroll_bar(parent, owner);
+        w = wid_new_vert_scroll_bar(parent, name, owner);
     }
 
     return (Py_BuildValue("K", (uintptr_t) w));

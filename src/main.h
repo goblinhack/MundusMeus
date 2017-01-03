@@ -464,8 +464,8 @@ struct game_ {
 
     widp wid_map;
     widp wid_grid;
-    widp wid_horiz_scroll;
-    widp wid_vert_scroll;
+    widp wid_game_horiz_scroll;
+    widp wid_game_vert_scroll;
 
     widp wid_score_text;
     widp wid_score_textbox;

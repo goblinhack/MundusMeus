@@ -20,7 +20,7 @@ class Wid:
         elif is_grid is True:
             self.wid_id = mm.wid_new_grid(self, parent=parent, name=name, **kw)
         elif is_scrollbar is True:
-            self.wid_id = mm.wid_new_scrollbar(self, parent, **kw)
+            self.wid_id = mm.wid_new_scrollbar(self, parent, name=name, **kw)
         else:
             self.wid_id = mm.wid_new(self, parent, name, **kw)
 

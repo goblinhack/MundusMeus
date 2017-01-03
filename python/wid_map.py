@@ -19,7 +19,7 @@ class WidMap:
         w.set_movable(value=False)
         w.set_do_not_raise(value=True)
         w.set_shape(none=True)
-        w.set_pos_pct(x1=0.0, y1=0.1, x2=1.0, y2=1.0)
+        w.set_pos_pct(x1=0.0, y1=0.0, x2=1.0, y2=1.0)
         w.set_on_key_down(wid_map_key_down)
         w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.0)
 
@@ -56,14 +56,17 @@ class WidMap:
                                        parent=self.wid_map.wid_id,
                                        owner=self.wid_grid.wid_id)
 
-        self.wid_horiz_scroll = wid.Wid(name="wid_game_vert_scroll",
+        self.wid_horiz_scroll = wid.Wid(name="wid_game_horiz_scroll",
                                         is_scrollbar=True,
                                         horiz=True,
                                         parent=self.wid_map.wid_id,
                                         owner=self.wid_grid.wid_id)
 
-#        self.wid_horiz_scroll.set_movable_no_user_scroll(value=True)
-#        self.wid_vert_scroll.set_movable_no_user_scroll(value=True)
+        #
+        # Stop the user scrolling around beyond where they can see
+        #
+        self.wid_horiz_scroll.set_movable_no_user_scroll(value=True)
+        self.wid_vert_scroll.set_movable_no_user_scroll(value=True)
 
         self.wid_horiz_scroll.visible()
         self.wid_vert_scroll.visible()

@@ -506,9 +506,9 @@ widp wid_popup (const char *text, const char *title,
     }
 
     wid_popup_vert_scroll =
-        wid_new_vert_scroll_bar(wid_popup_window, wid_popup_container);
+        wid_new_vert_scroll_bar(wid_popup_window, 0, wid_popup_container);
     wid_popup_horiz_scroll =
-        wid_new_horiz_scroll_bar(wid_popup_window, wid_popup_container);
+        wid_new_horiz_scroll_bar(wid_popup_window, 0, wid_popup_container);
 
 #if 0
     if (rows > max_rows) {

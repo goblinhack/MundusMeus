@@ -342,3 +342,51 @@ void wid_game_map_scroll_chunk (int dx, int dy)
 
     wid_update(game.wid_grid);
 }
+
+void wid_game_map_scroll_adjust (levelp level, uint8_t adjust) 
+{
+    if (!player) {
+        return;
+    }
+
+    widp w = player->wid;
+    if (!w) {
+        return;
+    }
+
+    verify(w);
+
+    uint32_t gridw;
+    uint32_t gridh;
+
+    verify(game.wid_grid);
+    wid_get_grid_dim(game.wid_grid, &gridw, &gridh);
+
+    double fgridw = (double)gridw;
+    double fgridh = (double)gridh;
+
+    double winw = wid_get_width(game.wid_map);
+    double winh = wid_get_height(game.wid_map);
+
+    gridw -= winw;
+    gridh -= winh;
+
+    double playerx = wid_get_cx(w);
+    double playery = wid_get_cy(w);
+
+    playerx -= wid_get_tl_x(w->parent);
+    playery -= wid_get_tl_y(w->parent);
+
+    playerx -= winw / 2.0;
+    playery -= winh / 2.0;
+
+    playerx /= fgridw;
+    playery /= fgridh;
+
+    if (game.wid_game_vert_scroll) {
+        wid_move_to_vert_pct(game.wid_game_vert_scroll, playery);
+    }
+    if (game.wid_game_horiz_scroll) {
+        wid_move_to_horiz_pct(game.wid_game_horiz_scroll, playerx);
+    }
+}

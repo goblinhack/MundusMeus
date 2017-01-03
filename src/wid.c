@@ -1406,7 +1406,7 @@ const char *wid_get_text_with_cursor (widp w)
     return (tmp);
 }
 
-void wid_set_name (widp w, const char *string)
+void wid_set_name (widp w, const char *name)
 {
     fast_verify(w);
 
@@ -1415,11 +1415,26 @@ void wid_set_name (widp w, const char *string)
         w->name = 0;
     }
 
-    if (!string) {
+    if (!name) {
         return;
     }
 
-    w->name = dupstr(string, "wid name");
+    w->name = dupstr(name, "wid name");
+
+    if (!strcmp(name, "wid_game_map")) {
+        game.wid_map = w;
+        LOG("Create game wid map %p", w);
+    } else if (!strcmp(name, "wid_game_map_grid")) {
+        game.wid_grid = w;
+        LOG("Create game wid grid %p", w);
+    } else if (!strcmp(name, "wid_game_vert_scroll")) {
+        game.wid_game_vert_scroll = w;
+        LOG("Create game wid grid vert scroll %p", w);
+    } else if (!strcmp(name, "wid_game_horiz_scroll")) {
+        game.wid_game_horiz_scroll = w;
+        LOG("Create game wid grid horiz scroll %p", w);
+    }
+
 }
 
 void wid_set_debug (widp w, uint8_t val)
@@ -1432,30 +1447,30 @@ void wid_set_animate (widp w, uint8_t val)
     w->animate = val;
 }
 
-void wid_set_text (widp w, const char *string)
+void wid_set_text (widp w, const char *name)
 {
     fast_verify(w);
 
-    if (!string) {
+    if (!name) {
         w->text[0] = '\0';
     } else {
-        if (!strcasecmp(string, w->text)) {
+        if (!strcasecmp(name, w->text)) {
             return;
         }
 
-        strlcpy_(w->text, string, MAXSTR);
+        strlcpy_(w->text, name, MAXSTR);
     }
 
-    if (!w->name && string) {
-        wid_set_name(w, string);
+    if (!w->name && name) {
+        wid_set_name(w, name);
     }
 
     uint32_t len;
 
-    if (!string) {
+    if (!name) {
         len = 0;
     } else {
-        len = (uint32_t)strlen(string);
+        len = (uint32_t)strlen(name);
     }
 
     if (w->cursor > len) {
@@ -1463,7 +1478,7 @@ void wid_set_text (widp w, const char *string)
     }
 }
 
-void wid_set_tooltip (widp w, const char *string,
+void wid_set_tooltip (widp w, const char *name,
                       fontp font)
 {
     fast_verify(w);
@@ -1473,11 +1488,11 @@ void wid_set_tooltip (widp w, const char *string,
         w->tooltip = 0;
     }
 
-    if (!string) {
+    if (!name) {
         return;
     }
 
-    w->tooltip = dupstr(string, "wid tooltip");
+    w->tooltip = dupstr(name, "wid tooltip");
     w->tooltip_font = font;
 }
 
@@ -2973,6 +2988,16 @@ static void wid_destroy_immediate (widp w)
                 game.wid_grid = 0;
                 LOG("Destroy game wid grid %p", w);
             }
+        } else if (!strcmp(w->name, "wid_game_vert_scroll")) {
+            if (w == game.wid_game_vert_scroll) {
+                game.wid_game_vert_scroll = 0;
+                LOG("Destroy game wid grid vert scroll %p", w);
+            }
+        } else if (!strcmp(w->name, "wid_game_horiz_scroll")) {
+            if (w == game.wid_game_horiz_scroll) {
+                game.wid_game_horiz_scroll = 0;
+                LOG("Destroy game wid grid horiz scroll %p", w);
+            }
         }
     }
 
@@ -3183,11 +3208,6 @@ widp wid_new_container (widp parent, const char *name)
     wid_set_color(w, WID_COLOR_BR, col);
     wid_set_color(w, WID_COLOR_BG, col);
     wid_set_color(w, WID_COLOR_TEXT, WHITE);
-
-    if (!strcmp(name, "wid_game_map_grid")) {
-        game.wid_grid = w;
-        LOG("Create game wid grid %p", w);
-    }
 
     return (w);
 }
@@ -3438,7 +3458,9 @@ static widp wid_new_scroll_trough (widp parent)
 /*
  * Initialize a wid with basic settings
  */
-static widp wid_new_scroll_bar (widp parent, widp scrollbar_owner,
+static widp wid_new_scroll_bar (widp parent, 
+                                const char *name,
+                                widp scrollbar_owner,
                                 uint8_t vertical)
 {
     if (!parent) {
@@ -3458,6 +3480,7 @@ static widp wid_new_scroll_bar (widp parent, widp scrollbar_owner,
     wid_set_bevelled(w, true);
     wid_set_bevel(w, 2);
     wid_set_text_outline(w, false);
+    wid_set_name(w, name);
 
     wid_set_mode(w, WID_MODE_ACTIVE); {
         c = RED;
@@ -3510,7 +3533,9 @@ static widp wid_new_scroll_bar (widp parent, widp scrollbar_owner,
     return (w);
 }
 
-widp wid_new_vert_scroll_bar (widp parent, widp scrollbar_owner)
+widp wid_new_vert_scroll_bar (widp parent, 
+                              const char *name,
+                              widp scrollbar_owner)
 {
     if (!parent) {
         ERR("no parent");
@@ -3547,7 +3572,7 @@ widp wid_new_vert_scroll_bar (widp parent, widp scrollbar_owner)
     br.x = 1.0f;
     br.y = 1.0f;
 
-    widp scrollbar = wid_new_scroll_bar(trough, scrollbar_owner, true);
+    widp scrollbar = wid_new_scroll_bar(trough, name, scrollbar_owner, true);
     wid_set_pos_pct(scrollbar, tl, br);
 
     wid_update_internal(scrollbar);
@@ -3561,7 +3586,8 @@ widp wid_new_vert_scroll_bar (widp parent, widp scrollbar_owner)
     return (scrollbar);
 }
 
-widp wid_new_horiz_scroll_bar (widp parent, widp scrollbar_owner)
+widp wid_new_horiz_scroll_bar (widp parent, const char *name,
+                               widp scrollbar_owner)
 {
     if (!parent) {
         ERR("no parent");
@@ -3598,7 +3624,7 @@ widp wid_new_horiz_scroll_bar (widp parent, widp scrollbar_owner)
     br.x = 1.0f;
     br.y = 1.0f;
 
-    widp scrollbar = wid_new_scroll_bar(trough, scrollbar_owner, false);
+    widp scrollbar = wid_new_scroll_bar(trough, name, scrollbar_owner, false);
     wid_set_pos_pct(scrollbar, tl, br);
 
     wid_update_internal(scrollbar);
