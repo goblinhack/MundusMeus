@@ -1,4 +1,5 @@
 import pickle
+import jsonpickle
 import traceback
 import mm
 import math
@@ -37,14 +38,14 @@ class Chunk:
                        for y in range(mm.CHUNK_HEIGHT)]
 
         f = os.path.normcase(os.path.join(os.environ["APPDATA"], str(self)))
-
         if os.path.isfile(f):
             try:
-                mm.con("Chunk {0}: Loading".format(f))
+                mm.con("Chunk {0}: Loading".format(self, f))
                 self.load()
                 need_new_chunk = False
             except Exception as inst:
-                mm.con("Chunk {0}: Loading failed, {1}".format(f))
+                self.die("Chunk {0}: Loading failed, {1}, {2}".format(
+                         self, f, str(inst)))
                 need_new_chunk = True
         else:
             need_new_chunk = True
@@ -143,44 +144,92 @@ class Chunk:
     def save(self):
         self.con("Save")
 
-        with open(os.path.normcase(
-                  os.path.join(os.environ["APPDATA"],
-                               str(self))), 'wb') as f:
-            pickle.dump(self.xyz, f, pickle.HIGHEST_PROTOCOL)
+        if game.use_jsonpickle:
+            with open(os.path.normcase(
+                    os.path.join(os.environ["APPDATA"],
+                                 str(self))), 'w') as f:
 
-            pickle.dump(self.max_thing_id, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.all_things, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.is_biome_land, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.is_biome_dungeon, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(mm.CHUNK_WIDTH, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(mm.CHUNK_HEIGHT, f, pickle.HIGHEST_PROTOCOL)
+                print(jsonpickle.encode(self.xyz), file=f)
 
-            pickle.dump(self.is_snowy, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.is_grassy, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.is_watery, f, pickle.HIGHEST_PROTOCOL)
+                print(jsonpickle.encode(self.max_thing_id), file=f)
+                print(jsonpickle.encode(self.all_things), file=f)
+                print(jsonpickle.encode(self.is_biome_land), file=f)
+                print(jsonpickle.encode(self.is_biome_dungeon), file=f)
+                print(jsonpickle.encode(mm.CHUNK_WIDTH), file=f)
+                print(jsonpickle.encode(mm.CHUNK_HEIGHT), file=f)
+
+                print(jsonpickle.encode(self.is_snowy), file=f)
+                print(jsonpickle.encode(self.is_grassy), file=f)
+                print(jsonpickle.encode(self.is_watery), file=f)
+        else:
+            with open(os.path.normcase(
+                    os.path.join(os.environ["APPDATA"],
+                                 str(self))), 'wb') as f:
+                pickle.dump(self.xyz, f, pickle.HIGHEST_PROTOCOL)
+
+                pickle.dump(self.max_thing_id, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self.all_things, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self.is_biome_land, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self.is_biome_dungeon, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(mm.CHUNK_WIDTH, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(mm.CHUNK_HEIGHT, f, pickle.HIGHEST_PROTOCOL)
+
+                pickle.dump(self.is_snowy, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self.is_grassy, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self.is_watery, f, pickle.HIGHEST_PROTOCOL)
 
     def load(self):
         self.con("Load")
 
-        with open(os.path.normcase(
-                  os.path.join(os.environ["APPDATA"],
-                               str(self))), 'rb') as f:
-            self.xyz = pickle.load(f)
+        if game.use_jsonpickle:
+            with open(os.path.normcase(
+                      os.path.join(os.environ["APPDATA"],
+                                   str(self))), 'r') as f:
 
-            self.max_thing_id = pickle.load(f)
-            self.all_things = pickle.load(f)
-            self.is_biome_land = pickle.load(f)
-            self.is_biome_dungeon = pickle.load(f)
-            mm.CHUNK_WIDTH = pickle.load(f)
-            mm.CHUNK_HEIGHT = pickle.load(f)
+                self.xyz = jsonpickle.decode(f.readline())
 
-            self.is_snowy = pickle.load(f)
-            self.is_grassy = pickle.load(f)
-            self.is_watery = pickle.load(f)
+                self.max_thing_id = jsonpickle.decode(f.readline())
+                self.all_things = jsonpickle.decode(f.readline())
+                self.is_biome_land = jsonpickle.decode(f.readline())
+                self.is_biome_dungeon = jsonpickle.decode(f.readline())
+                mm.CHUNK_WIDTH = jsonpickle.decode(f.readline())
+                mm.CHUNK_HEIGHT = jsonpickle.decode(f.readline())
 
-            for thing_id in self.all_things:
-                t = self.all_things[thing_id]
-                t.loaded(self, self.level)
+                self.is_snowy = jsonpickle.decode(f.readline())
+                self.is_grassy = jsonpickle.decode(f.readline())
+                self.is_watery = jsonpickle.decode(f.readline())
+        else:
+            with open(os.path.normcase(
+                      os.path.join(os.environ["APPDATA"],
+                                   str(self))), 'rb') as f:
+                self.xyz = pickle.load(f)
+
+                self.max_thing_id = pickle.load(f)
+                self.all_things = pickle.load(f)
+                self.is_biome_land = pickle.load(f)
+                self.is_biome_dungeon = pickle.load(f)
+                mm.CHUNK_WIDTH = pickle.load(f)
+                mm.CHUNK_HEIGHT = pickle.load(f)
+
+                self.is_snowy = pickle.load(f)
+                self.is_grassy = pickle.load(f)
+                self.is_watery = pickle.load(f)
+
+        #
+        # jsonpickle converts dict int kers into strings...
+        #
+        tmp = {}
+        for thing_id in self.all_things:
+            t = self.all_things[thing_id]
+            tmp[int(thing_id)] = t
+        self.all_things = tmp
+
+        #
+        # recreate the widgets for this thing
+        #
+        for thing_id in self.all_things:
+            t = self.all_things[thing_id]
+            t.loaded(self, self.level)
 
     def set_biome(self, is_land=False, is_dungeon=False):
         self.is_biome_land = is_land
@@ -230,18 +279,15 @@ class Chunk:
         return False
 
     def thing_push(self, x, y, t):
-        if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
-            mm.err("thing_push: map oob {0} {1}".format(x, y))
-            return
 
         self.on_map[x][y].append(t)
         self.all_things[t.thing_id] = t
 
+#        self.log("{0} push chunk {1}".format(t.thing_id, self))
+
     def thing_pop(self, x, y, t):
-        if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
-            mm.err("thing_push: map oob {0} {1}".format(x, y))
-            return
 
         self.on_map[x][y].remove(t)
-        if t.thing_id in self.all_things:
-            del self.all_things[t.thing_id]
+        del self.all_things[t.thing_id]
+
+#        self.log("{0} pop chunk {1}".format(t.thing_id, self))

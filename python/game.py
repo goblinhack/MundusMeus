@@ -8,8 +8,14 @@ import time_of_day
 import pickle
 import os.path
 import wid_console
+import jsonpickle
 
 global g
+
+#
+# Json pickle is slower than pickle
+#
+use_jsonpickle = True
 
 
 class Game:
@@ -85,32 +91,54 @@ class Game:
                 os.path.join(os.environ["APPDATA"], self.save_file))
         mm.con("Game: save @ chunk {0} to {1}".format(str(l), s))
 
-        with open(s, 'wb') as f:
-            pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.sdl_delay, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.where, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.move_count, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.moves_per_day, f, pickle.HIGHEST_PROTOCOL)
+        if use_jsonpickle:
+            with open(s, 'w') as f:
+                print(jsonpickle.encode(self.seed), file=f)
+                print(jsonpickle.encode(self.sdl_delay), file=f)
+                print(jsonpickle.encode(self.where), file=f)
+                print(jsonpickle.encode(self.move_count), file=f)
+                print(jsonpickle.encode(self.moves_per_day), file=f)
+        else:
+            with open(s, 'wb') as f:
+                pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self.sdl_delay, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self.where, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self.move_count, f, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self.moves_per_day, f, pickle.HIGHEST_PROTOCOL)
 
         l.save()
+        mm.con("Game: saved @ chunk {0} to {1}".format(str(l), s))
 
     def load(self):
 
         s = os.path.normcase(os.path.join(os.environ["APPDATA"],
                                           self.save_file))
+        if use_jsonpickle:
+            with open(s, 'r') as f:
+                mm.con("Loading game header from {0}".format(s))
 
-        with open(s, 'rb') as f:
-            mm.con("Loading game header from {0}".format(s))
+                self.seed = jsonpickle.decode(f.readline())
+                self.sdl_delay = jsonpickle.decode(f.readline())
+                self.where = jsonpickle.decode(f.readline())
+                self.move_count = jsonpickle.decode(f.readline())
+                self.moves_per_day = jsonpickle.decode(f.readline())
 
-            self.seed = pickle.load(f)
-            self.sdl_delay = pickle.load(f)
-            self.where = pickle.load(f)
-            self.move_count = pickle.load(f)
-            self.moves_per_day = pickle.load(f)
+                mm.con("Loading game level data from {0}".format(s))
+                self.load_level()
+                mm.con("Loading game level success from {0}".format(s))
+        else:
+            with open(s, 'rb') as f:
+                mm.con("Loading game header from {0}".format(s))
 
-            mm.con("Loading game level data from {0}".format(s))
-            self.load_level()
-            mm.con("Loading game level success from {0}".format(s))
+                self.seed = pickle.load(f)
+                self.sdl_delay = pickle.load(f)
+                self.where = pickle.load(f)
+                self.move_count = pickle.load(f)
+                self.moves_per_day = pickle.load(f)
+
+                mm.con("Loading game level data from {0}".format(s))
+                self.load_level()
+                mm.con("Loading game level success from {0}".format(s))
 
     def destroy(self):
         l = self.level

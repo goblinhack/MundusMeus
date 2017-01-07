@@ -67,7 +67,7 @@ class Thing:
 
         if "tp" not in result:
             self.dump()
-            mm.die("Trying to save thing that has no template")
+            self.die("Trying to save thing that has no template")
         del result['tp']
 
         if "level" not in result:
@@ -117,23 +117,18 @@ class Thing:
 
         if self.tp.is_player:
             game.g.player = self
+#        self.log("Loaded thing on chunk {0}".format(self.chunk))
 
     def __setstate__(self, dict):
         self.__dict__ = dict
 
     def __str__(self):
-        return "{0}.{1}:{2}".format(
-                self.thing_id / self.chunk.thing_id_per_level,
-                self.thing_id % self.chunk.thing_id_per_level,
-                self.tp_name)
+        return "{0}:{1}".format(self.thing_id, self.tp_name)
 
     def destroy(self, reason="no reason"):
         if self.on_map:
             self.pop()
 
-        if self == game.g.player:
-            self.dump()
-            self.die("ark")
 #        self.debug("Destroying thing, {0}".format(reason) + " {")
 
         if self.thing_id in self.level.all_things:

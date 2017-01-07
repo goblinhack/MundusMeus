@@ -98,8 +98,8 @@ class Level:
         for thing_id in list(self.all_things.keys()):
             t = self.all_things[thing_id]
             if t is None:
-                mm.die("thing id {0} not found during scrolling".format(
-                    thing_id))
+                self.die("thing id {0} not found during scrolling".format(
+                         thing_id))
 
             t.update_pos(t.x + dx, t.y + dy)
 
