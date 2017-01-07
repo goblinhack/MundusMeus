@@ -8,14 +8,8 @@ import time_of_day
 import pickle
 import os.path
 import wid_console
-import jsonpickle
 
 global g
-
-#
-# Json pickle is slower than pickle
-#
-use_jsonpickle = True
 
 
 class Game:
@@ -51,8 +45,8 @@ class Game:
         self.level = level.Level(xyz=self.where)
         l = self.level
 
-        mm.biome_set_is_land(value=l.active_chunk.is_biome_land)
-        mm.biome_set_is_dungeon(value=l.active_chunk.is_biome_dungeon)
+        mm.biome_set_is_land(value=l.biome_chunk.is_biome_land)
+        mm.biome_set_is_dungeon(value=l.biome_chunk.is_biome_dungeon)
 
     def load_level_finalize(self):
 
@@ -91,20 +85,12 @@ class Game:
                 os.path.join(os.environ["APPDATA"], self.save_file))
         mm.con("Game: save @ chunk {0} to {1}".format(str(l), s))
 
-        if use_jsonpickle:
-            with open(s, 'w') as f:
-                print(jsonpickle.encode(self.seed), file=f)
-                print(jsonpickle.encode(self.sdl_delay), file=f)
-                print(jsonpickle.encode(self.where), file=f)
-                print(jsonpickle.encode(self.move_count), file=f)
-                print(jsonpickle.encode(self.moves_per_day), file=f)
-        else:
-            with open(s, 'wb') as f:
-                pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
-                pickle.dump(self.sdl_delay, f, pickle.HIGHEST_PROTOCOL)
-                pickle.dump(self.where, f, pickle.HIGHEST_PROTOCOL)
-                pickle.dump(self.move_count, f, pickle.HIGHEST_PROTOCOL)
-                pickle.dump(self.moves_per_day, f, pickle.HIGHEST_PROTOCOL)
+        with open(s, 'wb') as f:
+            pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.sdl_delay, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.where, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.move_count, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.moves_per_day, f, pickle.HIGHEST_PROTOCOL)
 
         l.save()
         mm.con("Game: saved @ chunk {0} to {1}".format(str(l), s))
@@ -113,32 +99,18 @@ class Game:
 
         s = os.path.normcase(os.path.join(os.environ["APPDATA"],
                                           self.save_file))
-        if use_jsonpickle:
-            with open(s, 'r') as f:
-                mm.con("Loading game header from {0}".format(s))
+        with open(s, 'rb') as f:
+            mm.con("Loading game header from {0}".format(s))
 
-                self.seed = jsonpickle.decode(f.readline())
-                self.sdl_delay = jsonpickle.decode(f.readline())
-                self.where = jsonpickle.decode(f.readline())
-                self.move_count = jsonpickle.decode(f.readline())
-                self.moves_per_day = jsonpickle.decode(f.readline())
+            self.seed = pickle.load(f)
+            self.sdl_delay = pickle.load(f)
+            self.where = pickle.load(f)
+            self.move_count = pickle.load(f)
+            self.moves_per_day = pickle.load(f)
 
-                mm.con("Loading game level data from {0}".format(s))
-                self.load_level()
-                mm.con("Loading game level success from {0}".format(s))
-        else:
-            with open(s, 'rb') as f:
-                mm.con("Loading game header from {0}".format(s))
-
-                self.seed = pickle.load(f)
-                self.sdl_delay = pickle.load(f)
-                self.where = pickle.load(f)
-                self.move_count = pickle.load(f)
-                self.moves_per_day = pickle.load(f)
-
-                mm.con("Loading game level data from {0}".format(s))
-                self.load_level()
-                mm.con("Loading game level success from {0}".format(s))
+            mm.con("Loading game level data from {0}".format(s))
+            self.load_level()
+            mm.con("Loading game level success from {0}".format(s))
 
     def destroy(self):
         l = self.level
@@ -176,8 +148,11 @@ class Game:
         text += "%%fg=white$Day %%fg=green${0}%%fg=reset$ ".format(
                 self.day)
 
-        text += "%%fg=white$World %%fg=green${0},{1}%%fg=reset$ ".format(
-                l.xyz.x, l.xyz.y)
+        text += "%%fg=white$Lat %%fg=green${0}%%fg=reset$ ".format(
+                l.xyz.x)
+
+        text += "%%fg=white$Long %%fg=green${0}%%fg=reset$ ".format(
+                l.xyz.y)
 
         text += "%%fg=white$Move %%fg=green${0}%%fg=reset$ ".format(
                 self.move_count)
@@ -186,17 +161,18 @@ class Game:
             text += "Depth %%fg=green${0} feet%%fg=reset ".format(l.xyz.z
                                                                   * 10)
 
-        player = self.player
-        text += "@ %%fg=green${0},{1}%%fg=reset ".format(player.x, player.y)
-        text += "offset %%fg=green${0},{1}%%fg=reset ".format(player.offset_x,
-                                                              player.offset_y)
-        text += "chunk %%fg=green${0}%%fg=reset ".format(player.chunk)
-
+#        player = self.player
+#        text += "@ %%fg=green${0},{1}%%fg=reset ".format(player.x, player.y)
+#        text += "offset %%fg=green${0},{1}%%fg=reset ".format(player.offset_x,
+#                                                              player.offset_y)
+#        text += "chunk %%fg=green${0}%%fg=reset ".format(player.chunk)
+#
         w.add_text(font="vsmall", text=text)
 
         w.set_color(bg=True, tl=True, br=True, name="blue", alpha=0.2)
         w.update()
         w.move_to_bottom()
+        w.set_movable(value=False)
 
     #
     # The scrollable map for the level
@@ -313,7 +289,6 @@ class Game:
 
     def player_get_next_move(self):
 
-        mm.con("move {")
         player = self.player
         if len(player.nexthops) == 0:
             return True
@@ -336,7 +311,7 @@ class Game:
         #
         # If in a dungeon place a trail of breadcrumbs
         #
-        if l.active_chunk.is_biome_dungeon:
+        if l.biome_chunk.is_biome_dungeon:
             t = l.tp_find(x, y, "ember1")
             if t is None:
                 t = thing.Thing(level=l, tp_name="ember1", x=x, y=y)
@@ -350,7 +325,7 @@ class Game:
             level_dx = -1
             level_change = True
 
-        elif x >= mm.CHUNK_WIDTH * 2 + 2:
+        elif x >= mm.CHUNK_WIDTH * (mm.CHUNK_ACROSS - 1) + 2:
             level_dx = 1
             level_change = True
 
@@ -358,7 +333,7 @@ class Game:
             level_dy = -1
             level_change = True
 
-        elif y >= mm.CHUNK_HEIGHT * 2 + 2:
+        elif y >= mm.CHUNK_HEIGHT * (mm.CHUNK_DOWN - 1) + 2:
             level_dy = 1
             level_change = True
 
@@ -368,7 +343,6 @@ class Game:
 
         if level_change:
             l.scroll(level_dx, level_dy, level_dz)
-        mm.con("move }")
 
 
 def game_map_mouse_over(w, relx, rely, wheelx, wheely):

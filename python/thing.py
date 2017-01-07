@@ -22,7 +22,6 @@ class Thing:
 
         chunk.max_thing_id += 1
         self.thing_id = chunk.max_thing_id
-        self.name = "{0}:{1}".format(self.thing_id, self.tp_name)
 
         if tp_name not in tp.all_tps:
             self.err("Thing template {0} does not exist".format(tp_name))
@@ -31,7 +30,7 @@ class Thing:
 
         self.x = -1
         self.y = -1
-        self.on_map = False
+        self.on_chunk = False
         self.tilename = None
 
         #
@@ -54,6 +53,7 @@ class Thing:
         chunk.all_things[self.thing_id] = self
         self.level.all_things[self.thing_id] = self
 
+        self.name = str(self)
         mm.thing_new(self, self.thing_id, tp_name)
 
         if self.tp.thing_init is not None:
@@ -93,51 +93,11 @@ class Thing:
             self.con("Save player on chunk {0}".format(self.chunk))
         return result
 
-    def loaded(self, chunk, level):
-
-        level.all_things[self.thing_id] = self
-
-        self.chunk = chunk
-        self.level = chunk.level
-        self.tp = tp.all_tps[self.tp_name]
-
-        #
-        # Thing co-ords are saved as offsets
-        #
-        self.x += chunk.base_x
-        self.y += chunk.base_y
-
-        mm.thing_new(self, self.thing_id, self.tp_name)
-
-        if self.on_map:
-            self.on_map = False
-            self.push(self.x, self.y)
-            if self.tilename is not None:
-                self.set_tilename(self.tilename)
-
-        if self.tp.is_player:
-            game.g.player = self
-#        self.log("Loaded thing on chunk {0}".format(self.chunk))
-
     def __setstate__(self, dict):
         self.__dict__ = dict
 
     def __str__(self):
         return "{0}:{1}".format(self.thing_id, self.tp_name)
-
-    def destroy(self, reason="no reason"):
-        if self.on_map:
-            self.pop()
-
-#        self.debug("Destroying thing, {0}".format(reason) + " {")
-
-        if self.thing_id in self.level.all_things:
-            del self.level.all_things[self.thing_id]
-
-        mm.thing_destroyed(self, reason)
-
-#        self.debug("} " + "Destroyed thing, {0}".format(reason))
-        del self
 
     def log(self, msg):
         mm.log("Thing {0}: {1}".format(str(self), msg))
@@ -150,20 +110,40 @@ class Thing:
 
     def err(self, msg):
         mm.con("".join(traceback.format_stack()))
-        mm.err("Thing {0}: ERROR: {1}".format(self.name, msg))
+        mm.err("Thing {0}: ERROR: {1}".format(self, msg))
 
     def die(self, msg):
         mm.con("".join(traceback.format_stack()))
-        mm.die("Thing {0}: FATAL ERROR: {1}".format(self.name, msg))
+        mm.die("Thing {0}: FATAL ERROR: {1}".format(self, msg))
 
     def dump(self):
         self.log("@ {0},{1} on chunk {2}".format(self.x, self.y, self.chunk))
 
+    def destroy(self, reason="no reason"):
+        if self.on_chunk:
+            self.pop()
+
+#        self.debug("Destroying thing, {0}".format(reason) + " {")
+
+        if self.thing_id in self.level.all_things:
+            del self.level.all_things[self.thing_id]
+
+        mm.thing_destroyed(self, reason)
+
+#        self.debug("} " + "Destroyed thing, {0}".format(reason))
+        del self
+
+    #
+    # Move a thing and see it move smoothly on the map
+    #
     def move(self, x, y):
         self.update_pos(x, y)
 
         mm.thing_move(self, x, y)
 
+    #
+    # The map move is done in bulk in C, just update the move here
+    #
     def update_pos(self, x, y):
         if self.chunk is None:
             self.die("thing has no chunk when trying to move")
@@ -186,11 +166,59 @@ class Thing:
 
         self.chunk.thing_push(self.offset_x, self.offset_y, self)
 
+    #
+    # Loaded from save file into a chunk
+    #
+    def loaded(self, chunk, level):
+
+        level.all_things[self.thing_id] = self
+
+        self.chunk = chunk
+        self.level = chunk.level
+        self.tp = tp.all_tps[self.tp_name]
+
+        #
+        # Thing co-ords are saved as offsets
+        #
+        self.x += chunk.base_x
+        self.y += chunk.base_y
+
+        mm.thing_new(self, self.thing_id, self.tp_name)
+
+        if self.on_chunk:
+            self.on_chunk = False
+            self.push(self.x, self.y)
+            if self.tilename is not None:
+                self.set_tilename(self.tilename)
+
+        if self.tp.is_player:
+            game.g.player = self
+#        self.log("Loaded thing on chunk {0}".format(self.chunk))
+
+    #
+    # Still associated with a chunk but not currently being rendered
+    #
+    def scrolled_off(self):
+
+        del self.chunk.level.all_things[self.thing_id]
+
+        #
+        # Acts like saved to disk. When loaded again the chunk will have a
+        # new position.
+        #
+        self.x -= self.chunk.base_x
+        self.y -= self.chunk.base_y
+
+        mm.thing_destroyed(self, "scroll off")
+
+    #
+    # Associate the thing with a given chunk
+    #
     def push(self, x, y):
-        if self.on_map:
+        if self.on_chunk:
             self.err("Already on the map at {0},{1}".format(self.x, self.y))
             return
-        self.on_map = True
+        self.on_chunk = True
 
         self.x = x
         self.y = y
@@ -215,11 +243,14 @@ class Thing:
             if self.tp.thing_pushed is not None:
                 self.tp.thing_pushed(self)
 
+    #
+    # De-associate the thing with its chunk
+    #
     def pop(self):
-        if not self.on_map:
+        if not self.on_chunk:
             self.err("Is not on the map")
             return
-        self.on_map = False
+        self.on_chunk = False
 
         self.chunk.thing_pop(self.offset_x, self.offset_y, self)
         mm.thing_pop(self)

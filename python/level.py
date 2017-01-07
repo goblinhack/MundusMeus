@@ -25,11 +25,20 @@ class Level:
         self.all_things = {}
 
         #
-        # Create all chunks
+        # Create all active chunks. These are the ones displayed on the map
+        # all the time.
         #
         self.chunk = [[None for x in range(mm.CHUNK_WIDTH)]
                       for y in range(mm.CHUNK_HEIGHT)]
+        #
+        # We try to avoid saving chunks when they scroll off the map for speed
+        # and so store them in a cache.
+        #
+        self.chunk_cache = {}
 
+        #
+        # Create all active chunks.
+        #
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
                 where.x = xyz.x - 1 + cx
@@ -37,7 +46,10 @@ class Level:
                 where.z = xyz.z
                 self.chunk[cx][cy] = chunk.Chunk(self, where, cx, cy)
 
-        self.active_chunk = self.chunk[1][1]
+        #
+        # Just a chunk that we know is always around
+        #
+        self.biome_chunk = self.chunk[1][1]
 
         #
         # The dmap spans all chunks so we can have things move between chunks
@@ -76,14 +88,13 @@ class Level:
 
                     c = self.chunk[cx][cy]
                     mm.con("Chunk {0}: Scrolled off of map".format(c))
-                    c.save()
-                    c.destroy()
+                    c.scrolled_off()
                 else:
                     new_chunk[x][y] = self.chunk[cx][cy]
 
         self.chunk = new_chunk
 
-        self.active_chunk = self.chunk[1][1]
+        self.biome_chunk = self.chunk[1][1]
 
         mm.game_scroll_chunk(dx, dy)
 
@@ -95,12 +106,7 @@ class Level:
         dx *= -1
         dy *= -1
 
-        for thing_id in list(self.all_things.keys()):
-            t = self.all_things[thing_id]
-            if t is None:
-                self.die("thing id {0} not found during scrolling".format(
-                         thing_id))
-
+        for thing_id, t in self.all_things.items():
             t.update_pos(t.x + dx, t.y + dy)
 
         #
@@ -116,8 +122,16 @@ class Level:
                     where.x = self.xyz.x - 1 + cx
                     where.y = self.xyz.y - 1 + cy
                     where.z = self.xyz.z
-                    self.chunk[cx][cy] = chunk.Chunk(self, where, cx, cy)
-                    c = self.chunk[cx][cy]
+
+                    chunk_name = "l{0}".format(str(where))
+                    c = self.chunk_cache.get(chunk_name)
+                    if c is None:
+                        self.chunk[cx][cy] = chunk.Chunk(self, where, cx, cy)
+                        c = self.chunk[cx][cy]
+                    else:
+                        self.chunk[cx][cy] = c
+                        c.load()
+
                     mm.con("Chunk {0}: Scrolled onto map".format(c))
 
                 c = self.chunk[cx][cy]
@@ -142,7 +156,6 @@ class Level:
 
         game.g.load_level_finalize()
         game.g.player_location_update()
-        game.g.save()
 
     #
     # Convert from co-ordinates that are the width of all chunks to chunk
@@ -156,7 +169,7 @@ class Level:
         offset_y = (int)(y % mm.CHUNK_HEIGHT)
 
         if self.chunk[cx][cy] is None:
-            self.die("Position {0} {1} maps to no known chunk".format(
+            self.die("Co-ord {0} {1} maps to no known chunk".format(
                      x, y))
 
         return (self.chunk[cx][cy], offset_x, offset_y)
@@ -179,35 +192,39 @@ class Level:
 
     def err(self, msg):
         mm.con("".join(traceback.format_stack()))
-        mm.err("Level {0}: ERROR: {1}".format(self.name, msg))
+        mm.err("Level {0}: ERROR: {1}".format(self, msg))
 
     def die(self, msg):
         mm.con("".join(traceback.format_stack()))
-        mm.die("Level {0}: FATAL ERROR: {1}".format(self.name, msg))
+        mm.die("Level {0}: FATAL ERROR: {1}".format(self, msg))
 
     def __str__(self):
         return "l{0}".format(str(self.xyz))
 
     def destroy(self):
-        self.debug("Destroying level {")
+        self.log("Destroying level {")
 
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
                 self.chunk[cx][cy].destroy()
 
-        self.debug("} Destroyed level")
+        self.log("Destroy cached levels")
+        for chunk_name, c in list(self.chunk_cache.items()):
+            c.destroy()
+
+        self.log("} Destroyed level")
         del self
 
     def tick(self):
 
         s = math.sin(game.g.move_count / (math.pi * 11))
-        if self.active_chunk.is_snowy:
+        if self.biome_chunk.is_snowy:
             if s > 0:
                 mm.game_set_snow_amount(int(s * 100))
             else:
                 mm.game_set_snow_amount(0)
 
-        if self.active_chunk.is_grassy or self.active_chunk.is_watery:
+        if self.biome_chunk.is_grassy or self.biome_chunk.is_watery:
             if s > 0:
                 mm.game_set_rain_amount(int(s * 100))
             else:
@@ -219,14 +236,18 @@ class Level:
                 self.chunk[cx][cy].dump()
 
     def save(self):
-        self.debug("Save level")
+        self.log("Save level")
 
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
                 self.chunk[cx][cy].save()
 
+        self.log("Save cached levels")
+        for chunk_name, c in self.chunk_cache.items():
+            c.save()
+
     def load(self):
-        self.debug("Load level")
+        self.log("Load level")
 
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
@@ -277,7 +298,7 @@ class Level:
                 (chunk, ox, oy) = self.xy_to_chunk_xy(x, y)
 
                 skip = False
-                for t in chunk.on_map[ox][oy]:
+                for t in chunk.things_on_chunk[ox][oy]:
                     if t.tp.is_wall or \
                        t.tp.is_rock or \
                        t.tp.is_door or \
@@ -289,7 +310,7 @@ class Level:
                 if skip:
                     continue
 
-                for t in chunk.on_map[ox][oy]:
+                for t in chunk.things_on_chunk[ox][oy]:
                     if t.tp.is_floor or \
                        t.tp.is_grass or \
                        t.tp.is_dirt or \
