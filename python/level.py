@@ -130,7 +130,7 @@ class Level:
                         c = self.chunk[cx][cy]
                     else:
                         self.chunk[cx][cy] = c
-                        c.load()
+                        c.load(cx, cy)
 
                     mm.con("Chunk {0}: Scrolled onto map".format(c))
 

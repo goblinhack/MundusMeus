@@ -30,6 +30,13 @@ class Thing:
 
         self.x = -1
         self.y = -1
+
+        #
+        # When saved to disk, or cached, the chunk co-ords are saved as an
+        # offset from the chunk
+        #
+        self.coords_are_relative_to_chunk_base = True
+
         self.on_chunk = False
         self.tilename = None
 
@@ -86,8 +93,9 @@ class Thing:
         #
         # Thing co-ords are saved as offsets
         #
-        result["x"] -= self.chunk.base_x
-        result["y"] -= self.chunk.base_y
+        if self.coords_are_relative_to_chunk_base:
+            result["x"] -= self.chunk.base_x
+            result["y"] -= self.chunk.base_y
 
         if self.tp.is_player:
             self.con("Save player on chunk {0}".format(self.chunk))
@@ -182,6 +190,7 @@ class Thing:
         #
         self.x += chunk.base_x
         self.y += chunk.base_y
+        self.coords_are_relative_to_chunk_base = True
 
         mm.thing_new(self, self.thing_id, self.tp_name)
 
@@ -193,7 +202,9 @@ class Thing:
 
         if self.tp.is_player:
             game.g.player = self
+
 #        self.log("Loaded thing on chunk {0}".format(self.chunk))
+#        self.con("loaded thing at {0} {1}".format(self.x, self.y))
 
     #
     # Still associated with a chunk but not currently being rendered
@@ -208,6 +219,7 @@ class Thing:
         #
         self.x -= self.chunk.base_x
         self.y -= self.chunk.base_y
+        self.coords_are_relative_to_chunk_base = False
 
         mm.thing_destroyed(self, "scroll off")
 

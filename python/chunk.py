@@ -13,7 +13,6 @@ class Chunk:
 
     def __init__(self, level, xyz, cx, cy):
 
-        level.chunk[cx][cy] = self
         self.level = level
         self.xyz = copy.copy(xyz)
         self.chunk_name = str(self)
@@ -30,10 +29,7 @@ class Chunk:
         self.is_snowy = False
         self.is_grassy = False
         self.is_watery = False
-        self.cx = cx
-        self.cy = cy
-        self.base_x = cx * mm.CHUNK_WIDTH
-        self.base_y = cy * mm.CHUNK_HEIGHT
+        self.update_pos(cx, cy)
 
         self.things_on_chunk = [[[] for x in range(mm.CHUNK_WIDTH)]
                                 for y in range(mm.CHUNK_HEIGHT)]
@@ -42,7 +38,7 @@ class Chunk:
         if os.path.isfile(f):
             try:
                 mm.con("Chunk {0}: Loading".format(self, f))
-                self.load()
+                self.load(cx, cy)
                 need_new_chunk = False
             except Exception as inst:
                 self.die("Chunk {0}: Loading failed, {1}, {2}".format(
@@ -57,6 +53,17 @@ class Chunk:
                 self.biome_create(is_dungeon=True, seed=game.g.seed)
             else:
                 self.biome_create(is_land=True, seed=game.g.seed)
+
+    #
+    # We only keep a certain number of chunks active. This keeps track
+    # of where the chunk is in the grid of chunks we display
+    #
+    def update_pos(self, cx, cy):
+        self.cx = cx
+        self.cy = cy
+        self.base_x = cx * mm.CHUNK_WIDTH
+        self.base_y = cy * mm.CHUNK_HEIGHT
+        self.level.chunk[cx][cy] = self
 
     #
     # Create a random biome
@@ -160,10 +167,17 @@ class Chunk:
             pickle.dump(self.is_grassy, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.is_watery, f, pickle.HIGHEST_PROTOCOL)
 
-    def load(self):
+    def load(self, cx, cy):
+        #
+        # Before we push any things on the map, make sure the parent
+        # level knows where this chunk is
+        #
+        self.con("Load chunk at {0},{1}".format(cx, cy))
+        self.update_pos(cx, cy)
+
         c = self.level.chunk_cache.get(self.chunk_name)
         if c is None:
-            self.con("Load")
+            self.con("Load from disk")
 
             with open(os.path.normcase(
                         os.path.join(os.environ["APPDATA"],
@@ -181,7 +195,7 @@ class Chunk:
                 self.is_grassy = pickle.load(f)
                 self.is_watery = pickle.load(f)
         else:
-            self.con("Load cache")
+            self.con("Load from cache")
 
         #
         # recreate the widgets for this thing

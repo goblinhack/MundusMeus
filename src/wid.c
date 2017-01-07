@@ -9451,9 +9451,12 @@ static void wid_display (widp w,
             if (game.biome_set_is_land) {
                 blit_init();
 
-                color c = WHITE;
+                color c;
 
-                c.a = 200;
+                c.r = game.daylight_color_r;
+                c.g = game.daylight_color_g;
+                c.b = game.daylight_color_b;
+                c.a = game.daylight_color_a;
 
                 glcolor(c);
 
