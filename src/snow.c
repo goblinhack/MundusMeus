@@ -39,7 +39,6 @@ void snow_tick (int intensity)
     static tilep tile;
     if (!tile) {
         tile = tile_find("snow_flake");
-
     }
 
     fpoint tl, br;
@@ -51,13 +50,26 @@ void snow_tick (int intensity)
     flake *f_eo = flakes + nflakes;
 
     f = flakes;
+
+    static int active_count = 0;
+    if (!intensity && !active_count) {
+        return;
+    }
+
     while (f < f_eo) {
         if (intensity && !f->active) {
             intensity--;
             f->active = true;
+            active_count++;
+
             f->x = myrand() % (int)w;
             f->y = 0;
             f->z = myrand() % TILES_SCREEN_HEIGHT;
+        }
+
+        if (!f->active) {
+            f++;
+            continue;
         }
 
         c.a = 255.0 - (f->z * flake_fade);
@@ -83,6 +95,7 @@ void snow_tick (int intensity)
             if (f->fading > 10) {
                 f->fading = 0;
                 f->active = false;
+                active_count--;
             }
         }
 
@@ -97,6 +110,9 @@ void snow_tick (int intensity)
         f++;
     }
 
+    if (!active_count) {
+        return;
+    }
     blit_flush();
 
     if ((myrand() % 1000) < 50) {

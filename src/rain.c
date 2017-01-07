@@ -50,13 +50,26 @@ void rain_tick (int intensity)
     drop *f_eo = drops + ndrops;
 
     f = drops;
+
+    static int active_count = 0;
+    if (!intensity && !active_count) {
+        return;
+    }
+
     while (f < f_eo) {
         if (intensity && !f->active) {
             intensity--;
             f->active = true;
+            active_count++;
+
             f->x = myrand() % (int)w;
             f->y = 0;
             f->z = myrand() % TILES_SCREEN_HEIGHT;
+        }
+
+        if (!f->active) {
+            f++;
+            continue;
         }
 
         c.a = 255.0 - (f->z * drop_fade);
@@ -82,6 +95,7 @@ void rain_tick (int intensity)
             if (f->fading > 10) {
                 f->fading = 0;
                 f->active = false;
+                active_count--;
             }
         }
 
@@ -96,6 +110,9 @@ void rain_tick (int intensity)
         f++;
     }
 
+    if (!active_count) {
+        return;
+    }
     blit_flush();
 
     if ((myrand() % 1000) < 50) {

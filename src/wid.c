@@ -7608,6 +7608,10 @@ static void wid_display_fast (widp w,
     thingp t = wid_get_thing(w);
     tpp tp = 0;
 
+    if (tp_is_animated(thing_tp(t))) {
+        thing_animate(t);
+    }
+
     if (likely(t != 0)) {
         tp = thing_tp(t);
         if (!tp) {
@@ -9418,7 +9422,6 @@ static void wid_display (widp w,
 
         if (game.biome_set_is_land) {
             snow_tick(game.snow_amount);
-
             rain_tick(game.rain_amount);
         }
 

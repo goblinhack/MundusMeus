@@ -1460,14 +1460,6 @@ void sdl_loop (void)
         level = &game.level;
         if (level) {
             /*
-             * Let things wriggle.
-             */
-            thing_animate_all(level);
-        }
-
-        level = &game.level;
-        if (level) {
-            /*
              * Move the window so it scrolls as the player widget moves.
              */
             wid_game_map_scroll_adjust(level, 1);
