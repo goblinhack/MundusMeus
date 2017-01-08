@@ -81,6 +81,7 @@
 
 #define WORLD_WIDTH                             128
 #define WORLD_HEIGHT                            128
+#define WORLD_DEPTH                             16
 
 /*
  * The number of tiles per screen.

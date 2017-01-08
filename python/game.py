@@ -36,7 +36,7 @@ class Game:
         self.move_count = 0
         self.moves_per_day = 1000
         self.seed = 9
-        self.where = util.Xyz(74*4, 70*4, 0)
+        self.where = util.Xyz(74*4, 70*4, -1)
         self.load_level()
 
     def load_level(self):
@@ -45,8 +45,8 @@ class Game:
         self.level = level.Level(xyz=self.where)
         l = self.level
 
-        mm.biome_set_is_land(value=l.biome_chunk.is_biome_land)
-        mm.biome_set_is_dungeon(value=l.biome_chunk.is_biome_dungeon)
+        mm.biome_set_is_land(value=l.chunk[0][0].is_biome_land)
+        mm.biome_set_is_dungeon(value=l.chunk[0][0].is_biome_dungeon)
 
     def load_level_finalize(self):
 
@@ -311,7 +311,7 @@ class Game:
         #
         # If in a dungeon place a trail of breadcrumbs
         #
-        if l.biome_chunk.is_biome_dungeon:
+        if l.chunk[0][0].is_biome_dungeon:
             t = l.tp_find(x, y, "ember1")
             if t is None:
                 t = thing.Thing(level=l, tp_name="ember1", x=x, y=y)
@@ -383,4 +383,3 @@ def game_new():
     g.load_level_finalize()
     g.level.tick()
     g.player_location_update()
-    g.save()

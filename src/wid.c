@@ -2887,7 +2887,7 @@ static void wid_destroy_immediate_internal (widp w)
     if (w->thing) {
         ERR("wid for thing %p still set", w->thing);
         fast_verify(w->thing);
-        DIE("thing %p, name %s still set when destorying widget",
+        DIE("thing %p, name %s still set when destroying widget",
             w->thing, thing_logname(w->thing));
     }
 
@@ -8526,6 +8526,7 @@ static void wid_lighting_render (widp w,
         } else {
             push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
                            red, green, blue, alpha);
+            alpha = 0.0;
         }
 
         for (i = 0; i < max_light_rays; i++) {
@@ -9493,17 +9494,10 @@ static void wid_display (widp w,
                     double x;
                     double fade = 0.1;
 
-                    if (game.biome_set_is_land) {
                         for (x = 1.5; x >= 1.0; x -= 0.05) {
                             wid_lighting_render(w, i, 0.0, fade, x);
                             fade *= 1.10;
                         }
-                    } else {
-                        for (x = 1.1; x >= 1.0; x -= 0.05) {
-                            wid_lighting_render(w, i, 0.0, fade, x);
-                            fade *= 1.10;
-                        }
-                    }
 
                     wid_lighting_render(w, i, 0.025, 0.25, 1.0);
                     wid_lighting_render(w, i, -0.025, 0.25, 1.0);
@@ -9536,18 +9530,18 @@ static void wid_display (widp w,
             blit(fbo_tex_id1, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
             blit_flush();
 
-#ifdef ADD_HALO
-	    glBlendFunc(GL_ZERO, GL_SRC_ALPHA);
+            /*
+             * Add a halo to final blit for atmosphere.
+             */
+            if (game.biome_set_is_dungeon) {
+                glBlendFunc(GL_ZERO, GL_SRC_ALPHA);
 
-	    /*
-	     * Add a halo to final blit
-	     */
-            blit_init();
-            glcolor(c);
-	    buf_tex = tex_get_gl_binding(light_fade_texp);
-            blit(buf_tex, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
-            blit_flush();
-#endif
+                blit_init();
+                glcolor(WHITE);
+                buf_tex = tex_get_gl_binding(light_fade_texp);
+                blit(buf_tex, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
+                blit_flush();
+            }
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

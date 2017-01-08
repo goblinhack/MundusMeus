@@ -7,8 +7,16 @@ import tp
 import game
 
 
-def biome_build(self, chunk=None, seed=0):
+def biome_build(self, seed=0):
     self.biome_seed = seed
+
+    #
+    # The dungeon takes up all chunks
+    #
+    if self.cx != mm.CHUNK_ACROSS - 1 or \
+       self.cy != mm.CHUNK_DOWN - 1:
+        self.biome = None
+        return
 
     while True:
         fixed_rooms = rooms.create_fixed()
@@ -17,28 +25,33 @@ def biome_build(self, chunk=None, seed=0):
         self.biome_seed += 1
         self.biome_seed *= self.biome_seed
 
-        self.chunk.biome = biome_dungeon_do.Biome(chunk=chunk,
-                                                  rooms=fixed_rooms,
-                                                  rooms_on_chunk=15,
-                                                  fixed_room_chance=10)
+        self.biome = biome_dungeon_do.Biome(chunk=self,
+                                            rooms=fixed_rooms,
+                                            rooms_on_chunk=15,
+                                            fixed_room_chance=10)
 
-        if not self.chunk.biome.generate_failed:
+        if not self.biome.generate_failed:
             break
 
-#    self.chunk.biome.dump_depth()
-#    self.chunk.biome.dump(biome_dungeon_do.charmap.depth.floor)
-#    self.chunk.biome.dump()
+    if False:
+        self.biome.dump_depth()
+        self.biome.dump(biome_dungeon_do.charmap.depth.floor)
+        self.biome.dump()
 
 
 def biome_populate(self):
     c = self
     m = self.biome
 
-    for y in range(0, mm.CHUNK_HEIGHT):
-        for x in range(0, mm.CHUNK_WIDTH):
+    if self.biome is None:
+        return
 
-            tx = x + self.base_x
-            ty = y + self.base_y
+    for y in range(0, mm.MAP_HEIGHT):
+        for x in range(0, mm.MAP_WIDTH):
+
+            tx = x
+            ty = y
+            (c, ox, oy) = self.level.xy_to_chunk_xy(tx, ty)
 
             place_stalactite = False
 
@@ -99,13 +112,9 @@ def biome_populate(self):
                 t.push(tx, ty)
 
                 if game.g.player is None:
-                    #
-                    # Create the player on the active central chunk
-                    #
-                    if self.cx == 1 and self.cy == 1:
-                        t = thing.Thing(chunk=c, tp_name="player1")
-                        t.push(tx, ty)
-                        game.g.player = t
+                    t = thing.Thing(chunk=c, tp_name="player1")
+                    t.push(tx, ty)
+                    game.g.player = t
 
             if m.is_exit_at(x, y):
                 t = thing.Thing(chunk=c, tp_name="exit1")
@@ -404,7 +413,7 @@ def biome_populate(self):
                     t.set_tilename("deco1." + str(which))
 
             if m.is_treasure_at(x, y):
-                toughness = self.chunk.xyz.z
+                toughness = -1 * self.xyz.z
 
                 roomno = m.getr(x, y)
                 if roomno != -1:

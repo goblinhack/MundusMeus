@@ -19,9 +19,11 @@ class Chunk:
         self.debug("New chunk")
 
         self.thing_id_per_level = 10000
-        self.max_thing_id = ((xyz.y * mm.WORLD_WIDTH) + xyz.x) * (xyz.z + 1)
+        self.max_thing_id = (xyz.y * mm.WORLD_WIDTH) + xyz.x
+        self.max_thing_id *= xyz.z + mm.WORLD_DEPTH
         self.max_thing_id *= self.thing_id_per_level
         self.all_things = {}
+
         self.is_biome_land = False
         self.is_biome_dungeon = False
 
@@ -193,10 +195,6 @@ class Chunk:
             t.scrolled_off()
 
         self.level.chunk_cache[str(self)] = self
-
-    def set_biome(self, is_land=False, is_dungeon=False):
-        self.is_biome_land = is_land
-        self.is_biome_dungeon = is_dungeon
 
     def tp_find(self, x, y, tp_name):
         if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:

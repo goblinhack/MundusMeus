@@ -11,9 +11,9 @@ def ember1_init(name, short_name, long_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_z_depth("player")
 
-    x.set_light_radius(1.1)
-    x.set_light_tint("gray30")
-    x.set_light_pulse_amount(0.002)
+    x.set_light_radius(1.0)
+    x.set_light_tint("orange")
+    x.set_is_candle_light(True)
 
     x.thing_init = thing_init
 

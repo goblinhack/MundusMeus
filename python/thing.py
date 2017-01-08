@@ -237,12 +237,14 @@ class Thing:
         old_chunk = self.chunk
         (self.chunk, self.offset_x, self.offset_y) = \
             self.level.xy_to_chunk_xy(x, y)
+
         if old_chunk != self.chunk:
-            self.con("Push, moved from {0} to chunk {1}".format(
-                     old_chunk, self.chunk))
+            if self == game.g.player:
+                self.con("Push, moved from {0} to chunk {1}".format(
+                        old_chunk, self.chunk))
 
         if self.chunk is None:
-            self.die("thing has no chunk during push to {0}, {1}",
+            self.die("Has no chunk during push onto {0}, {1}",
                      self.x, self.y)
 
         self.chunk.thing_push(self.offset_x, self.offset_y, self)

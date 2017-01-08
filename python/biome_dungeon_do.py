@@ -17,8 +17,8 @@ class Biome(biome.Biome):
                  rooms_on_chunk=20,
                  fixed_room_chance=10):
 
-        self.width = mm.CHUNK_WIDTH
-        self.height = mm.CHUNK_HEIGHT
+        self.width = mm.MAP_WIDTH
+        self.height = mm.MAP_HEIGHT
         self.charmap = charmap
 
         #

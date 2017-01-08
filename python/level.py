@@ -10,6 +10,7 @@ import util
 class Level:
 
     def __init__(self, xyz):
+
         self.xyz = xyz
 
         #
@@ -47,11 +48,6 @@ class Level:
                 self.chunk[cx][cy] = chunk.Chunk(self, where, cx, cy)
 
         #
-        # Just a chunk that we know is always around
-        #
-        self.biome_chunk = self.chunk[1][1]
-
-        #
         # The dmap spans all chunks so we can have things move between chunks
         #
         self.dmaps = [[None for x in range(mm.MAP_WIDTH)]
@@ -61,6 +57,12 @@ class Level:
             raise NameError("No player found on any chunk")
 
     def scroll(self, dx, dy, dz):
+
+        #
+        # Scroll only on the land
+        #
+        if not self.chunk[0][0].is_biome_land:
+            return
 
         self.con("Scroll dx {0}, dy {1}, dz {2}".format(dx, dy, dz))
 
@@ -93,8 +95,6 @@ class Level:
                     new_chunk[x][y] = self.chunk[cx][cy]
 
         self.chunk = new_chunk
-
-        self.biome_chunk = self.chunk[1][1]
 
         mm.game_scroll_chunk(dx, dy)
 
@@ -218,24 +218,26 @@ class Level:
     def tick(self):
 
         s = math.sin(game.g.move_count / (math.pi * 11))
-        if self.biome_chunk.is_snowy:
+        if game.g.player.chunk.is_snowy:
             if s > 0:
                 mm.game_set_snow_amount(int(s * 100))
             else:
                 mm.game_set_snow_amount(0)
 
-        if self.biome_chunk.is_grassy or self.biome_chunk.is_watery:
+        if game.g.player.chunk.is_grassy or game.g.player.chunk.is_watery:
             if s > 0:
                 mm.game_set_rain_amount(int(s * 100))
             else:
                 mm.game_set_rain_amount(0)
 
     def dump(self):
+
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
                 self.chunk[cx][cy].dump()
 
     def save(self):
+
         self.log("Save level")
 
         for cx in range(0, mm.CHUNK_ACROSS):
@@ -247,6 +249,7 @@ class Level:
             c.save()
 
     def load(self):
+
         self.log("Load level")
 
         for cx in range(0, mm.CHUNK_ACROSS):
@@ -254,6 +257,7 @@ class Level:
                 self.chunk[cx][cy].save()
 
     def tp_find(self, x, y, tp_name):
+
         if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
             return None
 
@@ -261,6 +265,7 @@ class Level:
         return chunk.tp_find(x, y, tp_name)
 
     def tp_is(self, x, y, value):
+
         if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
             return None
 
@@ -268,6 +273,7 @@ class Level:
         return chunk.tp_is(x, y, value)
 
     def tp_is_where(self, value):
+
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
                 where = self.chunk[cx][cy].is_where(value)
@@ -278,6 +284,7 @@ class Level:
         return None
 
     def is_movement_blocking_at(self, x, y):
+
         (chunk, ox, oy) = self.xy_to_chunk_xy(x, y)
         if chunk.is_movement_blocking_at(ox, oy):
             return True
