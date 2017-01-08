@@ -10,12 +10,14 @@ class Thing:
     def __init__(self, tp_name, chunk=None, level=None, x=None, y=None):
 
         if x is not None:
-            (chunk, offset_x, offset_y) = level.xy_to_chunk_xy(x, y)
-            self.level = level
-            do_push = True
+            if chunk is not None:
+                self.level = chunk.level
+            else:
+                self.level = level
+
+            (chunk, offset_x, offset_y) = self.level.xy_to_chunk_xy(x, y)
         else:
             self.level = chunk.level
-            do_push = False
 
         self.chunk = chunk
         self.tp_name = tp_name
@@ -28,8 +30,12 @@ class Thing:
 
         self.tp = tp.all_tps[tp_name]
 
-        self.x = -1
-        self.y = -1
+        if x is None:
+            self.x = -1
+            self.y = -1
+        else:
+            self.x = x
+            self.y = y
 
         #
         # When saved to disk, or cached, the chunk co-ords are saved as an
@@ -65,9 +71,6 @@ class Thing:
 
         if self.tp.thing_init is not None:
             self.tp.thing_init(self)
-
-        if do_push:
-            self.push(x, y)
 
     def __getstate__(self):
         result = self.__dict__.copy()
@@ -196,7 +199,7 @@ class Thing:
 
         if self.on_chunk:
             self.on_chunk = False
-            self.push(self.x, self.y)
+            self.push()
             if self.tilename is not None:
                 self.set_tilename(self.tilename)
 
@@ -226,9 +229,18 @@ class Thing:
     #
     # Associate the thing with a given chunk
     #
-    def push(self, x, y):
+    def push(self, x=None, y=None):
+
+        if x is None:
+            x = self.x
+            y = self.y
+
+        if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
+            self.die("Out of bounds at {0},{1}".format(self.x, self.y))
+            return
+
         if self.on_chunk:
-            self.err("Already on the map at {0},{1}".format(self.x, self.y))
+            self.die("Already on the map at {0},{1}".format(self.x, self.y))
             return
         self.on_chunk = True
 

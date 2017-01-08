@@ -36,7 +36,7 @@ class Game:
         self.move_count = 0
         self.moves_per_day = 1000
         self.seed = 9
-        self.where = util.Xyz(74*4, 70*4, -1)
+        self.where = util.Xyz(74*4, 70*4, 0)
         self.load_level()
 
     def load_level(self):
@@ -73,6 +73,7 @@ class Game:
                 t = l.tp_find(x, y, "none")
                 if t is None:
                     t = thing.Thing(level=l, tp_name="none", x=x, y=y)
+                    t.push()
 
                 t.wid.game = self
                 t.wid.set_on_m_over_b(game_map_mouse_over)
@@ -315,6 +316,7 @@ class Game:
             t = l.tp_find(x, y, "ember1")
             if t is None:
                 t = thing.Thing(level=l, tp_name="ember1", x=x, y=y)
+                t.push()
 
         level_dx = 0
         level_dy = 0

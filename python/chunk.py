@@ -19,6 +19,10 @@ class Chunk:
         self.debug("New chunk")
 
         self.thing_id_per_level = 10000
+
+        #
+        # Unique IDs per chunk
+        #
         self.max_thing_id = (xyz.y * mm.WORLD_WIDTH) + xyz.x
         self.max_thing_id *= xyz.z + mm.WORLD_DEPTH
         self.max_thing_id *= self.thing_id_per_level

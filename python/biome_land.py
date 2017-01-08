@@ -102,8 +102,8 @@ def biome_populate(self):
             if m.is_dirt_at(x, y):
 
                 if random.randint(0, 1000) < 2:
-                    t = thing.Thing(chunk=c, tp_name="torch1")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="torch1")
+                    t.push()
 
                 dirt = True
 
@@ -130,31 +130,32 @@ def biome_populate(self):
             if m.is_dungeon_at(x, y):
                 if c.is_snowy:
                     r = tp.get_random_dungeon_snow()
-                    t = thing.Thing(chunk=c, tp_name=r.short_name)
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t.push()
                 else:
                     r = tp.get_random_dungeon()
-                    t = thing.Thing(chunk=c, tp_name=r.short_name)
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t.push()
 
             if m.is_tree_at(x, y):
                 if c.is_snowy:
                     r = tp.get_random_tree_snow()
-                    t = thing.Thing(chunk=c, tp_name=r.short_name)
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t.push()
                 elif is_poor_soil:
                     r = tp.get_random_tree_conifer()
-                    t = thing.Thing(chunk=c, tp_name=r.short_name)
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t.push()
                 else:
                     for i in range(1, random.randint(1, 10)):
                         r = tp.get_random_tree()
-                        t = thing.Thing(chunk=c, tp_name=r.short_name)
-                        t.push(tx, ty)
+                        t = thing.Thing(chunk=c, x=tx, y=ty,
+                                        tp_name=r.short_name)
+                        t.push()
 
             if grass:
-                t = thing.Thing(chunk=c, tp_name=grass_str + "")
-                t.push(tx, ty)
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=grass_str + "")
+                t.push()
                 if not c.is_snowy:
                     if m.is_water_at(x - 1, y) or \
                        m.is_water_at(x + 1, y) or \
@@ -163,242 +164,287 @@ def biome_populate(self):
 
                         r = tp.get_random_marsh_plant()
                         for i in range(1, random.randint(1, 5)):
-                            t = thing.Thing(chunk=c, tp_name=r.short_name)
-                            t.push(tx, ty)
+                            t = thing.Thing(chunk=c, x=tx, y=ty,
+                                            tp_name=r.short_name)
+                            t.push()
 
                         if random.randint(0, 1000) < 10:
                             r = tp.get_random_plant()
-                            t = thing.Thing(chunk=c, tp_name=r.short_name)
-                            t.push(tx, ty)
+                            t = thing.Thing(chunk=c, x=tx, y=ty,
+                                            tp_name=r.short_name)
+                            t.push()
                     else:
                         if random.randint(0, 100) < 10:
                             r = tp.get_random_plant()
                             for i in range(1, random.randint(1, 5)):
-                                t = thing.Thing(chunk=c, tp_name=r.short_name)
-                                t.push(tx, ty)
+                                t = thing.Thing(chunk=c, x=tx, y=ty,
+                                                tp_name=r.short_name)
+                                t.push()
 
             if dirt:
-                t = thing.Thing(chunk=c, tp_name=dirt_str + "")
-                t.push(tx, ty)
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=dirt_str + "")
+                t.push()
 
                 if random.randint(0, 200) < 5:
                     for i in range(1, random.randint(1, 5)):
                         r = tp.get_random_plant()
-                        t = thing.Thing(chunk=c, tp_name=r.short_name)
-                        t.push(tx, ty)
+                        t = thing.Thing(chunk=c, x=tx, y=ty,
+                                        tp_name=r.short_name)
+                        t.push()
 
             if sand:
-                t = thing.Thing(chunk=c, tp_name=sand_str + "")
-                t.push(tx, ty)
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=sand_str + "")
+                t.push()
 
                 if not grass:
                     if random.randint(0, 1000) < 5:
                         r = tp.get_random_small_rock()
-                        t = thing.Thing(chunk=c, tp_name=r.short_name)
-                        t.push(tx, ty)
+                        t = thing.Thing(chunk=c, x=tx, y=ty,
+                                        tp_name=r.short_name)
+                        t.push()
 
             if gravel:
                 if c.is_snowy:
-                    t = thing.Thing(chunk=c, tp_name="gravel_snow")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="gravel_snow")
+                    t.push()
                 else:
-                    t = thing.Thing(chunk=c, tp_name="gravel")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="gravel")
+                    t.push()
 
                 if random.randint(0, 1000) < 50:
                     r = tp.get_random_small_rock()
-                    t = thing.Thing(chunk=c, tp_name=r.short_name)
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t.push()
 
             if road:
                 if c.is_snowy:
-                    t = thing.Thing(chunk=c, tp_name="road_snow")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="road_snow")
+                    t.push()
                 else:
-                    t = thing.Thing(chunk=c, tp_name="road")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="road")
+                    t.push()
 
             if ice:
-                t = thing.Thing(chunk=c, tp_name="ice")
-                t.push(tx, ty)
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="ice")
+                t.push()
 
             if snow:
-                t = thing.Thing(chunk=c, tp_name="snow")
-                t.push(tx, ty)
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="snow")
+                t.push()
 
                 if random.randint(0, 1000) < 50:
                     r = tp.get_random_snow_mound()
-                    t = thing.Thing(chunk=c, tp_name=r.short_name)
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t.push()
 
             if not grass:
                 if m.is_grass_at(x - 1, y):
-                    t = thing.Thing(chunk=c, tp_name=grass_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=grass_str + "_deco")
+                    t.push()
                     t.set_tilename(grass_str + "-right")
                 if m.is_grass_at(x + 1, y):
-                    t = thing.Thing(chunk=c, tp_name=grass_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=grass_str + "_deco")
+                    t.push()
                     t.set_tilename(grass_str + "-left")
                 if m.is_grass_at(x, y - 1):
-                    t = thing.Thing(chunk=c, tp_name=grass_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=grass_str + "_deco")
+                    t.push()
                     t.set_tilename(grass_str + "-bot")
                 if m.is_grass_at(x, y + 1):
-                    t = thing.Thing(chunk=c, tp_name=grass_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=grass_str + "_deco")
+                    t.push()
                     t.set_tilename(grass_str + "-top")
                 if m.is_grass_at(x - 1, y - 1):
-                    t = thing.Thing(chunk=c, tp_name=grass_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=grass_str + "_deco")
+                    t.push()
                     t.set_tilename(grass_str + "-br")
                 if m.is_grass_at(x + 1, y - 1):
-                    t = thing.Thing(chunk=c, tp_name=grass_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=grass_str + "_deco")
+                    t.push()
                     t.set_tilename(grass_str + "-bl")
                 if m.is_grass_at(x - 1, y + 1):
-                    t = thing.Thing(chunk=c, tp_name=grass_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=grass_str + "_deco")
+                    t.push()
                     t.set_tilename(grass_str + "-tr")
                 if m.is_grass_at(x + 1, y + 1):
-                    t = thing.Thing(chunk=c, tp_name=grass_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=grass_str + "_deco")
+                    t.push()
                     t.set_tilename(grass_str + "-tl")
 
             if not dirt:
                 if m.is_dirt_at(x - 1, y):
-                    t = thing.Thing(chunk=c, tp_name=dirt_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=dirt_str + "_deco")
+                    t.push()
                     t.set_tilename(dirt_str + "-right")
                 if m.is_dirt_at(x + 1, y):
-                    t = thing.Thing(chunk=c, tp_name=dirt_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=dirt_str + "_deco")
+                    t.push()
                     t.set_tilename(dirt_str + "-left")
                 if m.is_dirt_at(x, y - 1):
-                    t = thing.Thing(chunk=c, tp_name=dirt_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=dirt_str + "_deco")
+                    t.push()
                     t.set_tilename(dirt_str + "-bot")
                 if m.is_dirt_at(x, y + 1):
-                    t = thing.Thing(chunk=c, tp_name=dirt_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=dirt_str + "_deco")
+                    t.push()
                     t.set_tilename(dirt_str + "-top")
                 if m.is_dirt_at(x - 1, y - 1):
-                    t = thing.Thing(chunk=c, tp_name=dirt_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=dirt_str + "_deco")
+                    t.push()
                     t.set_tilename(dirt_str + "-br")
                 if m.is_dirt_at(x + 1, y - 1):
-                    t = thing.Thing(chunk=c, tp_name=dirt_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=dirt_str + "_deco")
+                    t.push()
                     t.set_tilename(dirt_str + "-bl")
                 if m.is_dirt_at(x - 1, y + 1):
-                    t = thing.Thing(chunk=c, tp_name=dirt_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=dirt_str + "_deco")
+                    t.push()
                     t.set_tilename(dirt_str + "-tr")
                 if m.is_dirt_at(x + 1, y + 1):
-                    t = thing.Thing(chunk=c, tp_name=dirt_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=dirt_str + "_deco")
+                    t.push()
                     t.set_tilename(dirt_str + "-tl")
 
             if not sand:
                 if m.is_sand_at(x - 1, y):
-                    t = thing.Thing(chunk=c, tp_name=sand_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=sand_str + "_deco")
+                    t.push()
                     t.set_tilename(sand_str + "-right")
                 if m.is_sand_at(x + 1, y):
-                    t = thing.Thing(chunk=c, tp_name=sand_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=sand_str + "_deco")
+                    t.push()
                     t.set_tilename(sand_str + "-left")
                 if m.is_sand_at(x, y - 1):
-                    t = thing.Thing(chunk=c, tp_name=sand_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=sand_str + "_deco")
+                    t.push()
                     t.set_tilename(sand_str + "-bot")
                 if m.is_sand_at(x, y + 1):
-                    t = thing.Thing(chunk=c, tp_name=sand_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=sand_str + "_deco")
+                    t.push()
                     t.set_tilename(sand_str + "-top")
                 if m.is_sand_at(x - 1, y - 1):
-                    t = thing.Thing(chunk=c, tp_name=sand_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=sand_str + "_deco")
+                    t.push()
                     t.set_tilename(sand_str + "-br")
                 if m.is_sand_at(x + 1, y - 1):
-                    t = thing.Thing(chunk=c, tp_name=sand_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=sand_str + "_deco")
+                    t.push()
                     t.set_tilename(sand_str + "-bl")
                 if m.is_sand_at(x - 1, y + 1):
-                    t = thing.Thing(chunk=c, tp_name=sand_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=sand_str + "_deco")
+                    t.push()
                     t.set_tilename(sand_str + "-tr")
                 if m.is_sand_at(x + 1, y + 1):
-                    t = thing.Thing(chunk=c, tp_name=sand_str + "_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name=sand_str + "_deco")
+                    t.push()
                     t.set_tilename(sand_str + "-tl")
 
             if not gravel:
                 if m.is_gravel_at(x - 1, y):
-                    t = thing.Thing(chunk=c, tp_name="gravel_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="gravel_deco")
+                    t.push()
                     t.set_tilename("gravel-right")
                 if m.is_gravel_at(x + 1, y):
-                    t = thing.Thing(chunk=c, tp_name="gravel_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="gravel_deco")
+                    t.push()
                     t.set_tilename("gravel-left")
                 if m.is_gravel_at(x, y - 1):
-                    t = thing.Thing(chunk=c, tp_name="gravel_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="gravel_deco")
+                    t.push()
                     t.set_tilename("gravel-bot")
                 if m.is_gravel_at(x, y + 1):
-                    t = thing.Thing(chunk=c, tp_name="gravel_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="gravel_deco")
+                    t.push()
                     t.set_tilename("gravel-top")
                 if m.is_gravel_at(x - 1, y - 1):
-                    t = thing.Thing(chunk=c, tp_name="gravel_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="gravel_deco")
+                    t.push()
                     t.set_tilename("gravel-br")
                 if m.is_gravel_at(x + 1, y - 1):
-                    t = thing.Thing(chunk=c, tp_name="gravel_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="gravel_deco")
+                    t.push()
                     t.set_tilename("gravel-bl")
                 if m.is_gravel_at(x - 1, y + 1):
-                    t = thing.Thing(chunk=c, tp_name="gravel_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="gravel_deco")
+                    t.push()
                     t.set_tilename("gravel-tr")
                 if m.is_gravel_at(x + 1, y + 1):
-                    t = thing.Thing(chunk=c, tp_name="gravel_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="gravel_deco")
+                    t.push()
                     t.set_tilename("gravel-tl")
 
             if not snow:
                 if m.is_snow_at(x - 1, y):
-                    t = thing.Thing(chunk=c, tp_name="snow_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="snow_deco")
+                    t.push()
                     t.set_tilename("snow_right")
                 if m.is_snow_at(x + 1, y):
-                    t = thing.Thing(chunk=c, tp_name="snow_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="snow_deco")
+                    t.push()
                     t.set_tilename("snow_left")
                 if m.is_snow_at(x, y - 1):
-                    t = thing.Thing(chunk=c, tp_name="snow_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="snow_deco")
+                    t.push()
                     t.set_tilename("snow_bot")
                 if m.is_snow_at(x, y + 1):
-                    t = thing.Thing(chunk=c, tp_name="snow_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="snow_deco")
+                    t.push()
                     t.set_tilename("snow_top")
                 if m.is_snow_at(x - 1, y - 1):
-                    t = thing.Thing(chunk=c, tp_name="snow_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="snow_deco")
+                    t.push()
                     t.set_tilename("snow_br")
                 if m.is_snow_at(x + 1, y - 1):
-                    t = thing.Thing(chunk=c, tp_name="snow_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="snow_deco")
+                    t.push()
                     t.set_tilename("snow_bl")
                 if m.is_snow_at(x - 1, y + 1):
-                    t = thing.Thing(chunk=c, tp_name="snow_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="snow_deco")
+                    t.push()
                     t.set_tilename("snow_tr")
                 if m.is_snow_at(x + 1, y + 1):
-                    t = thing.Thing(chunk=c, tp_name="snow_deco")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="snow_deco")
+                    t.push()
                     t.set_tilename("snow_tl")
 
             if m.is_start_at(x, y):
@@ -407,17 +453,20 @@ def biome_populate(self):
                     # Create the player on the active central chunk
                     #
                     if self.cx == 1 and self.cy == 1:
-                        t = thing.Thing(chunk=c, tp_name="player1")
-                        t.push(tx, ty)
+                        t = thing.Thing(chunk=c, x=tx, y=ty,
+                                        tp_name="player1")
+                        t.push()
                         game.g.player = t
 
             if m.is_rock_at(x, y):
                 if c.is_snowy:
-                    t = thing.Thing(chunk=c, tp_name="landrock_snow")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="landrock_snow")
+                    t.push()
                 else:
-                    t = thing.Thing(chunk=c, tp_name="landrock")
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                    tp_name="landrock")
+                    t.push()
 
                 if m.is_rock_at(x, y-1):
                     b = True
@@ -483,18 +532,18 @@ def biome_populate(self):
                 #
                 # Underground water
                 #
-                t = thing.Thing(chunk=c, tp_name=water)
-                t.push(tx, ty)
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=water)
+                t.push()
 
                 if put_treasure:
                     toughness = 1
                     r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(chunk=c, tp_name=r.short_name)
-                    t.push(tx, ty)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t.push()
 
             if m.is_treasure_at(x, y):
                 toughness = c.xyz.z
 
                 r = tp.get_random_treasure(toughness=1)
-                t = thing.Thing(chunk=c, tp_name=r.short_name)
-                t.push(tx, ty)
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                t.push()
