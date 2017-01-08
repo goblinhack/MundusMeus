@@ -5,6 +5,8 @@ import math
 import game
 import chunk
 import util
+import copy
+import thing
 
 
 class Level:
@@ -56,7 +58,7 @@ class Level:
         if game.g.player is None:
             raise NameError("No player found on any chunk")
 
-    def scroll(self, dx, dy, dz):
+    def scroll(self, dx, dy):
 
         #
         # Scroll only on the land
@@ -64,7 +66,7 @@ class Level:
         if not self.chunk[0][0].is_biome_land:
             return
 
-        self.con("Scroll dx {0}, dy {1}, dz {2}".format(dx, dy, dz))
+        self.log("Scroll dx {0}, dy {1}".format(dx, dy))
 
         game.g.map_clear_focus()
 
@@ -89,7 +91,7 @@ class Level:
                         y >= mm.CHUNK_DOWN:
 
                     c = self.chunk[cx][cy]
-                    mm.con("Chunk {0}: Scrolled off of map".format(c))
+                    self.log("Chunk {0}: Scrolled off of map".format(c))
                     c.scrolled_off()
                 else:
                     new_chunk[x][y] = self.chunk[cx][cy]
@@ -132,7 +134,7 @@ class Level:
                         self.chunk[cx][cy] = c
                         c.load(cx, cy)
 
-                    mm.con("Chunk {0}: Scrolled onto map".format(c))
+                    self.log("Chunk {0}: Scrolled onto map".format(c))
 
                 c = self.chunk[cx][cy]
                 c.cx = cx
@@ -153,6 +155,77 @@ class Level:
             y += dy
             item = (x, y)
             game.g.saved_nexthops[place] = item
+
+        game.g.load_level_finalize()
+        game.g.player_location_update()
+
+    def jump(self, to):
+
+        self.log("Jump to {0}".format(to))
+
+        game.g.map_clear_focus()
+
+        #
+        # Preserve the player
+        #
+        mm.con("Level move")
+        game.g.player.pop()
+        player_copy = copy.copy(game.g.player)
+
+        mm.con("Destroy player")
+        game.g.player.destroy()
+        game.g.player = None
+
+        #
+        # Get rid of all chunks
+        #
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                c = self.chunk[cx][cy]
+                self.log("Chunk {0}: Jumped off of map".format(c))
+                c.scrolled_off()
+
+        self.chunk = [[None for x in range(mm.CHUNK_WIDTH)]
+                      for y in range(mm.CHUNK_HEIGHT)]
+        #
+        # Add new chunks
+        #
+        self.xyz = to
+
+        for cx in range(0, mm.CHUNK_ACROSS):
+            for cy in range(0, mm.CHUNK_DOWN):
+                if self.chunk[cx][cy] is None:
+                    where = util.Xyz(0, 0, 0)
+                    where.x = self.xyz.x - 1 + cx
+                    where.y = self.xyz.y - 1 + cy
+                    where.z = self.xyz.z
+
+                    chunk_name = "l{0}".format(str(where))
+                    c = self.chunk_cache.get(chunk_name)
+                    if c is None:
+                        self.chunk[cx][cy] = chunk.Chunk(self, where, cx, cy)
+                        c = self.chunk[cx][cy]
+                    else:
+                        self.chunk[cx][cy] = c
+                        c.load(cx, cy)
+
+                    self.log("Chunk {0}: Jumped onto map".format(c))
+
+                c = self.chunk[cx][cy]
+                c.cx = cx
+                c.cy = cy
+                c.base_x = cx * mm.CHUNK_WIDTH
+                c.base_y = cy * mm.CHUNK_HEIGHT
+
+        (x, y) = self.tp_is_where("is_entrance")
+
+        mm.con("Entrance on {0},{1} level @ {2}".format(x, y, str(self)))
+
+        game.g.player = thing.Thing(level=self,
+                                    x=x, y=y,
+                                    tp_name=player_copy.tp_name)
+
+        game.g.player.push(x, y)
 
         game.g.load_level_finalize()
         game.g.player_location_update()
@@ -276,11 +349,10 @@ class Level:
 
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
-                where = self.chunk[cx][cy].is_where(value)
-                if where is not None:
-                    (where.x, where.y) = \
-                        self.chunk_xy_to_xy(cx, cy, where.x, where.y)
-                    return where
+                found = self.chunk[cx][cy].tp_is_where(value)
+                if found is not None:
+                    (x, y) = found
+                    return (self.chunk_xy_to_xy(cx, cy, x, y))
         return None
 
     def is_movement_blocking_at(self, x, y):

@@ -42,7 +42,7 @@ class Chunk:
         f = os.path.normcase(os.path.join(os.environ["APPDATA"], str(self)))
         if os.path.isfile(f):
             try:
-                mm.con("Chunk {0}: Loading".format(self, f))
+                mm.log("Chunk {0}: Loading".format(self, f))
                 self.load(cx, cy)
                 need_new_chunk = False
             except Exception as inst:
@@ -53,7 +53,7 @@ class Chunk:
             need_new_chunk = True
 
         if need_new_chunk:
-            mm.con("Chunk {0}: Creating".format(str(self)))
+            mm.log("Chunk {0}: Creating".format(str(self)))
             if self.xyz.z < 0:
                 self.biome_create(is_dungeon=True, seed=game.g.seed)
             else:
@@ -139,7 +139,7 @@ class Chunk:
             self.all_things[i].dump()
 
     def save(self):
-        self.con("Save")
+        self.log("Save")
 
         with open(os.path.normcase(
                   os.path.join(os.environ["APPDATA"],
@@ -162,12 +162,12 @@ class Chunk:
         # Before we push any things on the map, make sure the parent
         # level knows where this chunk is
         #
-        self.con("Load chunk at {0},{1}".format(cx, cy))
+        self.log("Load chunk at {0},{1}".format(cx, cy))
         self.update_pos(cx, cy)
 
         c = self.level.chunk_cache.get(self.chunk_name)
         if c is None:
-            self.con("Load from disk")
+            self.log("Load from disk")
 
             with open(os.path.normcase(
                         os.path.join(os.environ["APPDATA"],
@@ -185,7 +185,7 @@ class Chunk:
                 self.is_grassy = pickle.load(f)
                 self.is_watery = pickle.load(f)
         else:
-            self.con("Load from cache")
+            self.log("Load from cache")
 
         #
         # recreate the widgets for this thing

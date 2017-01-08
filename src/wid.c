@@ -7608,14 +7608,14 @@ static void wid_display_fast (widp w,
     thingp t = wid_get_thing(w);
     tpp tp = 0;
 
-    if (tp_is_animated(thing_tp(t))) {
-        thing_animate(t);
-    }
-
     if (likely(t != 0)) {
         tp = thing_tp(t);
         if (!tp) {
             DIE1("no tp for thing");
+        }
+
+        if (tp_is_animated(tp)) {
+            thing_animate(t);
         }
 
         if (tp_is_hidden(tp)) {

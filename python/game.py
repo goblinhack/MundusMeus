@@ -84,7 +84,6 @@ class Game:
         l = self.level
         s = os.path.normcase(
                 os.path.join(os.environ["APPDATA"], self.save_file))
-        mm.con("Game: save @ chunk {0} to {1}".format(str(l), s))
 
         with open(s, 'wb') as f:
             pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
@@ -94,14 +93,14 @@ class Game:
             pickle.dump(self.moves_per_day, f, pickle.HIGHEST_PROTOCOL)
 
         l.save()
-        mm.con("Game: saved @ chunk {0} to {1}".format(str(l), s))
+        mm.con("Game saved @ chunk {0} to {1}".format(str(l), s))
 
     def load(self):
 
         s = os.path.normcase(os.path.join(os.environ["APPDATA"],
                                           self.save_file))
         with open(s, 'rb') as f:
-            mm.con("Loading game header from {0}".format(s))
+            mm.log("Game loading from {0}".format(s))
 
             self.seed = pickle.load(f)
             self.sdl_delay = pickle.load(f)
@@ -109,9 +108,8 @@ class Game:
             self.move_count = pickle.load(f)
             self.moves_per_day = pickle.load(f)
 
-            mm.con("Loading game level data from {0}".format(s))
             self.load_level()
-            mm.con("Loading game level success from {0}".format(s))
+            mm.con("Game loaded @ chunk {0} to {1}".format(str(self.level), s))
 
     def destroy(self):
         l = self.level
@@ -320,7 +318,6 @@ class Game:
 
         level_dx = 0
         level_dy = 0
-        level_dz = 0
         level_change = False
 
         if x <= mm.CHUNK_WIDTH - 2:
@@ -340,11 +337,12 @@ class Game:
             level_change = True
 
         if l.tp_is(x, y, "is_dungeon"):
-            level_dz = -1
-            level_change = True
+            xyz = l.xyz
+            xyz.z -= 1
+            l.jump(xyz)
 
         if level_change:
-            l.scroll(level_dx, level_dy, level_dz)
+            l.scroll(level_dx, level_dy)
 
 
 def game_map_mouse_over(w, relx, rely, wheelx, wheely):
@@ -373,7 +371,7 @@ def game_new():
 
     game_dir = os.path.join(os.environ["APPDATA"], "mundusmeus")
 
-    mm.con("Appdata dir is " + game_dir)
+    mm.log("Appdata dir is " + game_dir)
 
     g = Game()
     s = os.path.normcase(os.path.join(os.environ["APPDATA"], g.save_file))

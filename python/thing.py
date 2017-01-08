@@ -101,7 +101,7 @@ class Thing:
             result["y"] -= self.chunk.base_y
 
         if self.tp.is_player:
-            self.con("Save player on chunk {0}".format(self.chunk))
+            self.log("Save player on chunk {0}".format(self.chunk))
         return result
 
     def __setstate__(self, dict):
@@ -143,39 +143,6 @@ class Thing:
 
 #        self.debug("} " + "Destroyed thing, {0}".format(reason))
         del self
-
-    #
-    # Move a thing and see it move smoothly on the map
-    #
-    def move(self, x, y):
-        self.update_pos(x, y)
-
-        mm.thing_move(self, x, y)
-
-    #
-    # The map move is done in bulk in C, just update the move here
-    #
-    def update_pos(self, x, y):
-        if self.chunk is None:
-            self.die("thing has no chunk when trying to move")
-
-        self.chunk.thing_pop(self.offset_x, self.offset_y, self)
-
-        self.x = x
-        self.y = y
-
-        old_chunk = self.chunk
-        (self.chunk, self.offset_x, self.offset_y) = \
-            self.level.xy_to_chunk_xy(x, y)
-        if old_chunk != self.chunk:
-            self.con("Moved from {0} to chunk {1}".format(
-                     old_chunk, self.chunk))
-
-        if self.chunk is None:
-            self.die("thing has no chunk at new position {0}, {1}",
-                     self.x, self.y)
-
-        self.chunk.thing_push(self.offset_x, self.offset_y, self)
 
     #
     # Loaded from save file into a chunk
@@ -227,6 +194,40 @@ class Thing:
         mm.thing_destroyed(self, "scroll off")
 
     #
+    # Move a thing and see it move smoothly on the map
+    #
+    def move(self, x, y):
+        self.update_pos(x, y)
+
+        mm.thing_move(self, x, y)
+
+    #
+    # The map move is done in bulk in C, just update the move here
+    #
+    def update_pos(self, x, y):
+        if self.chunk is None:
+            self.die("thing has no chunk when trying to move")
+
+        self.chunk.thing_pop(self.offset_x, self.offset_y, self)
+
+        self.x = x
+        self.y = y
+
+        old_chunk = self.chunk
+        (self.chunk, self.offset_x, self.offset_y) = \
+            self.level.xy_to_chunk_xy(x, y)
+        if old_chunk != self.chunk:
+            if self == game.g.player:
+                self.log("Moved from {0} to chunk {1}".format(
+                         old_chunk, self.chunk))
+
+        if self.chunk is None:
+            self.die("thing has no chunk at new position {0}, {1}",
+                     self.x, self.y)
+
+        self.chunk.thing_push(self.offset_x, self.offset_y, self)
+
+    #
     # Associate the thing with a given chunk
     #
     def push(self, x=None, y=None):
@@ -252,7 +253,7 @@ class Thing:
 
         if old_chunk != self.chunk:
             if self == game.g.player:
-                self.con("Push, moved from {0} to chunk {1}".format(
+                self.log("Push, moved from {0} to chunk {1}".format(
                         old_chunk, self.chunk))
 
         if self.chunk is None:
