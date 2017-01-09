@@ -5,8 +5,6 @@ import math
 import game
 import chunk
 import util
-import copy
-import thing
 
 
 class Level:
@@ -170,11 +168,6 @@ class Level:
         #
         mm.con("Level move")
         game.g.player.pop()
-        player_copy = copy.copy(game.g.player)
-
-        mm.con("Destroy player")
-        game.g.player.destroy()
-        game.g.player = None
 
         #
         # Get rid of all chunks
@@ -220,10 +213,6 @@ class Level:
         (x, y) = self.tp_is_where("is_entrance")
 
         mm.con("Entrance on {0},{1} level @ {2}".format(x, y, str(self)))
-
-        game.g.player = thing.Thing(level=self,
-                                    x=x, y=y,
-                                    tp_name=player_copy.tp_name)
 
         game.g.player.push(x, y)
 

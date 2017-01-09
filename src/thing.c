@@ -144,6 +144,9 @@ PyObject *thing_push_ (thingp t, double x, double y)
 void thing_pop_ (thingp t)
 {
     verify(t);
+
+    wid_set_thing(t->wid, 0);
+    wid_destroy_nodelay(&t->wid);
 }
 
 /*

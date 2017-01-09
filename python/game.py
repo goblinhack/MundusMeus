@@ -43,10 +43,6 @@ class Game:
 
         self.map_wid_create()
         self.level = level.Level(xyz=self.where)
-        l = self.level
-
-        mm.biome_set_is_land(value=l.chunk[0][0].is_biome_land)
-        mm.biome_set_is_dungeon(value=l.chunk[0][0].is_biome_dungeon)
 
     def load_level_finalize(self):
 
@@ -58,6 +54,9 @@ class Game:
         time_of_day.set_lighting(self,
                                  move=self.move_count,
                                  moves_per_day=self.moves_per_day)
+
+        mm.biome_set_is_land(value=l.chunk[0][0].is_biome_land)
+        mm.biome_set_is_dungeon(value=l.chunk[0][0].is_biome_dungeon)
 
         for y in range(0, mm.MAP_HEIGHT):
             for x in range(0, mm.MAP_WIDTH):
