@@ -677,7 +677,7 @@ class Biome(biome.Biome):
         room_place_tries = 0
         while self.rooms_on_chunk < rooms_on_chunk:
             room_place_tries += 1
-            if room_place_tries > rooms_on_chunk * 2:
+            if room_place_tries > rooms_on_chunk * 10:
                 mm.log("Tried to place rooms for too long, made {0} rooms".
                        format(self.rooms_on_chunk))
 #                self.dump()
@@ -1323,7 +1323,7 @@ class Biome(biome.Biome):
         # regions above, but somehow this looks better.
         #
         cnt = 0
-        while cnt < 10:
+        while cnt < 20:
             x1 = random.randint(-10, self.width + 10)
             y1 = random.randint(-10, self.height + 10)
             x2 = random.randint(-10, self.width + 10)
@@ -1332,7 +1332,7 @@ class Biome(biome.Biome):
                            charmap.SPACE)
             cnt += 1
         cnt = 0
-        while cnt < 10:
+        while cnt < 20:
             x1 = random.randint(-10, self.width + 10)
             y1 = random.randint(-10, self.height + 10)
             x2 = x1 + 10
@@ -1341,7 +1341,7 @@ class Biome(biome.Biome):
                            charmap.SPACE)
             cnt += 1
         cnt = 0
-        while cnt < 10:
+        while cnt < 20:
             x1 = random.randint(-10, self.width + 10)
             y1 = random.randint(-10, self.height + 10)
             x2 = x1
