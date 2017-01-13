@@ -13,7 +13,7 @@ def wall_init(name):
     x.set_is_wall(True)
     x.set_z_depth("wall")
     x.set_blit_top_off(1)
-    x.set_blit_bot_off(1)
+#    x.set_blit_bot_off(1)
 
 #    x.set_is_shadow_caster_soft(True)
     x.set_is_shadow_caster(True)

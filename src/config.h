@@ -70,11 +70,11 @@
 /*
  * Map. How many tiles across and down.
  */
-#define CHUNK_ACROSS                            (4)
-#define CHUNK_DOWN                              (4)
+#define CHUNK_ACROSS                            (3)
+#define CHUNK_DOWN                              (3)
 
-#define CHUNK_WIDTH                             (16)
-#define CHUNK_HEIGHT                            (16)
+#define CHUNK_WIDTH                             (12)
+#define CHUNK_HEIGHT                            (12)
 
 #define MAP_WIDTH                               (CHUNK_WIDTH*CHUNK_ACROSS)
 #define MAP_HEIGHT                              (CHUNK_HEIGHT*CHUNK_DOWN)

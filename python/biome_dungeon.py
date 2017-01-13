@@ -27,13 +27,15 @@ def biome_build(self, seed=0):
 
         self.biome = biome_dungeon_do.Biome(chunk=self,
                                             rooms=fixed_rooms,
-                                            rooms_on_chunk=15,
+                                            rooms_on_chunk=6,
                                             fixed_room_chance=10)
 
         if not self.biome.generate_failed:
             break
 
-    if False:
+        mm.log("Failed to build dunegon; retry")
+
+    if True:
         self.biome.dump_depth()
         self.biome.dump(biome_dungeon_do.charmap.depth.floor)
         self.biome.dump()

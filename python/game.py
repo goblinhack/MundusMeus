@@ -36,7 +36,7 @@ class Game:
         self.move_count = 0
         self.moves_per_day = 1000
         self.seed = 9
-        self.where = util.Xyz(74*4, 70*4, 0)
+        self.where = util.Xyz(74*3, 70*3, 0)
         self.load_level()
 
     def load_level(self):
@@ -319,19 +319,19 @@ class Game:
         level_dy = 0
         level_change = False
 
-        if x <= mm.CHUNK_WIDTH - 2:
+        if x <= mm.CHUNK_WIDTH - 1:
             level_dx = -1
             level_change = True
 
-        elif x >= mm.CHUNK_WIDTH * (mm.CHUNK_ACROSS - 1) + 2:
+        elif x >= mm.CHUNK_WIDTH * (mm.CHUNK_ACROSS - 1):
             level_dx = 1
             level_change = True
 
-        if y <= mm.CHUNK_HEIGHT - 2:
+        if y <= mm.CHUNK_HEIGHT - 1:
             level_dy = -1
             level_change = True
 
-        elif y >= mm.CHUNK_HEIGHT * (mm.CHUNK_DOWN - 1) + 2:
+        elif y >= mm.CHUNK_HEIGHT * (mm.CHUNK_DOWN - 1):
             level_dy = 1
             level_change = True
 

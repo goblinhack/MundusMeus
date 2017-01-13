@@ -266,7 +266,7 @@ class Biome(biome.Biome):
     def debug(self, s):
         return
         self.dump()
-        print(s)
+        mm.log(s)
 
     #
     # Check for room overlaps
@@ -664,7 +664,7 @@ class Biome(biome.Biome):
                 return True
 
             if room_place_tries > 1000:
-                print("Could not place first room")
+                mm.err("Could not place first room")
                 return False
 
     #
@@ -677,9 +677,10 @@ class Biome(biome.Biome):
         room_place_tries = 0
         while self.rooms_on_chunk < rooms_on_chunk:
             room_place_tries += 1
-            if room_place_tries > rooms_on_chunk * 8:
-                print("Tried to place rooms for too long, made {0} rooms".
-                      format(self.rooms_on_chunk))
+            if room_place_tries > rooms_on_chunk * 2:
+                mm.log("Tried to place rooms for too long, made {0} rooms".
+                       format(self.rooms_on_chunk))
+#                self.dump()
                 return False
 
             #
@@ -807,10 +808,10 @@ class Biome(biome.Biome):
     def rooms_dump_info(self):
 
         for r in self.roomnos:
-            print("room {0} --> neighbor {1}".format(r,
-                                                     self.room_connection[r]))
+            mm.log("room {0} --> neighbor {1}".format(r,
+                                                      self.room_connection[r]))
             for e in self.room_exits[r]:
-                print("    exit at {0}".format(e))
+                mm.log("    exit at {0}".format(e))
 
     #
     # Lock some rooms - not the first room
@@ -1290,7 +1291,7 @@ class Biome(biome.Biome):
         while cnt < 10:
             x1 = random.randint(-10, self.width + 10)
             y1 = random.randint(-10, self.height + 10)
-            x2 = x1 + 100
+            x2 = x1 + 10
             y2 = y1
             self.line_draw((x1, y1), (x2, y2), charmap.depth.floor,
                            charmap.FLOOR)
@@ -1303,7 +1304,7 @@ class Biome(biome.Biome):
             x1 = random.randint(-10, self.width + 10)
             y1 = random.randint(-10, self.height + 10)
             x2 = x1
-            y2 = y1 + 100
+            y2 = y1 + 10
             self.line_draw((x1, y1), (x2, y2), charmap.depth.floor,
                            charmap.FLOOR)
             cnt += 1
@@ -1334,7 +1335,7 @@ class Biome(biome.Biome):
         while cnt < 10:
             x1 = random.randint(-10, self.width + 10)
             y1 = random.randint(-10, self.height + 10)
-            x2 = x1 + 100
+            x2 = x1 + 10
             y2 = y1
             self.line_draw((x1, y1), (x2, y2), charmap.depth.floor,
                            charmap.SPACE)
@@ -1344,7 +1345,7 @@ class Biome(biome.Biome):
             x1 = random.randint(-10, self.width + 10)
             y1 = random.randint(-10, self.height + 10)
             x2 = x1
-            y2 = y1 + 100
+            y2 = y1 + 10
             self.line_draw((x1, y1), (x2, y2), charmap.depth.floor,
                            charmap.SPACE)
             cnt += 1
@@ -1433,13 +1434,13 @@ class Biome(biome.Biome):
                     if False:
                         for ry in range(rh):
                             for rx in range(rw):
-                                sys.stdout.write(vert_floor_slice[rx][ry])
-                            print()
+                                mm.puts(vert_floor_slice[rx][ry])
+                            mm.puts("\n")
 
                         for ry in range(rh):
                             for rx in range(rw):
-                                sys.stdout.write(vert_wall_slice[rx][ry])
-                            print()
+                                mm.puts(vert_wall_slice[rx][ry])
+                            mm.puts("\n")
 
                     #
                     # Add to the rooms list.
@@ -1742,7 +1743,7 @@ class Biome(biome.Biome):
 
                     r = self.getr(x, y)
                     if r is None:
-                        print("No room depth at {0},{1}".format(x, y))
+                        mm.log("No room depth at {0},{1}".format(x, y))
                     else:
                         if r in self.roomno_depth:
                             d = self.roomno_depth[r]
@@ -1756,8 +1757,8 @@ class Biome(biome.Biome):
                 else:
                     color = fg(fg_name) + bg(bg_name)
 
-                sys.stdout.write(color + c + res)
-            print("")
+                mm.puts(color + c + res)
+            mm.puts("\n")
 
     def dump_depth(self, max_depth=charmap.depth.max):
         from colored import fg, bg, attr
@@ -1776,5 +1777,5 @@ class Biome(biome.Biome):
                         c = chr(ord('0') + d)
                         color = fg(d % 32) + bg(0)
 
-                sys.stdout.write(color + c + res)
-            print("")
+                mm.puts(color + c + res)
+            mm.puts("\n")

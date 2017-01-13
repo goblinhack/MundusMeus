@@ -212,7 +212,7 @@ class Level:
 
         (x, y) = self.tp_is_where("is_entrance")
 
-        mm.con("Entrance on {0},{1} level @ {2}".format(x, y, str(self)))
+        mm.log("Entrance on {0},{1} level @ {2}".format(x, y, str(self)))
 
         game.g.player.push(x, y)
 

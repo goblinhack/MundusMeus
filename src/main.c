@@ -448,24 +448,33 @@ static void parse_args (int32_t argc, char *argv[])
 
 int32_t main (int32_t argc, char *argv[])
 {
+    const char *appdata;
+
     mysrand(time(0));
 
+    appdata = getenv("APPDATA");
+
+    if (!appdata || !appdata[0]) {
+        appdata = "appdata";
+    }
+
+    mkdir(appdata, 0700);
+
+    char *dir = dynprintf("%s%s%s", appdata, DSEP, "mundusmeus");
 #ifdef _WIN32
-    char *dir = dynprintf("%s%s%s", getenv("APPDATA"), DSEP, "mundusmeus");
     mkdir(dir);
+#else
+    mkdir(dir, 0700);
+#endif 
     myfree(dir);
 
-    char *out = dynprintf("%s%s%s%s%s", getenv("APPDATA"), DSEP, "mundusmeus", DSEP, "stdout.txt");
+    char *out = dynprintf("%s%s%s%s%s", appdata, DSEP, "mundusmeus", DSEP, "stdout.txt");
     LOG_STDOUT = fopen(out, "w+");
     myfree(out);
 
-    char *err = dynprintf("%s%s%s%s%s", getenv("APPDATA"), DSEP, "mundusmeus", DSEP, "stdout.txt");
+    char *err = dynprintf("%s%s%s%s%s", appdata, DSEP, "mundusmeus", DSEP, "stderr.txt");
     LOG_STDERR = fopen(err, "w+");
     myfree(out);
-#else
-    LOG_STDOUT = fopen("stdout.txt", "w+");
-    LOG_STDERR = fopen("stderr.txt", "w+");
-#endif
 
     ramdisk_init();
 

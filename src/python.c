@@ -1311,6 +1311,20 @@ static PyObject *con_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
+static PyObject *puts_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    char *a = 0;
+
+    if (!PyArg_ParseTuple(args, "s", &a)) {
+        return (0);
+    }
+
+    fputs(a, MY_STDOUT);
+    fflush(MY_STDOUT);
+
+    Py_RETURN_NONE;
+}
+
 static PyObject *log_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     char *a = 0;
@@ -1364,6 +1378,11 @@ static PyMethodDef python_c_METHODS[] =
      */
     {"con",
         (PyCFunction)con_,
+        METH_VARARGS,
+        "log to the console"},
+
+    {"puts",
+        (PyCFunction)puts_,
         METH_VARARGS,
         "log to the console"},
 
@@ -2759,9 +2778,9 @@ void python_init (char *argv[])
     PyImport_AppendInittab("mm", python_m_y_module_create);
     LOG("Done adding mm module");
 
-    LOG("Done cCalling Py_Initialize");
     LOG("Calling Py_Initialize");
     Py_Initialize();
+    LOG("Done calling Py_Initialize");
 
 #if  0
     py_add_to_path("./python3.5/");
