@@ -99,7 +99,7 @@ PyObject *tile_get_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     tile = tile_find(name);
     if (!tile) {
-        DIE("no font named %s", name);
+        DIE("no tile named %s", name);
     }
 
     double w = tile_get_width(tile);
@@ -129,7 +129,7 @@ PyObject *tile_get_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     tile = tile_find(name);
     if (!tile) {
-        DIE("no font named %s", name);
+        DIE("no tile named %s", name);
     }
 
     double w = tile_get_width(tile);

@@ -109,7 +109,7 @@ void thing_wid_move (thingp t,
     if (thing_is_player(t) ||
         thing_is_monst(t)) {
 
-        wid_bounce_to_pct_in(w, 0.1, 0.9, bounce_ms, 4);
+        wid_bounce_to_pct_in(w, 0.1, 0.9, bounce_ms, 1);
 
         {
             if (!w->bouncing) {

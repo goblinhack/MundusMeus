@@ -1323,7 +1323,7 @@ class Biome(biome.Biome):
         # regions above, but somehow this looks better.
         #
         cnt = 0
-        while cnt < 20:
+        while cnt < 10:
             x1 = random.randint(-10, self.width + 10)
             y1 = random.randint(-10, self.height + 10)
             x2 = random.randint(-10, self.width + 10)
@@ -1332,7 +1332,7 @@ class Biome(biome.Biome):
                            charmap.SPACE)
             cnt += 1
         cnt = 0
-        while cnt < 20:
+        while cnt < 10:
             x1 = random.randint(-10, self.width + 10)
             y1 = random.randint(-10, self.height + 10)
             x2 = x1 + 10
@@ -1341,7 +1341,7 @@ class Biome(biome.Biome):
                            charmap.SPACE)
             cnt += 1
         cnt = 0
-        while cnt < 20:
+        while cnt < 10:
             x1 = random.randint(-10, self.width + 10)
             y1 = random.randint(-10, self.height + 10)
             x2 = x1

@@ -24,7 +24,7 @@
 #include "snow.h"
 #include "rain.h"
 
-#define WID_DISABLE_LIGHT
+#undef WID_DISABLE_LIGHT
 
 #ifdef ENABLE_WID_PTRCHECK
 #undef fast_verify

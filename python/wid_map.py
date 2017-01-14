@@ -30,7 +30,7 @@ class WidMap:
         self.TILES_SCREEN_HEIGHT = mm.TILES_SCREEN_HEIGHT
 
         self.tile_width_pct, self.tile_height_pct = \
-            mm.tile_size_pct(name="player1")
+            mm.tile_size_pct(name="player1.1")
 
         self.wid_map_width, self.wid_map_height = w.get_size()
 
