@@ -1776,8 +1776,8 @@ def init_tiles_land():
     mm.tex_load_tiled(
             file="data/gfx/land.tga",
             name="land",
-            width=64,
-            height=64)
+            width=24,
+            height=24)
 
     tiles = [
         "",
@@ -2773,7 +2773,7 @@ def init_tiles_land():
 
     mm.tile_load_arr(tex_name="land",
                      tex_name_black_and_white="",
-                     width=64, height=64,
+                     width=24, height=24,
                      arr=tiles)
 
 
