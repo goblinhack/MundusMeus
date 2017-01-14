@@ -136,7 +136,7 @@ static int32_t wid_highest_priority = 1;
 static int32_t wid_lowest_priority = -1;
 
 double light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
-double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH];
+double floor_depth[MAP_WIDTH][MAP_HEIGHT];
 int light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
 double floor_offset[MAP_WIDTH][MAP_HEIGHT];
 static texp light_fade_texp;
@@ -7605,6 +7605,17 @@ static void wid_display_fast (widp w,
     double obry;
     widp p;
 
+    static int first = true;
+    if (first) {
+        first = false;
+        int x, y;
+        for (x = 0; x < MAP_WIDTH; x++) {
+            for (y = 0; y < MAP_HEIGHT; y++) {
+                floor_depth[x][y] = myrand() % 100;
+            }
+        }
+    }
+
     thingp t = wid_get_thing(w);
     tpp tp = 0;
 
@@ -7843,8 +7854,6 @@ static void wid_display_fast (widp w,
         } else
 #endif
         {
-            int z = tp_get_z_depth(tp);
-
             if (tp_is_floor(tp) ||
                 tp_is_sand(tp) ||
                 tp_is_grass(tp) ||
@@ -7861,49 +7870,56 @@ static void wid_display_fast (widp w,
                 color c = WHITE;
                 color d = WHITE;
 
-                floor_depth[tx][ty][z] = t->depth;
-
-                int tx2 = (tx + 1) % MAP_WIDTH;
-                int ty2 = (ty + 1) % MAP_HEIGHT;
+                uint32_t tx2 = (((uint32_t)tx) + 1) % MAP_WIDTH;
+                uint32_t ty2 = (((uint32_t)ty) + 1) % MAP_HEIGHT;
+                uint32_t tx1 = (((uint32_t)tx) - 1) % MAP_WIDTH;
+                uint32_t ty1 = (((uint32_t)ty) - 1) % MAP_HEIGHT;
 
                 double depth;
                 double depth_scale = 0.4;
 
-                if (floor_depth[tx][ty][z]) {
-                    depth = (floor_depth[tx][ty][z]) / 64.0;
-                    depth *= depth_scale;
-                    depth = 1.0 - depth;
-                    a.r *= depth;
-                    a.g *= depth;
-                    a.b *= depth;
-                }
+                /*
+                 * a b c
+                 * d e f
+                 * g h i
+                 */
+                double da = floor_depth[tx1][ty1];
+                double db = floor_depth[tx][ty1];
+                double dc = floor_depth[tx2][ty1];
+                double dd = floor_depth[tx1][ty];
+                double de = floor_depth[tx][ty];
+                double df = floor_depth[tx2][ty];
+                double dg = floor_depth[tx1][ty2];
+                double dh = floor_depth[tx][ty2];
+                double di = floor_depth[tx2][ty2];
 
-                if (floor_depth[tx2][ty][z]) {
-                    depth = (floor_depth[tx2][ty][z]) / 64.0;
-                    depth *= depth_scale;
-                    depth = 1.0 - depth;
-                    b.r *= depth;
-                    b.g *= depth;
-                    b.b *= depth;
-                }
+                depth = (( da + db + dd + de ) / 4.0) / 128.0;
+                depth *= depth_scale;
+                depth = 1.0 - depth;
+                a.r *= depth;
+                a.g *= depth;
+                a.b *= depth;
 
-                if (floor_depth[tx][ty2][z]) {
-                    depth = (floor_depth[tx][ty2][z]) / 64.0;
-                    depth *= depth_scale;
-                    depth = 1.0 - depth;
-                    c.r *= depth;
-                    c.g *= depth;
-                    c.b *= depth;
-                }
+                depth = (( db + dc + de + df ) / 4.0) / 128.0;
+                depth *= depth_scale;
+                depth = 1.0 - depth;
+                b.r *= depth;
+                b.g *= depth;
+                b.b *= depth;
 
-                if (floor_depth[tx2][ty2][z]) {
-                    depth = (floor_depth[tx2][ty2][z]) / 64.0;
-                    depth *= depth_scale;
-                    depth = 1.0 - depth;
-                    d.r *= depth;
-                    d.g *= depth;
-                    d.b *= depth;
-                }
+                depth = (( dd + de + dg + dh ) / 4.0) / 128.0;
+                depth *= depth_scale;
+                depth = 1.0 - depth;
+                c.r *= depth;
+                c.g *= depth;
+                c.b *= depth;
+
+                depth = (( de + df + dh + di ) / 4.0) / 128.0;
+                depth *= depth_scale;
+                depth = 1.0 - depth;
+                d.r *= depth;
+                d.g *= depth;
+                d.b *= depth;
 
                 tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
 
