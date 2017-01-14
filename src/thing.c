@@ -307,6 +307,14 @@ void thing_move_to (thingp t, double x, double y)
 
     t->x = x;
     t->y = y;
+
+    if (fabs(t->x - t->last_x) <= 1) {
+        if (t->x > t->last_x) {
+            wid_flip_horiz(t->wid, true);
+        } else {
+            wid_flip_horiz(t->wid, false);
+        }
+    }
 }
 
 void thing_move_set_dir (thingp t,
