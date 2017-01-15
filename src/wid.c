@@ -23,6 +23,7 @@
 #include "wid_tiles.h"
 #include "snow.h"
 #include "rain.h"
+#include "cloud.h"
 
 #undef WID_DISABLE_LIGHT
 
@@ -138,7 +139,6 @@ static int32_t wid_highest_priority = 1;
 static int32_t wid_lowest_priority = -1;
 
 double light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
-double floor_depth[MAP_WIDTH][MAP_HEIGHT];
 int light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
 double floor_offset[MAP_WIDTH][MAP_HEIGHT];
 static texp light_fade_texp;
@@ -7607,17 +7607,6 @@ static void wid_display_fast (widp w,
     double obry;
     widp p;
 
-    static int first = true;
-    if (first) {
-        first = false;
-        int x, y;
-        for (x = 0; x < MAP_WIDTH; x++) {
-            for (y = 0; y < MAP_HEIGHT; y++) {
-                floor_depth[x][y] = myrand() % 100;
-            }
-        }
-    }
-
     thingp t = wid_get_thing(w);
     tpp tp = 0;
 
@@ -7855,96 +7844,7 @@ static void wid_display_fast (widp w,
             tile_blit_fat_black_and_white(tp, tile, 0, tl, br);
         } else
 #endif
-#if 0
-        {
-            if (tp_is_floor(tp) ||
-                tp_is_sand(tp) ||
-                tp_is_grass(tp) ||
-                tp_is_water(tp) ||
-                tp_is_rock(tp) ||
-                tp_is_landrock(tp) ||
-                tp_is_gravel(tp) ||
-                tp_is_gravel_snow(tp) ||
-                tp_is_snow(tp) ||
-                tp_is_dirt(tp)) {
-
-                color a = WHITE;
-                color b = WHITE;
-                color c = WHITE;
-                color d = WHITE;
-
-                uint32_t tx2 = (((uint32_t)tx) + 1) % MAP_WIDTH;
-                uint32_t ty2 = (((uint32_t)ty) + 1) % MAP_HEIGHT;
-                uint32_t tx1 = (((uint32_t)tx) - 1) % MAP_WIDTH;
-                uint32_t ty1 = (((uint32_t)ty) - 1) % MAP_HEIGHT;
-
-                double depth;
-                double depth_scale = 0.4;
-
-                /*
-                 * a b c
-                 * d e f
-                 * g h i
-                 */
-                double da = floor_depth[tx1][ty1];
-                double db = floor_depth[tx][ty1];
-                double dc = floor_depth[tx2][ty1];
-                double dd = floor_depth[tx1][ty];
-                double de = floor_depth[tx][ty];
-                double df = floor_depth[tx2][ty];
-                double dg = floor_depth[tx1][ty2];
-                double dh = floor_depth[tx][ty2];
-                double di = floor_depth[tx2][ty2];
-
-                depth = (( da + db + dd + de ) / 4.0) / 80.0;
-                depth *= depth_scale;
-                depth = 1.0 - depth;
-                if ((depth < 0.0) || (depth > 1.0)) {
-                    depth = 0.5;
-                }
-                a.r *= depth;
-                a.g *= depth;
-                a.b *= depth;
-
-                depth = (( db + dc + de + df ) / 4.0) / 80.0;
-                depth *= depth_scale;
-                depth = 1.0 - depth;
-                if ((depth < 0.0) || (depth > 1.0)) {
-                    depth = 0.5;
-                }
-                b.r *= depth;
-                b.g *= depth;
-                b.b *= depth;
-
-                depth = (( dd + de + dg + dh ) / 4.0) / 80.0;
-                depth *= depth_scale;
-                depth = 1.0 - depth;
-                if ((depth < 0.0) || (depth > 1.0)) {
-                    depth = 0.5;
-                }
-                c.r *= depth;
-                c.g *= depth;
-                c.b *= depth;
-
-                depth = (( de + df + dh + di ) / 4.0) / 80.0;
-                depth *= depth_scale;
-                depth = 1.0 - depth;
-                if ((depth < 0.0) || (depth > 1.0)) {
-                    depth = 0.5;
-                }
-                d.r *= depth;
-                d.g *= depth;
-                d.b *= depth;
-
-                tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
-
-            } else {
-                tile_blit_fat(tp, tile, 0, tl, br);
-            }
-        }
-#else
-                tile_blit_fat(tp, tile, 0, tl, br);
-#endif
+        tile_blit_fat(tp, tile, 0, tl, br);
     }
 
 #ifdef WID_DISABLE_LIGHT
@@ -9458,31 +9358,7 @@ static void wid_display (widp w,
         if (game.biome_set_is_land) {
             snow_tick(game.snow_amount);
             rain_tick(game.rain_amount);
-
-            static uint32_t last_cloud_move;
-            int move_clouds = false;
-            uint32_t cloud_move_speed;
-
-            if ((game.rain_amount > 50) || (game.snow_amount > 50)) {
-                cloud_move_speed = 100;
-            } else {
-                cloud_move_speed = 2000;
-            }
-
-            if ((wid_time - last_cloud_move) > cloud_move_speed) {
-                last_cloud_move = wid_time;
-                move_clouds = true;
-            }
-
-            if (move_clouds) {
-                int x, y;
-                for (y = 0; y < MAP_HEIGHT; y++) {
-                    for (x = 0; x < MAP_WIDTH-1; x++) {
-                        floor_depth[x][y] = floor_depth[x+1][y];
-                    }
-                    floor_depth[x][y] = myrand() % 100;
-                }
-            }
+            cloud_tick(game.rain_amount + game.snow_amount);
         }
 
         if ((w->grid) && !debug) {

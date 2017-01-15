@@ -301,12 +301,10 @@ void wid_game_map_scroll_chunk (int dx, int dy)
      * Scroll the various lighting effects we overlay on the map.
      */
     double copy_light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
-    double copy_floor_depth[MAP_WIDTH][MAP_HEIGHT];
     int copy_light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
     double copy_floor_offset[MAP_WIDTH][MAP_HEIGHT];
 
     extern double light_pulse_amount[MAP_WIDTH][MAP_HEIGHT];
-    extern double floor_depth[MAP_WIDTH][MAP_HEIGHT];
     extern int light_pulse_dir[MAP_WIDTH][MAP_HEIGHT];
     extern double floor_offset[MAP_WIDTH][MAP_HEIGHT];
 
@@ -322,22 +320,7 @@ void wid_game_map_scroll_chunk (int dx, int dy)
         }
     }
 
-    for (x = 0; x < MAP_WIDTH; x++) {
-        int nx = ((uint32_t)(x + tdx)) % MAP_WIDTH; 
-
-        for (y = 0; y < MAP_HEIGHT; y++) {
-            int ny = ((uint32_t)(y + tdy)) % MAP_HEIGHT; 
-            if ((ny < 0) || (ny >= MAP_HEIGHT) || (nx < 0) || (nx >= MAP_WIDTH)) {
-                copy_floor_depth[nx][ny] = myrand() % 100;
-                continue;
-            }
-
-            copy_floor_depth[nx][ny] = floor_depth[x][y];
-        }
-    }
-
     memcpy(light_pulse_amount, copy_light_pulse_amount, sizeof(light_pulse_amount));
-    memcpy(floor_depth, copy_floor_depth, sizeof(floor_depth));
     memcpy(light_pulse_dir, copy_light_pulse_dir, sizeof(light_pulse_dir));
     memcpy(floor_offset, copy_floor_offset, sizeof(floor_offset));
 
