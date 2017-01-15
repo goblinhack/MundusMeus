@@ -7893,30 +7893,42 @@ static void wid_display_fast (widp w,
                 double dh = floor_depth[tx][ty2];
                 double di = floor_depth[tx2][ty2];
 
-                depth = (( da + db + dd + de ) / 4.0) / 128.0;
+                depth = (( da + db + dd + de ) / 4.0) / 80.0;
                 depth *= depth_scale;
                 depth = 1.0 - depth;
+                if ((depth < 0.0) || (depth > 1.0)) {
+                    depth = 0.5;
+                }
                 a.r *= depth;
                 a.g *= depth;
                 a.b *= depth;
 
-                depth = (( db + dc + de + df ) / 4.0) / 128.0;
+                depth = (( db + dc + de + df ) / 4.0) / 80.0;
                 depth *= depth_scale;
                 depth = 1.0 - depth;
+                if ((depth < 0.0) || (depth > 1.0)) {
+                    depth = 0.5;
+                }
                 b.r *= depth;
                 b.g *= depth;
                 b.b *= depth;
 
-                depth = (( dd + de + dg + dh ) / 4.0) / 128.0;
+                depth = (( dd + de + dg + dh ) / 4.0) / 80.0;
                 depth *= depth_scale;
                 depth = 1.0 - depth;
+                if ((depth < 0.0) || (depth > 1.0)) {
+                    depth = 0.5;
+                }
                 c.r *= depth;
                 c.g *= depth;
                 c.b *= depth;
 
-                depth = (( de + df + dh + di ) / 4.0) / 128.0;
+                depth = (( de + df + dh + di ) / 4.0) / 80.0;
                 depth *= depth_scale;
                 depth = 1.0 - depth;
+                if ((depth < 0.0) || (depth > 1.0)) {
+                    depth = 0.5;
+                }
                 d.r *= depth;
                 d.g *= depth;
                 d.b *= depth;
@@ -9440,6 +9452,31 @@ static void wid_display (widp w,
         if (game.biome_set_is_land) {
             snow_tick(game.snow_amount);
             rain_tick(game.rain_amount);
+
+            static uint32_t last_cloud_move;
+            int move_clouds = false;
+            uint32_t cloud_move_speed;
+
+            if ((game.rain_amount > 50) || (game.snow_amount > 50)) {
+                cloud_move_speed = 100;
+            } else {
+                cloud_move_speed = 2000;
+            }
+
+            if ((wid_time - last_cloud_move) > cloud_move_speed) {
+                last_cloud_move = wid_time;
+                move_clouds = true;
+            }
+
+            if (move_clouds) {
+                int x, y;
+                for (y = 0; y < MAP_HEIGHT; y++) {
+                    for (x = 0; x < MAP_WIDTH-1; x++) {
+                        floor_depth[x][y] = floor_depth[x+1][y];
+                    }
+                    floor_depth[x][y] = myrand() % 100;
+                }
+            }
         }
 
         if ((w->grid) && !debug) {

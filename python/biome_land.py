@@ -176,10 +176,16 @@ def biome_populate(self):
                     else:
                         if random.randint(0, 100) < 10:
                             r = tp.get_random_plant()
-                            for i in range(1, random.randint(1, 15)):
-                                t = thing.Thing(chunk=c, x=tx, y=ty,
-                                                tp_name=r.short_name)
-                                t.push()
+                            if random.randint(0, 100) < 10:
+                                for i in range(1, random.randint(1, 15)):
+                                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                                    tp_name=r.short_name)
+                                    t.push()
+                            else:
+                                for i in range(1, random.randint(1, 5)):
+                                    t = thing.Thing(chunk=c, x=tx, y=ty,
+                                                    tp_name=r.short_name)
+                                    t.push()
 
             if dirt:
                 t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=dirt_str + "")
