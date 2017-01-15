@@ -79,6 +79,8 @@ class Game:
                 t.wid.set_on_m_down(game_map_mouse_down)
                 t.wid.set_on_key_down(game_key_down)
 
+        mm.game_map_fixup()
+
     def save(self):
         l = self.level
         s = os.path.normcase(

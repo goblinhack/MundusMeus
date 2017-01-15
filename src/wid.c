@@ -95,6 +95,8 @@ const int32_t wid_swipe_delay = 200;
 const int32_t wid_pulse_delay = 300;
 const int32_t wid_scaling_forever_delay = 500;
 
+widp wid_scratch[WID_SCRATCH_SIZE];
+
 /*
  * Prototypes.
  */
@@ -7853,6 +7855,7 @@ static void wid_display_fast (widp w,
             tile_blit_fat_black_and_white(tp, tile, 0, tl, br);
         } else
 #endif
+#if 0
         {
             if (tp_is_floor(tp) ||
                 tp_is_sand(tp) ||
@@ -7939,6 +7942,9 @@ static void wid_display_fast (widp w,
                 tile_blit_fat(tp, tile, 0, tl, br);
             }
         }
+#else
+                tile_blit_fat(tp, tile, 0, tl, br);
+#endif
     }
 
 #ifdef WID_DISABLE_LIGHT

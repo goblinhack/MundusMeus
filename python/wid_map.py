@@ -78,6 +78,8 @@ class WidMap:
 
     def destroy(self):
 
+        mm.game_map_cleanup()
+
         if self.wid_map is not None:
             self.wid_map.destroy()
             self.wid_map = None

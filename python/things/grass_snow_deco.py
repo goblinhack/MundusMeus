@@ -10,8 +10,7 @@ def grass_deco1_init(name, short_name, long_name, tiles=[]):
     x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("grass")
-    x.set_is_grass(True)
-    x.set_is_grass_snow(True)
+    x.set_is_grass_snow_deco(True)
 
     if tiles is not None:
         for t in tiles:

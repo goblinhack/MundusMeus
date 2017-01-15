@@ -126,7 +126,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
          */
         dx = gauss(0.0, 0.25);
         dy = gauss(0.0, 0.3);
-        scale = gauss(1.0, 0.05);
+        scale = gauss(1.2, 0.10);
     }
 
     if (tp_is_snow_mound(tp)) {
@@ -138,14 +138,10 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         scale = gauss(1.0, 0.05);
     }
 
-    if (tp_is_grass(tp)) {
-        dx = gauss(0.0, 0.05);
-        dy = gauss(0.0, 0.05);
-    }
-
     if (tp_is_plant(tp)) {
-        dx = gauss(0.0, 0.1);
-        dy = gauss(0.0, 0.1);
+        dx = gauss(0.0, 0.3);
+        dy = gauss(0.0, 0.3);
+        scale = gauss(1.2, 0.10);
     }
 
     if (tp_is_marsh_plant(tp)) {
@@ -175,19 +171,19 @@ wid_game_map_replace_tile (double x, double y, thingp t)
     }
 
     if (x + dx >= MAP_WIDTH - 1) {
-        dx = 0;
+        dx = -dx;
     }
 
     if (y + dy >= MAP_HEIGHT - 1) {
-        dy = 0;
+        dy = -dy;
     }
 
     if (x + dx <= 1) {
-        dx = 0;
+        dx = -dx;
     }
 
     if (y + dy <= 1) {
-        dy = 0;
+        dy = -dy;
     }
 
     thing_wid_update(t, x + dx, y + dy, false /* smooth */);
@@ -263,7 +259,6 @@ void wid_game_map_scroll_chunk (int dx, int dy)
     double tdx = -CHUNK_WIDTH * (double) dx;
     double tdy = -CHUNK_HEIGHT * (double) dy;
 
-    static widp scratch[512*1024];
     int s = 0;
 
     for (z = 0; z < Z_DEPTH; z++) {
@@ -279,19 +274,19 @@ void wid_game_map_scroll_chunk (int dx, int dy)
                             *tree, node,
                             tree_prev_tree_wid_compare_func_fast) {
 
-                    if (s >= (int) ARRAY_SIZE(scratch)) {
+                    if (s >= (int) ARRAY_SIZE(wid_scratch)) {
                         ERR("exceeded scratch pad size when moving things");
                         return;
                     }
 
-                    scratch[s++] = node->wid;
+                    wid_scratch[s++] = node->wid;
                 }
             }
         }
     }
 
     while (--s > 0) {
-        widp w = scratch[s];
+        widp w = wid_scratch[s];
 
         wid_move_end(w);
         wid_move_delta(w, px, py);
@@ -392,6 +387,7 @@ void wid_game_map_scroll_adjust (levelp level, uint8_t adjust)
     if (game.wid_game_vert_scroll) {
         wid_move_to_vert_pct(game.wid_game_vert_scroll, playery);
     }
+
     if (game.wid_game_horiz_scroll) {
         wid_move_to_horiz_pct(game.wid_game_horiz_scroll, playerx);
     }

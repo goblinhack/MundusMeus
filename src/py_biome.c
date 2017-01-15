@@ -7,6 +7,7 @@
 #include "python.h"
 #include "main.h"
 #include "wid_game_map.h"
+#include "map.h"
 
 PyObject *biome_set_is_land_ (PyObject *obj, PyObject *args, 
                               PyObject *keywds)
@@ -82,6 +83,22 @@ PyObject *game_set_full_screen_ (PyObject *obj, PyObject *args,
                                      &game.full_screen)) {
         Py_RETURN_NONE;
     }
+
+    Py_RETURN_NONE;
+}
+
+PyObject *game_map_fixup_ (PyObject *obj, PyObject *args, 
+                           PyObject *keywds)
+{
+    map_fixup(&game.level);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *game_map_cleanup_ (PyObject *obj, PyObject *args, 
+                           PyObject *keywds)
+{
+    map_cleanup(&game.level);
 
     Py_RETURN_NONE;
 }

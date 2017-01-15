@@ -73,14 +73,14 @@
 #define CHUNK_ACROSS                            (3)
 #define CHUNK_DOWN                              (3)
 
-#define CHUNK_WIDTH                             (12)
-#define CHUNK_HEIGHT                            (12)
+#define CHUNK_WIDTH                             (13)
+#define CHUNK_HEIGHT                            (13)
 
 #define MAP_WIDTH                               (CHUNK_WIDTH*CHUNK_ACROSS)
 #define MAP_HEIGHT                              (CHUNK_HEIGHT*CHUNK_DOWN)
 
-#define WORLD_WIDTH                             128
-#define WORLD_HEIGHT                            128
+#define WORLD_WIDTH                             629
+#define WORLD_HEIGHT                            629
 #define WORLD_DEPTH                             16
 
 /*

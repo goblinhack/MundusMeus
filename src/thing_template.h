@@ -212,14 +212,14 @@ typedef struct tp_ {
     uint8_t is_rrr66:1;
     uint8_t is_rrr67:1;
     uint8_t is_rrr68:1;
-    uint8_t is_rrr69:1;
-    uint8_t is_rrr70:1;
-    uint8_t is_rrr71:1;
-    uint8_t is_rrr72:1;
-    uint8_t is_rrr73:1;
-    uint8_t is_rrr74:1;
-    uint8_t is_rrr75:1;
-    uint8_t is_rrr76:1;
+    uint8_t is_dirt_deco:1;
+    uint8_t is_dirt_snow_deco:1;
+    uint8_t is_grass_deco:1;
+    uint8_t is_grass_snow_deco:1;
+    uint8_t is_gravel_deco:1;
+    uint8_t is_sand_deco:1;
+    uint8_t is_sand_snow_deco:1;
+    uint8_t is_snow_deco:1;
     uint8_t is_sand_snow:1;
     uint8_t is_dirt_snow:1;
     uint8_t is_grass_snow:1;
@@ -762,44 +762,44 @@ static inline uint8_t tp_is_rrr68 (tpp t)
     return (t->is_rrr68);
 }
 
-static inline uint8_t tp_is_rrr69 (tpp t)
+static inline uint8_t tp_is_dirt_deco (tpp t)
 {
-    return (t->is_rrr69);
+    return (t->is_dirt_deco);
 }
 
-static inline uint8_t tp_is_rrr70 (tpp t)
+static inline uint8_t tp_is_dirt_snow_deco (tpp t)
 {
-    return (t->is_rrr70);
+    return (t->is_dirt_snow_deco);
 }
 
-static inline uint8_t tp_is_rrr71 (tpp t)
+static inline uint8_t tp_is_grass_deco (tpp t)
 {
-    return (t->is_rrr71);
+    return (t->is_grass_deco);
 }
 
-static inline uint8_t tp_is_rrr72 (tpp t)
+static inline uint8_t tp_is_grass_snow_deco (tpp t)
 {
-    return (t->is_rrr72);
+    return (t->is_grass_snow_deco);
 }
 
-static inline uint8_t tp_is_rrr73 (tpp t)
+static inline uint8_t tp_is_gravel_deco (tpp t)
 {
-    return (t->is_rrr73);
+    return (t->is_gravel_deco);
 }
 
-static inline uint8_t tp_is_rrr74 (tpp t)
+static inline uint8_t tp_is_sand_deco (tpp t)
 {
-    return (t->is_rrr74);
+    return (t->is_sand_deco);
 }
 
-static inline uint8_t tp_is_rrr75 (tpp t)
+static inline uint8_t tp_is_sand_snow_deco (tpp t)
 {
-    return (t->is_rrr75);
+    return (t->is_sand_snow_deco);
 }
 
-static inline uint8_t tp_is_rrr76 (tpp t)
+static inline uint8_t tp_is_snow_deco (tpp t)
 {
-    return (t->is_rrr76);
+    return (t->is_snow_deco);
 }
 
 static inline uint8_t tp_is_sand_snow (tpp t)

@@ -71,4 +71,24 @@ def init():
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
+    x = tree1_init(d1000_roll=1, tiles=["tree8"])
+    x.set_blit_top_off(1)
+    x.set_blit_left_off(1)
+    x.set_blit_right_off(1)
+
+    x = tree1_init(d1000_roll=1, tiles=["tree9"])
+    x.set_blit_top_off(1)
+    x.set_blit_left_off(1)
+    x.set_blit_right_off(1)
+
+    x = tree1_init(d1000_roll=1, tiles=["tree10"])
+    x.set_blit_top_off(1)
+    x.set_blit_left_off(1)
+    x.set_blit_right_off(1)
+
+    x = tree1_init(d1000_roll=1, tiles=["tree11"])
+    x.set_blit_top_off(1)
+    x.set_blit_left_off(1)
+    x.set_blit_right_off(1)
+
 init()

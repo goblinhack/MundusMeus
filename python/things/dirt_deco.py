@@ -10,7 +10,7 @@ def dirt_deco1_init(name, short_name, long_name, tiles=[]):
     x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("dirt")
-    x.set_is_dirt(True)
+    x.set_is_dirt_deco(True)
 
     if tiles is not None:
         for t in tiles:

@@ -1803,14 +1803,14 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr66)
     TP_SET_DECL(is_rrr67)
     TP_SET_DECL(is_rrr68)
-    TP_SET_DECL(is_rrr69)
-    TP_SET_DECL(is_rrr70)
-    TP_SET_DECL(is_rrr71)
-    TP_SET_DECL(is_rrr72)
-    TP_SET_DECL(is_rrr73)
-    TP_SET_DECL(is_rrr74)
-    TP_SET_DECL(is_rrr75)
-    TP_SET_DECL(is_rrr76)
+    TP_SET_DECL(is_dirt_deco)
+    TP_SET_DECL(is_dirt_snow_deco)
+    TP_SET_DECL(is_grass_deco)
+    TP_SET_DECL(is_grass_snow_deco)
+    TP_SET_DECL(is_gravel_deco)
+    TP_SET_DECL(is_sand_deco)
+    TP_SET_DECL(is_sand_snow_deco)
+    TP_SET_DECL(is_snow_deco)
     TP_SET_DECL(is_sand_snow)
     TP_SET_DECL(is_dirt_snow)
     TP_SET_DECL(is_grass_snow)
@@ -1895,6 +1895,16 @@ static PyMethodDef python_c_METHODS[] =
 
     {"game_set_move_count",
         (PyCFunction)game_set_move_count_,
+        METH_VARARGS | METH_KEYWORDS,
+        ""},
+
+    {"game_map_fixup",
+        (PyCFunction)game_map_fixup_,
+        METH_VARARGS | METH_KEYWORDS,
+        ""},
+
+    {"game_map_cleanup",
+        (PyCFunction)game_map_cleanup_,
         METH_VARARGS | METH_KEYWORDS,
         ""},
 

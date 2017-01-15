@@ -191,14 +191,14 @@ class Tp:
         self.is_rrr66 = False
         self.is_rrr67 = False
         self.is_rrr68 = False
-        self.is_rrr69 = False
-        self.is_rrr70 = False
-        self.is_rrr71 = False
-        self.is_rrr72 = False
-        self.is_rrr73 = False
-        self.is_rrr74 = False
-        self.is_rrr75 = False
-        self.is_rrr76 = False
+        self.is_dirt_deco = False
+        self.is_dirt_snow_deco = False
+        self.is_grass_deco = False
+        self.is_grass_snow_deco = False
+        self.is_gravel_deco = False
+        self.is_sand_deco = False
+        self.is_sand_snow_deco = False
+        self.is_snow_deco = False
         self.is_sand_snow = False
         self.is_dirt_snow = False
         self.is_grass_snow = False
@@ -645,37 +645,37 @@ class Tp:
         self.is_rrr68 = value
         mm.tp_set_is_rrr68(self, value)
 
-    def set_is_rrr69(self, value):
-        self.is_rrr69 = value
-        mm.tp_set_is_rrr69(self, value)
+    def set_is_dirt_deco(self, value):
+        self.is_dirt_deco = value
+        mm.tp_set_is_dirt_deco(self, value)
 
-    def set_is_rrr70(self, value):
-        self.is_rrr70 = value
-        mm.tp_set_is_rrr70(self, value)
+    def set_is_dirt_snow_deco(self, value):
+        self.is_dirt_snow_deco = value
+        mm.tp_set_is_dirt_snow_deco(self, value)
 
-    def set_is_rrr71(self, value):
-        self.is_rrr71 = value
-        mm.tp_set_is_rrr71(self, value)
+    def set_is_grass_deco(self, value):
+        self.is_grass_deco = value
+        mm.tp_set_is_grass_deco(self, value)
 
-    def set_is_rrr72(self, value):
-        self.is_rrr72 = value
-        mm.tp_set_is_rrr72(self, value)
+    def set_is_grass_snow_deco(self, value):
+        self.is_grass_snow_deco = value
+        mm.tp_set_is_grass_snow_deco(self, value)
 
-    def set_is_rrr73(self, value):
-        self.is_rrr73 = value
-        mm.tp_set_is_rrr73(self, value)
+    def set_is_gravel_deco(self, value):
+        self.is_gravel_deco = value
+        mm.tp_set_is_gravel_deco(self, value)
 
-    def set_is_rrr74(self, value):
-        self.is_rrr74 = value
-        mm.tp_set_is_rrr74(self, value)
+    def set_is_sand_deco(self, value):
+        self.is_sand_deco = value
+        mm.tp_set_is_sand_deco(self, value)
 
-    def set_is_rrr75(self, value):
-        self.is_rrr75 = value
-        mm.tp_set_is_rrr75(self, value)
+    def set_is_sand_snow_deco(self, value):
+        self.is_sand_snow_deco = value
+        mm.tp_set_is_sand_snow_deco(self, value)
 
-    def set_is_rrr76(self, value):
-        self.is_rrr76 = value
-        mm.tp_set_is_rrr76(self, value)
+    def set_is_snow_deco(self, value):
+        self.is_snow_deco = value
+        mm.tp_set_is_snow_deco(self, value)
 
     def set_is_sand_snow(self, value):
         self.is_sand_snow = value

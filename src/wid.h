@@ -1140,3 +1140,10 @@ void wid_set_tile (widp w, tilep tile)
     }
 #endif
 }
+
+/*
+ * For temporary walks.
+ */
+#define WID_SCRATCH_SIZE (512 * 1024)
+extern widp wid_scratch[WID_SCRATCH_SIZE];
+

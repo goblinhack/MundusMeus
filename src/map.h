@@ -14,6 +14,26 @@ tpp map_is_corridor_at(levelp, int32_t x, int32_t y);
 tpp map_is_dusty_at(levelp, int32_t x, int32_t y);
 tpp map_is_door_at(levelp, int32_t x, int32_t y);
 tpp map_is_chasm_smoke_at(levelp, int32_t x, int32_t y);
+tpp map_is_dirt_deco_at(levelp level, int32_t x, int32_t y);
+tpp map_is_dirt_snow_deco_at(levelp level, int32_t x, int32_t y);
+tpp map_is_grass_deco_at(levelp level, int32_t x, int32_t y);
+tpp map_is_grass_snow_deco_at(levelp level, int32_t x, int32_t y);
+tpp map_is_gravel_deco_at(levelp level, int32_t x, int32_t y);
+tpp map_is_sand_deco_at(levelp level, int32_t x, int32_t y);
+tpp map_is_sand_snow_deco_at(levelp level, int32_t x, int32_t y);
+tpp map_is_snow_deco_at(levelp level, int32_t x, int32_t y);
+tpp map_is_dirt_at(levelp level, int32_t x, int32_t y);
+tpp map_is_dirt_snow_at(levelp level, int32_t x, int32_t y);
+tpp map_is_grass_at(levelp level, int32_t x, int32_t y);
+tpp map_is_grass_snow_at(levelp level, int32_t x, int32_t y);
+tpp map_is_gravel_at(levelp level, int32_t x, int32_t y);
+tpp map_is_sand_at(levelp level, int32_t x, int32_t y);
+tpp map_is_sand_snow_at(levelp level, int32_t x, int32_t y);
+tpp map_is_snow_at(levelp level, int32_t x, int32_t y);
+tpp map_is_dusty_at(levelp level, int32_t x, int32_t y);
+
+void map_fixup(levelp);
+void map_cleanup(levelp);
 
 #include "tree.h"
 

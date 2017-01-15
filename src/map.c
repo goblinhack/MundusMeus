@@ -6,6 +6,7 @@
 
 
 #include "main.h"
+#include "wid_game_map.h"
 
 #ifdef GORY_DEBUG
 FILE *fp = 0;
@@ -153,6 +154,86 @@ tpp map_is_floor_at (levelp level, int32_t x, int32_t y)
 tpp map_is_corridor_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at(level, x, y, tp_is_corridor));
+}
+
+tpp map_is_dirt_deco_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_dirt_deco));
+}
+
+tpp map_is_dirt_snow_deco_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_dirt_snow_deco));
+}
+
+tpp map_is_grass_deco_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_grass_deco));
+}
+
+tpp map_is_grass_snow_deco_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_grass_snow_deco));
+}
+
+tpp map_is_gravel_deco_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_gravel_deco));
+}
+
+tpp map_is_sand_deco_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_sand_deco));
+}
+
+tpp map_is_sand_snow_deco_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_sand_snow_deco));
+}
+
+tpp map_is_snow_deco_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_snow_deco));
+}
+
+tpp map_is_dirt_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_dirt));
+}
+
+tpp map_is_dirt_snow_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_dirt_snow));
+}
+
+tpp map_is_grass_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_grass));
+}
+
+tpp map_is_grass_snow_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_grass_snow));
+}
+
+tpp map_is_gravel_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_gravel));
+}
+
+tpp map_is_sand_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_sand));
+}
+
+tpp map_is_sand_snow_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_sand_snow));
+}
+
+tpp map_is_snow_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_snow));
 }
 
 tpp map_is_dusty_at (levelp level, int32_t x, int32_t y)
@@ -322,4 +403,178 @@ tree_rootp map_all_things_is_x (levelp level,
     }
 
     return (root);
+}
+
+static void wid_fixup_deco_remove (void)
+{
+    widp w = game.wid_grid;
+
+    if (!w) {
+        return;
+    }
+
+    widgrid *grid;
+
+    grid = w->grid;
+    if (!grid) {
+        return;
+    }
+
+    int32_t x, y, z;
+
+    int s = 0;
+
+    for (z = 0; z < Z_DEPTH; z++) {
+        for (x = 0; x < MAP_WIDTH; x++) {
+            for (y = 0; y < MAP_HEIGHT; y++) {
+
+                tree_root **tree;
+                tree = grid->grid_of_trees[z] + (y * grid->width) + x;
+
+                widgridnode *node;
+
+                TREE_WALK_REVERSE_UNSAFE_INLINE(
+                            *tree, node,
+                            tree_prev_tree_wid_compare_func_fast) {
+
+                    if (s >= (int) ARRAY_SIZE(wid_scratch)) {
+                        ERR("exceeded scratch pad size when moving things");
+                        return;
+                    }
+
+                    thingp t = wid_get_thing(w);
+                    if (t) {
+                        tpp tp = thing_tp(t);
+                        if (tp_is_dirt_deco(tp) ||
+                            tp_is_dirt_snow_deco(tp) ||
+                            tp_is_grass_deco(tp) ||
+                            tp_is_grass_snow_deco(tp) ||
+                            tp_is_gravel_deco(tp) ||
+                            tp_is_sand_deco(tp) ||
+                            tp_is_sand_snow_deco(tp) ||
+                            tp_is_snow_deco(tp)) {
+                            wid_scratch[s++] = node->wid;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    while (--s > 0) {
+        widp w = wid_scratch[s];
+
+        thingp t = wid_get_thing(w);
+
+        thing_destroyed_(t, "deco cleanup");
+    }
+}
+
+static char tmp[SMALL_STRING_LEN_MAX];
+static int count;
+
+#define MAP_FIXUP_DECO(DECO) \
+static void map_fixup_deco_ ## DECO (levelp level) \
+{ \
+    int x, y;  \
+ \
+    for (y = 0; y < MAP_HEIGHT; y++) { \
+        for (x = 0; x < MAP_WIDTH; x++) { \
+ \
+            thingp t; \
+ \
+            if (map_is_ ## DECO ## _deco_at(level, x, y)) { \
+                continue; \
+            } \
+ \
+            if (map_is_ ## DECO ## _at(level, x, y)) { \
+                continue; \
+            } \
+ \
+            if (map_is_ ## DECO ## _at(level, x - 1, y)) { \
+                count++; \
+                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
+                t->wid = wid_game_map_replace_tile(x, y, t); \
+                wid_set_tilename(t->wid, #DECO "-right"); \
+            } \
+            if (map_is_ ## DECO ## _at(level, x + 1, y)) { \
+                count++; \
+                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
+                t->wid = wid_game_map_replace_tile(x, y, t); \
+                wid_set_tilename(t->wid, #DECO "-left"); \
+            } \
+            if (map_is_ ## DECO ## _at(level, x, y - 1)) { \
+                count++; \
+                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
+                t->wid = wid_game_map_replace_tile(x, y, t); \
+                wid_set_tilename(t->wid, #DECO "-bot"); \
+            } \
+            if (map_is_ ## DECO ## _at(level, x, y + 1)) { \
+                count++; \
+                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
+                t->wid = wid_game_map_replace_tile(x, y, t); \
+                wid_set_tilename(t->wid, #DECO "-top"); \
+            } \
+            if (map_is_ ## DECO ## _at(level, x - 1, y - 1)) { \
+                count++; \
+                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
+                t->wid = wid_game_map_replace_tile(x, y, t); \
+                wid_set_tilename(t->wid, #DECO "-br"); \
+            } \
+            if (map_is_ ## DECO ## _at(level, x + 1, y - 1)) { \
+                count++; \
+                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
+                t->wid = wid_game_map_replace_tile(x, y, t); \
+                wid_set_tilename(t->wid, #DECO "-bl"); \
+            } \
+            if (map_is_ ## DECO ## _at(level, x - 1, y + 1)) { \
+                count++; \
+                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
+                t->wid = wid_game_map_replace_tile(x, y, t); \
+                wid_set_tilename(t->wid, #DECO "-tr"); \
+            } \
+            if (map_is_ ## DECO ## _at(level, x + 1, y + 1)) { \
+                count++; \
+                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
+                t->wid = wid_game_map_replace_tile(x, y, t); \
+                wid_set_tilename(t->wid, #DECO "-tl"); \
+            } \
+        } \
+    } \
+} \
+
+MAP_FIXUP_DECO(grass)
+MAP_FIXUP_DECO(snow)
+MAP_FIXUP_DECO(sand)
+MAP_FIXUP_DECO(dirt)
+MAP_FIXUP_DECO(gravel)
+MAP_FIXUP_DECO(grass_snow)
+MAP_FIXUP_DECO(dirt_snow)
+MAP_FIXUP_DECO(sand_snow)
+
+void map_fixup (levelp level)
+{
+    wid_fixup_deco_remove();
+
+    map_fixup_deco_grass(level);
+    map_fixup_deco_snow(level);
+    map_fixup_deco_sand(level);
+    map_fixup_deco_dirt(level);
+    map_fixup_deco_gravel(level);
+    map_fixup_deco_grass_snow(level);
+    map_fixup_deco_sand_snow(level);
+    map_fixup_deco_dirt_snow(level);
+}
+
+void map_cleanup (levelp level)
+{
+    wid_fixup_deco_remove();
 }
