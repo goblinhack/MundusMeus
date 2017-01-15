@@ -176,7 +176,7 @@ def biome_populate(self):
                     else:
                         if random.randint(0, 100) < 10:
                             r = tp.get_random_plant()
-                            for i in range(1, random.randint(1, 5)):
+                            for i in range(1, random.randint(1, 15)):
                                 t = thing.Thing(chunk=c, x=tx, y=ty,
                                                 tp_name=r.short_name)
                                 t.push()
@@ -186,8 +186,8 @@ def biome_populate(self):
                 t.push()
 
                 if random.randint(0, 200) < 5:
+                    r = tp.get_random_plant()
                     for i in range(1, random.randint(1, 5)):
-                        r = tp.get_random_plant()
                         t = thing.Thing(chunk=c, x=tx, y=ty,
                                         tp_name=r.short_name)
                         t.push()
