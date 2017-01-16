@@ -4,11 +4,11 @@
  * See the LICENSE file for license.
  */
 
-
 #include "main.h"
 #include "cloud.h"
 #include "glapi.h"
 #include "tile.h"
+#include "wid.h"
 
 #define nclouds 10
 
@@ -20,14 +20,14 @@ typedef struct {
 
 static cloud clouds[nclouds];
 
-void cloud_tick (int intensity)
+void cloud_tick (void)
 {
     double w = game.video_gl_width;
     double h = game.video_gl_height;
 
     double cloud_w = w / 30.0;
     double cloud_h = w / 40.0;
-    static double wind = 0.1;
+    static double wind = 1.1;
 
     static tilep tile;
     if (!tile) {
@@ -44,6 +44,12 @@ void cloud_tick (int intensity)
     f = clouds;
 
     while (f < f_eo) {
+        if (!f->active) {
+            f->active = true;
+
+            f->x = myrand() % (int)w;
+            f->y = myrand() % (int)h;
+        }
 
         double scale = 1.2;
         double dw = cloud_w * scale;
@@ -69,13 +75,6 @@ void cloud_tick (int intensity)
     f = clouds;
 
     while (f < f_eo) {
-        if (!f->active) {
-            f->active = true;
-
-            f->x = myrand() % (int)w;
-            f->y = myrand() % (int)h;
-        }
-
         double scale = 1.0;
         double dw = cloud_w * scale;
         double dh = cloud_h * scale;
@@ -84,11 +83,6 @@ void cloud_tick (int intensity)
         tl.y = f->y - dh;
         br.x = f->x + dw;
         br.y = f->y + dh;
-
-        if (f->x > w * 2) {
-            f->x -= w * 2;
-            f->y = myrand() % (int)h;
-        }
 
         f->x += wind;
 
@@ -101,4 +95,64 @@ void cloud_tick (int intensity)
     }
 
     blit_flush();
+
+    cloud_move(false);
+}
+
+void cloud_move (int jumped)
+{
+    cloud *f;
+    cloud *f_eo = clouds + nclouds;
+
+    f = clouds;
+
+    if (!player) {
+        return;
+    }
+
+    widp w = player->wid;
+    if (!w) {
+        return;
+    }
+
+    verify(w);
+
+    double playerx = wid_get_cx(w);
+    double playery = wid_get_cy(w);
+
+    static double last_playerx;
+    static double last_playery;
+
+    if (!last_playerx && !last_playery) {
+        last_playerx = playerx;
+        last_playery = playery;
+    }
+
+    double dx = playerx - last_playerx;
+    double dy = playery - last_playery;
+
+    last_playerx = playerx;
+    last_playery = playery;
+
+    if (jumped) {
+        return;
+    }
+
+    f = clouds;
+
+    while (f < f_eo) {
+
+        f->x -= dx;
+        f->y -= dy;
+
+        double w = game.video_gl_width;
+        double h = game.video_gl_height;
+
+        if (f->x > w * 1.1) {
+            f->x = -100;
+            f->y = myrand() % (int)h;
+        }
+
+        f++;
+    }
 }

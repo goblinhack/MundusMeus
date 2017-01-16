@@ -9358,7 +9358,7 @@ static void wid_display (widp w,
         if (game.biome_set_is_land) {
             snow_tick(game.snow_amount);
             rain_tick(game.rain_amount);
-            cloud_tick(game.rain_amount + game.snow_amount);
+            cloud_tick();
         }
 
         if ((w->grid) && !debug) {

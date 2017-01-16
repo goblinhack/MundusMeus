@@ -13,6 +13,7 @@
 #include "math_util.h"
 #include "player.h"
 #include "python.h"
+#include "cloud.h"
 
 static void wid_game_map_set_thing_template (widp w, tpp t)
 {
@@ -325,6 +326,8 @@ void wid_game_map_scroll_chunk (int dx, int dy)
     memcpy(floor_offset, copy_floor_offset, sizeof(floor_offset));
 
     wid_update(game.wid_grid);
+
+    cloud_move(true /* jumped */);
 }
 
 void wid_game_map_scroll_adjust (levelp level, uint8_t adjust) 

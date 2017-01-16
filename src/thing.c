@@ -311,7 +311,7 @@ void thing_move_to (thingp t, double x, double y)
     if (fabs(t->x - t->last_x) <= 1) {
         if (t->x > t->last_x) {
             wid_flip_horiz(t->wid, true);
-        } else {
+        } else if (t->x < t->last_x) {
             wid_flip_horiz(t->wid, false);
         }
     }

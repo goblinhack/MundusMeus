@@ -4,4 +4,5 @@
  * See the LICENSE file for license.
  */
 
-void cloud_tick(int intensity);
+void cloud_tick(void);
+void cloud_move(int jumped);
