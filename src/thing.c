@@ -37,9 +37,11 @@ thingp thing_new (const char *name,
 {
     thingp t;
 
+#ifdef ENABLE_THING_NAME_IS_UNIQUE_CHECK
     if (thing_find(name)) {
         ERR("thing name [%s] already used", name);
     }
+#endif
 
     if (!things) {
         things = tree_alloc(TREE_KEY_STRING, "TREE ROOT: thing");

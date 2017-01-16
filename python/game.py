@@ -58,6 +58,7 @@ class Game:
         mm.biome_set_is_land(value=l.chunk[0][0].is_biome_land)
         mm.biome_set_is_dungeon(value=l.chunk[0][0].is_biome_dungeon)
 
+        mm.con("g1")
         for y in range(0, mm.MAP_HEIGHT):
             for x in range(0, mm.MAP_WIDTH):
 
@@ -71,6 +72,7 @@ class Game:
 
                 t = l.tp_find(x, y, "none")
                 if t is None:
+                    mm.con("{0} {1}".format(x, y))
                     t = thing.Thing(level=l, tp_name="none", x=x, y=y)
                     t.push()
 
@@ -78,8 +80,10 @@ class Game:
                 t.wid.set_on_m_over_b(game_map_mouse_over)
                 t.wid.set_on_m_down(game_map_mouse_down)
                 t.wid.set_on_key_down(game_key_down)
+        mm.con("g2")
 
         mm.game_map_fixup()
+        mm.con("g3")
 
     def save(self):
         l = self.level

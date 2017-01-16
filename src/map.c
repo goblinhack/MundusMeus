@@ -84,6 +84,38 @@ tpp map_is_x_at (levelp level,
     return (0);
 }
 
+static tpp map_is_x_at_z_depth (levelp level,
+								int32_t x, int32_t y,
+								map_is_at_callback callback,
+								uint8_t z)
+{
+    widp grid_wid;
+    widp w;
+
+    grid_wid = game.wid_grid;
+    if (!grid_wid) {
+        DIE1("no grid wid");
+    }
+
+	w = wid_grid_find_first(grid_wid, x, y, z);
+	while (w) {
+		thingp thing_it = wid_get_thing(w);
+
+		if (!thing_it) {
+			w = wid_grid_find_next(grid_wid, w, x, y, z);
+			continue;
+		}
+
+		if ((*callback)(thing_it->tp)) {
+			return (thing_it->tp);
+		}
+
+		w = wid_grid_find_next(grid_wid, w, x, y, z);
+	}
+
+	return (0);
+}
+
 uint8_t map_count_x_at (levelp level,
                         int32_t x, int32_t y,
                         map_is_at_callback callback)
@@ -159,82 +191,82 @@ tpp map_is_corridor_at (levelp level, int32_t x, int32_t y)
 
 tpp map_is_dirt_deco_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_dirt_deco));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt_deco, Z_DEPTH_DIRT1));
 }
 
 tpp map_is_dirt_snow_deco_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_dirt_snow_deco));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt_snow_deco, Z_DEPTH_DIRT1));
 }
 
 tpp map_is_grass_deco_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_grass_deco));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_grass_deco, Z_DEPTH_GRASS));
 }
 
 tpp map_is_grass_snow_deco_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_grass_snow_deco));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_grass_snow_deco, Z_DEPTH_GRASS));
 }
 
 tpp map_is_gravel_deco_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_gravel_deco));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_gravel_deco, Z_DEPTH_GRAVEL));
 }
 
 tpp map_is_sand_deco_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_sand_deco));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_sand_deco, Z_DEPTH_SAND));
 }
 
 tpp map_is_sand_snow_deco_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_sand_snow_deco));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_sand_snow_deco, Z_DEPTH_SAND));
 }
 
 tpp map_is_snow_deco_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_snow_deco));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_snow_deco, Z_DEPTH_SNOW));
 }
 
 tpp map_is_dirt_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_dirt));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt, Z_DEPTH_DIRT1));
 }
 
 tpp map_is_dirt_snow_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_dirt_snow));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt_snow, Z_DEPTH_DIRT1));
 }
 
 tpp map_is_grass_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_grass));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_grass, Z_DEPTH_GRASS));
 }
 
 tpp map_is_grass_snow_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_grass_snow));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_grass_snow, Z_DEPTH_GRASS));
 }
 
 tpp map_is_gravel_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_gravel));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_gravel, Z_DEPTH_GRAVEL));
 }
 
 tpp map_is_sand_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_sand));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_sand, Z_DEPTH_SAND));
 }
 
 tpp map_is_sand_snow_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_sand_snow));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_sand_snow, Z_DEPTH_SAND));
 }
 
 tpp map_is_snow_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at(level, x, y, tp_is_snow));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_snow, Z_DEPTH_SNOW));
 }
 
 tpp map_is_dusty_at (levelp level, int32_t x, int32_t y)
@@ -471,6 +503,22 @@ static void wid_fixup_deco_remove (void)
     }
 }
 
+/*
+ * From AMD apparently
+ *
+ * http://stackoverflow.com/questions/271971/how-can-i-improve-replace-sprintf-which-ive-measured-to-be-a-performance-hotsp
+ */
+static void itoa05 (char *string, unsigned int value)
+{
+   *string++ = '0' + ((value = value * 26844 + 12) >> 28);
+   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
+   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
+   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
+   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
+   *string++ = 0;
+}
+
+
 static char tmp[SMALL_STRING_LEN_MAX];
 static int count;
 
@@ -478,72 +526,78 @@ static int count;
 static void map_fixup_deco_ ## DECO (levelp level) \
 { \
     int x, y;  \
+    int found = 0; \
  \
-    for (y = 0; y < MAP_HEIGHT; y++) { \
-        for (x = 0; x < MAP_WIDTH; x++) { \
+    uint8_t is_at[MAP_WIDTH][MAP_HEIGHT]; \
  \
+	for (x = 0; x < MAP_WIDTH; x++) { \
+		for (y = 0; y < MAP_HEIGHT; y++) { \
+            is_at[x][y] = (map_is_ ## DECO ## _at(level, x, y)) ? 1 : 0; \
+			found++; \
+		} \
+	} \
+ \
+	if (!found) { \
+		return; \
+	} \
+ \
+	for (x = 1; x < MAP_WIDTH - 1; x++) { \
+		for (y = 1; y < MAP_HEIGHT - 1; y++) { \
+\
             thingp t; \
+ \
+            if (is_at[x][y]) { \
+                continue; \
+            } \
  \
             if (map_is_ ## DECO ## _deco_at(level, x, y)) { \
                 continue; \
             } \
  \
-            if (map_is_ ## DECO ## _at(level, x, y)) { \
-                continue; \
-            } \
- \
-            if (map_is_ ## DECO ## _at(level, x - 1, y)) { \
-                count++; \
-                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+            if (is_at[x-1][y]) { \
+                itoa05(tmp, count++); \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
                 t->wid = wid_game_map_replace_tile(x, y, t); \
                 wid_set_tilename(t->wid, #DECO "-right"); \
             } \
-            if (map_is_ ## DECO ## _at(level, x + 1, y)) { \
-                count++; \
-                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+            if (is_at[x+1][y]) { \
+                itoa05(tmp, count++); \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
                 t->wid = wid_game_map_replace_tile(x, y, t); \
                 wid_set_tilename(t->wid, #DECO "-left"); \
             } \
-            if (map_is_ ## DECO ## _at(level, x, y - 1)) { \
-                count++; \
-                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+            if (is_at[x][y-1]) { \
+                itoa05(tmp, count++); \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
                 t->wid = wid_game_map_replace_tile(x, y, t); \
                 wid_set_tilename(t->wid, #DECO "-bot"); \
             } \
-            if (map_is_ ## DECO ## _at(level, x, y + 1)) { \
-                count++; \
-                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+            if (is_at[x][y+1]) { \
+                itoa05(tmp, count++); \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
                 t->wid = wid_game_map_replace_tile(x, y, t); \
                 wid_set_tilename(t->wid, #DECO "-top"); \
             } \
-            if (map_is_ ## DECO ## _at(level, x - 1, y - 1)) { \
-                count++; \
-                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+            if (is_at[x-1][y-1]) { \
+                itoa05(tmp, count++); \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
                 t->wid = wid_game_map_replace_tile(x, y, t); \
                 wid_set_tilename(t->wid, #DECO "-br"); \
             } \
-            if (map_is_ ## DECO ## _at(level, x + 1, y - 1)) { \
-                count++; \
-                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+            if (is_at[x+1][y-1]) { \
+                itoa05(tmp, count++); \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
                 t->wid = wid_game_map_replace_tile(x, y, t); \
                 wid_set_tilename(t->wid, #DECO "-bl"); \
             } \
-            if (map_is_ ## DECO ## _at(level, x - 1, y + 1)) { \
-                count++; \
-                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+            if (is_at[x-1][y+1]) { \
+                itoa05(tmp, count++); \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
                 t->wid = wid_game_map_replace_tile(x, y, t); \
                 wid_set_tilename(t->wid, #DECO "-tr"); \
             } \
-            if (map_is_ ## DECO ## _at(level, x + 1, y + 1)) { \
-                count++; \
-                snprintf(tmp, sizeof(tmp) - 1, "deco%u", count); \
+            if (is_at[x+1][y+1]) { \
+                itoa05(tmp, count++); \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
                 t->wid = wid_game_map_replace_tile(x, y, t); \
                 wid_set_tilename(t->wid, #DECO "-tl"); \

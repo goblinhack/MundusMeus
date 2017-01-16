@@ -64,6 +64,7 @@ class Level:
         if not self.chunk[0][0].is_biome_land:
             return
 
+        mm.con("a")
         self.log("Scroll dx {0}, dy {1}".format(dx, dy))
 
         game.g.map_clear_focus()
@@ -77,6 +78,7 @@ class Level:
         cdx = -1 * dx
         cdy = -1 * dy
 
+        mm.con("b")
         new_chunk = [[None for x in range(mm.CHUNK_WIDTH)]
                      for y in range(mm.CHUNK_HEIGHT)]
 
@@ -95,6 +97,7 @@ class Level:
                     new_chunk[x][y] = self.chunk[cx][cy]
 
         self.chunk = new_chunk
+        mm.con("c")
 
         mm.game_scroll_chunk(dx, dy)
 
@@ -106,8 +109,10 @@ class Level:
         dx *= -1
         dy *= -1
 
+        mm.con("d")
         for thing_id, t in self.all_things.items():
             t.update_pos(t.x + dx, t.y + dy)
+        mm.con("e")
 
         #
         # Add new chunks that scrolled into the map
@@ -139,6 +144,7 @@ class Level:
                 c.cy = cy
                 c.base_x = cx * mm.CHUNK_WIDTH
                 c.base_y = cy * mm.CHUNK_HEIGHT
+        mm.con("f")
 
         for place, item in enumerate(game.g.player.nexthops):
             (x, y) = item
@@ -154,8 +160,11 @@ class Level:
             item = (x, y)
             game.g.saved_nexthops[place] = item
 
+        mm.con("g")
         game.g.load_level_finalize()
+        mm.con("h")
         game.g.player_location_update()
+        mm.con("i")
 
     def jump(self, to):
 

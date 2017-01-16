@@ -6,6 +6,7 @@
 
 #pragma once
 
+#undef ENABLE_THING_NAME_IS_UNIQUE_CHECK
 #undef ENABLE_LEAKCHECK           // Memory leak check
 #undef ENABLE_PTRCHECK            // Check validity of pointers too
 #undef ENABLE_PTRCHECK_HISTORY    // Slower

@@ -150,7 +150,12 @@ void cloud_move (int jumped)
         double h = game.video_gl_height;
 
         if (f->x > w * 1.5) {
-            f->x = w / 4.0;
+            f->x = -w / 4.0;
+            f->y = myrand() % (int)h;
+        }
+
+        if (f->x < -w / 4.0) {
+            f->x = w * 1.4;
             f->y = myrand() % (int)h;
         }
 
