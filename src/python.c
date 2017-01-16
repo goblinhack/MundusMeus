@@ -1898,6 +1898,11 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         ""},
 
+    {"game_set_moves_per_day",
+        (PyCFunction)game_set_moves_per_day_,
+        METH_VARARGS | METH_KEYWORDS,
+        ""},
+
     {"game_map_fixup",
         (PyCFunction)game_map_fixup_,
         METH_VARARGS | METH_KEYWORDS,
@@ -1908,8 +1913,8 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         ""},
 
-    {"game_set_moves_per_day",
-        (PyCFunction)game_set_moves_per_day_,
+    {"game_map_time_step",
+        (PyCFunction)game_map_time_step_,
         METH_VARARGS | METH_KEYWORDS,
         ""},
 

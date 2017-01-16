@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "wid_game_map.h"
+#include "cloud.h"
 
 #ifdef GORY_DEBUG
 FILE *fp = 0;
@@ -560,6 +561,9 @@ MAP_FIXUP_DECO(grass_snow)
 MAP_FIXUP_DECO(dirt_snow)
 MAP_FIXUP_DECO(sand_snow)
 
+/*
+ * Add decorations. These things are never saved as part of the game.
+ */
 void map_fixup (levelp level)
 {
     wid_fixup_deco_remove();
@@ -574,7 +578,18 @@ void map_fixup (levelp level)
     map_fixup_deco_dirt_snow(level);
 }
 
+/*
+ * Remove decorations.
+ */
 void map_cleanup (levelp level)
 {
     wid_fixup_deco_remove();
+}
+
+void map_time_step (levelp level)
+{
+    int i;
+    for (i = 0; i < 10; i++) {
+        cloud_tick();
+    }
 }

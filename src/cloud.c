@@ -9,6 +9,7 @@
 #include "glapi.h"
 #include "tile.h"
 #include "wid.h"
+#include "math_util.h"
 
 #define nclouds 10
 
@@ -16,6 +17,7 @@ typedef struct {
     int active;
     double x;
     double y;
+    double scale;
 } cloud;
 
 static cloud clouds[nclouds];
@@ -27,7 +29,7 @@ void cloud_tick (void)
 
     double cloud_w = w / 30.0;
     double cloud_h = w / 40.0;
-    static double wind = 1.1;
+    static double wind = 0.3;
 
     static tilep tile;
     if (!tile) {
@@ -49,11 +51,11 @@ void cloud_tick (void)
 
             f->x = myrand() % (int)w;
             f->y = myrand() % (int)h;
+            f->scale = gauss(1.0, 0.2);
         }
 
-        double scale = 1.2;
-        double dw = cloud_w * scale;
-        double dh = cloud_h * scale;
+        double dw = cloud_w * (f->scale + 0.2);
+        double dh = cloud_h * (f->scale + 0.2);
 
         tl.x = f->x - dw;
         tl.y = f->y - dh;
@@ -75,9 +77,8 @@ void cloud_tick (void)
     f = clouds;
 
     while (f < f_eo) {
-        double scale = 1.0;
-        double dw = cloud_w * scale;
-        double dh = cloud_h * scale;
+        double dw = cloud_w * f->scale;
+        double dh = cloud_h * f->scale;
 
         tl.x = f->x - dw;
         tl.y = f->y - dh;
@@ -148,8 +149,8 @@ void cloud_move (int jumped)
         double w = game.video_gl_width;
         double h = game.video_gl_height;
 
-        if (f->x > w * 1.1) {
-            f->x = -100;
+        if (f->x > w * 1.5) {
+            f->x = w / 4.0;
             f->y = myrand() % (int)h;
         }
 

@@ -87,22 +87,6 @@ PyObject *game_set_full_screen_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
-PyObject *game_map_fixup_ (PyObject *obj, PyObject *args, 
-                           PyObject *keywds)
-{
-    map_fixup(&game.level);
-
-    Py_RETURN_NONE;
-}
-
-PyObject *game_map_cleanup_ (PyObject *obj, PyObject *args, 
-                           PyObject *keywds)
-{
-    map_cleanup(&game.level);
-
-    Py_RETURN_NONE;
-}
-
 PyObject *game_set_move_count_ (PyObject *obj, PyObject *args, 
                                  PyObject *keywds)
 {
@@ -125,6 +109,30 @@ PyObject *game_set_moves_per_day_ (PyObject *obj, PyObject *args,
                                      &game.moves_per_day)) {
         Py_RETURN_NONE;
     }
+
+    Py_RETURN_NONE;
+}
+
+PyObject *game_map_fixup_ (PyObject *obj, PyObject *args, 
+                           PyObject *keywds)
+{
+    map_fixup(&game.level);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *game_map_cleanup_ (PyObject *obj, PyObject *args, 
+                           PyObject *keywds)
+{
+    map_cleanup(&game.level);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *game_map_time_step_ (PyObject *obj, PyObject *args, 
+                           PyObject *keywds)
+{
+    map_time_step(&game.level);
 
     Py_RETURN_NONE;
 }

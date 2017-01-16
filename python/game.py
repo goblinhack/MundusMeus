@@ -116,8 +116,10 @@ class Game:
         l = self.level
         l.destroy()
 
+    #
+    # Player has moved.
+    #
     def tick(self):
-
         l = self.level
         self.move_count += 1
         mm.game_set_move_count(self.move_count)
@@ -128,6 +130,12 @@ class Game:
         l.tick()
         self.player_location_update()
         self.player_get_next_move()
+
+    #
+    # Player is pressing '.'
+    #
+    def time_waste(self):
+        mm.game_map_time_step()
 
     def player_location_update(self):
 
@@ -280,6 +288,7 @@ class Game:
 
         if sym == mm.SDLK_PERIOD:
             self.tick()
+            self.time_waste()
             return True
 
         if sym == mm.SDLK_s:

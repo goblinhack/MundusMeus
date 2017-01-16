@@ -33,6 +33,7 @@ tpp map_is_snow_at(levelp level, int32_t x, int32_t y);
 tpp map_is_dusty_at(levelp level, int32_t x, int32_t y);
 
 void map_fixup(levelp);
+void map_time_step(levelp);
 void map_cleanup(levelp);
 
 #include "tree.h"
