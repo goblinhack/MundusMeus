@@ -43,6 +43,7 @@ class Game:
 
         self.map_wid_create()
         self.level = level.Level(xyz=self.where)
+        mm.game_map_add_selection_buttons()
 
     def load_level_finalize(self):
 
@@ -58,32 +59,7 @@ class Game:
         mm.biome_set_is_land(value=l.chunk[0][0].is_biome_land)
         mm.biome_set_is_dungeon(value=l.chunk[0][0].is_biome_dungeon)
 
-        mm.con("g1")
-        for y in range(0, mm.MAP_HEIGHT):
-            for x in range(0, mm.MAP_WIDTH):
-
-                t = l.tp_find(x, y, "focus1")
-                if t is not None:
-                    t.set_tp("none")
-
-                t = l.tp_find(x, y, "focus2")
-                if t is not None:
-                    t.set_tp("none")
-
-                t = l.tp_find(x, y, "none")
-                if t is None:
-                    mm.con("{0} {1}".format(x, y))
-                    t = thing.Thing(level=l, tp_name="none", x=x, y=y)
-                    t.push()
-
-                t.wid.game = self
-                t.wid.set_on_m_over_b(game_map_mouse_over)
-                t.wid.set_on_m_down(game_map_mouse_down)
-                t.wid.set_on_key_down(game_key_down)
-        mm.con("g2")
-
         mm.game_map_fixup()
-        mm.con("g3")
 
     def save(self):
         l = self.level
@@ -202,21 +178,12 @@ class Game:
     # Get rid of the path indicators where the player will move
     #
     def map_clear_focus(self):
-
-        l = self.level
-        for (x, y) in self.saved_nexthops:
-            t = l.tp_find(x, y, "focus2")
-            if t is not None:
-                t.set_tp("none")
-            else:
-                t = l.tp_find(x, y, "focus1")
-                if t is not None:
-                    t.set_tp("none")
+        mm.game_map_clear_selection_buttons()
 
     #
     # Mouse is over a map tile; show the route back to the player
     #
-    def map_mouse_over(self, w, relx, rely, wheelx, wheely):
+    def map_mouse_over(self, w, x, y, wheelx, wheely):
 
         if len(self.player.nexthops) > 0:
             return False
@@ -227,34 +194,25 @@ class Game:
         if wheelx != 0 or wheely != 0:
             return False
 
-        #
-        # When the map is scrolling, no focus change
-        #
-        if relx == 0 and rely == 0:
-            return False
-
         l = self.level
 
         self.map_clear_focus()
 
-        t = w.thing
-        t.set_tp("focus1")
+        mm.game_map_set_selection_buttons(x, y, "focus1")
 
         #
         # Check we can get back from the chosen point to the player.
         #
         player = self.player
-        nexthops = l.dmap_solve(self.player.x, self.player.y, t.x, t.y)
+        nexthops = l.dmap_solve(self.player.x, self.player.y, x, y)
         self.saved_nexthops = nexthops
-        self.saved_nexthops.append((t.x, t.y))
+        self.saved_nexthops.append((x, y))
 
         if (player.x, player.y) in nexthops:
             for o in nexthops:
                 (x, y) = o
 
-                t = l.tp_find(x, y, "none")
-                if t is not None:
-                    t.set_tp("focus2")
+                mm.game_map_set_selection_buttons(x, y, "focus2")
 
     #
     # Move the player to the chosen tile
@@ -266,9 +224,8 @@ class Game:
         #
         # Set up the player move chain
         #
-        t = w.thing
         player = self.player
-        nexthops = l.dmap_solve(self.player.x, self.player.y, t.x, t.y)
+        nexthops = l.dmap_solve(self.player.x, self.player.y, x, y)
 
         if len(nexthops) < 2:
             return True
@@ -359,22 +316,16 @@ class Game:
             l.scroll(level_dx, level_dy)
 
 
-def game_map_mouse_over(w, relx, rely, wheelx, wheely):
-    if w.game is None:
-        return
-    w.game.map_mouse_over(w, relx, rely, wheelx, wheely)
+def map_mouse_over(w, relx, rely, wheelx, wheely):
+    g.map_mouse_over(w, relx, rely, wheelx, wheely)
 
 
-def game_map_mouse_down(w, x, y, button):
-    if w.game is None:
-        return False
-    return w.game.map_mouse_down(w, x, y, button)
+def map_mouse_down(w, x, y, button):
+    return g.map_mouse_down(w, x, y, button)
 
 
-def game_key_down(w, sym, mod):
-    if w.game is None:
-        return False
-    return w.game.map_key_down(w, sym, mod)
+def map_key_down(w, sym, mod):
+    return g.map_key_down(w, sym, mod)
 
 
 g = None

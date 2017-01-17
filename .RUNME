@@ -678,13 +678,12 @@ then
 
             log_info "You likely will need the following to run:"
             log_info "export PYTHONPATH=/mingw64/lib/python3.5/:/mingw64/lib/python3.5/lib-dynload:/mingw64/lib/python3.5/site-packages/"
-            log_info "Run mundusmeus.exe to start"
+            log_info "Run ./mundusmeus.exe to start"
             ;;
         *)
-            log_info "Run mundusmeus to start"
+            log_info "Run ./mundusmeus to start"
             ;;
     esac
-    log_info "Check stderr.txt for any errors"
 
     rm -f Makefile.bak
 else

@@ -1913,6 +1913,26 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         ""},
 
+    {"game_map_add_selection_buttons",
+        (PyCFunction)game_map_add_selection_buttons_,
+        METH_VARARGS | METH_KEYWORDS,
+        ""},
+
+    {"game_map_remove_selection_buttons",
+        (PyCFunction)game_map_remove_selection_buttons_,
+        METH_VARARGS | METH_KEYWORDS,
+        ""},
+
+    {"game_map_clear_selection_buttons",
+        (PyCFunction)game_map_clear_selection_buttons_,
+        METH_VARARGS | METH_KEYWORDS,
+        ""},
+
+    {"game_map_set_selection_buttons",
+        (PyCFunction)game_map_set_selection_buttons_,
+        METH_VARARGS | METH_KEYWORDS,
+        ""},
+
     {"game_map_time_step",
         (PyCFunction)game_map_time_step_,
         METH_VARARGS | METH_KEYWORDS,

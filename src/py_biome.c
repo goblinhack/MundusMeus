@@ -121,8 +121,53 @@ PyObject *game_map_fixup_ (PyObject *obj, PyObject *args,
     Py_RETURN_NONE;
 }
 
+PyObject *game_map_add_selection_buttons_ (PyObject *obj, PyObject *args, 
+                                           PyObject *keywds)
+{
+    map_add_selection_buttons(&game.level);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *game_map_remove_selection_buttons_ (PyObject *obj, PyObject *args, 
+                                              PyObject *keywds)
+{
+    map_remove_selection_buttons(&game.level);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *game_map_set_selection_buttons_ (PyObject *obj, PyObject *args, 
+                                           PyObject *keywds)
+{
+    const char *tp_name;
+    int x = 0;
+    int y = 0;
+
+    static char *kwlist[] = {(char*) "x", (char*) "y", (char*) "what", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "iis", kwlist,
+                                     &x,
+                                     &y,
+                                     &tp_name)) {
+        return (0);
+    }
+
+    map_set_selection_buttons(&game.level, x, y, tp_name);
+
+    Py_RETURN_NONE;
+}
+
+PyObject *game_map_clear_selection_buttons_ (PyObject *obj, PyObject *args, 
+                                              PyObject *keywds)
+{
+    map_clear_selection_buttons(&game.level);
+
+    Py_RETURN_NONE;
+}
+
 PyObject *game_map_cleanup_ (PyObject *obj, PyObject *args, 
-                           PyObject *keywds)
+                             PyObject *keywds)
 {
     map_cleanup(&game.level);
 
@@ -130,7 +175,7 @@ PyObject *game_map_cleanup_ (PyObject *obj, PyObject *args,
 }
 
 PyObject *game_map_time_step_ (PyObject *obj, PyObject *args, 
-                           PyObject *keywds)
+                               PyObject *keywds)
 {
     map_time_step(&game.level);
 

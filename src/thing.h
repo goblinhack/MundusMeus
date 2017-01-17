@@ -180,6 +180,11 @@ typedef struct thing_ {
     uint32_t is_sleeping:1;
     uint32_t is_moving:1;
     uint32_t is_open:1;
+
+    /*
+     * Used on the map for selecting items.
+     */
+    uint32_t is_focus:1;
 } thing;
 
 #include "thing_template.h"

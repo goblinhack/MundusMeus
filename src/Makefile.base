@@ -22,6 +22,7 @@ GAME_OBJECTS=				\
     $(OBJDIR)/log.o 			\
     $(OBJDIR)/main.o 			\
     $(OBJDIR)/map.o 			\
+    $(OBJDIR)/map_focus.o 		\
     $(OBJDIR)/math.o 			\
     $(OBJDIR)/music.o 			\
     $(OBJDIR)/pcg_basic.o 		\

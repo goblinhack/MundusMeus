@@ -289,10 +289,16 @@ void wid_game_map_scroll_chunk (int dx, int dy)
     while (--s > 0) {
         widp w = wid_scratch[s];
 
+        thingp t = wid_get_thing(w);
+        if (t) {
+            if (t->is_focus) {
+                continue;
+            }
+        }
+
         wid_move_end(w);
         wid_move_delta(w, px, py);
 
-        thingp t = wid_get_thing(w);
         if (t) {
             thing_move_to(t, t->x + tdx, t->y + tdy);
         }

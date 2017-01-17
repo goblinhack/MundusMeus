@@ -155,16 +155,16 @@ typedef void(*on_tooltip_t)(widp, widp);
 typedef void(*on_m_focus_b_t)(widp);
 typedef void(*on_m_focus_e_t)(widp);
 typedef void(*on_m_over_b_t)(widp,
-                                     int32_t relx, int32_t rely,
-                                     int32_t wheelx, int32_t wheely);
+                             int32_t relx, int32_t rely,
+                             int32_t wheelx, int32_t wheely);
 typedef void(*on_m_over_e_t)(widp);
 typedef uint8_t(*on_joy_button_t)(widp, int32_t x, int32_t y);
 typedef uint8_t(*on_m_down_t)(widp, int32_t x, int32_t y, uint32_t button);
 typedef uint8_t(*on_m_up_t)(widp, int32_t x, int32_t y, uint32_t button);
 typedef uint8_t(*on_m_motion_t)(widp,
-                                    int32_t x, int32_t y,
-                                    int32_t relx, int32_t rely,
-                                    int32_t wheelx, int32_t wheely);
+                                int32_t x, int32_t y,
+                                int32_t relx, int32_t rely,
+                                int32_t wheelx, int32_t wheely);
 typedef uint8_t(*on_key_down_t)(widp, const struct SDL_KEYSYM *);
 typedef uint8_t(*on_key_up_t)(widp, const struct SDL_KEYSYM *);
 typedef void(*on_destroy_t)(widp);

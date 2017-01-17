@@ -8,6 +8,7 @@
 #include "main.h"
 #include "wid_game_map.h"
 #include "cloud.h"
+#include "string_util.h"
 
 #ifdef GORY_DEBUG
 FILE *fp = 0;
@@ -85,9 +86,9 @@ tpp map_is_x_at (levelp level,
 }
 
 static tpp map_is_x_at_z_depth (levelp level,
-								int32_t x, int32_t y,
-								map_is_at_callback callback,
-								uint8_t z)
+				int32_t x, int32_t y,
+				map_is_at_callback callback,
+				uint8_t z)
 {
     widp grid_wid;
     widp w;
@@ -274,6 +275,11 @@ tpp map_is_dusty_at (levelp level, int32_t x, int32_t y)
     return (map_is_x_at(level, x, y, tp_is_dusty));
 }
 
+tpp map_is_focus_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_focus));
+}
+
 thingp map_thing_is_x_at (levelp level,
                           int32_t x, int32_t y,
                           map_is_at_callback callback)
@@ -438,7 +444,7 @@ tree_rootp map_all_things_is_x (levelp level,
     return (root);
 }
 
-static void wid_fixup_deco_remove (void)
+static void map_fixup_deco_remove (void)
 {
     widp w = game.wid_grid;
 
@@ -502,22 +508,6 @@ static void wid_fixup_deco_remove (void)
         thing_destroyed_(t, "deco cleanup");
     }
 }
-
-/*
- * From AMD apparently
- *
- * http://stackoverflow.com/questions/271971/how-can-i-improve-replace-sprintf-which-ive-measured-to-be-a-performance-hotsp
- */
-static void itoa05 (char *string, unsigned int value)
-{
-   *string++ = '0' + ((value = value * 26844 + 12) >> 28);
-   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
-   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
-   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
-   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
-   *string++ = 0;
-}
-
 
 static char tmp[SMALL_STRING_LEN_MAX];
 static int count;
@@ -620,7 +610,7 @@ MAP_FIXUP_DECO(sand_snow)
  */
 void map_fixup (levelp level)
 {
-    wid_fixup_deco_remove();
+    map_fixup_deco_remove();
 
     map_fixup_deco_grass(level);
     map_fixup_deco_snow(level);
@@ -637,7 +627,9 @@ void map_fixup (levelp level)
  */
 void map_cleanup (levelp level)
 {
-    wid_fixup_deco_remove();
+    map_fixup_deco_remove();
+
+    map_remove_selection_buttons(level);
 }
 
 void map_time_step (levelp level)

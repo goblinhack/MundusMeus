@@ -30,11 +30,15 @@ tpp map_is_gravel_at(levelp level, int32_t x, int32_t y);
 tpp map_is_sand_at(levelp level, int32_t x, int32_t y);
 tpp map_is_sand_snow_at(levelp level, int32_t x, int32_t y);
 tpp map_is_snow_at(levelp level, int32_t x, int32_t y);
-tpp map_is_dusty_at(levelp level, int32_t x, int32_t y);
+tpp map_is_focus_at(levelp level, int32_t x, int32_t y);
 
 void map_fixup(levelp);
 void map_time_step(levelp);
 void map_cleanup(levelp);
+void map_add_selection_buttons(levelp level);
+void map_remove_selection_buttons(levelp level);
+void map_clear_selection_buttons(levelp level);
+void map_set_selection_buttons(levelp level, int x, int y, const char *what);
 
 #include "tree.h"
 

@@ -2782,8 +2782,8 @@ def init_tiles_powerups():
     mm.tex_load_tiled(
             file="data/gfx/powerups.tga",
             name="powerups",
-            width=256,
-            height=256)
+            width=32,
+            height=32)
 
     tiles = [
         "focus1.1",
@@ -2856,7 +2856,7 @@ def init_tiles_powerups():
 
     mm.tile_load_arr(tex_name="powerups",
                      tex_name_black_and_white="",
-                     width=256, height=256,
+                     width=32, height=32,
                      arr=tiles)
 
 

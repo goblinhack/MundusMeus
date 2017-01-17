@@ -598,3 +598,18 @@ strcasestr_ (const char *s, const char*find)
         }
         return ((char *)s);
 }
+
+/*
+ * From AMD apparently
+ *
+ * http://stackoverflow.com/questions/271971/how-can-i-improve-replace-sprintf-which-ive-measured-to-be-a-performance-hotsp
+ */
+void itoa05 (char *string, unsigned int value)
+{
+   *string++ = '0' + ((value = value * 26844 + 12) >> 28);
+   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
+   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
+   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
+   *string++ = '0' + ((value = ((value & 0x0FFFFFFF)) * 10) >> 28);
+   *string++ = 0;
+}
