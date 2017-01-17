@@ -86,13 +86,13 @@ class Chunk:
             self.biome_build = biome_land.biome_build
             self.biome_populate = biome_land.biome_populate
 
-        mm.log("Biome build")
+        self.debug("Biome build")
         self.biome_build(self, seed=game.g.seed)
 
-        mm.log("Biome populate")
+        self.debug("Biome populate")
         self.biome_populate(self)
 
-        mm.log("Biome create done")
+        self.debug("Biome create done")
 
     def __str__(self):
         return "l{0}".format(str(self.xyz))
@@ -124,6 +124,7 @@ class Chunk:
         mm.con("Chunk {0}: {1}".format(str(self), msg))
 
     def debug(self, msg):
+        return
         mm.log("Chunk {0}: {1}".format(str(self), msg))
 
     def err(self, msg):

@@ -29,8 +29,8 @@ class Level:
         # Create all active chunks. These are the ones displayed on the map
         # all the time.
         #
-        self.chunk = [[None for x in range(mm.CHUNK_WIDTH)]
-                      for y in range(mm.CHUNK_HEIGHT)]
+        self.chunk = [[None for x in range(mm.CHUNK_ACROSS)]
+                      for y in range(mm.CHUNK_DOWN)]
         #
         # We try to avoid saving chunks when they scroll off the map for speed
         # and so store them in a cache.
@@ -64,7 +64,6 @@ class Level:
         if not self.chunk[0][0].is_biome_land:
             return
 
-        mm.con("a")
         self.log("Scroll dx {0}, dy {1}".format(dx, dy))
 
         game.g.map_clear_focus()
@@ -78,9 +77,8 @@ class Level:
         cdx = -1 * dx
         cdy = -1 * dy
 
-        mm.con("b")
-        new_chunk = [[None for x in range(mm.CHUNK_WIDTH)]
-                     for y in range(mm.CHUNK_HEIGHT)]
+        new_chunk = [[None for x in range(mm.CHUNK_ACROSS)]
+                     for y in range(mm.CHUNK_DOWN)]
 
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
@@ -91,13 +89,12 @@ class Level:
                         y >= mm.CHUNK_DOWN:
 
                     c = self.chunk[cx][cy]
-                    self.log("Chunk {0}: Scrolled off of map".format(c))
+                    self.debug("Chunk {0}: Scrolled off of map".format(c))
                     c.scrolled_off()
                 else:
                     new_chunk[x][y] = self.chunk[cx][cy]
 
         self.chunk = new_chunk
-        mm.con("c")
 
         mm.game_scroll_chunk(dx, dy)
 
@@ -109,10 +106,8 @@ class Level:
         dx *= -1
         dy *= -1
 
-        mm.con("d")
         for thing_id, t in self.all_things.items():
             t.update_pos(t.x + dx, t.y + dy)
-        mm.con("e")
 
         #
         # Add new chunks that scrolled into the map
@@ -137,14 +132,13 @@ class Level:
                         self.chunk[cx][cy] = c
                         c.load(cx, cy)
 
-                    self.log("Chunk {0}: Scrolled onto map".format(c))
+                    self.debug("Chunk {0}: Scrolled onto map".format(c))
 
                 c = self.chunk[cx][cy]
                 c.cx = cx
                 c.cy = cy
                 c.base_x = cx * mm.CHUNK_WIDTH
                 c.base_y = cy * mm.CHUNK_HEIGHT
-        mm.con("f")
 
         for place, item in enumerate(game.g.player.nexthops):
             (x, y) = item
@@ -160,11 +154,8 @@ class Level:
             item = (x, y)
             game.g.saved_nexthops[place] = item
 
-        mm.con("g")
         game.g.load_level_finalize()
-        mm.con("h")
         game.g.player_location_update()
-        mm.con("i")
 
     def jump(self, to):
 
@@ -259,6 +250,7 @@ class Level:
         mm.con("Level {0}: {1}".format(str(self), msg))
 
     def debug(self, msg):
+        return
         mm.log("Level {0}: {1}".format(str(self), msg))
 
     def err(self, msg):

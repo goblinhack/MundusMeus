@@ -18,15 +18,19 @@ class Biome:
     # Puts a tile on the map
     #
     def putc(self, x, y, d, c):
-        if x >= self.width or y >= self.height or x < 0 or y < 0:
-            return
+        if not 0 <= x < self.width:
+            return None
+        if not 0 <= y < self.height:
+            return None
         self.cells[x][y][d] = c
 
     #
     # Gets a tile of the map or None
     #
     def getc(self, x, y, d):
-        if x >= self.width or y >= self.height or x < 0 or y < 0:
+        if not 0 <= x < self.width:
+            return None
+        if not 0 <= y < self.height:
             return None
         return self.cells[x][y][d]
 
@@ -37,15 +41,19 @@ class Biome:
     # Set a tile with a given roomno
     #
     def putr(self, x, y, r):
-        if x >= self.width or y >= self.height or x < 0 or y < 0:
-            return
+        if not 0 <= x < self.width:
+            return None
+        if not 0 <= y < self.height:
+            return None
         self.roomno_cells[x][y] = r
 
     #
     # Get the roomno in this tile
     #
     def getr(self, x, y):
-        if x >= self.width or y >= self.height or x < 0 or y < 0:
+        if not 0 <= x < self.width:
+            return None
+        if not 0 <= y < self.height:
             return None
         return self.roomno_cells[x][y]
 
