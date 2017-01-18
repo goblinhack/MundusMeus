@@ -6,19 +6,26 @@ import os
 import biome_dungeon
 import biome_land
 import copy
+import random
 
 
 class Chunk:
 
-    def __init__(self, level, xyz, cx, cy):
+    def __init__(self, level, xyz, parent_seed, seed, cx, cy):
 
         self.level = level
         self.xyz = copy.copy(xyz)
+        self.seed = seed
+
         self.chunk_name = str(self)
 
         self.debug("New chunk")
 
         self.thing_id_per_level = 10000
+
+        self.parent_seed = parent_seed
+
+        random.seed(self.seed)
 
         #
         # Unique IDs per chunk
@@ -95,7 +102,7 @@ class Chunk:
         self.debug("Biome create done")
 
     def __str__(self):
-        return "l{0}".format(str(self.xyz))
+        return "level.{0}.seed.{1}".format(str(self.xyz), self.seed)
 
     def destroy(self):
         self.log("Destroying chunk {")
@@ -158,6 +165,9 @@ class Chunk:
             pickle.dump(self.is_grassy, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.is_watery, f, pickle.HIGHEST_PROTOCOL)
 
+            pickle.dump(self.parent_seed, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
+
     def load(self, cx, cy):
         #
         # Before we push any things on the map, make sure the parent
@@ -185,6 +195,9 @@ class Chunk:
                 self.is_snowy = pickle.load(f)
                 self.is_grassy = pickle.load(f)
                 self.is_watery = pickle.load(f)
+
+                self.parent_seed = pickle.load(f)
+                self.seed = pickle.load(f)
         else:
             self.log("Load from cache")
 

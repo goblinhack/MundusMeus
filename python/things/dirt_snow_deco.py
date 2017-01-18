@@ -28,14 +28,14 @@ def init():
                     short_name="dirt",
                     long_name="dirt",
                     tiles=[
-                           "dirt_snow-tl",
-                           "dirt_snow-top",
-                           "dirt_snow-tr",
-                           "dirt_snow-left",
-                           "dirt_snow-right",
-                           "dirt_snow-bl",
-                           "dirt_snow-bot",
-                           "dirt_snow-br",
+                           "dirt_snow_tl",
+                           "dirt_snow_top",
+                           "dirt_snow_tr",
+                           "dirt_snow_left",
+                           "dirt_snow_right",
+                           "dirt_snow_bl",
+                           "dirt_snow_bot",
+                           "dirt_snow_br",
                           ])
 
 init()

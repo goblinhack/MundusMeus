@@ -271,7 +271,7 @@ class Thing:
                 self.tp.thing_pushed(self)
 
     #
-    # De-associate the thing with its chunk
+    # De_associate the thing with its chunk
     #
     def pop(self):
         if not self.on_chunk:

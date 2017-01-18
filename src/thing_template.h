@@ -211,7 +211,6 @@ typedef struct tp_ {
     uint8_t is_rrr65:1;
     uint8_t is_rrr66:1;
     uint8_t is_rrr67:1;
-    uint8_t is_rrr68:1;
     uint8_t is_dirt_deco:1;
     uint8_t is_dirt_snow_deco:1;
     uint8_t is_grass_deco:1;
@@ -246,8 +245,8 @@ typedef struct tp_ {
     uint8_t is_bridge:1;
     uint8_t is_movement_blocking:1;
     uint8_t is_treasure:1;
-    uint8_t is_entrance:1;
-    uint8_t is_exit:1;
+    uint8_t is_dungeon_entrance:1;
+    uint8_t is_dungeon_exit:1;
     uint8_t is_chasm_smoke:1;
     uint8_t is_key:1;
     uint8_t is_dusty:1;
@@ -757,11 +756,6 @@ static inline uint8_t tp_is_rrr67 (tpp t)
     return (t->is_rrr67);
 }
 
-static inline uint8_t tp_is_rrr68 (tpp t)
-{
-    return (t->is_rrr68);
-}
-
 static inline uint8_t tp_is_dirt_deco (tpp t)
 {
     return (t->is_dirt_deco);
@@ -937,14 +931,14 @@ static inline uint8_t tp_is_treasure (tpp t)
     return (t->is_treasure);
 }
 
-static inline uint8_t tp_is_entrance (tpp t)
+static inline uint8_t tp_is_dungeon_entrance (tpp t)
 {
-    return (t->is_entrance);
+    return (t->is_dungeon_entrance);
 }
 
-static inline uint8_t tp_is_exit (tpp t)
+static inline uint8_t tp_is_dungeon_exit (tpp t)
 {
-    return (t->is_exit);
+    return (t->is_dungeon_exit);
 }
 
 static inline uint8_t tp_is_chasm_smoke (tpp t)

@@ -108,7 +108,7 @@ def biome_populate(self):
                         t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="torch1")
                         t.push()
 
-            if m.is_start_at(x, y):
+            if m.is_dungeon_entrance_at(x, y):
 
                 t = thing.Thing(chunk=self, x=tx, y=ty, tp_name="start1")
                 t.set_depth(m.depth_map.cells[x][y])
@@ -119,7 +119,7 @@ def biome_populate(self):
                     t.push()
                     game.g.player = t
 
-            if m.is_exit_at(x, y):
+            if m.is_dungeon_exit_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty,
                                 tp_name="exit1")
                 t.set_depth(m.depth_map.cells[x][y])
@@ -167,37 +167,37 @@ def biome_populate(self):
                 # d e f
                 # g h i
                 if b and d and f and h:
-                    t.set_tilename("wall1-x")
+                    t.set_tilename("wall1_x")
                 elif b and d and f:
-                    t.set_tilename("wall1-t180")
+                    t.set_tilename("wall1_t180")
                 elif b and d and h:
-                    t.set_tilename("wall1-t90")
+                    t.set_tilename("wall1_t90")
                 elif b and f and h:
-                    t.set_tilename("wall1-t270")
+                    t.set_tilename("wall1_t270")
                 elif d and f and h:
-                    t.set_tilename("wall1-t")
+                    t.set_tilename("wall1_t")
                 elif b and h:
-                    t.set_tilename("wall1-up-down")
+                    t.set_tilename("wall1_up_down")
                 elif d and f:
-                    t.set_tilename("wall1-left-right")
+                    t.set_tilename("wall1_left_right")
                 elif b and f:
-                    t.set_tilename("wall1-l")
+                    t.set_tilename("wall1_l")
                 elif h and f:
-                    t.set_tilename("wall1-l90")
+                    t.set_tilename("wall1_l90")
                 elif d and h:
-                    t.set_tilename("wall1-l180")
+                    t.set_tilename("wall1_l180")
                 elif b and d:
-                    t.set_tilename("wall1-l270")
+                    t.set_tilename("wall1_l270")
                 elif b:
-                    t.set_tilename("wall1-n180")
+                    t.set_tilename("wall1_n180")
                 elif f:
-                    t.set_tilename("wall1-n270")
+                    t.set_tilename("wall1_n270")
                 elif h:
-                    t.set_tilename("wall1-n")
+                    t.set_tilename("wall1_n")
                 elif d:
-                    t.set_tilename("wall1-n90")
+                    t.set_tilename("wall1_n90")
                 else:
-                    t.set_tilename("wall1-node")
+                    t.set_tilename("wall1_node")
 
             if m.is_cwall_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="cwall1")
@@ -227,37 +227,37 @@ def biome_populate(self):
                 # d e f
                 # g h i
                 if b and d and f and h:
-                    t.set_tilename("cwall1-x")
+                    t.set_tilename("cwall1_x")
                 elif b and d and f:
-                    t.set_tilename("cwall1-t180")
+                    t.set_tilename("cwall1_t180")
                 elif b and d and h:
-                    t.set_tilename("cwall1-t90")
+                    t.set_tilename("cwall1_t90")
                 elif b and f and h:
-                    t.set_tilename("cwall1-t270")
+                    t.set_tilename("cwall1_t270")
                 elif d and f and h:
-                    t.set_tilename("cwall1-t")
+                    t.set_tilename("cwall1_t")
                 elif b and h:
-                    t.set_tilename("cwall1-up-down")
+                    t.set_tilename("cwall1_up_down")
                 elif d and f:
-                    t.set_tilename("cwall1-left-right")
+                    t.set_tilename("cwall1_left_right")
                 elif b and f:
-                    t.set_tilename("cwall1-l")
+                    t.set_tilename("cwall1_l")
                 elif h and f:
-                    t.set_tilename("cwall1-l90")
+                    t.set_tilename("cwall1_l90")
                 elif d and h:
-                    t.set_tilename("cwall1-l180")
+                    t.set_tilename("cwall1_l180")
                 elif b and d:
-                    t.set_tilename("cwall1-l270")
+                    t.set_tilename("cwall1_l270")
                 elif b:
-                    t.set_tilename("cwall1-n180")
+                    t.set_tilename("cwall1_n180")
                 elif f:
-                    t.set_tilename("cwall1-n270")
+                    t.set_tilename("cwall1_n270")
                 elif h:
-                    t.set_tilename("cwall1-n")
+                    t.set_tilename("cwall1_n")
                 elif d:
-                    t.set_tilename("cwall1-n90")
+                    t.set_tilename("cwall1_n90")
                 else:
-                    t.set_tilename("cwall1-node")
+                    t.set_tilename("cwall1_node")
 
             if m.is_lava_at(x, y):
 
@@ -274,25 +274,25 @@ def biome_populate(self):
                         m.is_rock_at(x, y - 1) or \
                         m.is_cwall_at(x, y - 1):
 
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1-top")
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1_top")
                     t.push()
 
                 elif m.is_floor_at(x, y - 1) and not m.is_floor_at(x, y):
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1-top")
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1_top")
                     t.push()
                     t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1")
                     t.push()
 
                 elif m.is_corridor_at(x, y - 1) and \
                         not m.is_corridor_at(x, y):
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1-top")
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1_top")
                     t.push()
                     t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1")
                     t.push()
 
                 elif m.is_dusty_at(x, y - 1) and \
                         not m.is_dusty_at(x, y):
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1-top")
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1_top")
                     t.push()
                     t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1")
                     t.push()
@@ -321,7 +321,7 @@ def biome_populate(self):
 
                 if random.randint(0, 100) < 5:
                     put_treasure = True
-                    water = "water1-trans"
+                    water = "water1_trans"
 
                 if m.is_floor_at(x, y) or \
                    m.is_dusty_at(x, y) or \
@@ -336,24 +336,24 @@ def biome_populate(self):
                         m.is_rock_at(x, y - 1) or \
                         m.is_cwall_at(x, y - 1):
                     t = thing.Thing(chunk=c, x=tx, y=ty,
-                                    tp_name=water + "-top")
+                                    tp_name=water + "_top")
                     t.push()
 
                 elif m.is_floor_at(x, y - 1) and not m.is_floor_at(x, y):
                     t = thing.Thing(chunk=c, x=tx, y=ty,
-                                    tp_name=water + "-top")
+                                    tp_name=water + "_top")
                     t.push()
 
                 elif m.is_corridor_at(x, y - 1) and \
                         not m.is_corridor_at(x, y):
                     t = thing.Thing(chunk=c, x=tx, y=ty,
-                                    tp_name=water + "-top")
+                                    tp_name=water + "_top")
                     t.push()
 
                 elif m.is_dusty_at(x, y - 1) and \
                         not m.is_dusty_at(x, y):
                     t = thing.Thing(chunk=c, x=tx, y=ty,
-                                    tp_name=water + "-top")
+                                    tp_name=water + "_top")
                     t.push()
 
                 else:

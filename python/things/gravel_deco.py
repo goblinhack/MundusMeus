@@ -28,14 +28,14 @@ def init():
                       short_name="gravel",
                       long_name="gravel",
                       tiles=[
-                             "gravel-tl",
-                             "gravel-top",
-                             "gravel-tr",
-                             "gravel-left",
-                             "gravel-right",
-                             "gravel-bl",
-                             "gravel-bot",
-                             "gravel-br",
+                             "gravel_tl",
+                             "gravel_top",
+                             "gravel_tr",
+                             "gravel_left",
+                             "gravel_right",
+                             "gravel_bl",
+                             "gravel_bot",
+                             "gravel_br",
                             ])
 
 init()

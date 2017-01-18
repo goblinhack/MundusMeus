@@ -28,14 +28,14 @@ def init():
                      short_name="grass",
                      long_name="grass",
                      tiles=[
-                            "grass_snow-tl",
-                            "grass_snow-top",
-                            "grass_snow-tr",
-                            "grass_snow-left",
-                            "grass_snow-right",
-                            "grass_snow-bl",
-                            "grass_snow-bot",
-                            "grass_snow-br",
+                            "grass_snow_tl",
+                            "grass_snow_top",
+                            "grass_snow_tr",
+                            "grass_snow_left",
+                            "grass_snow_right",
+                            "grass_snow_bl",
+                            "grass_snow_bot",
+                            "grass_snow_br",
                             ])
 
 init()

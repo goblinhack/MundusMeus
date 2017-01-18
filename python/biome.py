@@ -225,8 +225,8 @@ class Biome:
         if "is_wall" in charmap.charmap[c] or \
            "is_door" in charmap.charmap[c] or \
            "is_obj" in charmap.charmap[c] or \
-           "is_start" in charmap.charmap[c] or \
-           "is_exit" in charmap.charmap[c] or \
+           "is_dungeon_entrance" in charmap.charmap[c] or \
+           "is_dungeon_exit" in charmap.charmap[c] or \
            "is_key" in charmap.charmap[c]:
             return True
         return False
@@ -300,17 +300,17 @@ class Biome:
                 return True
         return False
 
-    def is_start_at(self, x, y):
+    def is_dungeon_entrance_at(self, x, y):
         c = self.getc(x, y, charmap.depth.wall)
         if c is not None:
-            if "is_start" in charmap.charmap[c]:
+            if "is_dungeon_entrance" in charmap.charmap[c]:
                 return True
         return False
 
-    def is_exit_at(self, x, y):
+    def is_dungeon_exit_at(self, x, y):
         c = self.getc(x, y, charmap.depth.wall)
         if c is not None:
-            if "is_exit" in charmap.charmap[c]:
+            if "is_dungeon_exit" in charmap.charmap[c]:
                 return True
         return False
 

@@ -119,7 +119,7 @@ class Biome(biome.Biome):
                     mm.die("unhandled color {0}, {1}, {2} " +
                            "at {3}, {4}".format(r, g, b, x, y))
 
-                if random.randint(0, 10000) < 5:
+                if random.randint(0, 10000) < 100:
                     self.putc(x, y, charmap.depth.floor, charmap.DUNGEON)
 
                 if is_dungeon:

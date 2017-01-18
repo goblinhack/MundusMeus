@@ -260,7 +260,7 @@ def biome_populate(self):
                     t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
                     t.push()
 
-            if m.is_start_at(x, y):
+            if m.is_dungeon_entrance_at(x, y):
                 if game.g.player is None:
                     #
                     # Create the player on the active central chunk
@@ -308,37 +308,37 @@ def biome_populate(self):
                 # d e f
                 # g h i
                 if b and d and f and h:
-                    t.set_tilename(landrock_str + "-x")
+                    t.set_tilename(landrock_str + "_x")
                 elif b and d and f:
-                    t.set_tilename(landrock_str + "-t180")
+                    t.set_tilename(landrock_str + "_t180")
                 elif b and d and h:
-                    t.set_tilename(landrock_str + "-t90")
+                    t.set_tilename(landrock_str + "_t90")
                 elif b and f and h:
-                    t.set_tilename(landrock_str + "-t270")
+                    t.set_tilename(landrock_str + "_t270")
                 elif d and f and h:
-                    t.set_tilename(landrock_str + "-t")
+                    t.set_tilename(landrock_str + "_t")
                 elif b and h:
-                    t.set_tilename(landrock_str + "-up-down")
+                    t.set_tilename(landrock_str + "_up_down")
                 elif d and f:
-                    t.set_tilename(landrock_str + "-left-right")
+                    t.set_tilename(landrock_str + "_left_right")
                 elif b and f:
-                    t.set_tilename(landrock_str + "-l")
+                    t.set_tilename(landrock_str + "_l")
                 elif h and f:
-                    t.set_tilename(landrock_str + "-l90")
+                    t.set_tilename(landrock_str + "_l90")
                 elif d and h:
-                    t.set_tilename(landrock_str + "-l180")
+                    t.set_tilename(landrock_str + "_l180")
                 elif b and d:
-                    t.set_tilename(landrock_str + "-l270")
+                    t.set_tilename(landrock_str + "_l270")
                 elif b:
-                    t.set_tilename(landrock_str + "-n180")
+                    t.set_tilename(landrock_str + "_n180")
                 elif f:
-                    t.set_tilename(landrock_str + "-n270")
+                    t.set_tilename(landrock_str + "_n270")
                 elif h:
-                    t.set_tilename(landrock_str + "-n")
+                    t.set_tilename(landrock_str + "_n")
                 elif d:
-                    t.set_tilename(landrock_str + "-n90")
+                    t.set_tilename(landrock_str + "_n90")
                 else:
-                    t.set_tilename(landrock_str + "-node")
+                    t.set_tilename(landrock_str + "_node")
 
             if m.is_water_at(x, y):
 

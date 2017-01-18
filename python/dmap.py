@@ -167,8 +167,8 @@ def test():
         border = random.randint(1, 10)
         x = random.randint(border, width - border)
         y = random.randint(border, height - border)
-        for dx in range(-border, border):
-            for dy in range(-border, border):
+        for dx in range(_border, border):
+            for dy in range(_border, border):
                 if random.randint(0, 100) < 5:
                     dmap.cells[x + dx][y + dy] = 0
 

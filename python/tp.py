@@ -190,7 +190,6 @@ class Tp:
         self.is_rrr65 = False
         self.is_rrr66 = False
         self.is_rrr67 = False
-        self.is_rrr68 = False
         self.is_dirt_deco = False
         self.is_dirt_snow_deco = False
         self.is_grass_deco = False
@@ -225,8 +224,8 @@ class Tp:
         self.is_grass = False
         self.is_bridge = False
         self.is_movement_blocking = False
-        self.is_entrance = False
-        self.is_exit = False
+        self.is_dungeon_entrance = False
+        self.is_dungeon_exit = False
         self.is_chasm_smoke = False
         self.is_key = False
         self.is_dusty = False
@@ -641,10 +640,6 @@ class Tp:
         self.is_rrr67 = value
         mm.tp_set_is_rrr67(self, value)
 
-    def set_is_rrr68(self, value):
-        self.is_rrr68 = value
-        mm.tp_set_is_rrr68(self, value)
-
     def set_is_dirt_deco(self, value):
         self.is_dirt_deco = value
         mm.tp_set_is_dirt_deco(self, value)
@@ -785,13 +780,13 @@ class Tp:
         self.is_treasure = value
         mm.tp_set_is_treasure(self, value)
 
-    def set_is_entrance(self, value):
-        self.is_entrance = value
-        mm.tp_set_is_entrance(self, value)
+    def set_is_dungeon_entrance(self, value):
+        self.is_dungeon_entrance = value
+        mm.tp_set_is_dungeon_entrance(self, value)
 
-    def set_is_exit(self, value):
-        self.is_exit = value
-        mm.tp_set_is_exit(self, value)
+    def set_is_dungeon_exit(self, value):
+        self.is_dungeon_exit = value
+        mm.tp_set_is_dungeon_exit(self, value)
 
     def set_is_chasm_smoke(self, value):
         self.is_chasm_smoke = value

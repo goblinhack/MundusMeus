@@ -100,7 +100,7 @@ def init():
     x.set_light_pulse_amount(0.5)
     x.set_is_candle_light(True)
 
-    x = lava_init(name="lava1-top",
+    x = lava_init(name="lava1_top",
                   short_name="bubbling lava",
                   long_name="bubbling lava",
                   tiles=[
@@ -169,6 +169,6 @@ def init():
                          "toplava1.63",
                          "toplava1.64",
                      ])
-    x.set_z_depth("lava-top")
+    x.set_z_depth("lava_top")
 
 init()

@@ -42,7 +42,7 @@ class Game:
     def load_level(self):
 
         self.map_wid_create()
-        self.level = level.Level(xyz=self.where)
+        self.level = level.Level(xyz=self.where, seed=self.seed)
         mm.game_map_add_selection_buttons()
 
     def load_level_finalize(self):
@@ -310,7 +310,33 @@ class Game:
         if l.tp_is(x, y, "is_dungeon"):
             xyz = l.xyz
             xyz.z -= 1
-            l.jump(xyz)
+
+            new_level_seed = l.seed
+            new_level_seed *= xyz.y * mm.WORLD_WIDTH
+            new_level_seed *= xyz.x
+            new_level_seed *= self.player.x
+            new_level_seed += self.player.y
+
+            l.jump(xyz, new_level_seed)
+
+        if l.tp_is(x, y, "is_dungeon_exit"):
+            xyz = l.xyz
+            xyz.z -= 1
+
+            new_level_seed = l.seed
+            new_level_seed *= xyz.y * mm.WORLD_WIDTH
+            new_level_seed *= xyz.x
+            new_level_seed *= self.player.x
+            new_level_seed += self.player.y
+
+            l.jump(xyz, new_level_seed)
+
+        if l.tp_is(x, y, "is_dungeon_entrance"):
+            xyz = l.xyz
+            xyz.z += 1
+
+            new_level_seed = l.chunk[0][0].parent_seed
+            l.jump(xyz, new_level_seed)
 
         if level_change:
             l.scroll(level_dx, level_dy)

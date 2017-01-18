@@ -1490,8 +1490,8 @@ class Biome(biome.Biome):
             border = random.randint(1, 7)
             x = random.randint(border, self.width - border)
             y = random.randint(border, self.height - border)
-            for dx in range(-border, border):
-                for dy in range(-border, border):
+            for dx in range(_border, border):
+                for dy in range(_border, border):
                     if random.randint(0, 100) < 25:
                         self.depth_map.cells[x + dx][y + dy] = wall
 
@@ -1499,8 +1499,8 @@ class Biome(biome.Biome):
             border = random.randint(1, 10)
             x = random.randint(border, self.width - border)
             y = random.randint(border, self.height - border)
-            for dx in range(-border, border):
-                for dy in range(-border, border):
+            for dx in range(_border, border):
+                for dy in range(_border, border):
                     if random.randint(0, 100) < 5:
                         self.depth_map.cells[x + dx][y + dy] = goal
 
@@ -1695,8 +1695,8 @@ class Biome(biome.Biome):
                self.is_cwall_at(x, y) or \
                self.is_door_at(x, y) or \
                self.is_obj_at(x, y) or \
-               self.is_start_at(x, y) or \
-               self.is_exit_at(x, y) or \
+               self.is_dungeon_entrance_at(x, y) or \
+               self.is_dungeon_exit_at(x, y) or \
                self.is_key_at(x, y) or \
                self.is_rock_at(x, y):
                 continue

@@ -186,12 +186,12 @@ class WidTpGrid(wid_popup.WidPopup):
                 title=True,
                 center=True,
                 on_button_list=button_events,
-                text="[%%tile=icon-star$] " +
-                     "[%%tile=icon-sword$] " +
-                     "[%%tile=icon-magic$] " +
-                     "[%%tile=icon-shield$] " +
-                     "[%%tile=icon-heal$] " +
-                     "[%%tile=icon-food$]"
+                text="[%%tile=icon_star$] " +
+                     "[%%tile=icon_sword$] " +
+                     "[%%tile=icon_magic$] " +
+                     "[%%tile=icon_shield$] " +
+                     "[%%tile=icon_heal$] " +
+                     "[%%tile=icon_food$]"
                 )
 
         self.tp_sorted_name_list = []
@@ -280,7 +280,7 @@ class WidTpGrid(wid_popup.WidPopup):
                     center=True,
                     font="small",
                     color="white",
-                    text="--nothing--")
+                    text="-_nothing--")
 
         w.update()
         w.set_focus()

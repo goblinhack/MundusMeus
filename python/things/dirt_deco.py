@@ -28,14 +28,14 @@ def init():
                     short_name="dirt",
                     long_name="dirt",
                     tiles=[
-                           "dirt-tl",
-                           "dirt-top",
-                           "dirt-tr",
-                           "dirt-left",
-                           "dirt-right",
-                           "dirt-bl",
-                           "dirt-bot",
-                           "dirt-br",
+                           "dirt_tl",
+                           "dirt_top",
+                           "dirt_tr",
+                           "dirt_left",
+                           "dirt_right",
+                           "dirt_bl",
+                           "dirt_bot",
+                           "dirt_br",
                           ])
 
 init()

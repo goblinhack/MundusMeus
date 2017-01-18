@@ -1987,12 +1987,13 @@ void wid_set_tilename (widp w, const char *name)
         w->first_tile = tile;
     }
 
+#if 0
     thingp t = wid_get_thing(w);
 
     if (t && tp_is_cats_eyes(thing_tp(t))) {
         char tmp[SMALL_STRING_LEN_MAX];
 
-        snprintf(tmp, sizeof(tmp), "%s-eyes", name);
+        snprintf(tmp, sizeof(tmp), "%s_eyes", name);
 
         tilep tile = tile_find(tmp);
         if (!tile) {
@@ -2015,6 +2016,7 @@ void wid_set_tilename (widp w, const char *name)
 
         w->tile_eyes = tile;
     }
+#endif
 }
 
 /*

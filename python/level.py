@@ -9,7 +9,7 @@ import util
 
 class Level:
 
-    def __init__(self, xyz):
+    def __init__(self, xyz, seed):
 
         self.xyz = xyz
 
@@ -19,6 +19,7 @@ class Level:
         # contain the player
         #
         where = util.Xyz(0, 0, 0)
+        self.seed = seed
 
         #
         # All things in all chunks. We have per chunk all_things too.
@@ -45,7 +46,10 @@ class Level:
                 where.x = xyz.x - 1 + cx
                 where.y = xyz.y - 1 + cy
                 where.z = xyz.z
-                self.chunk[cx][cy] = chunk.Chunk(self, where, cx, cy)
+                self.chunk[cx][cy] = chunk.Chunk(self, where,
+                                                 self.seed,
+                                                 self.seed,
+                                                 cx, cy)
 
         #
         # The dmap spans all chunks so we can have things move between chunks
@@ -123,10 +127,13 @@ class Level:
                     where.y = self.xyz.y - 1 + cy
                     where.z = self.xyz.z
 
-                    chunk_name = "l{0}".format(str(where))
+                    chunk_name = "level.{0}.seed.{1}".format(str(where), self.seed)
                     c = self.chunk_cache.get(chunk_name)
                     if c is None:
-                        self.chunk[cx][cy] = chunk.Chunk(self, where, cx, cy)
+                        self.chunk[cx][cy] = chunk.Chunk(self, where,
+                                                         self.seed,
+                                                         self.seed,
+                                                         cx, cy)
                         c = self.chunk[cx][cy]
                     else:
                         self.chunk[cx][cy] = c
@@ -157,7 +164,7 @@ class Level:
         game.g.load_level_finalize()
         game.g.player_location_update()
 
-    def jump(self, to):
+    def jump(self, to, seed):
 
         self.log("Jump to {0}".format(to))
 
@@ -193,10 +200,13 @@ class Level:
                     where.y = self.xyz.y - 1 + cy
                     where.z = self.xyz.z
 
-                    chunk_name = "l{0}".format(str(where))
+                    chunk_name = "level.{0}.seed.{1}".format(str(where), seed)
                     c = self.chunk_cache.get(chunk_name)
                     if c is None:
-                        self.chunk[cx][cy] = chunk.Chunk(self, where, cx, cy)
+                        self.chunk[cx][cy] = chunk.Chunk(self, where,
+                                                         self.seed,
+                                                         seed,
+                                                         cx, cy)
                         c = self.chunk[cx][cy]
                     else:
                         self.chunk[cx][cy] = c
@@ -210,7 +220,7 @@ class Level:
                 c.base_x = cx * mm.CHUNK_WIDTH
                 c.base_y = cy * mm.CHUNK_HEIGHT
 
-        (x, y) = self.tp_is_where("is_entrance")
+        (x, y) = self.tp_is_where("is_dungeon_entrance")
 
         mm.log("Entrance on {0},{1} level @ {2}".format(x, y, str(self)))
 
@@ -237,7 +247,7 @@ class Level:
         return (self.chunk[cx][cy], offset_x, offset_y)
 
     #
-    # Convert from co-ordinates that are the chunc-local
+    # Convert from co-ordinates that are the chunc_local
     #
     def chunk_xy_to_xy(self, cx, cy, x, y):
 
@@ -262,7 +272,7 @@ class Level:
         mm.die("Level {0}: FATAL ERROR: {1}".format(self, msg))
 
     def __str__(self):
-        return "l{0}".format(str(self.xyz))
+        return "level.{0}".format(str(self.xyz))
 
     def destroy(self):
         self.log("Destroying level {")

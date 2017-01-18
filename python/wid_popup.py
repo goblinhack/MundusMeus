@@ -117,7 +117,7 @@ class WidPopup(wid.Wid):
 
         if tiles is not None:
             super().__init__(name, tiles=tiles, parent=parent)
-            self.tile_size = mm.tile_size_pct(tiles + "-tl")
+            self.tile_size = mm.tile_size_pct(tiles + "_tl")
             self.pad_w = self.tile_size[0] * 0.5
             self.pad_h = self.tile_size[1] * 0.5
         else:

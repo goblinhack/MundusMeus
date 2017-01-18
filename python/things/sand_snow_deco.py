@@ -28,14 +28,14 @@ def init():
                     short_name="sand",
                     long_name="sand",
                     tiles=[
-                           "sand_snow-tl",
-                           "sand_snow-top",
-                           "sand_snow-tr",
-                           "sand_snow-left",
-                           "sand_snow-right",
-                           "sand_snow-bl",
-                           "sand_snow-bot",
-                           "sand_snow-br",
+                           "sand_snow_tl",
+                           "sand_snow_top",
+                           "sand_snow_tr",
+                           "sand_snow_left",
+                           "sand_snow_right",
+                           "sand_snow_bl",
+                           "sand_snow_bot",
+                           "sand_snow_br",
                           ])
 
 init()
