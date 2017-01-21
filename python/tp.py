@@ -224,8 +224,8 @@ class Tp:
         self.is_grass = False
         self.is_bridge = False
         self.is_movement_blocking = False
-        self.is_dungeon_entrance = False
-        self.is_dungeon_exit = False
+        self.is_dungeon_way_up = False
+        self.is_dungeon_way_down = False
         self.is_chasm_smoke = False
         self.is_key = False
         self.is_dusty = False
@@ -780,13 +780,13 @@ class Tp:
         self.is_treasure = value
         mm.tp_set_is_treasure(self, value)
 
-    def set_is_dungeon_entrance(self, value):
-        self.is_dungeon_entrance = value
-        mm.tp_set_is_dungeon_entrance(self, value)
+    def set_is_dungeon_way_up(self, value):
+        self.is_dungeon_way_up = value
+        mm.tp_set_is_dungeon_way_up(self, value)
 
-    def set_is_dungeon_exit(self, value):
-        self.is_dungeon_exit = value
-        mm.tp_set_is_dungeon_exit(self, value)
+    def set_is_dungeon_way_down(self, value):
+        self.is_dungeon_way_down = value
+        mm.tp_set_is_dungeon_way_down(self, value)
 
     def set_is_chasm_smoke(self, value):
         self.is_chasm_smoke = value

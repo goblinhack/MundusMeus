@@ -16,7 +16,7 @@ void sdl_loop(void);
 void sdl_show_keyboard(void);
 void sdl_hide_keyboard(void);
 void sdl_exit(void);
-uint8_t sdl_is_dungeon_exiting(void);
+uint8_t sdl_is_dungeon_way_downing(void);
 
 extern int32_t sdl_init_video;
 extern uint8_t sdl_exiting;

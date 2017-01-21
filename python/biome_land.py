@@ -260,7 +260,7 @@ def biome_populate(self):
                     t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
                     t.push()
 
-            if m.is_dungeon_entrance_at(x, y):
+            if m.is_dungeon_way_up_at(x, y):
                 if game.g.player is None:
                     #
                     # Create the player on the active central chunk

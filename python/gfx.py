@@ -441,7 +441,7 @@ def init_tiles_walls():
         "",
         "",
         "",
-        "dungeon_exit1_deco.1",
+        "dungeon_dungeon_way_down1_deco.1",
         #############################################################
         "floor1.1",
         "floor1.2",
@@ -473,8 +473,8 @@ def init_tiles_walls():
         "floor1.28",
         "floor1.29",
         "floor1.30",
-        "dungeon_start1.1",
-        "dungeon_exit1.1",
+        "dungeon_way_up1.1",
+        "dungeon_dungeon_way_down1.1",
         #############################################################
         "under_floor1.1",
         "under_floor1.2",
@@ -507,7 +507,7 @@ def init_tiles_walls():
         "under_floor1.29",
         "under_floor1.30",
         "under_start1.1",
-        "under_exit1.1",
+        "under_dungeon_way_down1.1",
         #############################################################
         "corridor1.1",
         "corridor1.2",

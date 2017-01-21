@@ -17,7 +17,7 @@ def exit_init(name, short_name, long_name, tiles=[]):
     x.set_is_shadow_caster(True)
     x.set_long_name(short_name)
     x.set_short_name(short_name)
-    x.set_is_dungeon_exit(True)
+    x.set_is_dungeon_way_down(True)
     x.set_z_depth("floor2")
 
     if tiles is not None:
@@ -32,11 +32,11 @@ def exit_init(name, short_name, long_name, tiles=[]):
 
 
 def init():
-    x = exit_init(name="exit1",
+    x = exit_init(name="dungeon_way_down1",
                   short_name="stairs leading down",
                   long_name="stairs leading down",
                   tiles=[
-                         "dungeon_exit1.1",
+                         "dungeon_dungeon_way_down1.1",
                         ])
 
     x.set_light_radius(3)
@@ -44,11 +44,11 @@ def init():
     x.set_is_candle_light(True)
     x.set_blit_bot_off(0)
 
-    x = exit_init(name="exit1_deco",
+    x = exit_init(name="dungeon_way_down1_deco",
                   short_name="a warning sign for fools",
                   long_name="a warning sign for fools",
                   tiles=[
-                         "dungeon_exit1_deco.1",
+                         "dungeon_dungeon_way_down1_deco.1",
                         ])
     x.thing_pushed = thing_pushed
     x.set_z_depth("explosion")

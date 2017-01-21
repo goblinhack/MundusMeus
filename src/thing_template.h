@@ -245,8 +245,8 @@ typedef struct tp_ {
     uint8_t is_bridge:1;
     uint8_t is_movement_blocking:1;
     uint8_t is_treasure:1;
-    uint8_t is_dungeon_entrance:1;
-    uint8_t is_dungeon_exit:1;
+    uint8_t is_dungeon_way_up:1;
+    uint8_t is_dungeon_way_down:1;
     uint8_t is_chasm_smoke:1;
     uint8_t is_key:1;
     uint8_t is_dusty:1;
@@ -931,14 +931,14 @@ static inline uint8_t tp_is_treasure (tpp t)
     return (t->is_treasure);
 }
 
-static inline uint8_t tp_is_dungeon_entrance (tpp t)
+static inline uint8_t tp_is_dungeon_way_up (tpp t)
 {
-    return (t->is_dungeon_entrance);
+    return (t->is_dungeon_way_up);
 }
 
-static inline uint8_t tp_is_dungeon_exit (tpp t)
+static inline uint8_t tp_is_dungeon_way_down (tpp t)
 {
-    return (t->is_dungeon_exit);
+    return (t->is_dungeon_way_down);
 }
 
 static inline uint8_t tp_is_chasm_smoke (tpp t)

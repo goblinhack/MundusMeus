@@ -22,8 +22,7 @@ def biome_build(self, seed=0):
         fixed_rooms = rooms.create_fixed()
         random.seed(self.biome_seed)
 
-        self.biome_seed += 1
-        self.biome_seed *= self.biome_seed
+        mm.log("Build dungeon; seed {0}".format(self.biome_seed))
 
         self.biome = biome_dungeon_do.Biome(chunk=self,
                                             rooms=fixed_rooms,
@@ -33,7 +32,10 @@ def biome_build(self, seed=0):
         if not self.biome.generate_failed:
             break
 
-        mm.log("Failed to build dunegon; retry")
+        self.biome_seed += 1
+        self.biome_seed += self.biome_seed
+
+        mm.log("Failed to build dungeon; retry")
 
     if True:
         self.biome.dump_depth()
@@ -108,9 +110,10 @@ def biome_populate(self):
                         t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="torch1")
                         t.push()
 
-            if m.is_dungeon_entrance_at(x, y):
+            if m.is_dungeon_way_up_at(x, y):
 
-                t = thing.Thing(chunk=self, x=tx, y=ty, tp_name="start1")
+                t = thing.Thing(chunk=self, x=tx, y=ty,
+                                tp_name="dungeon_way_up1")
                 t.set_depth(m.depth_map.cells[x][y])
                 t.push()
 
@@ -119,14 +122,14 @@ def biome_populate(self):
                     t.push()
                     game.g.player = t
 
-            if m.is_dungeon_exit_at(x, y):
+            if m.is_dungeon_way_down_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty,
-                                tp_name="exit1")
+                                tp_name="dungeon_way_down1")
                 t.set_depth(m.depth_map.cells[x][y])
                 t.push()
 
                 t = thing.Thing(chunk=c, x=tx, y=ty - 1,
-                                tp_name="exit1_deco")
+                                tp_name="dungeon_way_down1_deco")
                 t.set_depth(m.depth_map.cells[x][y])
                 t.push()
 

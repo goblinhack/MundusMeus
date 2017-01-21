@@ -110,13 +110,13 @@ charmap = {
     START: {
         "bg": "white",
         "fg": "red",
-        "is_dungeon_entrance": True,
+        "is_dungeon_way_up": True,
         "is_movement_blocking": True,
     },
     EXIT: {
         "bg": "white",
         "fg": "red",
-        "is_dungeon_exit": True,
+        "is_dungeon_way_down": True,
         "is_movement_blocking": True,
     },
     KEY: {

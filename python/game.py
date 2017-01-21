@@ -26,6 +26,7 @@ class Game:
 
         self.nexthops = None
         self.saved_nexthops = []
+        self.level_stack = []
         wid_console.create()
         self.last_scroll_px = 0.5
         self.last_scroll_py = 0.5
@@ -72,6 +73,7 @@ class Game:
             pickle.dump(self.where, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.move_count, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.moves_per_day, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.level_stack, f, pickle.HIGHEST_PROTOCOL)
 
         l.save()
         mm.con("Game saved @ chunk {0} to {1}".format(str(l), s))
@@ -88,6 +90,7 @@ class Game:
             self.where = pickle.load(f)
             self.move_count = pickle.load(f)
             self.moves_per_day = pickle.load(f)
+            self.level_stack = pickle.load(f)
 
             self.load_level()
             mm.con("Game loaded @ chunk {0} to {1}".format(str(self.level), s))
@@ -317,9 +320,9 @@ class Game:
             new_level_seed *= self.player.x
             new_level_seed += self.player.y
 
-            l.jump(xyz, new_level_seed)
+            l.jump(xyz, new_level_seed, backtracking=False)
 
-        if l.tp_is(x, y, "is_dungeon_exit"):
+        if l.tp_is(x, y, "is_dungeon_way_down"):
             xyz = l.xyz
             xyz.z -= 1
 
@@ -329,14 +332,15 @@ class Game:
             new_level_seed *= self.player.x
             new_level_seed += self.player.y
 
-            l.jump(xyz, new_level_seed)
+            l.jump(xyz, new_level_seed, backtracking=False)
 
-        if l.tp_is(x, y, "is_dungeon_entrance"):
+        if l.tp_is(x, y, "is_dungeon_way_up"):
             xyz = l.xyz
             xyz.z += 1
 
             new_level_seed = l.chunk[0][0].parent_seed
-            l.jump(xyz, new_level_seed)
+
+            l.jump(xyz, new_level_seed, backtracking=True)
 
         if level_change:
             l.scroll(level_dx, level_dy)

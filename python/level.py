@@ -127,7 +127,8 @@ class Level:
                     where.y = self.xyz.y - 1 + cy
                     where.z = self.xyz.z
 
-                    chunk_name = "level.{0}.seed.{1}".format(str(where), self.seed)
+                    chunk_name = "level.{0}.seed.{1}".format(str(where),
+                                                             self.seed)
                     c = self.chunk_cache.get(chunk_name)
                     if c is None:
                         self.chunk[cx][cy] = chunk.Chunk(self, where,
@@ -164,7 +165,7 @@ class Level:
         game.g.load_level_finalize()
         game.g.player_location_update()
 
-    def jump(self, to, seed):
+    def jump(self, to, seed, backtracking=False):
 
         self.log("Jump to {0}".format(to))
 
@@ -174,6 +175,8 @@ class Level:
         # Preserve the player
         #
         mm.con("Level move")
+
+        player = game.g.player
         game.g.player.pop()
 
         #
@@ -220,11 +223,31 @@ class Level:
                 c.base_x = cx * mm.CHUNK_WIDTH
                 c.base_y = cy * mm.CHUNK_HEIGHT
 
-        (x, y) = self.tp_is_where("is_dungeon_entrance")
+        new_pos = None
+        if backtracking:
+            #
+            # Heading back to the surface. Trace our steps back.
+            #
+            if len(game.g.level_stack) > 0:
+                new_pos = game.g.level_stack.pop()
+            else:
+                self.err("No level stack to backtrack to")
+        else:
+            #
+            # Not backtracking and going into the unknown.
+            # Try to find a suitable starting point.
+            #
+            entrance = self.tp_is_where("is_dungeon_way_up")
+            if entrance is not None:
+                new_pos = entrance
 
-        mm.log("Entrance on {0},{1} level @ {2}".format(x, y, str(self)))
+            game.g.level_stack.append((player.x, player.y))
 
-        game.g.player.push(x, y)
+        if new_pos is not None:
+            (x, y) = new_pos
+            game.g.player.push(x, y)
+        else:
+            self.err("Don't know where to put the player on new level")
 
         game.g.load_level_finalize()
         game.g.player_location_update()
