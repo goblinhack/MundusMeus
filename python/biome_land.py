@@ -359,7 +359,7 @@ def biome_populate(self):
                     t.push()
 
             if m.is_treasure_at(x, y):
-                toughness = c.xyz.z
+                toughness = c.where.z
 
                 r = tp.get_random_treasure(toughness=1)
                 t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)

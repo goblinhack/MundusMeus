@@ -8,6 +8,7 @@ import time_of_day
 import pickle
 import os.path
 import wid_console
+import game
 
 global g
 
@@ -27,6 +28,7 @@ class Game:
         self.nexthops = None
         self.saved_nexthops = []
         self.level_stack = []
+        self.last_level_seed = None
         wid_console.create()
         self.last_scroll_px = 0.5
         self.last_scroll_py = 0.5
@@ -38,12 +40,12 @@ class Game:
         self.moves_per_day = 1000
         self.seed = 9
         self.where = util.Xyz(74*3, 70*3, 0)
-        self.load_level()
+        self.load_level(self.seed)
 
-    def load_level(self):
+    def load_level(self, seed):
 
         self.map_wid_create()
-        self.level = level.Level(xyz=self.where, seed=self.seed)
+        self.level = level.Level(xyz=self.where, seed=seed)
         mm.game_map_add_selection_buttons()
 
     def load_level_finalize(self):
@@ -75,8 +77,11 @@ class Game:
             pickle.dump(self.moves_per_day, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.level_stack, f, pickle.HIGHEST_PROTOCOL)
 
-        l.save()
-        mm.con("Game saved @ chunk {0} to {1}".format(str(l), s))
+            self.last_level_seed = l.seed
+            pickle.dump(self.last_level_seed, f, pickle.HIGHEST_PROTOCOL)
+
+            l.save(f)
+            mm.con("Game saved @ chunk {0} to {1}".format(str(l), s))
 
     def load(self):
 
@@ -91,8 +96,9 @@ class Game:
             self.move_count = pickle.load(f)
             self.moves_per_day = pickle.load(f)
             self.level_stack = pickle.load(f)
+            self.last_level_seed = pickle.load(f)
 
-            self.load_level()
+            self.load_level(self.last_level_seed)
             mm.con("Game loaded @ chunk {0} to {1}".format(str(self.level), s))
 
     def destroy(self):
@@ -140,16 +146,16 @@ class Game:
                 self.day)
 
         text += "%%fg=white$Lat %%fg=green${0}%%fg=reset$ ".format(
-                l.xyz.x)
+                l.where.x)
 
         text += "%%fg=white$Long %%fg=green${0}%%fg=reset$ ".format(
-                l.xyz.y)
+                l.where.y)
 
         text += "%%fg=white$Move %%fg=green${0}%%fg=reset$ ".format(
                 self.move_count)
 
-        if l.xyz.z > 0:
-            text += "Depth %%fg=green${0} feet%%fg=reset ".format(l.xyz.z
+        if l.where.z > 0:
+            text += "Depth %%fg=green${0} feet%%fg=reset ".format(l.where.z
                                                                   * 10)
 
 #        player = self.player
@@ -311,7 +317,7 @@ class Game:
             level_change = True
 
         if l.tp_is(x, y, "is_dungeon"):
-            xyz = l.xyz
+            xyz = l.where
             xyz.z -= 1
 
             new_level_seed = l.seed
@@ -320,27 +326,22 @@ class Game:
             new_level_seed *= self.player.x
             new_level_seed += self.player.y
 
-            l.jump(xyz, new_level_seed, backtracking=False)
+            l.jump(xyz, seed=new_level_seed, backtracking=False)
 
         if l.tp_is(x, y, "is_dungeon_way_down"):
-            xyz = l.xyz
+            xyz = l.where
             xyz.z -= 1
 
-            new_level_seed = l.seed
-            new_level_seed *= xyz.y * mm.WORLD_WIDTH
-            new_level_seed *= xyz.x
-            new_level_seed *= self.player.x
-            new_level_seed += self.player.y
-
-            l.jump(xyz, new_level_seed, backtracking=False)
+            l.jump(xyz, seed=l.seed, backtracking=True)
 
         if l.tp_is(x, y, "is_dungeon_way_up"):
-            xyz = l.xyz
+            xyz = l.where
             xyz.z += 1
 
-            new_level_seed = l.chunk[0][0].parent_seed
-
-            l.jump(xyz, new_level_seed, backtracking=True)
+            if xyz.z == 0:
+                l.jump(xyz, seed=game.g.seed, backtracking=True)
+            else:
+                l.jump(xyz, seed=l.seed, backtracking=True)
 
         if level_change:
             l.scroll(level_dx, level_dy)

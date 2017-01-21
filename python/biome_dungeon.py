@@ -18,9 +18,11 @@ def biome_build(self, seed=0):
         self.biome = None
         return
 
+    seed = self.level.seed + self.level.where.z
+
     while True:
         fixed_rooms = rooms.create_fixed()
-        random.seed(self.biome_seed)
+        random.seed(seed)
 
         mm.log("Build dungeon; seed {0}".format(self.biome_seed))
 
@@ -32,14 +34,13 @@ def biome_build(self, seed=0):
         if not self.biome.generate_failed:
             break
 
-        self.biome_seed += 1
-        self.biome_seed += self.biome_seed
+        seed += 1
+        seed *= self.biome_seed
 
         mm.log("Failed to build dungeon; retry")
 
     if True:
         self.biome.dump_depth()
-        self.biome.dump(biome_dungeon_do.charmap.depth.floor)
         self.biome.dump()
 
 
@@ -429,7 +430,7 @@ def biome_populate(self):
                     t.set_tilename("deco1." + str(which))
 
             if m.is_treasure_at(x, y):
-                toughness = -1 * self.xyz.z
+                toughness = -1 * self.where.z
 
                 roomno = m.getr(x, y)
                 if roomno != -1:

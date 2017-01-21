@@ -11,7 +11,7 @@ class Level:
 
     def __init__(self, xyz, seed):
 
-        self.xyz = xyz
+        self.where = xyz
 
         #
         # This is where the active chunk is. The active chunk is surrounded
@@ -47,7 +47,6 @@ class Level:
                 where.y = xyz.y - 1 + cy
                 where.z = xyz.z
                 self.chunk[cx][cy] = chunk.Chunk(self, where,
-                                                 self.seed,
                                                  self.seed,
                                                  cx, cy)
 
@@ -116,23 +115,22 @@ class Level:
         #
         # Add new chunks that scrolled into the map
         #
-        self.xyz.x += odx
-        self.xyz.y += ody
+        self.where.x += odx
+        self.where.y += ody
 
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
                 if self.chunk[cx][cy] is None:
                     where = util.Xyz(0, 0, 0)
-                    where.x = self.xyz.x - 1 + cx
-                    where.y = self.xyz.y - 1 + cy
-                    where.z = self.xyz.z
+                    where.x = self.where.x - 1 + cx
+                    where.y = self.where.y - 1 + cy
+                    where.z = self.where.z
 
                     chunk_name = "level.{0}.seed.{1}".format(str(where),
                                                              self.seed)
                     c = self.chunk_cache.get(chunk_name)
                     if c is None:
                         self.chunk[cx][cy] = chunk.Chunk(self, where,
-                                                         self.seed,
                                                          self.seed,
                                                          cx, cy)
                         c = self.chunk[cx][cy]
@@ -168,6 +166,7 @@ class Level:
     def jump(self, to, seed, backtracking=False):
 
         self.log("Jump to {0}".format(to))
+        self.seed = seed
 
         game.g.map_clear_focus()
 
@@ -193,21 +192,20 @@ class Level:
         #
         # Add new chunks
         #
-        self.xyz = to
+        self.where = to
 
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
                 if self.chunk[cx][cy] is None:
                     where = util.Xyz(0, 0, 0)
-                    where.x = self.xyz.x - 1 + cx
-                    where.y = self.xyz.y - 1 + cy
-                    where.z = self.xyz.z
+                    where.x = self.where.x - 1 + cx
+                    where.y = self.where.y - 1 + cy
+                    where.z = self.where.z
 
                     chunk_name = "level.{0}.seed.{1}".format(str(where), seed)
                     c = self.chunk_cache.get(chunk_name)
                     if c is None:
                         self.chunk[cx][cy] = chunk.Chunk(self, where,
-                                                         self.seed,
                                                          seed,
                                                          cx, cy)
                         c = self.chunk[cx][cy]
@@ -215,7 +213,7 @@ class Level:
                         self.chunk[cx][cy] = c
                         c.load(cx, cy)
 
-                    self.log("Chunk {0}: Jumped onto map".format(c))
+                    self.debug("Chunk {0}: Jumped onto map".format(c))
 
                 c = self.chunk[cx][cy]
                 c.cx = cx
@@ -295,7 +293,7 @@ class Level:
         mm.die("Level {0}: FATAL ERROR: {1}".format(self, msg))
 
     def __str__(self):
-        return "level.{0}".format(str(self.xyz))
+        return "level.{0}".format(str(self.where))
 
     def destroy(self):
         self.log("Destroying level {")
@@ -332,7 +330,7 @@ class Level:
             for cy in range(0, mm.CHUNK_DOWN):
                 self.chunk[cx][cy].dump()
 
-    def save(self):
+    def save(self, f):
 
         self.log("Save level")
 
@@ -344,7 +342,7 @@ class Level:
         for chunk_name, c in self.chunk_cache.items():
             c.save()
 
-    def load(self):
+    def load(self, f):
 
         self.log("Load level")
 

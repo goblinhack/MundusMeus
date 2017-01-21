@@ -25,8 +25,8 @@ class Biome(biome.Biome):
                       for j in range(self.width)]
         self.debug("^^^ init biome land ^^^")
 
-        mx = chunk.xyz.x
-        my = chunk.xyz.y
+        mx = chunk.where.x
+        my = chunk.where.y
         ox = mx * mm.CHUNK_WIDTH
         oy = my * mm.CHUNK_HEIGHT
 

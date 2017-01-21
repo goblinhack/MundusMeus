@@ -1,7 +1,6 @@
 import pickle
 import traceback
 import mm
-import game
 import os
 import biome_dungeon
 import biome_land
@@ -11,10 +10,10 @@ import random
 
 class Chunk:
 
-    def __init__(self, level, xyz, parent_seed, seed, cx, cy):
+    def __init__(self, level, xyz, seed, cx, cy):
 
         self.level = level
-        self.xyz = copy.copy(xyz)
+        self.where = copy.copy(xyz)
         self.seed = seed
 
         self.chunk_name = str(self)
@@ -22,8 +21,6 @@ class Chunk:
         self.debug("New chunk")
 
         self.thing_id_per_level = 10000
-
-        self.parent_seed = parent_seed
 
         random.seed(self.seed)
 
@@ -61,10 +58,10 @@ class Chunk:
 
         if need_new_chunk:
             mm.log("Chunk {0}: Creating".format(str(self)))
-            if self.xyz.z < 0:
-                self.biome_create(is_dungeon=True, seed=game.g.seed)
+            if self.where.z < 0:
+                self.biome_create(is_dungeon=True, seed=seed)
             else:
-                self.biome_create(is_land=True, seed=game.g.seed)
+                self.biome_create(is_land=True, seed=seed)
 
     #
     # We only keep a certain number of chunks active. This keeps track
@@ -94,7 +91,7 @@ class Chunk:
             self.biome_populate = biome_land.biome_populate
 
         self.debug("Biome build")
-        self.biome_build(self, seed=game.g.seed)
+        self.biome_build(self, seed)
 
         self.debug("Biome populate")
         self.biome_populate(self)
@@ -102,7 +99,7 @@ class Chunk:
         self.debug("Biome create done")
 
     def __str__(self):
-        return "level.{0}.seed.{1}".format(str(self.xyz), self.seed)
+        return "level.{0}.seed.{1}".format(str(self.where), self.seed)
 
     def destroy(self):
         self.log("Destroying chunk {")
@@ -152,7 +149,7 @@ class Chunk:
         with open(os.path.normcase(
                   os.path.join(os.environ["APPDATA"],
                                self.chunk_name)), 'wb') as f:
-            pickle.dump(self.xyz, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.where, f, pickle.HIGHEST_PROTOCOL)
 
             pickle.dump(self.max_thing_id, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.all_things, f, pickle.HIGHEST_PROTOCOL)
@@ -165,7 +162,6 @@ class Chunk:
             pickle.dump(self.is_grassy, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.is_watery, f, pickle.HIGHEST_PROTOCOL)
 
-            pickle.dump(self.parent_seed, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
 
     def load(self, cx, cy):
@@ -183,7 +179,7 @@ class Chunk:
             with open(os.path.normcase(
                         os.path.join(os.environ["APPDATA"],
                                      self.chunk_name)), 'rb') as f:
-                self.xyz = pickle.load(f)
+                self.where = pickle.load(f)
 
                 self.max_thing_id = pickle.load(f)
                 self.all_things = pickle.load(f)
@@ -196,7 +192,6 @@ class Chunk:
                 self.is_grassy = pickle.load(f)
                 self.is_watery = pickle.load(f)
 
-                self.parent_seed = pickle.load(f)
                 self.seed = pickle.load(f)
         else:
             self.log("Load from cache")
