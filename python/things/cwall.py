@@ -40,10 +40,5 @@ def cwall_init(name):
 def init():
     x = cwall_init(name="cwall1")
     x.set_blit_top_off(1)
-    x.set_blit_bot_off(1)
-
-    cwall_init(name="wall22")
-    cwall_init(name="wall23")
-    cwall_init(name="wall24")
 
 init()

@@ -39,7 +39,6 @@ def wall_init(name):
 def init():
     x = wall_init(name="wall1")
     x.set_blit_top_off(1)
-    x.set_blit_bot_off(1)
 
     wall_init(name="wall2")
     wall_init(name="wall3")

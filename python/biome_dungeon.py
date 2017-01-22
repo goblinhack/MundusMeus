@@ -9,6 +9,7 @@ import game
 
 def biome_build(self, seed=0):
     self.biome_seed = seed
+    l = self.level
 
     #
     # The dungeon takes up all chunks
@@ -18,7 +19,7 @@ def biome_build(self, seed=0):
         self.biome = None
         return
 
-    seed = self.level.seed + self.level.where.z
+    seed = l.seed + l.where.z
 
     while True:
         fixed_rooms = rooms.create_fixed()
@@ -47,6 +48,7 @@ def biome_build(self, seed=0):
 def biome_populate(self):
     c = self
     m = self.biome
+    l = self.level
 
     if self.biome is None:
         return
@@ -60,12 +62,16 @@ def biome_populate(self):
 
             tx = x
             ty = y
-            (c, ox, oy) = self.level.xy_to_chunk_xy(tx, ty)
+            (c, ox, oy) = l.xy_to_chunk_xy(tx, ty)
 
             place_stalactite = False
 
             if m.is_floor_at(x, y):
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=self.floor_name)
+                t = thing.Thing(chunk=c, x=tx, y=ty,
+                                tp_name=l.floor_name)
+                t.set_depth(m.depth_map.cells[x][y])
+                t.push()
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="under_floor1")
                 t.set_depth(m.depth_map.cells[x][y])
                 t.push()
 
@@ -101,7 +107,7 @@ def biome_populate(self):
 
             if m.is_corridor_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty,
-                                tp_name=self.corridor_name)
+                                tp_name=l.corridor_name)
                 t.set_depth(m.bridge_height[x][y])
                 t.push()
 
@@ -149,7 +155,8 @@ def biome_populate(self):
 
             if m.is_wall_at(x, y):
                 place_stalactite = True
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=self.wall_name)
+                t = thing.Thing(chunk=c, x=tx, y=ty,
+                                tp_name=l.wall_name)
                 t.push()
 
                 if m.is_wall_at(x, y-1):
@@ -176,40 +183,44 @@ def biome_populate(self):
                 # d e f
                 # g h i
                 if b and d and f and h:
-                    t.set_tilename(self.wall_x_name)
+                    t.set_tilename(l.wall_x_name)
                 elif b and d and f:
-                    t.set_tilename(self.wall_t180_name)
+                    t.set_tilename(l.wall_t180_name)
                 elif b and d and h:
-                    t.set_tilename(self.wall_t90_name)
+                    t.set_tilename(l.wall_t90_name)
                 elif b and f and h:
-                    t.set_tilename(self.wall_t270_name)
+                    t.set_tilename(l.wall_t270_name)
                 elif d and f and h:
-                    t.set_tilename(self.wall_t_name)
+                    t.set_tilename(l.wall_t_name)
                 elif b and h:
-                    t.set_tilename(self.wall_up_down_name)
+                    t.set_tilename(l.wall_up_down_name)
                 elif d and f:
-                    t.set_tilename(self.wall_left_right_name)
+                    t.set_tilename(l.wall_left_right_name)
                 elif b and f:
-                    t.set_tilename(self.wall_l_name)
+                    t.set_tilename(l.wall_l_name)
                 elif h and f:
-                    t.set_tilename(self.wall_l90_name)
+                    t.set_tilename(l.wall_l90_name)
                 elif d and h:
-                    t.set_tilename(self.wall_l180_name)
+                    t.set_tilename(l.wall_l180_name)
                 elif b and d:
-                    t.set_tilename(self.wall_l270_name)
+                    t.set_tilename(l.wall_l270_name)
                 elif b:
-                    t.set_tilename(self.wall_n180_name)
+                    t.set_tilename(l.wall_n180_name)
                 elif f:
-                    t.set_tilename(self.wall_n270_name)
+                    t.set_tilename(l.wall_n270_name)
                 elif h:
-                    t.set_tilename(self.wall_n_name)
+                    t.set_tilename(l.wall_n_name)
                 elif d:
-                    t.set_tilename(self.wall_n90_name)
+                    t.set_tilename(l.wall_n90_name)
                 else:
-                    t.set_tilename(self.wall_node_name)
+                    t.set_tilename(l.wall_node_name)
+
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="under_floor1")
+                t.push()
 
             if m.is_cwall_at(x, y):
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=self.cwall_name)
+                t = thing.Thing(chunk=c, x=tx, y=ty,
+                                tp_name=l.cwall_name)
                 t.push()
 
                 if m.is_cwall_at(x, y-1):
@@ -236,37 +247,40 @@ def biome_populate(self):
                 # d e f
                 # g h i
                 if b and d and f and h:
-                    t.set_tilename(self.cwall_x_name)
+                    t.set_tilename(l.cwall_x_name)
                 elif b and d and f:
-                    t.set_tilename(self.cwall_t180_name)
+                    t.set_tilename(l.cwall_t180_name)
                 elif b and d and h:
-                    t.set_tilename(self.cwall_t90_name)
+                    t.set_tilename(l.cwall_t90_name)
                 elif b and f and h:
-                    t.set_tilename(self.cwall_t270_name)
+                    t.set_tilename(l.cwall_t270_name)
                 elif d and f and h:
-                    t.set_tilename(self.cwall_t_name)
+                    t.set_tilename(l.cwall_t_name)
                 elif b and h:
-                    t.set_tilename(self.cwall_up_down_name)
+                    t.set_tilename(l.cwall_up_down_name)
                 elif d and f:
-                    t.set_tilename(self.cwall_left_right_name)
+                    t.set_tilename(l.cwall_left_right_name)
                 elif b and f:
-                    t.set_tilename(self.cwall_l_name)
+                    t.set_tilename(l.cwall_l_name)
                 elif h and f:
-                    t.set_tilename(self.cwall_l90_name)
+                    t.set_tilename(l.cwall_l90_name)
                 elif d and h:
-                    t.set_tilename(self.cwall_l180_name)
+                    t.set_tilename(l.cwall_l180_name)
                 elif b and d:
-                    t.set_tilename(self.cwall_l270_name)
+                    t.set_tilename(l.cwall_l270_name)
                 elif b:
-                    t.set_tilename(self.cwall_n180_name)
+                    t.set_tilename(l.cwall_n180_name)
                 elif f:
-                    t.set_tilename(self.cwall_n270_name)
+                    t.set_tilename(l.cwall_n270_name)
                 elif h:
-                    t.set_tilename(self.cwall_n_name)
+                    t.set_tilename(l.cwall_n_name)
                 elif d:
-                    t.set_tilename(self.cwall_n90_name)
+                    t.set_tilename(l.cwall_n90_name)
                 else:
-                    t.set_tilename(self.cwall_node_name)
+                    t.set_tilename(l.cwall_node_name)
+
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="under_floor1")
+                t.push()
 
             if m.is_lava_at(x, y):
 
@@ -490,51 +504,53 @@ def biome_populate(self):
 
 def choose_walls(self):
 
-    self.wall = tp.get_random_wall()
-    self.wall_name = self.wall.name
+    l = self.level
+    l.wall = tp.get_random_wall()
+    l.wall_name = l.wall.name
 
-    self.wall_x_name = self.wall_name + "_x"
-    self.wall_t180_name = self.wall_name + "_t180"
-    self.wall_t90_name = self.wall_name + "_t90"
-    self.wall_t270_name = self.wall_name + "_t270"
-    self.wall_t_name = self.wall_name + "_t"
-    self.wall_up_down_name = self.wall_name + "_up_down"
-    self.wall_left_right_name = self.wall_name + "_left_right"
-    self.wall_l_name = self.wall_name + "_l"
-    self.wall_l90_name = self.wall_name + "_l90"
-    self.wall_l180_name = self.wall_name + "_l180"
-    self.wall_l270_name = self.wall_name + "_l270"
-    self.wall_n180_name = self.wall_name + "_n180"
-    self.wall_n270_name = self.wall_name + "_n270"
-    self.wall_n_name = self.wall_name + "_n"
-    self.wall_n90_name = self.wall_name + "_n90"
-    self.wall_node_name = self.wall_name + "_node"
+    l.wall_x_name = l.wall_name + "_x"
+    l.wall_t180_name = l.wall_name + "_t180"
+    l.wall_t90_name = l.wall_name + "_t90"
+    l.wall_t270_name = l.wall_name + "_t270"
+    l.wall_t_name = l.wall_name + "_t"
+    l.wall_up_down_name = l.wall_name + "_up_down"
+    l.wall_left_right_name = l.wall_name + "_left_right"
+    l.wall_l_name = l.wall_name + "_l"
+    l.wall_l90_name = l.wall_name + "_l90"
+    l.wall_l180_name = l.wall_name + "_l180"
+    l.wall_l270_name = l.wall_name + "_l270"
+    l.wall_n180_name = l.wall_name + "_n180"
+    l.wall_n270_name = l.wall_name + "_n270"
+    l.wall_n_name = l.wall_name + "_n"
+    l.wall_n90_name = l.wall_name + "_n90"
+    l.wall_node_name = l.wall_name + "_node"
 
-    self.cwall = tp.get_random_cwall()
-    self.cwall_name = self.cwall.name
+    l.cwall = tp.get_random_cwall()
+    l.cwall_name = l.cwall.name
 
-    self.cwall_x_name = self.cwall_name + "_x"
-    self.cwall_t180_name = self.cwall_name + "_t180"
-    self.cwall_t90_name = self.cwall_name + "_t90"
-    self.cwall_t270_name = self.cwall_name + "_t270"
-    self.cwall_t_name = self.cwall_name + "_t"
-    self.cwall_up_down_name = self.cwall_name + "_up_down"
-    self.cwall_left_right_name = self.cwall_name + "_left_right"
-    self.cwall_l_name = self.cwall_name + "_l"
-    self.cwall_l90_name = self.cwall_name + "_l90"
-    self.cwall_l180_name = self.cwall_name + "_l180"
-    self.cwall_l270_name = self.cwall_name + "_l270"
-    self.cwall_n180_name = self.cwall_name + "_n180"
-    self.cwall_n270_name = self.cwall_name + "_n270"
-    self.cwall_n_name = self.cwall_name + "_n"
-    self.cwall_n90_name = self.cwall_name + "_n90"
-    self.cwall_node_name = self.cwall_name + "_node"
+    l.cwall_x_name = l.cwall_name + "_x"
+    l.cwall_t180_name = l.cwall_name + "_t180"
+    l.cwall_t90_name = l.cwall_name + "_t90"
+    l.cwall_t270_name = l.cwall_name + "_t270"
+    l.cwall_t_name = l.cwall_name + "_t"
+    l.cwall_up_down_name = l.cwall_name + "_up_down"
+    l.cwall_left_right_name = l.cwall_name + "_left_right"
+    l.cwall_l_name = l.cwall_name + "_l"
+    l.cwall_l90_name = l.cwall_name + "_l90"
+    l.cwall_l180_name = l.cwall_name + "_l180"
+    l.cwall_l270_name = l.cwall_name + "_l270"
+    l.cwall_n180_name = l.cwall_name + "_n180"
+    l.cwall_n270_name = l.cwall_name + "_n270"
+    l.cwall_n_name = l.cwall_name + "_n"
+    l.cwall_n90_name = l.cwall_name + "_n90"
+    l.cwall_node_name = l.cwall_name + "_node"
 
 
 def choose_floors(self):
 
-    self.floor = tp.get_random_floor()
-    self.floor_name = self.floor.name
+    l = self.level
+    l.floor = tp.get_random_floor()
+    l.floor_name = l.floor.name
 
-    self.corridor = tp.get_random_corridor()
-    self.corridor_name = self.corridor.name
+    l.corridor = tp.get_random_corridor()
+    l.corridor_name = l.corridor.name
