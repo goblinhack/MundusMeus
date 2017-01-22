@@ -11,7 +11,6 @@ def floor_init(name, short_name, long_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_is_floor(True)
     x.set_z_depth("floor")
-    x.set_blit_bot_off(1)
 
     if tiles is not None:
         for t in tiles:
@@ -84,7 +83,7 @@ def init():
                long_name="dirty floor",
                tiles=[
                       "floor8.1", "floor8.2", "floor8.3", "floor8.4",
-                      "floor8.5", "floor8.6", "floor8.7", "floor8.8",
+                      "floor8.5", "floor8.6",
                      ])
 
 init()
