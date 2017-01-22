@@ -447,14 +447,12 @@ class Level:
         out_path.append((x, y))
 
         while True:
-            ALL_DELTAS = [(-1, -1, 1.5),
+            ALL_DELTAS = [
                           (0, -1, 1.0),
-                          (1, -1, 1.5),
                           (-1, 0, 1.0),
                           (1, 0, 1.0),
-                          (-1, 1, 1.5),
                           (0, 1, 1.0),
-                          (1, 1, 1.5)]
+                          ]
 
             lowest = cells[x][y]
             got = False
@@ -508,6 +506,19 @@ class Level:
     # Make L shaped moves into diagonal ones
     #
     def dmap_path_optimize(self, path):
+
+        #        mm.con("path before optimize")
+        #        debug = [[' ' for x in range(mm.MAP_WIDTH)]
+        #                 for y in range(mm.MAP_HEIGHT)]
+        #
+        #        for (x, y) in path:
+        #            debug[x][y] = "."
+        #
+        #        for y in range(mm.MAP_HEIGHT):
+        #            for x in range(mm.MAP_WIDTH):
+        #                mm.puts(debug[x][y])
+        #            mm.puts("\n")
+        #        mm.puts("\n")
 
         while True:
             modified = False
@@ -580,5 +591,18 @@ class Level:
 
             if not modified:
                 break
+
+#        mm.con("path after optimize")
+#        debug = [[' ' for x in range(mm.MAP_WIDTH)]
+#                 for y in range(mm.MAP_HEIGHT)]
+#
+#        for (x, y) in path:
+#            debug[x][y] = "."
+#
+#        for y in range(mm.MAP_HEIGHT):
+#            for x in range(mm.MAP_WIDTH):
+#                mm.puts(debug[x][y])
+#            mm.puts("\n")
+#        mm.puts("\n")
 
         return (path)
