@@ -53,8 +53,7 @@ class Level:
         #
         # The dmap spans all chunks so we can have things move between chunks
         #
-        self.dmaps = [[None for x in range(mm.MAP_WIDTH)]
-                      for y in range(mm.MAP_HEIGHT)]
+        self.dmap_reset()
 
         if game.g.player is None:
             raise NameError("No player found on any chunk")
@@ -163,6 +162,8 @@ class Level:
         game.g.load_level_finalize()
         game.g.player_location_update()
 
+        self.dmap_reset()
+
     def jump(self, to, seed, backtracking=False):
 
         self.log("Jump to {0}".format(to))
@@ -250,6 +251,8 @@ class Level:
 
         game.g.load_level_finalize()
         game.g.player_location_update()
+
+        self.dmap_reset()
 
     #
     # Convert from co-ordinates that are the width of all chunks to chunk
@@ -618,3 +621,8 @@ class Level:
 #        mm.puts("\n")
 
         return (path)
+
+    def dmap_reset(self):
+
+        self.dmaps = [[None for x in range(mm.MAP_WIDTH)]
+                      for y in range(mm.MAP_HEIGHT)]
