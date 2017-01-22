@@ -428,6 +428,20 @@ class Level:
                         d.cells[x][y] = dmap.FLOOR
                         break
 
+#        mm.con("dmap")
+#
+#        for y in range(mm.MAP_HEIGHT):
+#            for x in range(mm.MAP_WIDTH):
+#                if x == game.g.player.x and y == game.g.player.y:
+#                    mm.puts("@")
+#                else:
+#                    if d.cells[x][y] == dmap.FLOOR:
+#                        mm.puts(".")
+#                    else:
+#                        mm.puts("#")
+#            mm.puts("\n")
+#        mm.puts("\n")
+
         d.cells[px][py] = 0
         d.process()
 

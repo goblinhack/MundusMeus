@@ -18,14 +18,14 @@ void dmap_print (dmap *d)
         for (x = 0; x < MAP_WIDTH; x++) {
             int16_t e = d->val[x][y];
             if (e == DMAP_IS_WALL) {
-                printf("# ");
+                printf("#  ");
                 continue;
             }
 
             if (e > 0) {
-                printf("%2d", e);
+                printf("%-3d", e);
             } else {
-                printf(". ");
+                printf(".  ");
             }
         }
         printf("\n");
@@ -100,16 +100,43 @@ printf("  ");
 
                 e = &D->val[x  ][y];
 
-                a =  D->val[x-1][y-1];
+                /*
+                 * Avoid diagonal moves.
+                 */
+                if ((D->val[x-1][y] == DMAP_IS_WALL) ||
+                    (D->val[x][y-1] == DMAP_IS_WALL)) {
+                    a = DMAP_IS_WALL;
+                } else {
+                    a = D->val[x-1][y-1];
+                }
+
                 b =  D->val[x  ][y-1];
-                c =  D->val[x+1][y-1];
+
+                if ((D->val[x+1][y] == DMAP_IS_WALL) ||
+                    (D->val[x][y-1] == DMAP_IS_WALL)) {
+                    c = DMAP_IS_WALL;
+                } else {
+                    c =  D->val[x+1][y-1];
+                }
 
                 d =  D->val[x-1][y];
                 f =  D->val[x+1][y];
 
-                g =  D->val[x-1][y+1];
+                if ((D->val[x-1][y] == DMAP_IS_WALL) ||
+                    (D->val[x][y+1] == DMAP_IS_WALL)) {
+                    g = DMAP_IS_WALL;
+                } else {
+                    g =  D->val[x-1][y+1];
+                }
+
                 h =  D->val[x  ][y+1];
-                i =  D->val[x+1][y+1];
+
+                if ((D->val[x+1][y] == DMAP_IS_WALL) ||
+                    (D->val[x][y+1] == DMAP_IS_WALL)) {
+                    i = DMAP_IS_WALL;
+                } else {
+                    i =  D->val[x+1][y+1];
+                }
 
                 if (a < b) {
                     lowest = a;
@@ -154,4 +181,7 @@ printf("\n");
         memcpy(valid, new_valid, sizeof(new_valid));
 
     } while (changed);
+#if 0
+    dmap_print(D);
+#endif
 }
