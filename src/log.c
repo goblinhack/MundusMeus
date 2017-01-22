@@ -15,7 +15,6 @@
 #include "time_util.h"
 #include "command.h"
 #include "term.h"
-#include "wid_popup.h"
 #include "wid_tooltip.h"
 #include "wid_notify.h"
 #include "sound.h"
@@ -698,7 +697,8 @@ static void msgerr_ (const char *fmt, va_list args)
     wid_console_log(buf);
     term_log(buf);
 
-    wid_popup_error(buf + ts_len);
+    if (wid_notify(CRITICAL, buf + ts_len)) {
+    }
 
     backtrace_print();
     fflush(MY_STDOUT);

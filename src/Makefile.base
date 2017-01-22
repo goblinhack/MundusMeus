@@ -58,13 +58,10 @@ GAME_OBJECTS=				\
     $(OBJDIR)/snow.o 			\
     $(OBJDIR)/rain.o 			\
     $(OBJDIR)/cloud.o 			\
-    $(OBJDIR)/wid_button.o 		\
     $(OBJDIR)/wid_console.o 		\
     $(OBJDIR)/wid_game_map.o 		\
     $(OBJDIR)/wid_notify.o 		\
-    $(OBJDIR)/wid_popup.o 		\
     $(OBJDIR)/wid_splash.o 		\
-    $(OBJDIR)/wid_textbox.o 		\
     $(OBJDIR)/wid_tooltip.o 		\
     $(OBJDIR)/python.o 			\
     $(OBJDIR)/py_tp.o 			\

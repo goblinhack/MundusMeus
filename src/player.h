@@ -12,7 +12,4 @@
 uint8_t player_init(void);
 void player_fini(void);
 
-void player_wid_update(levelp);
-void player_wid_destroy(levelp);
-
 #endif
