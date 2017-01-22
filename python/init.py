@@ -138,9 +138,9 @@ def init1():
     mm.game_video_pix_height = 0
     mm.game_sound_volume = 10
     mm.game_music_volume = 5
-    mm.game_display_sync = 0
+    mm.game_display_sync = 1
     mm.game_full_screen = 0
-    mm.game_fps_counter = 0
+    mm.game_fps_counter = 1
 
     load_plugin('config.py')
     load_plugin('mundusmeus-config.py')

@@ -194,9 +194,6 @@ class Game:
     #
     def map_mouse_over(self, w, x, y, wheelx, wheely):
 
-        if len(self.player.nexthops) > 0:
-            return False
-
         #
         # Want to scroll without the focus moving
         #
@@ -237,7 +234,7 @@ class Game:
         nexthops = l.dmap_solve(self.player.x, self.player.y, x, y)
 
         if len(nexthops) < 2:
-            return True
+            nexthops.append((x, y))
 
         #
         # Only if the destination is in a valid nexthops
