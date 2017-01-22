@@ -10,6 +10,8 @@ all_marsh_plant_tps = []
 all_tree_tps = []
 all_tree_snow_tps = []
 all_tree_conifer_tps = []
+all_floor_tps = []
+all_corridor_tps = []
 all_wall_tps = []
 all_cwall_tps = []
 all_dungeon_tps = []
@@ -29,6 +31,8 @@ class Tp:
                  is_tree=False,
                  is_tree_snow=False,
                  is_tree_conifer=False,
+                 is_floor=False,
+                 is_corridor=False,
                  is_wall=False,
                  is_cwall=False,
                  is_dungeon=False,
@@ -77,6 +81,14 @@ class Tp:
         self.is_cwall = is_cwall
         if is_cwall:
             all_cwall_tps.append(name)
+
+        self.is_floor = is_floor
+        if is_floor:
+            all_floor_tps.append(name)
+
+        self.is_corridor = is_corridor
+        if is_corridor:
+            all_corridor_tps.append(name)
 
         self.is_dungeon = is_dungeon
         if is_dungeon:
@@ -950,6 +962,24 @@ def get_random_wall():
 def get_random_cwall():
     while True:
         tp = all_tps[random.choice(all_cwall_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
+def get_random_floor():
+    while True:
+        tp = all_tps[random.choice(all_floor_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
+def get_random_corridor():
+    while True:
+        tp = all_tps[random.choice(all_corridor_tps)]
 
         roll = random.randint(1, 1000)
         if roll >= tp.d1000_appearing_roll:

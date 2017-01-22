@@ -12,8 +12,6 @@ def cwall_init(name):
     x.set_is_movement_blocking(True)
     x.set_is_cwall(True)
     x.set_z_depth("wall")
-    x.set_blit_top_off(1)
-    x.set_blit_bot_off(1)
 
 #    x.set_is_shadow_caster_soft(True)
     x.set_is_shadow_caster(True)
@@ -36,8 +34,16 @@ def cwall_init(name):
 
     x.thing_init = thing_init
 
+    return x
+
 
 def init():
-    cwall_init(name="cwall1")
+    x = cwall_init(name="cwall1")
+    x.set_blit_top_off(1)
+    x.set_blit_bot_off(1)
+
+    cwall_init(name="wall22")
+    cwall_init(name="wall23")
+    cwall_init(name="wall24")
 
 init()

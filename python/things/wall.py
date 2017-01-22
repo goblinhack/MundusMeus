@@ -12,10 +12,7 @@ def wall_init(name):
     x.set_is_movement_blocking(True)
     x.set_is_wall(True)
     x.set_z_depth("wall")
-    x.set_blit_top_off(1)
-#    x.set_blit_bot_off(1)
 
-#    x.set_is_shadow_caster_soft(True)
     x.set_is_shadow_caster(True)
     x.set_tile(tile=name + "_up_down", is_join_vert=True)
     x.set_tile(tile=name + "_left_right", is_join_horiz=True)
@@ -36,8 +33,33 @@ def wall_init(name):
 
     x.thing_init = thing_init
 
+    return x
+
 
 def init():
-    wall_init(name="wall1")
+    x = wall_init(name="wall1")
+    x.set_blit_top_off(1)
+    x.set_blit_bot_off(1)
+
+    wall_init(name="wall2")
+    wall_init(name="wall3")
+    wall_init(name="wall4")
+    wall_init(name="wall5")
+    wall_init(name="wall6")
+    wall_init(name="wall7")
+    wall_init(name="wall8")
+    wall_init(name="wall9")
+    wall_init(name="wall10")
+    wall_init(name="wall11")
+    wall_init(name="wall12")
+    wall_init(name="wall13")
+    wall_init(name="wall14")
+    wall_init(name="wall15")
+    wall_init(name="wall16")
+    wall_init(name="wall17")
+    wall_init(name="wall18")
+    wall_init(name="wall19")
+    wall_init(name="wall20")
+    wall_init(name="wall21")
 
 init()
