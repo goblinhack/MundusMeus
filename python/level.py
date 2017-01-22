@@ -247,6 +247,9 @@ class Level:
         else:
             self.err("Don't know where to put the player on new level")
 
+        game.g.player.nexthops = []
+        game.g.saved_nexthops = []
+
         game.g.load_level_finalize()
         game.g.player_location_update()
 
