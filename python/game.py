@@ -154,8 +154,8 @@ class Game:
         text += "%%fg=white$Move %%fg=green${0}%%fg=reset$ ".format(
                 self.move_count)
 
-        if l.where.z > 0:
-            text += "Depth %%fg=green${0} feet%%fg=reset ".format(l.where.z
+        if l.where.z < 0:
+            text += "Depth %%fg=green${0} feet%%fg=reset ".format(- l.where.z
                                                                   * 10)
 
 #        player = self.player
@@ -332,7 +332,7 @@ class Game:
             xyz = l.where
             xyz.z -= 1
 
-            l.jump(xyz, seed=l.seed, backtracking=True)
+            l.jump(xyz, seed=l.seed, backtracking=False)
 
         if l.tp_is(x, y, "is_dungeon_way_up"):
             xyz = l.where

@@ -2,7 +2,6 @@
 import random
 import copy
 import sys
-import os
 import dmap
 import room
 import charmap
@@ -1717,7 +1716,6 @@ class Biome(biome.Biome):
     def dump(self, max_depth=charmap.depth.max):
         from colored import fg, bg, attr
 
-        os.system('cls' if os.name == 'nt' else 'clear')
         for y in range(self.height):
             for x in range(self.width):
                 for d in reversed(range(max_depth)):

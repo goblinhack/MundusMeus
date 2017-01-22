@@ -481,7 +481,7 @@ static void map_fixup_deco_remove (void)
                         return;
                     }
 
-                    thingp t = wid_get_thing(w);
+                    thingp t = wid_get_thing(node->wid);
                     if (t) {
                         tpp tp = thing_tp(t);
                         if (tp_is_dirt_deco(tp) ||
@@ -611,6 +611,10 @@ MAP_FIXUP_DECO(sand_snow)
 void map_fixup (levelp level)
 {
     map_fixup_deco_remove();
+
+    if (game.biome_set_is_dungeon) {
+        return;
+    }
 
     map_fixup_deco_grass(level);
     map_fixup_deco_snow(level);

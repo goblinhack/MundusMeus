@@ -39,7 +39,7 @@ def biome_build(self, seed=0):
 
         mm.log("Failed to build dungeon; retry")
 
-    if True:
+    if False:
         self.biome.dump_depth()
         self.biome.dump()
 
@@ -377,16 +377,16 @@ def biome_populate(self):
                                     tp_name="chasm_smoke2")
                     t.push()
 
-            if m.is_rock_at(x, y):
-                place_stalactite = True
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="rock")
-                t.push()
-
-                if random.randint(0, 100) < 5:
-                    toughness = m.depth_map.cells[x][y]
-                    r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
-                    t.push()
+#            if m.is_rock_at(x, y):
+#                place_stalactite = True
+#                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="rock")
+#                t.push()
+#
+#                if random.randint(0, 100) < 5:
+#                    toughness = m.depth_map.cells[x][y]
+#                    r = tp.get_random_minable_treasure(toughness=toughness)
+#                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+#                    t.push()
 
             if m.is_door_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="door1")

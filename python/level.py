@@ -173,8 +173,6 @@ class Level:
         #
         # Preserve the player
         #
-        mm.con("Level move")
-
         player = game.g.player
         game.g.player.pop()
 

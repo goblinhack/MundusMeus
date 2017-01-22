@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import random
 import sys
-import os
 import charmap
 import biome
 import mm
@@ -248,7 +247,6 @@ class Biome(biome.Biome):
     def dump(self, max_depth=charmap.depth.max):
         from colored import fg, bg
 
-        os.system('cls' if os.name == 'nt' else 'clear')
         for y in range(self.height):
             for x in range(self.width):
                 for d in reversed(range(max_depth)):
