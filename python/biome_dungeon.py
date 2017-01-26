@@ -40,7 +40,7 @@ def biome_build(self, seed=0):
 
         mm.log("Failed to build dungeon; retry")
 
-    if False:
+    if True:
         self.biome.dump_depth()
         self.biome.dump()
 

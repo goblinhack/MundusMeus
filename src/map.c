@@ -180,6 +180,16 @@ tpp map_is_wall_at (levelp level, int32_t x, int32_t y)
     return (map_is_x_at(level, x, y, tp_is_wall));
 }
 
+tpp map_is_water_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_water));
+}
+
+tpp map_is_lava_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_lava));
+}
+
 tpp map_is_floor_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at(level, x, y, tp_is_floor));

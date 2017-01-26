@@ -56,9 +56,14 @@ def init():
     wall_init(name="wall15")
     wall_init(name="wall16")
     wall_init(name="wall17")
-    wall_init(name="wall18")
+    x = wall_init(name="wall18")
+    x.set_is_shadow_caster(False)
+
     wall_init(name="wall19")
     wall_init(name="wall20")
     wall_init(name="wall21")
+    wall_init(name="wall22")
+    wall_init(name="wall23")
+    wall_init(name="wall24")
 
 init()

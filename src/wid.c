@@ -7846,7 +7846,98 @@ static void wid_display_fast (widp w,
             tile_blit_fat_black_and_white(tp, tile, 0, tl, br);
         } else
 #endif
-        tile_blit_fat(tp, tile, 0, tl, br);
+	int z = tp_get_z_depth(tp);
+
+        if (tp_is_player(tp)) {
+            tile_blit_fat_clipped(tp, tile, 0, tl, br, 0, 0, 0, -0.2);
+            thingp w = map_thing_is_x_at(&game.level, t->x, t->y, tp_is_water);
+            if (w) {
+                if (w->depth) {
+//                    CON("%f", w->depth);
+                }
+            }
+        } else if (tp_is_floor(tp)) {
+	    static double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH]; 
+	    floor_depth[tx][ty][z] = t->depth;
+
+	    color a = WHITE;
+	    color b = WHITE;
+	    color c = WHITE;
+	    color d = WHITE;
+
+	    double div = 30.0;
+	    double depth;
+
+	    int tx2 = (tx + 1) % MAP_WIDTH;
+	    int ty2 = (ty + 1) % MAP_HEIGHT;
+	    int tx1 = (tx - 1) % MAP_WIDTH;
+	    int ty1 = (ty - 1) % MAP_HEIGHT;
+
+	    depth = 
+		floor_depth[tx1][ty1][z] +
+		floor_depth[tx][ty1][z]  +
+		floor_depth[tx1][ty][z]  +
+		floor_depth[tx][ty][z];
+	    depth /= div; a.r -= depth; a.g -= depth; a.b -= depth;
+
+	    depth = 
+		floor_depth[tx2][ty1][z] +
+		floor_depth[tx][ty1][z]  +
+		floor_depth[tx2][ty][z]  +
+		floor_depth[tx][ty][z];
+	    depth /= div; b.r -= depth; b.g -= depth; b.b -= depth;
+
+	    depth = 
+		floor_depth[tx1][ty2][z] +
+		floor_depth[tx][ty2][z]  +
+		floor_depth[tx1][ty][z]  +
+		floor_depth[tx][ty][z];
+	    depth /= div; c.r -= depth; c.g -= depth; c.b -= depth;
+
+	    depth = 
+		floor_depth[tx2][ty2][z] +
+		floor_depth[tx][ty2][z]  +
+		floor_depth[tx2][ty][z]  +
+		floor_depth[tx][ty][z];
+	    depth /= div; d.r -= depth; d.g -= depth; d.b -= depth;
+
+	    tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
+        } else if (tp_is_lava(tp) || tp_is_water(tp)) {
+
+	    int tx2 = (tx + 1) % MAP_WIDTH;
+	    int ty2 = (ty + 1) % MAP_HEIGHT;
+
+	    color a = WHITE;
+	    color b = WHITE;
+	    color c = WHITE;
+	    color d = WHITE;
+
+	    double depth = 0.5 + (light_pulse_amount[tx][ty] * 0.5);
+	    if (depth > 1.0) { depth = 1.0; }
+	    a.r *= depth; a.g *= depth; a.b *= depth;
+
+	    depth = 0.5 + (light_pulse_amount[tx2][ty] * 0.5);
+	    if (depth > 1.0) { depth = 1.0; }
+	    b.r *= depth; b.g *= depth; b.b *= depth;
+
+	    depth = 0.5 + (light_pulse_amount[tx][ty2] * 0.5);
+	    if (depth > 1.0) { depth = 1.0; }
+	    c.r *= depth; c.g *= depth; c.b *= depth;
+
+	    depth = 0.5 + (light_pulse_amount[tx2][ty2] * 0.5);
+	    if (depth > 1.0) { depth = 1.0; }
+	    d.r *= depth; d.g *= depth; d.b *= depth;
+
+	    depth = (t->depth * 8.0);
+	    a.r -= depth; a.g -= depth; a.b -= depth;
+	    c.r -= depth; c.g -= depth; c.b -= depth;
+	    b.r -= depth; b.g -= depth; b.b -= depth;
+	    d.r -= depth; d.g -= depth; d.b -= depth;
+
+	    tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
+	} else {
+	    tile_blit_fat(tp, tile, 0, tl, br);
+	}
     }
 
 #ifdef WID_DISABLE_LIGHT
@@ -8293,6 +8384,8 @@ static void wid_lighting_render (widp w,
         return;
     }
 
+    tpp tp = thing_tp(t);
+
     double visible_width = light_radius;
     double visible_height = light_radius;
 
@@ -8354,7 +8447,7 @@ static void wid_lighting_render (widp w,
 
         double x = light_pulse_amount[tx][ty];
 
-        light_delta += x;
+        light_radius += x * tp_light_pulse_amount(t->tp) * 10;
     }
 
     /*
@@ -8460,6 +8553,9 @@ static void wid_lighting_render (widp w,
 
             alpha /= 2.0;
         } else {
+	    if (tp_is_lava(tp) || tp_is_water(tp)) {
+		alpha = 0.2;
+	    }
             push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
                            red, green, blue, alpha);
             alpha = 0.0;
@@ -9467,6 +9563,7 @@ static void wid_display (widp w,
             blit(fbo_tex_id1, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
             blit_flush();
 
+#if 0
             /*
              * Add a halo to final blit for atmosphere.
              */
@@ -9479,6 +9576,7 @@ static void wid_display (widp w,
                 blit(buf_tex, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
                 blit_flush();
             }
+#endif
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

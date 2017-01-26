@@ -108,6 +108,80 @@ void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
 }
 
 /*
+ * Blits a whole tile. Y co-ords are inverted.
+ */
+static inline
+void tile_blit_fat_clipped (tpp tp, tile *tile, char *name, fpoint tl, fpoint br,
+        double left_off,
+        double right_off,
+        double top_off,
+        double bot_off)
+
+{
+    if (unlikely(!tile)) {
+        if (!name) {
+            DIE("no name for tile blit, %s", __FUNCTION__);
+        }
+
+        tile = tile_find(name);
+
+        if (unlikely(!tile)) {
+            return;
+        }
+    }
+
+    double x1;
+    double x2;
+    double y1;
+    double y2;
+
+#if 0
+    if (tp && tp_is_wall(tp)) {
+        /*
+         * Clipped 0.5 pixels
+         */
+        x1 = tile->x1;
+        x2 = tile->x2;
+        y1 = tile->y1;
+        y2 = tile->y2;
+    } else {
+        /*
+         * Unclipped 0.5 pixels
+         */
+        x1 = tile->ox1;
+        x2 = tile->ox2;
+        y1 = tile->oy1;
+        y2 = tile->oy2;
+    }
+#else
+    x1 = tile->x1;
+    x2 = tile->x2;
+    y1 = tile->y1;
+    y2 = tile->y2;
+#endif
+
+    if (unlikely(tp != 0)) {
+        double pct_w     = tile->pct_width;
+        double pct_h     = tile->pct_height;
+        double pix_w     = br.x - tl.x;
+        double pix_h     = br.y - tl.y;
+
+        tl.x -= left_off  * pix_w;
+        br.x += right_off * pix_w;
+        tl.y -= top_off   * pix_h;
+        br.y += bot_off   * pix_h;
+
+        x1 -= left_off  * pct_w;
+        x2 += right_off * pct_w;
+        y1 -= top_off   * pct_h;
+        y2 += bot_off   * pct_h;
+    }
+
+    blit(tile->gl_surface_binding,
+         x1, y2, x2, y1, tl.x, br.y, br.x, tl.y);
+}
+
+/*
  * Blits a whole tile. Y co-ords are inverted. Does not expand tl, br.
  */
 static inline

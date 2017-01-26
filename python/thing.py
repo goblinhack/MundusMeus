@@ -37,6 +37,8 @@ class Thing:
             self.x = x
             self.y = y
 
+        self.depth = 0
+
         #
         # When saved to disk, or cached, the chunk co-ords are saved as an
         # offset from the chunk
@@ -175,6 +177,7 @@ class Thing:
 
 #        self.log("Loaded thing on chunk {0}".format(self.chunk))
 #        self.con("loaded thing at {0} {1}".format(self.x, self.y))
+        self.set_depth(self.depth)
 
     #
     # Still associated with a chunk but not currently being rendered
@@ -294,4 +297,7 @@ class Thing:
         mm.thing_set_tp(self, tp_name)
 
     def set_depth(self, value=0.0):
+        self.depth = value
         mm.thing_set_depth(self, value)
+        if self.tp.is_water:
+            mm.con("water depth {0} {1} = {2}".format(self.x, self.y, value))

@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
-import sys
 import copy
-import random
 import mm
-import os
 
 WALL = 999
 FLOOR = 998
@@ -38,8 +35,8 @@ class Dmap:
                 else:
                     c = chr(ord('0') + int(c % 9))
 
-                sys.stdout.write(c)
-            print("")
+                mm.puts(c)
+            mm.puts("\n")
 
     #
     # An optimized djkstra map that only looks at map areas that change.
@@ -136,43 +133,3 @@ class Dmap:
 
 #            os.system("clear")
 #            self.dump()
-
-
-def test():
-
-    width = 64
-    height = 64
-    wall = 64
-
-    dmap = Dmap(width=width, height=height, wall=wall)
-
-    for y in range(height):
-        for x in range(width):
-            dmap.cells[x][y] = wall - 1
-
-    for x in [0, width - 1]:
-        for y in range(height):
-            dmap.cells[x][y] = wall
-
-    for y in [0, height - 1]:
-        for x in range(width):
-            dmap.cells[x][y] = wall
-
-    for i in range(0, 100):
-        x = random.randint(0, width - 1)
-        y = random.randint(0, height - 1)
-        dmap.cells[x][y] = wall
-
-    for i in range(0, 10):
-        border = random.randint(1, 10)
-        x = random.randint(border, width - border)
-        y = random.randint(border, height - border)
-        for dx in range(_border, border):
-            for dy in range(_border, border):
-                if random.randint(0, 100) < 5:
-                    dmap.cells[x + dx][y + dy] = 0
-
-    dmap.process()
-
-    os.system("clear")
-    dmap.dump()

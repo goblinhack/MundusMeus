@@ -206,16 +206,33 @@ class Biome(biome.Biome):
         self.add_depth_map()
         self.debug("^^^ placed depth map ^^^")
 
-        for i in range(random.randint(0, 10)):
-            self.add_water()
-            self.add_lava()
+        for i in range(random.randint(0, 2)):
             self.add_chasm()
+
+        #
+        # Water or lava levels?
+        #
+        if random.randint(0, 100) < 50:
+            for i in range(random.randint(0, 3)):
+                self.add_lava()
+
+            for i in range(random.randint(0, 100)):
+                self.add_water()
+
+        if random.randint(0, 100) < 90:
+            for i in range(random.randint(0, 3)):
+                self.add_water()
+
+            for i in range(random.randint(0, 100)):
+                self.add_lava()
+
         self.debug("^^^ placed hazards ^^^")
 
         #
         # Water next to a chasm or lava? remove it
         #
-        self.remove_water()
+        self.remove_chasm_next_to_water()
+        self.remove_lava_next_to_water()
 
         #
         # Let lava melt through walls
@@ -1486,7 +1503,7 @@ class Biome(biome.Biome):
             self.depth_map.cells[x][y] = wall
 
         for i in range(0, 100):
-            border = random.randint(1, 7)
+            border = random.randint(1, 3)
             x = random.randint(border, self.width - border)
             y = random.randint(border, self.height - border)
             for dx in range(-border, border):
@@ -1494,7 +1511,7 @@ class Biome(biome.Biome):
                     if random.randint(0, 100) < 25:
                         self.depth_map.cells[x + dx][y + dy] = wall
 
-        for i in range(0, 4):
+        for i in range(0, 10):
             border = random.randint(1, 10)
             x = random.randint(border, self.width - border)
             y = random.randint(border, self.height - border)
@@ -1505,8 +1522,7 @@ class Biome(biome.Biome):
 
         self.depth_map.process()
 
-#        os.system("clear")
-#        self.depth_map.dump()
+        self.depth_map.dump()
 
     def depth_map_flood(self, x, y, depth, c):
         walked = [[0 for i in range(self.height)]
@@ -1538,7 +1554,7 @@ class Biome(biome.Biome):
         y = random.randint(0, self.height - 1)
         self.depth_map_flood(x, y, charmap.depth.under, charmap.WATER)
 
-    def remove_water(self):
+    def remove_chasm_next_to_water(self):
         for y in range(self.height):
             for x in range(self.width):
                 if not self.is_water_at(x, y):
@@ -1547,7 +1563,19 @@ class Biome(biome.Biome):
                 for dx, dy in biome.ALL_DELTAS_BAR_MID:
                     tx = x + dx
                     ty = y + dy
-                    if self.is_lava_at(tx, ty) or self.is_chasm_at(tx, ty):
+                    if self.is_chasm_at(tx, ty):
+                        self.putc(tx, ty, charmap.depth.under, charmap.WATER)
+
+    def remove_lava_next_to_water(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                if not self.is_water_at(x, y):
+                    continue
+
+                for dx, dy in biome.ALL_DELTAS_BAR_MID:
+                    tx = x + dx
+                    ty = y + dy
+                    if self.is_lava_at(tx, ty):
                         self.putc(x, y, charmap.depth.under, charmap.ROCK)
                         break
 
@@ -1768,6 +1796,8 @@ class Biome(biome.Biome):
                     if c != " ":
                         break
 
+                color = None
+
                 res = attr('reset')
                 if c != charmap.SPACE:
                     if self.depth_map is not None:
@@ -1775,5 +1805,9 @@ class Biome(biome.Biome):
                         c = chr(ord('0') + d)
                         color = fg(d % 32) + bg(0)
 
-                mm.puts(color + c + res)
+                if color:
+                    mm.puts(color + c + res)
+                else:
+                    mm.puts(" ")
+
             mm.puts("\n")

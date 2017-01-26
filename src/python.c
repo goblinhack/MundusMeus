@@ -1321,6 +1321,7 @@ static PyObject *puts_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     fputs(a, MY_STDOUT);
     fflush(MY_STDOUT);
+    printf("%s", a);
 
     Py_RETURN_NONE;
 }

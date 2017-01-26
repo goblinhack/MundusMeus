@@ -9,6 +9,8 @@
 tpp map_is_monst_at(levelp, int32_t x, int32_t y);
 tpp map_is_player_at(levelp, int32_t x, int32_t y);
 tpp map_is_wall_at(levelp, int32_t x, int32_t y);
+tpp map_is_water_at(levelp, int32_t x, int32_t y);
+tpp map_is_lava_at(levelp, int32_t x, int32_t y);
 tpp map_is_floor_at(levelp, int32_t x, int32_t y);
 tpp map_is_corridor_at(levelp, int32_t x, int32_t y);
 tpp map_is_dusty_at(levelp, int32_t x, int32_t y);
