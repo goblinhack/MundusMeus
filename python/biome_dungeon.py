@@ -149,10 +149,6 @@ def biome_populate(self):
                                 tp_name="chasm_smoke1")
                 t.push()
 
-                t = thing.Thing(chunk=c, x=tx, y=ty - 1,
-                                tp_name="chasm_smoke1")
-                t.push()
-
             if m.is_wall_at(x, y):
                 place_stalactite = True
                 t = thing.Thing(chunk=c, x=tx, y=ty,
@@ -391,11 +387,6 @@ def biome_populate(self):
                     t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
                     t.push()
 
-                if random.randint(0, 100) < 5:
-                    t = thing.Thing(chunk=c, x=tx, y=ty,
-                                    tp_name="chasm_smoke2")
-                    t.push()
-
             if m.is_rock_at(x, y):
                 place_stalactite = True
                 t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="rock")
@@ -490,7 +481,7 @@ def biome_populate(self):
                         m.is_corridor_at(x, y+1):
                     continue
 
-                if random.randint(0, 100) < 10:
+                if random.randint(0, 1000) < 10:
                     t = thing.Thing(chunk=c, x=tx, y=ty,
                                     tp_name="chasm_smoke2")
                     t.push()

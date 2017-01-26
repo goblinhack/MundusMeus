@@ -299,5 +299,3 @@ class Thing:
     def set_depth(self, value=0.0):
         self.depth = value
         mm.thing_set_depth(self, value)
-        if self.tp.is_water:
-            mm.con("water depth {0} {1} = {2}".format(self.x, self.y, value))

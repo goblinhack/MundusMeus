@@ -212,14 +212,14 @@ class Biome(biome.Biome):
         #
         # Water or lava levels?
         #
-        if random.randint(0, 100) < 50:
+        if random.randint(0, 100) < 100:
             for i in range(random.randint(0, 3)):
                 self.add_lava()
 
             for i in range(random.randint(0, 100)):
                 self.add_water()
 
-        if random.randint(0, 100) < 90:
+        if random.randint(0, 100) < 2:
             for i in range(random.randint(0, 3)):
                 self.add_water()
 

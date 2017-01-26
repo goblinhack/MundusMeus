@@ -7849,13 +7849,32 @@ static void wid_display_fast (widp w,
 	int z = tp_get_z_depth(tp);
 
         if (tp_is_player(tp)) {
-            tile_blit_fat_clipped(tp, tile, 0, tl, br, 0, 0, 0, -0.2);
-            thingp w = map_thing_is_x_at(&game.level, t->x, t->y, tp_is_water);
-            if (w) {
-                if (w->depth) {
-//                    CON("%f", w->depth);
-                }
-            }
+
+	    /*
+	     * Submerge the player.
+	     */
+            thingp obs = map_thing_is_x_at(&game.level, t->x, t->y, tp_is_water);
+	    if (!obs) {
+		obs = map_thing_is_x_at(&game.level, t->x, t->y, tp_is_lava);
+	    }
+
+            if (obs && obs->depth) {
+
+		double d = obs->depth * (1.0 / 4);
+
+		d += wid_get_bounce(w) / wid_get_height(w);
+
+		if (d > 1.0) {
+		    d = 1.0;
+		}
+		if (d < 0.0) {
+		    d = 0.0;
+		}
+
+		tile_blit_fat_clipped(tp, tile, 0, tl, br, 0, 0, 0, -d);
+            } else {
+		tile_blit_fat(tp, tile, 0, tl, br);
+	    }
         } else if (tp_is_floor(tp)) {
 	    static double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH]; 
 	    floor_depth[tx][ty][z] = t->depth;
@@ -7928,11 +7947,11 @@ static void wid_display_fast (widp w,
 	    if (depth > 1.0) { depth = 1.0; }
 	    d.r *= depth; d.g *= depth; d.b *= depth;
 
-	    depth = (t->depth * 8.0);
-	    a.r -= depth; a.g -= depth; a.b -= depth;
-	    c.r -= depth; c.g -= depth; c.b -= depth;
-	    b.r -= depth; b.g -= depth; b.b -= depth;
-	    d.r -= depth; d.g -= depth; d.b -= depth;
+	    depth = (t->depth * 6.0);
+	    a.r -= depth; a.r -= depth; a.b -= depth;
+	    c.r -= depth; c.r -= depth; c.b -= depth;
+	    b.r -= depth; b.r -= depth; b.b -= depth;
+	    d.r -= depth; d.r -= depth; d.b -= depth;
 
 	    tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
 	} else {
