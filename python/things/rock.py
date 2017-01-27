@@ -15,6 +15,7 @@ def rock_init(name, short_name, long_name, tiles=[]):
     x.set_is_movement_blocking(True)
     x.set_is_rock(True)
     x.set_z_depth("rock")
+    x.set_is_solid_ground(True)
     x.set_blit_top_off(1)
     x.set_blit_bot_off(1)
 

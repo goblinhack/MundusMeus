@@ -7849,33 +7849,44 @@ static void wid_display_fast (widp w,
 	int z = tp_get_z_depth(tp);
 
         if (tp_is_player(tp)) {
-
 	    /*
-	     * Submerge the player.
+             * Submerge the player if not on solid ground.
 	     */
-            thingp obs = map_thing_is_x_at(&game.level, t->x, t->y, tp_is_water);
-	    if (!obs) {
-		obs = map_thing_is_x_at(&game.level, t->x, t->y, tp_is_lava);
-	    }
-
-            if (obs && obs->depth) {
-
-		double d = obs->depth * (1.0 / 4);
-
-		d += wid_get_bounce(w) / wid_get_height(w);
-
-		if (d > 1.0) {
-		    d = 1.0;
-		}
-		if (d < 0.0) {
-		    d = 0.0;
+            thingp ground = map_thing_is_x_at(&game.level, t->x, t->y,
+                                              tp_is_solid_ground);
+	    if (!ground) {
+		thingp obs = map_thing_is_x_at(&game.level, t->x, t->y,
+                                               tp_is_water);
+		if (!obs) {
+		    obs = map_thing_is_x_at(&game.level, t->x, t->y, 
+                                            tp_is_lava);
 		}
 
-		tile_blit_fat_clipped(tp, tile, 0, tl, br, 0, 0, 0, -d);
-            } else {
-		tile_blit_fat(tp, tile, 0, tl, br);
+		if (obs && obs->depth) {
+		    double d = obs->depth * (1.0 / 4);
+                    double h = wid_get_height(w);
+
+		    d += wid_get_bounce(w) / h;
+
+		    if (d > 1.0) {
+			d = 1.0;
+		    }
+
+		    if (d < 0.0) {
+			d = 0.0;
+		    }
+
+                    double dh = h * d;
+                    tl.y += dh;
+                    br.y += dh;
+		    tile_blit_fat_clipped(tp, tile, 0, tl, br, 0, 0, 0, -d);
+		    return;
+		}
 	    }
         } else if (tp_is_floor(tp)) {
+            /*
+             * Add shading to the floor.
+             */
 	    static double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH]; 
 	    floor_depth[tx][ty][z] = t->depth;
 
@@ -7921,8 +7932,11 @@ static void wid_display_fast (widp w,
 	    depth /= div; d.r -= depth; d.g -= depth; d.b -= depth;
 
 	    tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
+	    return;
         } else if (tp_is_lava(tp) || tp_is_water(tp)) {
-
+            /*
+             * Add ripple effects to water and lava.
+             */
 	    int tx2 = (tx + 1) % MAP_WIDTH;
 	    int ty2 = (ty + 1) % MAP_HEIGHT;
 
@@ -7954,58 +7968,11 @@ static void wid_display_fast (widp w,
 	    d.r -= depth; d.r -= depth; d.b -= depth;
 
 	    tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
-	} else {
-	    tile_blit_fat(tp, tile, 0, tl, br);
+	    return;
 	}
     }
 
-#ifdef WID_DISABLE_LIGHT
-    debug = 1;
-#endif
-
-#if 0
-    if (unlikely((debug > 1) && t)) {
-        double mx, my;
-
-        mx = t->x;
-        my = t->y;
-
-        int distance = 1; // dmap_distance_to_player(mx, my);
-
-        char tmp[80];
-
-        if (thing_is_player(t)) {
-            glcolor(YELLOW);
-
-            sprintf(tmp, "%f,%f",t->x, t->y);
-            ttf_puts_no_fmt(small_font, tmp, (otlx + obrx) / 2, (otly + obry) / 2, 1.0, 1.0, true);
-
-            sprintf(tmp, "%f,%f (rounded)",mx, my);
-            ttf_puts_no_fmt(small_font, tmp, (otlx + obrx) / 2, obry, 1.0, 1.0, true);
-        } else {
-            if (distance == -1) {
-                glcolor(RED);
-            } else {
-                glcolor(GREEN);
-            }
-
-            sprintf(tmp, "%d",distance);
-            ttf_puts_no_fmt(vsmall_font, tmp,
-                            (otlx + obrx) / 2, (otly + obry) / 2, 1.0, 1.0, true);
-
-            if (1) { // thing_is_floor(t)) {
-                glcolor(WHITE);
-                sprintf(tmp, "%d,%d",(int)(t->x), (int)(t->y));
-                ttf_puts_no_fmt(vsmall_font, tmp, otlx, otly, 1.0, 1.0, true);
-
-                glcolor(RED);
-                gl_blitline(otlx, otly, obrx, otly);
-                gl_blitline(obrx, otly, obrx, obry);
-            }
-
-        }
-    }
-#endif
+    tile_blit_fat(tp, tile, 0, tl, br);
 }
 
 static void map_light_add_ray_depth (fpoint p,

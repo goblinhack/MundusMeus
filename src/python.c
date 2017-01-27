@@ -1802,7 +1802,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr64)
     TP_SET_DECL(is_rrr65)
     TP_SET_DECL(is_rrr66)
-    TP_SET_DECL(is_rrr67)
+    TP_SET_DECL(is_solid_ground)
     TP_SET_DECL(is_dungeon_way_up)
     TP_SET_DECL(is_dirt_deco)
     TP_SET_DECL(is_dirt_snow_deco)

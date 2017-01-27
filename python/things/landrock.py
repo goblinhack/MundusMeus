@@ -11,6 +11,7 @@ def landrock_init(name):
     x.set_short_name(name)
     x.set_is_movement_blocking(True)
     x.set_is_landrock(True)
+    x.set_is_solid_ground(True)
     x.set_z_depth("wall")
     x.set_is_shadow_caster(True)
 

@@ -10,6 +10,7 @@ def gravel_init(name, short_name, long_name, tiles=[]):
     x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_gravel(True)
+    x.set_is_solid_ground(True)
     x.set_z_depth("gravel")
 
     if tiles is not None:

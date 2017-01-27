@@ -10,6 +10,7 @@ def floor_init(name, tiles=[]):
     x.set_long_name("dirty floor")
     x.set_short_name("dirty floor")
     x.set_is_floor(True)
+    x.set_is_solid_ground(True)
     x.set_z_depth("floor")
 
     if tiles is not None:

@@ -201,7 +201,7 @@ class Tp:
         self.is_rrr64 = False
         self.is_rrr65 = False
         self.is_rrr66 = False
-        self.is_rrr67 = False
+        self.is_solid_ground = False
         self.is_dirt_deco = False
         self.is_dirt_snow_deco = False
         self.is_grass_deco = False
@@ -648,9 +648,9 @@ class Tp:
         self.is_rrr66 = value
         mm.tp_set_is_rrr66(self, value)
 
-    def set_is_rrr67(self, value):
-        self.is_rrr67 = value
-        mm.tp_set_is_rrr67(self, value)
+    def set_is_solid_ground(self, value):
+        self.is_solid_ground = value
+        mm.tp_set_is_solid_ground(self, value)
 
     def set_is_dirt_deco(self, value):
         self.is_dirt_deco = value
