@@ -1522,7 +1522,8 @@ class Biome(biome.Biome):
 
         self.depth_map.process()
 
-        self.depth_map.dump()
+        if False:
+            self.depth_map.dump()
 
     def depth_map_flood(self, x, y, depth, c):
         walked = [[0 for i in range(self.height)]

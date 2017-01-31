@@ -5,10 +5,11 @@ import biome_dungeon_do
 import rooms
 import tp
 import game
+import os
+import pickle
 
 
 def biome_build(self, seed=0):
-    self.biome_seed = seed
     l = self.level
 
     #
@@ -40,7 +41,7 @@ def biome_build(self, seed=0):
 
         mm.log("Failed to build dungeon; retry")
 
-    if True:
+    if False:
         self.biome.dump_depth()
         self.biome.dump()
 
@@ -496,8 +497,8 @@ def biome_populate(self):
 def choose_walls(self):
 
     l = self.level
-    l.wall = tp.get_random_wall()
-    l.wall_name = l.wall.name
+    wall = tp.get_random_wall()
+    l.wall_name = wall.name
 
     l.wall_x_name = l.wall_name + "_x"
     l.wall_t180_name = l.wall_name + "_t180"
@@ -516,8 +517,8 @@ def choose_walls(self):
     l.wall_n90_name = l.wall_name + "_n90"
     l.wall_node_name = l.wall_name + "_node"
 
-    l.cwall = tp.get_random_cwall()
-    l.cwall_name = l.cwall.name
+    cwall = tp.get_random_cwall()
+    l.cwall_name = cwall.name
 
     l.cwall_x_name = l.cwall_name + "_x"
     l.cwall_t180_name = l.cwall_name + "_t180"
@@ -540,8 +541,121 @@ def choose_walls(self):
 def choose_floors(self):
 
     l = self.level
-    l.floor = tp.get_random_floor()
-    l.floor_name = l.floor.name
+    floor = tp.get_random_floor()
+    l.floor_name = floor.name
 
     l.corridor = tp.get_random_corridor()
     l.corridor_name = l.corridor.name
+
+
+def biome_save(self):
+
+    #
+    # Only save/load on the last chunk on the level grid
+    # as this one chunk holds all the data for the level.
+    #
+    if self.cx != mm.CHUNK_ACROSS - 1 or \
+       self.cy != mm.CHUNK_DOWN - 1:
+        return
+
+    self.log("Biome save")
+
+    l = self.level
+
+    with open(os.path.normcase(
+                os.path.join(os.environ["APPDATA"],
+                             self.biome_name)), 'wb') as f:
+
+        pickle.dump(l.wall_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_x_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_t180_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_t90_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_t270_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_t_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_up_down_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_left_right_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_l_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_l90_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_l180_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_l270_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_n180_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_n270_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_n_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_n90_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.wall_node_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_x_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_t180_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_t90_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_t270_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_t_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_up_down_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_left_right_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_l_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_l90_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_l180_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_l270_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_n180_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_n270_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_n_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_n90_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.cwall_node_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.floor_name, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.corridor, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(l.corridor_name, f, pickle.HIGHEST_PROTOCOL)
+
+
+def biome_load(self):
+
+    #
+    # Only save/load on the last chunk on the level grid
+    # as this one chunk holds all the data for the level.
+    #
+    if self.cx != mm.CHUNK_ACROSS - 1 or \
+       self.cy != mm.CHUNK_DOWN - 1:
+        return
+
+    self.log("Biome load")
+
+    l = self.level
+
+    with open(os.path.normcase(
+                os.path.join(os.environ["APPDATA"],
+                             self.biome_name)), 'rb') as f:
+        l.wall_name = pickle.load(f)
+        l.wall_x_name = pickle.load(f)
+        l.wall_t180_name = pickle.load(f)
+        l.wall_t90_name = pickle.load(f)
+        l.wall_t270_name = pickle.load(f)
+        l.wall_t_name = pickle.load(f)
+        l.wall_up_down_name = pickle.load(f)
+        l.wall_left_right_name = pickle.load(f)
+        l.wall_l_name = pickle.load(f)
+        l.wall_l90_name = pickle.load(f)
+        l.wall_l180_name = pickle.load(f)
+        l.wall_l270_name = pickle.load(f)
+        l.wall_n180_name = pickle.load(f)
+        l.wall_n270_name = pickle.load(f)
+        l.wall_n_name = pickle.load(f)
+        l.wall_n90_name = pickle.load(f)
+        l.wall_node_name = pickle.load(f)
+        l.cwall_name = pickle.load(f)
+        l.cwall_x_name = pickle.load(f)
+        l.cwall_t180_name = pickle.load(f)
+        l.cwall_t90_name = pickle.load(f)
+        l.cwall_t270_name = pickle.load(f)
+        l.cwall_t_name = pickle.load(f)
+        l.cwall_up_down_name = pickle.load(f)
+        l.cwall_left_right_name = pickle.load(f)
+        l.cwall_l_name = pickle.load(f)
+        l.cwall_l90_name = pickle.load(f)
+        l.cwall_l180_name = pickle.load(f)
+        l.cwall_l270_name = pickle.load(f)
+        l.cwall_n180_name = pickle.load(f)
+        l.cwall_n270_name = pickle.load(f)
+        l.cwall_n_name = pickle.load(f)
+        l.cwall_n90_name = pickle.load(f)
+        l.cwall_node_name = pickle.load(f)
+        l.floor_name = pickle.load(f)
+        l.corridor = pickle.load(f)
+        l.corridor_name = pickle.load(f)

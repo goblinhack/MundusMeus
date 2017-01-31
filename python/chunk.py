@@ -75,14 +75,15 @@ class Chunk:
         self.level.chunk[cx][cy] = self
 
     #
-    # Create a random biome
+    # Set callbacks into biome code
     #
-    def biome_create(self, seed, is_land=False, is_dungeon=False):
-
-        self.is_biome_land = is_land
-        self.is_biome_dungeon = is_dungeon
+    def biome_set_vectors(self):
+        self.biome_save = None
+        self.biome_load = None
 
         if self.is_biome_dungeon:
+            self.biome_save = biome_dungeon.biome_save
+            self.biome_load = biome_dungeon.biome_load
             self.biome_build = biome_dungeon.biome_build
             self.biome_populate = biome_dungeon.biome_populate
 
@@ -90,6 +91,20 @@ class Chunk:
             self.biome_build = biome_land.biome_build
             self.biome_populate = biome_land.biome_populate
 
+    #
+    # Create a random biome
+    #
+    def biome_create(self, seed, is_land=False, is_dungeon=False):
+
+        self.is_biome_land = is_land
+        self.is_biome_dungeon = is_dungeon
+
+        self.biome_set_vectors()
+
+        self.biome_seed = seed
+        self.biome_name = "biome.{0}.{1}.seed.{2}".format(self.where.x,
+                                                          self.where.y,
+                                                          self.biome_seed)
         self.debug("Biome build")
         self.biome_build(self, seed)
 
@@ -146,6 +161,9 @@ class Chunk:
     def save(self):
         self.log("Save")
 
+        if self.biome_save:
+            self.biome_save(self)
+
         with open(os.path.normcase(
                   os.path.join(os.environ["APPDATA"],
                                self.chunk_name)), 'wb') as f:
@@ -153,8 +171,6 @@ class Chunk:
 
             pickle.dump(self.max_thing_id, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.all_things, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.is_biome_land, f, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.is_biome_dungeon, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(mm.CHUNK_WIDTH, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(mm.CHUNK_HEIGHT, f, pickle.HIGHEST_PROTOCOL)
 
@@ -163,6 +179,11 @@ class Chunk:
             pickle.dump(self.is_watery, f, pickle.HIGHEST_PROTOCOL)
 
             pickle.dump(self.seed, f, pickle.HIGHEST_PROTOCOL)
+
+            pickle.dump(self.is_biome_land, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.is_biome_dungeon, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.biome_seed, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.biome_name, f, pickle.HIGHEST_PROTOCOL)
 
     def load(self, cx, cy):
         #
@@ -183,8 +204,6 @@ class Chunk:
 
                 self.max_thing_id = pickle.load(f)
                 self.all_things = pickle.load(f)
-                self.is_biome_land = pickle.load(f)
-                self.is_biome_dungeon = pickle.load(f)
                 mm.CHUNK_WIDTH = pickle.load(f)
                 mm.CHUNK_HEIGHT = pickle.load(f)
 
@@ -193,8 +212,18 @@ class Chunk:
                 self.is_watery = pickle.load(f)
 
                 self.seed = pickle.load(f)
+
+                self.is_biome_land = pickle.load(f)
+                self.is_biome_dungeon = pickle.load(f)
+                self.biome_seed = pickle.load(f)
+                self.biome_name = pickle.load(f)
         else:
             self.log("Load from cache")
+
+        self.biome_set_vectors()
+
+        if self.biome_load:
+            self.biome_load(self)
 
         #
         # recreate the widgets for this thing
@@ -204,6 +233,10 @@ class Chunk:
             t.loaded(self, self.level)
 
     def scrolled_off(self):
+
+        if self.biome_save:
+            self.biome_save(self)
+
         for thing_id, t in list(self.all_things.items()):
             t.scrolled_off()
 
@@ -257,11 +290,7 @@ class Chunk:
         self.things_on_chunk[x][y].append(t)
         self.all_things[t.thing_id] = t
 
-#        self.log("{0} push chunk {1}".format(t.thing_id, self))
-
     def thing_pop(self, x, y, t):
 
         self.things_on_chunk[x][y].remove(t)
         del self.all_things[t.thing_id]
-
-#        self.log("{0} pop chunk {1}".format(t.thing_id, self))

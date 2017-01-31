@@ -346,14 +346,6 @@ class Level:
         for chunk_name, c in self.chunk_cache.items():
             c.save()
 
-    def load(self, f):
-
-        self.log("Load level")
-
-        for cx in range(0, mm.CHUNK_ACROSS):
-            for cy in range(0, mm.CHUNK_DOWN):
-                self.chunk[cx][cy].save()
-
     def tp_find(self, x, y, tp_name):
 
         if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:

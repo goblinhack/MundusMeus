@@ -7,7 +7,6 @@ import game
 
 
 def biome_build(self, seed=0):
-    self.biome_seed = seed
 
     while True:
         random.seed(self.biome_seed)

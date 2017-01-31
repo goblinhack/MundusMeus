@@ -7848,7 +7848,7 @@ static void wid_display_fast (widp w,
 #endif
 	int z = tp_get_z_depth(tp);
 
-        if (tp_is_player(tp)) {
+        if (tp_is_player(tp) || tp_is_monst(tp)) {
 	    /*
              * Submerge the player if not on solid ground.
 	     */
