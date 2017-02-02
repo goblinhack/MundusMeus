@@ -16,14 +16,16 @@ static int32_t wid_console_inited;
 static int32_t wid_console_exiting;
 static void wid_console_wid_create(void);
 
-static widp wid_console_container;
-static widp wid_console_vert_scroll;
-static widp wid_console_horiz_scroll;
+widp wid_console_container;
+widp wid_console_vert_scroll;
+#ifdef CONSOLE_HORIZ_SCROLL
+widp wid_console_horiz_scroll;
+#endif
 
 widp wid_console_input_line;
 
-static float wid_console_line_height = 0.055f;
-static float wid_console_max_line_height = 0.055f;
+static float wid_console_line_height = 0.155f;
+static float wid_console_max_line_height = 0.155f;
 static tree_root *tree_wid_console;
 
 widp wid_console_window;
@@ -145,7 +147,7 @@ void wid_console_log (const char *s)
 {
     tree_string_split_node *n;
     tree_root *d;
-    int chars_per_line = 200;
+    int chars_per_line = 100;
 
     d = split(s, chars_per_line);
 
@@ -162,7 +164,7 @@ void wid_console_log (const char *s)
 /*
  * Key down etc...
  */
-static uint8_t wid_console_receive_input (widp w, const SDL_KEYSYM *key)
+uint8_t wid_console_receive_input (widp w, const SDL_KEYSYM *key)
 {
     wid_console_reset_scroll();
 
@@ -190,7 +192,7 @@ static void wid_console_wid_create (void)
 
     {
         fpoint tl = {0.0f, 0.0f};
-        fpoint br = {1.0f, 0.5f};
+        fpoint br = {1.0f, 0.15f};
         color c;
 
         wid_console_window = wid_new_square_window("wid_console");
@@ -277,11 +279,14 @@ static void wid_console_wid_create (void)
 
             if (row == 0) {
                 wid_set_on_key_down(child, wid_console_receive_input);
+
                 wid_set_show_cursor(child, true);
                 wid_set_name(child, "console input");
+#ifdef CONSOLE_MAGIC_KEY
                 wid_set_focusable(child, 1);
-                wid_console_input_line = child;
                 wid_move_delta(child, 15, 0);
+#endif
+                wid_console_input_line = child;
 
                 widp prefix = wid_new_container(wid_console_container, "");
                 wid_set_pos_pct(prefix, tl, br);
@@ -290,7 +295,9 @@ static void wid_console_wid_create (void)
                 wid_set_text_fixed_width(prefix, true);
                 wid_set_text_outline(prefix, false);
                 wid_set_font(prefix, font);
+#ifdef CONSOLE_MAGIC_KEY
                 wid_set_text(prefix, ">");
+#endif
 
             } else {
                 wid_set_color(child, WID_COLOR_TEXT, CONSOLE_TEXT_COLOR);
@@ -303,20 +310,29 @@ static void wid_console_wid_create (void)
 
     wid_console_vert_scroll =
         wid_new_vert_scroll_bar(wid_console_window, 0, wid_console_container);
+#ifdef CONSOLE_HORIZ_SCROLL
     wid_console_horiz_scroll =
         wid_new_horiz_scroll_bar(wid_console_window, 0, wid_console_container);
+#endif
 
     wid_visible(wid_get_parent(wid_console_vert_scroll), 0);
+#ifdef CONSOLE_HORIZ_SCROLL
     wid_visible(wid_get_parent(wid_console_horiz_scroll), 0);
+#endif
     wid_visible(wid_console_vert_scroll, 0);
+#ifdef CONSOLE_HORIZ_SCROLL
     wid_visible(wid_console_horiz_scroll, 0);
+#endif
 
+#ifdef CONSOLE_MAGIC_KEY
     wid_hide(wid_console_window, 0);
+#endif
 
     color c = BLACK;
-    c.a = 200;
+    c.a = 0;
     wid_set_color(wid_console_window, WID_COLOR_BG, c);
     wid_set_color(wid_console_window, WID_COLOR_TL, c);
     wid_set_color(wid_console_window, WID_COLOR_BR, c);
     wid_set_square(wid_console_window);
+    wid_console_window->ignore_for_mouse_down = true;
 }

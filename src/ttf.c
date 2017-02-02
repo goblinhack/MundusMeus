@@ -202,8 +202,6 @@ void ttf_putc (font *f, int32_t c, double x, double y, double scaling)
     double texMaxY = f->glyphs[c].texMaxY;
 
     if (c == TTF_CURSOR_CHAR) {
-        static uint8_t first = true;
-        static uint32_t last;
 
         c = TTF_FIXED_WIDTH_CHAR;
 
@@ -211,6 +209,10 @@ void ttf_putc (font *f, int32_t c, double x, double y, double scaling)
         GLfloat right = (GLfloat)(x + f->glyphs[c].width * scaling);
         GLfloat top = (GLfloat)(y);
         GLfloat bottom = (GLfloat)(y + f->glyphs[c].height * (scaling));
+
+#ifdef CURSOR_FLASH
+        static uint32_t last;
+        static uint8_t first = true;
 
         glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -255,6 +257,27 @@ void ttf_putc (font *f, int32_t c, double x, double y, double scaling)
 
         glcolor_restore();
         return;
+#else
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        {
+            glcolor(CONSOLE_CURSOR_COLOR);
+
+            gl_blitsquare(left, top, right, bottom);
+
+            left += 1;
+            right -= 1;
+            top += 1;
+            bottom -= 1;
+
+            glcolor(BLACK);
+
+            gl_blitquad(left, top, right, bottom);
+
+            glcolor_restore();
+            return;
+        }
+#endif
     }
 
     GLfloat left = (GLfloat)(x);

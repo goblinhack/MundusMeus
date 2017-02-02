@@ -3172,7 +3172,7 @@ widp wid_new_window (const char *name)
     wid_set_color(w, WID_COLOR_BR, col);
     wid_set_color(w, WID_COLOR_BG, col);
     wid_set_color(w, WID_COLOR_TEXT, WHITE);
-    wid_set_movable(w, true);
+    wid_set_movable(w, false);
 
     if (name) {
         if (!strcmp(name, "wid_game_map")) {
@@ -3276,7 +3276,7 @@ widp wid_new_rounded_window (const char *name)
     wid_set_color(w, WID_COLOR_BR, br);
     wid_set_color(w, WID_COLOR_BG, c);
     wid_set_color(w, WID_COLOR_TEXT, WHITE);
-    wid_set_movable(w, true);
+    wid_set_movable(w, false);
 
     wid_raise(w);
 
@@ -3312,7 +3312,7 @@ widp wid_new_square_window (const char *name)
     wid_set_color(w, WID_COLOR_BR, br);
     wid_set_color(w, WID_COLOR_BG, c);
     wid_set_color(w, WID_COLOR_TEXT, WHITE);
-    wid_set_movable(w, true);
+    wid_set_movable(w, false);
     wid_set_name(w, name);
 
     wid_raise(w);
@@ -4359,6 +4359,7 @@ static void wid_find_top_focus (void)
     wid_find_first_focus();
 }
 
+#ifdef CONSOLE_MAGIC_KEY
 static void wid_find_last_child_focus (widp w, widp *best)
 {
     if (w->focus_order) {
@@ -4377,6 +4378,7 @@ static void wid_find_last_child_focus (widp w, widp *best)
         wid_find_last_child_focus(child, best);
     }
 }
+#endif
 
 widp wid_get_focus (widp w)
 {
@@ -4402,6 +4404,7 @@ widp wid_get_focus (widp w)
     return (best);
 }
 
+#ifdef CONSOLE_MAGIC_KEY
 static void wid_find_last_focus (void)
 {
     widp w;
@@ -4422,7 +4425,9 @@ static void wid_find_last_focus (void)
         }
     }
 }
+#endif
 
+#ifdef CONSOLE_MAGIC_KEY
 static void wid_find_next_child_focus (widp w, widp *best)
 {
     if (w->focus_order) {
@@ -4444,7 +4449,9 @@ static void wid_find_next_child_focus (widp w, widp *best)
         wid_find_next_child_focus(child, best);
     }
 }
+#endif
 
+#ifdef CONSOLE_MAGIC_KEY
 static void wid_find_next_focus (void)
 {
     widp w;
@@ -4477,7 +4484,9 @@ static void wid_find_next_focus (void)
         break;
     }
 }
+#endif
 
+#ifdef CONSOLE_MAGIC_KEY
 static void wid_find_prev_child_focus (widp w, widp *best)
 {
     if (w->focus_order) {
@@ -4499,7 +4508,9 @@ static void wid_find_prev_child_focus (widp w, widp *best)
         wid_find_prev_child_focus(child, best);
     }
 }
+#endif
 
+#ifdef CONSOLE_MAGIC_KEY
 static void wid_find_prev_focus (void)
 {
     widp w;
@@ -4532,6 +4543,7 @@ static void wid_find_prev_focus (void)
         break;
     }
 }
+#endif
 
 widp wid_find (widp w, const char *name)
 {
@@ -5426,6 +5438,7 @@ static uint8_t wid_receive_unhandled_input (const SDL_KEYSYM *key)
                 sdl_screenshot();
                 break;
 
+#ifdef CONSOLE_MAGIC_KEY
             case '`':
             case '~':
                 wid_toggle_hidden(w, 0);
@@ -5472,7 +5485,9 @@ static uint8_t wid_receive_unhandled_input (const SDL_KEYSYM *key)
                 wid_find_prev_focus();
                 break;
 
+#endif
             default: {
+                wid_console_receive_input(wid_console_input_line, key);
                 break;
             }
         }
@@ -5695,6 +5710,10 @@ static widp wid_mouse_down_handler_at (widp w, int32_t x, int32_t y,
         return (0);
     }
 
+    if (w->ignore_for_mouse_down) {
+        return (0);
+    }
+
     if (wid_ignore_for_events(w)) {
         return (0);
     }
@@ -5837,6 +5856,10 @@ static widp wid_mouse_motion_handler_at (widp w, int32_t x, int32_t y,
     widp child;
 
     if (!w) {
+        return (0);
+    }
+
+    if (!wheelx && !wheely && w->ignore_for_mouse_down) {
         return (0);
     }
 
@@ -6496,6 +6519,8 @@ void wid_mouse_motion (int32_t x, int32_t y,
                        int32_t relx, int32_t rely,
                        int32_t wheelx, int32_t wheely)
 {
+    int got_one = false;
+
     if (!wid_mouse_visible) {
         return;
     }
@@ -6624,9 +6649,10 @@ void wid_mouse_motion (int32_t x, int32_t y,
              */
             if (w->on_m_motion) {
                 fast_verify(w);
-
+CON("%s",wid_logname(w));
                 if ((*w->on_m_motion)(w, x, y,
                                           relx, rely, wheelx, wheely)) {
+                    got_one = true;
                     break;
                 }
             }
@@ -6701,6 +6727,21 @@ void wid_mouse_motion (int32_t x, int32_t y,
 
     if (!over) {
         wid_m_over_e();
+    }
+
+    /*
+     * If nothing then pass the event to the console to allow scrolling
+     * of the console.
+     */
+    if (!got_one && wid_console_container && (wheelx || wheely)) {
+        widp w = wid_console_container->scrollbar_vert;
+        if (w) {
+            w = w->parent;
+        }
+
+        if (w && w->on_m_motion) {
+            (w->on_m_motion)(w, x, y, relx, rely, wheelx, wheely);
+        }
     }
 
     wid_mouse_motion_recursion = 0;

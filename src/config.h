@@ -114,10 +114,11 @@
 /*
  * Console
  */
-#define CONSOLE_CURSOR_COLOR        PURPLE
+#define CONSOLE_CURSOR_COLOR        GRAY30
 #define CONSOLE_CURSOR_OTHER_COLOR  PLUM
 #define CONSOLE_TEXT_COLOR          GREEN
-#define CONSOLE_HEIGHT              1000
+#define CONSOLE_HEIGHT              20
+#undef CONSOLE_MAGIC_KEY
 
 /*
  * Fonts

@@ -7,7 +7,6 @@ import wid_popup
 import time_of_day
 import pickle
 import os.path
-import wid_console
 import game
 
 global g
@@ -29,13 +28,12 @@ class Game:
         self.saved_nexthops = []
         self.level_stack = []
         self.last_level_seed = None
-        wid_console.create()
         self.last_scroll_px = 0.5
         self.last_scroll_py = 0.5
 
     def new_game(self):
 
-        self.sdl_delay = 2
+        self.sdl_delay = 20
         self.move_count = 0
         self.moves_per_day = 1000
         self.seed = 10
@@ -99,7 +97,8 @@ class Game:
             self.last_level_seed = pickle.load(f)
 
             self.load_level(self.last_level_seed)
-            mm.con("Game loaded @ chunk {0} to {1}".format(str(self.level), s))
+            mm.log("Game loaded @ chunk {0} to {1}".format(str(self.level), s))
+            mm.con("Loaded previously saved game")
 
     def destroy(self):
         l = self.level

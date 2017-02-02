@@ -2621,6 +2621,7 @@ static void py_add_to_path (const char *path)
 
 static void python_add_consts (void)
 {
+    PyModule_AddStringConstant(mm_mod, "VERSION", VERSION);
     PyModule_AddIntConstant(mm_mod, "CHUNK_ACROSS", CHUNK_ACROSS);
     PyModule_AddIntConstant(mm_mod, "CHUNK_DOWN", CHUNK_DOWN);
     PyModule_AddIntConstant(mm_mod, "CHUNK_WIDTH", CHUNK_WIDTH);

@@ -17,3 +17,10 @@ void wid_console_hello(void);
 extern widp wid_console_input_line;
 
 extern widp wid_console_window;
+extern widp wid_console_vert_scroll;
+#ifdef CONSOLE_HORIZ_SCROLL
+extern widp wid_console_horiz_scroll;
+#endif
+extern widp wid_console_container;
+
+uint8_t wid_console_receive_input(widp w, const SDL_KEYSYM *key);

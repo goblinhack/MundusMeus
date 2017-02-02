@@ -603,6 +603,7 @@ typedef struct wid_ {
     uint8_t fade_in:1;
     uint8_t fade_out:1;
     uint8_t ignore_for_events:1;
+    uint8_t ignore_for_mouse_down:1;
     uint8_t scaled_w:1;
     uint8_t scaled_h:1;
     uint8_t blit_scaled_w:1;

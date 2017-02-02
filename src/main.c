@@ -420,12 +420,12 @@ static void parse_args (int32_t argc, char *argv[])
 {
     int32_t i;
 
-    LOG("Greetings");
+    LOG("Greetings mortal");
 
     /*
      * Parse format args
      */
-    CON("Program name: \"%s\"", argv[0]);
+    LOG("Program name: \"%s\"", argv[0]);
     for (i = 1; i < argc; i++) {
         CON("  arg: \"%s\"", argv[i]);
     }

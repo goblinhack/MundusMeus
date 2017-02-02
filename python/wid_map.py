@@ -3,9 +3,7 @@ import wid
 
 
 def wid_map_key_down(w, sym, mod):
-    if sym == ord('`'):
-        return False
-    return True
+    return False
 
 
 class WidMap:
