@@ -379,6 +379,11 @@ class Level:
             return True
         return False
 
+    def describe_position(self, x, y):
+
+        (chunk, ox, oy) = self.xy_to_chunk_xy(x, y)
+        return chunk.describe_position(ox, oy)
+
     def dmap_create(self, px, py):
 
         d = dmap.Dmap(width=mm.MAP_WIDTH, height=mm.MAP_HEIGHT)

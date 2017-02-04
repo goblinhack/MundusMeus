@@ -57,6 +57,7 @@ uint8_t wid_has_grid(widp);
 void wid_new_grid(widp, uint32_t width, uint32_t height,
                   uint32_t pixwidth, uint32_t pixheight);
 widp wid_new_tooltip(const char *tooltip);
+void wid_tooltip_set(const char *text);
 void wid_destroy_grid(widp);
 void wid_detach_from_grid(widp);
 void wid_attach_to_grid(widp);

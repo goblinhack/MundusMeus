@@ -253,6 +253,7 @@ void LOG(const char *fmt, ...);
 void LOGS(const char *fmt, ...);
 void WARN(const char *fmt, ...);
 void CON(const char *fmt, ...);
+void TIP(const char *fmt, ...);
 #else
 void CROAK(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 void DYING(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
@@ -260,6 +261,7 @@ void LOG(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 void LOGS(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 void WARN(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 void CON(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
+void TIP(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 #endif
 
 enum {

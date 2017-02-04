@@ -1311,6 +1311,21 @@ static PyObject *con_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
+static PyObject *tip_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    char *a = 0;
+
+    if (!PyArg_ParseTuple(args, "s", &a)) {
+        return (0);
+    }
+
+    if (a) {
+        TIP("%s", a);
+    }
+
+    Py_RETURN_NONE;
+}
+
 static PyObject *puts_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     char *a = 0;
@@ -1381,6 +1396,11 @@ static PyMethodDef python_c_METHODS[] =
         (PyCFunction)con_,
         METH_VARARGS,
         "log to the console"},
+
+    {"tip",
+        (PyCFunction)tip_,
+        METH_VARARGS,
+        "tooltip"},
 
     {"puts",
         (PyCFunction)puts_,

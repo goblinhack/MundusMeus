@@ -17,6 +17,7 @@
 #include "term.h"
 #include "wid_tooltip.h"
 #include "wid_notify.h"
+#include "wid.h"
 #include "sound.h"
 
 uint8_t debug_enabled = 0;
@@ -217,6 +218,26 @@ static void con_ (const char *fmt, va_list args)
     term_log(buf + len);
 }
 
+static void tip_ (const char *fmt, va_list args)
+{
+    char buf[MAXSTR];
+
+    buf[0] = '\0';
+    vsnprintf(buf, sizeof(buf), fmt, args);
+
+    wid_tooltip_set(buf);
+}
+
+void CON (const char *fmt, ...)
+{
+    va_list args;
+
+    va_start(args, fmt);
+    con_(fmt, args);
+    va_end(args);
+}
+
+
 static void dying_ (const char *fmt, va_list args)
 {
     char buf[MAXSTR];
@@ -294,12 +315,12 @@ static void croak_ (const char *fmt, va_list args)
     die();
 }
 
-void CON (const char *fmt, ...)
+void TIP (const char *fmt, ...)
 {
     va_list args;
 
     va_start(args, fmt);
-    con_(fmt, args);
+    tip_(fmt, args);
     va_end(args);
 }
 

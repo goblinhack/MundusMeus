@@ -1515,10 +1515,22 @@ void sdl_loop (void)
         }
 
         if (wid_tooltip_string) {
-                ttf_puts(small_font, wid_tooltip_string,
-                         0.00 * (double) game.video_pix_width,
-                         0.97 * (double) game.video_pix_height,
-                         1.0, 1.0, false);
+            color c = PURPLE4;
+            c.a = 100;
+            glcolor(c);
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+            gl_blitquad(
+                     0.00 * (double) game.video_pix_width,
+                     0.97 * (double) game.video_pix_height,
+                     1.00 * (double) game.video_pix_width,
+                     1.00 * (double) game.video_pix_height);
+
+            glcolor(WHITE);
+            ttf_puts(small_font, wid_tooltip_string,
+                     0.00 * (double) game.video_pix_width,
+                     0.97 * (double) game.video_pix_height,
+                     1.0, 1.0, false);
         }
 
         blit_flush();

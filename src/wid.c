@@ -962,12 +962,32 @@ static void wid_m_over_e (void)
     }
 }
 
+#if 0
 static void wid_tooltip_destroy (widp w)
 {
     if (wid_tooltip_string) {
         myfree(wid_tooltip_string);
         wid_tooltip_string = 0;
     }
+}
+#endif
+
+void wid_tooltip_set (const char *text)
+{
+    if (wid_tooltip_string) {
+        if (!strcmp(wid_tooltip_string, text)) {
+            return;
+        }
+
+        wid_destroy(&wid_popup_tooltip);
+    }
+
+    if (wid_tooltip_string) {
+        myfree(wid_tooltip_string);
+        wid_tooltip_string = 0;
+    }
+
+    wid_tooltip_string = dupstr(text, "tooltop str");
 }
 
 static uint8_t wid_m_over_b (widp w, uint32_t x, uint32_t y,
@@ -1033,6 +1053,7 @@ static uint8_t wid_m_over_b (widp w, uint32_t x, uint32_t y,
 
         wid_tooltip_string = dupstr(w->tooltip, "tooltop str");
 
+#if 0
         /*
          * Move off screen - just use tooltip at the bottom of the screen
          */
@@ -1091,6 +1112,7 @@ static uint8_t wid_m_over_b (widp w, uint32_t x, uint32_t y,
         }
 
         wid_set_on_destroy_b(wid_popup_tooltip, wid_tooltip_destroy);
+#endif
     }
 
     return (true);

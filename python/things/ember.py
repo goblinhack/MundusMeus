@@ -7,7 +7,6 @@ def thing_init(t):
 
 def ember1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("player")
 

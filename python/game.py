@@ -165,7 +165,7 @@ class Game:
 #
         w.add_text(font="vsmall", text=text)
 
-        w.set_color(bg=True, tl=True, br=True, name="blue", alpha=0.2)
+        w.set_color(bg=True, tl=True, br=True, name="blue", alpha=0.8)
         w.update()
         w.move_to_bottom()
         w.set_movable(value=False)
@@ -200,6 +200,9 @@ class Game:
             return False
 
         l = self.level
+
+        text = l.describe_position(x, y)
+        mm.tip(text)
 
         self.map_clear_focus()
 

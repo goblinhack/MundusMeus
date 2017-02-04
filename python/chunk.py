@@ -285,6 +285,16 @@ class Chunk:
 
         return False
 
+    def describe_position(self, x, y):
+        if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
+            return ""
+
+        for t in self.things_on_chunk[x][y]:
+            if t.tp.long_name is not None:
+                return t.tp.long_name
+
+        return ""
+
     def thing_push(self, x, y, t):
 
         self.things_on_chunk[x][y].append(t)
