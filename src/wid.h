@@ -91,7 +91,7 @@ void wid_move_all(void);
 void wid_gc_all(void);
 void wid_gc_all_force(void);
 void wid_display_all(void);
-uint8_t wid_ignore_for_events(widp);
+uint8_t wid_ignore_events(widp);
 uint8_t wid_ignore_for_focus(widp);
 uint8_t wid_ignore_being_destroyed(widp);
 
@@ -603,7 +603,7 @@ typedef struct wid_ {
     uint8_t movable_no_user_scroll_set:1;
     uint8_t fade_in:1;
     uint8_t fade_out:1;
-    uint8_t ignore_for_events:1;
+    uint8_t ignore_events:1;
     uint8_t ignore_for_mouse_down:1;
     uint8_t scaled_w:1;
     uint8_t scaled_h:1;

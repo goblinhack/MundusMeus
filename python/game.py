@@ -3,11 +3,11 @@ import mm
 import level
 import wid_map
 import thing
-import wid_popup
 import time_of_day
 import pickle
 import os.path
 import game
+import wid_mini_map
 
 global g
 
@@ -126,49 +126,7 @@ class Game:
         mm.game_map_time_step()
 
     def player_location_update(self):
-
-        l = self.level
-        if self.wid_player_location:
-            self.wid_player_location.destroy()
-
-        self.wid_player_location = wid_popup.WidPopup(
-                name="wid_player_location",
-                width=1.0)
-        w = self.wid_player_location
-
-        text = ""
-
-        text += "%%fg=white$Hour %%fg=green${0}%%fg=reset$ ".format(
-                self.hour_str)
-
-        text += "%%fg=white$Day %%fg=green${0}%%fg=reset$ ".format(
-                self.day)
-
-        text += "%%fg=white$Lat %%fg=green${0}%%fg=reset$ ".format(
-                l.where.x)
-
-        text += "%%fg=white$Long %%fg=green${0}%%fg=reset$ ".format(
-                l.where.y)
-
-        text += "%%fg=white$Move %%fg=green${0}%%fg=reset$ ".format(
-                self.move_count)
-
-        if l.where.z < 0:
-            text += "Depth %%fg=green${0} feet%%fg=reset ".format(- l.where.z
-                                                                  * 10)
-
-#        player = self.player
-#        text += "@ %%fg=green${0},{1}%%fg=reset ".format(player.x, player.y)
-#        text += "offset %%fg=green${0},{1}%%fg=reset ".format(player.offset_x,
-#                                                              player.offset_y)
-#        text += "chunk %%fg=green${0}%%fg=reset ".format(player.chunk)
-#
-        w.add_text(font="vsmall", text=text)
-
-        w.set_color(bg=True, tl=True, br=True, name="blue", alpha=0.8)
-        w.update()
-        w.move_to_bottom()
-        w.set_movable(value=False)
+        wid_mini_map.player_location_update(game=self)
 
     #
     # The scrollable map for the level

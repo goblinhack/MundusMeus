@@ -1592,6 +1592,11 @@ static PyMethodDef python_c_METHODS[] =
         METH_VARARGS | METH_KEYWORDS,
         "wid_set_do_not_raise"},
 
+    {"wid_set_ignore_events",
+        (PyCFunction)wid_set_ignore_events_,
+        METH_VARARGS | METH_KEYWORDS,
+        "wid_set_ignore_events"},
+
     {"wid_set_focusable",
         (PyCFunction)wid_set_focusable_,
         METH_VARARGS | METH_KEYWORDS,

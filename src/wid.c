@@ -775,7 +775,7 @@ static void wid_mouse_motion_end (void)
 
 void wid_set_ignore_events (widp w, uint8_t val)
 {
-    w->ignore_for_events = val;
+    w->ignore_events = val;
 }
 
 void wid_set_disable_scissors (widp w, uint8_t val)
@@ -786,7 +786,7 @@ void wid_set_disable_scissors (widp w, uint8_t val)
 /*
  * Should this widget be ignored for events?
  */
-uint8_t wid_ignore_for_events (widp w)
+uint8_t wid_ignore_events (widp w)
 {
     widp top;
 
@@ -796,7 +796,7 @@ uint8_t wid_ignore_for_events (widp w)
 
     fast_verify(w);
 
-    if (w->ignore_for_events || w->moving ||
+    if (w->ignore_events || w->moving ||
         /*
          * Need this disabled for fading buttons to work
          */
@@ -5554,7 +5554,7 @@ static widp wid_key_down_handler_at (widp w, int32_t x, int32_t y,
         return (0);
     }
 
-    if (wid_ignore_for_events(w)) {
+    if (wid_ignore_events(w)) {
         return (0);
     }
 
@@ -5619,7 +5619,7 @@ static widp wid_key_up_handler_at (widp w, int32_t x, int32_t y,
         return (0);
     }
 
-    if (wid_ignore_for_events(w)) {
+    if (wid_ignore_events(w)) {
         return (0);
     }
 
@@ -5683,7 +5683,7 @@ static widp wid_joy_button_handler_at (widp w, int32_t x, int32_t y,
         return (0);
     }
 
-    if (wid_ignore_for_events(w)) {
+    if (wid_ignore_events(w)) {
         return (0);
     }
 
@@ -5736,7 +5736,7 @@ static widp wid_mouse_down_handler_at (widp w, int32_t x, int32_t y,
         return (0);
     }
 
-    if (wid_ignore_for_events(w)) {
+    if (wid_ignore_events(w)) {
         return (0);
     }
 
@@ -5806,7 +5806,7 @@ static widp wid_mouse_up_handler_at (widp w, int32_t x, int32_t y, uint8_t stric
         return (0);
     }
 
-    if (wid_ignore_for_events(w)) {
+    if (wid_ignore_events(w)) {
         return (0);
     }
 
@@ -5885,7 +5885,7 @@ static widp wid_mouse_motion_handler_at (widp w, int32_t x, int32_t y,
         return (0);
     }
 
-    if (wid_ignore_for_events(w)) {
+    if (wid_ignore_events(w)) {
         /*
          * Fading in/out ?
          */
@@ -6620,13 +6620,13 @@ void wid_mouse_motion (int32_t x, int32_t y,
             continue;
         }
 
-        if (wid_ignore_for_events(w)) {
+        if (wid_ignore_events(w)) {
             /*
              * This wid is ignoring events, but what about the parent?
              */
             w = w->parent;
             while (w) {
-                if (!wid_ignore_for_events(w)) {
+                if (!wid_ignore_events(w)) {
                     break;
                 }
                 w = w->parent;
@@ -6671,8 +6671,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
              */
             if (w->on_m_motion) {
                 fast_verify(w);
-                if ((*w->on_m_motion)(w, x, y,
-                                          relx, rely, wheelx, wheely)) {
+                if ((*w->on_m_motion)(w, x, y, relx, rely, wheelx, wheely)) {
                     got_one = true;
                     break;
                 }
@@ -6704,6 +6703,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
                     if (w->scrollbar_vert &&
                         !wid_get_movable_no_user_scroll(w->scrollbar_vert)) {
 
+                        got_one = true;
                         wid_move_delta(w->scrollbar_vert, 0, -wheely);
                         done = true;
 
@@ -6719,6 +6719,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
                     if (w->scrollbar_horiz &&
                         !wid_get_movable_no_user_scroll(w->scrollbar_horiz)) {
 
+                        got_one = true;
                         wid_move_delta(w->scrollbar_horiz, -wheelx, 0);
                         done = true;
 

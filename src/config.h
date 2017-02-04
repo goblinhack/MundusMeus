@@ -134,7 +134,7 @@
 #define VVLARGE_FONT                "data/ttf/Metamorphous-Regular.ttf"
 
 #define FIXED_FONT_SIZE             16
-#define VSMALL_FONT_SIZE            16
+#define VSMALL_FONT_SIZE            14
 #define SMALL_FONT_SIZE             20
 #define MED_FONT_SIZE               22
 #define LARGE_FONT_SIZE             24

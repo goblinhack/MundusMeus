@@ -175,7 +175,7 @@ uint8_t font_init (void)
     }
 #endif
 
-    fixed_font = font_load("font",
+    fixed_font = font_load("fixed",
                            (char*)FIXED_FONT, fixed_font_size & ~1);
     vsmall_font = font_load("vsmall",
                             (char*)VSMALL_FONT, vsmall_font_size & ~1);

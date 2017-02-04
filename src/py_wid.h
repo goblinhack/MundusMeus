@@ -29,6 +29,7 @@ PyObject *wid_set_bevelled_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_cursor_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_do_not_lower_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_do_not_raise_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_set_ignore_events_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_focusable_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_movable_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_movable_bounded_(PyObject *obj, PyObject *args, PyObject *keywds);

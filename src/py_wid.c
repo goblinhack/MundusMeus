@@ -752,6 +752,28 @@ PyObject *wid_set_do_not_raise_ (PyObject *obj, PyObject *args, PyObject *keywds
     Py_RETURN_NONE;
 }
 
+PyObject *wid_set_ignore_events_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    int value = 1;
+
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|i", kwlist,
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_ignore_events(w, value);
+
+    Py_RETURN_NONE;
+}
+
 PyObject *wid_set_focusable_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;

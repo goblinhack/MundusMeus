@@ -156,6 +156,9 @@ class Wid:
     def set_do_not_raise(self, **kw):
         mm.wid_set_do_not_raise(self, **kw)
 
+    def set_ignore_events(self, **kw):
+        mm.wid_set_ignore_events(self, **kw)
+
     def set_focusable(self, **kw):
         mm.wid_set_focusable(self, **kw)
 
