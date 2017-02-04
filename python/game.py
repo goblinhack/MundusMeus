@@ -33,11 +33,11 @@ class Game:
 
     def new_game(self):
 
-        self.sdl_delay = 20
+        self.sdl_delay = 1
         self.move_count = 0
         self.moves_per_day = 1000
         self.seed = 10
-        self.where = util.Xyz(68*3, 70*3, 0)
+        self.where = util.Xyz(68*2, 70*2, 0)
         self.load_level(self.seed)
 
     def load_level(self, seed):

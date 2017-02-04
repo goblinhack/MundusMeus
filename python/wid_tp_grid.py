@@ -186,7 +186,7 @@ class WidTpGrid(wid_popup.WidPopup):
                 title=True,
                 center=True,
                 on_button_list=button_events,
-                text="[%%tile=icon_star$] " +
+                text=" [%%tile=icon_star$] " +
                      "[%%tile=icon_sword$] " +
                      "[%%tile=icon_magic$] " +
                      "[%%tile=icon_shield$] " +
@@ -235,7 +235,7 @@ class WidTpGrid(wid_popup.WidPopup):
 
         self.tp_sorted_name_list.sort()
 
-        font = "medium"
+        font = "vlarge"
         tile_width, _unused_h, _unused_c = \
             mm.text_size_pct(font=font, text="[%%tile=player1.1$] ")
         self.across = int(self.width / tile_width)
@@ -266,7 +266,9 @@ class WidTpGrid(wid_popup.WidPopup):
                         },
                     )
 
-                text += "[%%tile=" + tpp.name + "$] "
+                tile = tpp.tiles[0]
+
+                text += "[%%tile=" + tile + "$] "
 
             if text != "":
                 w.add_text(

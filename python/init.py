@@ -155,31 +155,29 @@ def init2():
 #    wid_intro_menu.create()
 #    wid_quit.wid_quit_create()
 
-#    w = wid_tp_list.WidTpList(name="tp window",
-#                              tiles="wid2",
-#                              body_tiles="wid1",
-#                              width=0.25,
-#                              height=0.5,
-#                              x=0.75,
-#                              y=0.00,
-#                              detail_width=0.40,
-#                              detail_height=0.3,
-#                              detail_x=0.35,
-#                              detail_y=0.00)
-#    print(w)
-#
-#    w = wid_tp_grid.WidTpGrid(name="tp window",
-#                              tiles="wid2",
-#                              body_tiles="wid1",
-#                              width=0.25,
-#                              height=0.5,
-#                              x=0.35,
-#                              y=0.00,
-#                              detail_width=0.40,
-#                              detail_height=0.3,
-#                              detail_x=0.05,
-#                              detail_y=0.50)
-#    print(w)
+    w = wid_tp_list.WidTpList(name="tp window",
+                              tiles="wid2",
+                              body_tiles="wid1",
+                              width=0.25,
+                              height=0.5,
+                              x=0.75,
+                              y=0.00,
+                              detail_width=0.40,
+                              detail_height=0.3,
+                              detail_x=0.35,
+                              detail_y=0.00)
+
+    w = wid_tp_grid.WidTpGrid(name="tp window",
+                              tiles="wid2",
+                              body_tiles="wid1",
+                              width=0.25,
+                              height=0.5,
+                              x=0.75,
+                              y=0.50,
+                              detail_width=0.40,
+                              detail_height=0.3,
+                              detail_x=0.05,
+                              detail_y=0.50)
 
     game.game_new()
 

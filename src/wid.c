@@ -6649,7 +6649,6 @@ void wid_mouse_motion (int32_t x, int32_t y,
              */
             if (w->on_m_motion) {
                 fast_verify(w);
-CON("%s",wid_logname(w));
                 if ((*w->on_m_motion)(w, x, y,
                                           relx, rely, wheelx, wheely)) {
                     got_one = true;
@@ -9529,7 +9528,7 @@ static void wid_display (widp w,
                 double window_w = tw;
                 double window_h = th;
 
-		buf_tex = tex_get_gl_binding(light_fade_texp);
+		buf_tex = 0;
                 blit(buf_tex, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
                 blit_flush();
             }
@@ -9554,10 +9553,10 @@ static void wid_display (widp w,
                     double x;
                     double fade = 0.1;
 
-                        for (x = 1.5; x >= 1.0; x -= 0.05) {
-                            wid_lighting_render(w, i, 0.0, fade, x);
-                            fade *= 1.10;
-                        }
+                    for (x = 1.5; x >= 1.0; x -= 0.05) {
+                        wid_lighting_render(w, i, 0.0, fade, x);
+                        fade *= 1.10;
+                    }
 
                     wid_lighting_render(w, i, 0.025, 0.25, 1.0);
                     wid_lighting_render(w, i, -0.025, 0.25, 1.0);

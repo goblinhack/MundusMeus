@@ -71,11 +71,11 @@
 /*
  * Map. How many tiles across and down.
  */
-#define CHUNK_ACROSS                            (3)
-#define CHUNK_DOWN                              (3)
+#define CHUNK_ACROSS                            (5)
+#define CHUNK_DOWN                              (5)
 
-#define CHUNK_WIDTH                             (13)
-#define CHUNK_HEIGHT                            (13)
+#define CHUNK_WIDTH                             (11)
+#define CHUNK_HEIGHT                            (11)
 
 #define MAP_WIDTH                               (CHUNK_WIDTH*CHUNK_ACROSS)
 #define MAP_HEIGHT                              (CHUNK_HEIGHT*CHUNK_DOWN)
@@ -87,7 +87,7 @@
 /*
  * The number of tiles per screen.
  */
-#define TILES_SCREEN_WIDTH                      25
+#define TILES_SCREEN_WIDTH                      19
 #define TILES_SCREEN_HEIGHT                     13
 #define TILES_ANIM_MAX                          10000
 

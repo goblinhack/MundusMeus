@@ -17,7 +17,7 @@ class WidMap:
         w.set_movable(value=False)
         w.set_do_not_raise(value=True)
         w.set_shape(none=True)
-        w.set_pos_pct(x1=0.0, y1=0.0, x2=1.0, y2=1.0)
+        w.set_pos_pct(x1=0.0, y1=0.0, x2=0.75, y2=1.0)
         w.set_on_key_down(wid_map_key_down)
         w.set_color(tl=True, bg=True, br=True, name="white", alpha=0.0)
 

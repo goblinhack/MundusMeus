@@ -243,6 +243,9 @@ class WidTpList(wid_popup.WidPopup):
             key_str = ""
 #                       on_key_down=on_key_down,
 #                       on_key_sym=on_key_sym,
+
+            tile = tpp.tiles[0]
+
             w.add_text(
                        on_m_down=wid_tp_list_on_m_down_close,
                        on_m_over_b=wid_tp_list_on_m_over_b,
@@ -250,7 +253,7 @@ class WidTpList(wid_popup.WidPopup):
                        font="vsmall",
                        color="white",
                        text="%%font=fixed$" + key_str +
-                       "%%tile=" + tpp.name +
+                       "%%tile=" + tile +
                        "$%%font=vsmall$~" + tpp.short_name)
 
         if added == 0:
@@ -258,7 +261,7 @@ class WidTpList(wid_popup.WidPopup):
                     center=True,
                     font="small",
                     color="white",
-                    text="-_nothing--")
+                    text="--empty--")
 
         w.update()
         w.set_focus()
