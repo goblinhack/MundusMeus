@@ -77,6 +77,10 @@ def load_one_plugin(filename):
         global wid_quit
         wid_quit = py_mod
 
+    if basename(filename) == "wid_mini_map.py":
+        global wid_mini_map
+        wid_mini_map = py_mod
+
     if basename(filename) == "wid_tp_list.py":
         global wid_tp_list
         wid_tp_list = py_mod
@@ -159,11 +163,11 @@ def init2():
                               tiles="wid2",
                               body_tiles="wid1",
                               width=0.25,
-                              height=0.5,
+                              height=0.2,
                               x=0.75,
-                              y=0.00,
+                              y=0.30,
                               detail_width=0.40,
-                              detail_height=0.3,
+                              detail_height=0.1,
                               detail_x=0.35,
                               detail_y=0.00)
     print(w)
@@ -179,6 +183,11 @@ def init2():
                               detail_height=0.3,
                               detail_x=0.05,
                               detail_y=0.50)
+
+    print(w)
+
+    wid_mini_map.wid_mini_map_create()
+
     print(w)
 
     game.game_new()
