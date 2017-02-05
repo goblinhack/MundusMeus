@@ -401,7 +401,6 @@ class Level:
                 skip = False
                 for t in chunk.things_on_chunk[ox][oy]:
                     if t.tp.is_wall or \
-                       t.tp.is_rock or \
                        t.tp.is_door or \
                        t.tp.is_landrock or \
                        t.tp.is_cwall:
@@ -422,6 +421,8 @@ class Level:
                        t.tp.is_snow or \
                        t.tp.is_sand or \
                        t.tp.is_corridor or \
+                       t.tp.is_bridge or \
+                       t.tp.is_dusty or \
                        t.tp.is_water:
                         d.cells[x][y] = dmap.FLOOR
                         break

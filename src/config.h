@@ -71,8 +71,8 @@
 /*
  * Map. How many chunks per "screen" across and down.
  */
-#define CHUNK_ACROSS                            (5)
-#define CHUNK_DOWN                              (5)
+#define CHUNK_ACROSS                            (4)
+#define CHUNK_DOWN                              (4)
 
 /*
  * How many tiles per chunk
