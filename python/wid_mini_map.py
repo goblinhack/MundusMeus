@@ -2,6 +2,8 @@ import wid_popup
 import wid
 
 wid_mini_map_menu = None
+wid_horiz_scroll = None
+wid_vert_scroll = None
 
 
 def wid_mini_map_create():
@@ -15,12 +17,13 @@ def wid_mini_map_create():
                            title_tiles="wid3",
                            body_tiles="wid2",
                            width=0.25,
-                           height=0.3)
+                           height=0.3,
+                           x1=0.75,
+                           y1=0.00)
     wid_mini_map_menu = w
 
     w.update()
     w.set_focus()
-    w.move_to_pct_centered(x=0.875, y=0.15)
 
     container = wid.Wid(parent=w.wid_id, name="intro bg")
     container.set_pos_pct(x1=0.05, y1=0.05, x2=0.95, y2=0.95)
@@ -46,8 +49,11 @@ def wid_mini_map_create():
     wid_horiz_scroll.visible()
     wid_vert_scroll.visible()
 
-    wid_vert_scroll.update()
     wid_horiz_scroll.update()
+    wid_vert_scroll.update()
+
+    wid_horiz_scroll.move_to_pct_in(x=1.0, y=0.0, delay=4000)
+    wid_vert_scroll.move_to_pct_in(x=0.0, y=1.0, delay=4000)
 
 
 def destroy():

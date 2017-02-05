@@ -3499,7 +3499,12 @@ static widp wid_new_scroll_bar (widp parent,
 
     widp w = wid_new(parent);
 
-    w->logname = dynprintf("%s[%p]", "scroll bar", w);
+    if (vertical) {
+        w->logname = dynprintf("%s, %s[%p]", name, "vert scroll bar", w);
+    } else {
+        w->logname = dynprintf("%s, %s[%p]", name, "horiz scroll bar", w);
+    }
+
     WID_DBG(w, "%s", __FUNCTION__);
 
     wid_set_rounded_small(w);
@@ -4885,6 +4890,7 @@ static void wid_adjust_scrollbar (widp scrollbar, widp owner)
 
             owner->offset.y = -miny;
             owner->offset.y -= (pct * (child_height - height));
+fprintf(stderr," %s off y %f pct %f \n", wid_logname(scrollbar), owner->offset.y, pct);
 
             scrollbar->tree.tl.y =
                 wid_get_tl_y(scrollbar->parent) +
@@ -4914,6 +4920,7 @@ static void wid_adjust_scrollbar (widp scrollbar, widp owner)
             owner->offset.x = -minx;
             owner->offset.x -= (pct * (child_width - width));
 
+fprintf(stderr," %s off x %f pct %f \n", wid_logname(scrollbar), owner->offset.x, pct);
             scrollbar->tree.tl.x =
                 wid_get_tl_x(scrollbar->parent) +
                 pct * (trough_width - scrollbar_width);
@@ -6188,8 +6195,13 @@ void wid_move_delta (widp w, double dx, double dy)
 
 void wid_move_delta_pct (widp w, double dx, double dy)
 {
-    dx *= (double) game.video_gl_width;
-    dy *= (double) game.video_gl_height;
+    if (!w->parent) {
+        dx *= (double)game.video_gl_width;
+        dy *= (double)game.video_gl_height;
+    } else {
+        dx *= wid_get_width(w->parent);
+        dy *= wid_get_height(w->parent);
+    }
 
     fast_verify(w);
 
@@ -9717,8 +9729,8 @@ void wid_move_all (void)
     while (n--) {
         w = wids[n];
 
-        int32_t x;
-        int32_t y;
+        double x;
+        double y;
 
         if (wid_time >= w->timestamp_moving_end) {
 
@@ -10177,8 +10189,13 @@ void wid_move_to_pct (widp w, double x, double y)
 {
     fast_verify(w);
 
-    x *= (double)game.video_gl_width;
-    y *= (double)game.video_gl_height;
+    if (!w->parent) {
+        x *= (double)game.video_gl_width;
+        y *= (double)game.video_gl_height;
+    } else {
+        x *= wid_get_width(w->parent);
+        y *= wid_get_height(w->parent);
+    }
 
     double dx = x - wid_get_tl_x(w);
     double dy = y - wid_get_tl_y(w);
@@ -10200,8 +10217,13 @@ void wid_move_to_pct_centered (widp w, double x, double y)
 {
     fast_verify(w);
 
-    x *= (double)game.video_gl_width;
-    y *= (double)game.video_gl_height;
+    if (!w->parent) {
+        x *= (double)game.video_gl_width;
+        y *= (double)game.video_gl_height;
+    } else {
+        x *= wid_get_width(w->parent);
+        y *= wid_get_height(w->parent);
+    }
 
     double dx = x - wid_get_tl_x(w);
     double dy = y - wid_get_tl_y(w);
@@ -10364,6 +10386,15 @@ void wid_move_to_pct_in (widp w, double x, double y, uint32_t ms)
         y *= wid_get_height(w->parent);
     }
 
+    /*
+     * Child postion is relative from the parent.
+     */
+    widp p = w->parent;
+    if (p) {
+        x += wid_get_tl_x(p);
+        y += wid_get_tl_y(p);
+    }
+
     wid_move_enqueue(w, wid_get_tl_x(w), wid_get_tl_y(w), x, y, ms);
 }
 
@@ -10447,8 +10478,22 @@ void wid_move_to_pct_centered_in (widp w, double x, double y, uint32_t ms)
 {
     fast_verify(w);
 
-    x *= (double)game.video_gl_width;
-    y *= (double)game.video_gl_height;
+    if (!w->parent) {
+        x *= (double)game.video_gl_width;
+        y *= (double)game.video_gl_height;
+    } else {
+        x *= wid_get_width(w->parent);
+        y *= wid_get_height(w->parent);
+    }
+
+    /*
+     * Child postion is relative from the parent.
+     */
+    widp p = w->parent;
+    if (p) {
+        x += wid_get_tl_x(p);
+        y += wid_get_tl_y(p);
+    }
 
     x -= (wid_get_br_x(w) - wid_get_tl_x(w))/2;
     y -= (wid_get_br_y(w) - wid_get_tl_y(w))/2;
@@ -10460,8 +10505,22 @@ void wid_move_delta_pct_in (widp w, double x, double y, uint32_t ms)
 {
     fast_verify(w);
 
-    x *= (double)game.video_gl_width;
-    y *= (double)game.video_gl_height;
+    if (!w->parent) {
+        x *= (double)game.video_gl_width;
+        y *= (double)game.video_gl_height;
+    } else {
+        x *= wid_get_width(w->parent);
+        y *= wid_get_height(w->parent);
+    }
+
+    /*
+     * Child postion is relative from the parent.
+     */
+    widp p = w->parent;
+    if (p) {
+        x += wid_get_tl_x(p);
+        y += wid_get_tl_y(p);
+    }
 
     wid_move_enqueue(w,
                      wid_get_tl_x(w),
