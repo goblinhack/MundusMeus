@@ -69,19 +69,28 @@
 #define DEFAULT_VIDEO_HEIGHT                    672
 
 /*
- * Map. How many tiles across and down.
+ * Map. How many chunks per "screen" across and down.
  */
 #define CHUNK_ACROSS                            (5)
 #define CHUNK_DOWN                              (5)
 
+/*
+ * How many tiles per chunk
+ */
 #define CHUNK_WIDTH                             (11)
 #define CHUNK_HEIGHT                            (11)
 
+/*
+ * Dungeon size
+ */
 #define MAP_WIDTH                               (CHUNK_WIDTH*CHUNK_ACROSS)
 #define MAP_HEIGHT                              (CHUNK_HEIGHT*CHUNK_DOWN)
 
-#define WORLD_WIDTH                             629
-#define WORLD_HEIGHT                            629
+/*
+ * How many chunks across and down in the world. Image width / chunk width
+ */
+#define WORLD_WIDTH                             186
+#define WORLD_HEIGHT                            186
 #define WORLD_DEPTH                             16
 
 /*

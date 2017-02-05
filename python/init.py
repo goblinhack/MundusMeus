@@ -186,7 +186,7 @@ def init2():
 
     print(w)
 
-    wid_mini_map.wid_mini_map_create()
+    wid_mini_map.create()
 
     print(w)
 

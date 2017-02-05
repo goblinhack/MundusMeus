@@ -4890,7 +4890,6 @@ static void wid_adjust_scrollbar (widp scrollbar, widp owner)
 
             owner->offset.y = -miny;
             owner->offset.y -= (pct * (child_height - height));
-fprintf(stderr," %s off y %f pct %f \n", wid_logname(scrollbar), owner->offset.y, pct);
 
             scrollbar->tree.tl.y =
                 wid_get_tl_y(scrollbar->parent) +
@@ -4920,7 +4919,6 @@ fprintf(stderr," %s off y %f pct %f \n", wid_logname(scrollbar), owner->offset.y
             owner->offset.x = -minx;
             owner->offset.x -= (pct * (child_width - width));
 
-fprintf(stderr," %s off x %f pct %f \n", wid_logname(scrollbar), owner->offset.x, pct);
             scrollbar->tree.tl.x =
                 wid_get_tl_x(scrollbar->parent) +
                 pct * (trough_width - scrollbar_width);
@@ -7583,15 +7581,8 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
     tpp tp = thing_tp(t);
 
     if (game.biome_set_is_land) {
-        /*
-         * No shining water on surface.
-         */
-        if (tp_is_water(tp)) {
-            return;
-        }
-
         if (tp_is_player(tp)) {
-            strength *= 2.0;
+            strength *= 1.5;
         }
     } else {
         /*
