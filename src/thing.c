@@ -11,6 +11,10 @@
 
 tree_root *things;
 
+thingp thing_scratch[THING_SCRATCH_SIZE];
+
+int things_deco_total;
+
 static void thing_destroy_internal(thingp t);
 static int thing_init_done;
 
@@ -64,7 +68,7 @@ thingp thing_new (const char *name,
     /*
      * Too slow with level changes.
      */
-//    THING_LOG(t, "Created thing");
+    THING_LOG(t, "Created thing");
 
     verify(t);
 
@@ -76,6 +80,10 @@ static void thing_destroy_internal (thingp t)
     if (t->wid) {
         wid_set_thing(t->wid, 0);
         wid_destroy_nodelay(&t->wid);
+
+        if (t->is_deco) {
+            things_deco_total--;
+        }
     }
 }
 
@@ -86,7 +94,7 @@ void thing_destroyed_ (thingp t, const char *reason)
     /*
      * Too slow with level changes.
      */
-//    THING_LOG(t, "Destroyed thing");
+    THING_LOG(t, "Destroyed thing");
 
     tree_remove_found_node(things, &t->tree.node);
 

@@ -118,16 +118,14 @@ class Biome(biome.Biome):
                     mm.die("unhandled color {0}, {1}, {2} " +
                            "at {3}, {4}".format(r, g, b, x, y))
 
-                if random.randint(0, 10000) < 100:
-                    self.putc(x, y, charmap.depth.floor, charmap.DUNGEON)
-
-                if is_dungeon:
-                    self.putc(x, y, charmap.depth.floor, charmap.DUNGEON)
+                possible_dungeon = True
 
                 if is_road:
+                    possible_dungeon = False
                     self.putc(x, y, charmap.depth.road, charmap.ROAD)
 
                 if is_grass:
+                    possible_dungeon = False
                     if random.randint(0, 1000) < 10:
                         self.putc(x, y, charmap.depth.dirt, charmap.DIRT)
 
@@ -142,6 +140,7 @@ class Biome(biome.Biome):
                     self.putc(x, y, charmap.depth.sand, charmap.SAND)
 
                 if is_tree:
+                    possible_dungeon = False
                     if random.randint(0, 100) < 30:
                         self.putc(x, y, charmap.depth.floor, charmap.TREE)
                         self.putc(x, y, charmap.depth.grass, charmap.GRASS)
@@ -153,6 +152,7 @@ class Biome(biome.Biome):
                         self.putc(x, y, charmap.depth.sand, charmap.SAND)
 
                 if is_rock:
+                    possible_dungeon = False
                     if random.randint(0, 1000) < 50:
                         self.putc(x, y, charmap.depth.grass, charmap.GRASS)
                     else:
@@ -161,6 +161,7 @@ class Biome(biome.Biome):
                     self.putc(x, y, charmap.depth.wall, charmap.ROCK)
 
                 if is_water:
+                    possible_dungeon = False
                     self.putc(x, y, charmap.depth.under, charmap.WATER)
 
                 if is_dirt:
@@ -203,12 +204,20 @@ class Biome(biome.Biome):
                         self.putc(x, y, charmap.depth.under, charmap.WATER)
 
                 if is_ice:
+                    possible_dungeon = False
                     if random.randint(0, 100) < 35:
                         self.putc(x, y, charmap.depth.ice, charmap.ICE)
                     if random.randint(0, 100) < 5:
                         self.putc(x, y, charmap.depth.wall, charmap.ROCK)
 
                     self.putc(x, y, charmap.depth.under, charmap.WATER)
+
+                if possible_dungeon:
+                    if random.randint(0, 10000) < 10:
+                        self.putc(x, y, charmap.depth.floor, charmap.DUNGEON)
+
+                if is_dungeon:
+                    self.putc(x, y, charmap.depth.floor, charmap.DUNGEON)
 
         #
         # Place start

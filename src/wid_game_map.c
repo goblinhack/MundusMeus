@@ -275,9 +275,9 @@ void wid_game_map_scroll_chunk (int dx, int dy)
                             *tree, node,
                             tree_prev_tree_wid_compare_func_fast) {
 
-                    if (s >= (int) ARRAY_SIZE(wid_scratch)) {
+                    if (s >= (int) ARRAY_SIZE(wid_scratch) - 1) {
                         ERR("exceeded scratch pad size when moving things");
-                        return;
+                        continue;
                     }
 
                     wid_scratch[s++] = node->wid;
@@ -286,8 +286,8 @@ void wid_game_map_scroll_chunk (int dx, int dy)
         }
     }
 
-    while (--s > 0) {
-        widp w = wid_scratch[s];
+    while (s > 0) {
+        widp w = wid_scratch[--s];
 
         thingp t = wid_get_thing(w);
         if (t) {

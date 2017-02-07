@@ -185,6 +185,7 @@ typedef struct thing_ {
      * Used on the map for selecting items.
      */
     uint32_t is_focus:1;
+    uint32_t is_deco:1;
 } thing;
 
 #include "thing_template.h"
@@ -312,4 +313,13 @@ int thing_angle_to_dir(double dx, double dy);
 
 #define FOR_ALL_THINGS_END } }
 
+extern int things_deco_total;
+
 extern tree_root *things;
+
+/*
+ * For temporary walks.
+ */
+#define THING_SCRATCH_SIZE (512 * 1024)
+extern thingp thing_scratch[THING_SCRATCH_SIZE];
+

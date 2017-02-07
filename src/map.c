@@ -332,279 +332,135 @@ thingp map_thing_is_x_at (levelp level,
     return (0);
 }
 
-tree_rootp map_all_things_is_x_at (levelp level,
-                                   int32_t x, int32_t y,
-                                   map_is_at_callback callback)
+static void map_fixup_deco_remove (void)
 {
-    tpp tp;
-    tree_thing_node *node;
-    tree_rootp root;
-    widp grid_wid;
-    widp w;
+    int s = 0;
+    thingp t;
 
-    root = 0;
-
-    grid_wid = game.wid_grid;
-    if (!grid_wid) {
-        DIE1("no grid wid");
-    }
-
-    /*
-     * Look for a floor tile where we can place stuff.
-     */
-    uint8_t z;
-
-    for (z = 0; z < Z_DEPTH; z++) {
-        w = wid_grid_find_first(grid_wid, x, y, z);
-        while (w) {
-            thingp thing_it = wid_get_thing(w);
-
-            if (!thing_it) {
-                w = wid_grid_find_next(grid_wid, w, x, y, z);
+    TREE_WALK_UNSAFE(things, t) {
+        if (t->is_deco) {
+            if (s >= (int) ARRAY_SIZE(thing_scratch)) {
+                ERR("Overflow on thing scratchpad");
                 continue;
             }
 
-            tp = wid_get_thing_template(w);
-            if (tp) {
-                if ((*callback)(tp)) {
-                    if (!root) {
-                        root = tree_alloc(TREE_KEY_POINTER,
-                                        "TREE ROOT: map find things");
-                    }
-
-                    node = (TYPEOF(node))
-                        myzalloc(sizeof(*node), "TREE NODE: map find thing");
-
-                    node->tree.key = (void*)thing_it;
-
-                    if (!tree_insert(root, &node->tree.node)) {
-                        ERR("insert thingp %p", thing_it);
-                    }
-                }
-            }
-
-            w = wid_grid_find_next(grid_wid, w, x, y, z);
+            thing_scratch[s++] = t;
         }
     }
 
-    return (root);
-}
-
-tree_rootp map_all_things_is_x (levelp level,
-                                map_is_at_callback callback)
-{
-    tpp tp;
-    tree_thing_node *node;
-    tree_rootp root;
-    widp grid_wid;
-    widp w;
-    int32_t x;
-    int32_t y;
-
-    root = 0;
-
-    grid_wid = game.wid_grid;
-    if (!grid_wid) {
-        DIE1("no grid wid");
-    }
-
-    uint8_t z;
-
-    for (z = 0; z < Z_DEPTH; z++) {
-        for (y = 0; y < MAP_HEIGHT; y++) {
-            for (x = 0; x < MAP_WIDTH; x++) {
-
-                /*
-                * Look for a floor tile where we can place stuff.
-                */
-                w = wid_grid_find_first(grid_wid, x, y, z);
-                while (w) {
-                    thingp thing_it = wid_get_thing(w);
-
-                    if (!thing_it) {
-                        w = wid_grid_find_next(grid_wid, w, x, y, z);
-                        continue;
-                    }
-
-                    tp = wid_get_thing_template(w);
-                    if (tp) {
-                        if ((*callback)(tp)) {
-                            if (!root) {
-                                root = tree_alloc(TREE_KEY_POINTER,
-                                                "TREE ROOT: map find things");
-                            }
-
-                            node = (TYPEOF(node))
-                                myzalloc(sizeof(*node), "TREE NODE: map find thing");
-
-                            node->tree.key = (void*)thing_it;
-
-                            if (!tree_insert(root, &node->tree.node)) {
-                                ERR("insert thingp %p", thing_it);
-                            }
-                        }
-                    }
-
-                    w = wid_grid_find_next(grid_wid, w, x, y, z);
-                }
-            }
-        }
-    }
-
-    return (root);
-}
-
-static void map_fixup_deco_remove (void)
-{
-    widp w = game.wid_grid;
-
-    if (!w) {
-        return;
-    }
-
-    widgrid *grid;
-
-    grid = w->grid;
-    if (!grid) {
-        return;
-    }
-
-    int32_t x, y, z;
-
-    int s = 0;
-
-    for (z = 0; z < Z_DEPTH; z++) {
-        for (x = 0; x < MAP_WIDTH; x++) {
-            for (y = 0; y < MAP_HEIGHT; y++) {
-
-                tree_root **tree;
-                tree = grid->grid_of_trees[z] + (y * grid->width) + x;
-
-                widgridnode *node;
-
-                TREE_WALK_REVERSE_UNSAFE_INLINE(
-                            *tree, node,
-                            tree_prev_tree_wid_compare_func_fast) {
-
-                    if (s >= (int) ARRAY_SIZE(wid_scratch)) {
-                        ERR("exceeded scratch pad size when moving things");
-                        return;
-                    }
-
-                    thingp t = wid_get_thing(node->wid);
-                    if (t) {
-                        tpp tp = thing_tp(t);
-                        if (tp_is_dirt_deco(tp) ||
-                            tp_is_dirt_snow_deco(tp) ||
-                            tp_is_grass_deco(tp) ||
-                            tp_is_grass_snow_deco(tp) ||
-                            tp_is_gravel_deco(tp) ||
-                            tp_is_sand_deco(tp) ||
-                            tp_is_sand_snow_deco(tp) ||
-                            tp_is_snow_deco(tp)) {
-                            wid_scratch[s++] = node->wid;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    while (--s > 0) {
-        widp w = wid_scratch[s];
-
-        thingp t = wid_get_thing(w);
+    while (s > 0) {
+        thingp t = thing_scratch[--s];
 
         thing_destroyed_(t, "deco cleanup");
+    }
+
+    if (things_deco_total) {
+        ERR("Failed to cleanup decos when cleaning level, %d", things_deco_total);
     }
 }
 
 static char tmp[SMALL_STRING_LEN_MAX];
 static int count;
 
-#define MAP_FIXUP_DECO(DECO) \
-static void map_fixup_deco_ ## DECO (levelp level) \
-{ \
-    int x, y;  \
-    int found = 0; \
- \
-    uint8_t is_at[MAP_WIDTH][MAP_HEIGHT]; \
- \
-	for (x = 0; x < MAP_WIDTH; x++) { \
-		for (y = 0; y < MAP_HEIGHT; y++) { \
-            is_at[x][y] = (map_is_ ## DECO ## _at(level, x, y)) ? 1 : 0; \
-			found++; \
-		} \
-	} \
- \
-	if (!found) { \
-		return; \
-	} \
- \
-	for (x = 1; x < MAP_WIDTH - 1; x++) { \
-		for (y = 1; y < MAP_HEIGHT - 1; y++) { \
-\
-            thingp t; \
- \
-            if (is_at[x][y]) { \
-                continue; \
-            } \
- \
-            if (map_is_ ## DECO ## _deco_at(level, x, y)) { \
-                continue; \
-            } \
- \
-            if (is_at[x-1][y]) { \
-                itoa05(tmp, count++); \
-                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
-                t->wid = wid_game_map_replace_tile(x, y, t); \
-                wid_set_tilename(t->wid, #DECO "_right"); \
-            } \
-            if (is_at[x+1][y]) { \
-                itoa05(tmp, count++); \
-                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
-                t->wid = wid_game_map_replace_tile(x, y, t); \
-                wid_set_tilename(t->wid, #DECO "_left"); \
-            } \
-            if (is_at[x][y-1]) { \
-                itoa05(tmp, count++); \
-                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
-                t->wid = wid_game_map_replace_tile(x, y, t); \
-                wid_set_tilename(t->wid, #DECO "_bot"); \
-            } \
-            if (is_at[x][y+1]) { \
-                itoa05(tmp, count++); \
-                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
-                t->wid = wid_game_map_replace_tile(x, y, t); \
-                wid_set_tilename(t->wid, #DECO "_top"); \
-            } \
-            if (is_at[x-1][y-1]) { \
-                itoa05(tmp, count++); \
-                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
-                t->wid = wid_game_map_replace_tile(x, y, t); \
-                wid_set_tilename(t->wid, #DECO "_br"); \
-            } \
-            if (is_at[x+1][y-1]) { \
-                itoa05(tmp, count++); \
-                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
-                t->wid = wid_game_map_replace_tile(x, y, t); \
-                wid_set_tilename(t->wid, #DECO "_bl"); \
-            } \
-            if (is_at[x-1][y+1]) { \
-                itoa05(tmp, count++); \
-                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
-                t->wid = wid_game_map_replace_tile(x, y, t); \
-                wid_set_tilename(t->wid, #DECO "_tr"); \
-            } \
-            if (is_at[x+1][y+1]) { \
-                itoa05(tmp, count++); \
-                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco"); \
-                t->wid = wid_game_map_replace_tile(x, y, t); \
-                wid_set_tilename(t->wid, #DECO "_tl"); \
-            } \
-        } \
-    } \
-} \
+#define MAP_FIXUP_DECO(DECO)                                                            \
+static void map_fixup_deco_ ## DECO (levelp level)                                      \
+{                                                                                       \
+    int x, y;                                                                           \
+    int found = 0;                                                                      \
+                                                                                        \
+    uint8_t is_at[MAP_WIDTH][MAP_HEIGHT];                                               \
+                                                                                        \
+	for (x = 0; x < MAP_WIDTH; x++) {                                               \
+            for (y = 0; y < MAP_HEIGHT; y++) {                                          \
+                is_at[x][y] = (map_is_ ## DECO ## _at(level, x, y)) ? 1 : 0;            \
+                found++;                                                                \
+            }                                                                           \
+	}                                                                               \
+                                                                                        \
+	if (!found) {                                                                   \
+            return;                                                                     \
+	}                                                                               \
+                                                                                        \
+	for (x = 1; x < MAP_WIDTH - 1; x++) {                                           \
+            for (y = 1; y < MAP_HEIGHT - 1; y++) {                                      \
+                                                                                        \
+            thingp t;                                                                   \
+                                                                                        \
+            if (is_at[x][y]) {                                                          \
+                continue;                                                               \
+            }                                                                           \
+                                                                                        \
+            if (map_is_ ## DECO ## _deco_at(level, x, y)) {                             \
+                continue;                                                               \
+            }                                                                           \
+                                                                                        \
+            if (is_at[x-1][y]) {                                                        \
+                itoa05(tmp, count++);                                                   \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
+                things_deco_total++;                                                    \
+                t->is_deco = true;                                                      \
+                t->wid = wid_game_map_replace_tile(x, y, t);                            \
+                wid_set_tilename(t->wid, #DECO "_right");                               \
+            }                                                                           \
+            if (is_at[x+1][y]) {                                                        \
+                itoa05(tmp, count++);                                                   \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
+                things_deco_total++;                                                    \
+                t->is_deco = true;                                                      \
+                t->wid = wid_game_map_replace_tile(x, y, t);                            \
+                wid_set_tilename(t->wid, #DECO "_left");                                \
+            }                                                                           \
+            if (is_at[x][y-1]) {                                                        \
+                itoa05(tmp, count++);                                                   \
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
+                things_deco_total++;                                                    \
+                t->is_deco = true;                                                      \
+                t->wid = wid_game_map_replace_tile(x, y, t);                            \
+                wid_set_tilename(t->wid, #DECO "_bot");                                 \
+            }                                               			        \
+            if (is_at[x][y+1]) {                                                        \
+                itoa05(tmp, count++);                                               	\
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
+                things_deco_total++;                                                    \
+                t->is_deco = true;                                              	\
+                t->wid = wid_game_map_replace_tile(x, y, t);                            \
+                wid_set_tilename(t->wid, #DECO "_top");                                 \
+            }                                               				\
+            if (is_at[x-1][y-1]) {                                              	\
+                itoa05(tmp, count++);                                               	\
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
+                things_deco_total++;                                                    \
+                t->is_deco = true;                                              	\
+                t->wid = wid_game_map_replace_tile(x, y, t);                            \
+                wid_set_tilename(t->wid, #DECO "_br");                                  \
+            }                                               				\
+            if (is_at[x+1][y-1]) {                                              	\
+                itoa05(tmp, count++);                                               	\
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
+                things_deco_total++;                                                   	\
+                t->is_deco = true;                                              	\
+                t->wid = wid_game_map_replace_tile(x, y, t);                            \
+                wid_set_tilename(t->wid, #DECO "_bl");                                  \
+            }                                               				\
+            if (is_at[x-1][y+1]) {                                              	\
+                itoa05(tmp, count++);                                               	\
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
+                things_deco_total++;                                                   	\
+                t->is_deco = true;                                              	\
+                t->wid = wid_game_map_replace_tile(x, y, t);                            \
+                wid_set_tilename(t->wid, #DECO "_tr");                                  \
+            }                                               				\
+            if (is_at[x+1][y+1]) {                                              	\
+                itoa05(tmp, count++);                                               	\
+                t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
+                things_deco_total++;                                                   	\
+                t->is_deco = true;                                              	\
+                t->wid = wid_game_map_replace_tile(x, y, t);                            \
+                wid_set_tilename(t->wid, #DECO "_tl");                                  \
+            }                                               				\
+        }                                               				\
+    }                                               					\
+} 					                                                \
 
 MAP_FIXUP_DECO(grass)
 MAP_FIXUP_DECO(snow)
