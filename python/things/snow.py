@@ -11,6 +11,7 @@ def snow_init(name, short_name, long_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_is_snow(True)
     x.set_is_solid_ground(True)
+    x.set_is_world(True)
     x.set_z_depth("snow")
 
     if tiles is not None:

@@ -185,6 +185,10 @@ typedef struct thing_ {
      * Used on the map for selecting items.
      */
     uint32_t is_focus:1;
+
+    /*
+     * Temporary level decorations that can be ignored.
+     */
     uint32_t is_deco:1;
 } thing;
 

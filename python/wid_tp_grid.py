@@ -28,32 +28,32 @@ class Item(Enum):
     food = 6
 
 
-def wid_tp_grid_on_m_down_filter_1(w, x, y, button):
+def wid_tp_grid_on_m_down_filter_all_items(w, x, y, button):
     wid_tp_grid_filter(w, Item.all.value)
     return True
 
 
-def wid_tp_grid_on_m_down_filter_2(w, x, y, button):
+def wid_tp_grid_on_m_down_filter_weapon_items(w, x, y, button):
     wid_tp_grid_filter(w, Item.weapon.value)
     return True
 
 
-def wid_tp_grid_on_m_down_filter_3(w, x, y, button):
+def wid_tp_grid_on_m_down_filter_magic_items(w, x, y, button):
     wid_tp_grid_filter(w, Item.magical.value)
     return True
 
 
-def wid_tp_grid_on_m_down_filter_4(w, x, y, button):
+def wid_tp_grid_on_m_down_filter_defensive_items(w, x, y, button):
     wid_tp_grid_filter(w, Item.armor.value)
     return True
 
 
-def wid_tp_grid_on_m_down_filter_5(w, x, y, button):
+def wid_tp_grid_on_m_down_filter_healing_items(w, x, y, button):
     wid_tp_grid_filter(w, Item.healing.value)
     return True
 
 
-def wid_tp_grid_on_m_down_filter_6(w, x, y, button):
+def wid_tp_grid_on_m_down_filter_edible_items(w, x, y, button):
     wid_tp_grid_filter(w, Item.food.value)
     return True
 
@@ -147,32 +147,32 @@ class WidTpGrid(wid_popup.WidPopup):
 
         button_events = (
                 {
-                    "on_m_down": wid_tp_grid_on_m_down_filter_1,
+                    "on_m_down": wid_tp_grid_on_m_down_filter_all_items,
                     "tiles": "button_green",
                     "tooltip": "All items",
                 },
                 {
-                    "on_m_down": wid_tp_grid_on_m_down_filter_2,
+                    "on_m_down": wid_tp_grid_on_m_down_filter_weapon_items,
                     "tiles": "button_green",
                     "tooltip": "weapon filter",
                 },
                 {
-                    "on_m_down": wid_tp_grid_on_m_down_filter_3,
+                    "on_m_down": wid_tp_grid_on_m_down_filter_magic_items,
                     "tiles": "button_green",
                     "tooltip": "Magical items filter",
                 },
                 {
-                    "on_m_down": wid_tp_grid_on_m_down_filter_4,
+                    "on_m_down": wid_tp_grid_on_m_down_filter_defensive_items,
                     "tiles": "button_green",
                     "tooltip": "Defensive items filter",
                 },
                 {
-                    "on_m_down": wid_tp_grid_on_m_down_filter_5,
+                    "on_m_down": wid_tp_grid_on_m_down_filter_healing_items,
                     "tiles": "button_green",
                     "tooltip": "Healing items filter",
                 },
                 {
-                    "on_m_down": wid_tp_grid_on_m_down_filter_6,
+                    "on_m_down": wid_tp_grid_on_m_down_filter_edible_items,
                     "tiles": "button_green",
                     "tooltip": "Edible items filter",
                 },
@@ -186,12 +186,12 @@ class WidTpGrid(wid_popup.WidPopup):
                 title=True,
                 center=True,
                 on_button_list=button_events,
-                text=" [%%tile=icon_star$] " +
-                     "[%%tile=icon_sword$] " +
-                     "[%%tile=icon_magic$] " +
-                     "[%%tile=icon_shield$] " +
-                     "[%%tile=icon_heal$] " +
-                     "[%%tile=icon_food$]"
+                text=" [%%tile=skull1.1$] " +
+                     "[%%tile=sword_wooden1.1$] " +
+                     "[%%tile=spellbook1.1$] " +
+                     "[%%tile=shield1.1$] " +
+                     "[%%tile=potion1.1$] " +
+                     "[%%tile=brocolli$]"
                 )
 
         self.tp_sorted_name_list = []
@@ -282,7 +282,7 @@ class WidTpGrid(wid_popup.WidPopup):
                     center=True,
                     font="small",
                     color="white",
-                    text="-_nothing--")
+                    text="--nothing--")
 
         w.update()
         w.set_focus()

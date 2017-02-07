@@ -14,6 +14,7 @@ def landrock_init(name):
     x.set_is_solid_ground(True)
     x.set_z_depth("wall")
     x.set_is_shadow_caster(True)
+    x.set_is_world(True)
 
     x.set_tile(tile=name + "_up_down", is_join_vert=True)
     x.set_tile(tile=name + "_left_right", is_join_horiz=True)

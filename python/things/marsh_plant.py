@@ -22,6 +22,7 @@ def marsh_plant1_init(d1000_roll, tiles=[]):
     x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_marsh_plant(True)
+    x.set_is_world(True)
     x.set_z_depth("floor2")
 
     for t in tiles:

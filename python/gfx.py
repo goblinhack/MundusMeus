@@ -3557,7 +3557,7 @@ def init_tiles_items():
         "feather1.2",
         "bonepile1.1",
         "eyeball1.1",
-        "",
+        "all_items",
         "",
         "",
         "",
@@ -4670,29 +4670,6 @@ def init_tiles_button_red():
     mm.wid_tiles_load(
             name="button_red",
             scale=0.5)
-
-
-def init_tiles_icon1():
-
-    mm.tex_load_tiled(
-            file="data/gfx/icon1.tga",
-            name="icon1",
-            width=480, height=48)
-
-    tiles = [
-        "icon_sword",
-        "icon_magic",
-        "icon_shield",
-        "icon_heal",
-        "icon_food",
-        "icon_star",
-    ]
-
-    mm.tile_load_arr(
-            tex_name="icon1",
-            tex_name_black_and_white="",
-            width=48, height=48,
-            arr=tiles)
 
 
 def init_tiles_creatures():
@@ -6190,7 +6167,6 @@ init_tiles_wid3()
 init_tiles_button_plain()
 init_tiles_button_red()
 init_tiles_button_green()
-init_tiles_icon1()
 init_tiles_sea()
 init_tiles_walls()
 init_tiles_land()

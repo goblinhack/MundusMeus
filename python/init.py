@@ -89,6 +89,10 @@ def load_one_plugin(filename):
         global wid_tp_grid
         wid_tp_grid = py_mod
 
+    if basename(filename) == "wid_tp_editor.py":
+        global wid_tp_editor
+        wid_tp_editor = py_mod
+
     if basename(filename) == "wid_tp_detail.py":
         global wid_tp_detail
         wid_tp_detail = py_mod
@@ -187,6 +191,20 @@ def init2():
     print(w)
 
     wid_mini_map.create()
+
+    print(w)
+
+    w = wid_tp_editor.WidTpGrid(name="tp window",
+                                tiles="wid2",
+                                body_tiles="wid1",
+                                width=1.0,
+                                height=0.9,
+                                x=0.0,
+                                y=0.0,
+                                detail_width=0.40,
+                                detail_height=0.3,
+                                detail_x=0.05,
+                                detail_y=0.50)
 
     print(w)
 
