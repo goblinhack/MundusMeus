@@ -539,6 +539,10 @@ extern GLuint render_buf_id1;
 extern GLuint fbo_id1;
 extern GLuint fbo_tex_id1;
 
+extern GLuint render_buf_id_wid;
+extern GLuint fbo_id_wid;
+extern GLuint fbo_tex_id_wid;
+
 #ifdef _WIN32
 extern PFNGLCREATEPROGRAMPROC glCreateProgram_EXT;
 extern PFNGLDELETEPROGRAMPROC glDeleteProgram_EXT;

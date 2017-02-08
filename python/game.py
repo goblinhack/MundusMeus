@@ -33,7 +33,7 @@ class Game:
 
     def new_game(self):
 
-        self.sdl_delay = 1
+        self.sdl_delay = 5
         self.move_count = 0
         self.moves_per_day = 1000
         self.seed = 10

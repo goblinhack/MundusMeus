@@ -329,7 +329,7 @@ static void wid_console_wid_create (void)
 #endif
 
     color c = BLACK;
-    c.a = 0;
+    c.a = 100;
     wid_set_color(wid_console_window, WID_COLOR_BG, c);
     wid_set_color(wid_console_window, WID_COLOR_TL, c);
     wid_set_color(wid_console_window, WID_COLOR_BR, c);

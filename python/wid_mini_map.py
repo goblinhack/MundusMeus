@@ -29,23 +29,25 @@ class MiniMap(object):
         w.update()
         w.set_focus()
 
-        container = wid.Wid(parent=w.wid_id, name="intro bg")
-        container.set_pos_pct(x1=0.05, y1=0.05, x2=0.95, y2=0.95)
-        container.set_color(tl=True, bg=True, br=True, name="white")
+        self.container = wid.Wid(parent=w.wid_id, name="intro bg")
+        self.container.set_pos_pct(x1=0.05, y1=0.05, x2=0.95, y2=0.95)
+        self.container.set_color(tl=True, bg=True, br=True, name="white")
 
         self.vscroll = wid.Wid(name="wid_mini_map_vert_scroll",
                                is_scrollbar=True,
                                vert=True,
                                parent=w.wid_id,
-                               owner=container.wid_id)
+                               owner=self.container.wid_id)
 
         self.hscroll = wid.Wid(name="wid_mini_map_horiz_scroll",
                                is_scrollbar=True,
                                horiz=True,
                                parent=w.wid_id,
-                               owner=container.wid_id)
+                               owner=self.container.wid_id)
 
-        mini_map = wid.Wid(parent=container.wid_id, name="intro bg")
+        mini_map = wid.Wid(parent=self.container.wid_id,
+                           name="intro bg")
+
         mini_map.set_pos_pct(x1=0, y1=0,
                              x2=self.map_scale,
                              y2=self.map_scale)
@@ -59,9 +61,6 @@ class MiniMap(object):
         self.hscroll.update()
         self.vscroll.update()
 
-#    self.hscroll.move_to_pct_in(x=1.0, y=0.0, delay=4000)
-#    self.vscroll.move_to_pct_in(x=0.0, y=1.0, delay=4000)
-
     def destroy(self):
         self.wid_mini_map_menu.destroy()
 
@@ -73,16 +72,20 @@ class MiniMap(object):
             self.wid_location.destroy()
 
         self.wid_location = wid_popup.WidPopup(
+                                        parent=self.wid_mini_map_menu.wid_id,
                                         name="wid_location",
-                                        width=0.2)
+                                        width=1.0,
+                                        height=1.0,
+                                        x1=0.07,
+                                        y1=0.07)
         w = self.wid_location
 
         text = ""
 
-        text += "%%fg=white$Hour%%fg=green${0}%%fg=reset$\n".format(
+        text += "%%fg=white$Hour%%fg=green$ {0}%%fg=reset$\n".format(
             g.hour_str)
 
-        text += "%%fg=white$Day%%fg=green${0}%%fg=reset$\n".format(
+        text += "%%fg=white$Day%%fg=green$ {0}%%fg=reset$\n".format(
             g.day)
 
         text += "%%fg=white$Latitude %%fg=green${0}%%fg=reset$\n".format(
@@ -100,9 +103,10 @@ class MiniMap(object):
 
         w.add_text(font="fixed", text=text)
 
-        w.set_color(bg=True, tl=True, br=True, name="blue", alpha=0.0)
+        w.set_color(bg=True, tl=True, br=True, name="blue", alpha=1.0)
         w.update()
-        w.move_to_pct_centered(x=0.865, y=0.105)
+        w.to_front()
+
         w.set_movable(value=False)
         w.set_ignore_events(value=True)
 

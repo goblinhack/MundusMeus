@@ -151,9 +151,14 @@ GLuint render_buf_id1;
 GLuint fbo_id1;
 GLuint fbo_tex_id1;
 
+GLuint render_buf_id_wid;
+GLuint fbo_id_wid;
+GLuint fbo_tex_id_wid;
+
 static void gl_init_fbo (void)
 {
     gl_init_fbo_(&render_buf_id1, &fbo_id1, &fbo_tex_id1);
+    gl_init_fbo_(&render_buf_id_wid, &fbo_id_wid, &fbo_tex_id_wid);
 }
 
 /*

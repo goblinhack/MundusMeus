@@ -9406,6 +9406,8 @@ static void wid_display (widp w,
     }
 
     if (w->grid) {
+        glBindFramebuffer_EXT(GL_FRAMEBUFFER, 0);
+
         int16_t maxx;
         int16_t minx;
         int16_t maxy;
@@ -9659,6 +9661,7 @@ static void wid_display (widp w,
 #endif
         }
 
+        glBindFramebuffer_EXT(GL_FRAMEBUFFER, fbo_id_wid);
     } else {
         widp child;
 
@@ -9686,6 +9689,7 @@ static void wid_display (widp w,
             blit_flush();
         }
     }
+
     if (w->on_display) {
         (w->on_display)(w, tl, br);
     }
@@ -9893,11 +9897,57 @@ static void wid_mouse_blit (void)
  */
 void wid_display_all (void)
 {
+    static int count;
+
     wid_tick_all();
 
     wid_move_all();
 
     widp w;
+
+    w = game.wid_map;
+
+    /*
+     * This is a hack so we only update the UI every x frames, to save burning 
+     * the CPU
+     */
+    if (w && (++count < 10)) {
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        glClearColor(0,0,0,0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glcolor(WHITE);
+
+        glBindFramebuffer_EXT(GL_FRAMEBUFFER, 0);
+
+        glEnable(GL_SCISSOR_TEST);
+
+        wid_display(game.wid_map,
+                    false /* disable_scissors */,
+                    0 /* updated_scissors */,
+                    true);
+
+        if (w->on_display_win) {
+            (w->on_display_win)(w);
+        }
+
+        glDisable(GL_SCISSOR_TEST);
+
+        glBindFramebuffer_EXT(GL_FRAMEBUFFER, 0);
+
+        goto blit;
+    }
+
+    count = 0;
+
+    {
+        glBindFramebuffer_EXT(GL_FRAMEBUFFER, fbo_id_wid);
+        glClearColor(0,0,0,0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glcolor(WHITE);
+    }
+
+    glBindFramebuffer_EXT(GL_FRAMEBUFFER, fbo_id_wid);
 
     glEnable(GL_SCISSOR_TEST);
 
@@ -9919,6 +9969,21 @@ void wid_display_all (void)
     } }
 
     glDisable(GL_SCISSOR_TEST);
+
+blit:
+    glBindFramebuffer_EXT(GL_FRAMEBUFFER, 0);
+
+    {
+        uint32_t tw = game.video_pix_width;
+        uint32_t th = game.video_pix_height;
+        double window_w = tw;
+        double window_h = th;
+
+        blit_init();
+        glcolor(WHITE);
+        blit(fbo_tex_id_wid, 0.0, 1.0, 1.0, 0.0, 0, 0, window_w, window_h);
+        blit_flush();
+    }
 
     if (wid_mouse_visible) {
         wid_mouse_blit();

@@ -194,19 +194,19 @@ def init2():
 
     print(w)
 
-    w = wid_tp_editor.WidTpGrid(name="tp window",
-                                tiles="wid2",
-                                body_tiles="wid1",
-                                width=1.0,
-                                height=0.9,
-                                x=0.0,
-                                y=0.0,
-                                detail_width=0.40,
-                                detail_height=0.3,
-                                detail_x=0.05,
-                                detail_y=0.50)
-
-    print(w)
+#    w = wid_tp_editor.WidTpGrid(name="tp window",
+#                                tiles="wid2",
+#                                body_tiles="wid1",
+#                                width=1.0,
+#                                height=0.9,
+#                                x=0.0,
+#                                y=0.0,
+#                                detail_width=0.40,
+#                                detail_height=0.3,
+#                                detail_x=0.05,
+#                                detail_y=0.50)
+#
+#    print(w)
 
     game.game_new()
 
