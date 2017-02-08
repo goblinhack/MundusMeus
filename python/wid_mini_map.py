@@ -82,10 +82,10 @@ class MiniMap(object):
 
         text = ""
 
-        text += "%%fg=white$Hour%%fg=green$ {0}%%fg=reset$\n".format(
+        text += "%%fg=white$Hour %%fg=green${0}%%fg=reset$\n".format(
             g.hour_str)
 
-        text += "%%fg=white$Day%%fg=green$ {0}%%fg=reset$\n".format(
+        text += "%%fg=white$Day %%fg=green${0}%%fg=reset$\n".format(
             g.day)
 
         text += "%%fg=white$Latitude %%fg=green${0}%%fg=reset$\n".format(
@@ -101,7 +101,7 @@ class MiniMap(object):
             text += "Depth %%fg=green${0} feet%%fg=reset\n".format(
                 -l.where.z * 10)
 
-        w.add_text(font="fixed", text=text)
+        w.add_text(font="small", text=text)
 
         w.set_color(bg=True, tl=True, br=True, name="blue", alpha=1.0)
         w.update()

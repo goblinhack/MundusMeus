@@ -188,7 +188,7 @@ uint8_t wid_console_receive_input (widp w, const SDL_KEYSYM *key)
  */
 static void wid_console_wid_create (void)
 {
-    fontp font = fixed_font;
+    fontp font = small_font;
 
     {
         fpoint tl = {0.0f, 0.0f};
@@ -233,7 +233,7 @@ static void wid_console_wid_create (void)
         ttf_text_size(&font,
                       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                       &w, &h, 0, 0, 1.0f, 1.0f,
-                      true /* fixed width */);
+                      false /* fixed width */);
 
         wid_console_max_line_height =
                         (float)h / (float)wid_get_height(wid_console_container);
@@ -270,8 +270,8 @@ static void wid_console_wid_create (void)
             wid_set_pos_pct(child, tl, br);
             wid_set_text_lhs(child, true);
             wid_set_text_bot(child, true);
-            wid_set_text_fixed_width(child, true);
-            wid_set_text_outline(child, false);
+            wid_set_text_fixed_width(child, false);
+            wid_set_text_outline(child, true);
             wid_set_font(child, font);
 
             wid_set_prev(child, prev);
@@ -292,8 +292,8 @@ static void wid_console_wid_create (void)
                 wid_set_pos_pct(prefix, tl, br);
                 wid_set_text_lhs(prefix, true);
                 wid_set_text_bot(prefix, true);
-                wid_set_text_fixed_width(prefix, true);
-                wid_set_text_outline(prefix, false);
+                wid_set_text_fixed_width(prefix, false);
+                wid_set_text_outline(prefix, true);
                 wid_set_font(prefix, font);
 #ifdef CONSOLE_MAGIC_KEY
                 wid_set_text(prefix, ">");

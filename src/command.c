@@ -255,7 +255,7 @@ static int32_t command_matches (const char *input,
             tokens_print_to(&command->readable_tokens, match2, sizeof(match2));
 
             if (show_ambiguous) {
-                CON("  %-40s -- %s", match, match2);
+                CON("  %s -- %s", match, match2);
             }
         } else {
 // CON("  NO MATCH \"%s\" [%d] longest %d", match,t,longest_match);
