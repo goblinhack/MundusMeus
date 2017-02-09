@@ -89,7 +89,12 @@ tree_root *split (const char *text, uint32_t max_line_len)
                         text += 5;
                         line_len -= 2; /* for the %% */
                         (void) string2font(&text);
-
+                        found_format_string = false;
+                        continue;
+                    } else if (!strncmp(text, "tp=", 3)) {
+                        text += 3;
+                        line_len -= 2; /* for the %% */
+                        (void) string2tp(&text);
                         found_format_string = false;
                         continue;
                     } else if (!strncmp(text, "tex=", 4)) {
@@ -222,6 +227,33 @@ enum_fmt string2fmt (const char **s)
     }
 
     return (val);
+}
+
+tpp string2tp (const char **s)
+{
+    static char tmp[MAXSTR];
+    static const char *eo_tmp = tmp + MAXSTR;
+    const char *c = *s;
+    char *t = tmp;
+
+    while (t < eo_tmp) {
+        if ((*c == '\0') || (*c == '$')) {
+            break;
+        }
+
+        *t++ = *c++;
+    }
+
+    if (c == eo_tmp) {
+        return (0);
+    }
+
+    *t++ = '\0';
+    *s += (t - tmp);
+
+    tpp tp = tp_find(tmp);
+
+    return (tp);
 }
 
 ENUM_DEF_C(ENUM_FONT, enum_font)

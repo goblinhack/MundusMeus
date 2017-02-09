@@ -237,7 +237,7 @@ class WidTpGrid(wid_popup.WidPopup):
 
         font = "vlarge"
         tile_width, _unused_h, _unused_c = \
-            mm.text_size_pct(font=font, text="[%%tile=player1.1$] ")
+            mm.text_size_pct(font=font, text="[%%tp=player1.1$] ")
         self.across = int(self.width / tile_width)
         self.down = int((added / self.across) + 1)
 
@@ -266,9 +266,9 @@ class WidTpGrid(wid_popup.WidPopup):
                         },
                     )
 
-                tile = tpp.tiles[0]
+#                tile = tpp.tiles[0]
 
-                text += "[%%tile=" + tile + "$] "
+                text += "[%%tp=" + name + "$] "
 
             if text != "":
                 w.add_text(

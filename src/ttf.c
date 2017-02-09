@@ -12,6 +12,7 @@
 #include "ramdisk.h"
 #include "time_util.h"
 #include "string_ext.h"
+#include "thing_tile.h"
 #include "font.h"
 
 #ifdef ENABLE_GENERATE_TTF
@@ -164,6 +165,15 @@ void ttf_text_size (font **f, const char *text_in,
 
 		    found_format_string = false;
 		    continue;
+		} else if (!strncmp(text, "tp=", 3)) {
+		    text += 3;
+                    (void)string2tp(&text);
+
+                    x += (*f)->glyphs[(int)TTF_FIXED_WIDTH_CHAR].width * 
+                                    scaling * advance * tile_stretch;
+
+		    found_format_string = false;
+		    continue;
 		}
 	    }
 	}
@@ -305,6 +315,7 @@ static void ttf_puts_internal (font *f, const char *text,
     int32_t c;
     texp tex;
     tilep tile;
+    tpp tp;
     color fg;
     double x_start = x;
 
@@ -376,8 +387,8 @@ static void ttf_puts_internal (font *f, const char *text,
 		    text += 5;
                     tile = string2tile(&text);
 
-                    point tl;
-                    point br;
+                    fpoint tl;
+                    fpoint br;
 
                     double bx = x;
 
@@ -391,6 +402,54 @@ static void ttf_puts_internal (font *f, const char *text,
                     swap(br.y, tl.y);
 
                     tile_blit_at(tile, 0, tl, br);
+
+                    x = bx;
+                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * tile_stretch;
+
+		    found_format_string = false;
+		    continue;
+
+		} else if (!strncmp(text, "tp=", 3)) {
+		    text += 3;
+                    tp = string2tp(&text);
+
+                    tree_rootp thing_tiles;
+                    const char *tilename;
+                    tilep tile = 0;
+
+                    thing_tiles = tp_get_tiles(tp);
+                    if (!thing_tiles) {
+                        ERR("tp %s has no tiles", tp_name(tp));
+                    }
+
+                    thing_tilep thing_tile;
+
+                    /*
+                     * Get the first anim tile.
+                     */
+                    thing_tile = (TYPEOF(thing_tile)) tree_root_get_random(thing_tiles);
+
+                    /*
+                     * Find the real tile that corresponds to this name.
+                     */
+                    tilename = thing_tile_name(thing_tile);
+                    tile = tile_find(tilename);
+
+                    fpoint tl;
+                    fpoint br;
+
+                    double bx = x;
+
+                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (0.125);
+
+                    tl.x = (x);
+                    tl.y = (y);
+                    br.x = (x + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling * tile_stretch);
+                    br.y = (y + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].height * (scaling));
+
+                    swap(br.y, tl.y);
+
+                    tile_blit_fat(tp, tile, 0, tl, br);
 
                     x = bx;
                     x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * tile_stretch;

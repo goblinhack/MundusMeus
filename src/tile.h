@@ -316,7 +316,7 @@ void tile_blit_fat_black_and_white (tpp tp, tile *tile, char *name, fpoint tl, f
  * Blits a whole tile.
  */
 static inline
-void tile_blit_at (tile *tile, char *name, point tl, point br)
+void tile_blit_at (tile *tile, char *name, fpoint tl, fpoint br)
 {
 #if 0
     if (!tile) {
@@ -338,7 +338,7 @@ void tile_blit_at (tile *tile, char *name, point tl, point br)
 static inline
 void tile_blit (tile *tile, char *name, point at)
 {
-    point tl, br;
+    fpoint tl, br;
 
 #if 0
     if (!tile) {

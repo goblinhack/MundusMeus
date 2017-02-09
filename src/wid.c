@@ -159,6 +159,8 @@ widp wid_mouse_template;
 static uint8_t wid_init_done;
 static uint8_t wid_exiting;
 
+static int wid_display_count;
+
 tree_rootp wid_timers;
 
 /*
@@ -6553,6 +6555,8 @@ void wid_mouse_motion (int32_t x, int32_t y,
 {
     int got_one = false;
 
+    wid_display_count += 2;
+
     if (!wid_mouse_visible) {
         return;
     }
@@ -9093,7 +9097,7 @@ static void wid_display (widp w,
                 int tiles_down = floor(wid_h / tile_h);
                 int tile_x, tile_y;
 
-                point p, q;
+                fpoint p, q;
 
                 for (tile_x = 0; tile_x < tiles_across; tile_x++) {
                     for (tile_y = 0; tile_y < tiles_down; tile_y++) {
@@ -9879,8 +9883,8 @@ static void wid_mouse_blit (void)
     }
 
     double size = ((double)game.video_gl_width) / 80.0;
-    point tl;
-    point br;
+    fpoint tl;
+    fpoint br;
 
     tl.x = x - size;
     tl.y = y - size;
@@ -9897,8 +9901,6 @@ static void wid_mouse_blit (void)
  */
 void wid_display_all (void)
 {
-    static int count;
-
     wid_tick_all();
 
     wid_move_all();
@@ -9911,7 +9913,7 @@ void wid_display_all (void)
      * This is a hack so we only update the UI every x frames, to save burning 
      * the CPU
      */
-    if (w && (++count < 10)) {
+    if (w && (++wid_display_count < 20)) {
         glBindTexture(GL_TEXTURE_2D, 0);
 
         glClearColor(0,0,0,0);
@@ -9938,7 +9940,7 @@ void wid_display_all (void)
         goto blit;
     }
 
-    count = 0;
+    wid_display_count = 0;
 
     {
         glBindFramebuffer_EXT(GL_FRAMEBUFFER, fbo_id_wid);
