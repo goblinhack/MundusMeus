@@ -8042,7 +8042,7 @@ static void wid_display_fast (widp w,
 	}
     }
 
-    tile_blit_fat(tp, tile, 0, tl, br);
+    tile_blit_fat(tp, tile, 0, &tl, &br);
 }
 
 static void map_light_add_ray_depth (fpoint p,

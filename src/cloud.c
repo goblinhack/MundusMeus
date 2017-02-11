@@ -69,7 +69,7 @@ void cloud_tick (void)
         tl.y += w / 10;
         br.x += w / 20;
         br.y += w / 10;
-        tile_blit_fat(0, tile, 0, tl, br);
+        tile_blit_fat(0, tile, 0, &tl, &br);
 
         f++;
     }
@@ -90,7 +90,7 @@ void cloud_tick (void)
         color c = WHITE;
         c.a = 150.0;
         glcolor(c);
-        tile_blit_fat(0, tile, 0, tl, br);
+        tile_blit_fat(0, tile, 0, &tl, &br);
 
         f++;
     }

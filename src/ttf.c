@@ -404,7 +404,7 @@ static void ttf_puts_internal (font *f, const char *text,
                     tile_blit_at(tile, 0, tl, br);
 
                     x = bx;
-                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * tile_stretch;
+                    x += br.x - tl.x;
 
 		    found_format_string = false;
 		    continue;
@@ -412,28 +412,7 @@ static void ttf_puts_internal (font *f, const char *text,
 		} else if (!strncmp(text, "tp=", 3)) {
 		    text += 3;
                     tp = string2tp(&text);
-
-                    tree_rootp thing_tiles;
-                    const char *tilename;
-                    tilep tile = 0;
-
-                    thing_tiles = tp_get_tiles(tp);
-                    if (!thing_tiles) {
-                        ERR("tp %s has no tiles", tp_name(tp));
-                    }
-
-                    thing_tilep thing_tile;
-
-                    /*
-                     * Get the first anim tile.
-                     */
-                    thing_tile = (TYPEOF(thing_tile)) tree_root_get_random(thing_tiles);
-
-                    /*
-                     * Find the real tile that corresponds to this name.
-                     */
-                    tilename = thing_tile_name(thing_tile);
-                    tile = tile_find(tilename);
+                    tilep tile = tp_first_tile(tp);
 
                     fpoint tl;
                     fpoint br;
@@ -447,12 +426,11 @@ static void ttf_puts_internal (font *f, const char *text,
                     br.x = (x + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling * tile_stretch);
                     br.y = (y + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].height * (scaling));
 
-                    swap(br.y, tl.y);
-
-                    tile_blit_fat(tp, tile, 0, tl, br);
+                    tile_blit_fat(tp, tile, 0, &tl, &br);
 
                     x = bx;
-                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * tile_stretch;
+
+                    x += br.x - tl.x;
 
 		    found_format_string = false;
 		    continue;

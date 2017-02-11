@@ -1010,3 +1010,5 @@ static inline uint8_t tp_is_effect_fade_in_out (tpp t)
 {
     return (t->is_effect_fade_in_out);
 }
+
+tilep tp_first_tile(tpp tp);

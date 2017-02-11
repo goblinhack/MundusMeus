@@ -375,3 +375,26 @@ tree_rootp tp_get_tiles (tpp t)
 {
     return (t->tiles);
 }
+
+tilep tp_first_tile (tpp tp)
+{
+    tree_rootp thing_tiles;
+
+    thing_tiles = tp_get_tiles(tp);
+    if (!thing_tiles) {
+        DIE("tp %s has no tiles", tp_name(tp));
+    }
+
+    thing_tilep thing_tile;
+
+    /*
+     * Get the first anim tile.
+     */
+    thing_tile = (TYPEOF(thing_tile)) tree_root_first(thing_tiles);
+
+    if (!thing_tile) {
+        DIE("tp %s has no tiles", tp_name(tp));
+    }
+
+    return (thing_tile->tile);
+}

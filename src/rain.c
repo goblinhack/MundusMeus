@@ -105,7 +105,7 @@ void rain_tick (int intensity)
             f->x += wind - 0.5;
         }
 
-        tile_blit_fat(0, tile, 0, tl, br);
+        tile_blit_fat(0, tile, 0, &tl, &br);
 
         f++;
     }

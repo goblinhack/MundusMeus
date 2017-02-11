@@ -37,20 +37,8 @@ void tile_get_coords(tilep, float *x1, float *y1, float *x2, float *y2);
  * Blits a whole tile. Y co-ords are inverted.
  */
 static inline
-void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
+void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint *tl, fpoint *br)
 {
-    if (unlikely(!tile)) {
-        if (!name) {
-            DIE("no name for tile blit, %s", __FUNCTION__);
-        }
-
-        tile = tile_find(name);
-
-        if (unlikely(!tile)) {
-            return;
-        }
-    }
-
     double x1;
     double x2;
     double y1;
@@ -89,13 +77,13 @@ void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
 
         double pct_w     = tile->pct_width;
         double pct_h     = tile->pct_height;
-        double pix_w     = br.x - tl.x;
-        double pix_h     = br.y - tl.y;
+        double pix_w     = br->x - tl->x;
+        double pix_h     = br->y - tl->y;
 
-        tl.x -= left_off  * pix_w;
-        br.x += right_off * pix_w;
-        tl.y -= top_off   * pix_h;
-        br.y += bot_off   * pix_h;
+        tl->x -= left_off  * pix_w;
+        br->x += right_off * pix_w;
+        tl->y -= top_off   * pix_h;
+        br->y += bot_off   * pix_h;
 
         x1 -= left_off  * pct_w;
         x2 += right_off * pct_w;
@@ -104,7 +92,27 @@ void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
     }
 
     blit(tile->gl_surface_binding,
-         x1, y2, x2, y1, tl.x, br.y, br.x, tl.y);
+         x1, y2, x2, y1, tl->x, br->y, br->x, tl->y);
+}
+
+/*
+ * Given tile bounds, stretch them to get the full size.
+ */
+static inline
+void tile_get_blit_size (tpp tp, tile *tile, char *name, fpoint *tl, fpoint *br)
+{
+    double left_off  = (double)tp_get_blit_left_off(tp);
+    double right_off = (double)tp_get_blit_right_off(tp);
+    double top_off   = (double)tp_get_blit_top_off(tp);
+    double bot_off   = (double)tp_get_blit_bot_off(tp);
+
+    double pix_w     = br->x - tl->x;
+    double pix_h     = br->y - tl->y;
+
+    tl->x -= left_off  * pix_w;
+    br->x += right_off * pix_w;
+    tl->y -= top_off   * pix_h;
+    br->y += bot_off   * pix_h;
 }
 
 /*
@@ -118,18 +126,6 @@ void tile_blit_fat_clipped (tpp tp, tile *tile, char *name, fpoint tl, fpoint br
         double bot_off)
 
 {
-    if (unlikely(!tile)) {
-        if (!name) {
-            DIE("no name for tile blit, %s", __FUNCTION__);
-        }
-
-        tile = tile_find(name);
-
-        if (unlikely(!tile)) {
-            return;
-        }
-    }
-
     double x1;
     double x2;
     double y1;
@@ -187,20 +183,6 @@ void tile_blit_fat_clipped (tpp tp, tile *tile, char *name, fpoint tl, fpoint br
 static inline
 void tile_blit_fat2 (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
 {
-#if 0
-    if (!tile) {
-        if (!name) {
-            DIE("no name for tile blit");
-        }
-
-        tile = tile_find(name);
-    }
-
-    if (!tile) {
-        return;
-    }
-#endif
-
     double x1;
     double x2;
     double y1;
@@ -263,15 +245,6 @@ void tile_blit_fat2 (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
 static inline
 void tile_blit_fat_black_and_white (tpp tp, tile *tile, char *name, fpoint tl, fpoint br)
 {
-#if 0
-    if (!tile) {
-        if (!name) {
-            DIE("no name for tile blit");
-        }
-
-        tile = tile_find(name);
-    }
-#endif
     if (!tile) {
         return;
     }
@@ -318,16 +291,6 @@ void tile_blit_fat_black_and_white (tpp tp, tile *tile, char *name, fpoint tl, f
 static inline
 void tile_blit_at (tile *tile, char *name, fpoint tl, fpoint br)
 {
-#if 0
-    if (!tile) {
-        if (!name) {
-            DIE("no name for tile blit");
-        }
-
-        tile = tile_find(name);
-    }
-#endif
-
     blit(tile->gl_surface_binding,
          tile->x1, tile->y2, tile->x2, tile->y1, tl.x, tl.y, br.x, br.y);
 }
@@ -339,16 +302,6 @@ static inline
 void tile_blit (tile *tile, char *name, point at)
 {
     fpoint tl, br;
-
-#if 0
-    if (!tile) {
-        if (!name) {
-            DIE("no name for tile blit");
-        }
-
-        tile = tile_find(name);
-    }
-#endif
 
     tl.x = at.x - tile->pix_width/2;
     br.y = at.y - tile->pix_height/2;
@@ -372,20 +325,6 @@ void tile_blit_colored_fat (tpp tp,
                             color color_bl,
                             color color_br)
 {
-#if 0
-    if (!tile) {
-        if (!name) {
-            DIE("no name for tile blit");
-        }
-
-        tile = tile_find(name);
-    }
-
-    if (!tile) {
-        return;
-    }
-#endif
-
     double x1 = tile->x1;
     double x2 = tile->x2;
     double y1 = tile->y1;
