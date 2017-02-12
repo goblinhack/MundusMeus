@@ -43,7 +43,7 @@ def wid_tp_list_on_m_down_filter_magic_items(w, x, y, button):
     return True
 
 
-def wid_tp_list_on_m_down_filter_defensive_items(w, x, y, button):
+def wid_tp_list_on_m_down_filter_def_items(w, x, y, button):
     wid_tp_list_filter(w, Item.armor.value)
     return True
 
@@ -147,7 +147,7 @@ class WidTpList(wid_popup.WidPopup):
                     "tooltip": "Magical items filter",
                 },
                 {
-                    "on_m_down": wid_tp_list_on_m_down_filter_defensive_items,
+                    "on_m_down": wid_tp_list_on_m_down_filter_def_items,
                     "tiles": "button_green",
                     "tooltip": "Defensive items filter",
                 },
@@ -171,12 +171,12 @@ class WidTpList(wid_popup.WidPopup):
                 title=True,
                 center=True,
                 on_button_list=button_events,
-                text="[%%tile=skull1.1$] " +
-                     "[%%tile=sword_wooden1.1$] " +
-                     "[%%tile=spellbook1.1$] " +
-                     "[%%tile=shield1.1$] " +
-                     "[%%tile=potion1.1$] " +
-                     "[%%tile=brocolli$]"
+                text="'%%tile=skull1.1$' " +
+                     "'%%tile=sword_wooden1.1$' " +
+                     "'%%tile=spellbook1.1$' " +
+                     "'%%tile=shield1.1$' " +
+                     "'%%tile=potion1.1$' " +
+                     "'%%tile=brocolli$'"
                 )
 
         self.tp_sorted_name_list = []

@@ -101,18 +101,20 @@ void tile_blit_fat (tpp tp, tile *tile, char *name, fpoint *tl, fpoint *br)
 static inline
 void tile_get_blit_size (tpp tp, tile *tile, char *name, fpoint *tl, fpoint *br)
 {
-    double left_off  = (double)tp_get_blit_left_off(tp);
-    double right_off = (double)tp_get_blit_right_off(tp);
-    double top_off   = (double)tp_get_blit_top_off(tp);
-    double bot_off   = (double)tp_get_blit_bot_off(tp);
+    if (tp) {
+        double left_off  = (double)tp_get_blit_left_off(tp);
+        double right_off = (double)tp_get_blit_right_off(tp);
+        double top_off   = (double)tp_get_blit_top_off(tp);
+        double bot_off   = (double)tp_get_blit_bot_off(tp);
 
-    double pix_w     = br->x - tl->x;
-    double pix_h     = br->y - tl->y;
+        double pix_w     = br->x - tl->x;
+        double pix_h     = br->y - tl->y;
 
-    tl->x -= left_off  * pix_w;
-    br->x += right_off * pix_w;
-    tl->y -= top_off   * pix_h;
-    br->y += bot_off   * pix_h;
+        tl->x -= left_off  * pix_w;
+        br->x += right_off * pix_w;
+        tl->y -= top_off   * pix_h;
+        br->y += bot_off   * pix_h;
+    }
 }
 
 /*

@@ -19,14 +19,12 @@ class WidTpDetail(wid_popup.WidPopup):
 
         tpp = tp.all_tps[tp_name]
 
-        tile_name = tpp.tiles[0]
-
         w.add_text(
                 font="vlarge",
                 color="white",
                 title=True,
                 center=True,
-                text="%%tile=" + tile_name + "$ " + tpp.short_name)
+                text="%%tp=" + tpp.name + "$ " + tpp.short_name)
 
         if tpp.long_name is not None:
             w.add_text(tpp.long_name)

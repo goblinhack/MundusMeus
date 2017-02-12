@@ -20,7 +20,7 @@ static void ttf_create_tex_from_char(TTF_Font *ttf, const char *name,
                                      font *f, uint8_t c);
 #endif
 
-static double tile_stretch = 1.4;
+static double tile_stretch = 1.2;
 static uint8_t ttf_init_done;
 
 uint8_t ttf_init (void)
@@ -158,8 +158,7 @@ void ttf_text_size (font **fpp, const char *text_in,
 		    text += 5;
                     (void)string2tile(&text);
 
-                    x += f->glyphs[(int)TTF_FIXED_WIDTH_CHAR].width * 
-                                    scaling * advance * tile_stretch;
+                    x += f->glyphs[(int)TTF_FIXED_WIDTH_CHAR].width * scaling * advance * tile_stretch;
 
 		    found_format_string = false;
 		    continue;
@@ -172,8 +171,6 @@ void ttf_text_size (font **fpp, const char *text_in,
                     fpoint br;
 
                     double bx = x;
-
-                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (0.125);
 
                     double y = 0;
                     tl.x = (x);
@@ -188,6 +185,7 @@ void ttf_text_size (font **fpp, const char *text_in,
 
                     y = br.y - tl.y;
                     y *= 1.1;
+
                     if (y > *h) {
                         *h = y;
                     }
@@ -412,19 +410,33 @@ static void ttf_puts_internal (font *f, const char *text,
 
                     double bx = x;
 
-                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (0.125);
-
                     tl.x = (x);
                     tl.y = (y);
                     br.x = (x + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling * tile_stretch);
                     br.y = (y + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].height * (scaling));
 
-                    swap(br.y, tl.y);
+                    fpoint otl = tl;
+                    fpoint obr = br;
 
-                    tile_blit_at(tile, 0, tl, br);
+                    tile_get_blit_size(0, tile, 0, &otl, &obr);
+
+                    double dy = ((obr.y - otl.y) - (br.y - tl.y));
+                    double dx = ((obr.x - otl.x) - (br.x - tl.x));
+
+                    tl.y += dy;
+                    br.y += dy;
+                    tl.x += dx/2;
+                    br.x += dx/2;
+
+                    double stretch = 
+                        (f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling * tile_stretch) -
+                        (f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling);
+                    tl.x -= stretch / 2.0;
+
+                    tile_blit_fat(0, tile, 0, &tl, &br);
 
                     x = bx;
-                    x += br.x - tl.x;
+                    x += obr.x - otl.x;
 
 		    found_format_string = false;
 		    continue;
@@ -438,8 +450,6 @@ static void ttf_puts_internal (font *f, const char *text,
                     fpoint br;
 
                     double bx = x;
-
-                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (0.125);
 
                     tl.x = (x);
                     tl.y = (y);
@@ -458,6 +468,11 @@ static void ttf_puts_internal (font *f, const char *text,
                     br.y += dy;
                     tl.x += dx/2;
                     br.x += dx/2;
+
+                    double stretch = 
+                        (f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling * tile_stretch) -
+                        (f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling);
+                    tl.x -= stretch / 2.0;
 
                     tile_blit_fat(tp, tile, 0, &tl, &br);
 

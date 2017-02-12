@@ -28,9 +28,9 @@
 #undef ENABLE_FADE_OUT_OTHER_WIDGETS_WHEN_FOCUS_LOCKED
 
 /*
- * Retro text
+ * Retro text. Makes alpha blending look odd tho in overlay.
  */
-#define ENABLE_LARGE_TEXT_OUTLINE
+#undef ENABLE_LARGE_TEXT_OUTLINE
 
 /*
  * How much the wheel mouse moves.

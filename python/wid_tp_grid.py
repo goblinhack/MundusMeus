@@ -21,14 +21,20 @@ def wid_tp_grid_filter(w, f):
 
 class Item(Enum):
     all = 1
-    weapon = 2
-    magical = 3
-    armor = 4
-    healing = 5
-    food = 6
+    world = 2
+    weapon = 3
+    magical = 4
+    armor = 5
+    healing = 6
+    food = 7
 
 
 def wid_tp_grid_on_m_down_filter_all_items(w, x, y, button):
+    wid_tp_grid_filter(w, Item.world.value)
+    return True
+
+
+def wid_tp_grid_on_m_down_filter_world_items(w, x, y, button):
     wid_tp_grid_filter(w, Item.all.value)
     return True
 
@@ -43,7 +49,7 @@ def wid_tp_grid_on_m_down_filter_magic_items(w, x, y, button):
     return True
 
 
-def wid_tp_grid_on_m_down_filter_defensive_items(w, x, y, button):
+def wid_tp_grid_on_m_down_filter_def_items(w, x, y, button):
     wid_tp_grid_filter(w, Item.armor.value)
     return True
 
@@ -76,7 +82,7 @@ def wid_tp_grid_common(w):
         p.tp_detail.destroy()
         p.tp_detail = None
 
-    index = p.across * w.row + w.col
+    index = w.context
     name = p.tp_sorted_name_list[index]
 
     tpp = tp.all_tps[name]
@@ -131,7 +137,7 @@ class WidTpGrid(wid_popup.WidPopup):
             super().__init__(**kp)
             self.orig_args = copy.deepcopy(kp)
 
-            self.which = Item.all
+            self.which = Item.world
             self.filter = self.which.value
             self.x = kp["x"]
             self.y = kp["y"]
@@ -146,6 +152,11 @@ class WidTpGrid(wid_popup.WidPopup):
         w = self
 
         button_events = (
+                {
+                    "on_m_down": wid_tp_grid_on_m_down_filter_world_items,
+                    "tiles": "button_green",
+                    "tooltip": "World items",
+                },
                 {
                     "on_m_down": wid_tp_grid_on_m_down_filter_all_items,
                     "tiles": "button_green",
@@ -162,7 +173,7 @@ class WidTpGrid(wid_popup.WidPopup):
                     "tooltip": "Magical items filter",
                 },
                 {
-                    "on_m_down": wid_tp_grid_on_m_down_filter_defensive_items,
+                    "on_m_down": wid_tp_grid_on_m_down_filter_def_items,
                     "tiles": "button_green",
                     "tooltip": "Defensive items filter",
                 },
@@ -181,27 +192,30 @@ class WidTpGrid(wid_popup.WidPopup):
         button_events[self.filter-1]["tiles"] = "button_red"
 
         w.add_text(
-                font="small",
+                font="large",
                 color="white",
                 title=True,
                 center=True,
                 on_button_list=button_events,
-                text=" [%%tile=skull1.1$] " +
-                     "[%%tile=sword_wooden1.1$] " +
-                     "[%%tile=spellbook1.1$] " +
-                     "[%%tile=shield1.1$] " +
-                     "[%%tile=potion1.1$] " +
-                     "[%%tile=brocolli$]"
+                text="'%%tile=ball1.1$' " +
+                     "'%%tile=skull1.1$' " +
+                     "'%%tile=sword_wooden1.1$' " +
+                     "'%%tile=spellbook1.1$' " +
+                     "'%%tile=shield1.1$' " +
+                     "'%%tile=potion1.1$' " +
+                     "'%%tile=brocolli$'"
                 )
 
         self.tp_sorted_name_list = []
-
-        added = 0
 
         for t in tp.all_tps:
             tpp = tp.all_tps[t]
 
             add = False
+
+            if self.filter == Item.world.value:
+                if tpp.is_world is True:
+                    add = True
 
             if self.filter == Item.all.value:
                 if tpp.is_player is True or \
@@ -231,53 +245,59 @@ class WidTpGrid(wid_popup.WidPopup):
 
             if add is True:
                 self.tp_sorted_name_list.append(tpp.name)
-                added += 1
 
         self.tp_sorted_name_list.sort()
 
-        font = "vlarge"
-        tile_width, _unused_h, _unused_c = \
-            mm.text_size_pct(font=font, text="[%%tp=player1$] ")
-        self.across = int(self.width / tile_width)
-        self.down = int((added / self.across) + 1)
+        font = "vvlarge"
 
-#        grid = [[0 for x in range(self.across)] for y in range(self.down)]
+        text = ""
+        index = 0
+        button_events = []
 
-        for y in range(self.down):
-            button_events = []
-            text = ""
+        for index in range(len(self.tp_sorted_name_list)):
 
-            for x in range(self.across):
-                index = (self.across * y) + x
-                if index >= added:
-                    break
+            name = self.tp_sorted_name_list[index]
 
-                name = self.tp_sorted_name_list[index]
+            tpp = tp.all_tps[name]
 
-                tpp = tp.all_tps[name]
+            button_events.append(
+                    {
+                        "on_m_down": wid_tp_grid_on_m_down,
+                        "on_m_over_b": wid_tp_grid_on_m_over_b,
+                        "on_m_over_e": wid_tp_grid_on_m_over_e,
+                        "tiles": "button_plain",
+                        "tooltip": name,
+                        "context": index,
+                    },
+                )
 
-                button_events.append(
-                        {
-                            "on_m_down": wid_tp_grid_on_m_down,
-                            "on_m_over_b": wid_tp_grid_on_m_over_b,
-                            "on_m_over_e": wid_tp_grid_on_m_over_e,
-                            "tiles": "button_plain",
-                            "tooltip": name,
-                        },
-                    )
+            text += "'%%tp=" + name + "$'"
+        for index in range(len(self.tp_sorted_name_list)):
 
-#                tile = tpp.tiles[0]
+            name = self.tp_sorted_name_list[index]
 
-                text += "[%%tp=" + name + "$] "
+            tpp = tp.all_tps[name]
 
-            if text != "":
-                w.add_text(
-                        on_button_list=button_events,
-                        font=font,
-                        color="white",
-                        text=text)
+            button_events.append(
+                    {
+                        "on_m_down": wid_tp_grid_on_m_down,
+                        "on_m_over_b": wid_tp_grid_on_m_over_b,
+                        "on_m_over_e": wid_tp_grid_on_m_over_e,
+                        "tiles": "button_plain",
+                        "tooltip": name,
+                        "context": index,
+                    },
+                )
 
-        if added == 0:
+            text += "'%%tp=" + name + "$'"
+
+        if text != "":
+            w.add_text(
+                    on_button_list=button_events,
+                    font=font,
+                    color="white",
+                    text=text)
+        else:
             w.add_text(
                     center=True,
                     font="small",
@@ -286,4 +306,5 @@ class WidTpGrid(wid_popup.WidPopup):
 
         w.update()
         w.set_focus()
+        w.to_front()
         w.move_to_pct(x=self.x, y=self.y)

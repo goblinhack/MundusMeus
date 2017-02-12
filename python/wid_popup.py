@@ -402,7 +402,7 @@ class WidPopup(wid.Wid):
             self.inner_height = title_h + body_h
 
         need_scrollbar = False
-        if title_h + body_h > self.height:
+        if title_h + body_h > self.height - self.pad_h * 2:
             need_scrollbar = True
 
         self.set_pos_pct(self.x1, self.y1,

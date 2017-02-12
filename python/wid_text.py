@@ -1,6 +1,7 @@
 import mm
 import wid
 import wid_focus
+import shlex
 
 
 class WidText(wid.Wid):
@@ -79,7 +80,10 @@ class WidText(wid.Wid):
             for line in lines:
 
                 width = line_width[l]
-                words = line.split()
+                lexer = shlex.shlex(line)
+                lexer.wordchars += '.$%='
+                words = list(lexer)
+
                 x = 0
 
                 if center is True:
@@ -109,15 +113,16 @@ class WidText(wid.Wid):
 
                     w = w / self.usable_w
                     h = h / self.usable_h
-                    if h > max_h:
-                        max_h = h
 
                     if x + w > 1.0:
                         x = 0
                         y = y + max_h
                         max_h = 0
 
-                    if word[:1] == "[":
+                    if h > max_h:
+                        max_h = h
+
+                    if word[:1] == "\'":
 
                         #
                         # Grab the next button event
@@ -214,10 +219,6 @@ class WidText(wid.Wid):
                         child.set_text(text=word, lhs=True, font=font)
 
                     self.children.append(child)
-
-                    x = x + w
-
-                    w, unused1, unused2 = mm.text_size_pct(font=font, text=" ")
 
                     x = x + w
 
@@ -418,20 +419,24 @@ def text_size_pct(row_text, row_font, width):
     for row in range(0, len(row_text)):
         text = row_text[row]
         font = row_font[row]
-        row_width.append(0)
 
         lines = text.split("\n")
-        max_w = 0
 
         for line in lines:
 
-            words = line.split()
+            lexer = shlex.shlex(line)
+            lexer.wordchars += '.$%='
+            words = list(lexer)
+
+            row_width.append(0)
+            max_w = 0
+
             x = 0
             max_h = 0
 
-            cnt = 0
-
             first = True
+
+            max_h = 0
             for word in words:
                 #
                 # Add space between words
@@ -442,14 +447,15 @@ def text_size_pct(row_text, row_font, width):
                 first = False
 
                 w, h, c = mm.text_size_pct(font=font, text=word)
-                cnt += 1
 
                 if x + w > width:
                     line_width.append(0)
                     line_width[l] = x
                     l += 1
+
                     x = 0
                     y = y + max_h
+
                     max_h = 0
                     max_w = width
 

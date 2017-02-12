@@ -9321,7 +9321,6 @@ static void wid_display (widp w,
         if (1 /* wid_get_text_outline(w) */) {
             glcolor(col_text_outline);
 
-#undef ENABLE_LARGE_TEXT_OUTLINE
 #ifdef ENABLE_LARGE_TEXT_OUTLINE
             double outline = 0;
 
