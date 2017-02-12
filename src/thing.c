@@ -142,7 +142,7 @@ PyObject *thing_push_ (thingp t, double x, double y)
         game.tile_width = get_game_tile_width();
         game.tile_height = get_game_tile_height();
         if (!game.tile_width) {
-            DIE1("python did not set tile size prior to thing push");
+            DIE("python did not set tile size prior to thing push");
         }
     }
 

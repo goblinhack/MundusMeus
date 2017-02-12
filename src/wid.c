@@ -159,7 +159,7 @@ widp wid_mouse_template;
 static uint8_t wid_init_done;
 static uint8_t wid_exiting;
 
-static int wid_display_count;
+static int wid_refresh_overlay_count;
 
 tree_rootp wid_timers;
 
@@ -3864,7 +3864,7 @@ widp wid_grid_find (widp parent, fpoint tl, fpoint br,
 
     grid = parent->grid;
     if (!grid) {
-        DIE1("no grid wid in wid_grid_find");
+        DIE("no grid wid in wid_grid_find");
     }
 
     /*
@@ -3943,7 +3943,7 @@ widp wid_grid_find_thing_template (widp parent,
 
     grid = parent->grid;
     if (!grid) {
-        DIE1("no grid wid in wid_grid_find_thing_template");
+        DIE("no grid wid in wid_grid_find_thing_template");
     }
 
     /*
@@ -4005,7 +4005,7 @@ widp wid_grid_find_tp_is (widp parent,
 
     grid = parent->grid;
     if (!grid) {
-        DIE1("no grid wid in wid_grid_find_tp_is");
+        DIE("no grid wid in wid_grid_find_tp_is");
     }
 
     /*
@@ -6555,7 +6555,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
 {
     int got_one = false;
 
-    wid_display_count += 2;
+    wid_refresh_overlay_count += 2;
 
     if (!wid_mouse_visible) {
         return;
@@ -7685,7 +7685,7 @@ static void wid_display_fast (widp w,
     if (likely(t != 0)) {
         tp = thing_tp(t);
         if (!tp) {
-            DIE1("no tp for thing");
+            DIE("no tp for thing");
         }
 
         if (tp_is_animated(tp)) {
@@ -9321,6 +9321,7 @@ static void wid_display (widp w,
         if (1 /* wid_get_text_outline(w) */) {
             glcolor(col_text_outline);
 
+#undef ENABLE_LARGE_TEXT_OUTLINE
 #ifdef ENABLE_LARGE_TEXT_OUTLINE
             double outline = 0;
 
@@ -9913,7 +9914,7 @@ void wid_display_all (void)
      * This is a hack so we only update the UI every x frames, to save burning 
      * the CPU
      */
-    if (w && (++wid_display_count < 20)) {
+    if (w && (++wid_refresh_overlay_count < 10)) {
         glBindTexture(GL_TEXTURE_2D, 0);
 
         glClearColor(0,0,0,0);
@@ -9940,7 +9941,7 @@ void wid_display_all (void)
         goto blit;
     }
 
-    wid_display_count = 0;
+    wid_refresh_overlay_count = 0;
 
     {
         glBindFramebuffer_EXT(GL_FRAMEBUFFER, fbo_id_wid);

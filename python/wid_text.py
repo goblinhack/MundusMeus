@@ -93,6 +93,7 @@ class WidText(wid.Wid):
 
                 first = True
 
+                max_h = 0
                 for word in words:
                     #
                     # Add space between words
@@ -108,10 +109,13 @@ class WidText(wid.Wid):
 
                     w = w / self.usable_w
                     h = h / self.usable_h
+                    if h > max_h:
+                        max_h = h
 
                     if x + w > 1.0:
                         x = 0
-                        y = y + h
+                        y = y + max_h
+                        max_h = 0
 
                     if word[:1] == "[":
 
@@ -124,6 +128,7 @@ class WidText(wid.Wid):
                         set_on_m_down = None
                         set_on_m_over_b = None
                         set_on_m_over_e = None
+                        context = None
 
                         if button_event_list is not None:
                             if button_count < len(button_event_list):
@@ -159,6 +164,12 @@ class WidText(wid.Wid):
                                         set_on_m_over_e = event
                                     except KeyError:
                                         pass
+
+                                    try:
+                                        val = d["context"]
+                                        context = val
+                                    except KeyError:
+                                        pass
                             else:
                                 mm.err("missing callback "
                                        "for button {0} text {1}".format(
@@ -182,6 +193,7 @@ class WidText(wid.Wid):
                         if tooltip is not None:
                             child.set_tooltip(text=tooltip)
 
+                        child.context = context
                         child.row_on_m_over_b = set_on_m_over_b
                         child.row_on_m_over_e = set_on_m_over_e
 
@@ -189,7 +201,6 @@ class WidText(wid.Wid):
                                 wid_text_button_on_m_over_b_callback)
                         child.set_on_m_over_e(
                                 wid_text_button_on_m_over_e_callback)
-
                     else:
                         child = wid.Wid(name="wid text child",
                                         parent=self.wid_id)
@@ -215,7 +226,8 @@ class WidText(wid.Wid):
                     child.col = col
                     col += 1
 
-                y = y + h
+                y = y + max_h
+                max_h = 0
                 l += 1
 
             w = wid.Wid(name="wid text multi line box", parent=self.wid_id)

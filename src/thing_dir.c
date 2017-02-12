@@ -255,5 +255,5 @@ int thing_angle_to_dir (double dx, double dy)
             return (THING_DIR_TL);
     }
 
-    DIE1("thing_angle_to_dir bug");
+    DIE("thing_angle_to_dir bug");
 }

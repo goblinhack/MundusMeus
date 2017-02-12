@@ -43,7 +43,7 @@ void thing_wid_move (thingp t,
          * Player has left the level?
          */
         THING_LOG(t, "Trying to move but has no widget");
-        DIE1("bug");
+        DIE("bug");
         return;
     }
 

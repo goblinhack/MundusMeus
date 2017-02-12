@@ -560,7 +560,7 @@ PyObject *tp_set_tile (PyObject *obj, PyObject *args, PyObject *keywds)
     }
 
     if (thing_tile_count >= TILES_ANIM_MAX) {
-        DIE1("out of anim tile space");
+        DIE("out of anim tile space");
     }
 
     t = &thing_tile_arr[thing_tile_count];

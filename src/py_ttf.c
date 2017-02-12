@@ -37,11 +37,11 @@ PyObject *ttf_text_size_ (PyObject *obj, PyObject *args, PyObject *keywds)
     }
 
     if (!name) {
-        DIE1("no font name");
+        DIE("no font name");
     }
 
     if (!text) {
-        DIE1("no font text");
+        DIE("no font text");
     }
 
     f = font_find(name);
@@ -84,11 +84,11 @@ PyObject *ttf_text_size_pct_ (PyObject *obj, PyObject *args, PyObject *keywds)
     }
 
     if (!name) {
-        DIE1("no font name");
+        DIE("no font name");
     }
 
     if (!text) {
-        DIE1("no font text");
+        DIE("no font text");
     }
 
     f = font_find(name);

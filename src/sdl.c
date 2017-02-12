@@ -982,7 +982,7 @@ static void sdl_event (SDL_Event * event)
     case SDL_QUIT:
         SDL_ShowCursor(1);
 
-        DIE1("Quit requested");
+        DIE("Quit requested");
         break;
 
     case SDL_USEREVENT:

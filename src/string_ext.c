@@ -245,6 +245,7 @@ tpp string2tp (const char **s)
     }
 
     if (c == eo_tmp) {
+        DIE("tp name %s is too long", tmp);
         return (0);
     }
 
@@ -252,6 +253,9 @@ tpp string2tp (const char **s)
     *s += (t - tmp);
 
     tpp tp = tp_find(tmp);
+    if (!tp) {
+        DIE("tp name %s not found", tmp);
+    }
 
     return (tp);
 }

@@ -237,7 +237,7 @@ class WidTpGrid(wid_popup.WidPopup):
 
         font = "vlarge"
         tile_width, _unused_h, _unused_c = \
-            mm.text_size_pct(font=font, text="[%%tp=player1.1$] ")
+            mm.text_size_pct(font=font, text="[%%tp=player1$] ")
         self.across = int(self.width / tile_width)
         self.down = int((added / self.across) + 1)
 

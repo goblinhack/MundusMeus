@@ -102,7 +102,7 @@ static void gl_init_fbo_ (
 #ifdef _WIN32
     if (!glFramebufferTexture2D_EXT) {
         SDL_MSG_BOX("glGenRenderbuffers_EXT is not present; fatal");
-        DIE1("glGenRenderbuffers_EXT is not present; fatal");
+        DIE("glGenRenderbuffers_EXT is not present; fatal");
     }
 #endif
 

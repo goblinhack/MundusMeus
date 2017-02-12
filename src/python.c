@@ -128,7 +128,7 @@ PY_BODY_INT_FN(wid_mouse_hide, value)
 void py_call_void_module_int (const char *module, const char *name, int val1)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -166,7 +166,7 @@ void py_call_void_module_int (const char *module, const char *name, int val1)
 void py_call_void_int (const char *name, int val1)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *pFunc = PyObject_GetAttrString(mm_mod, name);
@@ -187,7 +187,7 @@ void py_call_void_int (const char *name, int val1)
 void py_call_void (const char *name)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *pFunc = PyObject_GetAttrString(mm_mod, name);
@@ -208,7 +208,7 @@ int py_call_int_module_ptr_iiiiii (const char *module, const char *name, void *v
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -252,7 +252,7 @@ int py_call_int_module_ptr_iiiii (const char *module, const char *name, void *va
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -296,7 +296,7 @@ int py_call_int_module_ptr_iiii (const char *module, const char *name, void *val
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -340,7 +340,7 @@ int py_call_int_module_ptr_iii (const char *module, const char *name, void *val1
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -384,7 +384,7 @@ int py_call_int_module_ptr_ii (const char *module, const char *name, void *val1,
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -428,7 +428,7 @@ int py_call_int_module_ptr_int (const char *module, const char *name, void *val1
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -491,7 +491,7 @@ void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii (const char *module,
                                                   int val20)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -551,7 +551,7 @@ void py_call_void_module_ptr_iiiiiiiiiiiiiiiiiii (const char *module,
 void py_call_void_module_ptr_iiiiii (const char *module, const char *name, void *val1, int val2, int val3, int val4, int val5, int val6, int val7)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -591,7 +591,7 @@ void py_call_void_module_ptr_iiiiii (const char *module, const char *name, void 
 void py_call_void_module_ptr_iiiii (const char *module, const char *name, void *val1, int val2, int val3, int val4, int val5, int val6)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -631,7 +631,7 @@ void py_call_void_module_ptr_iiiii (const char *module, const char *name, void *
 void py_call_void_module_ptr_iiii (const char *module, const char *name, void *val1, int val2, int val3, int val4, int val5)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -671,7 +671,7 @@ void py_call_void_module_ptr_iiii (const char *module, const char *name, void *v
 void py_call_void_module_ptr_iii (const char *module, const char *name, void *val1, int val2, int val3, int val4)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -711,7 +711,7 @@ void py_call_void_module_ptr_iii (const char *module, const char *name, void *va
 void py_call_void_module_ptr_ii (const char *module, const char *name, void *val1, int val2, int val3)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -751,7 +751,7 @@ void py_call_void_module_ptr_ii (const char *module, const char *name, void *val
 void py_call_void_module_ptr_int (const char *module, const char *name, void *val1, int val2)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -793,7 +793,7 @@ int py_call_int_module_ptr (const char *module, const char *name, void *val1)
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -835,7 +835,7 @@ int py_call_int_module_ptr (const char *module, const char *name, void *val1)
 void py_call_void_module_ptr (const char *module, const char *name, void *val1)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -877,7 +877,7 @@ int py_call_int_module_ptr_ptr (const char *module, const char *name, void *val1
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -921,7 +921,7 @@ int py_call_int_module_ptr_ptr (const char *module, const char *name, void *val1
 void py_call_void_module_ptr_ptr (const char *module, const char *name, void *val1, void *val2)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -965,7 +965,7 @@ int py_call_int_module_int (const char *module, const char *name, int val1)
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -1009,7 +1009,7 @@ int py_call_int_module_void (const char *module, const char *name)
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -1049,7 +1049,7 @@ int py_call_int_module_void (const char *module, const char *name)
 void py_call_void_module_void (const char *module, const char *name)
 {
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *v = PyObject_GetAttrString(mm_mod, module);
@@ -1087,7 +1087,7 @@ int py_call_ii (const char *name, int val1)
     int ret = -1;
 
     if (!mm_mod) {
-        DIE1("python module not inited yet");
+        DIE("python module not inited yet");
     }
 
     PyObject *pFunc = PyObject_GetAttrString(mm_mod, name);
@@ -2487,7 +2487,7 @@ python_m_y_module_create (void)
    PyObject *m = PyModule_Create(&python_c_MODULE);
    if (! m) {
         PyErr_Print();
-        DIE1("python init");
+        DIE("python init");
         return (0);
    }
 
@@ -2633,7 +2633,7 @@ static void py_add_to_path (const char *path)
 
     wc_new_path = (wchar_t *) myzalloc(wc_len, "wchar str");
     if (!wc_new_path) {
-        DIE1("path alloc fail");
+        DIE("path alloc fail");
     }
 
     LOG("Set python path: %s", new_path);
@@ -2825,7 +2825,7 @@ void python_init (char *argv[])
 
         wc_new_str = (wchar_t *) myzalloc(wc_len, "wchar str");
         if (!wc_new_str) {
-            DIE1("program name alloc fail");
+            DIE("program name alloc fail");
         }
 
         LOG("Set python program name: \"%s\"", str);
@@ -2861,7 +2861,7 @@ void python_init (char *argv[])
     mm_mod = PyImport_ImportModule("mm");
     if (!mm_mod) {
         py_err();
-        DIE1("module mm import failed");
+        DIE("module mm import failed");
     }
 
     python_add_consts();
@@ -2869,7 +2869,7 @@ void python_init (char *argv[])
     mm_mod = PyImport_ImportModule("init");
     if (!mm_mod) {
         py_err();
-        DIE1("module init import failed");
+        DIE("module init import failed");
     }
 }
 

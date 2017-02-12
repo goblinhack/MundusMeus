@@ -221,7 +221,7 @@ texp tex_load (const char *file, const char *name)
 
     if (!file) {
         if (!name) {
-            DIE1("no file for tex");
+            DIE("no file for tex");
             return (0);
         } else {
             DIE("no file for tex loading %s", name);
@@ -258,7 +258,7 @@ texp tex_load_tiled (const char *file,
 
     if (!file) {
         if (!name) {
-            DIE1("no file for tex");
+            DIE("no file for tex");
         } else {
             DIE("no file for tex loading %s", name);
         }
@@ -347,7 +347,7 @@ int tex_load_tiled_black_and_white (const char *file,
 {
     if (!file) {
         if (!name) {
-            DIE1("no file for tex");
+            DIE("no file for tex");
         } else {
             DIE("no file for tex loading %s", name);
         }
@@ -375,7 +375,7 @@ texp tex_find (const char *file)
     tex *result;
 
     if (!file) {
-        DIE1("no filename given for tex find");
+        DIE("no filename given for tex find");
     }
 
     memset(&target, 0, sizeof(target));

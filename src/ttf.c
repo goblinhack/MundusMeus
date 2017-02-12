@@ -87,7 +87,7 @@ font *ttf_new (const char *name, int32_t pointSize, int32_t style)
 /*
  * Return a SDL rectangle with the size of the font
  */
-void ttf_text_size (font **f, const char *text_in,
+void ttf_text_size (font **fpp, const char *text_in,
                     double *w,
                     double *h,
                     enum_fmt *fmt,
@@ -103,14 +103,11 @@ void ttf_text_size (font **f, const char *text_in,
     double x;
     enum_fmt _fmt;
     const char *text = text_in;
-
-    if (!f) {
-        return;
-    }
+    font *f = *fpp;
 
     x = 0;
     *w = 0;
-    *h = (*f)->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].height * scaling;
+    *h = f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].height * scaling;
 
     /*
      * To account for shadows that are not included in the glyph.
@@ -146,7 +143,8 @@ void ttf_text_size (font **f, const char *text_in,
 		    continue;
 		} else if (!strncmp(text, "font=", 5)) {
 		    text += 5;
-                    *f = string2font(&text);
+                    *fpp = string2font(&text);
+                    f = *fpp;
 		    found_format_string = false;
 		    continue;
 		} else if (!strncmp(text, "tex=", 4)) {
@@ -160,17 +158,39 @@ void ttf_text_size (font **f, const char *text_in,
 		    text += 5;
                     (void)string2tile(&text);
 
-                    x += (*f)->glyphs[(int)TTF_FIXED_WIDTH_CHAR].width * 
+                    x += f->glyphs[(int)TTF_FIXED_WIDTH_CHAR].width * 
                                     scaling * advance * tile_stretch;
 
 		    found_format_string = false;
 		    continue;
 		} else if (!strncmp(text, "tp=", 3)) {
 		    text += 3;
-                    (void)string2tp(&text);
+                    tpp tp = string2tp(&text);
+                    tilep tile = tp_first_tile(tp);
 
-                    x += (*f)->glyphs[(int)TTF_FIXED_WIDTH_CHAR].width * 
-                                    scaling * advance * tile_stretch;
+                    fpoint tl;
+                    fpoint br;
+
+                    double bx = x;
+
+                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance * (0.125);
+
+                    double y = 0;
+                    tl.x = (x);
+                    tl.y = (y);
+                    br.x = (x + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling * tile_stretch);
+                    br.y = (y + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].height * (scaling));
+
+                    tile_get_blit_size(tp, tile, 0, &tl, &br);
+
+                    x = bx;
+                    x += br.x - tl.x;
+
+                    y = br.y - tl.y;
+                    y *= 1.1;
+                    if (y > *h) {
+                        *h = y;
+                    }
 
 		    found_format_string = false;
 		    continue;
@@ -184,15 +204,15 @@ void ttf_text_size (font **f, const char *text_in,
             x = ((((x-x_start) / TTF_TABSTOP) + 1.0) * TTF_TABSTOP);
             x = x + x_start;
         } else if (c == '~') {
-            x += (*f)->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+            x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
         } else {
             if (fixed_width) {
-                x += (*f)->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+                x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
             } else {
                 if (c == TTF_CURSOR_CHAR) {
-                    x += (*f)->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
+                    x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
                 } else {
-                    x += (*f)->glyphs[(int) c].width * scaling * advance;
+                    x += f->glyphs[(int) c].width * scaling * advance;
                 }
             }
         }
@@ -426,11 +446,23 @@ static void ttf_puts_internal (font *f, const char *text,
                     br.x = (x + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].width * scaling * tile_stretch);
                     br.y = (y + f->glyphs[(uint32_t)TTF_FIXED_WIDTH_CHAR].height * (scaling));
 
+                    fpoint otl = tl;
+                    fpoint obr = br;
+
+                    tile_get_blit_size(tp, tile, 0, &otl, &obr);
+
+                    double dy = ((obr.y - otl.y) - (br.y - tl.y));
+                    double dx = ((obr.x - otl.x) - (br.x - tl.x));
+
+                    tl.y += dy;
+                    br.y += dy;
+                    tl.x += dx/2;
+                    br.x += dx/2;
+
                     tile_blit_fat(tp, tile, 0, &tl, &br);
 
                     x = bx;
-
-                    x += br.x - tl.x;
+                    x += obr.x - otl.x;
 
 		    found_format_string = false;
 		    continue;
