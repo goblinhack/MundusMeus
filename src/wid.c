@@ -4203,7 +4203,7 @@ void wid_raise (widp w_in)
      * If we were hovering over a window and it was replaced, we need to fake
      * a mouse movement so we know we are still over it.
      */
-    if (!w_in->parent && w_in->children_display_sorted) {
+    if (!w_in->parent) {
         wid_update_mouse();
     }
 }
@@ -5605,7 +5605,16 @@ static widp wid_key_down_handler_at (widp w, int32_t x, int32_t y,
     } }
 
     if (w->on_key_down) {
+        if (wid_focus_locked &&
+            (wid_get_top_parent(w) != wid_get_top_parent(wid_focus_locked))) {
+            return (0);
+        }
 
+        return (w);
+    }
+
+    w = wid_get_top_parent(w);
+    if (w->on_key_down) {
         if (wid_focus_locked &&
             (wid_get_top_parent(w) != wid_get_top_parent(wid_focus_locked))) {
             return (0);
@@ -6996,25 +7005,30 @@ static widp wid_key_down_handler (int32_t x, int32_t y)
 {
     widp w;
 
+//CON("key down");
     w = wid_key_down_handler_at(wid_focus, x, y, true /* strict */);
     if (w) {
+//CON("%s %d",wid_logname(w),__LINE__);
         return (w);
     }
 
     w = wid_key_down_handler_at(
                 wid_get_top_parent(wid_focus), x, y, false /* strict */);
     if (w) {
+//CON("%s %d",wid_logname(w),__LINE__);
         return (w);
     }
 
     w = wid_key_down_handler_at(wid_over, x, y, true /* strict */);
     if (w) {
+//CON("%s %d",wid_logname(w),__LINE__);
         return (w);
     }
 
     w = wid_key_down_handler_at(
                 wid_get_top_parent(wid_over), x, y, false /* strict */);
     if (w) {
+//CON("%s %d",wid_logname(w),__LINE__);
         return (w);
     }
 
@@ -7023,6 +7037,7 @@ static widp wid_key_down_handler (int32_t x, int32_t y)
 
         if (wid_focus_locked &&
             (wid_get_top_parent(w) != wid_get_top_parent(wid_focus_locked))) {
+//CON("  focus is locked");
             continue;
         }
 
@@ -7030,6 +7045,7 @@ static widp wid_key_down_handler (int32_t x, int32_t y)
         if (!w) {
             continue;
         }
+//CON("     got top level strict handler%s",wid_logname(w));
 
         return (w);
     }
@@ -7039,6 +7055,7 @@ static widp wid_key_down_handler (int32_t x, int32_t y)
 
         if (wid_focus_locked &&
             (wid_get_top_parent(w) != wid_get_top_parent(wid_focus_locked))) {
+//CON("  focus is locked");
             continue;
         }
 
@@ -7047,6 +7064,7 @@ static widp wid_key_down_handler (int32_t x, int32_t y)
             continue;
         }
 
+//CON("     got top level loose handler%s",wid_logname(w));
         return (w);
     } }
 
@@ -7218,6 +7236,7 @@ if (wid_event_to_char(key) == '-') {
         /*
          * Do not raise, gets in the way of popups the callback creates.
          */
+//CON("wid did not handle");
         return;
     }
 
@@ -8609,9 +8628,17 @@ static void wid_lighting_render (widp w,
 
             alpha /= 2.0;
         } else {
-	    if (tp_is_lava(tp) || tp_is_water(tp)) {
-		alpha = 0.2;
-	    }
+            if (game.biome_set_is_land) {
+                if (tp_is_lava(tp) || tp_is_water(tp)) {
+                    alpha = 0.2;
+                    light_radius *= 5;
+                }
+            } else {
+                if (tp_is_lava(tp) || tp_is_water(tp)) {
+                    alpha = 1.0;
+                }
+            }
+
             push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
                            red, green, blue, alpha);
             alpha = 0.0;

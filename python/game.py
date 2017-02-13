@@ -220,6 +220,19 @@ class Game:
 
         if sym == mm.SDLK_s:
             self.save()
+            return True
+
+        if sym == mm.SDLK_q:
+            game.wid_quit.toggle_hidden()
+            game.wid_quit.set_focus()
+            game.wid_quit.to_front()
+            return True
+
+        if mod == mm.KMOD_LCTRL:
+            if sym == mm.SDLK_e:
+                game.wid_tp_editor.toggle_hidden()
+                game.wid_tp_editor.to_front()
+                return True
 
         return False
 

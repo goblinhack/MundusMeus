@@ -71,14 +71,14 @@
 /*
  * Map. How many chunks per "screen" across and down.
  */
-#define CHUNK_ACROSS                            (4)
-#define CHUNK_DOWN                              (4)
+#define CHUNK_ACROSS                            (3)
+#define CHUNK_DOWN                              (3)
 
 /*
  * How many tiles per chunk
  */
-#define CHUNK_WIDTH                             (11)
-#define CHUNK_HEIGHT                            (11)
+#define CHUNK_WIDTH                             (14)
+#define CHUNK_HEIGHT                            (14)
 
 /*
  * Dungeon size
@@ -96,7 +96,7 @@
 /*
  * The number of tiles per screen.
  */
-#define TILES_SCREEN_WIDTH                      19
+#define TILES_SCREEN_WIDTH                      28
 #define TILES_SCREEN_HEIGHT                     13
 #define TILES_ANIM_MAX                          10000
 

@@ -1,11 +1,12 @@
 import mm
 import wid_popup
 import sys
-
-wid_quit_menu = None
+import game
 
 
 def wid_quit_common():
+    game.wid_quit.hide()
+    return
     destroy()
 
 
@@ -37,14 +38,11 @@ def wid_quit_on_key_down_yes(w, sym, mod):
 
 def wid_quit_on_key_down_no(w, sym, mod):
     wid_quit_no()
-    # so focus does not select us after we are dead!
-    return False
+    return True
 
 
 def wid_quit_create():
-    global wid_quit_menu
-
-    if wid_quit_menu is not None:
+    if game.wid_quit is not None:
         return
 
     w = wid_popup.WidPopup(name="quit window",
@@ -53,13 +51,13 @@ def wid_quit_create():
                            body_tiles="wid2",
                            width=0.5,
                            height=0.0)
-    wid_quit_menu = w
+    game.wid_quit = w
 
     w.add_text(center=True,
                font="vlarge",
                color="white",
                title="true",
-               text="%%tile=player4$Quit the game?")
+               text="%%tp=player1$Quit the game?")
 
     w.add_text(font="vlarge",
                on_m_down=wid_quit_on_m_down_yes,
@@ -75,15 +73,16 @@ def wid_quit_create():
                text="%%fg=green$n) %%fg=white$Nope, persevere")
 
     w.update()
-    w.set_focus()
+    w.set_focusable(value=-1)
     w.move_to_pct_centered(x=0.5, y=0.5)
+    w.hide()
+
+    return w
 
 
 def destroy():
-    global wid_quit_menu
-
-    if wid_quit_menu is None:
+    if game.wid_quit is None:
         return
 
-    wid_quit_menu.destroy()
-    wid_quit_menu = None
+    game.wid_quit.destroy()
+    game.wid_quit = None

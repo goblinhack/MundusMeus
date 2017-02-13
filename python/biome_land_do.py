@@ -213,7 +213,7 @@ class Biome(biome.Biome):
                     self.putc(x, y, charmap.depth.under, charmap.WATER)
 
                 if possible_dungeon:
-                    if random.randint(0, 10000) < 10:
+                    if random.randint(0, 10000) < 100:
                         self.putc(x, y, charmap.depth.floor, charmap.DUNGEON)
 
                 if is_dungeon:

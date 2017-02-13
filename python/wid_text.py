@@ -99,9 +99,6 @@ class WidText(wid.Wid):
 
                 max_h = 0
                 for word in words:
-                    #
-                    # Add space between words
-                    #
                     if not first:
                         w, h, c = mm.text_size_pct(font=font, text=" ")
                         x += w
@@ -438,9 +435,6 @@ def text_size_pct(row_text, row_font, width):
 
             max_h = 0
             for word in words:
-                #
-                # Add space between words
-                #
                 if not first:
                     w, h, c = mm.text_size_pct(font=font, text=" ")
                     x += w
