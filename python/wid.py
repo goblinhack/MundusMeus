@@ -1,5 +1,6 @@
 import traceback
 import mm
+import wid_focus
 
 all_wids = {}
 
@@ -45,6 +46,7 @@ class Wid:
         self.callback_on_tick = None
         self.callback_on_display = None
         self.callback_on_display_win = None
+        self.is_visible = True
 
     def __str__(self):
         return "{0}".format(self.name)
@@ -69,13 +71,19 @@ class Wid:
         mm.wid_fade_in_out(self, **kw)
 
     def visible(self, **kw):
+        self.is_visible = True
         mm.wid_visible(self, **kw)
 
     def hide(self, **kw):
+        self.is_visible = False
         mm.wid_hide(self, **kw)
+        wid_focus.clear_focus(self)
 
     def toggle_hidden(self, **kw):
+        self.is_visible = not self.is_visible
         mm.wid_toggle_hidden(self, **kw)
+        if not self.is_visible:
+            wid_focus.clear_focus(self)
 
     def mouse_hide(self, **kw):
         mm.wid_mouse_hide(self, **kw)
@@ -116,7 +124,7 @@ class Wid:
     def get_top_parent(self):
         wid_id = mm.wid_get_top_parent(self)
         if wid_id is not None:
-            wid = all_wids[wid_id]
+            wid = all_wids.get(wid_id, None)
             if wid is not None:
                 return wid
         return None
@@ -124,7 +132,7 @@ class Wid:
     def get_parent(self):
         wid_id = mm.wid_get_parent(self)
         if wid_id is not None:
-            wid = all_wids[wid_id]
+            wid = all_wids.get(wid_id, None)
             if wid is not None:
                 return wid
         return None

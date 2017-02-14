@@ -8622,6 +8622,7 @@ static void wid_lighting_render (widp w,
             blue = ((double)c.b) / 255.0;
             alpha = ((double)c.a) / 255.0;
             alpha *= fade;
+            light_radius *= alpha;
 
             push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
                            red, green, blue, alpha);

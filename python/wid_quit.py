@@ -4,40 +4,40 @@ import sys
 import game
 
 
-def wid_quit_common():
+def wid_quit_common(w):
     game.wid_quit.hide()
     return
     destroy()
 
 
-def wid_quit_yes():
-    wid_quit_common()
+def wid_quit_yes(w):
+    wid_quit_common(w)
     mm.die("exit game from {0}".format(sys._getframe().f_code.co_name))
-    return False
+    return True
 
 
-def wid_quit_no():
-    wid_quit_common()
-    return False
+def wid_quit_no(w):
+    wid_quit_common(w)
+    return True
 
 
 def wid_quit_on_m_down_yes(w, x, y, button):
-    wid_quit_yes()
-    return False
+    wid_quit_yes(w)
+    return True
 
 
 def wid_quit_on_m_down_no(w, x, y, button):
-    wid_quit_no()
-    return False
+    wid_quit_no(w)
+    return True
 
 
 def wid_quit_on_key_down_yes(w, sym, mod):
-    wid_quit_yes()
+    wid_quit_yes(w)
     return True
 
 
 def wid_quit_on_key_down_no(w, sym, mod):
-    wid_quit_no()
+    wid_quit_no(w)
     return True
 
 

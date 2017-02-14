@@ -8,6 +8,7 @@ import pickle
 import os.path
 import game
 import wid_mini_map
+import wid_focus
 
 global g
 
@@ -226,12 +227,14 @@ class Game:
             game.wid_quit.toggle_hidden()
             game.wid_quit.set_focus()
             game.wid_quit.to_front()
+            wid_focus.set_focus(game.wid_quit)
             return True
 
         if mod == mm.KMOD_LCTRL:
             if sym == mm.SDLK_e:
                 game.wid_tp_editor.toggle_hidden()
                 game.wid_tp_editor.to_front()
+                wid_focus.set_focus(game.wid_tp_editor)
                 return True
 
         return False
