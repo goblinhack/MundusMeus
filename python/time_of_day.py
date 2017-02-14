@@ -93,7 +93,7 @@ colors = [
         "hour_str": "Afternoon, 5pm",
     },
     {
-        "color": color.ORANGE,
+        "color": color.YELLOW1,
         "alpha": 255,
         "hour_str": "Dusk, 6pm",
     },
