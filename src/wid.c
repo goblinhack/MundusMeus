@@ -7133,6 +7133,11 @@ static widp wid_key_up_handler (int32_t x, int32_t y)
 }
 
 #ifdef DEBUG_GL_BLEND
+CON("%d %d %s %s", i1, i2, vals_str[i1], vals_str[i2]);
+glBlendFunc(vals[i1], vals[i2]);
+#endif
+
+#ifdef DEBUG_GL_BLEND
 static int vals[] = {
 
 /* GL_ZERO                           */ 0,
@@ -7162,12 +7167,36 @@ static int vals[] = {
 /* GL_ONE_MINUS_CONSTANT_ALPHA       */ 0x8004,
 /* GL_BLEND_COLOR */ 0x8005,
 };
+static const char * vals_str[] = {
 
-/*
- * Add this somewhere
- */
-CON("%d %d", i1, i2);
-glBlendFunc(vals[i1], vals[i2]);
+"GL_ZERO                           ",
+"GL_ONE                            ",
+"GL_SRC_COLOR                      ",
+"GL_ONE_MINUS_SRC_COLOR            ",
+"GL_SRC_ALPHA                      ",
+"GL_ONE_MINUS_SRC_ALPHA            ",
+"GL_DST_ALPHA                      ",
+"GL_ONE_MINUS_DST_ALPHA            ",
+"GL_DST_COLOR                      ",
+"GL_ONE_MINUS_DST_COLOR            ",
+"GL_SRC_ALPHA_SATURATE             ",
+"GL_FUNC_ADD                       ",
+"GL_BLEND_EQUATION                 ",
+"GL_BLEND_EQUATION_RGB             ",
+"GL_BLEND_EQUATION_ALPHA           ",
+"GL_FUNC_SUBTRACT                  ",
+"GL_FUNC_REVERSE_SUBTRACT          ",
+"GL_BLEND_DST_RGB                  ",
+"GL_BLEND_SRC_RGB                  ",
+"GL_BLEND_DST_ALPHA                ",
+"GL_BLEND_SRC_ALPHA                ",
+"GL_CONSTANT_COLOR                 ",
+"GL_ONE_MINUS_CONSTANT_COLOR       ",
+"GL_CONSTANT_ALPHA                 ",
+"GL_ONE_MINUS_CONSTANT_ALPHA       ",
+"GL_BLEND_COLOR ",
+};
+
 
 static int i1;
 static int i2;
@@ -7700,6 +7729,15 @@ static void wid_display_fast (widp w,
 
     thingp t = wid_get_thing(w);
     tpp tp = 0;
+
+    /*
+     * Things yet to be garbage collected.
+     */
+    if (w->being_destroyed) {
+        if (!wid_is_fading(w)) {
+            return;
+        }
+    }
 
     if (likely(t != 0)) {
         tp = thing_tp(t);
@@ -9542,7 +9580,7 @@ static void wid_display (widp w,
         if (game.biome_set_is_land) {
             snow_tick(game.snow_amount);
             rain_tick(game.rain_amount);
-            cloud_tick();
+            cloud_tick(true);
         }
 
         if ((w->grid) && !debug) {
@@ -9613,7 +9651,10 @@ static void wid_display (widp w,
                     double x;
                     double fade = 0.1;
 
-                    for (x = 1.5; x >= 1.0; x -= 0.05) {
+                    double step = 0.03;
+                    double penetration = 1.5;
+
+                    for (x = penetration; x >= 1.0; x -= step) {
                         wid_lighting_render(w, i, 0.0, fade, x);
                         fade *= 1.10;
                     }
@@ -9944,11 +9985,11 @@ void wid_display_all (void)
     if (w && (++wid_refresh_overlay_count < 10)) {
         glBindTexture(GL_TEXTURE_2D, 0);
 
+        glBindFramebuffer_EXT(GL_FRAMEBUFFER, 0);
+
         glClearColor(0,0,0,0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glcolor(WHITE);
-
-        glBindFramebuffer_EXT(GL_FRAMEBUFFER, 0);
 
         glEnable(GL_SCISSOR_TEST);
 
@@ -10008,6 +10049,8 @@ blit:
         uint32_t th = game.video_pix_height;
         double window_w = tw;
         double window_h = th;
+
+        glBlendFunc( GL_BLEND_SRC_ALPHA , GL_ZERO);
 
         blit_init();
         glcolor(WHITE);

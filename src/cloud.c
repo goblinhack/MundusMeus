@@ -22,7 +22,7 @@ typedef struct {
 
 static cloud clouds[nclouds];
 
-void cloud_tick (void)
+void cloud_tick (int display)
 {
     double w = game.video_gl_width;
     double h = game.video_gl_height;
@@ -51,11 +51,11 @@ void cloud_tick (void)
 
             f->x = myrand() % (int)w;
             f->y = myrand() % (int)h;
-            f->scale = gauss(1.0, 0.2);
+            f->scale = gauss(1.5, 0.2);
         }
 
-        double dw = cloud_w * (f->scale + 0.2);
-        double dh = cloud_h * (f->scale + 0.2);
+        double dw = cloud_w * (f->scale + 0.8);
+        double dh = cloud_h * (f->scale + 0.5);
 
         tl.x = f->x - dw;
         tl.y = f->y - dh;
@@ -69,7 +69,10 @@ void cloud_tick (void)
         tl.y += w / 10;
         br.x += w / 20;
         br.y += w / 10;
-        tile_blit_fat(0, tile, 0, &tl, &br);
+
+        if (display) {
+            tile_blit_fat(0, tile, 0, &tl, &br);
+        }
 
         f++;
     }
@@ -90,7 +93,10 @@ void cloud_tick (void)
         color c = WHITE;
         c.a = 150.0;
         glcolor(c);
-        tile_blit_fat(0, tile, 0, &tl, &br);
+
+        if (display) {
+            tile_blit_fat(0, tile, 0, &tl, &br);
+        }
 
         f++;
     }

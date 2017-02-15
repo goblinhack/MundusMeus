@@ -89,8 +89,8 @@
 /*
  * How many chunks across and down in the world. Image width / chunk width
  */
-#define WORLD_WIDTH                             186
-#define WORLD_HEIGHT                            186
+#define WORLD_WIDTH                             128
+#define WORLD_HEIGHT                            128
 #define WORLD_DEPTH                             16
 
 /*

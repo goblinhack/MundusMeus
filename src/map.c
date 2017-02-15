@@ -506,6 +506,6 @@ void map_time_step (levelp level)
 {
     int i;
     for (i = 0; i < 10; i++) {
-        cloud_tick();
+        cloud_tick(false);
     }
 }
