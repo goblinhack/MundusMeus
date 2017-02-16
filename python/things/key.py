@@ -30,7 +30,7 @@ def key1_init(name, short_name, long_name, tiles=[]):
 def init():
     key1_init(name="key1",
               short_name="shiny key",
-              long_name="a metal porthole to other places in space",
+              long_name="A metal key",
               tiles=[
                      "key1.1",
                     ])

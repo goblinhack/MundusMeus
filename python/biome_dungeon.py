@@ -331,7 +331,7 @@ def biome_populate(self):
                 if random.randint(0, 100) < 5:
                     toughness = m.depth_map.cells[x][y] * 20
                     r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                     t.push()
 
             if m.is_water_at(x, y):
@@ -385,7 +385,7 @@ def biome_populate(self):
                 if put_treasure:
                     toughness = m.depth_map.cells[x][y] * 2
                     r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                     t.push()
 
             if m.is_rock_at(x, y):
@@ -396,7 +396,7 @@ def biome_populate(self):
                 if random.randint(0, 100) < 5:
                     toughness = m.depth_map.cells[x][y]
                     r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                     t.push()
 
             if m.is_door_at(x, y):
@@ -448,7 +448,7 @@ def biome_populate(self):
                     toughness += m.roomno_depth[roomno]
 
                 r = tp.get_random_treasure(toughness=toughness)
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                 t.push()
 
             if m.is_chasm_at(x, y):

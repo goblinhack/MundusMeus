@@ -25,8 +25,8 @@ def dirt_deco1_init(name, short_name, long_name, tiles=[]):
 
 def init():
     dirt_deco1_init(name="dirt_snow_deco",
-                    short_name="dirt",
-                    long_name="dirt",
+                    short_name="dirty snow",
+                    long_name="dirty snow",
                     tiles=[
                            "dirt_snow_tl",
                            "dirt_snow_top",

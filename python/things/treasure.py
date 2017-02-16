@@ -14,15 +14,15 @@ def treasure1_init(d1000_roll,
 
     global total_treasure
 
-    short_name = name = "treasure" + str(total_treasure + 1)
+    name = "treasure" + str(total_treasure + 1)
     total_treasure = total_treasure + 1
 
     x = tp.Tp(name=name,
               is_treasure=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name(short_name)
-    x.set_short_name(short_name)
+    x.set_long_name("treasure")
+    x.set_short_name("treasure")
 
     if is_minable:
         x.set_z_depth("buried")

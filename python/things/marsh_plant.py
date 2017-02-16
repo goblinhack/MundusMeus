@@ -12,15 +12,15 @@ def marsh_plant1_init(d1000_roll, tiles=[]):
 
     global total_marsh_plant
 
-    short_name = name = "marsh_plant" + str(total_marsh_plant + 1)
+    name = "marsh" + str(total_marsh_plant + 1)
     total_marsh_plant = total_marsh_plant + 1
 
     x = tp.Tp(name=name,
               is_marsh_plant=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name(short_name)
-    x.set_short_name(short_name)
+    x.set_long_name("marsh plant")
+    x.set_short_name("marsh plant")
     x.set_is_marsh_plant(True)
     x.set_is_world(True)
     x.set_z_depth("floor2")

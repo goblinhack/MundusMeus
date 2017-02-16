@@ -12,15 +12,15 @@ def tree_snow_init(d1000_roll, tiles=[]):
 
     global total_tree_snow
 
-    short_name = name = "tree_snow" + str(total_tree_snow + 1)
+    name = "tree_snow" + str(total_tree_snow + 1)
     total_tree_snow = total_tree_snow + 1
 
     x = tp.Tp(name=name,
               is_tree_snow=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name(short_name)
-    x.set_short_name(short_name)
+    x.set_long_name("icy tree")
+    x.set_short_name("icy tree")
     x.set_is_tree(True)
     x.set_is_world(True)
     x.set_z_depth("wall")

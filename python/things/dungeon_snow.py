@@ -12,15 +12,15 @@ def dungeon_snow_init(d1000_roll, tiles=[]):
 
     global total_dungeon_snow
 
-    short_name = name = "dungeon_snow" + str(total_dungeon_snow + 1)
+    name = "dungeon_snow" + str(total_dungeon_snow + 1)
     total_dungeon_snow = total_dungeon_snow + 1
 
     x = tp.Tp(name=name,
               is_dungeon_snow=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name(short_name)
-    x.set_short_name(short_name)
+    x.set_long_name("icy dungeon")
+    x.set_short_name("icy dungeon")
     x.set_is_dungeon(True)
     x.set_z_depth("wall")
 

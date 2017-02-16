@@ -12,15 +12,15 @@ def tree1_init(d1000_roll, tiles=[]):
 
     global total_tree
 
-    short_name = name = "tree" + str(total_tree + 1)
+    name = "tree" + str(total_tree + 1)
     total_tree = total_tree + 1
 
     x = tp.Tp(name=name,
               is_tree=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name(short_name)
-    x.set_short_name(short_name)
+    x.set_long_name("a tree")
+    x.set_short_name("a tree")
     x.set_is_tree(True)
     x.set_is_world(True)
     x.set_z_depth("wall")

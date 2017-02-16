@@ -12,15 +12,15 @@ def tree_conifer1_init(d1000_roll, tiles=[]):
 
     global total_tree_conifer
 
-    short_name = name = "tree_conifer" + str(total_tree_conifer + 1)
+    name = "tree_conifer" + str(total_tree_conifer + 1)
     total_tree_conifer = total_tree_conifer + 1
 
     x = tp.Tp(name=name,
               is_tree_conifer=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name(short_name)
-    x.set_short_name(short_name)
+    x.set_long_name("conifer")
+    x.set_short_name("conifer")
     x.set_is_tree(True)
     x.set_is_world(True)
     x.set_z_depth("wall")

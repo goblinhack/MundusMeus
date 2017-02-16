@@ -7,7 +7,7 @@ def thing_init(t):
 
 def wall_init(name):
     x = tp.Tp(name, is_wall=True)
-    x.set_long_name(name)
+    x.set_long_name("dungeon wall")
     x.set_short_name(name)
     x.set_is_movement_blocking(True)
     x.set_is_wall(True)

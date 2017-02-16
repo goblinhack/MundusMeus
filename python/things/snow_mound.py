@@ -12,15 +12,15 @@ def snow_mound1_init(d1000_roll, tiles=[]):
 
     global total_snow_mound
 
-    short_name = name = "snow_mound" + str(total_snow_mound + 1)
+    name = "snow_mound" + str(total_snow_mound + 1)
     total_snow_mound = total_snow_mound + 1
 
     x = tp.Tp(name=name,
               is_snow_mound=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name(short_name)
-    x.set_short_name(short_name)
+    x.set_long_name("snow mound")
+    x.set_short_name("snow mound")
     x.set_is_snow_mound(True)
     x.set_is_world(True)
     x.set_z_depth("floor2")

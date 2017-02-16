@@ -7,7 +7,7 @@ def thing_init(t):
 
 def water_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
+    x.set_long_name(long_name)
     x.set_short_name(short_name)
     x.set_is_water(True)
     x.set_z_depth("lava")

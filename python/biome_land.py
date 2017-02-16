@@ -131,31 +131,31 @@ def biome_populate(self):
             if m.is_dungeon_at(x, y):
                 if c.is_snowy:
                     r = tp.get_random_dungeon_snow()
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                     t.push()
                     pushed = True
                 else:
                     r = tp.get_random_dungeon()
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                     t.push()
                     pushed = True
 
             if m.is_tree_at(x, y):
                 if c.is_snowy:
                     r = tp.get_random_tree_snow()
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                     t.push()
                     pushed = True
                 elif is_poor_soil:
                     r = tp.get_random_tree_conifer()
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                     t.push()
                     pushed = True
                 else:
                     for i in range(1, random.randint(1, 10)):
                         r = tp.get_random_tree()
                         t = thing.Thing(chunk=c, x=tx, y=ty,
-                                        tp_name=r.short_name)
+                                        tp_name=r.name)
                         t.push()
                         pushed = True
 
@@ -172,13 +172,13 @@ def biome_populate(self):
                         r = tp.get_random_marsh_plant()
                         for i in range(1, random.randint(1, 5)):
                             t = thing.Thing(chunk=c, x=tx, y=ty,
-                                            tp_name=r.short_name)
+                                            tp_name=r.name)
                             t.push()
 
                         if random.randint(0, 1000) < 10:
                             r = tp.get_random_plant()
                             t = thing.Thing(chunk=c, x=tx, y=ty,
-                                            tp_name=r.short_name)
+                                            tp_name=r.name)
                             t.push()
                     else:
                         if random.randint(0, 100) < 10:
@@ -186,12 +186,12 @@ def biome_populate(self):
                             if random.randint(0, 100) < 10:
                                 for i in range(1, random.randint(1, 15)):
                                     t = thing.Thing(chunk=c, x=tx, y=ty,
-                                                    tp_name=r.short_name)
+                                                    tp_name=r.name)
                                     t.push()
                             else:
                                 for i in range(1, random.randint(1, 5)):
                                     t = thing.Thing(chunk=c, x=tx, y=ty,
-                                                    tp_name=r.short_name)
+                                                    tp_name=r.name)
                                     t.push()
 
             if dirt:
@@ -203,7 +203,7 @@ def biome_populate(self):
                     r = tp.get_random_plant()
                     for i in range(1, random.randint(1, 5)):
                         t = thing.Thing(chunk=c, x=tx, y=ty,
-                                        tp_name=r.short_name)
+                                        tp_name=r.name)
                         t.push()
 
             if sand:
@@ -215,7 +215,7 @@ def biome_populate(self):
                     if random.randint(0, 1000) < 5:
                         r = tp.get_random_small_rock()
                         t = thing.Thing(chunk=c, x=tx, y=ty,
-                                        tp_name=r.short_name)
+                                        tp_name=r.name)
                         t.push()
 
             if gravel:
@@ -230,7 +230,7 @@ def biome_populate(self):
 
                 if random.randint(0, 1000) < 50:
                     r = tp.get_random_small_rock()
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                     t.push()
                     pushed = True
 
@@ -256,7 +256,7 @@ def biome_populate(self):
 
                 if random.randint(0, 1000) < 50:
                     r = tp.get_random_snow_mound()
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                     t.push()
 
             if m.is_dungeon_way_up_at(x, y):
@@ -354,14 +354,14 @@ def biome_populate(self):
                 if put_treasure:
                     toughness = 1
                     r = tp.get_random_minable_treasure(toughness=toughness)
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                     t.push()
 
             if m.is_treasure_at(x, y):
                 toughness = c.where.z
 
                 r = tp.get_random_treasure(toughness=1)
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.short_name)
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=r.name)
                 t.push()
                 pushed = True
 

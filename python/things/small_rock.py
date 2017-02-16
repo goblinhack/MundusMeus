@@ -12,15 +12,15 @@ def small_rock_init(d1000_roll, tiles=[]):
 
     global total_small_rock
 
-    short_name = name = "small_rock" + str(total_small_rock + 1)
+    name = "small_rock" + str(total_small_rock + 1)
     total_small_rock = total_small_rock + 1
 
     x = tp.Tp(name=name,
               is_small_rock=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name(short_name)
-    x.set_short_name(short_name)
+    x.set_long_name("small rock")
+    x.set_short_name("small rock")
     x.set_is_small_rock(True)
     x.set_is_world(True)
     x.set_z_depth("floor2")

@@ -12,15 +12,15 @@ def dungeon1_init(d1000_roll, tiles=[]):
 
     global total_dungeon
 
-    short_name = name = "dungeon" + str(total_dungeon + 1)
+    name = "dungeon" + str(total_dungeon + 1)
     total_dungeon = total_dungeon + 1
 
     x = tp.Tp(name=name,
               is_dungeon=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name(short_name)
-    x.set_short_name(short_name)
+    x.set_long_name("dungeon")
+    x.set_short_name("dungeon")
     x.set_is_dungeon(True)
     x.set_is_world(True)
     x.set_z_depth("wall")
