@@ -77,6 +77,14 @@ def load_one_plugin(filename):
         global wid_quit
         wid_quit = py_mod
 
+    if basename(filename) == "wid_help.py":
+        global wid_help
+        wid_help = py_mod
+
+    if basename(filename) == "wid_info.py":
+        global wid_info
+        wid_info = py_mod
+
     if basename(filename) == "wid_mini_map.py":
         global wid_mini_map
         wid_mini_map = py_mod
@@ -162,8 +170,12 @@ def init2():
 #    wid_intro_bg.create()
 #    wid_intro_menu.create()
     if True:
-        game.wid_quit = None
+        global wid_quit
         w = wid_quit.wid_quit_create()
+
+    if True:
+        global wid_help
+        w = wid_help.wid_help_create()
 
     if True:
         w = wid_tp_list.WidTpList(name="tp window",

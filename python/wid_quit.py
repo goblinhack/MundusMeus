@@ -42,8 +42,6 @@ def wid_quit_on_key_down_no(w, sym, mod):
 
 
 def wid_quit_create():
-    if game.wid_quit is not None:
-        return
 
     w = wid_popup.WidPopup(name="quit window",
                            tiles="wid1",
