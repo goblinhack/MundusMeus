@@ -197,9 +197,9 @@ class Tp:
         self.is_rrr60 = False
         self.is_rrr61 = False
         self.is_rrr62 = False
-        self.is_rrr63 = False
-        self.is_rrr64 = False
-        self.is_rrr65 = False
+        self.is_difficulty_easy = False
+        self.is_difficulty_hard = False
+        self.is_difficulty_nightmare = False
         self.is_world = False
         self.is_solid_ground = False
         self.is_dirt_deco = False
@@ -632,17 +632,17 @@ class Tp:
         self.is_rrr62 = value
         mm.tp_set_is_rrr62(self, value)
 
-    def set_is_rrr63(self, value):
-        self.is_rrr63 = value
-        mm.tp_set_is_rrr63(self, value)
+    def set_is_difficulty_easy(self, value):
+        self.is_difficulty_easy = value
+        mm.tp_set_is_difficulty_easy(self, value)
 
-    def set_is_rrr64(self, value):
-        self.is_rrr64 = value
-        mm.tp_set_is_rrr64(self, value)
+    def set_is_difficulty_hard(self, value):
+        self.is_difficulty_hard = value
+        mm.tp_set_is_difficulty_hard(self, value)
 
-    def set_is_rrr65(self, value):
-        self.is_rrr65 = value
-        mm.tp_set_is_rrr65(self, value)
+    def set_is_difficulty_nightmare(self, value):
+        self.is_difficulty_nightmare = value
+        mm.tp_set_is_difficulty_nightmare(self, value)
 
     def set_is_world(self, value):
         self.is_world = value

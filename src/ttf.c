@@ -289,18 +289,13 @@ void ttf_putc (font *f, int32_t c, double x, double y, double scaling)
         glBindTexture(GL_TEXTURE_2D, 0);
 
         {
-            glcolor(CONSOLE_CURSOR_COLOR);
+            color c = CONSOLE_CURSOR_COLOR;
+
+            c.a = 200;
+
+            glcolor(c);
 
             gl_blitsquare(left, top, right, bottom);
-
-            left += 1;
-            right -= 1;
-            top += 1;
-            bottom -= 1;
-
-            glcolor(BLACK);
-
-            gl_blitquad(left, top, right, bottom);
 
             glcolor_restore();
             return;

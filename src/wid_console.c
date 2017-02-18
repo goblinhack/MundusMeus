@@ -188,7 +188,7 @@ uint8_t wid_console_receive_input (widp w, const SDL_KEYSYM *key)
  */
 static void wid_console_wid_create (void)
 {
-    fontp font = small_font;
+    fontp font = med_font;
 
     {
         fpoint tl = {0.0f, 0.0f};
@@ -204,8 +204,6 @@ static void wid_console_wid_create (void)
         wid_set_color(wid_console_window, WID_COLOR_TL, c);
         wid_set_color(wid_console_window, WID_COLOR_BG, c);
         wid_set_color(wid_console_window, WID_COLOR_BR, c);
-        wid_set_color(wid_console_window, WID_COLOR_TEXT,
-                         CONSOLE_CURSOR_COLOR);
         wid_set_font(wid_console_window, font);
         wid_set_name(wid_console_window, "wid_console window");
 
@@ -329,7 +327,7 @@ static void wid_console_wid_create (void)
 #endif
 
     color c = BLACK;
-    c.a = 100;
+    c.a = 0;
     wid_set_color(wid_console_window, WID_COLOR_BG, c);
     wid_set_color(wid_console_window, WID_COLOR_TL, c);
     wid_set_color(wid_console_window, WID_COLOR_BR, c);

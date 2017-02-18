@@ -1823,9 +1823,9 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr60)
     TP_SET_DECL(is_rrr61)
     TP_SET_DECL(is_rrr62)
-    TP_SET_DECL(is_rrr63)
-    TP_SET_DECL(is_rrr64)
-    TP_SET_DECL(is_rrr65)
+    TP_SET_DECL(is_difficulty_easy)
+    TP_SET_DECL(is_difficulty_hard)
+    TP_SET_DECL(is_difficulty_nightmare)
     TP_SET_DECL(is_world)
     TP_SET_DECL(is_solid_ground)
     TP_SET_DECL(is_dungeon_way_up)
@@ -2796,6 +2796,8 @@ static void python_add_consts (void)
     PyModule_AddIntConstant(mm_mod, "SDLK_LSHIFT", SDLK_LSHIFT);
     PyModule_AddIntConstant(mm_mod, "SDLK_RCTRL", SDLK_RCTRL);
     PyModule_AddIntConstant(mm_mod, "SDLK_LCTRL", SDLK_LCTRL);
+    PyModule_AddIntConstant(mm_mod, "SDLK_RGUI", SDLK_RGUI);
+    PyModule_AddIntConstant(mm_mod, "SDLK_LGUI", SDLK_LGUI);
     PyModule_AddIntConstant(mm_mod, "SDLK_RALT", SDLK_RALT);
     PyModule_AddIntConstant(mm_mod, "SDLK_LALT", SDLK_LALT);
     PyModule_AddIntConstant(mm_mod, "SDLK_MODE", SDLK_MODE);

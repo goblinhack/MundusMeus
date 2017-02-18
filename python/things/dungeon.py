@@ -36,26 +36,30 @@ def dungeon1_init(d1000_roll, tiles=[]):
 def init():
     # high numbers means rare, low means common
     x = dungeon1_init(d1000_roll=1, tiles=["dungeon1"])
-    x.set_blit_top_off(2)
+    x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
+    x.set_is_difficulty_easy(True)
 
     # high numbers means rare, low means common
     x = dungeon1_init(d1000_roll=1, tiles=["dungeon2"])
-    x.set_blit_top_off(2)
+    x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
+    x.set_is_difficulty_hard(True)
 
     # high numbers means rare, low means common
     x = dungeon1_init(d1000_roll=1, tiles=["dungeon3"])
-    x.set_blit_top_off(2)
+    x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
+    x.set_is_difficulty_nightmare(True)
 
     # high numbers means rare, low means common
     x = dungeon1_init(d1000_roll=1, tiles=["dungeon4"])
-    x.set_blit_top_off(2)
+    x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
+    x.set_is_difficulty_nightmare(True)
 
 init()

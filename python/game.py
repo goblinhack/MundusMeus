@@ -241,6 +241,24 @@ class Game:
         game.wid_help.set_focus()
         game.wid_help.to_front()
         wid_focus.set_focus(game.wid_help)
+
+        if sym == mm.SDLK_LCTRL:
+            return False
+        if sym == mm.SDLK_LSHIFT:
+            return False
+        if sym == mm.SDLK_LALT:
+            return False
+        if sym == mm.SDLK_LGUI:
+            return False
+        if sym == mm.SDLK_RCTRL:
+            return False
+        if sym == mm.SDLK_RSHIFT:
+            return False
+        if sym == mm.SDLK_RALT:
+            return False
+        if sym == mm.SDLK_RGUI:
+            return False
+
         return True
 
     def player_get_next_move(self):

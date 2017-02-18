@@ -35,13 +35,15 @@ def dungeon_snow_init(d1000_roll, tiles=[]):
 def init():
     # high numbers means rare, low means common
     x = dungeon_snow_init(d1000_roll=1, tiles=["dungeon_snow"])
-    x.set_blit_top_off(2)
+    x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
+    x.set_is_difficulty_hard(True)
 
     x = dungeon_snow_init(d1000_roll=1, tiles=["dungeon_snow2"])
-    x.set_blit_top_off(2)
+    x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
+    x.set_is_difficulty_nightmare(True)
 
 init()

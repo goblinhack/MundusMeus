@@ -269,7 +269,7 @@ class WidTpEditor(wid_popup.WidPopup):
                         "on_m_over_b": wid_tp_editor_on_m_over_b,
                         "on_m_over_e": wid_tp_editor_on_m_over_e,
                         "tiles": "button_plain",
-                        "tooltip": name,
+                        "tooltip": name.title(),
                         "context": index,
                     },
                 )
@@ -287,7 +287,7 @@ class WidTpEditor(wid_popup.WidPopup):
                         "on_m_over_b": wid_tp_editor_on_m_over_b,
                         "on_m_over_e": wid_tp_editor_on_m_over_e,
                         "tiles": "button_plain",
-                        "tooltip": name,
+                        "tooltip": name.title(),
                         "context": index,
                     },
                 )
