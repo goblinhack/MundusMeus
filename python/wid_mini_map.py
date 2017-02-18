@@ -98,7 +98,7 @@ class MiniMap(object):
             g.move_count)
 
         if l.where.z < 0:
-            text += "Depth %%fg=green${0} feet%%fg=reset\n".format(
+            text += "%%fg=white$Depth %%fg=green${0} feet%%fg=reset\n".format(
                 -l.where.z * 10)
 
         w.add_text(font="small", text=text)

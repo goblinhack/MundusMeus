@@ -171,6 +171,7 @@ def init():
                      ])
     x.set_blit_top_off(1)
     x.set_z_depth("lava_top")
+    x.set_is_dungeon_item(True)
 
     x = water_init(name="water1_trans",
                    short_name="shallow water",
@@ -313,5 +314,6 @@ def init():
                      ])
     x.set_blit_top_off(1)
     x.set_z_depth("lava_top")
+    x.set_is_dungeon_item(True)
 
 init()

@@ -11,6 +11,8 @@ def water_init(name, short_name, long_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_is_water(True)
     x.set_z_depth("lava")
+    x.set_is_dungeon_item(True)
+    x.set_is_world_item(True)
     x.set_is_animated(True)
 
     x.set_light_radius(0.5)

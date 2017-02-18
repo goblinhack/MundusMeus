@@ -11,6 +11,7 @@ def lava_init(name, short_name, long_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_is_lava(True)
     x.set_z_depth("lava")
+    x.set_is_dungeon_item(True)
     x.set_is_animated(True)
 
     if tiles is not None:

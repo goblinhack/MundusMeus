@@ -22,7 +22,7 @@ def small_rock_init(d1000_roll, tiles=[]):
     x.set_long_name("small rock")
     x.set_short_name("small rock")
     x.set_is_small_rock(True)
-    x.set_is_world(True)
+    x.set_is_world_item(True)
     x.set_z_depth("floor2")
 
     for t in tiles:

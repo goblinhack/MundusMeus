@@ -19,6 +19,7 @@ def exit_init(name, short_name, long_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_is_dungeon_way_down(True)
     x.set_z_depth("floor2")
+    x.set_is_dungeon_item(True)
 
     if tiles is not None:
         for t in tiles:

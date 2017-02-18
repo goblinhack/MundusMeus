@@ -400,16 +400,9 @@ def biome_populate(self):
                     t.push()
 
             if m.is_door_at(x, y):
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="door1")
+                t = thing.Thing(chunk=c, x=tx, y=ty,
+                                tp_name=tp.get_random_door().name)
                 t.push()
-
-                num = len(t.tp.tiles)
-                which = m.getr(x, y)
-                which += self.biome_seed
-                which = which % num
-                which += 1
-
-                t.set_tilename("door1." + str(which))
 
             if m.is_key_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="key1")

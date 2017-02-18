@@ -10,6 +10,7 @@ def torch1_init(name, short_name, long_name, tiles=[]):
     x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("player")
+    x.set_is_dungeon_item(True)
     x.set_is_animated(True)
 
     x.set_light_radius(2)

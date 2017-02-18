@@ -237,11 +237,6 @@ class Game:
                 wid_focus.set_focus(game.wid_tp_editor)
                 return True
 
-        game.wid_help.toggle_hidden()
-        game.wid_help.set_focus()
-        game.wid_help.to_front()
-        wid_focus.set_focus(game.wid_help)
-
         if sym == mm.SDLK_LCTRL:
             return False
         if sym == mm.SDLK_LSHIFT:
@@ -258,6 +253,11 @@ class Game:
             return False
         if sym == mm.SDLK_RGUI:
             return False
+
+        game.wid_help.toggle_hidden()
+        game.wid_help.set_focus()
+        game.wid_help.to_front()
+        wid_focus.set_focus(game.wid_help)
 
         return True
 

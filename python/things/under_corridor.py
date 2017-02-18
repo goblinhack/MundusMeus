@@ -10,6 +10,7 @@ def under_corridor_init(name, short_name, long_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_long_name("corridor support")
     x.set_z_depth("bridge")
+    x.set_is_dungeon_item(True)
     x.set_is_bridge(True)
 
     if tiles is not None:

@@ -5,7 +5,7 @@ def thing_init(t):
     return
 
 
-def entrance_init(name, short_name, long_name, tiles=[]):
+def dungeon_way_up_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
 
     x.set_is_shadow_caster_soft(True)
@@ -14,6 +14,7 @@ def entrance_init(name, short_name, long_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_is_dungeon_way_up(True)
     x.set_z_depth("floor2")
+    x.set_is_dungeon_item(True)
 
     if tiles is not None:
         for t in tiles:
@@ -27,12 +28,12 @@ def entrance_init(name, short_name, long_name, tiles=[]):
 
 
 def init():
-    x = entrance_init(name="dungeon_way_up1",
-                      short_name="stairs leading upwards",
-                      long_name="stairs leading upwards",
-                      tiles=[
-                             "dungeon_way_up1.1",
-                            ])
+    x = dungeon_way_up_init(name="dungeon_way_up1",
+                            short_name="stairs leading upwards",
+                            long_name="stairs leading upwards",
+                            tiles=[
+                                   "dungeon_way_up1.1",
+                                   ])
 
     x.set_blit_bot_off(0)
     x.set_blit_top_off(1)

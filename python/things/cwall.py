@@ -12,6 +12,7 @@ def cwall_init(name):
     x.set_is_movement_blocking(True)
     x.set_is_cwall(True)
     x.set_z_depth("wall")
+    x.set_is_dungeon_item(True)
 
 #    x.set_is_shadow_caster_soft(True)
     x.set_is_shadow_caster(True)

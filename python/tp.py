@@ -14,6 +14,7 @@ all_floor_tps = []
 all_corridor_tps = []
 all_wall_tps = []
 all_cwall_tps = []
+all_door_tps = []
 all_dungeon_tps = []
 all_dungeon_snow_tps = []
 
@@ -35,6 +36,7 @@ class Tp:
                  is_corridor=False,
                  is_wall=False,
                  is_cwall=False,
+                 is_door=False,
                  is_dungeon=False,
                  is_dungeon_snow=False,
                  d1000_appearing_roll=0):
@@ -82,6 +84,10 @@ class Tp:
         if is_cwall:
             all_cwall_tps.append(name)
 
+        self.is_door = is_door
+        if is_door:
+            all_door_tps.append(name)
+
         self.is_floor = is_floor
         if is_floor:
             all_floor_tps.append(name)
@@ -123,7 +129,6 @@ class Tp:
         self.is_animation = False
         self.is_candle_light = False
         self.is_cats_eyes = False
-        self.is_door = False
         self.is_effect_fade_in_out = False
         self.is_effect_pulse = False
         self.is_effect_rotate_2way = False
@@ -196,11 +201,11 @@ class Tp:
         self.is_rrr59 = False
         self.is_rrr60 = False
         self.is_rrr61 = False
-        self.is_rrr62 = False
+        self.is_dungeon_item = False
         self.is_difficulty_easy = False
         self.is_difficulty_hard = False
         self.is_difficulty_nightmare = False
-        self.is_world = False
+        self.is_world_item = False
         self.is_solid_ground = False
         self.is_dirt_deco = False
         self.is_dirt_snow_deco = False
@@ -628,9 +633,9 @@ class Tp:
         self.is_rrr61 = value
         mm.tp_set_is_rrr61(self, value)
 
-    def set_is_rrr62(self, value):
-        self.is_rrr62 = value
-        mm.tp_set_is_rrr62(self, value)
+    def set_is_dungeon_item(self, value):
+        self.is_dungeon_item = value
+        mm.tp_set_is_dungeon_item(self, value)
 
     def set_is_difficulty_easy(self, value):
         self.is_difficulty_easy = value
@@ -644,9 +649,9 @@ class Tp:
         self.is_difficulty_nightmare = value
         mm.tp_set_is_difficulty_nightmare(self, value)
 
-    def set_is_world(self, value):
-        self.is_world = value
-        mm.tp_set_is_world(self, value)
+    def set_is_world_item(self, value):
+        self.is_world_item = value
+        mm.tp_set_is_world_item(self, value)
 
     def set_is_solid_ground(self, value):
         self.is_solid_ground = value
@@ -962,6 +967,15 @@ def get_random_wall():
 def get_random_cwall():
     while True:
         tp = all_tps[random.choice(all_cwall_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
+def get_random_door():
+    while True:
+        tp = all_tps[random.choice(all_door_tps)]
 
         roll = random.randint(1, 1000)
         if roll >= tp.d1000_appearing_roll:

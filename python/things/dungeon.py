@@ -22,7 +22,7 @@ def dungeon1_init(d1000_roll, tiles=[]):
     x.set_long_name("dungeon")
     x.set_short_name("dungeon")
     x.set_is_dungeon(True)
-    x.set_is_world(True)
+    x.set_is_world_item(True)
     x.set_z_depth("wall")
 
     for t in tiles:

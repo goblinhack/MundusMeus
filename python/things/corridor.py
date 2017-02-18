@@ -12,6 +12,7 @@ def corridor_init(name, short_name, long_name, tiles=[]):
     x.set_is_corridor(True)
     x.set_is_solid_ground(True)
     x.set_z_depth("floor")
+    x.set_is_dungeon_item(True)
 
     if tiles is not None:
         for t in tiles:
@@ -28,7 +29,8 @@ def init():
                   short_name="dirty corridor",
                   long_name="dirty corridor",
                   tiles=[
-                         "corridor1.1", "corridor1.2", "corridor1.3", "corridor1.4",
+                         "corridor1.1", "corridor1.2", "corridor1.3",
+                         "corridor1.4",
                          "corridor1.5", "corridor1.6", "corridor1.7", "corridor1.8",
                         ])
 

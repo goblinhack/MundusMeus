@@ -12,6 +12,7 @@ def stalactite_init(name, short_name, long_name, tiles=[]):
     x.set_is_movement_blocking(True)
     x.set_is_rock(True)
     x.set_z_depth("stalactite")
+    x.set_is_dungeon_item(True)
 
     if tiles is not None:
         for t in tiles:

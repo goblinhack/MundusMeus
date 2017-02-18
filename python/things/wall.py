@@ -12,6 +12,7 @@ def wall_init(name):
     x.set_is_movement_blocking(True)
     x.set_is_wall(True)
     x.set_z_depth("wall")
+    x.set_is_dungeon_item(True)
 
     x.set_is_shadow_caster(True)
     x.set_tile(tile=name + "_up_down", is_join_vert=True)

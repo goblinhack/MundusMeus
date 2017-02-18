@@ -15,14 +15,15 @@ def wid_tp_editor_on_m_down_close(w, x, y, button):
 def wid_tp_editor_filter(w, f):
     p = w.get_top_parent()
     p.orig_args["filter"] = f
-    WidTpEditor(k=p.orig_args)
+    w = WidTpEditor(k=p.orig_args)
+    w.visible()
     p.destroy()
     return False
 
 
 class Item(Enum):
-    all = 1
-    world = 2
+    world = 1
+    dungeon = 2
     weapon = 3
     magical = 4
     armor = 5
@@ -30,13 +31,13 @@ class Item(Enum):
     food = 7
 
 
-def wid_tp_editor_on_m_down_filter_all_items(w, x, y, button):
-    wid_tp_editor_filter(w, Item.world.value)
+def wid_tp_editor_on_m_down_filter_dungeon_items(w, x, y, button):
+    wid_tp_editor_filter(w, Item.dungeon.value)
     return True
 
 
 def wid_tp_editor_on_m_down_filter_world_items(w, x, y, button):
-    wid_tp_editor_filter(w, Item.all.value)
+    wid_tp_editor_filter(w, Item.world.value)
     return True
 
 
@@ -161,14 +162,14 @@ class WidTpEditor(wid_popup.WidPopup):
                     "tooltip": "World items",
                 },
                 {
-                    "on_m_down": wid_tp_editor_on_m_down_filter_all_items,
+                    "on_m_down": wid_tp_editor_on_m_down_filter_dungeon_items,
                     "tiles": "button_green",
-                    "tooltip": "All items",
+                    "tooltip": "Dungeon items",
                 },
                 {
                     "on_m_down": wid_tp_editor_on_m_down_filter_weapon_items,
                     "tiles": "button_green",
-                    "tooltip": "weapon filter",
+                    "tooltip": "Weapon filter",
                 },
                 {
                     "on_m_down": wid_tp_editor_on_m_down_filter_magic_items,
@@ -217,13 +218,12 @@ class WidTpEditor(wid_popup.WidPopup):
             add = False
 
             if self.filter == Item.world.value:
-                if tpp.is_world is True:
+                if tpp.is_player is True or \
+                   tpp.is_world_item is True:
                     add = True
 
-            if self.filter == Item.all.value:
-                if tpp.is_player is True or \
-                   tpp.is_food is True or \
-                   tpp.is_weapon is True:
+            if self.filter == Item.dungeon.value:
+                if tpp.is_dungeon_item is True:
                     add = True
 
             if self.filter == Item.weapon.value:
@@ -257,24 +257,6 @@ class WidTpEditor(wid_popup.WidPopup):
         index = 0
         button_events = []
 
-        for index in range(len(self.tp_sorted_name_list)):
-
-            name = self.tp_sorted_name_list[index]
-
-            tpp = tp.all_tps[name]
-
-            button_events.append(
-                    {
-                        "on_m_down": wid_tp_editor_on_m_down,
-                        "on_m_over_b": wid_tp_editor_on_m_over_b,
-                        "on_m_over_e": wid_tp_editor_on_m_over_e,
-                        "tiles": "button_plain",
-                        "tooltip": name.title(),
-                        "context": index,
-                    },
-                )
-
-            text += "'%%tp=" + name + "$'"
         for index in range(len(self.tp_sorted_name_list)):
 
             name = self.tp_sorted_name_list[index]

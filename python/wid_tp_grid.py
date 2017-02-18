@@ -214,7 +214,7 @@ class WidTpGrid(wid_popup.WidPopup):
             add = False
 
             if self.filter == Item.world.value:
-                if tpp.is_world is True:
+                if tpp.is_world_item is True:
                     add = True
 
             if self.filter == Item.all.value:

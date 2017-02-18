@@ -12,6 +12,7 @@ def chasm_init(name, short_name, long_name, tiles=[]):
     x.set_z_depth("floor")
     x.set_is_chasm_smoke(True)
     x.set_is_animated(True)
+    x.set_is_dungeon_item(True)
 
     if tiles is not None:
         for t in tiles:

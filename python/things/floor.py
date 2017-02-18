@@ -12,6 +12,7 @@ def floor_init(name, tiles=[]):
     x.set_is_floor(True)
     x.set_is_solid_ground(True)
     x.set_z_depth("floor")
+    x.set_is_dungeon_item(True)
 
     if tiles is not None:
         for t in tiles:

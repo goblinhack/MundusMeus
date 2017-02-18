@@ -205,11 +205,11 @@ typedef struct tp_ {
     uint8_t is_rrr59:1;
     uint8_t is_rrr60:1;
     uint8_t is_rrr61:1;
-    uint8_t is_rrr62:1;
+    uint8_t is_dungeon_item:1;
     uint8_t is_difficulty_easy:1;
     uint8_t is_difficulty_hard:1;
     uint8_t is_difficulty_nightmare:1;
-    uint8_t is_world:1;
+    uint8_t is_world_item:1;
     uint8_t is_solid_ground:1;
     uint8_t is_dirt_deco:1;
     uint8_t is_dirt_snow_deco:1;
@@ -726,9 +726,9 @@ static inline uint8_t tp_is_rrr61 (tpp t)
     return (t->is_rrr61);
 }
 
-static inline uint8_t tp_is_rrr62 (tpp t)
+static inline uint8_t tp_is_dungeon_item (tpp t)
 {
-    return (t->is_rrr62);
+    return (t->is_dungeon_item);
 }
 
 static inline uint8_t tp_is_difficulty_easy (tpp t)
@@ -746,9 +746,9 @@ static inline uint8_t tp_is_difficulty_nightmare (tpp t)
     return (t->is_difficulty_nightmare);
 }
 
-static inline uint8_t tp_is_world (tpp t)
+static inline uint8_t tp_is_world_item (tpp t)
 {
-    return (t->is_world);
+    return (t->is_world_item);
 }
 
 static inline uint8_t tp_is_solid_ground (tpp t)
