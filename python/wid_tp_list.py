@@ -139,7 +139,7 @@ class WidTpList(wid_popup.WidPopup):
                 {
                     "on_m_down": wid_tp_list_on_m_down_filter_weapon_items,
                     "tiles": "button_green",
-                    "tooltip": "weapon filter",
+                    "tooltip": "Weapon filter",
                 },
                 {
                     "on_m_down": wid_tp_list_on_m_down_filter_magic_items,

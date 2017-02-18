@@ -291,7 +291,7 @@ class Chunk:
 
         for t in self.things_on_chunk[x][y]:
             if t.tp.long_name is not None:
-                return t.tp.long_name
+                return t.tp.long_name.title()
 
         return ""
 
