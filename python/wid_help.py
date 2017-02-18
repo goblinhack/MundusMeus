@@ -23,41 +23,22 @@ def wid_help_create():
                            row_on_m_down=wid_help_on_m_down,
                            title_on_m_down=wid_help_on_m_down,
                            width=0.5,
-                           height=0.5)
+                           height=0.6)
     game.wid_help = w
 
     w.add_text(center=True,
                font="vlarge",
                color="white",
                title="true",
-               text="%%tp=player1$Help of a Dubious Nature")
+               text="%%tp=player1$Help of a Most Dubious Nature")
 
     w.add_text(font="vlarge",
-               text="%%fg=green$q) %%fg=white$Quit the game")
+               text="%%fg=green$q)%%fg=white$Quit the game")
 
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="long message")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
-    w.add_text(font="vlarge", center=True, text="--")
     w.add_text(font="vlarge", center=True, text="--")
 
     w.add_text(font="vlarge",
-               text="%%fg=green$^e) %%fg=white$Editor mode")
+               text="%%fg=green$^e)%%fg=white$Editor mode")
 
     w.update()
     w.set_focusable(value=-1)

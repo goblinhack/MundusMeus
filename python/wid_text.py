@@ -79,7 +79,6 @@ class WidText(wid.Wid):
 
             for line in lines:
 
-                width = line_width[l]
                 lexer = shlex.shlex(line)
                 lexer.wordchars += '.$%='
                 words = list(lexer)
@@ -87,9 +86,9 @@ class WidText(wid.Wid):
                 x = 0
 
                 if center is True:
-                    x = self.usable_w - width
-                    x = x / self.usable_w
-                    x /= 2.0
+                    w = width
+                    x = (self.usable_w - w) / 2.0
+                    x *= 1.0 / self.usable_w
 
                 if rhs is True:
                     x = self.usable_w - width
