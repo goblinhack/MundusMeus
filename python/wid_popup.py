@@ -132,6 +132,7 @@ class WidPopup(wid.Wid):
         self.height = height
         self.inner_width = width - self.pad_w * 2
         self.inner_height = height - self.pad_h * 2
+        self.debug = False
 
         self.row_count = 0
         self.row_text = []
@@ -222,7 +223,11 @@ class WidPopup(wid.Wid):
                  font="small",
                  color="white",
                  center=False,
-                 rhs=False):
+                 rhs=False,
+                 debug=False):
+
+        if debug:
+            self.debug = debug
 
         if title is False:
             if font is None:
@@ -481,7 +486,8 @@ class WidPopup(wid.Wid):
                                  row_on_display_win=self.row_on_display_win,
                                  parent=self.wid_id,
                                  x1=textbox_x1, y1=textbox_y1,
-                                 x2=textbox_x2, y2=textbox_y2)
+                                 x2=textbox_x2, y2=textbox_y2,
+                                 debug=self.debug)
 
         if need_scrollbar is True:
             self.scrollbar = wid.Wid(name="wid popup scroll",
@@ -545,7 +551,8 @@ class WidPopup(wid.Wid):
                                  row_on_display_win=self.title_on_display_win,
                                  parent=self.wid_id,
                                  x1=textbox_x1, y1=textbox_y1,
-                                 x2=textbox_x2, y2=textbox_y2)
+                                 x2=textbox_x2, y2=textbox_y2,
+                                 debug=self.debug)
         self.to_front()
 
     def scroll_up(self):

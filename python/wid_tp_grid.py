@@ -192,7 +192,7 @@ class WidTpGrid(wid_popup.WidPopup):
         button_events[self.filter-1]["tiles"] = "button_red"
 
         w.add_text(
-                font="large",
+                font="small",
                 color="white",
                 title=True,
                 center=True,

@@ -104,7 +104,7 @@ class MiniMap(object):
             text += "%%fg=white$Depth %%fg=green${0} feet%%fg=reset\n".format(
                 -l.where.z * 10)
 
-        w.add_text(font="small", text=text)
+        w.add_text(font="vsmall", text=text)
 
         w.set_color(bg=True, tl=True, br=True, name="blue", alpha=1.0)
         w.update()

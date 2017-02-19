@@ -37,6 +37,7 @@ class WidText(wid.Wid):
                  row_on_display_win,
                  parent=0,
                  tiles=None,
+                 debug=False,
                  **kw):
 
         self.parent = parent
@@ -69,6 +70,11 @@ class WidText(wid.Wid):
             center = row_center[row]
             rhs = row_rhs[row]
 
+            #
+            # This magic is to allow splitting of the string
+            # into words but maintain a space char for display
+            #
+            text = text.replace(" ", "\\ ")
             lines = text.split("\n")
 
             begin_y = y
@@ -94,15 +100,8 @@ class WidText(wid.Wid):
                     x = self.usable_w - width
                     x = x / self.usable_w
 
-                first = True
-
                 max_h = 0
                 for word in words:
-                    if not first:
-                        w, h, c = mm.text_size_pct(font=font, text=" ")
-                        x += w
-                    first = False
-
                     w, h, c = mm.text_size_pct(font=font, text=word)
                     if c != "none":
                         color = c
@@ -416,6 +415,11 @@ def text_size_pct(row_text, row_font, width):
         text = row_text[row]
         font = row_font[row]
 
+        #
+        # This magic is to allow splitting of the string
+        # into words but maintain a space char for display
+        #
+        text = text.replace(" ", "\\ ")
         lines = text.split("\n")
 
         for line in lines:
@@ -430,15 +434,8 @@ def text_size_pct(row_text, row_font, width):
             x = 0
             max_h = 0
 
-            first = True
-
             max_h = 0
             for word in words:
-                if not first:
-                    w, h, c = mm.text_size_pct(font=font, text=" ")
-                    x += w
-                first = False
-
                 w, h, c = mm.text_size_pct(font=font, text=word)
 
                 if x + w > width:

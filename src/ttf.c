@@ -108,9 +108,6 @@ void ttf_text_size (font **fpp, const char *text_in,
     enum_fmt _fmt;
     const char *text = text_in;
     font *f = *fpp;
-    f->glyphs[' '].width = f->glyphs['t'].width;
-    f->glyphs['('].width = f->glyphs['i'].width;
-    f->glyphs[')'].width = f->glyphs['i'].width;
 
     x = 0;
     *w = 0;
@@ -122,6 +119,10 @@ void ttf_text_size (font **fpp, const char *text_in,
     *h *= 1.1;
 
     while ((c = *text++) != '\0') {
+        if (c == '\\') {
+            c = ' ';
+        }
+
 	if (!found_format_string) {
 	    if (c == '%') {
 		found_format_string = true;
@@ -342,6 +343,10 @@ static void ttf_puts_internal (font *f, const char *text,
     double x_start = x;
 
     while ((c = *text++) != '\0') {
+        if (c == '\\') {
+            c = ' ';
+        }
+        
 	if (!found_format_string) {
 	    if (c == '%') {
 		found_format_string = true;
