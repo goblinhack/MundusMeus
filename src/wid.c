@@ -10109,6 +10109,68 @@ void wid_display_all (void)
 
     glDisable(GL_SCISSOR_TEST);
 
+    blit_init();
+    if (wid_tooltip_string) {
+        color c = PURPLE4;
+        c.a = 200;
+        glcolor(c);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        gl_blitquad(0.00 * (double) game.video_pix_width,
+                    0.97 * (double) game.video_pix_height,
+                    1.00 * (double) game.video_pix_width,
+                    1.00 * (double) game.video_pix_height);
+
+        glcolor(WHITE);
+        ttf_puts(med_font, wid_tooltip_string,
+                 0.00 * (double) game.video_pix_width,
+                 0.97 * (double) game.video_pix_height,
+                 1.0,
+                 1.0, false);
+    }
+
+    if (wid_tooltip2_string) {
+        color c = BLUE4;
+        c.a = 200;
+        glcolor(c);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        gl_blitquad(0.00 * (double) game.video_pix_width,
+                    0.94 * (double) game.video_pix_height,
+                    1.00 * (double) game.video_pix_width,
+                    0.97 * (double) game.video_pix_height);
+
+        glcolor(WHITE);
+        ttf_puts(med_font, wid_tooltip2_string,
+                 0.00 * (double) game.video_pix_width,
+                 0.94 * (double) game.video_pix_height,
+                 1.0,
+                 0.97, false);
+    }
+
+    /*
+     * FPS counter.
+     */
+    {
+        static char fps_text[10] = {0};
+
+        if (game.fps_counter) {
+            /*
+             * Update FPS counter.
+             */
+            snprintf(fps_text, sizeof(fps_text), "%u FPS", game.fps_count);
+
+            glcolor(YELLOW);
+
+            ttf_puts(small_font, fps_text,
+                     0.90 * (double) game.video_pix_width,
+                     0.97 * (double) game.video_pix_height,
+                     1.0, 1.0, true);
+        }
+    }
+
+    blit_flush();
+
 blit:
     glBindFramebuffer_EXT(GL_FRAMEBUFFER, 0);
 

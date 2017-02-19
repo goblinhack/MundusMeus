@@ -181,7 +181,7 @@ class WidText(wid.Wid):
                         #
                         # Now make the button
                         #
-                        new_word = " " + word[1:-1] + " "
+                        new_word = word[1:-1]
                         word = new_word
                         child = wid.Wid(name="wid text child",
                                         tiles=button_tiles,
@@ -209,10 +209,10 @@ class WidText(wid.Wid):
                     child.set_pos_pct(x, y, x + w, y + h)
 
                     if color is not None:
-                        child.set_text(text=word, lhs=True, font=font,
+                        child.set_text(text=word, centerx=True, font=font,
                                        color=color)
                     else:
-                        child.set_text(text=word, lhs=True, font=font)
+                        child.set_text(text=word, centerx=True, font=font)
 
                     self.children.append(child)
 

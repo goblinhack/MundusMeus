@@ -16,6 +16,10 @@
 #include "font.h"
 
 #ifdef ENABLE_GENERATE_TTF
+#include "bits.h"
+#include "math_util.h"
+#include "pixel.h"
+#include "stb_image.h"
 static void ttf_create_tex_from_char(TTF_Font *ttf, const char *name,
                                      font *f, uint8_t c);
 #endif
@@ -104,6 +108,9 @@ void ttf_text_size (font **fpp, const char *text_in,
     enum_fmt _fmt;
     const char *text = text_in;
     font *f = *fpp;
+    f->glyphs[' '].width = f->glyphs['t'].width;
+    f->glyphs['('].width = f->glyphs['i'].width;
+    f->glyphs[')'].width = f->glyphs['i'].width;
 
     x = 0;
     *w = 0;
@@ -204,7 +211,9 @@ void ttf_text_size (font **fpp, const char *text_in,
         } else if (c == '~') {
             x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
         } else {
-            if (fixed_width) {
+            int fixed = fixed_width;
+
+            if (fixed) {
                 x += f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width * scaling * advance;
             } else {
                 if (c == TTF_CURSOR_CHAR) {
@@ -491,13 +500,15 @@ static void ttf_puts_internal (font *f, const char *text,
             double maxc = f->glyphs[(int) TTF_FIXED_WIDTH_CHAR].width;
             double thisc = f->glyphs[(int) c].width;
 
-            if (fixed_width) {
+            int fixed = fixed_width;
+
+            if (fixed) {
                 thisc = maxc;
             }
 
             double pad = ((maxc - thisc) * scaling * advance) / 2.0;
 
-            if (fixed_width) {
+            if (fixed) {
                 x += pad;
             }
 
@@ -509,7 +520,7 @@ static void ttf_puts_internal (font *f, const char *text,
                 ttf_putc(f, c, x, y, scaling);
             }
 
-            if (fixed_width) {
+            if (fixed) {
                 x += thisc;
                 x += pad;
             } else {
@@ -998,13 +1009,6 @@ ttf_write_tga (char *name, int32_t pointsize)
 
         {
             int y = (h + (h + f->glyphs[c].height)) / 2;
-            /*
-             * Christ only knows. For some reason the glyphing for w is off in
-             * Tekton
-             */
-            if (c == 'w') {
-                d1_max = d2_max;
-            }
 
             int y1 = y - d1_max;
             int y2 = y + d2_max;

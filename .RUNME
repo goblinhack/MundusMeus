@@ -253,10 +253,10 @@ LDLIBS="$SDL_LIBS"
 
 if [ "$USE_SDL2" = "1" ]
 then
-#    LDLIBS="$LDLIBS -lSDL2_ttf"
+    LDLIBS="$LDLIBS -lSDL2_ttf"
     LDLIBS="$LDLIBS -lSDL2_mixer"
 else
-#    LDLIBS="$LDLIBS -lSDL_ttf"
+    LDLIBS="$LDLIBS -lSDL_ttf"
     LDLIBS="$LDLIBS -lSDL_mixer"
 fi
 

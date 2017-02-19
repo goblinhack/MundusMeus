@@ -1474,8 +1474,6 @@ void sdl_loop (void)
          * FPS counter.
          */
         {
-            static char fps_text[10] = {0};
-
             /*
              * Very occasional.
              */
@@ -1488,70 +1486,15 @@ void sdl_loop (void)
                  */
                 wid_notify_tick();
 
-                /*
-                 * FPS
-                 */
                 if (game.fps_counter) {
                     /*
                      * Update FPS counter.
                      */
-                    snprintf(fps_text, sizeof(fps_text), "%u FPS", frames);
+                    game.fps_count = frames;
 
                     frames = 0;
                 }
             }
-
-            /*
-             * FPS
-             */
-            if (game.fps_counter) {
-                glcolor(YELLOW);
-
-                ttf_puts(small_font, fps_text,
-                         0.90 * (double) game.video_pix_width,
-                         0.97 * (double) game.video_pix_height,
-                         1.0, 1.0, true);
-            }
-        }
-
-        if (wid_tooltip_string) {
-            color c = PURPLE4;
-            c.a = 100;
-            glcolor(c);
-            glBindTexture(GL_TEXTURE_2D, 0);
-
-            gl_blitquad(
-                     0.00 * (double) game.video_pix_width,
-                     0.97 * (double) game.video_pix_height,
-                     1.00 * (double) game.video_pix_width,
-                     1.00 * (double) game.video_pix_height);
-
-            glcolor(WHITE);
-            ttf_puts(small_font, wid_tooltip_string,
-                     0.00 * (double) game.video_pix_width,
-                     0.97 * (double) game.video_pix_height,
-                     1.0,
-                     1.0, false);
-        }
-
-        if (wid_tooltip2_string) {
-            color c = BLUE4;
-            c.a = 100;
-            glcolor(c);
-            glBindTexture(GL_TEXTURE_2D, 0);
-
-            gl_blitquad(
-                     0.00 * (double) game.video_pix_width,
-                     0.94 * (double) game.video_pix_height,
-                     1.00 * (double) game.video_pix_width,
-                     0.97 * (double) game.video_pix_height);
-
-            glcolor(WHITE);
-            ttf_puts(small_font, wid_tooltip2_string,
-                     0.00 * (double) game.video_pix_width,
-                     0.94 * (double) game.video_pix_height,
-                     1.0,
-                     0.97, false);
         }
 
         blit_flush();

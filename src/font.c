@@ -7,6 +7,9 @@
 #include "main.h"
 #include "ttf.h"
 #include "font.h"
+#ifdef ENABLE_GENERATE_TTF
+#include "string_util.h"
+#endif
 
 static int32_t font_inited;
 

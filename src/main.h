@@ -430,6 +430,7 @@ struct game_ {
     double tile_width;
     double tile_height;
     int fps_counter;
+    int fps_count;
 
     int biome_set_is_land;
     int biome_set_is_dungeon;
