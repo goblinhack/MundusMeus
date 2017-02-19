@@ -170,11 +170,9 @@ def init2():
 #    wid_intro_bg.create()
 #    wid_intro_menu.create()
     if True:
-        global wid_quit
         w = wid_quit.wid_quit_create()
 
     if True:
-        global wid_help
         w = wid_help.wid_help_create()
 
     if True:
@@ -203,11 +201,7 @@ def init2():
                                   detail_x=0.35,
                                   detail_y=0.50)
 
-        print(w)
-
         wid_mini_map.create()
-
-        print(w)
 
     if True:
         w = wid_tp_editor.WidTpEditor(name="tp window",
@@ -221,8 +215,6 @@ def init2():
                                       detail_height=0.3,
                                       detail_x=0.70,
                                       detail_y=0.00)
-
-        game.wid_tp_editor = w
 
     game.game_new()
 

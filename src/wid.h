@@ -58,6 +58,7 @@ void wid_new_grid(widp, uint32_t width, uint32_t height,
                   uint32_t pixwidth, uint32_t pixheight);
 widp wid_new_tooltip(const char *tooltip);
 void wid_tooltip_set(const char *text);
+void wid_tooltip2_set(const char *text);
 void wid_destroy_grid(widp);
 void wid_detach_from_grid(widp);
 void wid_attach_to_grid(widp);
@@ -370,6 +371,7 @@ void wid_set_tex_sz(widp, fsize uv);
 void wid_set_tex_tl(widp, fsize val);
 void wid_set_text(widp, const char *string);
 void wid_set_tooltip(widp, const char *string, fontp);
+void wid_set_tooltip2(widp, const char *string, fontp);
 void wid_set_text_advance(widp, double val);
 void wid_set_text_bot(widp, uint8_t val);
 void wid_set_text_centerx(widp, uint8_t val);
@@ -875,6 +877,8 @@ typedef struct wid_ {
      * Text that appears as a tooltip.
      */
     char *tooltip;
+    char *tooltip2;
+
     fontp tooltip_font;
 
     /*
@@ -992,6 +996,7 @@ extern const int32_t wid_swipe_delay;
 extern const int32_t wid_pulse_delay;
 extern const int32_t wid_scaling_forever_delay;
 extern char *wid_tooltip_string;
+extern char *wid_tooltip2_string;
 
 /*
  * Find the first widget in the grid at this tile co-ordinate.

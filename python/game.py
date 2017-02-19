@@ -8,7 +8,9 @@ import pickle
 import os.path
 import game
 import wid_mini_map
-import wid_focus
+import wid_help
+import wid_tp_editor
+import wid_quit
 
 global g
 
@@ -212,6 +214,8 @@ class Game:
     #
     def map_key_down(self, w, sym, mod):
 
+        mm.tip2("Press h for help. Click to move.")
+
         self.map_clear_focus()
 
         if sym == mm.SDLK_PERIOD:
@@ -224,17 +228,12 @@ class Game:
             return True
 
         if sym == mm.SDLK_q:
-            game.wid_quit.toggle_hidden()
-            game.wid_quit.set_focus()
-            game.wid_quit.to_front()
-            wid_focus.set_focus(game.wid_quit)
+            wid_quit.visible()
             return True
 
         if mod == mm.KMOD_LCTRL:
             if sym == mm.SDLK_e:
-                game.wid_tp_editor.toggle_hidden()
-                game.wid_tp_editor.to_front()
-                wid_focus.set_focus(game.wid_tp_editor)
+                wid_tp_editor.visible()
                 return True
 
         if sym == mm.SDLK_LCTRL:
@@ -254,10 +253,7 @@ class Game:
         if sym == mm.SDLK_RGUI:
             return False
 
-        game.wid_help.toggle_hidden()
-        game.wid_help.set_focus()
-        game.wid_help.to_front()
-        wid_focus.set_focus(game.wid_help)
+        wid_help.visible()
 
         return True
 

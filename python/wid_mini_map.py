@@ -48,9 +48,12 @@ class MiniMap(object):
         mini_map = wid.Wid(parent=self.container.wid_id,
                            name="intro bg")
 
+        #
+        # Add a bit of y stretch to compensate for wide monitors
+        #
         mini_map.set_pos_pct(x1=0, y1=0,
                              x2=self.map_scale,
-                             y2=self.map_scale)
+                             y2=self.map_scale * 1.25)
 
         mini_map.set_tex(name="map")
         mini_map.set_color(tl=True, bg=True, br=True, name="white")

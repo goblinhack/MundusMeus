@@ -3,8 +3,11 @@ import wid_popup
 import tp
 import copy
 import wid_tp_detail
-import game
+import wid_focus
 from enum import Enum
+
+
+global mywid
 
 
 def wid_tp_editor_on_m_down_close(w, x, y, button):
@@ -153,6 +156,9 @@ class WidTpEditor(wid_popup.WidPopup):
 
         w = self
 
+        global mywid
+        mywid = w
+
         w.set_on_key_down(key_down)
 
         button_events = (
@@ -299,16 +305,38 @@ class WidTpEditor(wid_popup.WidPopup):
 def key_down(w, sym, mod):
 
     if sym == mm.SDLK_q:
-        game.wid_tp_editor.toggle_hidden()
+        mywid.toggle_hidden()
         return True
 
     if sym == mm.SDLK_ESCAPE:
-        game.wid_tp_editor.toggle_hidden()
+        mywid.toggle_hidden()
         return True
 
     if mod == mm.KMOD_LCTRL:
         if sym == mm.SDLK_e:
-            game.wid_tp_editor.toggle_hidden()
+            mywid.toggle_hidden()
             return True
 
+    return True
+
+
+def visible():
+    global mywid
+    if mywid is None:
+        return
+    mywid.toggle_hidden()
+    mywid.set_focus()
+    mywid.to_front()
+    wid_focus.set_focus(mywid)
+
+    mm.tip2("Press Escape to go back")
+
+
+def hide():
+    global mywid
+    if mywid is None:
+        return
+
+    mywid.hide()
+    mm.tip2("")
     return True

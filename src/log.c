@@ -228,6 +228,16 @@ static void tip_ (const char *fmt, va_list args)
     wid_tooltip_set(buf);
 }
 
+static void tip2_ (const char *fmt, va_list args)
+{
+    char buf[MAXSTR];
+
+    buf[0] = '\0';
+    vsnprintf(buf, sizeof(buf), fmt, args);
+
+    wid_tooltip2_set(buf);
+}
+
 void CON (const char *fmt, ...)
 {
     va_list args;
@@ -321,6 +331,15 @@ void TIP (const char *fmt, ...)
 
     va_start(args, fmt);
     tip_(fmt, args);
+    va_end(args);
+}
+
+void TIP2 (const char *fmt, ...)
+{
+    va_list args;
+
+    va_start(args, fmt);
+    tip2_(fmt, args);
     va_end(args);
 }
 

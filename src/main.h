@@ -9,15 +9,7 @@
 #pragma once
 
 #include <stdio.h>
-
-#ifdef _MSC_VER
-typedef __int32 int32_t;
-typedef unsigned __int32 uint32_t;
-typedef __int64 int64_t;
-typedef unsigned __int64 uint64_t;
-#else
 #include <stdint.h>
-#endif
 
 #ifdef __cplusplus
 /*
@@ -236,15 +228,6 @@ extern uint8_t croaked;
 #define ASSERT(x)
 #endif
 
-#ifdef _MSC_VER
-void CROAK(const char *fmt, ...);
-void DYING(const char *fmt, ...);
-void LOG(const char *fmt, ...);
-void LOGS(const char *fmt, ...);
-void WARN(const char *fmt, ...);
-void CON(const char *fmt, ...);
-void TIP(const char *fmt, ...);
-#else
 void CROAK(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 void DYING(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 void LOG(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
@@ -252,7 +235,7 @@ void LOGS(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 void WARN(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 void CON(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 void TIP(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
-#endif
+void TIP2(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
 
 enum {
     INFO,
@@ -267,26 +250,6 @@ enum {
 /*
  * Bloody windows uses MSG hence MESG
  */
-#ifdef _MSC_VER
-void MESG(uint32_t level, const char *fmt, ...);
-
-void SDL_MSG_BOX(const char *fmt, ...);
-void MSG_BOX(const char *fmt, ...);
-void ERR(const char *fmt, ...);
-void DBG(const char *fmt, ...);
-
-void MSG_SHOUT_AT(uint32_t level,
-	thingp,
-	double x,
-	double y,
-	const char *fmt, ...);
-
-void THING_LOG(thingp, const char *fmt, ...);
-void THING_CON(thingp, const char *fmt, ...);
-void THING_ERR(thingp, const char *fmt, ...);
-void THING_DBG(thingp, const char *fmt, ...);
-void LEVEL_LOG(levelp, const char *fmt, ...);
-#else
 void MESG(uint32_t level, const char *fmt, ...)
     __attribute__ ((format (printf, 2, 3)));
 
@@ -312,8 +275,6 @@ void THING_DBG(thingp, const char *fmt, ...)
                      __attribute__ ((format (printf, 2, 3)));
 void LEVEL_LOG(levelp, const char *fmt, ...)
                      __attribute__ ((format (printf, 2, 3)));
-#endif
-
 
 #ifdef ENABLE_WID_DEBUG
 void WID_LOG(widp, const char *fmt, ...) \

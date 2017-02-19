@@ -61,7 +61,10 @@ static tree_root *wid_top_level5;
  * Mouse movement
  */
 static widp wid_popup_tooltip;
+static widp wid_popup_tooltip2;
+
 char *wid_tooltip_string;
+char *wid_tooltip2_string;
 
 /*
  * Scope the focus to children of this widget and do not change it.
@@ -199,6 +202,11 @@ void wid_fini (void)
         if (wid_tooltip_string) {
             myfree(wid_tooltip_string);
             wid_tooltip_string = 0;
+        }
+
+        if (wid_tooltip2_string) {
+            myfree(wid_tooltip2_string);
+            wid_tooltip2_string = 0;
         }
 
         action_timers_destroy(&wid_timers);
@@ -992,6 +1000,24 @@ void wid_tooltip_set (const char *text)
     wid_tooltip_string = dupstr(text, "tooltop str");
 }
 
+void wid_tooltip2_set (const char *text)
+{
+    if (wid_tooltip2_string) {
+        if (!strcmp(wid_tooltip2_string, text)) {
+            return;
+        }
+
+        wid_destroy(&wid_popup_tooltip2);
+    }
+
+    if (wid_tooltip2_string) {
+        myfree(wid_tooltip2_string);
+        wid_tooltip2_string = 0;
+    }
+
+    wid_tooltip2_string = dupstr(text, "tooltop str");
+}
+
 static uint8_t wid_m_over_b (widp w, uint32_t x, uint32_t y,
                                      int32_t relx, int32_t rely,
                                      int32_t wheelx, int32_t wheely)
@@ -1115,6 +1141,23 @@ static uint8_t wid_m_over_b (widp w, uint32_t x, uint32_t y,
 
         wid_set_on_destroy_b(wid_popup_tooltip, wid_tooltip_destroy);
 #endif
+    }
+
+    if (w->tooltip2) {
+        if (wid_tooltip2_string) {
+            if (!strcmp(wid_tooltip2_string, w->tooltip2)) {
+                return (true);
+            }
+
+            wid_destroy(&wid_popup_tooltip2);
+        }
+
+        if (wid_tooltip2_string) {
+            myfree(wid_tooltip2_string);
+            wid_tooltip2_string = 0;
+        }
+
+        wid_tooltip2_string = dupstr(w->tooltip2, "tooltop str");
     }
 
     return (true);
@@ -1520,6 +1563,23 @@ void wid_set_tooltip (widp w, const char *name,
 
     w->tooltip = dupstr(name, "wid tooltip");
     w->tooltip_font = font;
+}
+
+void wid_set_tooltip2 (widp w, const char *name,
+                      fontp font)
+{
+    fast_verify(w);
+
+    if (w->tooltip2) {
+        myfree(w->tooltip2);
+        w->tooltip2 = 0;
+    }
+
+    if (!name) {
+        return;
+    }
+
+    w->tooltip2 = dupstr(name, "wid tooltip2");
 }
 
 uint8_t wid_get_received_input (widp w)
@@ -3049,6 +3109,14 @@ static void wid_destroy_immediate (widp w)
         if (wid_tooltip_string) {
             myfree(wid_tooltip_string);
             wid_tooltip_string = 0;
+        }
+    }
+
+    if (w == wid_popup_tooltip2) {
+        wid_popup_tooltip2 = 0;
+        if (wid_tooltip2_string) {
+            myfree(wid_tooltip2_string);
+            wid_tooltip2_string = 0;
         }
     }
 

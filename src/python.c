@@ -1326,6 +1326,21 @@ static PyObject *tip_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
+static PyObject *tip2_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    char *a = 0;
+
+    if (!PyArg_ParseTuple(args, "s", &a)) {
+        return (0);
+    }
+
+    if (a) {
+        TIP2("%s", a);
+    }
+
+    Py_RETURN_NONE;
+}
+
 static PyObject *puts_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     char *a = 0;
@@ -1401,6 +1416,11 @@ static PyMethodDef python_c_METHODS[] =
         (PyCFunction)tip_,
         METH_VARARGS,
         "tooltip"},
+
+    {"tip2",
+        (PyCFunction)tip2_,
+        METH_VARARGS,
+        "tooltip2"},
 
     {"puts",
         (PyCFunction)puts_,

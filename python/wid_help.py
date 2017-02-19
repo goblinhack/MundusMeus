@@ -1,19 +1,24 @@
 import wid_popup
-import game
+import wid_focus
+import mm
+
+
+global mywid
 
 
 def wid_help_on_key_down(w, sym, mod):
-    game.wid_help.hide()
+    hide()
     return True
 
 
 def wid_help_on_m_down(w, x, y, button):
-    game.wid_help.hide()
+    hide()
     return True
 
 
 def wid_help_create():
 
+    global mywid
     w = wid_popup.WidPopup(name="help window",
                            tiles="wid1",
                            title_tiles="wid3",
@@ -24,7 +29,7 @@ def wid_help_create():
                            title_on_m_down=wid_help_on_m_down,
                            width=0.5,
                            height=0.6)
-    game.wid_help = w
+    mywid = w
 
     w.add_text(center=True,
                font="vlarge",
@@ -49,8 +54,32 @@ def wid_help_create():
 
 
 def destroy():
-    if game.wid_help is None:
+    global mywid
+    if mywid is None:
         return
 
-    game.wid_help.destroy()
-    game.wid_help = None
+    mywid.destroy()
+    mywid = None
+
+
+def visible():
+    global mywid
+    if mywid is None:
+        return
+
+    mywid.toggle_hidden()
+    mywid.set_focus()
+    mywid.to_front()
+    wid_focus.set_focus(mywid)
+
+    mm.tip2("Press Escape to go back")
+
+
+def hide():
+    global mywid
+    if mywid is None:
+        return
+
+    mywid.hide()
+    mm.tip2("")
+    return True

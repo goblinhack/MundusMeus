@@ -258,6 +258,30 @@ PyObject *wid_set_tooltip_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
+PyObject *wid_set_tooltip2_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    char *text = 0;
+
+    static char *kwlist[] = {(char*) "wid",
+        (char*) "text",
+        0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|s", kwlist,
+                                     &py_class,
+                                     &text)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_tooltip2(w, text, small_font);
+
+    Py_RETURN_NONE;
+}
+
 PyObject *wid_set_tiles_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;

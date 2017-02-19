@@ -14,6 +14,7 @@ PyObject *wid_new_scrollbar_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_new_grid_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_shape_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_tooltip_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_set_tooltip2_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_tiles_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_pos_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_pos_pct_(PyObject *obj, PyObject *args, PyObject *keywds);
@@ -109,6 +110,7 @@ WID_PROTO(wid_effect_sways)
 WID_PROTO(wid_animate)
 
 WID_PROTO(wid_set_on_tooltip)
+WID_PROTO(wid_set_on_tooltip2)
 WID_PROTO(wid_set_on_key_down)
 WID_PROTO(wid_set_on_key_up)
 WID_PROTO(wid_set_on_joy_button)

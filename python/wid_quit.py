@@ -1,11 +1,14 @@
 import mm
 import wid_popup
 import sys
-import game
+import wid_focus
+
+
+global mywid
 
 
 def wid_quit_common(w):
-    game.wid_quit.hide()
+    hide()
     return
     destroy()
 
@@ -41,15 +44,32 @@ def wid_quit_on_key_down_no(w, sym, mod):
     return True
 
 
+def wid_quit_on_key_down(w, sym, mod):
+    if sym == mm.SDLK_y:
+        wid_quit_on_key_down_yes(w, sym, mod)
+        return True
+
+    if sym == mm.SDLK_n:
+        wid_quit_on_key_down_no(w, sym, mod)
+        return True
+
+    hide()
+
+    return True
+
+
 def wid_quit_create():
 
+    global mywid
     w = wid_popup.WidPopup(name="quit window",
                            tiles="wid1",
                            title_tiles="wid3",
                            body_tiles="wid2",
+                           row_on_key_down=wid_quit_on_key_down,
+                           title_on_key_down=wid_quit_on_key_down,
                            width=0.5,
                            height=0.0)
-    game.wid_quit = w
+    mywid = w
 
     w.add_text(center=True,
                font="vlarge",
@@ -59,15 +79,11 @@ def wid_quit_create():
 
     w.add_text(font="vlarge",
                on_m_down=wid_quit_on_m_down_yes,
-               on_key_down=wid_quit_on_key_down_yes,
-               on_key_sym=mm.SDLK_y,
                tooltip="I can't let you do that, Dave...",
                text="%%fg=red$y) %%fg=white$Yep, quit")
 
     w.add_text(font="vlarge",
                on_m_down=wid_quit_on_m_down_no,
-               on_key_down=wid_quit_on_key_down_no,
-               on_key_sym=mm.SDLK_n,
                text="%%fg=green$n) %%fg=white$Nope, persevere")
 
     w.update()
@@ -79,8 +95,32 @@ def wid_quit_create():
 
 
 def destroy():
-    if game.wid_quit is None:
+    global mywid
+    if mywid is None:
         return
 
-    game.wid_quit.destroy()
-    game.wid_quit = None
+    mywid.destroy()
+    mywid = None
+
+
+def visible():
+    global mywid
+    if mywid is None:
+        return
+
+    mywid.toggle_hidden()
+    mywid.set_focus()
+    mywid.to_front()
+    wid_focus.set_focus(mywid)
+
+    mm.tip2("Press Escape to go back")
+
+
+def hide():
+    global mywid
+    if mywid is None:
+        return
+
+    mywid.hide()
+    mm.tip2("")
+    return True
