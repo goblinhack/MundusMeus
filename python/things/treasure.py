@@ -27,7 +27,7 @@ def treasure1_init(d1000_roll,
     if is_minable:
         x.set_z_depth("buried")
     else:
-        x.set_z_depth("player")
+        x.set_z_depth("treasure")
 
     x.set_is_treasure(True)
     x.set_is_minable(is_minable)

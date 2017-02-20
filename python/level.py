@@ -346,13 +346,21 @@ class Level:
         for chunk_name, c in self.chunk_cache.items():
             c.save()
 
-    def tp_find(self, x, y, tp_name):
+    def thing_find(self, x, y, tp_name):
 
         if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
             return None
 
         (chunk, x, y) = self.xy_to_chunk_xy(x, y)
-        return chunk.tp_find(x, y, tp_name)
+        return chunk.thing_find(x, y, tp_name)
+
+    def thing_top(self, x, y):
+
+        if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
+            return None
+
+        (chunk, x, y) = self.xy_to_chunk_xy(x, y)
+        return chunk.thing_top(x, y)
 
     def tp_is(self, x, y, value):
 

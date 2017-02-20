@@ -242,13 +242,22 @@ class Chunk:
 
         self.level.chunk_cache[str(self)] = self
 
-    def tp_find(self, x, y, tp_name):
+    def thing_find(self, x, y, tp_name):
         if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
             return None
 
         for t in self.things_on_chunk[x][y]:
             if t.tp.name == tp_name:
                 return t
+
+        return None
+
+    def thing_top(self, x, y):
+        if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
+            return None
+
+        for t in reversed(self.things_on_chunk[x][y]):
+            return t
 
         return None
 
@@ -289,7 +298,30 @@ class Chunk:
         if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
             return ""
 
+        #
+        # If water then hide things like treasure.
+        #
+        hide_treasure = True
         for t in self.things_on_chunk[x][y]:
+            if t.tp.is_floor or \
+               t.tp.is_grass or \
+               t.tp.is_dirt or \
+               t.tp.is_snow or \
+               t.tp.is_ice or \
+               t.tp.is_gravel or \
+               t.tp.is_gravel_snow or \
+               t.tp.is_snow or \
+               t.tp.is_sand or \
+               t.tp.is_corridor or \
+               t.tp.is_bridge or \
+               t.tp.is_dusty:
+                hide_treasure = False
+
+        for t in self.things_on_chunk[x][y]:
+            if t.tp.is_treasure:
+                if hide_treasure:
+                    continue
+
             if t.tp.long_name is not None:
                 return t.tp.long_name.title()
 

@@ -19,8 +19,7 @@ def tree1_init(d1000_roll, tiles=[]):
               is_tree=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name("a tree")
-    x.set_short_name("a tree")
+    x.set_short_name("tree")
     x.set_is_tree(True)
     x.set_is_world_item(True)
     x.set_z_depth("wall")

@@ -4,6 +4,7 @@ import tp
 import copy
 import wid_tp_detail
 import wid_focus
+import game
 from enum import Enum
 
 
@@ -71,12 +72,14 @@ def wid_tp_editor_on_m_down_filter_edible_items(w, x, y, button):
 
 def wid_tp_editor_on_m_down(w, x, y, button):
     wid_tp_editor_common(w)
-    w.set_tiles(tiles="button_green")
-    return True
 
+    index = w.context
+    p = w.get_top_parent()
+    name = p.tp_sorted_name_list[index]
+    tpp = tp.all_tps[name]
+    game.g.editor_mode_tp = tpp
 
-def wid_tp_editor_on_m_over(w, x, y, button):
-    mm.con("o")
+    mywid.toggle_hidden()
     return True
 
 
@@ -308,7 +311,7 @@ def key_down(w, sym, mod):
         mywid.toggle_hidden()
         return True
 
-    if sym == mm.SDLK_ESCAPE:
+    if sym == mm.SDLK_ESCAPE or sym == mm.SDLK_TAB:
         mywid.toggle_hidden()
         return True
 
@@ -329,7 +332,7 @@ def visible():
     mywid.to_front()
     wid_focus.set_focus(mywid)
 
-    mm.tip2("Press Escape to go back")
+    game.g.editor_mode = True
 
 
 def hide():
@@ -338,5 +341,5 @@ def hide():
         return
 
     mywid.hide()
-    mm.tip2("")
+    game.g.editor_mode = False
     return True

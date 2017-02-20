@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def under_floor_init(name, short_name, long_name, tiles=[]):
+def under_floor_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name("dungeon bedrock")
     x.set_short_name(short_name)
     x.set_is_floor(True)
     x.set_z_depth("floor")
@@ -26,7 +25,6 @@ def under_floor_init(name, short_name, long_name, tiles=[]):
 def init():
     under_floor_init(name="under_floor1",
                      short_name="floor bedrock",
-                     long_name="floor bedrock",
                      tiles=[
                             "under_floor1.1",
                            ])

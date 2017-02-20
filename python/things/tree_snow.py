@@ -19,7 +19,6 @@ def tree_snow_init(d1000_roll, tiles=[]):
               is_tree_snow=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name("icy tree")
     x.set_short_name("icy tree")
     x.set_is_tree(True)
     x.set_is_world_item(True)

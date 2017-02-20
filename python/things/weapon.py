@@ -11,7 +11,7 @@ def weapon_init(name, short_name, long_name, damage, is_double_handed=False):
     x.set_long_name(long_name)
     x.set_short_name(short_name)
     x.set_is_weapon(True)
-    x.set_z_depth("player")
+    x.set_z_depth("treasure")
     x.set_damage(damage)
     x.set_is_double_handed(is_double_handed)
 
@@ -283,68 +283,68 @@ def init():
                 )
     weapon_init(name="sword1.14",
                 short_name="Masterwork Greatsword",
-                long_name="x",
+                long_name="Don't mess around. Get this great sword.",
                 damage="1d10+2",
                 is_double_handed=True
                 )
     weapon_init(name="sword1.15",
                 short_name="Platinum Greatsword",
-                long_name="x",
-                damage="1d12",
+                long_name="They don't come much tougher than this.",
+                damage="1d12+5",
                 is_double_handed=True
                 )
     weapon_init(name="sword1.16",
                 short_name="Flaiming Greatsword",
-                long_name="x",
+                long_name="Dismember and cook your enemies.",
                 damage="1d10+3",
                 is_double_handed=True
                 )
     weapon_init(name="sword1.17",
                 short_name="Serrated Sword",
-                long_name="x",
+                long_name="Slice and dice with greatness.",
                 damage="1d6+4"
                 )
     weapon_init(name="sword1.18",
                 short_name="Ulfbehrt",
-                long_name="x",
+                long_name="Quality hybrid of Viking and Knightly sword",
                 damage="1d8+2",
                 is_double_handed=True
                 )
     weapon_init(name="sword1.19",
                 short_name="Khanda",
-                long_name="x",
+                long_name="Double edged straight sword",
                 damage="1d10"
                 )
     weapon_init(name="sword1.20",
                 short_name="Ice Sword",
-                long_name="x",
+                long_name="Ice ice sword.",
                 damage="1d10+3"
                 )
     weapon_init(name="sword1.22",
                 short_name="Zweihander",
-                long_name="x",
-                damage="1d12",
+                long_name="Massive two handed ultra great sword.",
+                damage="1d12+6",
                 is_double_handed=True
                 )
     weapon_init(name="sword_wooden1.1",
                 short_name="Wooden Sword aka Stick",
-                long_name="x",
+                long_name="It's a stick",
                 damage="1d4"
                 )
     weapon_init(name="warhammer1.1",
                 short_name="Maul",
-                long_name="x",
+                long_name="Long handled warhammer with metal head",
                 damage="1d8"
                 )
     weapon_init(name="warhammer1.2",
                 short_name="Warhammer",
-                long_name="x",
+                long_name="It's a hammer. For war.",
                 damage="1d10+1",
                 is_double_handed=True
                 )
     weapon_init(name="warhammer1.3",
                 short_name="Masterwork Warhammer",
-                long_name="x",
+                long_name="A war hammer of distinction.",
                 damage="1d12+2",
                 is_double_handed=True
                 )

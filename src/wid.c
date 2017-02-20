@@ -10110,7 +10110,8 @@ void wid_display_all (void)
     glDisable(GL_SCISSOR_TEST);
 
     blit_init();
-    if (wid_tooltip2_string) {
+
+    {
         color c = BLUE4;
         c.a = 200;
         glcolor(c);
@@ -10122,14 +10123,15 @@ void wid_display_all (void)
                     1.00 * (double) game.video_pix_height);
 
         glcolor(WHITE);
-        ttf_puts(med_font, wid_tooltip2_string,
+        ttf_puts(med_font, 
+                 wid_tooltip2_string ? wid_tooltip2_string : "",
                  0.00 * (double) game.video_pix_width,
                  0.97 * (double) game.video_pix_height,
                  1.0,
                  1.0, false);
     }
 
-    if (wid_tooltip_string) {
+    {
         color c = PURPLE4;
         c.a = 200;
         glcolor(c);
@@ -10141,7 +10143,8 @@ void wid_display_all (void)
                     0.97 * (double) game.video_pix_height);
 
         glcolor(WHITE);
-        ttf_puts(med_font, wid_tooltip_string,
+        ttf_puts(med_font,
+                 wid_tooltip_string ? wid_tooltip_string : "",
                  0.00 * (double) game.video_pix_width,
                  0.94 * (double) game.video_pix_height,
                  1.0,

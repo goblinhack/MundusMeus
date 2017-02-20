@@ -26,6 +26,10 @@ class Game:
         self.wid_player_location = None
         self.save_file = "save_file"
         self.player = None
+        self.editor_mode = False
+        self.editor_mode_draw = False
+        self.editor_mode_erase = False
+        self.editor_mode_tp = None
 
         self.nexthops = None
         self.saved_nexthops = []
@@ -40,7 +44,7 @@ class Game:
         self.move_count = 0
         self.moves_per_day = 1000
         self.seed = 10
-        self.where = util.Xyz(23, 25, 0)
+        self.where = util.Xyz(13, 25, 0)
         self.load_level(self.seed)
 
     def load_level(self, seed):
@@ -162,9 +166,6 @@ class Game:
 
         l = self.level
 
-        text = l.describe_position(x, y)
-        mm.tip(text)
-
         self.map_clear_focus()
 
         mm.game_map_set_selection_buttons(x, y, "focus1")
@@ -178,6 +179,9 @@ class Game:
         self.saved_nexthops.append((x, y))
 
         if (player.x, player.y) in nexthops:
+            text = l.describe_position(x, y)
+            mm.tip(text)
+
             for o in nexthops:
                 (x, y) = o
 
@@ -189,6 +193,25 @@ class Game:
     def map_mouse_down(self, w, x, y, button):
 
         l = self.level
+
+        if self.editor_mode:
+            if self.editor_mode_draw and self.editor_mode_tp:
+                t = thing.Thing(level=l,
+                                tp_name=self.editor_mode_tp.name,
+                                x=x, y=y)
+                t.push()
+
+            if self.editor_mode_erase:
+                t = l.thing_find(x, y, self.editor_mode_tp)
+                if t is not None:
+                    t.destroy("via editor")
+
+                t = l.thing_top(x, y)
+                if t is not None:
+                    t.destroy("via editor")
+
+            mm.game_map_fixup()
+            return True
 
         #
         # Set up the player move chain
@@ -214,26 +237,55 @@ class Game:
     #
     def map_key_down(self, w, sym, mod):
 
-        mm.tip2("Press h for help. Click to move.")
-
+        self.map_help()
         self.map_clear_focus()
 
-        if sym == mm.SDLK_PERIOD:
-            self.tick()
-            self.time_waste()
-            return True
+        if self.editor_mode:
+            if sym == mm.SDLK_TAB:
+                wid_tp_editor.visible()
 
-        if sym == mm.SDLK_s:
-            self.save()
-            return True
+            if sym == mm.SDLK_d:
+                self.editor_mode_draw = True
+                self.editor_mode_erase = False
 
-        if sym == mm.SDLK_q:
-            wid_quit.visible()
+            if sym == mm.SDLK_x:
+                self.editor_mode_draw = False
+                self.editor_mode_erase = True
+
+            if sym == mm.SDLK_ESCAPE:
+                self.editor_mode = False
+
+            if sym == mm.SDLK_s:
+                self.save()
+                return True
+
+            if sym == mm.SDLK_q:
+                wid_quit.visible()
+                return True
+
+            self.map_help()
             return True
+        else:
+            if sym == mm.SDLK_PERIOD:
+                self.tick()
+                self.time_waste()
+                return True
+
+            if sym == mm.SDLK_s:
+                self.save()
+                return True
+
+            if sym == mm.SDLK_q:
+                wid_quit.visible()
+                return True
 
         if mod == mm.KMOD_LCTRL:
             if sym == mm.SDLK_e:
-                wid_tp_editor.visible()
+                if not self.editor_mode:
+                    wid_tp_editor.visible()
+                    game.g.editor_mode_draw = True
+                    game.g.editor_mode_erase = False
+                self.map_help()
                 return True
 
         if sym == mm.SDLK_LCTRL:
@@ -256,6 +308,27 @@ class Game:
         wid_help.visible()
 
         return True
+
+    def map_help(self):
+
+        if self.editor_mode:
+            tip = ""
+
+            if self.editor_mode_draw:
+                tip += "Editor draw mode. "
+
+            if self.editor_mode_erase:
+                tip += "Editor erase mode. "
+
+            tip += "Press h for help. "
+            tip += "d draw mode. "
+            tip += "x erase mode. "
+            tip += "TAB to select. "
+            tip += "ESC to normal mode"
+
+            mm.tip2(tip)
+        else:
+            mm.tip2("Press h for help. Click to move.")
 
     def player_get_next_move(self):
 
@@ -282,7 +355,7 @@ class Game:
         # If in a dungeon place a trail of breadcrumbs
         #
         if l.chunk[0][0].is_biome_dungeon:
-            t = l.tp_find(x, y, "ember1")
+            t = l.thing_find(x, y, "ember1")
             if t is None:
                 t = thing.Thing(level=l, tp_name="ember1", x=x, y=y)
                 t.push()
