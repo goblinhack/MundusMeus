@@ -8,7 +8,10 @@ def thing_init(t):
 total_dungeon = 0
 
 
-def dungeon1_init(d1000_roll, tiles=[]):
+def dungeon1_init(d1000_roll,
+                  short_name,
+                  long_name,
+                  tiles=[]):
 
     global total_dungeon
 
@@ -18,9 +21,8 @@ def dungeon1_init(d1000_roll, tiles=[]):
     x = tp.Tp(name=name,
               is_dungeon=True,
               d1000_appearing_roll=d1000_roll)
-
-    x.set_long_name("dungeon")
-    x.set_short_name("dungeon")
+    x.set_long_name(long_name)
+    x.set_short_name(short_name)
     x.set_is_dungeon(True)
     x.set_is_world_item(True)
     x.set_z_depth("wall")
@@ -35,28 +37,40 @@ def dungeon1_init(d1000_roll, tiles=[]):
 
 def init():
     # high numbers means rare, low means common
-    x = dungeon1_init(d1000_roll=1, tiles=["dungeon1"])
+    x = dungeon1_init(d1000_roll=1,
+                      short_name="Dungeon I",
+                      long_name="Dungeon, novice level",
+                      tiles=["dungeon1"])
     x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
     x.set_is_difficulty_easy(True)
 
     # high numbers means rare, low means common
-    x = dungeon1_init(d1000_roll=1, tiles=["dungeon2"])
+    x = dungeon1_init(d1000_roll=1,
+                      short_name="Dungeon II",
+                      long_name="Dungeon, moderate terror level",
+                      tiles=["dungeon2"])
     x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
     x.set_is_difficulty_hard(True)
 
     # high numbers means rare, low means common
-    x = dungeon1_init(d1000_roll=1, tiles=["dungeon3"])
+    x = dungeon1_init(d1000_roll=1,
+                      short_name="Dungeon III",
+                      long_name="Dungeon, extreme nightmare level",
+                      tiles=["dungeon3"])
     x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
     x.set_is_difficulty_nightmare(True)
 
     # high numbers means rare, low means common
-    x = dungeon1_init(d1000_roll=1, tiles=["dungeon4"])
+    x = dungeon1_init(d1000_roll=1,
+                      short_name="Dungeon III",
+                      long_name="Dungeon, extreme nightmare level",
+                      tiles=["dungeon4"])
     x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)

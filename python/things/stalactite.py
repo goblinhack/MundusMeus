@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def stalactite_init(name, short_name, long_name, tiles=[]):
+def stalactite_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_movement_blocking(True)
     x.set_is_rock(True)
@@ -28,7 +27,6 @@ def stalactite_init(name, short_name, long_name, tiles=[]):
 def init():
     x = stalactite_init(name="stalactite1",
                         short_name="stalactite",
-                        long_name="a stalactite",
                         tiles=[
                                "stalactite1.1",
                                "stalactite1.2",

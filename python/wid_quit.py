@@ -75,7 +75,7 @@ def wid_quit_create():
                font="vlarge",
                color="white",
                title="true",
-               text="%%tp=player1$\Quit the game?")
+               text="%%tp=player1$ Quit the game?")
 
     w.add_text(font="vlarge",
                on_m_down=wid_quit_on_m_down_yes,

@@ -8,7 +8,10 @@ def thing_init(t):
 total_dungeon_snow = 0
 
 
-def dungeon_snow_init(d1000_roll, tiles=[]):
+def dungeon_snow_init(d1000_roll,
+                      short_name,
+                      long_name,
+                      tiles=[]):
 
     global total_dungeon_snow
 
@@ -18,9 +21,8 @@ def dungeon_snow_init(d1000_roll, tiles=[]):
     x = tp.Tp(name=name,
               is_dungeon_snow=True,
               d1000_appearing_roll=d1000_roll)
-
-    x.set_long_name("icy dungeon")
-    x.set_short_name("icy dungeon")
+    x.set_long_name(long_name)
+    x.set_short_name(short_name)
     x.set_is_dungeon(True)
     x.set_is_world_item(True)
     x.set_z_depth("wall")
@@ -35,13 +37,19 @@ def dungeon_snow_init(d1000_roll, tiles=[]):
 
 def init():
     # high numbers means rare, low means common
-    x = dungeon_snow_init(d1000_roll=1, tiles=["dungeon_snow"])
+    x = dungeon_snow_init(d1000_roll=1,
+                          short_name="Ice Dungeon II",
+                          long_name="Dungeon, perma-death and frost level",
+                          tiles=["dungeon_snow"])
     x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
     x.set_is_difficulty_hard(True)
 
-    x = dungeon_snow_init(d1000_roll=1, tiles=["dungeon_snow2"])
+    x = dungeon_snow_init(d1000_roll=1,
+                          short_name="Ice Dungeon III",
+                          long_name="Dungeon, cold as a tomb. level",
+                          tiles=["dungeon_snow2"])
     x.set_blit_top_off(3)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)

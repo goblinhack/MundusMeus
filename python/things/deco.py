@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def deco1_init(name, short_name, long_name, tiles=[]):
+def deco1_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("player")
     x.set_is_dungeon_item(True)
@@ -27,7 +26,6 @@ def deco1_init(name, short_name, long_name, tiles=[]):
 def init():
     deco1_init(name="deco1",
                short_name="dungeon objet d'art",
-               long_name="dungeon objet d'art",
                tiles=[
                       "deco1.1",
                       "deco1.2",

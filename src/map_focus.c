@@ -11,7 +11,7 @@
 #include "python.h"
 #include "string_util.h"
 
-static void 
+static void
 map_mouse_over (widp w,
                 int32_t relx, int32_t rely,
                 int32_t wheelx, int32_t wheely)
@@ -32,7 +32,7 @@ map_mouse_over (widp w,
                                  wheelx, wheely);
 }
 
-static uint8_t 
+static uint8_t
 map_mouse_down (widp w, int32_t x, int32_t y, uint32_t button)
 {
     int ret;
@@ -49,7 +49,7 @@ map_mouse_down (widp w, int32_t x, int32_t y, uint32_t button)
     return (ret);
 }
 
-static uint8_t 
+static uint8_t
 map_key_down (widp w, const struct SDL_KEYSYM *key)
 {
     int ret;

@@ -10,7 +10,7 @@ def dungeon_way_up_init(name, short_name, long_name, tiles=[]):
 
     x.set_is_shadow_caster_soft(True)
     x.set_is_shadow_caster(True)
-    x.set_long_name(short_name)
+    x.set_long_name(long_name)
     x.set_short_name(short_name)
     x.set_is_dungeon_way_up(True)
     x.set_z_depth("floor2")
@@ -29,7 +29,7 @@ def dungeon_way_up_init(name, short_name, long_name, tiles=[]):
 
 def init():
     x = dungeon_way_up_init(name="dungeon_way_up1",
-                            short_name="stairs leading upwards",
+                            short_name="stairs",
                             long_name="stairs leading upwards",
                             tiles=[
                                    "dungeon_way_up1.1",

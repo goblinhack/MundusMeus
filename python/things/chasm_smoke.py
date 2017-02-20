@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def chasm_init(name, short_name, long_name, tiles=[]):
+def chasm_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("floor")
     x.set_is_chasm_smoke(True)
@@ -28,7 +27,6 @@ def chasm_init(name, short_name, long_name, tiles=[]):
 def init():
     x = chasm_init(name="chasm_smoke1",
                    short_name="whisps of smoke",
-                   long_name="whisps of smoke",
                    tiles=[
                           "chasm_smoke1.1",
                           "chasm_smoke1.2",
@@ -68,7 +66,6 @@ def init():
 
     x = chasm_init(name="chasm_smoke2",
                    short_name="whisps of smoke",
-                   long_name="whisps of smoke",
                    tiles=[
                           "chasm_smoke1.1",
                           "chasm_smoke1.2",

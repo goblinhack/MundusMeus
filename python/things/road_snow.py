@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def road_snow_init(name, short_name, long_name, tiles=[]):
+def road_snow_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_road_snow(True)
     x.set_is_world_item(True)
@@ -24,8 +23,7 @@ def road_snow_init(name, short_name, long_name, tiles=[]):
 
 def init():
     road_snow_init(name="road_snow",
-                   short_name="road_snow",
-                   long_name="road_snow",
+                   short_name="snowy road",
                    tiles=[
                           "road_snow.1",
                           "road_snow.2",

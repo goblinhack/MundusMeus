@@ -15,14 +15,14 @@
 /*
  * If decltype is not defined.
  */
-#include <map> 
-template<typename T> 
-struct decltype_t 
-{ 
-typedef T type; 
-}; 
+#include <map>
+template<typename T>
+struct decltype_t
+{
+typedef T type;
+};
 
-#define TYPEOF(expr) decltype_t<decltype(expr)>::type 
+#define TYPEOF(expr) decltype_t<decltype(expr)>::type
 #else
 #define TYPEOF typeof
 #endif

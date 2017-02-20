@@ -3554,7 +3554,7 @@ static widp wid_new_scroll_trough (widp parent)
 /*
  * Initialize a wid with basic settings
  */
-static widp wid_new_scroll_bar (widp parent, 
+static widp wid_new_scroll_bar (widp parent,
                                 const char *name,
                                 widp scrollbar_owner,
                                 uint8_t vertical)
@@ -3634,7 +3634,7 @@ static widp wid_new_scroll_bar (widp parent,
     return (w);
 }
 
-widp wid_new_vert_scroll_bar (widp parent, 
+widp wid_new_vert_scroll_bar (widp parent,
                               const char *name,
                               widp scrollbar_owner)
 {
@@ -6029,7 +6029,7 @@ static widp wid_mouse_motion_handler_at (widp w, int32_t x, int32_t y,
                                                         depth + 2,
                                                         debug);
                         /*
-                         * Of all the tiles, if only one has mouse over then 
+                         * Of all the tiles, if only one has mouse over then
                          * prefer it.
                          */
                         if (closer_match) {
@@ -6799,7 +6799,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
                         done = true;
 
                         /*
-                         * If this is a grid, then we've manually scrolled 
+                         * If this is a grid, then we've manually scrolled
                          * away from the player.
                          */
                         w->grid_centered_on_player = false;
@@ -6815,7 +6815,7 @@ void wid_mouse_motion (int32_t x, int32_t y,
                         done = true;
 
                         /*
-                         * If this is a grid, then we've manually scrolled 
+                         * If this is a grid, then we've manually scrolled
                          * away from the player.
                          */
                         w->grid_centered_on_player = false;
@@ -7710,7 +7710,7 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
          */
         if (tp_get_z_depth(tp) == Z_DEPTH_LAVA) {
             levelp level = &game.level;
-            if (map_is_x_at(level, (int)t->x, (int)t->y, 
+            if (map_is_x_at(level, (int)t->x, (int)t->y,
                             tpp_blocks_light_shinging_up)) {
                 return;
             }
@@ -7975,7 +7975,7 @@ static void wid_display_fast (widp w,
     br.y += shake_y;
 
     /*
-     * If something is sitting on a floor tile that is elevated like a bridge, 
+     * If something is sitting on a floor tile that is elevated like a bridge,
      * then make sure everything else is elevated.
      */
     double blit_y_offset = w->blit_y_offset;
@@ -8025,7 +8025,7 @@ static void wid_display_fast (widp w,
 
     if (unlikely(!tile)) {
         /*
-         * light ember. 
+         * light ember.
          */
         return;
     }
@@ -8053,7 +8053,7 @@ static void wid_display_fast (widp w,
 		thingp obs = map_thing_is_x_at(&game.level, t->x, t->y,
                                                tp_is_water);
 		if (!obs) {
-		    obs = map_thing_is_x_at(&game.level, t->x, t->y, 
+		    obs = map_thing_is_x_at(&game.level, t->x, t->y,
                                             tp_is_lava);
 		}
 
@@ -8082,7 +8082,7 @@ static void wid_display_fast (widp w,
             /*
              * Add shading to the floor.
              */
-	    static double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH]; 
+	    static double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH];
 	    floor_depth[tx][ty][z] = t->depth;
 
 	    color a = WHITE;
@@ -8098,28 +8098,28 @@ static void wid_display_fast (widp w,
 	    int tx1 = (tx - 1) % MAP_WIDTH;
 	    int ty1 = (ty - 1) % MAP_HEIGHT;
 
-	    depth = 
+	    depth =
 		floor_depth[tx1][ty1][z] +
 		floor_depth[tx][ty1][z]  +
 		floor_depth[tx1][ty][z]  +
 		floor_depth[tx][ty][z];
 	    depth /= div; a.r -= depth; a.g -= depth; a.b -= depth;
 
-	    depth = 
+	    depth =
 		floor_depth[tx2][ty1][z] +
 		floor_depth[tx][ty1][z]  +
 		floor_depth[tx2][ty][z]  +
 		floor_depth[tx][ty][z];
 	    depth /= div; b.r -= depth; b.g -= depth; b.b -= depth;
 
-	    depth = 
+	    depth =
 		floor_depth[tx1][ty2][z] +
 		floor_depth[tx][ty2][z]  +
 		floor_depth[tx1][ty][z]  +
 		floor_depth[tx][ty][z];
 	    depth /= div; c.r -= depth; c.g -= depth; c.b -= depth;
 
-	    depth = 
+	    depth =
 		floor_depth[tx2][ty2][z] +
 		floor_depth[tx][ty2][z]  +
 		floor_depth[tx2][ty][z]  +
@@ -8730,7 +8730,7 @@ static void wid_lighting_render (widp w,
             alpha *= fade;
             light_radius *= alpha;
 
-            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
+            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y,
                            red, green, blue, alpha);
 
             alpha /= 2.0;
@@ -8746,7 +8746,7 @@ static void wid_lighting_render (widp w,
                 }
             }
 
-            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y, 
+            push_tex_point(0.5, 0.5, light_pos.x, light_pos.y,
                            red, green, blue, alpha);
             alpha = 0.0;
         }
@@ -9674,7 +9674,7 @@ static void wid_display (widp w,
             }
 
             /*
-             * Don't make the shadows dark as it looks too dark on the 
+             * Don't make the shadows dark as it looks too dark on the
              * surface. Instead we use a light alpha overlay.
              */
             if (game.biome_set_is_land) {
@@ -10047,7 +10047,7 @@ void wid_display_all (void)
     w = game.wid_map;
 
     /*
-     * This is a hack so we only update the UI every x frames, to save burning 
+     * This is a hack so we only update the UI every x frames, to save burning
      * the CPU
      */
     if (w && (++wid_refresh_overlay_count < 10)) {
@@ -10110,8 +10110,8 @@ void wid_display_all (void)
     glDisable(GL_SCISSOR_TEST);
 
     blit_init();
-    if (wid_tooltip_string) {
-        color c = PURPLE4;
+    if (wid_tooltip2_string) {
+        color c = BLUE4;
         c.a = 200;
         glcolor(c);
         glBindTexture(GL_TEXTURE_2D, 0);
@@ -10122,15 +10122,15 @@ void wid_display_all (void)
                     1.00 * (double) game.video_pix_height);
 
         glcolor(WHITE);
-        ttf_puts(med_font, wid_tooltip_string,
+        ttf_puts(med_font, wid_tooltip2_string,
                  0.00 * (double) game.video_pix_width,
                  0.97 * (double) game.video_pix_height,
                  1.0,
                  1.0, false);
     }
 
-    if (wid_tooltip2_string) {
-        color c = BLUE4;
+    if (wid_tooltip_string) {
+        color c = PURPLE4;
         c.a = 200;
         glcolor(c);
         glBindTexture(GL_TEXTURE_2D, 0);
@@ -10141,7 +10141,7 @@ void wid_display_all (void)
                     0.97 * (double) game.video_pix_height);
 
         glcolor(WHITE);
-        ttf_puts(med_font, wid_tooltip2_string,
+        ttf_puts(med_font, wid_tooltip_string,
                  0.00 * (double) game.video_pix_width,
                  0.94 * (double) game.video_pix_height,
                  1.0,

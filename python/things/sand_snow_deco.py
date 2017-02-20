@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def sand_deco1_init(name, short_name, long_name, tiles=[]):
+def sand_deco1_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("sand")
     x.set_is_sand_snow_deco(True)
@@ -26,7 +25,6 @@ def sand_deco1_init(name, short_name, long_name, tiles=[]):
 def init():
     sand_deco1_init(name="sand_snow_deco",
                     short_name="sand",
-                    long_name="sand",
                     tiles=[
                            "sand_snow_tl",
                            "sand_snow_top",

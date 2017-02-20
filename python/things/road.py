@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def road_init(name, short_name, long_name, tiles=[]):
+def road_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_road(True)
     x.set_is_solid_ground(True)
@@ -26,7 +25,6 @@ def road_init(name, short_name, long_name, tiles=[]):
 def init():
     road_init(name="road",
               short_name="road",
-              long_name="road",
               tiles=[
                      "road.1",
                      "road.2",

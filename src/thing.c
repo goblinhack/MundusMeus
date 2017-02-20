@@ -35,7 +35,7 @@ void thing_fini (void)
     }
 }
 
-thingp thing_new (const char *name, 
+thingp thing_new (const char *name,
                   long int thing_id,
                   const char *tp_name)
 {

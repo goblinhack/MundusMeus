@@ -14,10 +14,10 @@
       writes BMP,TGA (define STBI_NO_WRITE to remove code)
       decoded from memory or through stdio FILE (define STBI_NO_STDIO to remove code)
       supports installable dequantizing-IDCT, YCbCr-to-RGB conversion (define STBI_SIMD)
-        
+
    TODO:
       stbi_info_*
-  
+
    history:
       1.18   fix a threading bug (local mutable static)
       1.17   support interlaced PNG
@@ -82,7 +82,7 @@
 // Basic usage (see HDR discussion below):
 //    int x,y,n;
 //    unsigned char *data = stbi_load(filename, &x, &y, &n, 0);
-//    // ... process data if not 0 ... 
+//    // ... process data if not 0 ...
 //    // ... x = width, y = height, n = # 8-bit components per pixel ...
 //    // ... replace '0' with '1'..'4' to force that many components per pixel
 //    stbi_image_free(data)
@@ -143,7 +143,7 @@
 // (linear) floats to preserve the full dynamic range:
 //
 //    float *data = stbi_loadf(filename, &x, &y, &n, 0);
-// 
+//
 // If you load LDR images through this interface, those images will
 // be promoted to floating point values, run through the inverse of
 // constants corresponding to the above:
@@ -217,7 +217,7 @@ extern void   stbi_ldr_to_hdr_scale(float scale);
 
 // get a VERY brief reason for failure
 // NOT THREADSAFE
-extern char    *stbi_failure_reason  (void); 
+extern char    *stbi_failure_reason  (void);
 
 // free the loaded image -- this is just free()
 extern void     stbi_image_free      (void *retval_from_stbi_load);
@@ -660,7 +660,7 @@ inline static int at_eof(stbi *s)
    if (s->img_file)
       return feof(s->img_file);
 #endif
-   return s->img_buffer >= s->img_buffer_end;   
+   return s->img_buffer >= s->img_buffer_end;
 }
 
 inline static uint8_t get8u(stbi *s)
@@ -1704,7 +1704,7 @@ typedef struct
    resample_row_func resample;
    uint8_t *line0,*line1;
    int hs,vs;   // expansion factor in each axis
-   int w_lores; // horizontal pixels pre-expansion 
+   int w_lores; // horizontal pixels pre-expansion
    int ystep;   // how far through vertical expansion we are
    int ypos;    // which pre-expansion row we're on
 } stbi_resample;
@@ -1887,7 +1887,7 @@ typedef struct
    int maxcode[17];
    uint16_t firstsymbol[16];
    uint8_t size[288];
-   uint16_t value[288]; 
+   uint16_t value[288];
 } zhuffman;
 
 inline static int bitreverse16(int n)
@@ -1915,7 +1915,7 @@ static int zbuild_huffman(zhuffman *z, uint8_t *sizelist, int num)
    // DEFLATE spec for generating codes
    memset(sizes, 0, sizeof(sizes));
    memset(z->fast, 255, sizeof(z->fast));
-   for (i=0; i < num; ++i) 
+   for (i=0; i < num; ++i)
       ++sizes[sizelist[i]];
    sizes[0] = 0;
    for (i=1; i < 16; ++i)
@@ -1994,7 +1994,7 @@ inline static unsigned int zreceive(zbuf *z, int n)
    k = z->code_buffer & ((1 << n) - 1);
    z->code_buffer >>= n;
    z->num_bits -= n;
-   return k;   
+   return k;
 }
 
 inline static int zhuffman_decode(zbuf *a, zhuffman *z)
@@ -2046,7 +2046,7 @@ static int length_base[31] = {
    15,17,19,23,27,31,35,43,51,59,
    67,83,99,115,131,163,195,227,258,0,0 };
 
-static int length_extra[31]= 
+static int length_extra[31]=
 { 0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0,0,0 };
 
 static int dist_base[32] = { 1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,
@@ -2189,7 +2189,7 @@ static int parse_zlib(zbuf *a, int parse_header)
 {
    int final, type;
    if (parse_header)
-      if (!parse_zlib_header(a)) 
+      if (!parse_zlib_header(a))
       {
           ERR("decompress");
               return 0;
@@ -2200,13 +2200,13 @@ static int parse_zlib(zbuf *a, int parse_header)
       final = zreceive(a,1);
       type = zreceive(a,2);
       if (type == 0) {
-         if (!parse_uncompressed_block(a)) 
+         if (!parse_uncompressed_block(a))
          {
          ERR("decompress");
              return 0;
              }
       } else if (type == 3) {
-         
+
       {
       ERR("decompress");
           return 0;
@@ -2215,24 +2215,24 @@ static int parse_zlib(zbuf *a, int parse_header)
          if (type == 1) {
             // use fixed code lengths
             if (!default_distance[31]) init_defaults();
-            if (!zbuild_huffman(&a->z_length  , default_length  , 288)) 
+            if (!zbuild_huffman(&a->z_length  , default_length  , 288))
             {
             ERR("decompress");
                 return 0;
                 }
-            if (!zbuild_huffman(&a->z_distance, default_distance,  32)) 
+            if (!zbuild_huffman(&a->z_distance, default_distance,  32))
             {
             ERR("decompress");
                 return 0;
                 }
          } else {
-            if (!compute_huffman_codes(a)) 
+            if (!compute_huffman_codes(a))
             {
             ERR("decompress");
                 return 0;
                 }
          }
-         if (!parse_huffman_block(a)) 
+         if (!parse_huffman_block(a))
          {
          ERR("decompress");
              return 0;
@@ -2927,7 +2927,7 @@ static stbi_uc *bmp_load(stbi *s, int *x, int *y, int *comp, int req_comp)
                   mg = 0xff <<  8;
                   mb = 0xff <<  0;
                   ma = 0xff << 24;
-//                  fake_a = 1; // @TODO: check for cases like alpha value is 
+//                  fake_a = 1; // @TODO: check for cases like alpha value is
 //                  all 0 and switch it to 255
                } else {
                   mr = 31 << 10;
@@ -3043,7 +3043,7 @@ static stbi_uc *bmp_load(stbi *s, int *x, int *y, int *comp, int req_comp)
                out[z++] = shiftsigned(v & mg, gshift, gcount);
                out[z++] = shiftsigned(v & mb, bshift, bcount);
                a = (ma ? shiftsigned(v & ma, ashift, acount) : 255);
-               if (target == 4) out[z++] = a; 
+               if (target == 4) out[z++] = a;
             }
          }
          skip(s, pad);
@@ -3858,7 +3858,7 @@ static void write_pixels(FILE *f, int rgb_dir, int vdir, int x, int y, int comp,
    uint32_t zero = 0;
    int i,j,k, j_end;
 
-   if (vdir < 0) 
+   if (vdir < 0)
       j_end = -1, j = y-1;
    else
       j_end =  y, j = 0;

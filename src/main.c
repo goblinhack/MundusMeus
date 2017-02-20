@@ -465,7 +465,7 @@ int32_t main (int32_t argc, char *argv[])
     mkdir(dir);
 #else
     mkdir(dir, 0700);
-#endif 
+#endif
     myfree(dir);
 
     char *out = dynprintf("%s%s%s%s%s", appdata, DSEP, "mundusmeus", DSEP, "stdout.txt");

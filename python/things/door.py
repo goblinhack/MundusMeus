@@ -7,7 +7,7 @@ def thing_init(t):
 
 def door1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name, is_door=True)
-    x.set_long_name(short_name)
+    x.set_long_name(long_name)
     x.set_short_name(short_name)
     x.set_z_depth("wall")
     x.set_is_dungeon_item(True)
@@ -28,13 +28,13 @@ def door1_init(name, short_name, long_name, tiles=[]):
 def init():
     x = door1_init(name="door1",
                    short_name="portcullis",
-                   long_name="portcullis",
+                   long_name="heavy metal portcullis",
                    tiles=["door1.1"])
     x.set_blit_top_off(1)
 
     x = door1_init(name="door2",
-                   short_name="heavy secured door",
-                   long_name="heavy secured door",
+                   short_name="secured door",
+                   long_name="heavy metal chained and secured door",
                    tiles=["door1.2"])
     x.set_blit_top_off(1)
 

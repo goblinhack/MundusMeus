@@ -7,7 +7,6 @@ def thing_init(t):
 
 def landrock_init(name):
     x = tp.Tp(name)
-    x.set_long_name(name)
     x.set_short_name("rock")
     x.set_is_movement_blocking(True)
     x.set_is_landrock(True)

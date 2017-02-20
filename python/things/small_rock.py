@@ -19,7 +19,6 @@ def small_rock_init(d1000_roll, tiles=[]):
               is_small_rock=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name("small rock")
     x.set_short_name("small rock")
     x.set_is_small_rock(True)
     x.set_is_world_item(True)

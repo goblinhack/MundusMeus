@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def gravel_deco1_init(name, short_name, long_name, tiles=[]):
+def gravel_deco1_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("gravel")
     x.set_is_gravel_deco(True)
@@ -26,7 +25,6 @@ def gravel_deco1_init(name, short_name, long_name, tiles=[]):
 def init():
     gravel_deco1_init(name="gravel_deco",
                       short_name="gravel",
-                      long_name="gravel",
                       tiles=[
                              "gravel_tl",
                              "gravel_top",

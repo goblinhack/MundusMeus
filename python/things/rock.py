@@ -5,12 +5,11 @@ def thing_init(t):
     return
 
 
-def rock_init(name, short_name, long_name, tiles=[]):
+def rock_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
 
     x.set_is_shadow_caster_soft(True)
     x.set_is_shadow_caster(True)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_movement_blocking(True)
     x.set_is_rock(True)
@@ -31,7 +30,6 @@ def rock_init(name, short_name, long_name, tiles=[]):
 def init():
     rock_init(name="rock",
               short_name="a boring rock",
-              long_name="a boring rock",
               tiles=[
                      "rock.1",
                      "rock.2",

@@ -128,7 +128,7 @@ PyObject *wid_new_grid_ (PyObject *obj, PyObject *args, PyObject *keywds)
         (char*) "tile_height",
         0};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, 
+    if (!PyArg_ParseTupleAndKeywords(args, keywds,
                                      "OKsdddd", kwlist,
                                      &py_class,
                                      &i_parent,
@@ -160,8 +160,8 @@ PyObject *wid_new_grid_ (PyObject *obj, PyObject *args, PyObject *keywds)
 
     wid_new_grid(w,
                  across,
-                 down, 
-                 tile_width, 
+                 down,
+                 tile_width,
                  tile_height);
 
     return (Py_BuildValue("K", (uintptr_t) w));

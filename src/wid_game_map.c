@@ -157,8 +157,8 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         scale = gauss(1.0, 0.3);
 
         if ((myrand() % 100) < 5) {
-            wid_bounce_to_pct_in(child, 0.1, 0.9, 
-                                 myrand() % 20000 + 5000, 
+            wid_bounce_to_pct_in(child, 0.1, 0.9,
+                                 myrand() % 20000 + 5000,
                                  99999);
         }
     }
@@ -203,15 +203,15 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         }
     }
 
-    if (tp_is_dirt(tp) || 
-        tp_is_gravel(tp) || 
-        tp_is_gravel_snow(tp) || 
+    if (tp_is_dirt(tp) ||
+        tp_is_gravel(tp) ||
+        tp_is_gravel_snow(tp) ||
         tp_is_rock(tp)) {
         t->depth = myrand() % 100;
     }
 
-    if (tp_is_grass(tp) || 
-        tp_is_landrock(tp) || 
+    if (tp_is_grass(tp) ||
+        tp_is_landrock(tp) ||
         tp_is_sand(tp)) {
         t->depth = myrand() % 50;
     }
@@ -316,10 +316,10 @@ void wid_game_map_scroll_chunk (int dx, int dy)
     extern double floor_offset[MAP_WIDTH][MAP_HEIGHT];
 
     for (x = 0; x < MAP_WIDTH; x++) {
-        uint32_t nx = ((uint32_t)(x + tdx)) % MAP_WIDTH; 
+        uint32_t nx = ((uint32_t)(x + tdx)) % MAP_WIDTH;
 
         for (y = 0; y < MAP_HEIGHT; y++) {
-            uint32_t ny = ((uint32_t)(y + tdy)) % MAP_HEIGHT; 
+            uint32_t ny = ((uint32_t)(y + tdy)) % MAP_HEIGHT;
 
             copy_light_pulse_amount[nx][ny] = light_pulse_amount[x][y];
             copy_light_pulse_dir[nx][ny] = light_pulse_dir[x][y];
@@ -336,7 +336,7 @@ void wid_game_map_scroll_chunk (int dx, int dy)
     cloud_move(true /* jumped */);
 }
 
-void wid_game_map_scroll_adjust (levelp level, uint8_t adjust) 
+void wid_game_map_scroll_adjust (levelp level, uint8_t adjust)
 {
     if (!player) {
         return;

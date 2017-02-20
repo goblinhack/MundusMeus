@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def ice_init(name, short_name, long_name, tiles=[]):
+def ice_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_ice(True)
     x.set_z_depth("ice")
@@ -24,7 +23,6 @@ def ice_init(name, short_name, long_name, tiles=[]):
 def init():
     ice_init(name="ice",
              short_name="ice",
-             long_name="ice",
              tiles=[
                     "ice.1",
                     "ice.2",

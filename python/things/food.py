@@ -7,7 +7,7 @@ def thing_init(t):
 
 def food_init(name, short_name, long_name):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
+    x.set_long_name(long_name)
     x.set_short_name(short_name)
     x.set_is_food(True)
     x.set_z_depth("player")

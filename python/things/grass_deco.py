@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def grass_deco1_init(name, short_name, long_name, tiles=[]):
+def grass_deco1_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("grass")
     x.set_is_grass_deco(True)
@@ -26,7 +25,6 @@ def grass_deco1_init(name, short_name, long_name, tiles=[]):
 def init():
     grass_deco1_init(name="grass_deco",
                      short_name="grass",
-                     long_name="grass",
                      tiles=[
                             "grass_tl",
                             "grass_top",

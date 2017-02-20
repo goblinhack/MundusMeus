@@ -9,9 +9,8 @@ def thing_init(t):
     return
 
 
-def none_init(name, short_name, long_name, tiles=[]):
+def none_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_z_depth("player")
     x.set_is_animated(True)
@@ -32,7 +31,6 @@ def none_init(name, short_name, long_name, tiles=[]):
 def init():
     none_init(name="none",
               short_name="none",
-              long_name="none",
               tiles=[
                      "none",
                     ])

@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def dirt_init(name, short_name, long_name, tiles=[]):
+def dirt_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_dirt(True)
     x.set_is_solid_ground(True)
@@ -25,7 +24,6 @@ def dirt_init(name, short_name, long_name, tiles=[]):
 def init():
     dirt_init(name="dirt",
               short_name="dirt",
-              long_name="dirt",
               tiles=[
                      "dirt.1",
                      "dirt.2",

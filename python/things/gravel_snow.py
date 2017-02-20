@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def gravel_snow_init(name, short_name, long_name, tiles=[]):
+def gravel_snow_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(short_name)
     x.set_short_name(short_name)
     x.set_is_gravel_snow(True)
     x.set_is_world_item(True)
@@ -24,8 +23,7 @@ def gravel_snow_init(name, short_name, long_name, tiles=[]):
 
 def init():
     gravel_snow_init(name="gravel_snow",
-                     short_name="gravel_snow",
-                     long_name="gravel_snow",
+                     short_name="snowy gravel",
                      tiles=[
                             "gravel_snow.1",
                             "gravel_snow.2",

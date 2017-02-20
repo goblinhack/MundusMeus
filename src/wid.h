@@ -47,11 +47,11 @@ widp wid_new_square_window(const char *name);
 widp wid_new_square_button(widp parent, const char *name);
 widp wid_new_rounded_button(widp, const char *name);
 widp wid_new_rounded_small_button(widp, const char *name);
-widp wid_new_vert_scroll_bar(widp parent, 
-                             const char *name, 
+widp wid_new_vert_scroll_bar(widp parent,
+                             const char *name,
                              widp scrollbar_owner);
-widp wid_new_horiz_scroll_bar(widp parent, 
-                              const char *name, 
+widp wid_new_horiz_scroll_bar(widp parent,
+                              const char *name,
                               widp scrollbar_owner);
 uint8_t wid_has_grid(widp);
 void wid_new_grid(widp, uint32_t width, uint32_t height,
