@@ -9,6 +9,7 @@
 #include "wid_game_map.h"
 #include "cloud.h"
 #include "string_util.h"
+#include "tile.h"
 
 #ifdef GORY_DEBUG
 FILE *fp = 0;
@@ -178,6 +179,11 @@ tpp map_is_chasm_smoke_at (levelp level, int32_t x, int32_t y)
 tpp map_is_wall_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at(level, x, y, tp_is_wall));
+}
+
+tpp map_is_cwall_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_cwall));
 }
 
 tpp map_is_water_at (levelp level, int32_t x, int32_t y)
@@ -359,7 +365,7 @@ static void map_fixup_deco_remove (void)
     }
 }
 
-static char tmp[SMALL_STRING_LEN_MAX];
+static char tmp[MED_STRING_LEN_MAX];
 static int count;
 
 #define MAP_FIXUP_DECO(DECO)                                                            \
@@ -370,19 +376,19 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                                                                                         \
     uint8_t is_at[MAP_WIDTH][MAP_HEIGHT];                                               \
                                                                                         \
-	for (x = 0; x < MAP_WIDTH; x++) {                                               \
-            for (y = 0; y < MAP_HEIGHT; y++) {                                          \
-                is_at[x][y] = (map_is_ ## DECO ## _at(level, x, y)) ? 1 : 0;            \
-                found++;                                                                \
-            }                                                                           \
-	}                                                                               \
+    for (x = 0; x < MAP_WIDTH; x++) {                                                   \
+        for (y = 0; y < MAP_HEIGHT; y++) {                                              \
+            is_at[x][y] = (map_is_ ## DECO ## _at(level, x, y)) ? 1 : 0;                \
+            found++;                                                                    \
+        }                                                                               \
+    }                                                                                   \
                                                                                         \
-	if (!found) {                                                                   \
-            return;                                                                     \
-	}                                                                               \
+    if (!found) {                                                                       \
+        return;                                                                         \
+    }                                                                                   \
                                                                                         \
-	for (x = 1; x < MAP_WIDTH - 1; x++) {                                           \
-            for (y = 1; y < MAP_HEIGHT - 1; y++) {                                      \
+    for (x = 1; x < MAP_WIDTH - 1; x++) {                                               \
+        for (y = 1; y < MAP_HEIGHT - 1; y++) {                                          \
                                                                                         \
             thingp t;                                                                   \
                                                                                         \
@@ -471,6 +477,166 @@ MAP_FIXUP_DECO(grass_snow)
 MAP_FIXUP_DECO(dirt_snow)
 MAP_FIXUP_DECO(sand_snow)
 
+#define MAP_FIXUP_WALL(WALL)                                                            \
+static void map_fixup_ ## WALL (levelp level)                                           \
+{                                                                                       \
+    int x, y;                                                                           \
+    int found = 0;                                                                      \
+    static char tname[MED_STRING_LEN_MAX];                                              \
+                                                                                        \
+    *tname = '\0';                                                                      \
+                                                                                        \
+    thingp is_at[MAP_WIDTH][MAP_HEIGHT];                                                \
+                                                                                        \
+    for (x = 0; x < MAP_WIDTH; x++) {                                                   \
+        for (y = 0; y < MAP_HEIGHT; y++) {                                              \
+            thingp t = map_thing_is_x_at(level,                                         \
+                          x, y,                                                         \
+                          tp_is_ ## WALL);                                              \
+            is_at[x][y] = t;                                                            \
+            if (t && t->wid) {                                                          \
+                strcpy(tname, tile_name(t->wid->first_tile));                           \
+                found++;                                                                \
+            }                                                                           \
+        }                                                                               \
+    }                                                                                   \
+                                                                                        \
+    if (!found) {                                                                       \
+        return;                                                                         \
+    }                                                                                   \
+                                                                                        \
+    if (!*tname) {                                                                      \
+        return;                                                                         \
+    }                                                                                   \
+                                                                                        \
+    /*                                                                                  \
+     * Cut off the suffix of the tilename so we have the unique name.                   \
+     */                                                                                 \
+    char *c;                                                                            \
+    c = tname;                                                                          \
+    while (*c) {                                                                        \
+        if (*c == '_') {                                                                \
+            *c = '\0';                                                                  \
+            break;                                                                      \
+        }                                                                               \
+        c++;                                                                            \
+    }                                                                                   \
+                                                                                        \
+    for (x = 1; x < MAP_WIDTH - 1; x++) {                                               \
+        for (y = 1; y < MAP_HEIGHT - 1; y++) {                                          \
+                                                                                        \
+            thingp t = is_at[x][y];                                                     \
+                                                                                        \
+            if (!t) {                                                                   \
+                continue;                                                               \
+            }                                                                           \
+                                                                                        \
+            int b = false;                                                              \
+            int d = false;                                                              \
+            int f = false;                                                              \
+            int h = false;                                                              \
+                                                                                        \
+            if (is_at[x][y-1]) {                                                        \
+                b = true;                                                               \
+            } else {                                                                    \
+                b = false;                                                              \
+            }                                                                           \
+                                                                                        \
+            if (is_at[x-1][y]) {                                                        \
+                d = true;                                                               \
+            } else {                                                                    \
+                d = false;                                                              \
+            }                                                                           \
+                                                                                        \
+            if (is_at[x+1][y]) {                                                        \
+                f = true;                                                               \
+            } else {                                                                    \
+                f = false;                                                              \
+            }                                                                           \
+                                                                                        \
+            if (is_at[x][y+1]) {                                                        \
+                h = true;                                                               \
+            } else {                                                                    \
+                h = false;                                                              \
+            }                                                                           \
+                                                                                        \
+            /*                                                                          \
+              a b c                                                                     \
+              d e f                                                                     \
+              g h i                                                                     \
+            */                                                                          \
+            if (b && d && f && h) {                                                     \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_x");                                                      \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (b && d && f) {                                                   \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_t180");                                                   \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (b && d && h) {                                                   \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_t90");                                                    \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (b && f && h) {                                                   \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_t270");                                                   \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (d && f && h) {                                                   \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_t");                                                      \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (b && h) {                                                        \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_up_down");                                                \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (d && f) {                                                        \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_left_right");                                             \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (b && f) {                                                        \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_l");                                                      \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (h && f) {                                                        \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_l90");                                                    \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (d && h) {                                                        \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_l180");                                                   \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (b && d) {                                                        \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_l270");                                                   \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (b) {                                                             \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_n180");                                                   \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (f) {                                                             \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_n270");                                                   \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (h) {                                                             \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_n");                                                      \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else if (d) {                                                             \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_n90");                                                    \
+                wid_set_tilename(t->wid, tmp);                                          \
+            } else {                                                                    \
+                strcpy(tmp, tname);                                                     \
+                strcat(tmp, "_node");                                                   \
+                wid_set_tilename(t->wid, tmp);                                          \
+            }                                                                           \
+        }                                                                               \
+    }                                                                                   \
+}                                                                                       \
+
+MAP_FIXUP_WALL(wall)
+MAP_FIXUP_WALL(cwall)
+
 /*
  * Add decorations. These things are never saved as part of the game.
  */
@@ -490,6 +656,8 @@ void map_fixup (levelp level)
     map_fixup_deco_grass_snow(level);
     map_fixup_deco_sand_snow(level);
     map_fixup_deco_dirt_snow(level);
+    map_fixup_wall(level);
+    map_fixup_cwall(level);
 }
 
 /*

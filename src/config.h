@@ -155,6 +155,7 @@
  * Messages.
  */
 #define SMALL_STRING_LEN_MAX        30
+#define MED_STRING_LEN_MAX          512
 
 /*
  * Maximum number of thing types. This cannot be exceeded without changing

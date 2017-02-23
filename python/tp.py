@@ -200,7 +200,6 @@ class Tp:
         self.is_rrr58 = False
         self.is_rrr59 = False
         self.is_rrr60 = False
-        self.is_rrr61 = False
         self.is_dungeon_item = False
         self.is_difficulty_easy = False
         self.is_difficulty_hard = False
@@ -629,9 +628,9 @@ class Tp:
         self.is_rrr60 = value
         mm.tp_set_is_rrr60(self, value)
 
-    def set_is_rrr61(self, value):
-        self.is_rrr61 = value
-        mm.tp_set_is_rrr61(self, value)
+    def set_is_cwall(self, value):
+        self.is_cwall = value
+        mm.tp_set_is_cwall(self, value)
 
     def set_is_dungeon_item(self, value):
         self.is_dungeon_item = value
@@ -851,10 +850,6 @@ class Tp:
 
     def set_is_wall(self, value):
         self.is_wall = value
-        mm.tp_set_is_wall(self, value)
-
-    def set_is_cwall(self, value):
-        self.is_cwall = value
         mm.tp_set_is_wall(self, value)
 
     def set_is_floor(self, value):

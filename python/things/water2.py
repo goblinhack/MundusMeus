@@ -5,9 +5,8 @@ def thing_init(t):
     return
 
 
-def water_init(name, short_name, long_name, tiles=[]):
+def water_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name(long_name)
     x.set_short_name(short_name)
     x.set_is_water(True)
     x.set_z_depth("lava")
@@ -34,7 +33,6 @@ def water_init(name, short_name, long_name, tiles=[]):
 def init():
     x = water_init(name="water2",
                    short_name="water",
-                   long_name="water",
                    tiles=[
                           "water2.1",
                           "water2.2",
