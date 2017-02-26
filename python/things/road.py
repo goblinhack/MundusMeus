@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -11,7 +12,7 @@ def road_init(name, short_name, tiles=[]):
     x.set_is_road(True)
     x.set_is_solid_ground(True)
     x.set_is_world_item(True)
-    x.set_z_depth("road")
+    x.set_z_depth(mm.Z_DEPTH_ROAD)
 
     if tiles is not None:
         for t in tiles:

@@ -78,7 +78,7 @@ def wid_tp_editor_on_m_down(w, x, y, button):
     name = p.tp_sorted_name_list[index]
     tpp = tp.all_tps[name]
     game.g.editor_mode_tp = tpp
-
+    game.g.map_help()
     mywid.toggle_hidden()
     return True
 
@@ -272,18 +272,20 @@ class WidTpEditor(wid_popup.WidPopup):
 
             tpp = tp.all_tps[name]
 
+            text += "'%%tp=" + name + "$'"
+
+            name = tpp.short_name
+
             button_events.append(
                     {
                         "on_m_down": wid_tp_editor_on_m_down,
                         "on_m_over_b": wid_tp_editor_on_m_over_b,
                         "on_m_over_e": wid_tp_editor_on_m_over_e,
                         "tiles": "button_plain",
-                        "tooltip": name.title(),
+                        "tooltip": name,
                         "context": index,
                     },
                 )
-
-            text += "'%%tp=" + name + "$'"
 
         if text != "":
             w.add_text(

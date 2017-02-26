@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -22,7 +23,7 @@ def marsh_plant1_init(d1000_roll, tiles=[]):
     x.set_short_name("marsh plant")
     x.set_is_marsh_plant(True)
     x.set_is_world_item(True)
-    x.set_z_depth("floor2")
+    x.set_z_depth(mm.Z_DEPTH_FLOOR2)
 
     for t in tiles:
         x.set_tile(t, delay_ms=50)

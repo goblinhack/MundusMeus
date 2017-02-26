@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -22,7 +23,7 @@ def snow_mound1_init(d1000_roll, tiles=[]):
     x.set_short_name("snow mound")
     x.set_is_snow_mound(True)
     x.set_is_world_item(True)
-    x.set_z_depth("floor2")
+    x.set_z_depth(mm.Z_DEPTH_FLOOR2)
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)

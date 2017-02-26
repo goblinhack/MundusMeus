@@ -9,6 +9,7 @@ import os.path
 import game
 import wid_mini_map
 import wid_help
+import wid_help_editor
 import wid_tp_editor
 import wid_quit
 
@@ -29,6 +30,7 @@ class Game:
         self.editor_mode = False
         self.editor_mode_draw = False
         self.editor_mode_erase = False
+        self.editor_mode_yank = False
         self.editor_mode_tp = None
 
         self.nexthops = None
@@ -37,6 +39,8 @@ class Game:
         self.last_level_seed = None
         self.last_scroll_px = 0.5
         self.last_scroll_py = 0.5
+        self.last_selected_tile_x = 0
+        self.last_selected_tile_y = 0
 
     def new_game(self):
 
@@ -167,8 +171,10 @@ class Game:
         l = self.level
 
         self.map_clear_focus()
+        self.map_selected_tile(x, y)
 
-        mm.game_map_set_selection_buttons(x, y, "focus1")
+        if self.editor_mode:
+            return True
 
         #
         # Check we can get back from the chosen point to the player.
@@ -185,7 +191,17 @@ class Game:
             for o in nexthops:
                 (x, y) = o
 
-                mm.game_map_set_selection_buttons(x, y, "focus2")
+                self.map_selected_tile(x, y)
+
+    #
+    # Mouse is over a map tile; show the route back to the player
+    #
+    def map_selected_tile(self, x, y):
+
+        self.last_selected_tile_x = x
+        self.last_selected_tile_y = y
+
+        mm.game_map_set_selection_buttons(x, y, "focus2")
 
     #
     # Move the player to the chosen tile
@@ -195,6 +211,7 @@ class Game:
         l = self.level
 
         if self.editor_mode:
+
             if self.editor_mode_draw and self.editor_mode_tp:
                 t = thing.Thing(level=l,
                                 tp_name=self.editor_mode_tp.name,
@@ -240,20 +257,39 @@ class Game:
         self.map_help()
         self.map_clear_focus()
 
+        x = self.last_selected_tile_x
+        y = self.last_selected_tile_y
+        l = self.level
+
         if self.editor_mode:
             if sym == mm.SDLK_TAB:
                 wid_tp_editor.visible()
+                self.map_help()
+                return True
 
             if sym == mm.SDLK_d:
                 self.editor_mode_draw = True
                 self.editor_mode_erase = False
+                self.map_help()
+                return True
 
             if sym == mm.SDLK_x:
                 self.editor_mode_draw = False
                 self.editor_mode_erase = True
+                self.map_help()
+                return True
+
+            if sym == mm.SDLK_y:
+                t = l.thing_top(x, y)
+                if t:
+                    self.editor_mode_tp = t.tp
+                self.map_help()
+                return True
 
             if sym == mm.SDLK_ESCAPE:
                 self.editor_mode = False
+                self.map_help()
+                return True
 
             if sym == mm.SDLK_s:
                 self.save()
@@ -263,7 +299,8 @@ class Game:
                 wid_quit.visible()
                 return True
 
-            self.map_help()
+            wid_help_editor.visible()
+
             return True
         else:
             if sym == mm.SDLK_PERIOD:
@@ -314,17 +351,23 @@ class Game:
         if self.editor_mode:
             tip = ""
 
+            if self.editor_mode_tp:
+                tp_name = self.editor_mode_tp.name
+                tip += "%%tp={}$".format(tp_name)
+
             if self.editor_mode_draw:
-                tip += "Editor draw mode. "
+                tip += "Draw mode. "
+                tip += "%%fg=green$h%%fg=reset$ for help. "
+                tip += "%%fg=green$x%%fg=reset$ erase. "
 
             if self.editor_mode_erase:
-                tip += "Editor erase mode. "
+                tip += "Erase mode. "
+                tip += "%%fg=green$h%%fg=reset$ for help. "
+                tip += "%%fg=green$d%%fg=reset$ draw mode. "
 
-            tip += "Press h for help. "
-            tip += "d draw mode. "
-            tip += "x erase mode. "
-            tip += "TAB to select. "
-            tip += "ESC to normal mode"
+            tip += "%%fg=green$y%%fg=reset$ yank. "
+            tip += "%%fg=green$TAB%%fg=reset$ to select. "
+            tip += "%%fg=red$ESC%%fg=reset$ to game mode"
 
             mm.tip2(tip)
         else:

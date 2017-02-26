@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -8,7 +9,7 @@ def thing_init(t):
 def snow_deco1_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
-    x.set_z_depth("snow")
+    x.set_z_depth(mm.Z_DEPTH_SNOW)
     x.set_is_snow_deco(True)
 
     if tiles is not None:

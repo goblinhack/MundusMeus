@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -9,7 +10,7 @@ def ice_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_ice(True)
-    x.set_z_depth("ice")
+    x.set_z_depth(mm.Z_DEPTH_ICE)
 
     if tiles is not None:
         for t in tiles:

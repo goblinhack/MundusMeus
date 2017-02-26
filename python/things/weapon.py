@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -11,7 +12,7 @@ def weapon_init(name, short_name, long_name, damage, is_double_handed=False):
     x.set_long_name(long_name)
     x.set_short_name(short_name)
     x.set_is_weapon(True)
-    x.set_z_depth("treasure")
+    x.set_z_depth(mm.Z_DEPTH_TREASURE)
     x.set_damage(damage)
     x.set_is_double_handed(is_double_handed)
 

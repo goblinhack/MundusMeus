@@ -208,12 +208,12 @@ tpp map_is_corridor_at (levelp level, int32_t x, int32_t y)
 
 tpp map_is_dirt_deco_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt_deco, Z_DEPTH_DIRT1));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt_deco, Z_DEPTH_DIRT));
 }
 
 tpp map_is_dirt_snow_deco_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt_snow_deco, Z_DEPTH_DIRT1));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt_snow_deco, Z_DEPTH_DIRT));
 }
 
 tpp map_is_grass_deco_at (levelp level, int32_t x, int32_t y)
@@ -248,12 +248,12 @@ tpp map_is_snow_deco_at (levelp level, int32_t x, int32_t y)
 
 tpp map_is_dirt_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt, Z_DEPTH_DIRT1));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt, Z_DEPTH_DIRT));
 }
 
 tpp map_is_dirt_snow_at (levelp level, int32_t x, int32_t y)
 {
-    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt_snow, Z_DEPTH_DIRT1));
+    return (map_is_x_at_z_depth(level, x, y, tp_is_dirt_snow, Z_DEPTH_DIRT));
 }
 
 tpp map_is_grass_at (levelp level, int32_t x, int32_t y)
@@ -643,11 +643,6 @@ MAP_FIXUP_WALL(cwall)
 void map_fixup (levelp level)
 {
     map_fixup_deco_remove();
-
-    if (game.biome_set_is_dungeon) {
-        return;
-    }
-
     map_fixup_deco_grass(level);
     map_fixup_deco_snow(level);
     map_fixup_deco_sand(level);

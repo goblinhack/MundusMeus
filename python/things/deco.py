@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -8,7 +9,7 @@ def thing_init(t):
 def deco1_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
-    x.set_z_depth("player")
+    x.set_z_depth(mm.Z_DEPTH_PLAYER)
     x.set_is_dungeon_item(True)
     x.set_blit_top_off(1)
 

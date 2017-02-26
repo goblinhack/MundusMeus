@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -25,7 +26,7 @@ def dungeon1_init(d1000_roll,
     x.set_short_name(short_name)
     x.set_is_dungeon(True)
     x.set_is_world_item(True)
-    x.set_z_depth("wall")
+    x.set_z_depth(mm.Z_DEPTH_WALL)
 
     for t in tiles:
         x.set_tile(t, delay_ms=50)

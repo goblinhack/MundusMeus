@@ -156,62 +156,6 @@ def biome_populate(self):
                                 tp_name=l.wall_name)
                 t.push()
 
-                if m.is_wall_at(x, y-1):
-                    b = True
-                else:
-                    b = False
-
-                if m.is_wall_at(x-1, y):
-                    d = True
-                else:
-                    d = False
-
-                if m.is_wall_at(x+1, y):
-                    f = True
-                else:
-                    f = False
-
-                if m.is_wall_at(x, y+1):
-                    h = True
-                else:
-                    h = False
-
-                # a b c
-                # d e f
-                # g h i
-                if b and d and f and h:
-                    t.set_tilename(l.wall_x_name)
-                elif b and d and f:
-                    t.set_tilename(l.wall_t180_name)
-                elif b and d and h:
-                    t.set_tilename(l.wall_t90_name)
-                elif b and f and h:
-                    t.set_tilename(l.wall_t270_name)
-                elif d and f and h:
-                    t.set_tilename(l.wall_t_name)
-                elif b and h:
-                    t.set_tilename(l.wall_up_down_name)
-                elif d and f:
-                    t.set_tilename(l.wall_left_right_name)
-                elif b and f:
-                    t.set_tilename(l.wall_l_name)
-                elif h and f:
-                    t.set_tilename(l.wall_l90_name)
-                elif d and h:
-                    t.set_tilename(l.wall_l180_name)
-                elif b and d:
-                    t.set_tilename(l.wall_l270_name)
-                elif b:
-                    t.set_tilename(l.wall_n180_name)
-                elif f:
-                    t.set_tilename(l.wall_n270_name)
-                elif h:
-                    t.set_tilename(l.wall_n_name)
-                elif d:
-                    t.set_tilename(l.wall_n90_name)
-                else:
-                    t.set_tilename(l.wall_node_name)
-
                 t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="under_floor1")
                 t.push()
 
@@ -219,62 +163,6 @@ def biome_populate(self):
                 t = thing.Thing(chunk=c, x=tx, y=ty,
                                 tp_name=l.cwall_name)
                 t.push()
-
-                if m.is_cwall_at(x, y-1):
-                    b = True
-                else:
-                    b = False
-
-                if m.is_cwall_at(x-1, y):
-                    d = True
-                else:
-                    d = False
-
-                if m.is_cwall_at(x+1, y):
-                    f = True
-                else:
-                    f = False
-
-                if m.is_cwall_at(x, y+1):
-                    h = True
-                else:
-                    h = False
-
-                # a b c
-                # d e f
-                # g h i
-                if b and d and f and h:
-                    t.set_tilename(l.cwall_x_name)
-                elif b and d and f:
-                    t.set_tilename(l.cwall_t180_name)
-                elif b and d and h:
-                    t.set_tilename(l.cwall_t90_name)
-                elif b and f and h:
-                    t.set_tilename(l.cwall_t270_name)
-                elif d and f and h:
-                    t.set_tilename(l.cwall_t_name)
-                elif b and h:
-                    t.set_tilename(l.cwall_up_down_name)
-                elif d and f:
-                    t.set_tilename(l.cwall_left_right_name)
-                elif b and f:
-                    t.set_tilename(l.cwall_l_name)
-                elif h and f:
-                    t.set_tilename(l.cwall_l90_name)
-                elif d and h:
-                    t.set_tilename(l.cwall_l180_name)
-                elif b and d:
-                    t.set_tilename(l.cwall_l270_name)
-                elif b:
-                    t.set_tilename(l.cwall_n180_name)
-                elif f:
-                    t.set_tilename(l.cwall_n270_name)
-                elif h:
-                    t.set_tilename(l.cwall_n_name)
-                elif d:
-                    t.set_tilename(l.cwall_n90_name)
-                else:
-                    t.set_tilename(l.cwall_node_name)
 
                 t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="under_floor1")
                 t.push()
@@ -493,42 +381,8 @@ def choose_walls(self):
     wall = tp.get_random_wall()
     l.wall_name = wall.name
 
-    l.wall_x_name = l.wall_name + "_x"
-    l.wall_t180_name = l.wall_name + "_t180"
-    l.wall_t90_name = l.wall_name + "_t90"
-    l.wall_t270_name = l.wall_name + "_t270"
-    l.wall_t_name = l.wall_name + "_t"
-    l.wall_up_down_name = l.wall_name + "_up_down"
-    l.wall_left_right_name = l.wall_name + "_left_right"
-    l.wall_l_name = l.wall_name + "_l"
-    l.wall_l90_name = l.wall_name + "_l90"
-    l.wall_l180_name = l.wall_name + "_l180"
-    l.wall_l270_name = l.wall_name + "_l270"
-    l.wall_n180_name = l.wall_name + "_n180"
-    l.wall_n270_name = l.wall_name + "_n270"
-    l.wall_n_name = l.wall_name + "_n"
-    l.wall_n90_name = l.wall_name + "_n90"
-    l.wall_node_name = l.wall_name + "_node"
-
     cwall = tp.get_random_cwall()
     l.cwall_name = cwall.name
-
-    l.cwall_x_name = l.cwall_name + "_x"
-    l.cwall_t180_name = l.cwall_name + "_t180"
-    l.cwall_t90_name = l.cwall_name + "_t90"
-    l.cwall_t270_name = l.cwall_name + "_t270"
-    l.cwall_t_name = l.cwall_name + "_t"
-    l.cwall_up_down_name = l.cwall_name + "_up_down"
-    l.cwall_left_right_name = l.cwall_name + "_left_right"
-    l.cwall_l_name = l.cwall_name + "_l"
-    l.cwall_l90_name = l.cwall_name + "_l90"
-    l.cwall_l180_name = l.cwall_name + "_l180"
-    l.cwall_l270_name = l.cwall_name + "_l270"
-    l.cwall_n180_name = l.cwall_name + "_n180"
-    l.cwall_n270_name = l.cwall_name + "_n270"
-    l.cwall_n_name = l.cwall_name + "_n"
-    l.cwall_n90_name = l.cwall_name + "_n90"
-    l.cwall_node_name = l.cwall_name + "_node"
 
 
 def choose_floors(self):
@@ -560,39 +414,7 @@ def biome_save(self):
                              self.biome_name)), 'wb') as f:
 
         pickle.dump(l.wall_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_x_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_t180_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_t90_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_t270_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_t_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_up_down_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_left_right_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_l_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_l90_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_l180_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_l270_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_n180_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_n270_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_n_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_n90_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.wall_node_name, f, pickle.HIGHEST_PROTOCOL)
         pickle.dump(l.cwall_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_x_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_t180_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_t90_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_t270_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_t_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_up_down_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_left_right_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_l_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_l90_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_l180_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_l270_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_n180_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_n270_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_n_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_n90_name, f, pickle.HIGHEST_PROTOCOL)
-        pickle.dump(l.cwall_node_name, f, pickle.HIGHEST_PROTOCOL)
         pickle.dump(l.floor_name, f, pickle.HIGHEST_PROTOCOL)
         pickle.dump(l.corridor, f, pickle.HIGHEST_PROTOCOL)
         pickle.dump(l.corridor_name, f, pickle.HIGHEST_PROTOCOL)
@@ -616,39 +438,7 @@ def biome_load(self):
                 os.path.join(os.environ["APPDATA"],
                              self.biome_name)), 'rb') as f:
         l.wall_name = pickle.load(f)
-        l.wall_x_name = pickle.load(f)
-        l.wall_t180_name = pickle.load(f)
-        l.wall_t90_name = pickle.load(f)
-        l.wall_t270_name = pickle.load(f)
-        l.wall_t_name = pickle.load(f)
-        l.wall_up_down_name = pickle.load(f)
-        l.wall_left_right_name = pickle.load(f)
-        l.wall_l_name = pickle.load(f)
-        l.wall_l90_name = pickle.load(f)
-        l.wall_l180_name = pickle.load(f)
-        l.wall_l270_name = pickle.load(f)
-        l.wall_n180_name = pickle.load(f)
-        l.wall_n270_name = pickle.load(f)
-        l.wall_n_name = pickle.load(f)
-        l.wall_n90_name = pickle.load(f)
-        l.wall_node_name = pickle.load(f)
         l.cwall_name = pickle.load(f)
-        l.cwall_x_name = pickle.load(f)
-        l.cwall_t180_name = pickle.load(f)
-        l.cwall_t90_name = pickle.load(f)
-        l.cwall_t270_name = pickle.load(f)
-        l.cwall_t_name = pickle.load(f)
-        l.cwall_up_down_name = pickle.load(f)
-        l.cwall_left_right_name = pickle.load(f)
-        l.cwall_l_name = pickle.load(f)
-        l.cwall_l90_name = pickle.load(f)
-        l.cwall_l180_name = pickle.load(f)
-        l.cwall_l270_name = pickle.load(f)
-        l.cwall_n180_name = pickle.load(f)
-        l.cwall_n270_name = pickle.load(f)
-        l.cwall_n_name = pickle.load(f)
-        l.cwall_n90_name = pickle.load(f)
-        l.cwall_node_name = pickle.load(f)
         l.floor_name = pickle.load(f)
         l.corridor = pickle.load(f)
         l.corridor_name = pickle.load(f)

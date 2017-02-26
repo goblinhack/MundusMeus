@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -9,7 +10,7 @@ def torch1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
     x.set_long_name(long_name)
     x.set_short_name(short_name)
-    x.set_z_depth("treasure")
+    x.set_z_depth(mm.Z_DEPTH_TREASURE)
     x.set_is_dungeon_item(True)
     x.set_is_animated(True)
 

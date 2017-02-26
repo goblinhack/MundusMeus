@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -8,7 +9,7 @@ def thing_init(t):
 def under_corridor_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
-    x.set_z_depth("bridge")
+    x.set_z_depth(mm.Z_DEPTH_BRIDGE)
     x.set_is_dungeon_item(True)
     x.set_is_bridge(True)
 

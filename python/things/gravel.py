@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -11,7 +12,7 @@ def gravel_init(name, short_name, tiles=[]):
     x.set_is_gravel(True)
     x.set_is_solid_ground(True)
     x.set_is_world_item(True)
-    x.set_z_depth("gravel")
+    x.set_z_depth(mm.Z_DEPTH_GRAVEL)
 
     if tiles is not None:
         for t in tiles:

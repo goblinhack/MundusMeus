@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -9,7 +10,7 @@ def lava_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_lava(True)
-    x.set_z_depth("lava")
+    x.set_z_depth(mm.Z_DEPTH_LAVA)
     x.set_is_dungeon_item(True)
     x.set_is_animated(True)
 
@@ -167,6 +168,6 @@ def init():
                          "toplava1.63",
                          "toplava1.64",
                      ])
-    x.set_z_depth("lava_top")
+    x.set_z_depth(mm.Z_DEPTH_LAVA_TOP)
 
 init()

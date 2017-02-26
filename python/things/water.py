@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -9,7 +10,7 @@ def water_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_water(True)
-    x.set_z_depth("lava")
+    x.set_z_depth(mm.Z_DEPTH_LAVA)
     x.set_is_animated(True)
 
     x.set_light_radius(1.5)
@@ -167,7 +168,7 @@ def init():
                           "topwater1.64",
                      ])
     x.set_blit_top_off(1)
-    x.set_z_depth("lava_top")
+    x.set_z_depth(mm.Z_DEPTH_LAVA_TOP)
     x.set_is_dungeon_item(True)
 
     x = water_init(name="water1_trans",
@@ -308,7 +309,7 @@ def init():
                           "topwater1_trans.64",
                      ])
     x.set_blit_top_off(1)
-    x.set_z_depth("lava_top")
+    x.set_z_depth(mm.Z_DEPTH_LAVA_TOP)
     x.set_is_dungeon_item(True)
 
 init()

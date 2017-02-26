@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -10,7 +11,7 @@ def stalactite_init(name, short_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_is_movement_blocking(True)
     x.set_is_rock(True)
-    x.set_z_depth("stalactite")
+    x.set_z_depth(mm.Z_DEPTH_STALACTITE)
     x.set_is_dungeon_item(True)
 
     if tiles is not None:

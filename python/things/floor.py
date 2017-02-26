@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -10,7 +11,7 @@ def floor_init(name, tiles=[]):
     x.set_short_name("dirty floor")
     x.set_is_floor(True)
     x.set_is_solid_ground(True)
-    x.set_z_depth("floor")
+    x.set_z_depth(mm.Z_DEPTH_FLOOR)
     x.set_is_dungeon_item(True)
 
     if tiles is not None:

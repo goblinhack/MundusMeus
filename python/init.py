@@ -81,6 +81,10 @@ def load_one_plugin(filename):
         global wid_help
         wid_help = py_mod
 
+    if basename(filename) == "wid_help_editor.py":
+        global wid_help_editor
+        wid_help_editor = py_mod
+
     if basename(filename) == "wid_info.py":
         global wid_info
         wid_info = py_mod
@@ -176,6 +180,9 @@ def init2():
         w = wid_help.wid_help_create()
 
     if True:
+        w = wid_help_editor.wid_help_editor_create()
+
+    if True:
         w = wid_tp_list.WidTpList(name="tp window",
                                   tiles="wid2",
                                   body_tiles="wid1",
@@ -207,13 +214,13 @@ def init2():
         w = wid_tp_editor.WidTpEditor(name="tp window",
                                       tiles="wid2",
                                       body_tiles="wid1",
-                                      width=0.7,
+                                      width=0.6,
                                       height=0.9,
                                       x=0.0,
                                       y=0.0,
-                                      detail_width=0.30,
-                                      detail_height=0.3,
-                                      detail_x=0.70,
+                                      detail_width=0.4,
+                                      detail_height=0.4,
+                                      detail_x=0.60,
                                       detail_y=0.00)
 
     game.game_new()

@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -13,7 +14,7 @@ def dungeon_way_up_init(name, short_name, long_name, tiles=[]):
     x.set_long_name(long_name)
     x.set_short_name(short_name)
     x.set_is_dungeon_way_up(True)
-    x.set_z_depth("floor2")
+    x.set_z_depth(mm.Z_DEPTH_FLOOR2)
     x.set_is_dungeon_item(True)
 
     if tiles is not None:

@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -25,9 +26,9 @@ def treasure1_init(d1000_roll,
     x.set_short_name("treasure")
 
     if is_minable:
-        x.set_z_depth("buried")
+        x.set_z_depth(mm.Z_DEPTH_BURIED)
     else:
-        x.set_z_depth("treasure")
+        x.set_z_depth(mm.Z_DEPTH_TREASURE)
 
     x.set_is_treasure(True)
     x.set_is_minable(is_minable)

@@ -1,4 +1,5 @@
 import tp
+import mm
 
 #
 # This tile is used to temporarily hide the mouse focus
@@ -12,7 +13,7 @@ def thing_init(t):
 def none_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
-    x.set_z_depth("player")
+    x.set_z_depth(mm.Z_DEPTH_PLAYER)
     x.set_is_animated(True)
     x.set_is_hidden(True)
     x.set_is_focus(True)

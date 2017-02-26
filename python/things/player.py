@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -10,7 +11,7 @@ def player_init(name, tiles=[]):
     x.set_long_name("foolish explorer")
     x.set_short_name(name)
     x.set_is_player(True)
-    x.set_z_depth("player")
+    x.set_z_depth(mm.Z_DEPTH_PLAYER)
     x.set_light_radius(10)
     x.set_light_tint("white")
     x.set_is_candle_light(True)

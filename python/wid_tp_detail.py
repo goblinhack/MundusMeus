@@ -24,7 +24,7 @@ class WidTpDetail(wid_popup.WidPopup):
                 color="white",
                 title=True,
                 center=True,
-                text="%%tp=" + tpp.name + "$ " + tpp.short_name.title())
+                text="%%tp=" + tpp.name + "$ " + tpp.short_name)
 
         if tpp.long_name is not None:
             w.add_text(tpp.long_name)

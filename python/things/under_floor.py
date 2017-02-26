@@ -1,4 +1,5 @@
 import tp
+import mm
 
 
 def thing_init(t):
@@ -9,7 +10,7 @@ def under_floor_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
     x.set_is_floor(True)
-    x.set_z_depth("floor")
+    x.set_z_depth(mm.Z_DEPTH_FLOOR)
     x.set_is_dungeon_item(True)
     x.set_blit_bot_off(1)
 
