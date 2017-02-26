@@ -287,7 +287,7 @@ class Game:
                 return True
 
             if sym == mm.SDLK_ESCAPE:
-                self.editor_mode = False
+                wid_tp_editor.hide()
                 self.map_help()
                 return True
 
@@ -300,6 +300,23 @@ class Game:
                 return True
 
             wid_help_editor.visible()
+
+            if sym == mm.SDLK_LCTRL:
+                return False
+            if sym == mm.SDLK_LSHIFT:
+                return False
+            if sym == mm.SDLK_LALT:
+                return False
+            if sym == mm.SDLK_LGUI:
+                return False
+            if sym == mm.SDLK_RCTRL:
+                return False
+            if sym == mm.SDLK_RSHIFT:
+                return False
+            if sym == mm.SDLK_RALT:
+                return False
+            if sym == mm.SDLK_RGUI:
+                return False
 
             return True
         else:
@@ -353,15 +370,15 @@ class Game:
 
             if self.editor_mode_tp:
                 tp_name = self.editor_mode_tp.name
-                tip += "%%tp={}$".format(tp_name)
+                tip += "%%tp={}$ ".format(tp_name)
 
             if self.editor_mode_draw:
-                tip += "Draw mode. "
+                tip += "%%fg=green$Draw mode. "
                 tip += "%%fg=green$h%%fg=reset$ for help. "
                 tip += "%%fg=green$x%%fg=reset$ erase. "
 
             if self.editor_mode_erase:
-                tip += "Erase mode. "
+                tip += "%%fg=green$Erase mode. "
                 tip += "%%fg=green$h%%fg=reset$ for help. "
                 tip += "%%fg=green$d%%fg=reset$ draw mode. "
 

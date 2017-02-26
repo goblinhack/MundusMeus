@@ -199,7 +199,7 @@ class Tp:
         self.is_rrr57 = False
         self.is_rrr58 = False
         self.is_rrr59 = False
-        self.is_rrr60 = False
+        self.is_hidden_from_editor = False
         self.is_dungeon_item = False
         self.is_difficulty_easy = False
         self.is_difficulty_hard = False
@@ -624,9 +624,9 @@ class Tp:
         self.is_rrr59 = value
         mm.tp_set_is_rrr59(self, value)
 
-    def set_is_rrr60(self, value):
-        self.is_rrr60 = value
-        mm.tp_set_is_rrr60(self, value)
+    def set_is_hidden_from_editor(self, value):
+        self.is_hidden_from_editor = value
+        mm.tp_set_is_hidden_from_editor(self, value)
 
     def set_is_cwall(self, value):
         self.is_cwall = value

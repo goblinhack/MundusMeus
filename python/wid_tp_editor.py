@@ -224,6 +224,11 @@ class WidTpEditor(wid_popup.WidPopup):
         for t in tp.all_tps:
             tpp = tp.all_tps[t]
 
+            if tpp.is_hidden:
+                continue
+            if tpp.is_hidden_from_editor:
+                continue
+
             add = False
 
             if self.filter == Item.world.value:
@@ -309,12 +314,16 @@ class WidTpEditor(wid_popup.WidPopup):
 
 def key_down(w, sym, mod):
 
-    if sym == mm.SDLK_q:
+    if sym == mm.SDLK_TAB:
         mywid.toggle_hidden()
         return True
 
-    if sym == mm.SDLK_ESCAPE or sym == mm.SDLK_TAB:
-        mywid.toggle_hidden()
+    if sym == mm.SDLK_ESCAPE:
+        hide()
+        return True
+
+    if sym == mm.SDLK_q:
+        hide()
         return True
 
     if mod == mm.KMOD_LCTRL:
@@ -335,6 +344,7 @@ def visible():
     wid_focus.set_focus(mywid)
 
     game.g.editor_mode = True
+    game.g.map_help()
 
 
 def hide():
@@ -344,4 +354,5 @@ def hide():
 
     mywid.hide()
     game.g.editor_mode = False
+    game.g.map_help()
     return True

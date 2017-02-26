@@ -14,6 +14,7 @@ def ember1_init(name, short_name, tiles=[]):
     x.set_light_radius(1.0)
     x.set_light_tint("orange")
     x.set_is_candle_light(True)
+    x.set_is_hidden_from_editor(True)
 
     x.thing_init = thing_init
 

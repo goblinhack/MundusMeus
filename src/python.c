@@ -1840,7 +1840,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr57)
     TP_SET_DECL(is_rrr58)
     TP_SET_DECL(is_rrr59)
-    TP_SET_DECL(is_rrr60)
+    TP_SET_DECL(is_hidden_from_editor)
     TP_SET_DECL(is_cwall)
     TP_SET_DECL(is_dungeon_item)
     TP_SET_DECL(is_difficulty_easy)

@@ -6,6 +6,7 @@ import biome_dungeon
 import biome_land
 import copy
 import random
+import operator
 
 
 class Chunk:
@@ -256,7 +257,14 @@ class Chunk:
         if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
             return None
 
-        for t in reversed(self.things_on_chunk[x][y]):
+        for t in self.things_on_chunk[x][y]:
+            tpp = t.tp
+
+            if tpp.is_hidden:
+                continue
+            if tpp.is_hidden_from_editor:
+                continue
+
             return t
 
         return None
@@ -329,7 +337,16 @@ class Chunk:
 
     def thing_push(self, x, y, t):
 
-        self.things_on_chunk[x][y].append(t)
+        l = self.things_on_chunk[x][y]
+        l.append(t)
+        # l.sort(key=lambda t: t.tp.z_depth, reverse=True)
+
+        #
+        # Allegedly this is faster:
+        #
+        func = operator.attrgetter("tp.z_depth")
+        l.sort(key=func, reverse=True)
+
         self.all_things[t.thing_id] = t
 
     def thing_pop(self, x, y, t):
