@@ -24,7 +24,7 @@ def gravel_snow_init(name, short_name, tiles=[]):
 
 def init():
     gravel_snow_init(name="gravel_snow",
-                     short_name="snowy gravel",
+                     short_name="Snowy gravel",
                      tiles=[
                             "gravel_snow.1",
                             "gravel_snow.2",

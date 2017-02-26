@@ -20,7 +20,7 @@ def tree_conifer1_init(d1000_roll, tiles=[]):
               is_tree_conifer=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_short_name("conifer")
+    x.set_short_name("Conifer")
     x.set_is_tree(True)
     x.set_is_world_item(True)
     x.set_z_depth(mm.Z_DEPTH_WALL)

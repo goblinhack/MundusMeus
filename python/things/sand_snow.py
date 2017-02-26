@@ -24,7 +24,7 @@ def sand_init(name, short_name, tiles=[]):
 
 def init():
     sand_init(name="sand_snow",
-              short_name="sand",
+              short_name="Sand",
               tiles=[
                      "sand_snow.1",
                      "sand_snow.2",

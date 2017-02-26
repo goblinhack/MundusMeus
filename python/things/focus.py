@@ -26,7 +26,7 @@ def focus_init(name, short_name, tiles=[]):
 
 def init():
     focus_init(name="focus1",
-               short_name="mouse focus",
+               short_name="Mouse focus",
                tiles=[
                       "focus1.1",
                       "focus1.2",
@@ -63,7 +63,7 @@ def init():
                  ])
 
     focus_init(name="focus2",
-               short_name="mouse focus",
+               short_name="Mouse focus",
                tiles=[
                       "focus2.1",
                       "focus2.2",

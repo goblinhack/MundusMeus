@@ -8,7 +8,7 @@ def thing_init(t):
 
 def cwall_init(name):
     x = tp.Tp(name, is_cwall=True)
-    x.set_short_name("corridor wall")
+    x.set_short_name("Corridor wall")
     x.set_is_movement_blocking(True)
     x.set_is_cwall(True)
     x.set_z_depth(mm.Z_DEPTH_WALL)

@@ -25,7 +25,7 @@ def grass_init(name, short_name, tiles=[]):
 
 def init():
     grass_init(name="grass_snow",
-               short_name="grass",
+               short_name="Grass",
                tiles=[
                       "grass_snow.1",
                       "grass_snow.2",

@@ -27,7 +27,7 @@ def stalactite_init(name, short_name, tiles=[]):
 
 def init():
     x = stalactite_init(name="stalactite1",
-                        short_name="stalactite",
+                        short_name="Stalactite",
                         tiles=[
                                "stalactite1.1",
                                "stalactite1.2",

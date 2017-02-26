@@ -31,7 +31,7 @@ def none_init(name, short_name, tiles=[]):
 
 def init():
     none_init(name="none",
-              short_name="none",
+              short_name="None",
               tiles=[
                      "none",
                     ])

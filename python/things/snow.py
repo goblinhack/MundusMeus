@@ -25,7 +25,7 @@ def snow_init(name, short_name, tiles=[]):
 
 def init():
     snow_init(name="snow",
-              short_name="snow",
+              short_name="Snow",
               tiles=[
                      "snow.1",
                      "snow.2",

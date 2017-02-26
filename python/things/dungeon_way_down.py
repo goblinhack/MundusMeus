@@ -35,8 +35,8 @@ def exit_init(name, short_name, long_name, tiles=[]):
 
 def init():
     x = exit_init(name="dungeon_way_down1",
-                  short_name="stairs",
-                  long_name="stairs leading down",
+                  short_name="Stairs",
+                  long_name="Winding stairs leading down to certain demise.",
                   tiles=[
                          "dungeon_dungeon_way_down1.1",
                         ])
@@ -47,8 +47,10 @@ def init():
     x.set_blit_bot_off(0)
 
     x = exit_init(name="dungeon_way_down1_deco",
-                  short_name="stairs",
-                  long_name="stairs leading down",
+                  short_name="Stairs",
+                  long_name="Stairs leading down. " +
+                  "And a sign saying, " +
+                  "staff wanted, apply within.",
                   tiles=[
                          "dungeon_dungeon_way_down1_deco.1",
                         ])

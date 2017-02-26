@@ -30,8 +30,9 @@ def dungeon_way_up_init(name, short_name, long_name, tiles=[]):
 
 def init():
     x = dungeon_way_up_init(name="dungeon_way_up1",
-                            short_name="stairs",
-                            long_name="stairs leading upwards",
+                            short_name="Stairs",
+                            long_name="Winding stairs leading upwards " +
+                            "to a better life.",
                             tiles=[
                                    "dungeon_way_up1.1",
                                    ])

@@ -26,7 +26,7 @@ def deco1_init(name, short_name, tiles=[]):
 
 def init():
     deco1_init(name="deco1",
-               short_name="dungeon objet d'art",
+               short_name="Dungeon objet d'art",
                tiles=[
                       "deco1.1",
                       "deco1.2",

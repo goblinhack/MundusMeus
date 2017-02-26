@@ -22,8 +22,8 @@ def treasure1_init(d1000_roll,
               is_treasure=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_long_name("treasure")
-    x.set_short_name("treasure")
+    x.set_long_name("Treasure")
+    x.set_short_name("Treasure")
 
     if is_minable:
         x.set_z_depth(mm.Z_DEPTH_BURIED)

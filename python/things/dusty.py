@@ -25,7 +25,7 @@ def dusty_init(name, short_name, tiles=[]):
 
 def init():
     dusty_init(name="dusty1",
-               short_name="rarely trodden passage",
+               short_name="Rarely trodden passage",
                tiles=[
                       "dusty1.1",
                       "dusty1.2",

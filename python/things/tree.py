@@ -9,7 +9,7 @@ def thing_init(t):
 total_tree = 0
 
 
-def tree1_init(d1000_roll, tiles=[]):
+def tree1_init(d1000_roll, short_name, long_name, tiles=[]):
 
     global total_tree
 
@@ -20,7 +20,8 @@ def tree1_init(d1000_roll, tiles=[]):
               is_tree=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_short_name("tree")
+    x.set_short_name(short_name)
+    x.set_long_name(long_name)
     x.set_is_tree(True)
     x.set_is_world_item(True)
     x.set_z_depth(mm.Z_DEPTH_WALL)
@@ -37,57 +38,90 @@ def tree1_init(d1000_roll, tiles=[]):
 
 def init():
     # high numbers means rare, low means common
-    x = tree1_init(d1000_roll=1, tiles=["tree1"])
+    x = tree1_init(d1000_roll=1,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree1"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=950, tiles=["tree2"])
+    x = tree1_init(d1000_roll=950,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree2"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=950, tiles=["tree3"])
+    x = tree1_init(d1000_roll=950,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree3"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=1, tiles=["tree4"])
+    x = tree1_init(d1000_roll=1,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree4"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=1, tiles=["tree5"])
+    x = tree1_init(d1000_roll=1,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree5"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=1, tiles=["tree6"])
+    x = tree1_init(d1000_roll=1,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree6"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=1, tiles=["tree7"])
+    x = tree1_init(d1000_roll=1,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree7"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=1, tiles=["tree8"])
+    x = tree1_init(d1000_roll=1,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree8"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=1, tiles=["tree9"])
+    x = tree1_init(d1000_roll=1,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree9"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=1, tiles=["tree10"])
+    x = tree1_init(d1000_roll=1,
+                   short_name="A tree",
+                   long_name="Of it's kind this is a fine example.",
+                   tiles=["tree10"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=1, tiles=["tree11"])
+    x = tree1_init(d1000_roll=1,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree11"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)

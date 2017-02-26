@@ -23,7 +23,7 @@ def ice_init(name, short_name, tiles=[]):
 
 def init():
     ice_init(name="ice",
-             short_name="ice",
+             short_name="Ice",
              tiles=[
                     "ice.1",
                     "ice.2",

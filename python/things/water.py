@@ -31,7 +31,7 @@ def water_init(name, short_name, tiles=[]):
 
 def init():
     x = water_init(name="water1",
-                   short_name="deep dank water",
+                   short_name="Deep dank water",
                    tiles=[
                           "water1.1",
                           "water1.2",
@@ -100,7 +100,7 @@ def init():
                      ])
 
     x = water_init(name="water1_top",
-                   short_name="deep dank water",
+                   short_name="Deep dank water",
                    tiles=[
                           "topwater1.1",
                           "topwater1.2",
@@ -172,7 +172,7 @@ def init():
     x.set_is_dungeon_item(True)
 
     x = water_init(name="water1_trans",
-                   short_name="shallow water",
+                   short_name="Shallow water",
                    tiles=[
                           "water1_trans.1",
                           "water1_trans.2",
@@ -241,7 +241,7 @@ def init():
                      ])
 
     x = water_init(name="water1_trans_top",
-                   short_name="shallow water",
+                   short_name="Shallow water",
                    tiles=[
                           "topwater1_trans.1",
                           "topwater1_trans.2",

@@ -25,7 +25,7 @@ def road_init(name, short_name, tiles=[]):
 
 def init():
     road_init(name="road",
-              short_name="road",
+              short_name="Road",
               tiles=[
                      "road.1",
                      "road.2",

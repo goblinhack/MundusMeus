@@ -20,7 +20,7 @@ def snow_mound1_init(d1000_roll, tiles=[]):
               is_snow_mound=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_short_name("snow mound")
+    x.set_short_name("Snow mound")
     x.set_is_snow_mound(True)
     x.set_is_world_item(True)
     x.set_z_depth(mm.Z_DEPTH_FLOOR2)

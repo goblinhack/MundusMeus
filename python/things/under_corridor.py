@@ -24,7 +24,7 @@ def under_corridor_init(name, short_name, tiles=[]):
 
 def init():
     under_corridor_init(name="under_corridor1",
-                        short_name="corridor bedrock",
+                        short_name="Corridor bedrock",
                         tiles=[
                                "under_corridor1.1",
                               ])

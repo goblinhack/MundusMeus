@@ -24,7 +24,7 @@ def under_dusty_init(name, short_name, tiles=[]):
 
 def init():
     under_dusty_init(name="under_dusty1",
-                     short_name="aged bedrock",
+                     short_name="Aged bedrock",
                      tiles=[
                             "under_dusty1.1",
                            ])

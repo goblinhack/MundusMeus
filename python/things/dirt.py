@@ -24,7 +24,7 @@ def dirt_init(name, short_name, tiles=[]):
 
 def init():
     dirt_init(name="dirt",
-              short_name="dirt",
+              short_name="Dirt",
               tiles=[
                      "dirt.1",
                      "dirt.2",

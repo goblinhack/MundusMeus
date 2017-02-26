@@ -20,7 +20,7 @@ def plant1_init(d1000_roll, tiles=[]):
               is_plant=True,
               d1000_appearing_roll=d1000_roll)
 
-    x.set_short_name("plant")
+    x.set_short_name("Plant")
     x.set_is_plant(True)
     x.set_is_world_item(True)
     x.set_z_depth(mm.Z_DEPTH_FLOOR2)

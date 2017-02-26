@@ -25,7 +25,7 @@ def snow_deco1_init(name, short_name, tiles=[]):
 
 def init():
     snow_deco1_init(name="snow_deco",
-                    short_name="snow",
+                    short_name="Snow",
                     tiles=[
                            "snow_tl",
                            "snow_top",

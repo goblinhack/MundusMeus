@@ -22,7 +22,7 @@ def ember1_init(name, short_name, tiles=[]):
 
 def init():
     ember1_init(name="ember1",
-                short_name="glowing ember",
+                short_name="Glowing ember",
                 tiles=None)
 
 init()

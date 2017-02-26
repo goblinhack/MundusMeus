@@ -8,8 +8,9 @@ def thing_init(t):
 
 def player_init(name, tiles=[]):
     x = tp.Tp(name)
-    x.set_long_name("foolish explorer")
-    x.set_short_name(name)
+    x.set_long_name("Very Foolish explorer. " +
+                    "So proud. So sure. So about to be dead.")
+    x.set_short_name("Foolish explorer")
     x.set_is_player(True)
     x.set_z_depth(mm.Z_DEPTH_PLAYER)
     x.set_light_radius(10)

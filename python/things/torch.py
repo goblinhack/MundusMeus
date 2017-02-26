@@ -31,8 +31,10 @@ def torch1_init(name, short_name, long_name, tiles=[]):
 
 def init():
     x = torch1_init(name="torch1",
-                    short_name="torch",
-                    long_name="flickering torch",
+                    short_name="Torch",
+                    long_name="Flickering torch. " +
+                    "Stare into the flames. See your doom. " +
+                    "And flickery orange stuff.",
                     tiles=[
                            "torch1.1",
                            "torch1.2",

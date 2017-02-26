@@ -33,7 +33,7 @@ def water_init(name, short_name, tiles=[]):
 
 def init():
     x = water_init(name="water2",
-                   short_name="water",
+                   short_name="Water",
                    tiles=[
                           "water2.1",
                           "water2.2",

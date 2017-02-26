@@ -27,7 +27,7 @@ def lava_init(name, short_name, tiles=[]):
 
 def init():
     x = lava_init(name="lava1",
-                  short_name="bubbling lava",
+                  short_name="Bubbling lava",
                   tiles=[
                          "lava1.1",
                          "lava1.2",
@@ -101,7 +101,7 @@ def init():
     x.set_is_candle_light(True)
 
     x = lava_init(name="lava1_top",
-                  short_name="bubbling lava",
+                  short_name="Bubbling lava",
                   tiles=[
                          "toplava1.1",
                          "toplava1.2",

@@ -25,7 +25,7 @@ def under_floor_init(name, short_name, tiles=[]):
 
 def init():
     under_floor_init(name="under_floor1",
-                     short_name="floor bedrock",
+                     short_name="Floor bedrock",
                      tiles=[
                             "under_floor1.1",
                            ])

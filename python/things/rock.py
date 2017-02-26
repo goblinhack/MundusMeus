@@ -30,7 +30,7 @@ def rock_init(name, short_name, tiles=[]):
 
 def init():
     rock_init(name="rock",
-              short_name="a boring rock",
+              short_name="A boring rock",
               tiles=[
                      "rock.1",
                      "rock.2",

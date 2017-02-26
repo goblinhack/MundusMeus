@@ -28,20 +28,22 @@ def door1_init(name, short_name, long_name, tiles=[]):
 
 def init():
     x = door1_init(name="door1",
-                   short_name="portcullis",
-                   long_name="heavy metal portcullis",
+                   short_name="Portcullis",
+                   long_name="Heavy metal portcullis. " +
+                   "And a do not disturb sign.",
                    tiles=["door1.1"])
     x.set_blit_top_off(1)
 
     x = door1_init(name="door2",
-                   short_name="secured door",
-                   long_name="heavy metal chained and secured door",
+                   short_name="Secured door",
+                   long_name="Heavy metal chained and secured door.",
                    tiles=["door1.2"])
     x.set_blit_top_off(1)
 
     x = door1_init(name="door3",
-                   short_name="oak door",
-                   long_name="oak door",
+                   short_name="Oak door",
+                   long_name="Oak door. Who knows what lies beyond. " +
+                   "Nothing probably.",
                    tiles=["door1.3"])
     x.set_blit_top_off(1)
 

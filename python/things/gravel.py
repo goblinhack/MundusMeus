@@ -25,7 +25,7 @@ def gravel_init(name, short_name, tiles=[]):
 
 def init():
     gravel_init(name="gravel",
-                short_name="gravel",
+                short_name="Gravel",
                 tiles=[
                        "gravel.1",
                        "gravel.2",

@@ -19,7 +19,7 @@ def food_init(name, short_name, long_name):
 
 def init():
     food_init(name="carrot",
-              short_name="juicy carrot",
+              short_name="Juicy carrot",
               long_name="Succulence of such orangeness. A fine carrot")
 
 init()

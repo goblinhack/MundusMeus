@@ -25,7 +25,7 @@ def grass_deco1_init(name, short_name, tiles=[]):
 
 def init():
     grass_deco1_init(name="grass_snow_deco",
-                     short_name="grass",
+                     short_name="Grass",
                      tiles=[
                             "grass_snow_tl",
                             "grass_snow_top",
