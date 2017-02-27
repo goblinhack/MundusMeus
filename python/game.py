@@ -213,15 +213,21 @@ class Game:
         if self.editor_mode:
 
             if self.editor_mode_draw and self.editor_mode_tp:
+                t = l.thing_find_same_type(x, y,
+                                           self.editor_mode_tp.name)
+                if t is not None:
+                    t.destroy("via editor")
+
                 t = thing.Thing(level=l,
                                 tp_name=self.editor_mode_tp.name,
                                 x=x, y=y)
                 t.push()
 
             if self.editor_mode_erase:
-                t = l.thing_find(x, y, self.editor_mode_tp)
-                if t is not None:
-                    t.destroy("via editor")
+                if self.editor_mode_tp:
+                    t = l.thing_find(x, y, self.editor_mode_tp.name)
+                    if t is not None:
+                        t.destroy("via editor")
 
                 t = l.thing_top(x, y)
                 if t is not None:
@@ -263,6 +269,8 @@ class Game:
 
         if self.editor_mode:
             if sym == mm.SDLK_TAB:
+                self.editor_mode_draw = True
+                self.editor_mode_erase = False
                 wid_tp_editor.visible()
                 self.map_help()
                 return True
@@ -283,11 +291,16 @@ class Game:
                 t = l.thing_top(x, y)
                 if t:
                     self.editor_mode_tp = t.tp
+                self.editor_mode_draw = False
+                self.editor_mode_erase = True
                 self.map_help()
                 return True
 
             if sym == mm.SDLK_ESCAPE:
                 wid_tp_editor.hide()
+                self.editor_mode = False
+                self.editor_mode_draw = True
+                self.editor_mode_erase = False
                 self.map_help()
                 return True
 
@@ -364,6 +377,9 @@ class Game:
         return True
 
     def map_help(self):
+
+        mm.tip("")
+        mm.tip2("")
 
         if self.editor_mode:
             tip = ""

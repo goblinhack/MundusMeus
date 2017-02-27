@@ -1,6 +1,7 @@
 import wid_popup
 import wid_focus
 import mm
+import game
 
 
 global mywid
@@ -81,5 +82,7 @@ def hide():
         return
 
     mywid.hide()
-    mm.tip2("")
+
+    game.g.map_help()
+
     return True

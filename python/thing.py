@@ -133,6 +133,11 @@ class Thing:
         self.log("@ {0},{1} on chunk {2}".format(self.x, self.y, self.chunk))
 
     def destroy(self, reason="no reason"):
+
+        if hasattr(self.tp, "thing_destroyed"):
+            if self.tp.thing_destroyed is not None:
+                self.tp.thing_destroyed(self)
+
         if self.on_chunk:
             self.pop()
 

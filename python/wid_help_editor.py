@@ -1,5 +1,5 @@
 import wid_popup
-import wid_focus
+import game
 import mm
 
 
@@ -76,8 +76,6 @@ def visible():
     mywid.to_front()
     wid_focus.set_focus(mywid)
 
-    mm.tip2("Press Escape to go back")
-
 
 def hide():
     global mywid
@@ -85,5 +83,7 @@ def hide():
         return
 
     mywid.hide()
-    mm.tip2("")
+
+    game.g.map_help()
+
     return True

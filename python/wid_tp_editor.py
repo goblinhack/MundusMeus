@@ -353,6 +353,10 @@ def hide():
         return
 
     mywid.hide()
-    game.g.editor_mode = False
+    mm.tip("")
+    mm.tip2("")
+
+    game.g.editor_mode = True
     game.g.map_help()
+
     return True

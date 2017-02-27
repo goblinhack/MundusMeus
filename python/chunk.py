@@ -7,6 +7,7 @@ import biome_land
 import copy
 import random
 import operator
+import tp
 
 
 class Chunk:
@@ -249,6 +250,17 @@ class Chunk:
 
         for t in self.things_on_chunk[x][y]:
             if t.tp.name == tp_name:
+                return t
+
+        return None
+
+    def thing_find_same_type(self, x, y, tp_name):
+        if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
+            return None
+
+        f = tp.all_tps[tp_name]
+        for t in self.things_on_chunk[x][y]:
+            if tp.same_type(f, t.tp):
                 return t
 
         return None

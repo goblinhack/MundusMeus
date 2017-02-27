@@ -1022,3 +1022,91 @@ def get_random_minable_treasure(toughness=0):
         roll = random.randint(1, 1000) + toughness * 10
         if roll >= tp.d1000_appearing_roll:
             return tp
+
+
+def same_type(tp1, tp2):
+    if tp1.is_candle_light and tp2.is_candle_light:
+        return True
+    if tp1.is_monst and tp2.is_monst:
+        return True
+    if tp1.is_player and tp2.is_player:
+        return True
+    if tp1.is_food and tp2.is_food:
+        return True
+    if tp1.is_weapon and tp2.is_weapon:
+        return True
+    if tp1.is_sand_snow and tp2.is_sand_snow:
+        return True
+    if tp1.is_dirt_snow and tp2.is_dirt_snow:
+        return True
+    if tp1.is_grass_snow and tp2.is_grass_snow:
+        return True
+    if tp1.is_road_snow and tp2.is_road_snow:
+        return True
+    if tp1.is_road and tp2.is_road:
+        return True
+    if tp1.is_dungeon_snow and tp2.is_dungeon_snow:
+        return True
+    if tp1.is_dungeon and tp2.is_dungeon:
+        return True
+    if tp1.is_gravel_snow and tp2.is_gravel_snow:
+        return True
+    if tp1.is_tree_conifer and tp2.is_tree_conifer:
+        return True
+    if tp1.is_snow_mound and tp2.is_snow_mound:
+        return True
+    if tp1.is_rock and tp2.is_rock:
+        return True
+    if tp1.is_ice and tp2.is_ice:
+        return True
+    if tp1.is_gravel and tp2.is_gravel:
+        return True
+    if tp1.is_small_rock and tp2.is_small_rock:
+        return True
+    if tp1.is_marsh_plant and tp2.is_marsh_plant:
+        return True
+    if tp1.is_landrock and tp2.is_landrock:
+        return True
+    if tp1.is_snow and tp2.is_snow:
+        return True
+    if tp1.is_dirt and tp2.is_dirt:
+        return True
+    if tp1.is_sand and tp2.is_sand:
+        return True
+    if tp1.is_plant and tp2.is_plant:
+        return True
+    if tp1.is_grass and tp2.is_grass:
+        return True
+    if tp1.is_bridge and tp2.is_bridge:
+        return True
+    if tp1.is_dungeon_way_up and tp2.is_dungeon_way_up:
+        return True
+    if tp1.is_dungeon_way_down and tp2.is_dungeon_way_down:
+        return True
+    if tp1.is_chasm_smoke and tp2.is_chasm_smoke:
+        return True
+    if tp1.is_key and tp2.is_key:
+        return True
+    if tp1.is_dusty and tp2.is_dusty:
+        return True
+    if tp1.is_corridor and tp2.is_corridor:
+        return True
+    if tp1.is_healing and tp2.is_healing:
+        return True
+    if tp1.is_armor and tp2.is_armor:
+        return True
+    if tp1.is_magical and tp2.is_magical:
+        return True
+    if tp1.is_wall and tp2.is_wall:
+        return True
+    if tp1.is_cwall and tp2.is_cwall:
+        return True
+    if tp1.is_floor and tp2.is_floor:
+        return True
+    if tp1.is_lava and tp2.is_lava:
+        return True
+    if tp1.is_rock and tp2.is_rock:
+        return True
+    if tp1.is_water and tp2.is_water:
+        return True
+    return False
