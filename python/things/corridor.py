@@ -21,6 +21,7 @@ def corridor_init(name, short_name, tiles=[]):
         x.set_tile(tile=name)
 
     x.thing_init = thing_init
+    x.set_blit_bot_off(2)
 
 
 def init():

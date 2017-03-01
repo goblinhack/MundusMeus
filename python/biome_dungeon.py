@@ -72,9 +72,6 @@ def biome_populate(self):
                                 tp_name=l.floor_name)
                 t.set_depth(m.depth_map.cells[x][y])
                 t.push()
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="under_floor1")
-                t.set_depth(m.depth_map.cells[x][y])
-                t.push()
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
                     if random.randint(0, 1000) < 2:
@@ -91,11 +88,6 @@ def biome_populate(self):
                 t.push()
 
                 if m.bridge_height[x][y] > 0:
-                    t = thing.Thing(chunk=c, x=tx, y=ty + 1,
-                                    tp_name="under_dusty1")
-                    t.set_depth(m.bridge_height[x][y])
-                    t.push()
-
                     if not m.is_lava_at(x, y) and \
                        not m.is_water_at(x, y):
                         t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="rock")
@@ -111,12 +103,6 @@ def biome_populate(self):
                                 tp_name=l.corridor_name)
                 t.set_depth(m.bridge_height[x][y])
                 t.push()
-
-                if m.bridge_height[x][y] > 0:
-                    t = thing.Thing(chunk=c, x=tx, y=ty + 1,
-                                    tp_name="under_corridor1")
-                    t.set_depth(m.bridge_height[x][y])
-                    t.push()
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
                     if random.randint(0, 1000) < 2:
@@ -156,15 +142,9 @@ def biome_populate(self):
                                 tp_name=l.wall_name)
                 t.push()
 
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="under_floor1")
-                t.push()
-
             if m.is_cwall_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty,
                                 tp_name=l.cwall_name)
-                t.push()
-
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="under_floor1")
                 t.push()
 
             if m.is_lava_at(x, y):

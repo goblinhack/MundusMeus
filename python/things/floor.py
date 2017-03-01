@@ -21,6 +21,7 @@ def floor_init(name, tiles=[]):
         x.set_tile(tile=name)
 
     x.thing_init = thing_init
+    x.set_blit_bot_off(1)
 
 
 def init():
@@ -478,6 +479,54 @@ def init():
                tiles=[
                       "floor76.1", "floor76.2", "floor76.3", "floor76.4",
                       "floor76.5", "floor76.6", "floor76.7", "floor76.8",
+                     ])
+
+    floor_init(name="floor77",
+               tiles=[
+                      "floor77.1", "floor77.2", "floor77.3", "floor77.4",
+                      "floor77.5", "floor77.6", "floor77.7", "floor77.8",
+                     ])
+
+    floor_init(name="floor78",
+               tiles=[
+                      "floor78.1", "floor78.2", "floor78.3", "floor78.4",
+                      "floor78.5", "floor78.6", "floor78.7", "floor78.8",
+                     ])
+
+    floor_init(name="floor79",
+               tiles=[
+                      "floor79.1", "floor79.2", "floor79.3", "floor79.4",
+                      "floor79.5", "floor79.6", "floor79.7", "floor79.8",
+                     ])
+
+    floor_init(name="floor80",
+               tiles=[
+                      "floor80.1", "floor80.2", "floor80.3", "floor80.4",
+                      "floor80.5", "floor80.6", "floor80.7", "floor80.8",
+                     ])
+
+    floor_init(name="floor81",
+               tiles=[
+                      "floor81.1", "floor81.2", "floor81.3", "floor81.4",
+                      "floor81.5", "floor81.6", "floor81.7", "floor81.8",
+                     ])
+
+    floor_init(name="floor82",
+               tiles=[
+                      "floor82.1", "floor82.2", "floor82.3", "floor82.4",
+                      "floor82.5", "floor82.6", "floor82.7", "floor82.8",
+                     ])
+
+    floor_init(name="floor83",
+               tiles=[
+                      "floor83.1", "floor83.2", "floor83.3", "floor83.4",
+                      "floor83.5", "floor83.6", "floor83.7", "floor83.8",
+                     ])
+
+    floor_init(name="floor84",
+               tiles=[
+                      "floor84.1", "floor84.2", "floor84.3", "floor84.4",
+                      "floor84.5", "floor84.6", "floor84.7", "floor84.8",
                      ])
 
 
