@@ -44,7 +44,6 @@ def init():
     x.set_light_radius(3)
     x.set_light_tint("red")
     x.set_is_candle_light(True)
-    x.set_blit_bot_off(0)
 
     x = exit_init(name="dungeon_way_down1_deco",
                   short_name="Stairs",

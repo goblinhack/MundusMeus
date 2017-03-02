@@ -471,13 +471,14 @@ static void ttf_puts_internal (font *f, const char *text,
                     fpoint otl = tl;
                     fpoint obr = br;
 
+                    double oh = br.y - tl.y;
+
                     tile_get_blit_size(tp, tile, 0, &otl, &obr);
 
-                    double dy = ((obr.y - otl.y) - (br.y - tl.y));
                     double dx = ((obr.x - otl.x) - (br.x - tl.x));
 
-                    tl.y += dy;
-                    br.y += dy;
+                    tl.y += oh * tp_get_blit_top_off(tp);
+                    br.y += oh * tp_get_blit_top_off(tp);
                     tl.x += dx/2;
                     br.x += dx/2;
 

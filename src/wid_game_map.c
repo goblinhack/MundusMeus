@@ -194,7 +194,7 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         if (d > 7) {
             d = 7;
         }
-        wid_set_blit_y_offset(child, wid_get_height(child) * -d * 0.10);
+        wid_set_blit_y_offset(child, wid_get_height(child) * -d * 0.20);
     }
 
     if (tp_is_snow(tp)) {

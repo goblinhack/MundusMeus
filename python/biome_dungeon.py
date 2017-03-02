@@ -101,7 +101,13 @@ def biome_populate(self):
             if m.is_corridor_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty,
                                 tp_name=l.corridor_name)
+
                 t.set_depth(m.bridge_height[x][y])
+
+                if m.bridge_height[x][y] == 0:
+                    if m.is_water_at(x, y + 1) or m.is_water_at(x, y):
+                        t.set_depth(0.5)
+
                 t.push()
 
                 if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
