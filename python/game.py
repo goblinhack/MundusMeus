@@ -160,7 +160,7 @@ class Game:
     #
     # Mouse is over a map tile; show the route back to the player
     #
-    def map_mouse_over(self, w, x, y, wheelx, wheely):
+    def map_mouse_over(self, w, x, y, wheelx, wheely, button):
 
         #
         # Want to scroll without the focus moving
@@ -174,6 +174,8 @@ class Game:
         self.map_selected_tile(x, y)
 
         if self.editor_mode:
+            if button == 1:
+                return self.map_mouse_down(w, x, y, button)
             return True
 
         #
@@ -487,8 +489,8 @@ class Game:
             l.scroll(level_dx, level_dy)
 
 
-def map_mouse_over(w, relx, rely, wheelx, wheely):
-    g.map_mouse_over(w, relx, rely, wheelx, wheely)
+def map_mouse_over(w, relx, rely, wheelx, wheely, button):
+    g.map_mouse_over(w, relx, rely, wheelx, wheely, button)
 
 
 def map_mouse_down(w, x, y, button):

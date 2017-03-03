@@ -1201,11 +1201,6 @@ static void sdl_tick (void)
     }
 }
 
-uint8_t sdl_is_dungeon_way_downing (void)
-{
-    return (!sdl_main_loop_running);
-}
-
 void sdl_exit (void)
 {
     if (!sdl_main_loop_running) {

@@ -97,7 +97,7 @@ class MiniMap(object):
         text += "%%fg=white$Longitude %%fg=green${0}%%fg=reset$\n".format(
             l.where.y)
 
-        text += "%%fg=white$Move\t\t%%fg=green${0}%%fg=reset$\n".format(
+        text += "%%fg=white$Move %%fg=green${0}%%fg=reset$\n".format(
             g.move_count)
 
         if l.where.z < 0:

@@ -25,11 +25,12 @@ map_mouse_over (widp w,
         return;
     }
 
-    py_call_void_module_ptr_iiii("game",
-                                 "map_mouse_over",
-                                 w,
-                                 t->x, t->y,
-                                 wheelx, wheely);
+    py_call_void_module_ptr_iiiii("game",
+                                  "map_mouse_over",
+                                  w,
+                                  t->x, t->y,
+                                  wheelx, wheely,
+                                  mouse_down);
 }
 
 static uint8_t
