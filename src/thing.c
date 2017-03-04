@@ -68,7 +68,7 @@ thingp thing_new (const char *name,
     /*
      * Too slow with level changes.
      */
-    THING_LOG(t, "Created thing");
+//    THING_LOG(t, "Created thing");
 
     verify(t);
 
@@ -94,7 +94,7 @@ void thing_destroyed_ (thingp t, const char *reason)
     /*
      * Too slow with level changes.
      */
-    THING_LOG(t, "Destroyed thing");
+//    THING_LOG(t, "Destroyed thing");
 
     tree_remove_found_node(things, &t->tree.node);
 

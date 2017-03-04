@@ -7,7 +7,12 @@ import game
 
 class Thing:
 
+    class_version = 2
+
     def __init__(self, tp_name, chunk=None, level=None, x=None, y=None):
+
+        self.version = self.__class__.class_version
+        self.v1_field = 1
 
         if x is not None:
             if chunk is not None:
@@ -151,10 +156,23 @@ class Thing:
 #        self.debug("} " + "Destroyed thing, {0}".format(reason))
         del self
 
+    def upgrade(self):
+
+        if self.version < 2:
+            self.v2_field = 2
+
+#        self.debug("upgraded from ver {0} to {1}".format(
+#                   self.version, self.__class__.class_version))
+
+        self.version = self.__class__.class_version
+
     #
     # Loaded from save file into a chunk
     #
     def loaded(self, chunk, level):
+
+        if self.version != self.__class__.class_version:
+            self.upgrade()
 
         level.all_things[self.thing_id] = self
 
