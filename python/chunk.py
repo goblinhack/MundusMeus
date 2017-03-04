@@ -12,7 +12,11 @@ import tp
 
 class Chunk:
 
+    class_version = 1
+
     def __init__(self, level, xyz, seed, cx, cy):
+
+        self.version = self.__class__.class_version
 
         self.level = level
         self.where = copy.copy(xyz)
@@ -187,6 +191,16 @@ class Chunk:
             pickle.dump(self.biome_seed, f, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.biome_name, f, pickle.HIGHEST_PROTOCOL)
 
+    def upgrade(self):
+
+        if self.version < 2:
+            self.v2_field = 2
+
+#        self.debug("upgraded from ver {0} to {1}".format(
+#                   self.version, self.__class__.class_version))
+
+        self.version = self.__class__.class_version
+
     def load(self, cx, cy):
         #
         # Before we push any things on the map, make sure the parent
@@ -221,6 +235,9 @@ class Chunk:
                 self.biome_name = pickle.load(f)
         else:
             self.log("Load from cache")
+
+        if self.version != self.__class__.class_version:
+            self.upgrade()
 
         self.biome_set_vectors()
 

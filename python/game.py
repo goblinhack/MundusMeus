@@ -18,7 +18,11 @@ global g
 
 class Game:
 
+    class_version = 1
+
     def __init__(self):
+
+        self.version = self.__class__.class_version
 
         #
         # Max thing ID in use in any level. This grows forever.
@@ -92,6 +96,16 @@ class Game:
             l.save(f)
             mm.con("Game saved @ chunk {0} to {1}".format(str(l), s))
 
+    def upgrade(self):
+
+        if self.version < 2:
+            self.v2_field = 2
+
+#        self.debug("upgraded from ver {0} to {1}".format(
+#                   self.version, self.__class__.class_version))
+
+        self.version = self.__class__.class_version
+
     def load(self):
 
         s = os.path.normcase(os.path.join(os.environ["APPDATA"],
@@ -110,6 +124,9 @@ class Game:
             self.load_level(self.last_level_seed)
             mm.log("Game loaded @ chunk {0} to {1}".format(str(self.level), s))
             mm.con("Loaded previously saved game")
+
+        if self.version != self.__class__.class_version:
+            self.upgrade()
 
     def destroy(self):
         l = self.level
