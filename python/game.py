@@ -214,7 +214,17 @@ class Game:
 
         if self.editor_mode:
 
-            if self.editor_mode_draw and self.editor_mode_tp:
+            if button == 3 or self.editor_mode_erase:
+                if self.editor_mode_tp:
+                    t = l.thing_find(x, y, self.editor_mode_tp.name)
+                    if t is not None:
+                        t.destroy("via editor")
+
+                t = l.thing_top(x, y)
+                if t is not None:
+                    t.destroy("via editor")
+
+            elif self.editor_mode_draw and self.editor_mode_tp:
                 t = l.thing_find_same_type(x, y,
                                            self.editor_mode_tp.name)
                 if t is not None:
@@ -224,16 +234,6 @@ class Game:
                                 tp_name=self.editor_mode_tp.name,
                                 x=x, y=y)
                 t.push()
-
-            if self.editor_mode_erase:
-                if self.editor_mode_tp:
-                    t = l.thing_find(x, y, self.editor_mode_tp.name)
-                    if t is not None:
-                        t.destroy("via editor")
-
-                t = l.thing_top(x, y)
-                if t is not None:
-                    t.destroy("via editor")
 
             mm.game_map_fixup()
             return True

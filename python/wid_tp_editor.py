@@ -277,7 +277,7 @@ class WidTpEditor(wid_popup.WidPopup):
 
             tpp = tp.all_tps[name]
 
-            text += "'_%%tp=" + name + "$X'"
+            text += "'%%tp=" + name + "$'"
 
             name = tpp.short_name
 
