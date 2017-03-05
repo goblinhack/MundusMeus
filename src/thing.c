@@ -318,11 +318,13 @@ void thing_move_to (thingp t, double x, double y)
     t->x = x;
     t->y = y;
 
-    if (fabs(t->x - t->last_x) <= 1) {
-        if (t->x > t->last_x) {
-            wid_flip_horiz(t->wid, true);
-        } else if (t->x < t->last_x) {
-            wid_flip_horiz(t->wid, false);
+    if (tp_is_animated_lr_flip(thing_tp(t))) {
+        if (fabs(t->x - t->last_x) <= 1) {
+            if (t->x > t->last_x) {
+                wid_flip_horiz(t->wid, true);
+            } else if (t->x < t->last_x) {
+                wid_flip_horiz(t->wid, false);
+            }
         }
     }
 }

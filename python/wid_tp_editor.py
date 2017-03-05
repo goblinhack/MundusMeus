@@ -228,6 +228,8 @@ class WidTpEditor(wid_popup.WidPopup):
                 continue
             if tpp.is_hidden_from_editor:
                 continue
+            if tpp.is_player:
+                continue
 
             add = False
 

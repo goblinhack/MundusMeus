@@ -406,7 +406,7 @@ class Level:
                     if t.tp.is_player:
                         continue
 
-                    t.destroy("via editor")
+                    t.destroy("via things remove all")
 
     def things_flood_fill_(self, x, y, tp, walked):
 
@@ -431,18 +431,21 @@ class Level:
                 if other_tp.is_wall or \
                    other_tp.is_door or \
                    other_tp.is_landrock or \
+                   other_tp.is_landrock_snow or \
                    other_tp.is_cwall:
                     return
 
             if tp.is_wall or \
                tp.is_door or \
                tp.is_landrock or \
+               tp.is_landrock_snow or \
                tp.is_cwall or \
                tp.is_bridge or \
                tp.is_water:
                 if other_tp.is_wall or \
                    other_tp.is_door or \
                    other_tp.is_landrock or \
+                   other_tp.is_landrock_snow or \
                    other_tp.is_cwall or \
                    other_tp.is_bridge or \
                    other_tp.is_water:
@@ -450,7 +453,6 @@ class Level:
 
             if tp.is_door:
                 if other_tp.is_wall or \
-                   other_tp.is_landrock or \
                    other_tp.is_cwall or \
                    other_tp.is_water:
                     return
@@ -477,7 +479,7 @@ class Level:
 
         t = self.thing_find_same_type(x, y, tp.name)
         if t is not None:
-            t.destroy("via editor")
+            t.destroy("via flood fill")
 
         t = thing.Thing(level=self,
                         tp_name=tp.name,
@@ -530,6 +532,7 @@ class Level:
                     if t.tp.is_wall or \
                        t.tp.is_door or \
                        t.tp.is_landrock or \
+                       t.tp.is_landrock_snow or \
                        t.tp.is_cwall:
                         skip = True
                         break

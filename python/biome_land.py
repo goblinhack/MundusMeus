@@ -80,12 +80,10 @@ def biome_populate(self):
         grass_str = "grass_snow"
         dirt_str = "dirt_snow"
         sand_str = "sand_snow"
-        landrock_str = "landrock_snow"
     else:
         grass_str = "grass"
         dirt_str = "dirt"
         sand_str = "sand"
-        landrock_str = "landrock"
 
     for y in range(0, mm.CHUNK_HEIGHT):
         for x in range(0, mm.CHUNK_WIDTH):
@@ -282,62 +280,6 @@ def biome_populate(self):
                                     tp_name="landrock")
                     t.push()
                     pushed = True
-
-                if m.is_rock_at(x, y-1):
-                    b = True
-                else:
-                    b = False
-
-                if m.is_rock_at(x-1, y):
-                    d = True
-                else:
-                    d = False
-
-                if m.is_rock_at(x+1, y):
-                    f = True
-                else:
-                    f = False
-
-                if m.is_rock_at(x, y+1):
-                    h = True
-                else:
-                    h = False
-
-                # a b c
-                # d e f
-                # g h i
-                if b and d and f and h:
-                    t.set_tilename(landrock_str + "_x")
-                elif b and d and f:
-                    t.set_tilename(landrock_str + "_t180")
-                elif b and d and h:
-                    t.set_tilename(landrock_str + "_t90")
-                elif b and f and h:
-                    t.set_tilename(landrock_str + "_t270")
-                elif d and f and h:
-                    t.set_tilename(landrock_str + "_t")
-                elif b and h:
-                    t.set_tilename(landrock_str + "_up_down")
-                elif d and f:
-                    t.set_tilename(landrock_str + "_left_right")
-                elif b and f:
-                    t.set_tilename(landrock_str + "_l")
-                elif h and f:
-                    t.set_tilename(landrock_str + "_l90")
-                elif d and h:
-                    t.set_tilename(landrock_str + "_l180")
-                elif b and d:
-                    t.set_tilename(landrock_str + "_l270")
-                elif b:
-                    t.set_tilename(landrock_str + "_n180")
-                elif f:
-                    t.set_tilename(landrock_str + "_n270")
-                elif h:
-                    t.set_tilename(landrock_str + "_n")
-                elif d:
-                    t.set_tilename(landrock_str + "_n90")
-                else:
-                    t.set_tilename(landrock_str + "_node")
 
             if m.is_water_at(x, y):
 

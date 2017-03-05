@@ -25,7 +25,6 @@ def init():
     ice_init(name="ice",
              short_name="Ice",
              tiles=[
-                    "ice.1",
                     "ice.2",
                     "ice.3",
                     "ice.4",

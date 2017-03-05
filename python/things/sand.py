@@ -11,6 +11,7 @@ def sand_init(name, short_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_is_sand(True)
     x.set_is_solid_ground(True)
+    x.set_is_world_item(True)
     x.set_z_depth(mm.Z_DEPTH_SAND)
 
     if tiles is not None:

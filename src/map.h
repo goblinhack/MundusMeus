@@ -22,6 +22,7 @@ tpp map_is_dirt_snow_deco_at(levelp level, int32_t x, int32_t y);
 tpp map_is_grass_deco_at(levelp level, int32_t x, int32_t y);
 tpp map_is_grass_snow_deco_at(levelp level, int32_t x, int32_t y);
 tpp map_is_gravel_deco_at(levelp level, int32_t x, int32_t y);
+tpp map_is_gravel_snow_deco_at(levelp level, int32_t x, int32_t y);
 tpp map_is_sand_deco_at(levelp level, int32_t x, int32_t y);
 tpp map_is_sand_snow_deco_at(levelp level, int32_t x, int32_t y);
 tpp map_is_snow_deco_at(levelp level, int32_t x, int32_t y);
@@ -30,6 +31,7 @@ tpp map_is_dirt_snow_at(levelp level, int32_t x, int32_t y);
 tpp map_is_grass_at(levelp level, int32_t x, int32_t y);
 tpp map_is_grass_snow_at(levelp level, int32_t x, int32_t y);
 tpp map_is_gravel_at(levelp level, int32_t x, int32_t y);
+tpp map_is_gravel_snow_at(levelp level, int32_t x, int32_t y);
 tpp map_is_sand_at(levelp level, int32_t x, int32_t y);
 tpp map_is_sand_snow_at(levelp level, int32_t x, int32_t y);
 tpp map_is_snow_at(levelp level, int32_t x, int32_t y);
@@ -64,13 +66,13 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(Z_DEPTH_BURIED,            "buried"),          \
     list_macro(Z_DEPTH_LAVA,              "lava"),            \
     list_macro(Z_DEPTH_ROCK,              "rock"),            \
-    list_macro(Z_DEPTH_ROAD,              "road"),            \
     list_macro(Z_DEPTH_SAND,              "sand"),            \
     list_macro(Z_DEPTH_DIRT,             "dirt"),            \
     list_macro(Z_DEPTH_GRAVEL,            "gravel"),          \
     list_macro(Z_DEPTH_GRASS,             "grass"),           \
     list_macro(Z_DEPTH_SNOW,              "snow"),            \
     list_macro(Z_DEPTH_ICE,               "ice"),             \
+    list_macro(Z_DEPTH_ROAD,              "road"),            \
     list_macro(Z_DEPTH_BRIDGE,            "bridge"),          \
     list_macro(Z_DEPTH_FLOOR,             "floor"),           \
     /* level start */                                         \

@@ -49,6 +49,7 @@ def init():
                             "gravel_snow.21",
                             "gravel_snow.22",
                             "gravel_snow.23",
+                            "gravel_snow.24",
                             ])
 
 init()

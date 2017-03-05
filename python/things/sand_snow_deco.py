@@ -9,6 +9,7 @@ def thing_init(t):
 def sand_deco1_init(name, short_name, tiles=[]):
     x = tp.Tp(name)
     x.set_short_name(short_name)
+    x.set_is_world_item(True)
     x.set_z_depth(mm.Z_DEPTH_SAND)
     x.set_is_sand_snow_deco(True)
 

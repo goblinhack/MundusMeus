@@ -200,9 +200,9 @@ typedef struct tp_ {
     uint8_t is_rrr54:1;
     uint8_t is_rrr55:1;
     uint8_t is_rrr56:1;
-    uint8_t is_rrr57:1;
-    uint8_t is_rrr58:1;
-    uint8_t is_rrr59:1;
+    uint8_t is_animated_lr_flip:1;
+    uint8_t is_gravel_snow_deco:1;
+    uint8_t is_landrock_snow:1;
     uint8_t is_hidden_from_editor:1;
     uint8_t is_cwall:1;
     uint8_t is_dungeon_item:1;
@@ -701,19 +701,19 @@ static inline uint8_t tp_is_rrr56 (tpp t)
     return (t->is_rrr56);
 }
 
-static inline uint8_t tp_is_rrr57 (tpp t)
+static inline uint8_t tp_is_animated_lr_flip (tpp t)
 {
-    return (t->is_rrr57);
+    return (t->is_animated_lr_flip);
 }
 
-static inline uint8_t tp_is_rrr58 (tpp t)
+static inline uint8_t tp_is_gravel_snow_deco (tpp t)
 {
-    return (t->is_rrr58);
+    return (t->is_gravel_snow_deco);
 }
 
-static inline uint8_t tp_is_rrr59 (tpp t)
+static inline uint8_t tp_is_landrock_snow (tpp t)
 {
-    return (t->is_rrr59);
+    return (t->is_landrock_snow);
 }
 
 static inline uint8_t tp_is_hidden_from_editor (tpp t)

@@ -231,6 +231,11 @@ tpp map_is_gravel_deco_at (levelp level, int32_t x, int32_t y)
     return (map_is_x_at_z_depth(level, x, y, tp_is_gravel_deco, Z_DEPTH_GRAVEL));
 }
 
+tpp map_is_gravel_snow_deco_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at_z_depth(level, x, y, tp_is_gravel_snow_deco, Z_DEPTH_GRAVEL));
+}
+
 tpp map_is_sand_deco_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at_z_depth(level, x, y, tp_is_sand_deco, Z_DEPTH_SAND));
@@ -269,6 +274,11 @@ tpp map_is_grass_snow_at (levelp level, int32_t x, int32_t y)
 tpp map_is_gravel_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at_z_depth(level, x, y, tp_is_gravel, Z_DEPTH_GRAVEL));
+}
+
+tpp map_is_gravel_snow_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at_z_depth(level, x, y, tp_is_gravel_snow, Z_DEPTH_GRAVEL));
 }
 
 tpp map_is_sand_at (levelp level, int32_t x, int32_t y)
@@ -387,8 +397,8 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
         return;                                                                         \
     }                                                                                   \
                                                                                         \
-    for (x = 1; x < MAP_WIDTH - 1; x++) {                                               \
-        for (y = 1; y < MAP_HEIGHT - 1; y++) {                                          \
+    for (x = 0; x < MAP_WIDTH; x++) {                                                   \
+        for (y = 0; y < MAP_HEIGHT; y++) {                                              \
                                                                                         \
             thingp t;                                                                   \
                                                                                         \
@@ -400,7 +410,7 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                 continue;                                                               \
             }                                                                           \
                                                                                         \
-            if (is_at[x-1][y]) {                                                        \
+            if ((x > 0) && is_at[x-1][y]) {                                             \
                 itoa05(tmp, count++);                                                   \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
                 things_deco_total++;                                                    \
@@ -408,7 +418,7 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                 t->wid = wid_game_map_replace_tile(x, y, t);                            \
                 wid_set_tilename(t->wid, #DECO "_right");                               \
             }                                                                           \
-            if (is_at[x+1][y]) {                                                        \
+            if ((x < MAP_WIDTH - 1) && is_at[x+1][y]) {                                 \
                 itoa05(tmp, count++);                                                   \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
                 things_deco_total++;                                                    \
@@ -416,7 +426,7 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                 t->wid = wid_game_map_replace_tile(x, y, t);                            \
                 wid_set_tilename(t->wid, #DECO "_left");                                \
             }                                                                           \
-            if (is_at[x][y-1]) {                                                        \
+            if ((y > 0) && is_at[x][y-1]) {                                             \
                 itoa05(tmp, count++);                                                   \
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
                 things_deco_total++;                                                    \
@@ -424,7 +434,7 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                 t->wid = wid_game_map_replace_tile(x, y, t);                            \
                 wid_set_tilename(t->wid, #DECO "_bot");                                 \
             }                                               			        \
-            if (is_at[x][y+1]) {                                                        \
+            if ((y < MAP_HEIGHT - 1) && is_at[x][y+1]) {                                \
                 itoa05(tmp, count++);                                               	\
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
                 things_deco_total++;                                                    \
@@ -432,7 +442,7 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                 t->wid = wid_game_map_replace_tile(x, y, t);                            \
                 wid_set_tilename(t->wid, #DECO "_top");                                 \
             }                                               				\
-            if (is_at[x-1][y-1]) {                                              	\
+            if ((y > 0) && (x > 0) && is_at[x-1][y-1]) {                                \
                 itoa05(tmp, count++);                                               	\
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
                 things_deco_total++;                                                    \
@@ -440,7 +450,7 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                 t->wid = wid_game_map_replace_tile(x, y, t);                            \
                 wid_set_tilename(t->wid, #DECO "_br");                                  \
             }                                               				\
-            if (is_at[x+1][y-1]) {                                              	\
+            if ((y > 0) && (x < MAP_WIDTH - 1) && is_at[x+1][y-1]) {                    \
                 itoa05(tmp, count++);                                               	\
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
                 things_deco_total++;                                                   	\
@@ -448,7 +458,7 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                 t->wid = wid_game_map_replace_tile(x, y, t);                            \
                 wid_set_tilename(t->wid, #DECO "_bl");                                  \
             }                                               				\
-            if (is_at[x-1][y+1]) {                                              	\
+            if ((y < MAP_HEIGHT - 1) && (x > 0) && is_at[x-1][y+1]) {                   \
                 itoa05(tmp, count++);                                               	\
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
                 things_deco_total++;                                                   	\
@@ -456,7 +466,7 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                 t->wid = wid_game_map_replace_tile(x, y, t);                            \
                 wid_set_tilename(t->wid, #DECO "_tr");                                  \
             }                                               				\
-            if (is_at[x+1][y+1]) {                                              	\
+            if ((y < MAP_HEIGHT - 1) && (x < MAP_WIDTH - 1) && is_at[x+1][y+1]) {       \
                 itoa05(tmp, count++);                                               	\
                 t = thing_new(tmp, -1 /* thing id */, #DECO "_deco");                   \
                 things_deco_total++;                                                   	\
@@ -473,6 +483,7 @@ MAP_FIXUP_DECO(snow)
 MAP_FIXUP_DECO(sand)
 MAP_FIXUP_DECO(dirt)
 MAP_FIXUP_DECO(gravel)
+MAP_FIXUP_DECO(gravel_snow)
 MAP_FIXUP_DECO(grass_snow)
 MAP_FIXUP_DECO(dirt_snow)
 MAP_FIXUP_DECO(sand_snow)
@@ -522,8 +533,8 @@ static void map_fixup_ ## WALL (levelp level)                                   
         c++;                                                                            \
     }                                                                                   \
                                                                                         \
-    for (x = 1; x < MAP_WIDTH - 1; x++) {                                               \
-        for (y = 1; y < MAP_HEIGHT - 1; y++) {                                          \
+    for (x = 0; x < MAP_WIDTH; x++) {                                                   \
+        for (y = 0; y < MAP_HEIGHT; y++) {                                              \
                                                                                         \
             thingp t = is_at[x][y];                                                     \
                                                                                         \
@@ -536,25 +547,25 @@ static void map_fixup_ ## WALL (levelp level)                                   
             int f = false;                                                              \
             int h = false;                                                              \
                                                                                         \
-            if (is_at[x][y-1]) {                                                        \
+            if ((y > 0) && is_at[x][y-1]) {                                             \
                 b = true;                                                               \
             } else {                                                                    \
                 b = false;                                                              \
             }                                                                           \
                                                                                         \
-            if (is_at[x-1][y]) {                                                        \
+            if ((x > 0) && is_at[x-1][y]) {                                             \
                 d = true;                                                               \
             } else {                                                                    \
                 d = false;                                                              \
             }                                                                           \
                                                                                         \
-            if (is_at[x+1][y]) {                                                        \
+            if ((x < MAP_WIDTH - 1) && is_at[x+1][y]) {                                 \
                 f = true;                                                               \
             } else {                                                                    \
                 f = false;                                                              \
             }                                                                           \
                                                                                         \
-            if (is_at[x][y+1]) {                                                        \
+            if ((y < MAP_HEIGHT - 1) && is_at[x][y+1]) {                                \
                 h = true;                                                               \
             } else {                                                                    \
                 h = false;                                                              \
@@ -636,6 +647,8 @@ static void map_fixup_ ## WALL (levelp level)                                   
 
 MAP_FIXUP_WALL(wall)
 MAP_FIXUP_WALL(cwall)
+MAP_FIXUP_WALL(landrock)
+MAP_FIXUP_WALL(landrock_snow)
 
 /*
  * Add decorations. These things are never saved as part of the game.
@@ -648,11 +661,14 @@ void map_fixup (levelp level)
     map_fixup_deco_sand(level);
     map_fixup_deco_dirt(level);
     map_fixup_deco_gravel(level);
+    map_fixup_deco_gravel_snow(level);
     map_fixup_deco_grass_snow(level);
     map_fixup_deco_sand_snow(level);
     map_fixup_deco_dirt_snow(level);
     map_fixup_wall(level);
     map_fixup_cwall(level);
+    map_fixup_landrock(level);
+    map_fixup_landrock_snow(level);
 }
 
 /*

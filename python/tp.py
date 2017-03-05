@@ -196,9 +196,9 @@ class Tp:
         self.is_rrr54 = False
         self.is_rrr55 = False
         self.is_rrr56 = False
-        self.is_rrr57 = False
-        self.is_rrr58 = False
-        self.is_rrr59 = False
+        self.is_animated_lr_flip = False
+        self.is_gravel_snow_deco = False
+        self.is_landrock_snow = False
         self.is_hidden_from_editor = False
         self.is_dungeon_item = False
         self.is_difficulty_easy = False
@@ -612,17 +612,17 @@ class Tp:
         self.is_rrr56 = value
         mm.tp_set_is_rrr56(self, value)
 
-    def set_is_rrr57(self, value):
-        self.is_rrr57 = value
-        mm.tp_set_is_rrr57(self, value)
+    def set_is_animated_lr_flip(self, value):
+        self.is_animated_lr_flip = value
+        mm.tp_set_is_animated_lr_flip(self, value)
 
-    def set_is_rrr58(self, value):
-        self.is_rrr58 = value
-        mm.tp_set_is_rrr58(self, value)
+    def set_is_gravel_snow_deco(self, value):
+        self.is_gravel_snow_deco = value
+        mm.tp_set_is_gravel_snow_deco(self, value)
 
-    def set_is_rrr59(self, value):
-        self.is_rrr59 = value
-        mm.tp_set_is_rrr59(self, value)
+    def set_is_landrock_snow(self, value):
+        self.is_landrock_snow = value
+        mm.tp_set_is_landrock_snow(self, value)
 
     def set_is_hidden_from_editor(self, value):
         self.is_hidden_from_editor = value
@@ -1025,8 +1025,6 @@ def get_random_minable_treasure(toughness=0):
 
 
 def same_type(tp1, tp2):
-    if tp1.is_candle_light and tp2.is_candle_light:
-        return True
     if tp1.is_monst and tp2.is_monst:
         return True
     if tp1.is_player and tp2.is_player:

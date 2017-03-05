@@ -197,7 +197,16 @@ class Game:
                 if wheely < 0:
                     player.move(player.x, player.y + 1)
                 return True
-            return False
+            else:
+                if wheelx > 0:
+                    return self.map_mouse_down(w, player.x - 1, player.y, 1)
+                if wheelx < 0:
+                    return self.map_mouse_down(w, player.x + 1, player.y, 1)
+                if wheely > 0:
+                    return self.map_mouse_down(w, player.x, player.y - 1, 1)
+                if wheely < 0:
+                    return self.map_mouse_down(w, player.x, player.y + 1, 1)
+                return True
 
         l = self.level
 
@@ -242,20 +251,23 @@ class Game:
         if self.editor_mode:
 
             if button == 3 or self.editor_mode_erase:
+                got_one = False
                 if self.editor_mode_tp:
                     t = l.thing_find(x, y, self.editor_mode_tp.name)
                     if t is not None:
-                        t.destroy("via editor")
+                        t.destroy("via editor erase")
+                        got_one = True
 
-                t = l.thing_top(x, y)
-                if t is not None:
-                    t.destroy("via editor")
+                if not got_one:
+                    t = l.thing_top(x, y)
+                    if t is not None and not t.tp.is_player:
+                        t.destroy("via editor erase 2")
 
             elif self.editor_mode_draw and self.editor_mode_tp:
                 t = l.thing_find_same_type(x, y,
                                            self.editor_mode_tp.name)
                 if t is not None:
-                    t.destroy("via editor")
+                    t.destroy("via editor draw")
 
                 t = thing.Thing(level=l,
                                 tp_name=self.editor_mode_tp.name,
@@ -319,10 +331,10 @@ class Game:
 
             if sym == mm.SDLK_y:
                 t = l.thing_top(x, y)
-                if t:
+                if t and not t.tp.is_player:
                     self.editor_mode_tp = t.tp
-                self.editor_mode_draw = True
-                self.editor_mode_erase = False
+                    self.editor_mode_draw = True
+                    self.editor_mode_erase = False
                 self.map_help()
                 return True
 
@@ -360,6 +372,12 @@ class Game:
                 if t:
                     t.set_depth(t.depth - 1)
                 return True
+
+            if sym == mm.SDLK_SPACE:
+                return self.map_mouse_down(w, x, y, 1)
+
+            if sym == mm.SDLK_DELETE or sym == mm.SDLK_BACKSPACE:
+                return self.map_mouse_down(w, x, y, 3)
 
             if sym == mm.SDLK_s:
                 self.save()
@@ -406,7 +424,7 @@ class Game:
         if mod == mm.KMOD_LCTRL or mod == mm.KMOD_RCTRL:
             if sym == mm.SDLK_e:
                 if not self.editor_mode:
-                    wid_tp_editor.visible()
+                    game.g.editor_mode = True
                     game.g.editor_mode_draw = True
                     game.g.editor_mode_erase = False
                 self.map_help()

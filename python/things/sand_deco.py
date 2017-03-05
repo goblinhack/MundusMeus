@@ -11,6 +11,7 @@ def sand_deco1_init(name, short_name, tiles=[]):
     x.set_short_name(short_name)
     x.set_z_depth(mm.Z_DEPTH_SAND)
     x.set_is_sand_deco(True)
+    x.set_is_world_item(True)
 
     if tiles is not None:
         for t in tiles:
