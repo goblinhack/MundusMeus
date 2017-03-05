@@ -309,6 +309,7 @@ class WidTpEditor(wid_popup.WidPopup):
         w.set_focus()
         w.to_front()
         w.move_to_pct(x=self.x, y=self.y)
+        w.set_focusable(value=-1)
         w.hide()
 
 

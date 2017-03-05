@@ -298,6 +298,22 @@ class Chunk:
 
         return None
 
+    def things_at(self, x, y):
+        if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
+            return []
+
+        r = []
+        for t in self.things_on_chunk[x][y]:
+            tpp = t.tp
+
+            if tpp.is_hidden:
+                continue
+            if tpp.is_hidden_from_editor:
+                continue
+            r.append(t)
+
+        return r
+
     def tp_is(self, x, y, value):
         if x >= mm.CHUNK_WIDTH or y >= mm.CHUNK_HEIGHT or x < 0 or y < 0:
             return None

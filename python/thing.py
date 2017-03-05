@@ -223,6 +223,9 @@ class Thing:
     # Move a thing and see it move smoothly on the map
     #
     def move(self, x, y):
+        if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
+            return
+
         self.update_pos(x, y)
 
         mm.thing_move(self, x, y)

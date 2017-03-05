@@ -7990,7 +7990,9 @@ static void wid_display_fast (widp w,
         tx = t->x;
         ty = t->y;
 
-        if (tp_is_corridor(tp) || tp_is_dusty(tp) || tp_is_bridge(tp)) {
+        if (tp_is_floor(tp)) {
+            floor_offset[tx][ty] = blit_y_offset;
+        } else if (tp_is_corridor(tp) || tp_is_dusty(tp) || tp_is_bridge(tp)) {
             floor_offset[tx][ty] = blit_y_offset;
         } else if (tp_is_lava(tp) || tp_is_water(tp)) {
             blit_y_offset = 0;

@@ -47,8 +47,8 @@ def wid_help_create():
                text="%%fg=green$^e) %%fg=white$Editor mode")
 
     w.update()
-    w.set_focusable(value=-1)
     w.move_to_pct_centered(x=0.5, y=0.5)
+    w.set_focusable(value=-1)
     w.hide()
 
     return w

@@ -370,6 +370,14 @@ class Level:
         (chunk, x, y) = self.xy_to_chunk_xy(x, y)
         return chunk.thing_top(x, y)
 
+    def things_at(self, x, y):
+
+        if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
+            return []
+
+        (chunk, x, y) = self.xy_to_chunk_xy(x, y)
+        return chunk.things_at(x, y)
+
     def tp_is(self, x, y, value):
 
         if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
@@ -387,6 +395,16 @@ class Level:
                     (x, y) = found
                     return (self.chunk_xy_to_xy(cx, cy, x, y))
         return None
+
+    def things_remove_all_except_player(self):
+        for y in range(mm.MAP_HEIGHT):
+            for x in range(mm.MAP_WIDTH):
+                r = self.things_at(x, y)
+                for t in r:
+                    if t.tp.is_player:
+                        continue
+
+                    t.destroy("via editor")
 
     def is_movement_blocking_at(self, x, y):
 

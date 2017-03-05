@@ -11,14 +11,32 @@
 #include "python.h"
 #include "string_util.h"
 
+static uint8_t
+map_mouse_motion (widp w,
+                int32_t x, int32_t y,
+                int32_t relx, int32_t rely,
+                int32_t wheelx, int32_t wheely)
+{
+
+    thingp t = wid_get_thing(w);
+    if (!t) {
+        return (false);
+    }
+
+    py_call_void_module_ptr_iiiii("game",
+                                  "map_mouse_over",
+                                  w,
+                                  t->x, t->y,
+                                  wheelx, wheely,
+                                  mouse_down);
+    return (true);
+}
+
 static void
 map_mouse_over (widp w,
                 int32_t relx, int32_t rely,
                 int32_t wheelx, int32_t wheely)
 {
-    if ((relx == 0) && (rely == 0)) {
-        return;
-    }
 
     thingp t = wid_get_thing(w);
     if (!t) {
@@ -95,6 +113,7 @@ void map_add_selection_buttons (levelp level)
             t->is_focus = true;
             selection_buttons[x][y] = t;
 
+            wid_set_on_m_motion(t->wid, map_mouse_motion);
             wid_set_on_m_over_b(t->wid, map_mouse_over);
             wid_set_on_m_down(t->wid, map_mouse_down);
             wid_set_on_key_down(t->wid, map_key_down);

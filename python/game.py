@@ -178,11 +178,25 @@ class Game:
     # Mouse is over a map tile; show the route back to the player
     #
     def map_mouse_over(self, w, x, y, wheelx, wheely, button):
+        #
+        # Check we can get back from the chosen point to the player.
+        #
+        player = self.player
 
         #
         # Want to scroll without the focus moving
         #
         if wheelx != 0 or wheely != 0:
+            if self.editor_mode:
+                if wheelx > 0:
+                    player.move(player.x - 1, player.y)
+                if wheelx < 0:
+                    player.move(player.x + 1, player.y)
+                if wheely > 0:
+                    player.move(player.x, player.y - 1)
+                if wheely < 0:
+                    player.move(player.x, player.y + 1)
+                return True
             return False
 
         l = self.level
@@ -195,10 +209,6 @@ class Game:
                 return self.map_mouse_down(w, x, y, button)
             return True
 
-        #
-        # Check we can get back from the chosen point to the player.
-        #
-        player = self.player
         nexthops = l.dmap_solve(self.player.x, self.player.y, x, y)
         self.saved_nexthops = nexthops
         self.saved_nexthops.append((x, y))
@@ -253,6 +263,7 @@ class Game:
                 t.push()
 
             mm.game_map_fixup()
+            l.dmap_reset()
             return True
 
         #
@@ -323,6 +334,11 @@ class Game:
                 self.map_help()
                 return True
 
+            if mod == mm.KMOD_LCTRL or mod == mm.KMOD_RCTRL:
+                if sym == mm.SDLK_z:
+                    l.things_remove_all_except_player()
+                    return True
+
             if sym == mm.SDLK_s:
                 self.save()
                 return True
@@ -330,8 +346,6 @@ class Game:
             if sym == mm.SDLK_q:
                 wid_quit.visible()
                 return True
-
-            wid_help_editor.visible()
 
             if sym == mm.SDLK_LCTRL:
                 return False
@@ -350,6 +364,8 @@ class Game:
             if sym == mm.SDLK_RGUI:
                 return False
 
+            wid_help_editor.visible()
+
             return True
         else:
             if sym == mm.SDLK_PERIOD:
@@ -365,7 +381,7 @@ class Game:
                 wid_quit.visible()
                 return True
 
-        if mod == mm.KMOD_LCTRL:
+        if mod == mm.KMOD_LCTRL or mod == mm.KMOD_RCTRL:
             if sym == mm.SDLK_e:
                 if not self.editor_mode:
                     wid_tp_editor.visible()

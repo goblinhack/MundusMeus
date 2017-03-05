@@ -49,9 +49,12 @@ def wid_help_editor_create():
     w.add_text(font="vlarge",
                text="%%fg=green$s) %%fg=white$Save current chunks")
 
+    w.add_text(font="vlarge",
+               text="%%fg=green$CTRL z) %%fg=white$Erase whole level")
+
     w.update()
-    w.set_focusable(value=-1)
     w.move_to_pct_centered(x=0.5, y=0.5)
+    w.set_focusable(value=-1)
     w.hide()
 
     return w
