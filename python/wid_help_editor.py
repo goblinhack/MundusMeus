@@ -47,6 +47,12 @@ def wid_help_editor_create():
                text="%%fg=green$y) %%fg=white$Yank tile under mouse")
 
     w.add_text(font="vlarge",
+               text="%%fg=green$+) %%fg=white$Raise floor or corridor tile")
+
+    w.add_text(font="vlarge",
+               text="%%fg=green$-) %%fg=white$Lower floor or corridor tile")
+
+    w.add_text(font="vlarge",
                text="%%fg=green$s) %%fg=white$Save current chunks")
 
     w.add_text(font="vlarge",

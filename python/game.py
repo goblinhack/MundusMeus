@@ -52,7 +52,7 @@ class Game:
         self.move_count = 0
         self.moves_per_day = 1000
         self.seed = 10
-        self.where = util.Xyz(13, 25, -1)
+        self.where = util.Xyz(13, 25, 0)
         self.load_level(self.seed)
 
     def load_level(self, seed):
@@ -338,6 +338,19 @@ class Game:
                 if sym == mm.SDLK_z:
                     l.things_remove_all_except_player()
                     return True
+
+            if mod == mm.KMOD_LSHIFT or mod == mm.KMOD_RSHIFT:
+                if sym == mm.SDLK_EQUALS:
+                    t = l.thing_top(x, y)
+                    if t:
+                        t.set_depth(t.depth + 1)
+                    return True
+
+            if sym == mm.SDLK_MINUS:
+                t = l.thing_top(x, y)
+                if t:
+                    t.set_depth(t.depth - 1)
+                return True
 
             if sym == mm.SDLK_s:
                 self.save()

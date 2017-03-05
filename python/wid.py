@@ -149,6 +149,9 @@ class Wid:
     def get_pos_pct(self):
         return mm.wid_get_pos_pct(self)
 
+    def set_blit_y_offset(self, **kw):
+        mm.wid_set_blit_y_offset(self, **kw)
+
     def set_bevel(self, **kw):
         mm.wid_set_bevel(self, **kw)
 

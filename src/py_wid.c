@@ -688,6 +688,28 @@ PyObject *wid_set_bevel_ (PyObject *obj, PyObject *args, PyObject *keywds)
     Py_RETURN_NONE;
 }
 
+PyObject *wid_set_blit_y_offset_ (PyObject *obj, PyObject *args, PyObject *keywds)
+{
+    PyObject *py_class = 0;
+    widp w;
+    double value = 1.0;
+
+    static char *kwlist[] = {(char*) "wid_id", (char*) "value", 0};
+
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|d", kwlist,
+                                     &py_class,
+                                     &value)) {
+        return (0);
+    }
+
+    w = (widp) (uintptr_t) py_obj_attr_uint64(py_class, "wid_id");
+    verify(w);
+
+    wid_set_blit_y_offset(w, value);
+
+    Py_RETURN_NONE;
+}
+
 PyObject *wid_set_bevelled_ (PyObject *obj, PyObject *args, PyObject *keywds)
 {
     PyObject *py_class = 0;

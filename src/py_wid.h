@@ -26,6 +26,7 @@ PyObject *wid_set_raise_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_lower_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_update_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_bevel_(PyObject *obj, PyObject *args, PyObject *keywds);
+PyObject *wid_set_blit_y_offset_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_bevelled_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_cursor_(PyObject *obj, PyObject *args, PyObject *keywds);
 PyObject *wid_set_do_not_lower_(PyObject *obj, PyObject *args, PyObject *keywds);
