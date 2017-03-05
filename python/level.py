@@ -5,6 +5,8 @@ import math
 import game
 import chunk
 import util
+import thing
+import sys
 
 
 class Level:
@@ -405,6 +407,97 @@ class Level:
                         continue
 
                     t.destroy("via editor")
+
+    def things_flood_fill_(self, x, y, tp, walked):
+
+        sys.setrecursionlimit(mm.MAP_WIDTH * mm.MAP_HEIGHT)
+
+        if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or x < 0 or y < 0:
+            return
+
+        if walked[x][y] == 1:
+            return
+
+        walked[x][y] = 1
+
+        (chunk, ox, oy) = self.xy_to_chunk_xy(x, y)
+
+        for f in chunk.things_on_chunk[ox][oy]:
+            other_tp = f.tp
+
+            if tp.is_floor or \
+               tp.is_corridor or \
+               tp.is_dusty:
+                if other_tp.is_wall or \
+                   other_tp.is_door or \
+                   other_tp.is_landrock or \
+                   other_tp.is_cwall:
+                    return
+
+            if tp.is_wall or \
+               tp.is_door or \
+               tp.is_landrock or \
+               tp.is_cwall or \
+               tp.is_bridge or \
+               tp.is_water:
+                if other_tp.is_wall or \
+                   other_tp.is_door or \
+                   other_tp.is_landrock or \
+                   other_tp.is_cwall or \
+                   other_tp.is_bridge or \
+                   other_tp.is_water:
+                    return
+
+            if tp.is_door:
+                if other_tp.is_wall or \
+                   other_tp.is_landrock or \
+                   other_tp.is_cwall or \
+                   other_tp.is_water:
+                    return
+
+            if tp.is_dirt or \
+               tp.is_grass or \
+               tp.is_snow or \
+               tp.is_ice or \
+               tp.is_gravel or \
+               tp.is_gravel_snow or \
+               tp.is_snow or \
+               tp.is_sand or \
+               tp.is_water:
+                if other_tp.is_dirt or \
+                   other_tp.is_grass or \
+                   other_tp.is_snow or \
+                   other_tp.is_ice or \
+                   other_tp.is_gravel or \
+                   other_tp.is_gravel_snow or \
+                   other_tp.is_snow or \
+                   other_tp.is_sand or \
+                   other_tp.is_water:
+                    return
+
+        t = self.thing_find_same_type(x, y, tp.name)
+        if t is not None:
+            t.destroy("via editor")
+
+        t = thing.Thing(level=self,
+                        tp_name=tp.name,
+                        x=x, y=y)
+        t.push()
+
+        self.things_flood_fill_(x - 1, y, tp, walked)
+        self.things_flood_fill_(x + 1, y, tp, walked)
+        self.things_flood_fill_(x, y - 1, tp, walked)
+        self.things_flood_fill_(x, y + 1, tp, walked)
+
+    def things_flood_fill(self, x, y, tp):
+
+        if tp is None:
+            return
+
+        walked = [[0 for i in range(mm.MAP_HEIGHT)]
+                  for j in range(mm.MAP_WIDTH)]
+
+        self.things_flood_fill_(x, y, tp, walked)
 
     def is_movement_blocking_at(self, x, y):
 

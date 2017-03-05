@@ -321,8 +321,8 @@ class Game:
                 t = l.thing_top(x, y)
                 if t:
                     self.editor_mode_tp = t.tp
-                self.editor_mode_draw = False
-                self.editor_mode_erase = True
+                self.editor_mode_draw = True
+                self.editor_mode_erase = False
                 self.map_help()
                 return True
 
@@ -337,6 +337,15 @@ class Game:
             if mod == mm.KMOD_LCTRL or mod == mm.KMOD_RCTRL:
                 if sym == mm.SDLK_z:
                     l.things_remove_all_except_player()
+                    mm.game_map_fixup()
+                    l.dmap_reset()
+                    return True
+
+            if mod == mm.KMOD_LCTRL or mod == mm.KMOD_RCTRL:
+                if sym == mm.SDLK_f:
+                    l.things_flood_fill(x, y, self.editor_mode_tp)
+                    mm.game_map_fixup()
+                    l.dmap_reset()
                     return True
 
             if mod == mm.KMOD_LSHIFT or mod == mm.KMOD_RSHIFT:

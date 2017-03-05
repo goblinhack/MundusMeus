@@ -56,6 +56,9 @@ def wid_help_editor_create():
                text="%%fg=green$s) %%fg=white$Save current chunks")
 
     w.add_text(font="vlarge",
+               text="%%fg=green$CTRL f) %%fg=white$Flood fill")
+
+    w.add_text(font="vlarge",
                text="%%fg=green$CTRL z) %%fg=white$Erase whole level")
 
     w.update()
