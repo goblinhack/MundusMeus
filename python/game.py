@@ -12,6 +12,7 @@ import wid_help
 import wid_help_editor
 import wid_tp_editor
 import wid_quit
+import time
 
 global g
 
@@ -45,6 +46,7 @@ class Game:
         self.last_scroll_py = 0.5
         self.last_selected_tile_x = 0
         self.last_selected_tile_y = 0
+        self.last_player_move = time.time()
 
     def new_game(self):
 
@@ -187,6 +189,16 @@ class Game:
         # Want to scroll without the focus moving
         #
         if wheelx != 0 or wheely != 0:
+
+            #
+            # Don't scroll too fast.
+            #
+            now = time.time()
+            if now - self.last_player_move < 0.05:
+                return True
+
+            self.last_player_move = now
+
             if self.editor_mode:
                 if wheelx > 0:
                     player.move(player.x - 1, player.y)
@@ -199,13 +211,13 @@ class Game:
                 return True
             else:
                 if wheelx > 0:
-                    return self.map_mouse_down(w, player.x - 1, player.y, 1)
+                    self.map_mouse_down(w, player.x - 1, player.y, 1)
                 if wheelx < 0:
-                    return self.map_mouse_down(w, player.x + 1, player.y, 1)
+                    self.map_mouse_down(w, player.x + 1, player.y, 1)
                 if wheely > 0:
-                    return self.map_mouse_down(w, player.x, player.y - 1, 1)
+                    self.map_mouse_down(w, player.x, player.y - 1, 1)
                 if wheely < 0:
-                    return self.map_mouse_down(w, player.x, player.y + 1, 1)
+                    self.map_mouse_down(w, player.x, player.y + 1, 1)
                 return True
 
         l = self.level
