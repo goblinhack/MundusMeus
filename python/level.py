@@ -88,6 +88,7 @@ class Level:
             for cy in range(0, mm.CHUNK_DOWN):
                 x = cx + cdx
                 y = cy + cdy
+
                 if x < 0 or y < 0 or \
                         x >= mm.CHUNK_ACROSS or \
                         y >= mm.CHUNK_DOWN:
@@ -118,6 +119,8 @@ class Level:
         #
         self.where.x += odx
         self.where.y += ody
+        self.where.x %= mm.WORLD_WIDTH
+        self.where.y %= mm.WORLD_HEIGHT
 
         for cx in range(0, mm.CHUNK_ACROSS):
             for cy in range(0, mm.CHUNK_DOWN):
@@ -126,6 +129,9 @@ class Level:
                     where.x = self.where.x - 1 + cx
                     where.y = self.where.y - 1 + cy
                     where.z = self.where.z
+
+                    where.x %= mm.WORLD_WIDTH
+                    where.y %= mm.WORLD_HEIGHT
 
                     chunk_name = "level.{0}.seed.{1}".format(str(where),
                                                              self.seed)

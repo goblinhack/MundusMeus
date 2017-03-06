@@ -96,7 +96,7 @@ class Biome(biome.Biome):
 
                 elif r == 203 and g == 194 and b == 116:
                     # yellowish
-                    is_snow = True
+                    is_sand = True
 
                 elif r == 240 and g == 243 and b == 237:
                     # white
