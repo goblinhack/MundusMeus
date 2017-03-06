@@ -11,7 +11,7 @@
 #include "wid.h"
 #include "math_util.h"
 
-#define nclouds 10
+#define nclouds 20
 
 typedef struct {
     int active;
@@ -54,8 +54,8 @@ void cloud_tick (int display)
             f->scale = gauss(1.5, 0.2);
         }
 
-        double dw = cloud_w * (f->scale + 0.8);
-        double dh = cloud_h * (f->scale + 0.5);
+        double dw = cloud_w * (f->scale + 0.2);
+        double dh = cloud_h * (f->scale + 0.2);
 
         tl.x = f->x - dw;
         tl.y = f->y - dh;
@@ -66,9 +66,9 @@ void cloud_tick (int display)
         c.a = 100.0;
         glcolor(c);
         tl.x += w / 20;
-        tl.y += w / 10;
+        tl.y += w / 12;
         br.x += w / 20;
-        br.y += w / 10;
+        br.y += w / 12;
 
         if (display) {
             tile_blit_fat(0, tile, 0, &tl, &br);
@@ -155,13 +155,13 @@ void cloud_move (int jumped)
         double w = game.video_gl_width;
         double h = game.video_gl_height;
 
-        if (f->x > w * 0.8) {
-            f->x = -w / 4.0;
+        if (f->x > w * 1.5) {
+            f->x = -(w / 2) - myrand() % (int)(w / 2);
             f->y = myrand() % (int)h;
         }
 
-        if (f->x < -w / 4.0) {
-            f->x = w * 1.4;
+        if (f->x < -w * 1.5) {
+            f->x = w + myrand() % (int)(w / 2);
             f->y = myrand() % (int)h;
         }
 
