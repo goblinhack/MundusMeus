@@ -71,14 +71,14 @@
 /*
  * Map. How many chunks per "screen" across and down.
  */
-#define CHUNK_ACROSS                            (3)
-#define CHUNK_DOWN                              (3)
+#define CHUNK_ACROSS                            (6)
+#define CHUNK_DOWN                              (6)
 
 /*
  * How many tiles per chunk
  */
-#define CHUNK_WIDTH                             (16)
-#define CHUNK_HEIGHT                            (16)
+#define CHUNK_WIDTH                             (8)
+#define CHUNK_HEIGHT                            (8)
 
 /*
  * Dungeon size
@@ -89,8 +89,8 @@
 /*
  * How many chunks across and down in the world. Image width / chunk width
  */
-#define WORLD_WIDTH                             128
-#define WORLD_HEIGHT                            128
+#define WORLD_WIDTH                             (2048 / CHUNK_WIDTH)
+#define WORLD_HEIGHT                            (2048 / CHUNK_HEIGHT)
 #define WORLD_DEPTH                             16
 
 /*
