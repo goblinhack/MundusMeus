@@ -44,14 +44,9 @@ def init():
     x.set_blit_top_off(1)
 
     x = tree_conifer1_init(d1000_roll=1, tiles=["tree_conifer3"])
-    x.set_blit_top_off(1)
-    x.set_blit_left_off(1)
-    x.set_blit_right_off(1)
+    x.set_blit_top_off(3)
 
     x = tree_conifer1_init(d1000_roll=1, tiles=["tree_conifer4"])
-    x.set_blit_top_off(1)
-
-    x = tree_conifer1_init(d1000_roll=1, tiles=["tree_conifer5"])
-    x.set_blit_top_off(1)
+    x.set_blit_top_off(3)
 
 init()

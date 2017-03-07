@@ -46,7 +46,7 @@ def init():
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=950,
+    x = tree1_init(d1000_roll=1,
                    short_name="A tree",
                    long_name="",
                    tiles=["tree2"])
@@ -54,7 +54,7 @@ def init():
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)
 
-    x = tree1_init(d1000_roll=950,
+    x = tree1_init(d1000_roll=1,
                    short_name="A tree",
                    long_name="",
                    tiles=["tree3"])
@@ -112,7 +112,7 @@ def init():
 
     x = tree1_init(d1000_roll=1,
                    short_name="A tree",
-                   long_name="Of it's kind this is a fine example.",
+                   long_name="",
                    tiles=["tree10"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
@@ -122,6 +122,14 @@ def init():
                    short_name="A tree",
                    long_name="",
                    tiles=["tree11"])
+    x.set_blit_top_off(1)
+    x.set_blit_left_off(1)
+    x.set_blit_right_off(1)
+
+    x = tree1_init(d1000_roll=1,
+                   short_name="A tree",
+                   long_name="",
+                   tiles=["tree12"])
     x.set_blit_top_off(1)
     x.set_blit_left_off(1)
     x.set_blit_right_off(1)

@@ -37,10 +37,16 @@ def tree_snow_init(d1000_roll, tiles=[]):
 
 def init():
     # high numbers means rare, low means common
-    x = tree_snow_init(d1000_roll=1, tiles=["tree_snow"])
+    x = tree_snow_init(d1000_roll=1, tiles=["tree_snow1"])
     x.set_blit_top_off(1)
 
     x = tree_snow_init(d1000_roll=1, tiles=["tree_snow2"])
     x.set_blit_top_off(1)
+
+    x = tree_snow_init(d1000_roll=1, tiles=["tree_snow3"])
+    x.set_blit_top_off(3)
+
+    x = tree_snow_init(d1000_roll=1, tiles=["tree_snow4"])
+    x.set_blit_top_off(3)
 
 init()
