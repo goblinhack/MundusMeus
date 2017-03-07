@@ -12,6 +12,7 @@ static int can_see_obstacle (levelp level, int32_t x, int32_t y)
 {
     if (map_is_wall_at(level, x, y) ||
         map_is_cwall_at(level, x, y) ||
+        map_is_hwall_at(level, x, y) ||
         map_is_door_at(level, x, y)) {
 
         return (true);

@@ -186,6 +186,11 @@ tpp map_is_cwall_at (levelp level, int32_t x, int32_t y)
     return (map_is_x_at(level, x, y, tp_is_cwall));
 }
 
+tpp map_is_hwall_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at(level, x, y, tp_is_hwall));
+}
+
 tpp map_is_water_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at(level, x, y, tp_is_water));
@@ -647,6 +652,7 @@ static void map_fixup_ ## WALL (levelp level)                                   
 
 MAP_FIXUP_WALL(wall)
 MAP_FIXUP_WALL(cwall)
+MAP_FIXUP_WALL(hwall)
 MAP_FIXUP_WALL(landrock)
 MAP_FIXUP_WALL(landrock_snow)
 
@@ -667,6 +673,7 @@ void map_fixup (levelp level)
     map_fixup_deco_dirt_snow(level);
     map_fixup_wall(level);
     map_fixup_cwall(level);
+    map_fixup_hwall(level);
     map_fixup_landrock(level);
     map_fixup_landrock_snow(level);
 }

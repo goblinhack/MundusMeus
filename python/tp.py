@@ -14,6 +14,7 @@ all_floor_tps = []
 all_corridor_tps = []
 all_wall_tps = []
 all_cwall_tps = []
+all_hwall_tps = []
 all_door_tps = []
 all_dungeon_tps = []
 all_dungeon_snow_tps = []
@@ -36,6 +37,7 @@ class Tp:
                  is_corridor=False,
                  is_wall=False,
                  is_cwall=False,
+                 is_hwall=False,
                  is_door=False,
                  is_dungeon=False,
                  is_dungeon_snow=False,
@@ -83,6 +85,10 @@ class Tp:
         self.is_cwall = is_cwall
         if is_cwall:
             all_cwall_tps.append(name)
+
+        self.is_hwall = is_hwall
+        if is_hwall:
+            all_hwall_tps.append(name)
 
         self.is_door = is_door
         if is_door:
@@ -195,7 +201,7 @@ class Tp:
         self.is_rrr53 = False
         self.is_rrr54 = False
         self.is_rrr55 = False
-        self.is_rrr56 = False
+        self.is_cwall = False
         self.is_animated_lr_flip = False
         self.is_gravel_snow_deco = False
         self.is_landrock_snow = False
@@ -254,7 +260,7 @@ class Tp:
         self.is_shadow_caster_soft = False
         self.is_sleeping = False
         self.is_wall = False
-        self.is_cwall = False
+        self.is_hwall = False
         self.is_floor = False
         self.is_lava = False
         self.is_rock = False
@@ -608,9 +614,13 @@ class Tp:
         self.is_rrr55 = value
         mm.tp_set_is_rrr55(self, value)
 
-    def set_is_rrr56(self, value):
-        self.is_rrr56 = value
-        mm.tp_set_is_rrr56(self, value)
+    def set_is_cwall(self, value):
+        self.is_cwall = value
+        mm.tp_set_is_cwall(self, value)
+
+    def set_is_hwall(self, value):
+        self.is_hwall = value
+        mm.tp_set_is_hwall(self, value)
 
     def set_is_animated_lr_flip(self, value):
         self.is_animated_lr_flip = value
@@ -627,10 +637,6 @@ class Tp:
     def set_is_hidden_from_editor(self, value):
         self.is_hidden_from_editor = value
         mm.tp_set_is_hidden_from_editor(self, value)
-
-    def set_is_cwall(self, value):
-        self.is_cwall = value
-        mm.tp_set_is_cwall(self, value)
 
     def set_is_dungeon_item(self, value):
         self.is_dungeon_item = value
@@ -968,6 +974,15 @@ def get_random_cwall():
             return tp
 
 
+def get_random_hwall():
+    while True:
+        tp = all_tps[random.choice(all_hwall_tps)]
+
+        roll = random.randint(1, 1000)
+        if roll >= tp.d1000_appearing_roll:
+            return tp
+
+
 def get_random_door():
     while True:
         tp = all_tps[random.choice(all_door_tps)]
@@ -1098,6 +1113,8 @@ def same_type(tp1, tp2):
     if tp1.is_wall and tp2.is_wall:
         return True
     if tp1.is_cwall and tp2.is_cwall:
+        return True
+    if tp1.is_hwall and tp2.is_hwall:
         return True
     if tp1.is_floor and tp2.is_floor:
         return True

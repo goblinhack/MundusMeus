@@ -7689,6 +7689,9 @@ static uint8_t tpp_blocks_light_shinging_up (tpp tp)
     if (tp_is_cwall(tp)) {
         return (true);
     }
+    if (tp_is_hwall(tp)) {
+        return (true);
+    }
     if (tp_is_dusty(tp)) {
         return (true);
     }

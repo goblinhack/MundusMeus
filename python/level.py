@@ -438,6 +438,7 @@ class Level:
                    other_tp.is_door or \
                    other_tp.is_landrock or \
                    other_tp.is_landrock_snow or \
+                   other_tp.is_hwall or \
                    other_tp.is_cwall:
                     return
 
@@ -446,6 +447,7 @@ class Level:
                tp.is_landrock or \
                tp.is_landrock_snow or \
                tp.is_cwall or \
+               tp.is_hwall or \
                tp.is_bridge or \
                tp.is_water:
                 if other_tp.is_wall or \
@@ -453,6 +455,7 @@ class Level:
                    other_tp.is_landrock or \
                    other_tp.is_landrock_snow or \
                    other_tp.is_cwall or \
+                   other_tp.is_hwall or \
                    other_tp.is_bridge or \
                    other_tp.is_water:
                     return
@@ -460,6 +463,7 @@ class Level:
             if tp.is_door:
                 if other_tp.is_wall or \
                    other_tp.is_cwall or \
+                   other_tp.is_hwall or \
                    other_tp.is_water:
                     return
 
@@ -539,6 +543,7 @@ class Level:
                        t.tp.is_door or \
                        t.tp.is_landrock or \
                        t.tp.is_landrock_snow or \
+                       t.tp.is_hwall or \
                        t.tp.is_cwall:
                         skip = True
                         break
