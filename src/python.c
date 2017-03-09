@@ -1835,7 +1835,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr52)
     TP_SET_DECL(is_rrr53)
     TP_SET_DECL(is_rrr54)
-    TP_SET_DECL(is_rrr55)
+    TP_SET_DECL(is_house_item)
     TP_SET_DECL(is_cwall)
     TP_SET_DECL(is_animated_lr_flip)
     TP_SET_DECL(is_gravel_snow_deco)

@@ -200,7 +200,7 @@ class Tp:
         self.is_rrr52 = False
         self.is_rrr53 = False
         self.is_rrr54 = False
-        self.is_rrr55 = False
+        self.is_house_item = False
         self.is_cwall = False
         self.is_animated_lr_flip = False
         self.is_gravel_snow_deco = False
@@ -610,9 +610,9 @@ class Tp:
         self.is_rrr54 = value
         mm.tp_set_is_rrr54(self, value)
 
-    def set_is_rrr55(self, value):
-        self.is_rrr55 = value
-        mm.tp_set_is_rrr55(self, value)
+    def set_is_house_item(self, value):
+        self.is_house_item = value
+        mm.tp_set_is_house_item(self, value)
 
     def set_is_cwall(self, value):
         self.is_cwall = value

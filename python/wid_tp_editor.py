@@ -33,6 +33,7 @@ class Item(Enum):
     armor = 5
     healing = 6
     food = 7
+    house = 8
 
 
 def wid_tp_editor_on_m_down_filter_dungeon_items(w, x, y, button):
@@ -67,6 +68,11 @@ def wid_tp_editor_on_m_down_filter_healing_items(w, x, y, button):
 
 def wid_tp_editor_on_m_down_filter_edible_items(w, x, y, button):
     wid_tp_editor_filter(w, Item.food.value)
+    return True
+
+
+def wid_tp_editor_on_m_down_filter_house_items(w, x, y, button):
+    wid_tp_editor_filter(w, Item.house.value)
     return True
 
 
@@ -200,6 +206,11 @@ class WidTpEditor(wid_popup.WidPopup):
                     "tiles": "button_green",
                     "tooltip": "Edible items filter",
                 },
+                {
+                    "on_m_down": wid_tp_editor_on_m_down_filter_house_items,
+                    "tiles": "button_green",
+                    "tooltip": "House items filter",
+                },
             )
 
         button_events[self.filter-1]["tiles"] = "button_red"
@@ -216,7 +227,8 @@ class WidTpEditor(wid_popup.WidPopup):
                      "'%%tile=spellbook1.1$' " +
                      "'%%tile=shield1.1$' " +
                      "'%%tile=potion1.1$' " +
-                     "'%%tile=brocolli$'"
+                     "'%%tile=brocolli$' " +
+                     "'%%tile=house$'"
                 )
 
         self.tp_sorted_name_list = []
@@ -260,6 +272,10 @@ class WidTpEditor(wid_popup.WidPopup):
 
             if self.filter == Item.food.value:
                 if tpp.is_food is True:
+                    add = True
+
+            if self.filter == Item.house.value:
+                if tpp.is_house_item is True:
                     add = True
 
             if add is True:

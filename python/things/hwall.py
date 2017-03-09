@@ -12,7 +12,7 @@ def hwall_init(name):
     x.set_is_movement_blocking(True)
     x.set_is_hwall(True)
     x.set_z_depth(mm.Z_DEPTH_WALL)
-    x.set_is_world_item(True)
+    x.set_is_house_item(True)
 
 #    x.set_is_shadow_caster_soft(True)
     x.set_is_shadow_caster(True)
