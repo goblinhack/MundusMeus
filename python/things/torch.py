@@ -14,8 +14,8 @@ def torch1_init(name, short_name, long_name, tiles=[]):
     x.set_is_dungeon_item(True)
     x.set_is_animated(True)
 
-    x.set_light_radius(2)
-    x.set_light_tint("gray20")
+    x.set_light_radius(4)
+    x.set_light_tint("orange")
     x.set_is_candle_light(True)
 
     if tiles is not None:
