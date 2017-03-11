@@ -1484,7 +1484,7 @@ void wid_set_name (widp w, const char *name)
         w->name = 0;
     }
 
-    if (!name) {
+    if (!name || !*name) {
         return;
     }
 

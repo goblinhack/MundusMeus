@@ -58,6 +58,8 @@ void quit (void)
      */
     config_save();
 
+    python_fini();
+
     LOG("sdl_exit()");
     sdl_exit();
 
@@ -141,8 +143,6 @@ void quit (void)
 #endif
 
     term_fini();
-
-    python_fini();
 }
 
 void restart (void)
@@ -474,7 +474,7 @@ int32_t main (int32_t argc, char *argv[])
 
     char *err = dynprintf("%s%s%s%s%s", appdata, DSEP, "mundusmeus", DSEP, "stderr.txt");
     LOG_STDERR = fopen(err, "w+");
-    myfree(out);
+    myfree(err);
 
     ramdisk_init();
 
