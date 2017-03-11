@@ -2768,16 +2768,16 @@ static void python_add_consts (void)
     PyModule_AddIntConstant(mm_mod, "SDLK_KP8", SDLK_KP8);
     PyModule_AddIntConstant(mm_mod, "SDLK_KP9", SDLK_KP9);
 #else
-    PyModule_AddIntConstant(mm_mod, "SDLK_KP_0", SDLK_KP_0);
-    PyModule_AddIntConstant(mm_mod, "SDLK_KP_1", SDLK_KP_1);
-    PyModule_AddIntConstant(mm_mod, "SDLK_KP_2", SDLK_KP_2);
-    PyModule_AddIntConstant(mm_mod, "SDLK_KP_3", SDLK_KP_3);
-    PyModule_AddIntConstant(mm_mod, "SDLK_KP_4", SDLK_KP_4);
-    PyModule_AddIntConstant(mm_mod, "SDLK_KP_5", SDLK_KP_5);
-    PyModule_AddIntConstant(mm_mod, "SDLK_KP_6", SDLK_KP_6);
-    PyModule_AddIntConstant(mm_mod, "SDLK_KP_7", SDLK_KP_7);
-    PyModule_AddIntConstant(mm_mod, "SDLK_KP_8", SDLK_KP_8);
-    PyModule_AddIntConstant(mm_mod, "SDLK_KP_9", SDLK_KP_9);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP0", SDLK_KP_0);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP1", SDLK_KP_1);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP2", SDLK_KP_2);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP3", SDLK_KP_3);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP4", SDLK_KP_4);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP5", SDLK_KP_5);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP6", SDLK_KP_6);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP7", SDLK_KP_7);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP8", SDLK_KP_8);
+    PyModule_AddIntConstant(mm_mod, "SDLK_KP9", SDLK_KP_9);
 #endif
 
     PyModule_AddIntConstant(mm_mod, "SDLK_KP_PERIOD", SDLK_KP_PERIOD);
@@ -2816,8 +2816,13 @@ static void python_add_consts (void)
     PyModule_AddIntConstant(mm_mod, "SDLK_LSHIFT", SDLK_LSHIFT);
     PyModule_AddIntConstant(mm_mod, "SDLK_RCTRL", SDLK_RCTRL);
     PyModule_AddIntConstant(mm_mod, "SDLK_LCTRL", SDLK_LCTRL);
+#if SDL_MAJOR_VERSION > 1
     PyModule_AddIntConstant(mm_mod, "SDLK_RGUI", SDLK_RGUI);
     PyModule_AddIntConstant(mm_mod, "SDLK_LGUI", SDLK_LGUI);
+#else
+    PyModule_AddIntConstant(mm_mod, "SDLK_RGUI", -1);
+    PyModule_AddIntConstant(mm_mod, "SDLK_LGUI", -1);
+#endif
     PyModule_AddIntConstant(mm_mod, "SDLK_RALT", SDLK_RALT);
     PyModule_AddIntConstant(mm_mod, "SDLK_LALT", SDLK_LALT);
     PyModule_AddIntConstant(mm_mod, "SDLK_MODE", SDLK_MODE);
