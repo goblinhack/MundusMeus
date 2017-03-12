@@ -231,6 +231,11 @@ tpp map_is_grass_snow_deco_at (levelp level, int32_t x, int32_t y)
     return (map_is_x_at_z_depth(level, x, y, tp_is_grass_snow_deco, Z_DEPTH_GRASS));
 }
 
+tpp map_is_carpet_deco_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at_z_depth(level, x, y, tp_is_carpet_deco, Z_DEPTH_FLOOR2));
+}
+
 tpp map_is_gravel_deco_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at_z_depth(level, x, y, tp_is_gravel_deco, Z_DEPTH_GRAVEL));
@@ -274,6 +279,11 @@ tpp map_is_grass_at (levelp level, int32_t x, int32_t y)
 tpp map_is_grass_snow_at (levelp level, int32_t x, int32_t y)
 {
     return (map_is_x_at_z_depth(level, x, y, tp_is_grass_snow, Z_DEPTH_GRASS));
+}
+
+tpp map_is_carpet_at (levelp level, int32_t x, int32_t y)
+{
+    return (map_is_x_at_z_depth(level, x, y, tp_is_carpet, Z_DEPTH_FLOOR2));
 }
 
 tpp map_is_gravel_at (levelp level, int32_t x, int32_t y)
@@ -383,7 +393,7 @@ static void map_fixup_deco_remove (void)
 static char tmp[MED_STRING_LEN_MAX];
 static int count;
 
-#define MAP_FIXUP_DECO(DECO)                                                            \
+#define MAP_FIXUP_DECO(NAME, DECO)                                                      \
 static void map_fixup_deco_ ## DECO (levelp level)                                      \
 {                                                                                       \
     int x, y;                                                                           \
@@ -393,8 +403,13 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                                                                                         \
     for (x = 0; x < MAP_WIDTH; x++) {                                                   \
         for (y = 0; y < MAP_HEIGHT; y++) {                                              \
-            is_at[x][y] = (map_is_ ## DECO ## _at(level, x, y)) ? 1 : 0;                \
-            found++;                                                                    \
+            tpp tp = (map_is_ ## NAME ## _at(level, x, y));                             \
+            if (tp && !strcmp(tp_name(tp), #DECO)) {                                    \
+                found++;                                                                \
+                is_at[x][y] = 1;                                                        \
+            } else {                                                                    \
+                is_at[x][y] = 0;                                                        \
+            }                                                                           \
         }                                                                               \
     }                                                                                   \
                                                                                         \
@@ -411,7 +426,7 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
                 continue;                                                               \
             }                                                                           \
                                                                                         \
-            if (map_is_ ## DECO ## _deco_at(level, x, y)) {                             \
+            if (map_is_ ## NAME ## _deco_at(level, x, y)) {                             \
                 continue;                                                               \
             }                                                                           \
                                                                                         \
@@ -483,15 +498,18 @@ static void map_fixup_deco_ ## DECO (levelp level)                              
     }                                               					\
 } 					                                                \
 
-MAP_FIXUP_DECO(grass)
-MAP_FIXUP_DECO(snow)
-MAP_FIXUP_DECO(sand)
-MAP_FIXUP_DECO(dirt)
-MAP_FIXUP_DECO(gravel)
-MAP_FIXUP_DECO(gravel_snow)
-MAP_FIXUP_DECO(grass_snow)
-MAP_FIXUP_DECO(dirt_snow)
-MAP_FIXUP_DECO(sand_snow)
+MAP_FIXUP_DECO(grass, grass)
+MAP_FIXUP_DECO(snow, snow)
+MAP_FIXUP_DECO(sand, sand)
+MAP_FIXUP_DECO(dirt, dirt)
+MAP_FIXUP_DECO(gravel, gravel)
+MAP_FIXUP_DECO(gravel_snow, gravel_snow)
+MAP_FIXUP_DECO(grass_snow, grass_snow)
+MAP_FIXUP_DECO(carpet, carpet1)
+MAP_FIXUP_DECO(carpet, carpet2)
+MAP_FIXUP_DECO(carpet, carpet3)
+MAP_FIXUP_DECO(dirt_snow, dirt_snow)
+MAP_FIXUP_DECO(sand_snow, sand_snow)
 
 #define MAP_FIXUP_WALL(WALL)                                                            \
 static void map_fixup_ ## WALL (levelp level)                                           \
@@ -669,6 +687,9 @@ void map_fixup (levelp level)
     map_fixup_deco_gravel(level);
     map_fixup_deco_gravel_snow(level);
     map_fixup_deco_grass_snow(level);
+    map_fixup_deco_carpet1(level);
+    map_fixup_deco_carpet2(level);
+    map_fixup_deco_carpet3(level);
     map_fixup_deco_sand_snow(level);
     map_fixup_deco_dirt_snow(level);
     map_fixup_wall(level);

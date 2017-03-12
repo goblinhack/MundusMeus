@@ -198,8 +198,8 @@ class Tp:
         self.is_rrr50 = False
         self.is_rrr51 = False
         self.is_rrr52 = False
-        self.is_rrr53 = False
-        self.is_rrr54 = False
+        self.is_carpet_deco = False
+        self.is_carpet = False
         self.is_house_item = False
         self.is_cwall = False
         self.is_animated_lr_flip = False
@@ -602,13 +602,13 @@ class Tp:
         self.is_rrr52 = value
         mm.tp_set_is_rrr52(self, value)
 
-    def set_is_rrr53(self, value):
-        self.is_rrr53 = value
-        mm.tp_set_is_rrr53(self, value)
+    def set_is_carpet_deco(self, value):
+        self.is_carpet_deco = value
+        mm.tp_set_is_carpet_deco(self, value)
 
-    def set_is_rrr54(self, value):
-        self.is_rrr54 = value
-        mm.tp_set_is_rrr54(self, value)
+    def set_is_carpet(self, value):
+        self.is_carpet = value
+        mm.tp_set_is_carpet(self, value)
 
     def set_is_house_item(self, value):
         self.is_house_item = value

@@ -142,13 +142,13 @@ wid_game_map_replace_tile (double x, double y, thingp t)
     if (tp_is_plant(tp)) {
         dx = gauss(0.0, 0.3);
         dy = gauss(0.0, 0.3);
-        scale = gauss(1.2, 0.10);
+        scale = gauss(1.0, 0.05);
     }
 
     if (tp_is_marsh_plant(tp)) {
         dx = gauss(0.0, 0.5);
         dy = gauss(0.0, 0.5);
-        scale = gauss(1.0, 0.5);
+        scale = gauss(1.0, 0.05);
     }
 
     if (tp_is_ice(tp)) {
