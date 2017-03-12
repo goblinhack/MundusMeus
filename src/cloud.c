@@ -11,7 +11,7 @@
 #include "wid.h"
 #include "math_util.h"
 
-#define nclouds 20
+#define nclouds 10
 
 typedef struct {
     int active;
