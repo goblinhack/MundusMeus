@@ -526,20 +526,20 @@ class Game:
         level_dx = 0
         level_dy = 0
         level_change = False
-
-        if x <= mm.CHUNK_WIDTH - 1:
+        border = 8
+        if x <= border:
             level_dx = -1
             level_change = True
 
-        elif x >= mm.CHUNK_WIDTH * (mm.CHUNK_ACROSS - 1):
+        elif x >= mm.CHUNK_WIDTH * (mm.CHUNK_ACROSS - 1) - border:
             level_dx = 1
             level_change = True
 
-        if y <= mm.CHUNK_HEIGHT - 1:
+        if y <= border:
             level_dy = -1
             level_change = True
 
-        elif y >= mm.CHUNK_HEIGHT * (mm.CHUNK_DOWN - 1):
+        elif y >= mm.CHUNK_HEIGHT * (mm.CHUNK_DOWN - 1) - border:
             level_dy = 1
             level_change = True
 

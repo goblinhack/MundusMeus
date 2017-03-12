@@ -70,7 +70,8 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(Z_DEPTH_LAVA,              "lava"),            \
     list_macro(Z_DEPTH_ROCK,              "rock"),            \
     list_macro(Z_DEPTH_SAND,              "sand"),            \
-    list_macro(Z_DEPTH_DIRT,             "dirt"),            \
+    list_macro(Z_DEPTH_DIRT,              "dirt"),            \
+    list_macro(Z_DEPTH_LAWN,              "lawn"),            \
     list_macro(Z_DEPTH_GRAVEL,            "gravel"),          \
     list_macro(Z_DEPTH_GRASS,             "grass"),           \
     list_macro(Z_DEPTH_SNOW,              "snow"),            \
@@ -88,7 +89,7 @@ thingp map_is_tp_at(levelp level, int32_t x, int32_t y, tpp tp);
     list_macro(Z_DEPTH_EXPLOSION,         "explosion"),       \
     list_macro(Z_DEPTH_ACTIONS,           "actions"),         \
 
-#define Z_DEPTH 20
+#define Z_DEPTH 21
 
 ENUM_DEF_H(Z_DEPTH_ENUMS, z_depth)
 

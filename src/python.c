@@ -1832,7 +1832,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr49)
     TP_SET_DECL(is_rrr50)
     TP_SET_DECL(is_rrr51)
-    TP_SET_DECL(is_rrr52)
+    TP_SET_DECL(is_lawn)
     TP_SET_DECL(is_carpet_deco)
     TP_SET_DECL(is_carpet)
     TP_SET_DECL(is_house_item)
@@ -2837,6 +2837,7 @@ static void python_add_consts (void)
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_LAVA", Z_DEPTH_LAVA);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_ROCK", Z_DEPTH_ROCK);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_ROAD", Z_DEPTH_ROAD);
+    PyModule_AddIntConstant(mm_mod, "Z_DEPTH_LAWN", Z_DEPTH_LAWN);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_SAND", Z_DEPTH_SAND);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_DIRT", Z_DEPTH_DIRT);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_GRAVEL", Z_DEPTH_GRAVEL);

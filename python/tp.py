@@ -197,7 +197,7 @@ class Tp:
         self.is_rrr49 = False
         self.is_rrr50 = False
         self.is_rrr51 = False
-        self.is_rrr52 = False
+        self.is_lawn = False
         self.is_carpet_deco = False
         self.is_carpet = False
         self.is_house_item = False
@@ -598,9 +598,9 @@ class Tp:
         self.is_rrr51 = value
         mm.tp_set_is_rrr51(self, value)
 
-    def set_is_rrr52(self, value):
-        self.is_rrr52 = value
-        mm.tp_set_is_rrr52(self, value)
+    def set_is_lawn(self, value):
+        self.is_lawn = value
+        mm.tp_set_is_lawn(self, value)
 
     def set_is_carpet_deco(self, value):
         self.is_carpet_deco = value
