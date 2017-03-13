@@ -431,11 +431,12 @@ class Level:
         for f in chunk.things_on_chunk[ox][oy]:
             other_tp = f.tp
 
-            if tp.is_floor or \
-               tp.is_corridor or \
-               tp.is_dusty:
+            if not tp.is_wall and \
+               not tp.is_landrock and \
+               not tp.is_landrock_snow and \
+               not tp.is_cwall and \
+               not tp.is_hwall:
                 if other_tp.is_wall or \
-                   other_tp.is_door or \
                    other_tp.is_landrock or \
                    other_tp.is_landrock_snow or \
                    other_tp.is_hwall or \
@@ -469,6 +470,7 @@ class Level:
 
             if tp.is_dirt or \
                tp.is_grass or \
+               tp.is_lawn or \
                tp.is_snow or \
                tp.is_ice or \
                tp.is_gravel or \
@@ -478,6 +480,7 @@ class Level:
                tp.is_water:
                 if other_tp.is_dirt or \
                    other_tp.is_grass or \
+                   other_tp.is_lawn or \
                    other_tp.is_snow or \
                    other_tp.is_ice or \
                    other_tp.is_gravel or \
@@ -554,6 +557,8 @@ class Level:
                 for t in chunk.things_on_chunk[ox][oy]:
                     if t.tp.is_floor or \
                        t.tp.is_grass or \
+                       t.tp.is_carpet or \
+                       t.tp.is_lawn or \
                        t.tp.is_dirt or \
                        t.tp.is_snow or \
                        t.tp.is_ice or \
@@ -607,6 +612,10 @@ class Level:
                           (1, 0, 1.0),
                           (0, 1, 1.0),
                           ]
+
+            if x >= mm.MAP_WIDTH or y >= mm.MAP_HEIGHT or \
+               x < 0 or y < 0:
+                return out_path
 
             lowest = cells[x][y]
             got = False

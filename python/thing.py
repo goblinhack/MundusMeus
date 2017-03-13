@@ -58,7 +58,7 @@ class Thing:
         #
         self.nexthops = []
 
-#        self.debug("Created thing")
+        # self.debug("Created thing")
 
         #
         # Save on the level all things list. We can't save onto the chunk
@@ -146,14 +146,14 @@ class Thing:
         if self.on_chunk:
             self.pop()
 
-#        self.debug("Destroying thing, {0}".format(reason) + " {")
+        # self.debug("Destroying thing, {0}".format(reason) + " {")
 
         if self.thing_id in self.level.all_things:
             del self.level.all_things[self.thing_id]
 
         mm.thing_destroyed(self, reason)
 
-#        self.debug("} " + "Destroyed thing, {0}".format(reason))
+        # self.debug("} " + "Destroyed thing, {0}".format(reason))
         del self
 
     def upgrade(self):
@@ -269,10 +269,8 @@ class Thing:
             self.die("Out of bounds at {0},{1}".format(self.x, self.y))
             return
 
-        if self.on_chunk:
-            self.die("Already on the map at {0},{1}".format(self.x, self.y))
-            return
         self.on_chunk = True
+        # self.debug("pushed")
 
         self.x = x
         self.y = y
@@ -307,6 +305,7 @@ class Thing:
             self.err("Is not on the map")
             return
         self.on_chunk = False
+        # self.debug("pop")
 
         self.chunk.thing_pop(self.offset_x, self.offset_y, self)
         mm.thing_pop(self)

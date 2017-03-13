@@ -1124,4 +1124,8 @@ def same_type(tp1, tp2):
         return True
     if tp1.is_water and tp2.is_water:
         return True
+    if tp1.is_carpet and tp2.is_carpet:
+        return True
+    if tp1.is_lawn and tp2.is_lawn:
+        return True
     return False

@@ -165,7 +165,7 @@ class Chunk:
             self.all_things[i].dump()
 
     def save(self):
-        self.log("Save")
+        # self.log("Save")
 
         if self.biome_save:
             self.biome_save(self)
@@ -358,6 +358,8 @@ class Chunk:
         for t in self.things_on_chunk[x][y]:
             if t.tp.is_floor or \
                t.tp.is_grass or \
+               t.tp.is_lawn or \
+               t.tp.is_carpet or \
                t.tp.is_dirt or \
                t.tp.is_snow or \
                t.tp.is_ice or \
@@ -382,8 +384,17 @@ class Chunk:
 
     def thing_push(self, x, y, t):
 
+        #
+        # When loading the game again, things think they are on
+        # the chunk already and so we do a dup append. Just ignore
+        # this.
+        #
         l = self.things_on_chunk[x][y]
+        if t in l:
+            return
+
         l.append(t)
+
         # l.sort(key=lambda t: t.tp.z_depth, reverse=True)
 
         #

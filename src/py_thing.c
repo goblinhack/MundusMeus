@@ -75,7 +75,7 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
-        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        ERR("%s, cannot find thing %s", __FUNCTION__, thing_name);	        \
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
@@ -124,7 +124,7 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
-        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        ERR("%s, cannot find thing %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
@@ -172,7 +172,7 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
-        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        ERR("%s, cannot find thing %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
@@ -223,7 +223,7 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
-        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        ERR("%s, cannot find thing %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
@@ -266,7 +266,7 @@ PyObject *thing_set_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keyw
 	                                                                        \
     thingp tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
-        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        ERR("%s, cannot find thing %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
@@ -315,7 +315,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 	                                                                        \
     tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
-        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        ERR("%s, cannot find thing %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
@@ -359,7 +359,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 	                                                                        \
     tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
-        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        ERR("%s, cannot find thing %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
@@ -404,7 +404,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 	                                                                        \
     tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
-        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        ERR("%s, cannot find thing %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
@@ -450,7 +450,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 	                                                                        \
     tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
-        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        ERR("%s, cannot find thing %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
@@ -492,7 +492,7 @@ PyObject *thing_ ## __field__ (PyObject *obj, PyObject *args, PyObject *keywds) 
 	                                                                        \
     tp = thing_find(thing_name);	                                        \
     if (!tp) {	                                                                \
-        ERR("%s, cannot find tp %s", __FUNCTION__, thing_name);	                \
+        ERR("%s, cannot find thing %s", __FUNCTION__, thing_name);	                \
         goto done;	                                                        \
     }	                                                                        \
 	                                                                        \
