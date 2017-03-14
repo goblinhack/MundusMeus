@@ -9933,7 +9933,8 @@ void wid_gc_all_force (void)
  */
 void wid_tick_all (void)
 {
-    wid_time = time_get_time_ms_cached();
+//    wid_time = time_get_time_ms_cached();
+    wid_time += 100/game.sdl_delay;
 
     widp w;
 
