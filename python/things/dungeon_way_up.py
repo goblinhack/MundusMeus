@@ -9,8 +9,6 @@ def thing_init(t):
 def dungeon_way_up_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
 
-    x.set_is_shadow_caster_soft(True)
-    x.set_is_shadow_caster(True)
     x.set_long_name(long_name)
     x.set_short_name(short_name)
     x.set_is_dungeon_way_up(True)
