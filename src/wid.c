@@ -7899,8 +7899,8 @@ static void wid_display_fast (widp w,
                 fpoint light_pos;
 
                 /*
-                * Widget tiles and textures.
-                */
+                 * Widget tiles and textures.
+                 */
                 tilep tile = wid_get_tile(w);
                 if (tile) {
                     light_pos.x = otlx + (((tile->px1 + tile->px2) / 2.0) * wid_get_width(w));
@@ -8534,7 +8534,7 @@ static void wid_lighting_calculate (widp w,
         rad += dr;
     }
 
-    for (z = Z_DEPTH_WALL; z < Z_DEPTH_EXPLOSION; z++) {
+    z = Z_DEPTH_WALL; {
         for (x = maxx - 1; x >= minx; x--) {
             for (y = miny; y < maxy; y++) {
 
@@ -9934,6 +9934,10 @@ void wid_gc_all_force (void)
 void wid_tick_all (void)
 {
 //    wid_time = time_get_time_ms_cached();
+    if (!game.sdl_delay) {
+        game.sdl_delay = 5;
+    }
+
     wid_time += 100/game.sdl_delay;
 
     widp w;

@@ -191,10 +191,10 @@ typedef struct tp_ {
     uint8_t is_rrr45:1;
     uint8_t is_rrr46:1;
     uint8_t is_rrr47:1;
-    uint8_t is_rrr48:1;
-    uint8_t is_rrr49:1;
-    uint8_t is_rrr50:1;
-    uint8_t is_rrr51:1;
+    uint8_t is_chair:1;
+    uint8_t is_chest:1;
+    uint8_t is_bookcase:1;
+    uint8_t is_table:1;
     uint8_t is_lawn:1;
     uint8_t is_carpet_deco:1;
     uint8_t is_carpet:1;
@@ -656,24 +656,24 @@ static inline uint8_t tp_is_rrr47 (tpp t)
     return (t->is_rrr47);
 }
 
-static inline uint8_t tp_is_rrr48 (tpp t)
+static inline uint8_t tp_is_chair (tpp t)
 {
-    return (t->is_rrr48);
+    return (t->is_chair);
 }
 
-static inline uint8_t tp_is_rrr49 (tpp t)
+static inline uint8_t tp_is_chest (tpp t)
 {
-    return (t->is_rrr49);
+    return (t->is_chest);
 }
 
-static inline uint8_t tp_is_rrr50 (tpp t)
+static inline uint8_t tp_is_bookcase (tpp t)
 {
-    return (t->is_rrr50);
+    return (t->is_bookcase);
 }
 
-static inline uint8_t tp_is_rrr51 (tpp t)
+static inline uint8_t tp_is_table (tpp t)
 {
-    return (t->is_rrr51);
+    return (t->is_table);
 }
 
 static inline uint8_t tp_is_lawn (tpp t)

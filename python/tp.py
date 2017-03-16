@@ -193,10 +193,10 @@ class Tp:
         self.is_rrr45 = False
         self.is_rrr46 = False
         self.is_rrr47 = False
-        self.is_rrr48 = False
-        self.is_rrr49 = False
-        self.is_rrr50 = False
-        self.is_rrr51 = False
+        self.is_chair = False
+        self.is_chest = False
+        self.is_bookcase = False
+        self.is_table = False
         self.is_lawn = False
         self.is_carpet_deco = False
         self.is_carpet = False
@@ -582,21 +582,21 @@ class Tp:
         self.is_rrr47 = value
         mm.tp_set_is_rrr47(self, value)
 
-    def set_is_rrr48(self, value):
-        self.is_rrr48 = value
-        mm.tp_set_is_rrr48(self, value)
+    def set_is_chair(self, value):
+        self.is_chair = value
+        mm.tp_set_is_chair(self, value)
 
-    def set_is_rrr49(self, value):
-        self.is_rrr49 = value
-        mm.tp_set_is_rrr49(self, value)
+    def set_is_chest(self, value):
+        self.is_chest = value
+        mm.tp_set_is_chest(self, value)
 
-    def set_is_rrr50(self, value):
-        self.is_rrr50 = value
-        mm.tp_set_is_rrr50(self, value)
+    def set_is_bookcase(self, value):
+        self.is_bookcase = value
+        mm.tp_set_is_bookcase(self, value)
 
-    def set_is_rrr51(self, value):
-        self.is_rrr51 = value
-        mm.tp_set_is_rrr51(self, value)
+    def set_is_table(self, value):
+        self.is_table = value
+        mm.tp_set_is_table(self, value)
 
     def set_is_lawn(self, value):
         self.is_lawn = value
