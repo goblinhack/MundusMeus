@@ -14,6 +14,7 @@ def door1_init(name, short_name, long_name, tiles=[]):
     x.set_is_dungeon_item(True)
     x.set_is_movement_blocking(True)
     x.set_is_shadow_caster(True)
+    x.set_has_shadow(True)
 
     if tiles is not None:
         for t in tiles:

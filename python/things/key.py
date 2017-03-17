@@ -13,6 +13,7 @@ def key1_init(name, short_name, long_name, tiles=[]):
     x.set_z_depth(mm.Z_DEPTH_WALL)
     x.set_is_dungeon_item(True)
     x.set_is_key(True)
+    x.set_has_shadow(True)
 
     x.set_light_radius(1)
     x.set_light_tint("gray20")

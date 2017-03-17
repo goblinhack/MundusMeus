@@ -8181,6 +8181,29 @@ static void wid_display_fast (widp w,
 	}
     }
 
+    if (tp_has_shadow(tp)) {
+        fpoint ntl = tl;
+        fpoint nbr = br;
+
+        double yshadow = fabs((br.x - tl.x) / 8.0);
+        double xshadow = ((br.x - tl.x) / 10.0);
+
+        color c = BLACK;
+        c.a = 150;
+        glcolor(c);
+
+        tl.x += xshadow;
+        br.x += xshadow;
+        tl.y -= yshadow;
+        br.y -= yshadow / 2.0;
+
+        tile_blit_fat(tp, tile, 0, &tl, &br);
+
+        tl = ntl;
+        br = nbr;
+    }
+
+    glcolor(col_tile);
     tile_blit_fat(tp, tile, 0, &tl, &br);
 }
 

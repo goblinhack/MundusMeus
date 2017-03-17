@@ -1827,7 +1827,7 @@ static PyMethodDef python_c_METHODS[] =
     TP_SET_DECL(is_rrr44)
     TP_SET_DECL(is_rrr45)
     TP_SET_DECL(is_rrr46)
-    TP_SET_DECL(is_rrr47)
+    TP_SET_DECL(has_shadow)
     TP_SET_DECL(is_chair)
     TP_SET_DECL(is_chest)
     TP_SET_DECL(is_bookcase)

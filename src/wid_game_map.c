@@ -157,10 +157,16 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         scale = gauss(1.0, 0.3);
 
         if ((myrand() % 100) < 5) {
-            wid_bounce_to_pct_in(child, 0.1, 0.9,
+            wid_bounce_to_pct_in(child, 0.1, 1.0,
                                  myrand() % 20000 + 5000,
                                  99999);
         }
+    }
+
+    if (tp_is_key(tp)) {
+        wid_bounce_to_pct_in(child, 0.1, 1.0,
+                             myrand() % 1500 + 50,
+                             99999);
     }
 
     if (scale <= 0) {

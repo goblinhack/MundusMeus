@@ -190,7 +190,7 @@ typedef struct tp_ {
     uint8_t is_rrr44:1;
     uint8_t is_rrr45:1;
     uint8_t is_rrr46:1;
-    uint8_t is_rrr47:1;
+    uint8_t has_shadow:1;
     uint8_t is_chair:1;
     uint8_t is_chest:1;
     uint8_t is_bookcase:1;
@@ -651,9 +651,9 @@ static inline uint8_t tp_is_rrr46 (tpp t)
     return (t->is_rrr46);
 }
 
-static inline uint8_t tp_is_rrr47 (tpp t)
+static inline uint8_t tp_has_shadow (tpp t)
 {
-    return (t->is_rrr47);
+    return (t->has_shadow);
 }
 
 static inline uint8_t tp_is_chair (tpp t)

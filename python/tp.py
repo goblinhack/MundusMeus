@@ -192,7 +192,7 @@ class Tp:
         self.is_rrr44 = False
         self.is_rrr45 = False
         self.is_rrr46 = False
-        self.is_rrr47 = False
+        self.has_shadow = False
         self.is_chair = False
         self.is_chest = False
         self.is_bookcase = False
@@ -578,9 +578,9 @@ class Tp:
         self.is_rrr46 = value
         mm.tp_set_is_rrr46(self, value)
 
-    def set_is_rrr47(self, value):
-        self.is_rrr47 = value
-        mm.tp_set_is_rrr47(self, value)
+    def set_has_shadow(self, value):
+        self.has_shadow = value
+        mm.tp_set_has_shadow(self, value)
 
     def set_is_chair(self, value):
         self.is_chair = value

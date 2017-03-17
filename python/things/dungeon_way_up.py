@@ -14,6 +14,7 @@ def dungeon_way_up_init(name, short_name, long_name, tiles=[]):
     x.set_is_dungeon_way_up(True)
     x.set_z_depth(mm.Z_DEPTH_FLOOR2)
     x.set_is_dungeon_item(True)
+    x.set_has_shadow(True)
 
     if tiles is not None:
         for t in tiles:

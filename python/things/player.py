@@ -17,6 +17,7 @@ def player_init(name, tiles=[]):
     x.set_light_tint("white")
     x.set_is_candle_light(True)
     x.set_is_animated(True)
+    x.set_has_shadow(True)
     x.set_is_animated_lr_flip(True)
 
     for t in tiles:

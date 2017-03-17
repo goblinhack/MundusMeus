@@ -32,6 +32,7 @@ def treasure1_init(d1000_roll,
 
     x.set_is_treasure(True)
     x.set_is_minable(is_minable)
+    x.set_has_shadow(True)
 
 #    x.set_light_radius(1)
 #    x.set_light_tint("gray20")

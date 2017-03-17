@@ -288,8 +288,6 @@ def biome_populate(self):
                 which += 1
 
                 t.set_tilename("key1." + str(which))
-                t.wid.bounce_to_pct_in(height=0.1, fade=1.0, ms=500,
-                                       count=1000)
 
             if random.randint(0, 100) < 20:
                 if m.is_wall_at(x, y) and \

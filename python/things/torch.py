@@ -17,6 +17,7 @@ def torch1_init(name, short_name, long_name, tiles=[]):
     x.set_light_radius(4)
     x.set_light_tint("orange")
     x.set_is_candle_light(True)
+    x.set_has_shadow(True)
 
     if tiles is not None:
         for t in tiles:
