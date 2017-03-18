@@ -8189,7 +8189,7 @@ static void wid_display_fast (widp w,
         double xshadow = ((br.x - tl.x) / 10.0);
 
         color c = BLACK;
-        c.a = 150;
+        c.a = 100;
         glcolor(c);
 
         tl.x += xshadow;
