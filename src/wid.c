@@ -9646,8 +9646,8 @@ static void wid_display (widp w,
 
         memset(floor_offset, 0, sizeof(floor_offset));
 
-        for (y = miny; y < maxy; y++) {
-            for (z = 0; z < Z_DEPTH; z++) {
+        for (z = 0; z < Z_DEPTH; z++) {
+            for (y = miny; y < maxy; y++) {
                 for (x = maxx - 1; x >= minx; x--) {
 
                     tree_root **tree =
