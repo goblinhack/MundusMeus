@@ -6,6 +6,11 @@ def thing_init(t):
     return
 
 
+def thing_pushed(t):
+    t.wid.bounce_to_pct_in(height=0.1,
+                           fade=1.0, ms=600, count=1000)
+
+
 def key1_init(name, short_name, long_name, tiles=[]):
     x = tp.Tp(name)
     x.set_long_name(long_name)
@@ -26,6 +31,7 @@ def key1_init(name, short_name, long_name, tiles=[]):
         x.set_tile(tile=name, delay_ms=50)
 
     x.thing_init = thing_init
+    x.thing_pushed = thing_pushed
 
     return x
 

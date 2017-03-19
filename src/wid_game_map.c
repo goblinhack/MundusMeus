@@ -163,12 +163,6 @@ wid_game_map_replace_tile (double x, double y, thingp t)
         }
     }
 
-    if (tp_is_key(tp)) {
-        wid_bounce_to_pct_in(child, 0.1, 1.0,
-                             myrand() % 1500 + 50,
-                             99999);
-    }
-
     if (scale <= 0) {
         scale = 1.0;
     }

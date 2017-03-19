@@ -54,7 +54,7 @@ class Game:
         self.move_count = 0
         self.moves_per_day = 1000
         self.seed = 10
-        self.where = util.Xyz(100, 100, 0)
+        self.where = util.Xyz(100, 100, -1)
         self.load_level(self.seed)
 
     def load_level(self, seed):
