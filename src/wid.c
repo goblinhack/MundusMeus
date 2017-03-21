@@ -7790,8 +7790,10 @@ static void wid_light_add (widp w, fpoint at, double strength, color c)
  * Display one wid and its children
  */
 static void wid_display_fast (widp w,
+#if 0
                               double shake_x,
                               double shake_y,
+#endif
                               uint8_t pass,
                               uint8_t black_and_white)
 {
@@ -7903,8 +7905,10 @@ static void wid_display_fast (widp w,
                  */
                 tilep tile = wid_get_tile(w);
                 if (tile) {
-                    light_pos.x = otlx + (((tile->px1 + tile->px2) / 2.0) * wid_get_width(w));
-                    light_pos.y = otly + (((tile->py1 + tile->py2) / 2.0) * wid_get_height(w));
+                    light_pos.x = otlx + (((tile->px1 + tile->px2) / 2.0) * 
+                        wid_get_width(w));
+                    light_pos.y = otly + (((tile->py1 + tile->py2) / 2.0) * 
+                        wid_get_height(w));
                 } else {
                     light_pos.x = otlx + wid_get_width(w) / 2;
                     light_pos.y = otly + wid_get_height(w) / 2;
@@ -7963,6 +7967,7 @@ static void wid_display_fast (widp w,
         br = new_br;
     }
 
+#if 0
     {
         double dx = 0;
         double dy = 0;
@@ -7979,6 +7984,7 @@ static void wid_display_fast (widp w,
     tl.y += shake_y;
     br.x += shake_x;
     br.y += shake_y;
+#endif
 
     /*
      * If something is sitting on a floor tile that is elevated like a bridge,
@@ -8780,6 +8786,9 @@ static void wid_lighting_render (widp w,
             } else {
                 if (tp_is_lava(tp) || tp_is_water(tp)) {
                     alpha = 1.0;
+                }
+                if (tp_is_water(tp)) {
+                    alpha = 0.2;
                 }
             }
 
@@ -9637,17 +9646,19 @@ static void wid_display (widp w,
         /*
          * Level shake
          */
+#if 0
         double shake_x = 0;
         double shake_y = 0;
 
         if (unlikely(w->shaking)) {
             wid_get_shake(w, &shake_x, &shake_y);
         }
+#endif
 
         memset(floor_offset, 0, sizeof(floor_offset));
 
-        for (z = 0; z < Z_DEPTH; z++) {
-            for (y = miny; y < maxy; y++) {
+        for (y = miny; y < maxy; y++) {
+            for (z = 0; z < Z_DEPTH; z++) {
                 for (x = maxx - 1; x >= minx; x--) {
 
                     tree_root **tree =
@@ -9671,8 +9682,10 @@ static void wid_display (widp w,
                              */
                         } else {
                             wid_display_fast(w,
+#if 0
                                             shake_x,
                                             shake_y,
+#endif
                                             0, black_and_white);
                         }
                     }
@@ -11204,6 +11217,7 @@ void wid_bounce_to_pct_in (widp w,
     w->bouncing = true;
 }
 
+#if 0
 void wid_shake_to_pct_in (widp w,
                           double shake_amount,
                           double shake_fade,
@@ -11220,6 +11234,7 @@ void wid_shake_to_pct_in (widp w,
     w->shake_count = shake_count;
     w->shaking = true;
 }
+#endif
 
 void wid_rotate_immediate (widp w, double rotate_base)
 {
@@ -11343,6 +11358,7 @@ double wid_get_bounce (widp w)
     return (height);
 }
 
+#if 0
 void wid_get_shake (widp w, double *x, double *y)
 {
     if (!w->shaking) {
@@ -11352,7 +11368,6 @@ void wid_get_shake (widp w, double *x, double *y)
     }
 
     if (wid_time >= w->timestamp_shake_end) {
-
         w->shaking = false;
         w->shaking_set = false;
 
@@ -11401,6 +11416,7 @@ void wid_get_shake (widp w, double *x, double *y)
     *x = w->shake_x * (1.0 - time_step);
     *y = w->shake_y * (1.0 - time_step);
 }
+#endif
 
 uint8_t wids_overlap (widp A, widp B)
 {

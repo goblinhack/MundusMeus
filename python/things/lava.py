@@ -95,7 +95,7 @@ def init():
                          "lava1.64",
                      ])
 
-    x.set_blit_top_off(1)
+    x.set_blit_bot_off(2)
     x.set_light_radius(1.5)
     x.set_light_tint("red")
     x.set_light_pulse_amount(0.5)

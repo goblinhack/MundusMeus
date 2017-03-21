@@ -543,6 +543,7 @@ class Level:
                 skip = False
                 for t in chunk.things_on_chunk[ox][oy]:
                     if t.tp.is_wall or \
+                       t.tp.is_rock or \
                        t.tp.is_door or \
                        t.tp.is_landrock or \
                        t.tp.is_landrock_snow or \

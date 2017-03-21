@@ -2832,7 +2832,6 @@ static void python_add_consts (void)
     PyModule_AddIntConstant(mm_mod, "SDLK_POWER", SDLK_POWER);
     PyModule_AddIntConstant(mm_mod, "SDLK_UNDO", SDLK_UNDO);
 
-    PyModule_AddIntConstant(mm_mod, "Z_DEPTH_STALACTITE", Z_DEPTH_STALACTITE);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_BURIED", Z_DEPTH_BURIED);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_LAVA", Z_DEPTH_LAVA);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_ROCK", Z_DEPTH_ROCK);
@@ -2848,7 +2847,6 @@ static void python_add_consts (void)
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_FLOOR", Z_DEPTH_FLOOR);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_FLOOR2", Z_DEPTH_FLOOR2);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_WALL", Z_DEPTH_WALL);
-    PyModule_AddIntConstant(mm_mod, "Z_DEPTH_LAVA_TOP", Z_DEPTH_LAVA_TOP);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_TREASURE", Z_DEPTH_TREASURE);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_PLAYER", Z_DEPTH_PLAYER);
     PyModule_AddIntConstant(mm_mod, "Z_DEPTH_EXPLOSION", Z_DEPTH_EXPLOSION);

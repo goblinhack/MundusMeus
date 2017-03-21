@@ -99,7 +99,7 @@ def init():
                           "water1.64",
                      ])
 
-    x.set_blit_top_off(1)
+    x.set_blit_bot_off(2)
     x.set_z_depth(mm.Z_DEPTH_LAVA)
     x.set_is_dungeon_item(True)
 

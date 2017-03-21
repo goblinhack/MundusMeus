@@ -10,11 +10,11 @@ def wall_init(name):
     x = tp.Tp(name, is_wall=True)
     x.set_short_name(name)
     x.set_is_movement_blocking(True)
+    x.set_is_shadow_caster(True)
     x.set_is_wall(True)
     x.set_z_depth(mm.Z_DEPTH_WALL)
     x.set_is_dungeon_item(True)
 
-    x.set_is_shadow_caster(True)
     x.set_tile(tile=name + "_up_down", is_join_vert=True)
     x.set_tile(tile=name + "_left_right", is_join_horiz=True)
     x.set_tile(tile=name + "_t180", is_join_t180=True)

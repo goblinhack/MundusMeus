@@ -65,21 +65,35 @@ def biome_populate(self):
             ty = y
             (c, ox, oy) = l.xy_to_chunk_xy(tx, ty)
 
-            place_stalactite = False
-
             if m.is_floor_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty,
                                 tp_name=l.floor_name)
                 t.push()
 
-                if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
-                    if random.randint(0, 1000) < 2:
+                if random.randint(0, 1000) < 2:
+                    if not m.is_wall_at(x, y) and not m.is_cwall_at(x, y):
                         t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="torch1")
                         t.push()
 
-            if random.randint(0, 1000) < 5:
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="torch1")
-                t.push()
+                if random.randint(0, 1000) < 5:
+                    if not m.is_wall_at(x, y) \
+                       and not m.is_wall_at(x - 1, y) \
+                       and not m.is_wall_at(x + 1, y) \
+                       and not m.is_wall_at(x, y - 1) \
+                       and not m.is_wall_at(x, y + 1) \
+                       and not m.is_door_at(x, y) \
+                       and not m.is_door_at(x - 1, y) \
+                       and not m.is_door_at(x + 1, y) \
+                       and not m.is_door_at(x, y - 1) \
+                       and not m.is_door_at(x, y + 1) \
+                       and not m.is_cwall_at(x, y) \
+                       and not m.is_cwall_at(x - 1, y) \
+                       and not m.is_cwall_at(x + 1, y) \
+                       and not m.is_cwall_at(x, y - 1) \
+                       and not m.is_cwall_at(x, y + 1):
+                        t = thing.Thing(chunk=c, x=tx, y=ty,
+                                        tp_name="stalacmite1")
+                        t.push()
 
             if m.is_dusty_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="dusty1")
@@ -142,7 +156,6 @@ def biome_populate(self):
                 t.push()
 
             if m.is_wall_at(x, y):
-                place_stalactite = True
                 t = thing.Thing(chunk=c, x=tx, y=ty,
                                 tp_name=l.wall_name)
                 t.push()
@@ -154,45 +167,8 @@ def biome_populate(self):
 
             if m.is_lava_at(x, y):
 
-                if m.is_floor_at(x, y) or \
-                   m.is_dusty_at(x, y) or \
-                   m.is_corridor_at(x, y):
-                    #
-                    # Underground lava
-                    #
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1")
-                    t.push()
-
-                elif m.is_wall_at(x, y - 1) or \
-                        m.is_rock_at(x, y - 1) or \
-                        m.is_cwall_at(x, y - 1):
-
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1_top")
-                    t.push()
-
-                elif m.is_floor_at(x, y - 1) and not m.is_floor_at(x, y):
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1_top")
-                    t.push()
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1")
-                    t.push()
-
-                elif m.is_corridor_at(x, y - 1) and \
-                        not m.is_corridor_at(x, y):
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1_top")
-                    t.push()
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1")
-                    t.push()
-
-                elif m.is_dusty_at(x, y - 1) and \
-                        not m.is_dusty_at(x, y):
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1_top")
-                    t.push()
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1")
-                    t.push()
-
-                else:
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1")
-                    t.push()
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="lava1")
+                t.push()
 
                 t.set_depth(m.depth_map.cells[x][y])
 
@@ -212,46 +188,8 @@ def biome_populate(self):
                 water = "water1"
                 put_treasure = False
 
-                if random.randint(0, 100) < 5:
-                    put_treasure = True
-                    water = "water1_trans"
-
-                if m.is_floor_at(x, y) or \
-                   m.is_dusty_at(x, y) or \
-                   m.is_corridor_at(x, y):
-                    #
-                    # Underground water
-                    #
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=water)
-                    t.push()
-
-                elif m.is_wall_at(x, y - 1) or \
-                        m.is_rock_at(x, y - 1) or \
-                        m.is_cwall_at(x, y - 1):
-                    t = thing.Thing(chunk=c, x=tx, y=ty,
-                                    tp_name=water + "_top")
-                    t.push()
-
-                elif m.is_floor_at(x, y - 1) and not m.is_floor_at(x, y):
-                    t = thing.Thing(chunk=c, x=tx, y=ty,
-                                    tp_name=water + "_top")
-                    t.push()
-
-                elif m.is_corridor_at(x, y - 1) and \
-                        not m.is_corridor_at(x, y):
-                    t = thing.Thing(chunk=c, x=tx, y=ty,
-                                    tp_name=water + "_top")
-                    t.push()
-
-                elif m.is_dusty_at(x, y - 1) and \
-                        not m.is_dusty_at(x, y):
-                    t = thing.Thing(chunk=c, x=tx, y=ty,
-                                    tp_name=water + "_top")
-                    t.push()
-
-                else:
-                    t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=water)
-                    t.push()
+                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name=water)
+                t.push()
 
                 t.set_depth(m.depth_map.cells[x][y])
 
@@ -262,7 +200,6 @@ def biome_populate(self):
                     t.push()
 
             if m.is_rock_at(x, y):
-                place_stalactite = True
                 t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="rock")
                 t.push()
 
@@ -352,10 +289,6 @@ def biome_populate(self):
                     t.push()
 
                 continue
-
-            if place_stalactite:
-                t = thing.Thing(chunk=c, x=tx, y=ty, tp_name="stalactite1")
-                t.push()
 
 
 def choose_walls(self):

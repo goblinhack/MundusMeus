@@ -16,6 +16,9 @@ def door1_init(name, short_name, long_name, tiles=[]):
     x.set_is_shadow_caster(True)
     x.set_has_shadow(True)
 
+    x.set_light_radius(0.5)
+    x.set_light_tint("yellow")
+
     if tiles is not None:
         for t in tiles:
             x.set_tile(t, delay_ms=50)
