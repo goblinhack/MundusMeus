@@ -1609,7 +1609,7 @@ class Biome(biome.Biome):
                    not self.is_chasm_at(x + 1, y + 1):
                     continue
 
-                if random.randint(0, 100) < 95:
+                if random.randint(0, 1000) < 995:
                     continue
 
                 self.putc(x, y, charmap.depth.floor, charmap.DUSTY)
@@ -1638,7 +1638,7 @@ class Biome(biome.Biome):
                    not self.is_lava_at(x + 1, y + 1):
                     continue
 
-                if random.randint(0, 100) < 95:
+                if random.randint(0, 1000) < 995:
                     continue
 
                 self.putc(x, y, charmap.depth.floor, charmap.DUSTY)
@@ -1667,7 +1667,7 @@ class Biome(biome.Biome):
                    not self.is_water_at(x + 1, y + 1):
                     continue
 
-                if random.randint(0, 100) < 95:
+                if random.randint(0, 1000) < 995:
                     continue
 
                 self.putc(x, y, charmap.depth.floor, charmap.DUSTY)
