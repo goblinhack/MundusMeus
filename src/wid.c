@@ -7999,11 +7999,12 @@ static void wid_display_fast (widp w,
         tx = t->x;
         ty = t->y;
 
-        if (tp_is_floor(tp) || tp_is_corridor(tp) || tp_is_dusty(tp) || tp_is_bridge(tp)) {
-            double d = t->depth;
-            if (d > 7) {
-                d = 7;
-            }
+        double d = t->depth;
+        if (d > 7) {
+            d = 7;
+        }
+
+        if (tp_is_corridor(tp) || tp_is_dusty(tp) || tp_is_bridge(tp)) {
             wid_set_blit_y_offset(w, wid_get_height(w) * -d * 0.20);
         }
 
@@ -8145,6 +8146,28 @@ static void wid_display_fast (widp w,
 		floor_depth[tx2][ty][z]  +
 		floor_depth[tx][ty][z];
 	    depth /= div; d.r -= depth; d.g -= depth; d.b -= depth;
+
+            if (t->depth && tp_has_shadow(tp)) {
+                fpoint ntl = tl;
+                fpoint nbr = br;
+
+                double yshadow = fabs((br.x - tl.x) / 8.0);
+                double xshadow = ((br.x - tl.x) / 10.0);
+
+                color c = BLACK;
+                c.a = 100;
+                glcolor(c);
+
+                tl.x += xshadow;
+                br.x += xshadow;
+                tl.y -= yshadow;
+                br.y -= yshadow / 2.0;
+
+                tile_blit_fat(tp, tile, 0, &tl, &br);
+
+                tl = ntl;
+                br = nbr;
+            }
 
 	    tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
 	    return;

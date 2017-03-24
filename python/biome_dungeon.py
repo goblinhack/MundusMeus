@@ -41,7 +41,7 @@ def biome_build(self, seed=0):
 
         mm.log("Failed to build dungeon; retry")
 
-    if False:
+    if True:
         self.biome.dump_depth()
         self.biome.dump()
 
@@ -68,6 +68,8 @@ def biome_populate(self):
             if m.is_floor_at(x, y):
                 t = thing.Thing(chunk=c, x=tx, y=ty,
                                 tp_name=l.floor_name)
+
+                t.set_depth(m.depth_map.cells[x][y])
                 t.push()
 
                 if random.randint(0, 1000) < 2:

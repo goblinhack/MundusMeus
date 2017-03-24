@@ -22,6 +22,7 @@ def floor_init(name, tiles=[]):
 
     x.thing_init = thing_init
     x.set_blit_bot_off(1)
+    x.set_has_shadow(True)
 
 
 def init():
