@@ -5523,9 +5523,11 @@ uint8_t wid_receive_input (widp w, const SDL_KEYSYM *key)
  */
 static uint8_t wid_receive_unhandled_input (const SDL_KEYSYM *key)
 {
+#ifdef CONSOLE_MAGIC_KEY
     widp w;
 
     w = wid_get_top_parent(wid_console_input_line);
+#endif
 
     switch (key->mod) {
         default:

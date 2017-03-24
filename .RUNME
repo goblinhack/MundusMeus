@@ -543,10 +543,18 @@ case `uname` in
         WERROR="-Werror"
         COMPILER_WARN="-Wmissing-prototypes"
 	;;
+    *MING*)
+	EXE=""
+	LDLIBS="$LDLIBS -funwind-tables"
+	LDLIBS="$LDLIBS -lopengl32"
+	LDLIBS="$LDLIBS -Wl,-framework,Opengl"
+	DSYM="dsymutil ../mundusmeus"
+        WERROR="-Werror"
+        COMPILER_WARN="-Wmissing-prototypes"
+	;;
     *)
 	EXE=""
 	LDLIBS="$LDLIBS -funwind-tables"
-	LDLIBS="$LDLIBS -rdynamic"
 	LDLIBS="$LDLIBS -lGL"
         #
         # Better to leave off for production
