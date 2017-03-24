@@ -458,7 +458,11 @@ int32_t main (int32_t argc, char *argv[])
         appdata = "appdata";
     }
 
+#ifdef _WIN32
+    mkdir(appdata);
+#else
     mkdir(appdata, 0700);
+#endif
 
     char *dir = dynprintf("%s%s%s", appdata, DSEP, "mundusmeus");
 #ifdef _WIN32
