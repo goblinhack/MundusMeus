@@ -196,16 +196,25 @@ wid_game_map_replace_tile (double x, double y, thingp t)
     }
 
     if (tp_is_dirt(tp) ||
-        tp_is_gravel(tp) ||
-        tp_is_gravel_snow(tp) ||
-        tp_is_rock(tp)) {
-        t->depth = myrand() % 100;
-    }
-
-    if (tp_is_grass(tp) ||
-        tp_is_landrock(tp) ||
-        tp_is_sand(tp)) {
-        t->depth = myrand() % 50;
+            tp_is_gravel(tp) ||
+            tp_is_gravel_snow(tp) ||
+            tp_is_gravel_snow_deco(tp) ||
+            tp_is_gravel_deco(tp) ||
+            tp_is_rock(tp) ||
+            tp_is_landrock(tp) ||
+            tp_is_dirt_deco(tp) ||
+            tp_is_dirt_snow_deco(tp) ||
+            tp_is_grass(tp) ||
+            tp_is_grass_snow(tp) ||
+            tp_is_grass_deco(tp) ||
+            tp_is_grass_snow_deco(tp) ||
+            tp_is_sand(tp) ||
+            tp_is_sand_snow(tp) ||
+            tp_is_sand_deco(tp) ||
+            tp_is_sand_snow_deco(tp) ||
+            tp_is_snow(tp) ||
+            tp_is_snow_deco(tp)) {
+        t->depth = myrand() % 75;
     }
 
     /*

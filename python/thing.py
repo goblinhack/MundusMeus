@@ -200,7 +200,8 @@ class Thing:
 
 #        self.log("Loaded thing on chunk {0}".format(self.chunk))
 #        self.con("loaded thing at {0} {1}".format(self.x, self.y))
-        self.set_depth(self.depth)
+        if self.depth:
+            self.set_depth(self.depth)
 
     #
     # Still associated with a chunk but not currently being rendered

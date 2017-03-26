@@ -52,9 +52,9 @@ class Game:
 
         self.sdl_delay = 5
         self.move_count = 0
-        self.moves_per_day = 1000
+        self.moves_per_day = 4000
         self.seed = 10
-        self.where = util.Xyz(100, 100, -1)
+        self.where = util.Xyz(100, 100, 0)
         self.load_level(self.seed)
 
     def load_level(self, seed):

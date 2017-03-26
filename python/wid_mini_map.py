@@ -19,9 +19,9 @@ class MiniMap(object):
                                tiles="wid1",
                                title_tiles="wid3",
                                body_tiles="wid2",
-                               width=0.25,
+                               width=0.15,
                                height=0.3,
-                               x1=0.75,
+                               x1=0.85,
                                y1=0.00)
 
         self.wid_mini_map_menu = w

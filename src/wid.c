@@ -8010,7 +8010,11 @@ static void wid_display_fast (widp w,
             wid_set_blit_y_offset(w, wid_get_height(w) * -d * 0.20);
         }
 
-        if (tp_is_floor(tp) || tp_is_corridor(tp) || tp_is_dusty(tp) || tp_is_bridge(tp)) {
+        if (tp_is_floor(tp) || 
+            tp_is_corridor(tp) || 
+            tp_is_dusty(tp) || 
+            tp_is_bridge(tp)) {
+
             floor_offset[tx][ty] = blit_y_offset;
         } else if (tp_is_lava(tp) || tp_is_water(tp)) {
             blit_y_offset = 0;
@@ -8113,7 +8117,98 @@ static void wid_display_fast (widp w,
 	    color c = WHITE;
 	    color d = WHITE;
 
-	    double div = 30.0;
+	    double div = 20.0;
+	    double depth;
+
+	    int tx2 = (tx + 1) % MAP_WIDTH;
+	    int ty2 = (ty + 1) % MAP_HEIGHT;
+	    int tx1 = (tx - 1) % MAP_WIDTH;
+	    int ty1 = (ty - 1) % MAP_HEIGHT;
+
+	    depth =
+		floor_depth[tx1][ty1][z] +
+		floor_depth[tx][ty1][z]  +
+		floor_depth[tx1][ty][z]  +
+		floor_depth[tx][ty][z];
+	    depth /= div; a.r -= depth; a.g -= depth; a.b -= depth;
+
+	    depth =
+		floor_depth[tx2][ty1][z] +
+		floor_depth[tx][ty1][z]  +
+		floor_depth[tx2][ty][z]  +
+		floor_depth[tx][ty][z];
+	    depth /= div; b.r -= depth; b.g -= depth; b.b -= depth;
+
+	    depth =
+		floor_depth[tx1][ty2][z] +
+		floor_depth[tx][ty2][z]  +
+		floor_depth[tx1][ty][z]  +
+		floor_depth[tx][ty][z];
+	    depth /= div; c.r -= depth; c.g -= depth; c.b -= depth;
+
+	    depth =
+		floor_depth[tx2][ty2][z] +
+		floor_depth[tx][ty2][z]  +
+		floor_depth[tx2][ty][z]  +
+		floor_depth[tx][ty][z];
+	    depth /= div; d.r -= depth; d.g -= depth; d.b -= depth;
+
+            if (t->depth && tp_has_shadow(tp)) {
+                fpoint ntl = tl;
+                fpoint nbr = br;
+
+                double yshadow = fabs((br.x - tl.x) / 8.0);
+                double xshadow = ((br.x - tl.x) / 10.0);
+
+                color c = BLACK;
+                c.a = 100;
+                glcolor(c);
+
+                tl.x += xshadow;
+                br.x += xshadow;
+                tl.y -= yshadow;
+                br.y -= yshadow / 2.0;
+
+                tile_blit_fat(tp, tile, 0, &tl, &br);
+
+                tl = ntl;
+                br = nbr;
+            }
+
+	    tile_blit_colored_fat(tp, tile, 0, tl, br, a, b, c, d);
+	    return;
+
+        } else if (tp_is_dirt(tp) ||
+                   tp_is_gravel(tp) ||
+                   tp_is_gravel_snow(tp) ||
+                   tp_is_gravel_snow_deco(tp) ||
+                   tp_is_gravel_deco(tp) ||
+                   tp_is_rock(tp) ||
+                   tp_is_landrock(tp) ||
+                   tp_is_dirt_deco(tp) ||
+                   tp_is_dirt_snow_deco(tp) ||
+                   tp_is_grass(tp) ||
+                   tp_is_grass(tp) ||
+                   tp_is_grass_deco(tp) ||
+                   tp_is_grass_snow_deco(tp) ||
+                   tp_is_sand(tp) ||
+                   tp_is_sand_snow(tp) ||
+                   tp_is_sand_deco(tp) ||
+                   tp_is_sand_snow_deco(tp) ||
+                   tp_is_snow(tp) ||
+                   tp_is_snow_deco(tp)) {
+            /*
+             * Add shading to the floor.
+             */
+	    static double floor_depth[MAP_WIDTH][MAP_HEIGHT][Z_DEPTH];
+	    floor_depth[tx][ty][z] = t->depth;
+
+	    color a = WHITE;
+	    color b = WHITE;
+	    color c = WHITE;
+	    color d = WHITE;
+
+	    double div = 2.0;
 	    double depth;
 
 	    int tx2 = (tx + 1) % MAP_WIDTH;
