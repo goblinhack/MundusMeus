@@ -89,8 +89,11 @@
 /*
  * gl.c
  */
+void gl_init_2d_mode(void);
 void gl_enter_2d_mode(void);
 void gl_leave_2d_mode(void);
+void gl_enter_2_5d_mode(void);
+void gl_leave_2_5d_mode(void);
 
 void blit_flush(void);
 void blit_flush_triangles(void);

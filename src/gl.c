@@ -13,7 +13,7 @@ float glapi_last_tex_bottom;
 float glapi_last_right;
 float glapi_last_bottom;
 
-void gl_enter_2d_mode (void)
+void gl_init_2d_mode (void)
 {
     /*
      * Enable Texture Mapping
@@ -32,6 +32,22 @@ void gl_enter_2d_mode (void)
     glViewport(0, 0, game.video_pix_width,
                game.video_pix_height);
 
+    /*
+     * Make sure we're changing the model view and not the projection
+     */
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+
+    /*
+     * Reset the view
+     */
+    glLoadIdentity();
+
+    gl_init_fbo();
+}
+
+void gl_enter_2d_mode (void)
+{
     /*
      * Change to the projection matrix and set our viewing volume.
      */
@@ -60,15 +76,44 @@ void gl_enter_2d_mode (void)
      * Reset the view
      */
     glLoadIdentity();
-
-    gl_init_fbo();
-
-    glLineWidth(2.0);
-    glEnable(GL_LINE_SMOOTH);
 }
 
 void
 gl_leave_2d_mode (void)
+{
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+}
+
+void gl_enter_2_5d_mode (void)
+{
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+
+    glLoadIdentity();
+
+    double scale = 50;
+    glOrtho(-scale, 
+            scale, 
+            -scale * 0.7, 
+            scale * 0.7,
+            -scale,
+            scale);
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+
+    glLoadIdentity();
+
+    glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
+    glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
+}
+
+void
+gl_leave_2_5d_mode (void)
 {
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();

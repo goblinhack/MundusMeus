@@ -574,7 +574,7 @@ int32_t main (int32_t argc, char *argv[])
                           (action_init_fn_callback)thing_init,
                           0, "thing_init");
 
-    gl_enter_2d_mode();
+    gl_init_2d_mode();
     sdl_loop();
     gl_leave_2d_mode();
 

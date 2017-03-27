@@ -1368,6 +1368,14 @@ void sdl_loop (void)
          */
         sdl_tick();
 
+        gl_enter_2_5d_mode();
+
+{
+        extern void test(void);
+        test();
+}
+        gl_leave_2_5d_mode();
+
         /*
          * Do processing of some things, like reading the keyboard or doing
          * stuff with widgets only occasionally if we do not need to.
@@ -1463,6 +1471,7 @@ void sdl_loop (void)
         /*
          * Display windows.
          */
+        gl_enter_2d_mode();
         wid_display_all();
 
         /*
@@ -1491,6 +1500,7 @@ void sdl_loop (void)
                 }
             }
         }
+        gl_leave_2d_mode();
 
         blit_flush();
 
