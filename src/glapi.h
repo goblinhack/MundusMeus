@@ -96,6 +96,7 @@ void gl_enter_2_5d_mode(void);
 void gl_leave_2_5d_mode(void);
 
 void blit_flush(void);
+void blit_flush_3d(void);
 void blit_flush_triangles(void);
 void blit_flush_colored_triangles(void);
 void blit_flush_triangle_fan(void);
@@ -165,6 +166,18 @@ void gl_ortho_set(int32_t width, int32_t height);
 }
 
 /*
+ * gl_push_vertex
+ *
+ * Push elements onto the array buffer.
+ */
+#define gl_push_vertex_3d(p, x, y, z) \
+{ \
+    *p++ = x; \
+    *p++ = y; \
+    *p++ = z; \
+}
+
+/*
  * gl_push_rgba
  *
  * Push elements onto the array buffer.
@@ -180,6 +193,11 @@ void gl_ortho_set(int32_t width, int32_t height);
 #define Vertex2f(x, y)                          \
     *xyp++ = x;                                 \
     *xyp++ = y;
+
+#define Vertex3f(x, y, z)                       \
+    *xyp++ = x;                                 \
+    *xyp++ = y;                                 \
+    *xyp++ = z;
 
 extern GLfloat *bufp;
 extern GLfloat *bufp_end;
@@ -577,6 +595,10 @@ extern PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorage_EXT;
 extern PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbuffer_EXT;
 extern PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2D_EXT;
 extern PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatus_EXT;
+extern PFNGLGENBUFFERSARBPROC glGenBuffersARB_EXT;
+extern PFNGLBINDBUFFERARBPROC glBindBufferARB_EXT;
+extern PFNGLBUFFERDATAARBPROC glBufferDataARB_EXT;
+extern PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB_EXT;
 #else
 #define glCreateProgram_EXT glCreateProgramEXT
 #define glDeleteProgram_EXT glDeleteProgramEXT
@@ -608,4 +630,8 @@ extern PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatus_EXT;
 #define glFramebufferRenderbuffer_EXT glFramebufferRenderbufferEXT
 #define glFramebufferTexture2D_EXT glFramebufferTexture2DEXT
 #define glCheckFramebufferStatus_EXT glCheckFramebufferStatusEXT
+#define glGenBuffersARB_EXT glGenBuffersARBEXT
+#define glBindBufferARB_EXT glBindBufferARBEXT
+#define glBufferDataARB_EXT glBufferDataARBEXT
+#define glDeleteBuffersARB_EXT glDeleteBuffersARBEXT
 #endif
