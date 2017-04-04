@@ -7,132 +7,135 @@
 #include "main.h"
 #include "glapi.h"
 
-#define CUBE_RES 3
+#define CUBE_RES    5
+
+#define ISO_W       21
+#define ISO_H       21
+#define ISO_Z       10
+
+typedef struct {
+    colorf c[CUBE_RES][CUBE_RES][CUBE_RES];
+} cube_t;
+
+cube_t cubes[ISO_W][ISO_H][ISO_Z];
 
 void test(void);
 
-static void cube (GLfloat **P)
-{
-    int x, y, z;
-    GLfloat r, b, g;
-    GLfloat a = 1.0;
-    GLfloat *p = *P;
+static int gl_need_degen_triangle;
 
+#define GL_DEGEN_TRIANGLE_NEEDED()                              \
+    gl_need_degen_triangle = true;
+
+#define GL_DEGEN_TRIANGLE_IF_NEEDED()                           \
+{                                                               \
+    gl_need_degen_triangle = false;                             \
+                                                                \
+    memcpy(p + NUMBER_FLOATS_PER_VERTICE_3D,                    \
+           p - NUMBER_FLOATS_PER_VERTICE_3D,                    \
+           sizeof(float) * NUMBER_FLOATS_PER_VERTICE_3D);       \
+    memcpy(p,                                                   \
+           p - NUMBER_FLOATS_PER_VERTICE_3D,                    \
+           sizeof(float) * NUMBER_FLOATS_PER_VERTICE_3D);       \
+                                                                \
+    memcpy(p - NUMBER_FLOATS_PER_VERTICE_3D,                    \
+           p - NUMBER_FLOATS_PER_VERTICE_3D * 2,                \
+           sizeof(float) * NUMBER_FLOATS_PER_VERTICE_3D);       \
+                                                                \
+    p += NUMBER_FLOATS_PER_VERTICE_3D;                          \
+    p += NUMBER_FLOATS_PER_VERTICE_3D;                          \
+}
+
+#define GL_CUBE_VERTICE(X, Y, Z, x, y, z, dx, dy, dz)                    \
+{                                                               \
+    c = &cubes[ox + dx][oy + dy][oz + dz];                      \
+    gl_push_texcoord(p, 0, 0);                                  \
+    gl_push_vertex_3d(p, X + dx, Y + dy, Z + dz);               \
+    gl_push_rgba(p, 0.1 * x, 0.1 * y, 0.1 * y, 1.0); \
+}
+
+#if 0
+    gl_push_rgba(p, c->c[x][y][z].r, c->c[x][y][z].g, c->c[x][y][z].b, c->c[x][y][z].a);            
+#endif
+
+static void cube (GLfloat **P, int ox, int oy, int oz)
+{
+    GLfloat *p = *P;
+    int x, y, z;
+    int X, Y, Z;
+    cube_t *c;
+
+    ox -= (ISO_W - 1) / 2;
+    oy -= (ISO_H - 1) / 2;
+    oz -= (ISO_Z - 1) / 2;
+
+#if 1
+    /*
+     * Top part of cibe.
+     */
     for (y = 0; y < CUBE_RES; y++) {
         z = 0;
-        x = 0;
-
-        if (y) {
-            gl_push_texcoord(p, 0, 0);
-            gl_push_vertex_3d(p, x, y, z);
-            gl_push_rgba(p, r, g, b, a);
-        }
 
         for (x = 0; x < CUBE_RES; x++) {
-            if ((x + y + z) & 1) {
-                r = 0.1; g = 0.2; b = 0.3;
-            } else {
-                r = 0.1; g = 0.5; b = 0.1;
-            }
+            X = (ox * CUBE_RES) + x;
+            Y = (oy * CUBE_RES) + y;
+            Z = (oz * CUBE_RES) + z;
 
-            gl_push_texcoord(p, 0, 0);
-            gl_push_vertex_3d(p, x, y, z);
-            gl_push_rgba(p, r, g, b, a);
-
-            gl_push_texcoord(p, 1, 1);
-            gl_push_vertex_3d(p, x, y + 1, z);
-            gl_push_rgba(p, r, g, b, a);
-
-            gl_push_texcoord(p, 1, 1);
-            gl_push_vertex_3d(p, x + 1, y, z);
-            gl_push_rgba(p, r, g, b, a);
-
-            gl_push_texcoord(p, 1, 1);
-            gl_push_vertex_3d(p, x + 1, y + 1, z);
-            gl_push_rgba(p, r, g, b, a);
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 0, 0, 0)
+            GL_DEGEN_TRIANGLE_IF_NEEDED()
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 0, 1, 0)
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 1, 0, 0)
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 1, 1, 0)
         }
 
-        x--;
-        gl_push_texcoord(p, 1, 1);
-        gl_push_vertex_3d(p, x + 1, y + 1, z);
-        gl_push_rgba(p, r, g, b, a);
+        GL_DEGEN_TRIANGLE_NEEDED()
     }
+#endif
 
+#if 1
+    /*
+     * Right face of cibe.
+     */
     for (y = 0; y < CUBE_RES; y++) {
-        z = 0;
         x = CUBE_RES;
 
-        gl_push_texcoord(p, 0, 0);
-        gl_push_vertex_3d(p, x, y, z);
-        gl_push_rgba(p, r, g, b, a);
-
         for (z = 0; z > -CUBE_RES; z--) {
-            if ((x + y + z) & 1) {
-                r = 0.7; g = 0.8; b = 0.9;
-            } else {
-                r = 0.1; g = 0.2; b = 0.8;
-            }
+            X = (ox * CUBE_RES) + x;
+            Y = (oy * CUBE_RES) + y;
+            Z = (oz * CUBE_RES) + z;
 
-            gl_push_texcoord(p, 0, 0);
-            gl_push_vertex_3d(p, x, y, z);
-            gl_push_rgba(p, r, g, b, a);
-
-            gl_push_texcoord(p, 1, 1);
-            gl_push_vertex_3d(p, x, y + 1, z);
-            gl_push_rgba(p, r, g, b, a);
-
-            gl_push_texcoord(p, 1, 1);
-            gl_push_vertex_3d(p, x, y, z - 1);
-            gl_push_rgba(p, r, g, b, a);
-
-            gl_push_texcoord(p, 1, 1);
-            gl_push_vertex_3d(p, x, y + 1, z - 1);
-            gl_push_rgba(p, r, g, b, a);
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 0, 0, 0)
+            GL_DEGEN_TRIANGLE_IF_NEEDED()
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 0, 1, 0)
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 0, 0, -1)
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 0, 1, -1)
         }
 
-        z++;
-        gl_push_texcoord(p, 1, 1);
-        gl_push_vertex_3d(p, x, y + 1, z - 1);
-        gl_push_rgba(p, r, g, b, a);
+        GL_DEGEN_TRIANGLE_NEEDED()
     }
+#endif
 
+#if 1
+    /*
+     * Left face of cibe.
+     */
     for (x = 0; x < CUBE_RES; x++) {
-        z = 0;
         y = CUBE_RES;
 
-        gl_push_texcoord(p, 0, 0);
-        gl_push_vertex_3d(p, x, y, z);
-        gl_push_rgba(p, r, g, b, a);
-
         for (z = 0; z > -CUBE_RES; z--) {
-            if ((x + y + z) & 1) {
-                r = 1.0; g = 0.2; b = 0.3;
-            } else {
-                r = 0.3; g = 1.0; b = 1.0;
-            }
+            X = (ox * CUBE_RES) + x;
+            Y = (oy * CUBE_RES) + y;
+            Z = (oz * CUBE_RES) + z;
 
-            gl_push_texcoord(p, 0, 0);
-            gl_push_vertex_3d(p, x, y, z);
-            gl_push_rgba(p, r, g, b, a);
-
-            gl_push_texcoord(p, 1, 1);
-            gl_push_vertex_3d(p, x + 1, y, z);
-            gl_push_rgba(p, r, g, b, a);
-
-            gl_push_texcoord(p, 1, 1);
-            gl_push_vertex_3d(p, x, y, z - 1);
-            gl_push_rgba(p, r, g, b, a);
-
-            gl_push_texcoord(p, 1, 1);
-            gl_push_vertex_3d(p, x + 1, y, z - 1);
-            gl_push_rgba(p, r, g, b, a);
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 0, 0, 0)
+            GL_DEGEN_TRIANGLE_IF_NEEDED()
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 1, 0, 0)
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 0, 0, -1)
+            GL_CUBE_VERTICE(X, Y, Z, x, y, z, 1, 0, -1)
         }
 
-        z++;
-        gl_push_texcoord(p, 1, 1);
-        gl_push_vertex_3d(p, x + 1, y, z - 1);
-        gl_push_rgba(p, r, g, b, a);
+        GL_DEGEN_TRIANGLE_NEEDED()
     }
+#endif
 
     *P = p;
 }
@@ -145,9 +148,45 @@ void test (void)
 
     GLfloat *p = bufp;
 
-    int n;
-    for (n = 0; n < 13 * 13 * 13; n++) {
-    cube(&p);
+    int x;
+    int y;
+    int z;
+    int X;
+    int Y;
+    int Z;
+
+    mysrand(10);
+
+    for (X = 0; X < ISO_W; X++) {
+        for (Y = 0; Y < ISO_H; Y++) {
+            for (Z = 0; Z < ISO_Z; Z++) {
+                for (x = 0; x < CUBE_RES; x++) {
+                    for (y = 0; y < CUBE_RES; y++) {
+                        for (z = 0; z < CUBE_RES; z++) {
+                            cube_t *c;
+
+                            c = &cubes[X][Y][Z];
+
+                            c->c[x][y][z].r = 0.1;
+                            c->c[x][y][z].g = 0.1;
+                            c->c[x][y][z].b = 0.1;
+                            c->c[x][y][z].a = 0.1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for (x = 0; x < ISO_W; x++) {
+        for (y = 0; y < ISO_H; y++) {
+            if ((x == 0) || (y == 0)) {
+                for (z = 0; z < ISO_Z; z++) {
+                    cube(&p, x, y, z);
+                }
+            } else {
+                cube(&p, x, y, 0);
+            }
+        }
     }
 
     bufp = p;

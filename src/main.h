@@ -392,6 +392,10 @@ typedef struct {
     uint8_t r, g, b, a;
 } color;
 
+typedef struct {
+    float r, g, b, a;
+} colorf;
+
 /*
  * mazegen.c
  */

@@ -169,8 +169,10 @@ void gl_ortho_set(int32_t width, int32_t height);
  * gl_push_vertex
  *
  * Push elements onto the array buffer.
+ *
+ * Ok, why, z then y ? for isometric views, it's easier to think of z as up
  */
-#define gl_push_vertex_3d(p, x, y, z) \
+#define gl_push_vertex_3d(p, x, z, y) \
 { \
     *p++ = x; \
     *p++ = y; \
@@ -635,3 +637,8 @@ extern PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB_EXT;
 #define glBufferDataARB_EXT glBufferDataARBEXT
 #define glDeleteBuffersARB_EXT glDeleteBuffersARBEXT
 #endif
+
+extern const uint32_t NUMBER_BYTES_PER_VERTICE_2D;
+extern const uint32_t NUMBER_BYTES_PER_VERTICE_3D;
+extern const uint32_t NUMBER_FLOATS_PER_VERTICE_2D;
+extern const uint32_t NUMBER_FLOATS_PER_VERTICE_3D;

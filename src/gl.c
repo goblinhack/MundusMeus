@@ -8,6 +8,7 @@
 
 static void gl_init_fbo(void);
 
+int gl_need_degen_;
 float glapi_last_tex_right;
 float glapi_last_tex_bottom;
 float glapi_last_right;
@@ -95,7 +96,7 @@ void gl_enter_2_5d_mode (void)
 
     glLoadIdentity();
 
-    double scale = 20;
+    double scale = 100;
     glOrtho(-scale, 
             scale, 
             -scale * 0.7, 
@@ -217,7 +218,7 @@ static void gl_init_fbo (void)
  */
 #define NUMBER_COMPONENTS_PER_COLOR 4
 
-static const uint32_t NUMBER_BYTES_PER_VERTICE_2D =
+const uint32_t NUMBER_BYTES_PER_VERTICE_2D =
                                             sizeof(GLfloat) *
                                             NUMBER_DIMENSIONS_PER_COORD_2D +
                                             sizeof(GLfloat) *
@@ -225,13 +226,16 @@ static const uint32_t NUMBER_BYTES_PER_VERTICE_2D =
                                             sizeof(GLfloat) *
                                             NUMBER_COMPONENTS_PER_COLOR;
 
-static const uint32_t NUMBER_BYTES_PER_VERTICE_3D =
+const uint32_t NUMBER_BYTES_PER_VERTICE_3D =
                                             sizeof(GLfloat) *
                                             NUMBER_DIMENSIONS_PER_COORD_2D +
                                             sizeof(GLfloat) *
                                             NUMBER_DIMENSIONS_PER_COORD_3D +
                                             sizeof(GLfloat) *
                                             NUMBER_COMPONENTS_PER_COLOR;
+
+const uint32_t NUMBER_FLOATS_PER_VERTICE_2D = NUMBER_BYTES_PER_VERTICE_2D / sizeof(float);
+const uint32_t NUMBER_FLOATS_PER_VERTICE_3D = NUMBER_BYTES_PER_VERTICE_3D / sizeof(float);
 
 /*
  * Two arrays, xy and uv.
@@ -264,7 +268,7 @@ void blit_init (void)
      * If the screen size has changed or this is the first run, allocate our
      * buffer if our size requirements have changed.
      */
-    gl_array_size_required = 16 * 1024 * 1024;
+    gl_array_size_required = 32 * 1024 * 1024;
 
     gl_array_buf = (TYPEOF(gl_array_buf))
                     myzalloc(gl_array_size_required, "GL xy buffer");
