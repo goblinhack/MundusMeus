@@ -36,50 +36,63 @@ static cube_t cubes[CUBE_W][CUBE_H][CUBE_Z];
 
 void test(void);
 
-static short gl_need_degen_triangle;
-
-#define GL_DEGEN_TRIANGLE_NEEDED()                              \
-    gl_need_degen_triangle = true;
-
-#define GL_DEGEN_TRIANGLE_IF_NEEDED()                           \
-                                                                \
-if (unlikely(gl_need_degen_triangle))                           \
-{                                                               \
-    gl_need_degen_triangle = false;                             \
-                                                                \
-    memcpy(p + NUMBER_FLOATS_PER_VERTICE_3D,                    \
-           p - NUMBER_FLOATS_PER_VERTICE_3D,                    \
-           sizeof(float) * NUMBER_FLOATS_PER_VERTICE_3D);       \
-    memcpy(p,                                                   \
-           p - NUMBER_FLOATS_PER_VERTICE_3D,                    \
-           sizeof(float) * NUMBER_FLOATS_PER_VERTICE_3D);       \
-                                                                \
-    memcpy(p - NUMBER_FLOATS_PER_VERTICE_3D,                    \
-           p - NUMBER_FLOATS_PER_VERTICE_3D * 2,                \
-           sizeof(float) * NUMBER_FLOATS_PER_VERTICE_3D);       \
-                                                                \
-    p += NUMBER_FLOATS_PER_VERTICE_3D;                          \
-    p += NUMBER_FLOATS_PER_VERTICE_3D;                          \
-}
-
+/*
+ * Create a pair of degenerate triangles (if needed) from the previous and 
+ * next vertice. The 'if needed' part is fed to us when we know there is a 
+ * line break.
+ */
 static void 
-cube_vertice (GLfloat **P,
-              short Xvox, short Yvox, short Zvox,
-              short Xv, short Yv, short Zv,
-              short dx, short dy, short dz)
-{                                                               
+cube_degen_triangle (GLfloat **P,
+                     uint8_t *tri_degen_needed)
+{
+    if (likely(!*tri_degen_needed)) {
+        return;
+    }
+
     GLfloat *p = *P;
 
-    gl_push_texcoord(p, 0, 0);                                  
-    gl_push_vertex_3d(p, Xv + dx, Yv + dy, Zv + dz);        
+    *tri_degen_needed = false;                             
+                                                                
+    memcpy(p + NUMBER_FLOATS_PER_VERTICE_3D,                    
+           p - NUMBER_FLOATS_PER_VERTICE_3D,                    
+           sizeof(float) * NUMBER_FLOATS_PER_VERTICE_3D);       
 
-    vertice_t *v = &vertices[Xvox + dx][Yvox + dy][Zvox + dz];    
+    memcpy(p,                                                   
+           p - NUMBER_FLOATS_PER_VERTICE_3D,                    
+           sizeof(float) * NUMBER_FLOATS_PER_VERTICE_3D);       
+                                                                
+    memcpy(p - NUMBER_FLOATS_PER_VERTICE_3D,                    
+           p - NUMBER_FLOATS_PER_VERTICE_3D * 2,                
+           sizeof(float) * NUMBER_FLOATS_PER_VERTICE_3D);       
+                                                                
+    p += NUMBER_FLOATS_PER_VERTICE_3D;                          
+    p += NUMBER_FLOATS_PER_VERTICE_3D;                          
 
-    gl_push_rgba(p, v->r, v->g, v->b, v->a);                
     *P = p;
 }
 
-static void cube (GLfloat **P, short Xcube, short Ycube, short Zcube)
+static void
+cube_render_vertice (GLfloat **P,
+                     short Xvox, short Yvox, short Zvox,
+                     short Xv, short Yv, short Zv,
+                     short dx, short dy, short dz)
+{
+    GLfloat *p = *P;
+
+    gl_push_texcoord(p, 0, 0);
+    gl_push_vertex_3d(p, Xv + dx, Yv + dy, Zv + dz);
+
+    vertice_t *v = &vertices[Xvox + dx][Yvox + dy][Zvox + dz];
+
+    gl_push_rgba(p, v->r, v->g, v->b, v->a);
+
+    *P = p;
+}
+
+static void 
+cube_render (GLfloat **P, 
+             uint8_t *tri_degen_needed,
+             short Xcube, short Ycube, short Zcube)
 {
     GLfloat *p = *P;
     short x, y, z;
@@ -103,30 +116,30 @@ static void cube (GLfloat **P, short Xcube, short Ycube, short Zcube)
             short Yvox = (Ycube * VOX_RES) + y;
             short Zvox = (Zcube * VOX_RES) + z;
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         0, 0, VOX_RES);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                0, 0, VOX_RES);
 
-            GL_DEGEN_TRIANGLE_IF_NEEDED()
+            cube_degen_triangle(&p, tri_degen_needed);
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         0, 1, VOX_RES);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                0, 1, VOX_RES);
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         1, 0, VOX_RES);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                1, 0, VOX_RES);
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         1, 1, VOX_RES);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                1, 1, VOX_RES);
         }
 
-        GL_DEGEN_TRIANGLE_NEEDED()
+        *tri_degen_needed = true;
     }
 
     /*
@@ -144,30 +157,30 @@ static void cube (GLfloat **P, short Xcube, short Ycube, short Zcube)
             short Yvox = (Ycube * VOX_RES) + y;
             short Zvox = (Zcube * VOX_RES) + z;
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         0, 0, 0);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                0, 0, 0);
 
-            GL_DEGEN_TRIANGLE_IF_NEEDED()
+            cube_degen_triangle(&p, tri_degen_needed);
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         0, 1, 0);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                0, 1, 0);
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         0, 0, 1);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                0, 0, 1);
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         0, 1, 1);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                0, 1, 1);
         }
 
-        GL_DEGEN_TRIANGLE_NEEDED()
+        *tri_degen_needed = true;
     }
 
     /*
@@ -185,70 +198,70 @@ static void cube (GLfloat **P, short Xcube, short Ycube, short Zcube)
             short Yvox = (Ycube * VOX_RES) + y;
             short Zvox = (Zcube * VOX_RES) + z;
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         0, 0, 0);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                0, 0, 0);
 
-            GL_DEGEN_TRIANGLE_IF_NEEDED()
+            cube_degen_triangle(&p, tri_degen_needed);
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         1, 0, 0);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                1, 0, 0);
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         0, 0, 1);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                0, 0, 1);
 
-            cube_vertice(&p,
-                         Xvox, Yvox, Zvox,
-                         Xv, Yv, Zv,
-                         1, 0, 1);
+            cube_render_vertice(&p,
+                                Xvox, Yvox, Zvox,
+                                Xv, Yv, Zv,
+                                1, 0, 1);
         }
 
-        GL_DEGEN_TRIANGLE_NEEDED()
+        *tri_degen_needed = true;
     }
 
     *P = p;
 }
 
-static void 
+static void
 triangle_populate (short Xcube, short Ycube, short Zcube,
                    short Xvox, short Yvox, short Zvox,
                    short dx1, short dy1, short dz1,
                    short dx2, short dy2, short dz2,
                    short dx3, short dy3, short dz3)
-{                                                                   
-    cube_t *c = &cubes[Xcube][Ycube][Zcube];                        
-                                                                    
-    if (c->triangle_count >= ARRAY_SIZE(c->t)) {                    
-        DIE("overflow");                                            
-    }                                                               
-                                                                    
-    triangle_t *t = &c->t[c->triangle_count++];                     
-                                                                    
-    vertice_t *v1 = &vertices[Xvox + dx1][Yvox + dy1][Zvox + dz1];  
-    vertice_t *v2 = &vertices[Xvox + dx2][Yvox + dy2][Zvox + dz2];  
-    vertice_t *v3 = &vertices[Xvox + dx3][Yvox + dy3][Zvox + dz3];  
-                                                                    
-    t->v[0] = v1;                                                   
-    t->v[1] = v2;                                                   
-    t->v[2] = v3;                                                   
-                                                                    
-    v1->p.x = Xvox + dx1;                                           
-    v1->p.y = Yvox + dy1;                                           
-    v1->p.z = Zvox + dz1;                                           
-    v2->p.x = Xvox + dx2;                                           
-    v2->p.y = Yvox + dy2;                                           
-    v2->p.z = Zvox + dz2;                                           
-    v3->p.x = Xvox + dx3;                                           
-    v3->p.y = Yvox + dy3;                                           
-    v3->p.z = Zvox + dz3;                                           
+{
+    cube_t *c = &cubes[Xcube][Ycube][Zcube];
+
+    if (c->triangle_count >= ARRAY_SIZE(c->t)) {
+        DIE("overflow");
+    }
+
+    triangle_t *t = &c->t[c->triangle_count++];
+
+    vertice_t *v1 = &vertices[Xvox + dx1][Yvox + dy1][Zvox + dz1];
+    vertice_t *v2 = &vertices[Xvox + dx2][Yvox + dy2][Zvox + dz2];
+    vertice_t *v3 = &vertices[Xvox + dx3][Yvox + dy3][Zvox + dz3];
+
+    t->v[0] = v1;
+    t->v[1] = v2;
+    t->v[2] = v3;
+
+    v1->p.x = Xvox + dx1;
+    v1->p.y = Yvox + dy1;
+    v1->p.z = Zvox + dz1;
+    v2->p.x = Xvox + dx2;
+    v2->p.y = Yvox + dy2;
+    v2->p.z = Zvox + dz2;
+    v3->p.x = Xvox + dx3;
+    v3->p.y = Yvox + dy3;
+    v3->p.z = Zvox + dz3;
 }
 
-static void 
+static void
 cube_populate (short Xcube, short Ycube, short Zcube)
 {
     short x, y, z;
@@ -267,14 +280,14 @@ cube_populate (short Xcube, short Ycube, short Zcube)
 
             triangle_populate(Xcube, Ycube, Zcube,
                          Xvox, Yvox, Zvox,
-                         0, 0, VOX_RES, 
-                         0, 1, VOX_RES, 
+                         0, 0, VOX_RES,
+                         0, 1, VOX_RES,
                          1, 0, VOX_RES);
 
             triangle_populate(Xcube, Ycube, Zcube,
                          Xvox, Yvox, Zvox,
-                         1, 0, VOX_RES, 
-                         0, 1, VOX_RES, 
+                         1, 0, VOX_RES,
+                         0, 1, VOX_RES,
                          1, 1, VOX_RES);
         }
     }
@@ -293,14 +306,14 @@ cube_populate (short Xcube, short Ycube, short Zcube)
 
             triangle_populate(Xcube, Ycube, Zcube,
                          Xvox, Yvox, Zvox,
-                         0, 0, 0, 
-                         0, 1, 0, 
+                         0, 0, 0,
+                         0, 1, 0,
                          0, 0, 1);
 
             triangle_populate(Xcube, Ycube, Zcube,
                          Xvox, Yvox, Zvox,
-                         0, 0, 1, 
-                         0, 1, 0, 
+                         0, 0, 1,
+                         0, 1, 0,
                          0, 1, 1);
         }
     }
@@ -319,84 +332,99 @@ cube_populate (short Xcube, short Ycube, short Zcube)
 
             triangle_populate(Xcube, Ycube, Zcube,
                          Xvox, Yvox, Zvox,
-                         0, 0, 0, 
-                         1, 0, 0, 
+                         0, 0, 0,
+                         1, 0, 0,
                          0, 0, 1);
 
             triangle_populate(Xcube, Ycube, Zcube,
                          Xvox, Yvox, Zvox,
-                         0, 0, 1, 
-                         1, 0, 0, 
+                         0, 0, 1,
+                         1, 0, 0,
                          1, 0, 1);
+        }
+    }
+}
+
+static void 
+cubes_render (void)
+{
+    uint8_t tri_degen_needed = false;
+    GLfloat *p = bufp;
+    short x;
+    short y;
+    short z;
+
+    for (x = 0; x < CUBE_W; x++) {
+        for (y = 0; y < CUBE_H; y++) {
+            if ((x == 0) || (y == 0)) {
+                for (z = 0; z < CUBE_Z; z++) {
+                    cube_render(&p, &tri_degen_needed, x, y, z);
+                }
+            } else if ((x == CUBE_W / 2) || (y == CUBE_H / 2)) {
+                for (z = 0; z < CUBE_Z / 2; z++) {
+                    cube_render(&p, &tri_degen_needed, x, y, z);
+                }
+
+            } else {
+                cube_render(&p, &tri_degen_needed, x, y, 0);
+            }
+        }
+    }
+
+    bufp = p;
+}
+
+static void 
+cubes_init (void)
+{
+    short x;
+    short y;
+    short z;
+
+    mysrand(10);
+
+    for (x = 0; x < CUBE_W; x++) {
+        for (y = 0; y < CUBE_H; y++) {
+            for (z = 0; z < CUBE_Z; z++) {
+                cube_populate(x, y, z);
+            }
+        }
+    }
+
+    for (x = 0; x < VOX_W; x++) {
+        for (y = 0; y < VOX_H; y++) {
+            for (z = 0; z < VOX_Z; z++) {
+                vertice_t *v;
+
+                v = &vertices[x][y][z];
+
+                v->r = 0.0 + x * 0.02;
+                v->g = 0.0 + y * 0.02;
+                v->b = 0.0 + z * 0.02;
+                v->a = 1.0;
+
+                if (z >= CUBE_Z * VOX_RES) {
+                    v->r = 1.0;
+                    v->g = 0.0;
+                    v->b = 0.0;
+                    v->a = 1.0;
+                }
+            }
         }
     }
 }
 
 void test (void)
 {
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    blit_init();
-
-    GLfloat *p = bufp;
-
-    short x;
-    short y;
-    short z;
-
-    mysrand(10);
     static short done;
 
     if (!done) {
         done = true;
-
-        for (x = 0; x < CUBE_W; x++) {
-            for (y = 0; y < CUBE_H; y++) {
-                for (z = 0; z < CUBE_Z; z++) {
-                    cube_populate(x, y, z);
-                }
-            }
-        }
-
-        for (x = 0; x < VOX_W; x++) {
-            for (y = 0; y < VOX_H; y++) {
-                for (z = 0; z < VOX_Z; z++) {
-                    vertice_t *v;
-
-                    v = &vertices[x][y][z];
-
-                    v->r = 0.0 + x * 0.02;
-                    v->g = 0.0 + y * 0.02;
-                    v->b = 0.0 + z * 0.02;
-                    v->a = 1.0;
-
-                    if (z >= CUBE_Z * VOX_RES) {
-                        v->r = 1.0;
-                        v->g = 0.0;
-                        v->b = 0.0;
-                        v->a = 1.0;
-                    }
-                }
-            }
-        }
-    }
-    for (x = 0; x < CUBE_W; x++) {
-        for (y = 0; y < CUBE_H; y++) {
-            if ((x == 0) || (y == 0)) {
-                for (z = 0; z < CUBE_Z; z++) {
-                    cube(&p, x, y, z);
-                }
-            } else if ((x == CUBE_W / 2) || (y == CUBE_H / 2)) {
-                for (z = 0; z < CUBE_Z / 2; z++) {
-                    cube(&p, x, y, z);
-                }
-
-            } else {
-                cube(&p, x, y, 0);
-            }
-        }
+        cubes_init();
     }
 
-    bufp = p;
+    glBindTexture(GL_TEXTURE_2D, 0);
+    blit_init();
+    cubes_render();
     blit_flush_3d();
 }
