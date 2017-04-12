@@ -8,40 +8,61 @@
 #include "glapi.h"
 #include "math_util.h"
 
-#define VOX_RES     6
+/*
+ * How many voxels per cube face edge
+ */
+#define VOX_RES             6 
 
-#define CUBE_W      20
-#define CUBE_H      20
-#define CUBE_Z      10
+/*
+ * Max size of the renderable level
+ */
+#define CUBE_W              20 
+#define CUBE_H              20
+#define CUBE_Z              10
 
-#define VOX_W       ((CUBE_W + 1) * VOX_RES)
-#define VOX_H       ((CUBE_H + 1) * VOX_RES)
-#define VOX_Z       ((CUBE_Z + 1) * VOX_RES)
+/*
+ * How many voxels overall, including some overflow for the last voxel
+ * on the edge of the last cube
+ */
+#define VOX_W               ((CUBE_W + 1) * VOX_RES)
+#define VOX_H               ((CUBE_H + 1) * VOX_RES)
+#define VOX_Z               ((CUBE_Z + 1) * VOX_RES)
+
+/*
+ * How many vertices. It is a bit more complex as corners share vertices.
+ * I take the easy path and use the higher value.
+ */
+#define MAX_CUBES           ((CUBE_W + 1) * (CUBE_H + 1) * (CUBE_Z + 1))
+
+#define VERTICES_PER_CUBE   (SQUARED((VOX_RES)) * 3)
+#define MAX_VERTICES        (MAX_CUBES * VERTICES_PER_CUBE)
+
+#define TRIANGLES_PER_CUBE  (VOX_RES * VOX_RES * 3 * 2)
+#define MAX_TRIANGLES       (MAX_CUBES * TRIANGLES_PER_CUBE)
 
 /*
  * Assuming light in the center of the grid.
  */
-#define LIGHT_RADIUS (VOX_W / 2)
-
-/*
- * 3 planes of voxels
- */
-#define VERTICES_PER_CUBE ((SQUARED((VOX_RES)) * 3) - VOX_RES - (VOX_RES - 1) - (VOX_RES - 1))
-#define MAX_VERTICES (((CUBE_W + 1) * (CUBE_H + 1) * (CUBE_Z + 1)) * VERTICES_PER_CUBE)
+#define MAX_LIGHT_RADIUS (VOX_W / 2)
 
 /*
  * Hash table for sorting vertices, grouped by distance.
  */
 #define MAX_VERTICE_HASH_COLLISION 500
-#define MAX_VERTICES_HASH (SQUARED(LIGHT_RADIUS) + SQUARED(LIGHT_RADIUS) + SQUARED(LIGHT_RADIUS))
+#define MAX_VERTICES_HASH (SQUARED(MAX_LIGHT_RADIUS) + SQUARED(MAX_LIGHT_RADIUS) + SQUARED(MAX_LIGHT_RADIUS))
+
+#define MAX_TRIANGLE_HASH_COLLISION 1000
+#define MAX_TRIANGLE_HASH (SQUARED(MAX_LIGHT_RADIUS) + SQUARED(MAX_LIGHT_RADIUS) + SQUARED(MAX_LIGHT_RADIUS))
+
+struct triangle_t_;
 
 typedef struct {
     float r, g, b, a;
     fpoint3d p;
-    uint8_t valid:1;
+    struct triangle_t_ *t;
 } vertice_t;
 
-typedef struct {
+typedef struct triangle_t_ {
     vertice_t *v[3];
 } triangle_t;
 
@@ -52,15 +73,18 @@ typedef struct {
 
 typedef struct {
     /*
-     * Scratch pad where we sort the vertices quickly into a hash.
+     * Sorted vertices
      */
     vertice_t *vertices_hash[MAX_VERTICES_HASH][MAX_VERTICE_HASH_COLLISION];
     int vertices_hash_cnt[MAX_VERTICES_HASH];
+    vertice_t *vertices_sorted[MAX_VERTICES];
 
     /*
-     * And then into this contiguous sorted list.
+     * Sorted triangles
      */
-    vertice_t *vertices_sorted[MAX_VERTICES];
+    triangle_t *triangle_hash[MAX_TRIANGLE_HASH][MAX_TRIANGLE_HASH_COLLISION];
+    int triangle_hash_cnt[MAX_TRIANGLE_HASH];
+    triangle_t *triangles_sorted[MAX_TRIANGLES];
 
     /*
      * We waste space here for ease of use with voxels that are not on the 
@@ -289,20 +313,20 @@ triangle_populate (short Xcube, short Ycube, short Zcube,
     t->v[1] = v2;
     t->v[2] = v3;
 
+    v1->t = t;
     v1->p.x = Xvox + dx1;
     v1->p.y = Yvox + dy1;
     v1->p.z = Zvox + dz1;
-    v1->valid = true;
 
+    v2->t = t;
     v2->p.x = Xvox + dx2;
     v2->p.y = Yvox + dy2;
     v2->p.z = Zvox + dz2;
-    v2->valid = true;
 
+    v3->t = t;
     v3->p.x = Xvox + dx3;
     v3->p.y = Yvox + dy3;
     v3->p.z = Zvox + dz3;
-    v3->valid = true;
 }
 
 static void
@@ -455,8 +479,11 @@ vertices_sort_reset (void)
                 vertice_t *v;
 
                 v = &iso.vertices[x][y][z];
+		if (!v->valid) {
+		    continue;
+		}
 
-                v->sorted = false;
+                v->t->sorted = false;
             }
         }
     }
@@ -468,27 +495,15 @@ vertices_sort_create_hash (fpoint3d light)
 {
     int x, y, z;
 
-#if 0
-    vertices_sort_reset();
-#endif
-
     for (x = 0; x < VOX_W; x++) {
         for (y = 0; y < VOX_H; y++) {
             for (z = 0; z < VOX_Z; z++) {
                 vertice_t *v;
 
                 v = &iso.vertices[x][y][z];
-		if (!v->valid) {
+		if (!v->t) {
 		    continue;
 		}
-
-#if 0
-                if (v->sorted) {
-		    continue;
-                }
-
-                v->sorted = true;
-#endif
 
 		int hash = SQUARED(x - light.x) + 
 			   SQUARED(y - light.y) + 
@@ -519,10 +534,16 @@ vertices_sort_create_hash (fpoint3d light)
 }
 
 static void 
-vertices_sort (void)
+vertices_sort (fpoint3d light)
 {
     uint32_t hash;
-    uint32_t s = 0;
+    uint32_t vcount = 0;
+
+#if 0
+    vertices_sort_reset();
+#endif
+
+    vertices_sort_create_hash(light);
 
     for (hash = 0; hash < ARRAY_SIZE(iso.vertices_hash_cnt); hash++) {
 	uint32_t collisions = iso.vertices_hash_cnt[hash];
@@ -531,14 +552,93 @@ vertices_sort (void)
         for (collision = 0; collision < collisions; collision++) {
             vertice_t *v = iso.vertices_hash[hash][collision];
 
-            if (s >= MAX_VERTICES) {
-                ERR("out of sort space at hash %u collision %u", s, MAX_VERTICES);
+            if (vcount >= MAX_VERTICES) {
+                DIE("out of sort space at hash %u collision %u", 
+                    vcount, MAX_VERTICES);
             }
 
-            iso.vertices_sorted[s++] = v;
+            iso.vertices_sorted[vcount++] = v;
         }
     }
-printf("%u %u\n",s,MAX_VERTICES);
+}
+
+static void 
+triangles_sort_create_hash (fpoint3d light)
+{
+    int x, y, z;
+
+    for (x = 0; x < CUBE_W; x++) {
+        for (y = 0; y < CUBE_H; y++) {
+            for (z = 0; z < CUBE_Z; z++) {
+
+                uint32_t ti;
+
+                for (ti = 0; ti < TRIANGLES_PER_CUBE; ti++) {
+                    triangle_t *t = &iso.cubes[x][y][z].t[ti];
+
+                    uint32_t hash = ((uint32_t)-1);
+                    uint32_t vi;
+
+                    for (vi = 0; vi < 3; vi++) {
+                        vertice_t *v = t->v[vi];
+                        if (!v->t) {
+                            DIE("vertice with no triangle");
+                        }
+
+                        uint32_t h = SQUARED(v->p.x - light.x) + 
+                                     SQUARED(v->p.y - light.y) + 
+                                     SQUARED(v->p.z - light.z);
+
+                        if (h < hash) {
+                            hash = h;
+                        }
+                    }
+
+                    if (hash >= MAX_TRIANGLE_HASH) {
+                        DIE("overflow in hash size for triangle sort at "
+                            "(%d, %d, %d), dist %d",
+                            x, y, z, hash);
+                    }
+
+                    int c = iso.triangle_hash_cnt[hash];
+                    if (c == MAX_TRIANGLE_HASH_COLLISION) {
+                        DIE("out of hash space for triangle sort at "
+                            "(%d, %d, %d), dist %d",
+                            x, y, z, hash);
+                    }
+
+                    iso.triangle_hash[hash][c++] = t;
+                    iso.triangle_hash_cnt[hash] = c;
+                }
+	    }
+	}
+    }
+}
+
+static void 
+triangles_sort (fpoint3d light)
+{
+    uint32_t hash;
+    uint32_t tcount = 0;
+
+
+    triangles_sort_create_hash(light);
+
+    for (hash = 0; hash < ARRAY_SIZE(iso.triangle_hash_cnt); hash++) {
+	uint32_t collisions = iso.triangle_hash_cnt[hash];
+	uint32_t collision;
+
+        for (collision = 0; collision < collisions; collision++) {
+            triangle_t *t = iso.triangle_hash[hash][collision];
+
+            if (tcount >= MAX_TRIANGLES) {
+                DIE("out of triangle sort space at hash %u collision %u", 
+                    tcount, MAX_TRIANGLES);
+            } else {
+                iso.triangles_sorted[tcount++] = t;
+            }
+        }
+    }
 }
 
 #if 0
@@ -569,17 +669,14 @@ cubes_init (void)
             for (z = 0; z < CUBE_Z; z++) {
 
                 cube_populate(x, y, z);
-                vertice_t *v;
-
-                v = &iso.vertices[x][y][z];
             }
         }
     }
 
     fpoint3d light = {VOX_W / 2, VOX_H / 2, VOX_Z / 2};
 
-    vertices_sort_create_hash(light);
-    vertices_sort();
+    vertices_sort(light);
+    triangles_sort(light);
 
     for (x = 0; x < VOX_W; x++) {
         for (y = 0; y < VOX_H; y++) {
