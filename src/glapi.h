@@ -106,6 +106,8 @@ void blit_fini(void);
 void gl_blitquad(float tlx, float tly, float brx, float bry);
 void gl_blitsquare(float tlx, float tly, float brx, float bry);
 void gl_blitline(float tlx, float tly, float brx, float bry);
+void gl_blitline3d(float x1, float y1, float z1,
+                   float x2, float y2, float z2);
 
 /*
  * glshapes.c

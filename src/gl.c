@@ -91,12 +91,15 @@ gl_leave_2d_mode (void)
 
 void gl_enter_2_5d_mode (void)
 {
+    glEnable(GL_DEPTH_TEST);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
 
     glLoadIdentity();
 
-    double scale = 100;
+    double scale = 5;
     glOrtho(-scale, 
             scale, 
             -scale * 0.7, 
@@ -111,11 +114,24 @@ void gl_enter_2_5d_mode (void)
 
     glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
     glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
+
+#ifdef WIREFRAME
+    glPolygonMode(GL_FRONT, GL_LINE); // draw wireframe polygons
+    glPolygonMode(GL_BACK, GL_LINE); // draw wireframe polygons
+#endif
+
+    glCullFace(GL_BACK); // don't draw back faces
+#if 0
+    glDisable(GL_CULL_FACE); // don't draw back faces
+#endif
+
 }
 
 void
 gl_leave_2_5d_mode (void)
 {
+    glDisable(GL_DEPTH_TEST);
+
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
@@ -669,6 +685,23 @@ void gl_blitline (float left, float top, float right, float bottom)
     glEnableClientState(GL_VERTEX_ARRAY);
 
     glVertexPointer(2, GL_FLOAT, 0, xy);
+    glDrawArrays(GL_LINES, 0, 2);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void gl_blitline3d (float x1, float y1, float z1,
+                    float x2, float y2, float z2)
+{
+    GLfloat xyz[3*2];
+    GLfloat *xyp = xyz;
+
+    Vertex3f(x1, z1, y1);
+    Vertex3f(x2, z2, y2);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+
+    glVertexPointer(3, GL_FLOAT, 0, xyz);
     glDrawArrays(GL_LINES, 0, 2);
 
     glDisableClientState(GL_VERTEX_ARRAY);
