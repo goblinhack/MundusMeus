@@ -12,14 +12,14 @@
 /*
  * How many voxels per cube face edge
  */
-#define VOX_RES             1 
+#define VOX_RES             3 
 
 /*
  * Max size of the renderable level
  */
-#define CUBE_W              4 
-#define CUBE_H              4
-#define CUBE_Z              4
+#define CUBE_W              3 
+#define CUBE_H              3
+#define CUBE_Z              3
 
 /*
  * How many voxels overall, including some overflow for the last voxel
@@ -44,10 +44,6 @@
 #define MAX_VERTICES        (MAX_CUBES * VERTICES_PER_CUBE)
 #define MAX_TRIANGLES       (MAX_CUBES * TRIANGLES_PER_CUBE)
 
-/*
- * Assuming light in the center of the grid.
- */
-#define MAX_LIGHT_RADIUS (VOX_W / 2)
 #define MAX_LIGHT_BLOCKERS 100
 
 struct triangle_t_;
@@ -63,14 +59,14 @@ typedef struct {
 typedef struct triangle_t_ {
     vertice_t *vps[3];
     uint16_t distance;
-    uint8_t solid:1;
+    uint8_t solid;
 } triangle_t;
 
 typedef struct cube_t_ {
     fpoint3d p;
     triangle_t *tps[TRIANGLES_PER_CUBE];
     int triangle_count;
-    uint8_t solid:1;
+    uint8_t solid;
 } cube_t;
 
 typedef struct {
@@ -190,7 +186,6 @@ vertice_add (fpoint3d p)
     iso.vertice_count++;
 
     iso.vps[(int)p.x][(int)p.y][(int)p.z] = v;
-printf("  add v %d,%d,%d\n", (int)p.x, (int)p.y, (int)p.z);
 
     return (v);
 }
@@ -300,6 +295,7 @@ triangles_sort (void)
  * next vertice. The 'if needed' part is fed to us when we know there is a 
  * line break.
  */
+#if 0
 static void 
 cube_degen_triangle (GLfloat **P,
                      uint8_t *tri_degen_needed)
@@ -329,7 +325,9 @@ cube_degen_triangle (GLfloat **P,
 
     *P = p;
 }
+#endif
 
+#if 0
 static void
 cube_render_vertice (GLfloat **P,
                      int Xvox, int Yvox, int Zvox,
@@ -350,7 +348,9 @@ cube_render_vertice (GLfloat **P,
 
     *P = p;
 }
+#endif
 
+#if 0
 static void 
 cube_render (GLfloat **P, 
              uint8_t *tri_degen_needed,
@@ -486,6 +486,7 @@ cube_render (GLfloat **P,
         *tri_degen_needed = true;
     }
 
+#if 0
     /*
      * Left face of voxel cube.
      */
@@ -567,9 +568,11 @@ cube_render (GLfloat **P,
 
         *tri_degen_needed = true;
     }
+#endif
 
     *P = p;
 }
+#endif
 
 /*
  * Add a triangle and all its verties uniquely.
@@ -581,15 +584,11 @@ triangle_populate (int Xcube, int Ycube, int Zcube,
                    int dx2, int dy2, int dz2,
                    int dx3, int dy3, int dz3)
 {
-    cube_t *c = &iso.cubes[Xcube][Ycube][Zcube];
+    cube_t *cube = &iso.cubes[Xcube][Ycube][Zcube];
 
-    c->p.x = Xcube;
-    c->p.y = Ycube;
-    c->p.z = Zcube;
-
-    if (c->triangle_count >= TRIANGLES_PER_CUBE) {
-        DIE("overflow on triangle populate");
-    }
+    cube->p.x = Xcube;
+    cube->p.y = Ycube;
+    cube->p.z = Zcube;
 
     vertice_t v1;
     vertice_t v2;
@@ -619,7 +618,11 @@ triangle_populate (int Xcube, int Ycube, int Zcube,
     B = vertice_add(v2.p);
     C = vertice_add(v3.p);
 
-    c->tps[c->triangle_count++] = triangle_add(A, B, C);
+    if (cube->triangle_count >= TRIANGLES_PER_CUBE) {
+        DIE("overflow on triangle populate");
+    }
+
+    cube->tps[cube->triangle_count++] = triangle_add(A, B, C);
 }
 
 static void 
@@ -782,6 +785,7 @@ printf("add c %d,%d,%d\n", Xcube, Ycube, Zcube);
  * For each vertice, walk all triangles blocking it heading to the light 
  * source.
  */
+#if 0
 static void 
 vertices_walk_light_blockers (fpoint3d light)
 {
@@ -796,11 +800,14 @@ vertices_walk_light_blockers (fpoint3d light)
                     continue;
                 }
 
+printf("%d %d %d\n", x, y,z);
                 for (i = 0; i < cube->triangle_count; i++) {
                     triangle_t *t = cube->tps[i];
+printf("v %p \n", t);
 
                     for (j = 0; j < 3; j++) {
                         vertice_t *v = t->vps[j];
+printf("v %p %p %p \n", t->vps[0], t->vps[1], t->vps[2]);
 
                         triangle_t **tp = v->light_blockers;
 
@@ -833,21 +840,25 @@ vertices_walk_light_blockers (fpoint3d light)
         }
     }
 }
+#endif
 
+#if 0
 static void 
-cubes_set_solid (cube_t *c, int solid)
+cubes_set_solid (cube_t *cube, int solid)
 {
     int i;
 
-    c->solid = solid ? 1 : 0;
+    cube->solid = solid ? 1 : 0;
 
-    for (i = 0; i < c->triangle_count; i++) {
-        triangle_t *t = c->tps[i];
+    for (i = 0; i < cube->triangle_count; i++) {
+        triangle_t *t = cube->tps[i];
 
         t->solid = solid ? 1 : 0;
     }
 }
+#endif
 
+#if 0
 static void 
 cubes_render (fpoint3d light)
 {
@@ -870,6 +881,7 @@ cubes_render (fpoint3d light)
 
     bufp = p;
 }
+#endif
 
 static void vertices_find_light_blockers (fpoint3d light)
 {
@@ -961,6 +973,7 @@ cubes_init (fpoint3d light)
     triangles_sort();
     vertices_find_light_blockers(light);
 
+#if 0
     for (x = 0; x < CUBE_W; x++) {
         for (y = 0; y < CUBE_H; y++) {
             for (z = 0; z < CUBE_Z; z++) {
@@ -981,6 +994,7 @@ cubes_init (fpoint3d light)
             }
         }
     }
+#endif
 
 #if 0
     for (x = 0; x < CUBE_W; x++) {
@@ -1032,6 +1046,8 @@ void test (void)
         cubes_init(light);
     }
 
+#if 0
+    vertices_walk_light_blockers(light);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     int x = 1;
@@ -1041,6 +1057,6 @@ void test (void)
     blit_flush_3d();
     }
 
-    vertices_walk_light_blockers(light);
 //        SDL_Delay(200);
+#endif
 }

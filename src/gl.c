@@ -115,6 +115,7 @@ void gl_enter_2_5d_mode (void)
     glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
     glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
 
+#define WIREFRAME
 #ifdef WIREFRAME
     glPolygonMode(GL_FRONT, GL_LINE); // draw wireframe polygons
     glPolygonMode(GL_BACK, GL_LINE); // draw wireframe polygons
