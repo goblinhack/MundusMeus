@@ -13,13 +13,13 @@
 /*
  * How many voxels per cube face edge
  */
-#define VOX_RES             3 
+#define VOX_RES             3
 
 /*
  * Max size of the renderable level
  */
-#define CUBE_W              3 
-#define CUBE_H              3
+#define CUBE_W              7
+#define CUBE_H              7
 #define CUBE_Z              3
 
 /*
@@ -45,27 +45,30 @@
 #define MAX_VERTICES        (MAX_CUBES * VERTICES_PER_CUBE)
 #define MAX_TRIANGLES       (MAX_CUBES * TRIANGLES_PER_CUBE)
 
-#define MAX_LIGHT_BLOCKERS 1000
+#define MAX_LIGHT_BLOCKERS 100
 
 struct triangle_t_;
 struct cube_t_;
 
 typedef struct {
-    struct triangle_t_ *light_blockers[MAX_LIGHT_BLOCKERS];
+    int light_blockers[MAX_LIGHT_BLOCKERS];
+    int nlight_blockers;
     float r, g, b, a;
     fpoint3d p;
-    uint16_t distance;
+    float distance;
+    uint8_t shadow:1;
+    uint8_t solid:1;
 } vertice_t;
 
 typedef struct triangle_t_ {
-    vertice_t *vps[3];
-    uint16_t distance;
+    int vpis[3];
+    float distance;
     uint8_t solid;
 } triangle_t;
 
 typedef struct cube_t_ {
     fpoint3d p;
-    triangle_t *tps[TRIANGLES_PER_CUBE];
+    int tpis[TRIANGLES_PER_CUBE];
     int triangle_count;
     uint8_t solid;
 } cube_t;
@@ -75,19 +78,21 @@ typedef struct {
      * Sorted vertices by distance from light
      */
     vertice_t vertices[MAX_VERTICES];
+    int vi_sorted[MAX_VERTICES];
     int vertice_count;
 
     /*
      * Sorted triangles by distance from light
      */
     triangle_t triangles[MAX_TRIANGLES];
+    int ti_sorted[MAX_TRIANGLES];
     int triangle_count;
 
     /*
      * We waste space here for ease of use with voxels that are not on the 
      * cube faces.
      */
-    vertice_t *vps[VOX_W][VOX_H][VOX_Z];
+    int vpis[VOX_W][VOX_H][VOX_Z];
 
     cube_t cubes[CUBE_W][CUBE_H][CUBE_Z];
 } iso_t;
@@ -103,12 +108,12 @@ static int
 triangle_cmp (vertice_t *A, vertice_t *B, vertice_t *C,
               vertice_t *a, vertice_t *b, vertice_t *c)
 {
+    if (fcmp3d(A->p, a->p) && fcmp3d(B->p, b->p) && fcmp3d(C->p, a->p)) { return (1); }
     if (fcmp3d(A->p, a->p) && fcmp3d(B->p, b->p) && fcmp3d(C->p, c->p)) { return (1); }
-    if (fcmp3d(A->p, a->p) && fcmp3d(B->p, c->p) && fcmp3d(C->p, b->p)) { return (1); }
-    if (fcmp3d(A->p, b->p) && fcmp3d(B->p, a->p) && fcmp3d(C->p, c->p)) { return (1); }
     if (fcmp3d(A->p, b->p) && fcmp3d(B->p, c->p) && fcmp3d(C->p, a->p)) { return (1); }
-    if (fcmp3d(A->p, c->p) && fcmp3d(B->p, b->p) && fcmp3d(C->p, a->p)) { return (1); }
+    if (fcmp3d(A->p, b->p) && fcmp3d(B->p, c->p) && fcmp3d(C->p, b->p)) { return (1); }
     if (fcmp3d(A->p, c->p) && fcmp3d(B->p, a->p) && fcmp3d(C->p, b->p)) { return (1); }
+    if (fcmp3d(A->p, c->p) && fcmp3d(B->p, a->p) && fcmp3d(C->p, c->p)) { return (1); }
 
     return (0);
 }
@@ -116,7 +121,7 @@ triangle_cmp (vertice_t *A, vertice_t *B, vertice_t *C,
 /*
  * Add a triangle to the list; only if it is unique.
  */
-static triangle_t *
+static int
 triangle_add (vertice_t * a, vertice_t * b, vertice_t * c)
 {
     triangle_t *t;
@@ -125,12 +130,12 @@ triangle_add (vertice_t * a, vertice_t * b, vertice_t * c)
     for (i = 0; i < iso.triangle_count; i++) {
         triangle_t *o = &iso.triangles[i];
 
-        vertice_t *A = o->vps[0];
-        vertice_t *B = o->vps[1];
-        vertice_t *C = o->vps[2];
+        vertice_t *A = &iso.vertices[o->vpis[0]];
+        vertice_t *B = &iso.vertices[o->vpis[1]];
+        vertice_t *C = &iso.vertices[o->vpis[2]];
 
         if (triangle_cmp(a, b, c, A, B, C)) {
-            return (o);
+            return (i);
         }
     }
 
@@ -139,12 +144,12 @@ triangle_add (vertice_t * a, vertice_t * b, vertice_t * c)
     }
 
     t = &iso.triangles[iso.triangle_count];
-    t->vps[0] = a;
-    t->vps[1] = b;
-    t->vps[2] = c;
+    t->vpis[0] = a - iso.vertices;
+    t->vpis[1] = b - iso.vertices;
+    t->vpis[2] = c - iso.vertices;
     iso.triangle_count++;
 
-    return (t);
+    return (t - iso.triangles);
 }
 
 /*
@@ -173,9 +178,13 @@ vertice_add (fpoint3d p)
     memset(v, 0, sizeof(*v));
     v->p = p;
 
-    iso.vertice_count++;
+    if ((p.x < 0) || (p.x > VOX_W) ||
+        (p.y < 0) || (p.y > VOX_H) ||
+        (p.z < 0) || (p.z > VOX_Z)) {
+        DIE("overflow on vertice add at %f,%f,%f", p.x, p.y, p.z);
+    }
 
-    iso.vps[(int)p.x][(int)p.y][(int)p.z] = v;
+    iso.vpis[(int)p.x][(int)p.y][(int)p.z] = iso.vertice_count++;
 
     return (v);
 }
@@ -191,9 +200,9 @@ triangle_set_distances (fpoint3d light)
     for (i = 0; i < iso.triangle_count; i++) {
         triangle_t *t = &iso.triangles[i];
 
-        vertice_t *A = t->vps[0];
-        vertice_t *B = t->vps[1];
-        vertice_t *C = t->vps[2];
+        vertice_t *A = &iso.vertices[t->vpis[0]];
+        vertice_t *B = &iso.vertices[t->vpis[1]];
+        vertice_t *C = &iso.vertices[t->vpis[2]];
 
         t->distance = DISTANCE3f(light.x, light.y, light.z, 
                                  A->p.x, A->p.y, A->p.z);
@@ -229,22 +238,23 @@ static void
 vertices_sort (void)
 {
     int sorting;
+    int i;
+
+    for (i = 0; i < iso.vertice_count; i++) {
+        iso.vi_sorted[i] = i;
+    }
 
     do {
         sorting = false;
 
         int i;
+
         for (i = 0; i < iso.vertice_count-1; i++) {
-            vertice_t *a = &iso.vertices[i];
-            vertice_t *b = &iso.vertices[i+1];
+            vertice_t *a = &iso.vertices[iso.vi_sorted[i]];
+            vertice_t *b = &iso.vertices[iso.vi_sorted[i+1]];
 
             if (a->distance > b->distance) {
-                vertice_t t;
-
-                memcpy(&t, b, sizeof(t));
-                memcpy(b, a, sizeof(t));
-                memcpy(a, &t, sizeof(t));
-
+                swap(iso.vi_sorted[i], iso.vi_sorted[i+1]);
                 sorting = true;
             }
         }
@@ -258,22 +268,23 @@ static void
 triangles_sort (void)
 {
     int sorting;
+    int i;
+
+    for (i = 0; i < iso.triangle_count; i++) {
+        iso.ti_sorted[i] = i;
+    }
 
     do {
         sorting = false;
 
         int i;
+
         for (i = 0; i < iso.triangle_count-1; i++) {
-            triangle_t *a = &iso.triangles[i];
-            triangle_t *b = &iso.triangles[i+1];
+            triangle_t *a = &iso.triangles[iso.ti_sorted[i]];
+            triangle_t *b = &iso.triangles[iso.ti_sorted[i+1]];
 
             if (a->distance > b->distance) {
-                triangle_t t;
-
-                memcpy(&t, b, sizeof(t));
-                memcpy(b, a, sizeof(t));
-                memcpy(a, &t, sizeof(t));
-
+                swap(iso.ti_sorted[i], iso.ti_sorted[i+1]);
                 sorting = true;
             }
         }
@@ -326,7 +337,7 @@ cube_render_vertice (GLfloat **P,
     gl_push_texcoord(p, 0, 0);
     gl_push_vertex_3d(p, Xv + dx, Yv + dy, Zv + dz);
 
-    vertice_t *v = iso.vps[Xvox + dx][Yvox + dy][Zvox + dz];
+    vertice_t *v = &iso.vertices[iso.vpis[Xvox + dx][Yvox + dy][Zvox + dz]];
     if (!v) {
         DIE("no vertice at %d,%d,%d", Xvox + dx, Yvox + dy, Zvox + dz);
     }
@@ -566,6 +577,12 @@ triangle_populate (int Xcube, int Ycube, int Zcube,
                    int dx2, int dy2, int dz2,
                    int dx3, int dy3, int dz3)
 {
+    if ((Xcube < 0) || (Xcube >= CUBE_W) ||
+        (Ycube < 0) || (Ycube >= CUBE_H) ||
+        (Zcube < 0) || (Zcube >= CUBE_Z)) {
+        DIE("cube overflow %d,%d,%d", Xcube, Ycube, Zcube);
+    }
+
     cube_t *cube = &iso.cubes[Xcube][Ycube][Zcube];
 
     cube->p.x = Xcube;
@@ -604,17 +621,13 @@ triangle_populate (int Xcube, int Ycube, int Zcube,
         DIE("overflow on triangle populate");
     }
 
-    cube->tps[cube->triangle_count++] = triangle_add(A, B, C);
+    cube->tpis[cube->triangle_count++] = triangle_add(A, B, C);
 }
 
 static void 
 cube_populate (int Xcube, int Ycube, int Zcube)
 {
     int x, y, z;
-
-    int Xc = Xcube;
-    int Yc = Ycube;
-    int Zc = Zcube;
 
     /*
      * Back left
@@ -624,21 +637,18 @@ cube_populate (int Xcube, int Ycube, int Zcube)
 
         for (z = 0; z < VOX_RES; z++) {
 
-            float Xv = (Xc * VOX_RES) + x;
-            float Yv = (Yc * VOX_RES) + y;
-            float Zv = (Zc * VOX_RES) + z;
             int Xvox = (Xcube * VOX_RES) + x;
             int Yvox = (Ycube * VOX_RES) + y;
             int Zvox = (Zcube * VOX_RES) + z;
 
-            triangle_populate(Xvox, Yvox, Zvox,
-                              Xv, Yv, Zv,
+            triangle_populate(Xcube, Ycube, Zcube,
+                              Xvox, Yvox, Zvox,
                               0, 0, 0,
                               0, 1, 0,
                               0, 0, 1);
 
-            triangle_populate(Xvox, Yvox, Zvox,
-                              Xv, Yv, Zv,
+            triangle_populate(Xcube, Ycube, Zcube,
+                              Xvox, Yvox, Zvox,
                               0, 1, 0,
                               0, 0, 1,
                               0, 1, 1);
@@ -653,21 +663,18 @@ cube_populate (int Xcube, int Ycube, int Zcube)
 
         for (z = 0; z < VOX_RES; z++) {
 
-            float Xv = (Xc * VOX_RES) + x;
-            float Yv = (Yc * VOX_RES) + y;
-            float Zv = (Zc * VOX_RES) + z;
             int Xvox = (Xcube * VOX_RES) + x;
             int Yvox = (Ycube * VOX_RES) + y;
             int Zvox = (Zcube * VOX_RES) + z;
 
-            triangle_populate(Xvox, Yvox, Zvox,
-                              Xv, Yv, Zv,
+            triangle_populate(Xcube, Ycube, Zcube,
+                              Xvox, Yvox, Zvox,
                               0, 0, 0,
                               1, 0, 0,
                               0, 0, 1);
 
-            triangle_populate(Xvox, Yvox, Zvox,
-                              Xv, Yv, Zv,
+            triangle_populate(Xcube, Ycube, Zcube,
+                              Xvox, Yvox, Zvox,
                               1, 0, 0,
                               0, 0, 1,
                               1, 0, 1);
@@ -682,21 +689,18 @@ cube_populate (int Xcube, int Ycube, int Zcube)
 
         for (z = 0; z < VOX_RES; z++) {
 
-            float Xv = (Xc * VOX_RES) + x;
-            float Yv = (Yc * VOX_RES) + y;
-            float Zv = (Zc * VOX_RES) + z;
             int Xvox = (Xcube * VOX_RES) + x;
             int Yvox = (Ycube * VOX_RES) + y;
             int Zvox = (Zcube * VOX_RES) + z;
 
-            triangle_populate(Xvox, Yvox, Zvox,
-                              Xv, Yv, Zv,
+            triangle_populate(Xcube, Ycube, Zcube,
+                              Xvox, Yvox, Zvox,
                               0, 0, 0,
                               0, 1, 0,
                               0, 0, 1);
 
-            triangle_populate(Xvox, Yvox, Zvox,
-                              Xv, Yv, Zv,
+            triangle_populate(Xcube, Ycube, Zcube,
+                              Xvox, Yvox, Zvox,
                               0, 1, 0,
                               0, 0, 1,
                               0, 1, 1);
@@ -711,21 +715,18 @@ cube_populate (int Xcube, int Ycube, int Zcube)
 
         for (z = 0; z < VOX_RES; z++) {
 
-            float Xv = (Xc * VOX_RES) + x;
-            float Yv = (Yc * VOX_RES) + y;
-            float Zv = (Zc * VOX_RES) + z;
             int Xvox = (Xcube * VOX_RES) + x;
             int Yvox = (Ycube * VOX_RES) + y;
             int Zvox = (Zcube * VOX_RES) + z;
 
-            triangle_populate(Xvox, Yvox, Zvox,
-                              Xv, Yv, Zv,
+            triangle_populate(Xcube, Ycube, Zcube,
+                              Xvox, Yvox, Zvox,
                               0, 0, 0,
                               1, 0, 0,
                               0, 0, 1);
 
-            triangle_populate(Xvox, Yvox, Zvox,
-                              Xv, Yv, Zv,
+            triangle_populate(Xcube, Ycube, Zcube,
+                              Xvox, Yvox, Zvox,
                               1, 0, 0,
                               0, 0, 1,
                               1, 0, 1);
@@ -740,21 +741,18 @@ cube_populate (int Xcube, int Ycube, int Zcube)
 
         for (x = 0; x < VOX_RES; x++) {
 
-            float Xv = (Xc * VOX_RES) + x;
-            float Yv = (Yc * VOX_RES) + y;
-            float Zv = (Zc * VOX_RES) + z;
             int Xvox = (Xcube * VOX_RES) + x;
             int Yvox = (Ycube * VOX_RES) + y;
             int Zvox = (Zcube * VOX_RES) + z;
 
-            triangle_populate(Xvox, Yvox, Zvox,
-                              Xv, Yv, Zv,
+            triangle_populate(Xcube, Ycube, Zcube,
+                              Xvox, Yvox, Zvox,
                               0, 0, VOX_RES,
                               0, 1, VOX_RES,
                               1, 0, VOX_RES);
 
-            triangle_populate(Xvox, Yvox, Zvox,
-                              Xv, Yv, Zv,
+            triangle_populate(Xcube, Ycube, Zcube,
+                              Xvox, Yvox, Zvox,
                               0, 1, VOX_RES,
                               1, 0, VOX_RES,
                               1, 1, VOX_RES);
@@ -769,7 +767,7 @@ cube_populate (int Xcube, int Ycube, int Zcube)
 static void 
 vertices_walk_light_blockers (fpoint3d light)
 {
-    int x, y, z, i, j;
+    int x, y, z, i, j, k;
 
     for (x = 0; x < CUBE_W; x++) {
         for (y = 0; y < CUBE_H; y++) {
@@ -781,54 +779,71 @@ vertices_walk_light_blockers (fpoint3d light)
                 }
 
                 for (i = 0; i < cube->triangle_count; i++) {
-                    triangle_t *t = cube->tps[i];
+                    triangle_t *t = &iso.triangles[cube->tpis[i]];
 
                     for (j = 0; j < 3; j++) {
-                        vertice_t *v = t->vps[j];
+                        vertice_t *v = &iso.vertices[t->vpis[j]];
 
-                        triangle_t **tp = v->light_blockers;
+                        if (!v->solid) {
+                            continue;
+                        }
 
-                        for (;;) {
+                        for (k = 0; k < v->nlight_blockers; k++) {
                             triangle_t *t;
 
-                            t = *tp;
-
-                            if (!t) {
-                                v->r = 0.0;
-                                v->g = 0.5;
-                                v->b = 0.5;
-                                v->a = 1.0;
-                                break;
-                            }
+                            t = &iso.triangles[v->light_blockers[k]];
 
                             if (t->solid) {
-                                v->r = 1.0;
-                                v->g = 0.1;
-                                v->b = 0.1;
-                                v->a = 1.0;
+                                v->shadow = 1;
                                 break;
                             }
-
-                            tp++;
                         }
                     }
                 }
             }
         }
     }
+
+    for (i = 0; i < iso.vertice_count; i++) {
+        vertice_t *v = &iso.vertices[iso.vi_sorted[i]];
+
+        if (v->shadow) {
+            v->r = 0.1;
+            v->g = 0.1;
+            v->b = 0.1;
+            v->a = 1.0;
+            continue;
+        }
+
+        v->r = 1.0;
+        v->g = 1.0;
+        v->b = 1.0;
+        v->a = 1.0;
+    }
 }
 
 static void 
 cubes_set_solid (cube_t *cube, int solid)
 {
-    int i;
+    int i, j;
 
-    cube->solid = solid ? 1 : 0;
+    if (solid) {
+        cube->solid = 1;
+    }
 
     for (i = 0; i < cube->triangle_count; i++) {
-        triangle_t *t = cube->tps[i];
+        triangle_t *t = &iso.triangles[cube->tpis[i]];
 
-        t->solid = solid ? 1 : 0;
+        if (solid) {
+            t->solid = 1;
+        }
+
+        for (j = 0; j < 3; j++) {
+            vertice_t *v = &iso.vertices[t->vpis[j]];
+            if (solid) {
+                v->solid = 1;
+            }
+        }
     }
 }
 
@@ -857,69 +872,53 @@ cubes_render (fpoint3d light)
 
 static void vertices_find_light_blockers (fpoint3d light)
 {
+    int light_blockers_max = 0;
     int i, j;
 
     line L;
     L.P0 = light;
 
     for (i = 0; i < iso.vertice_count; i++) {
-        vertice_t *v = &iso.vertices[i];
+        vertice_t *v = &iso.vertices[iso.vi_sorted[i]];
 
-        double vd = DISTANCE3f(light.x, light.y, light.z, v->p.x, v->p.y, v->p.z);
-
-        int light_blockers = 0;
+        v->nlight_blockers = 0;
 
         for (j = 0; j < iso.triangle_count; j++) {
-            triangle_t *t = &iso.triangles[j];
+            triangle_t *t = &iso.triangles[iso.ti_sorted[j]];
 
             if (t->distance > v->distance) {
                 break;
             }
 
             triangle T;
-            T.V0 = t->vps[0]->p;
-            T.V1 = t->vps[1]->p;
-            T.V2 = t->vps[2]->p;
+
+            T.V0 = iso.vertices[t->vpis[0]].p;
+            T.V1 = iso.vertices[t->vpis[1]].p;
+            T.V2 = iso.vertices[t->vpis[2]].p;
+
+            if (fcmp3d(v->p, T.V0) ||
+                fcmp3d(v->p, T.V1) ||
+                fcmp3d(v->p, T.V2)) {
+                continue;
+            }
 
             L.P1 = v->p;
 
             fpoint3d intersection;
+
             if (triangle_line_intersect(L, T, &intersection) == 1) {
-                double id = DISTANCE3f(light.x, light.y, light.z, 
-                                       intersection.x, intersection.y, intersection.z);
-
-                if (light_blockers >= MAX_LIGHT_BLOCKERS) {
-                    int l;
-
-                    printf("light (%f, %f, %f)\n",
-                           light.x, light.y, light.z);
-                    printf("vertice (%f, %f, %f)\n",
-                           v->p.x, v->p.y, v->p.z);
-
-                    for (l = 0; l < light_blockers; l++) {
-                        printf("  t[%d] (%f, %f, %f) (%f, %f, %f) (%f, %f, %f)\n",
-                               l,
-                               v->light_blockers[l]->vps[0]->p.x,
-                               v->light_blockers[l]->vps[0]->p.y,
-                               v->light_blockers[l]->vps[0]->p.z,
-                               v->light_blockers[l]->vps[1]->p.x,
-                               v->light_blockers[l]->vps[1]->p.y,
-                               v->light_blockers[l]->vps[1]->p.z,
-                               v->light_blockers[l]->vps[2]->p.x,
-                               v->light_blockers[l]->vps[2]->p.y,
-                               v->light_blockers[l]->vps[2]->p.z);
-                    }
-
+                if (v->nlight_blockers >= MAX_LIGHT_BLOCKERS) {
                     DIE("too many light blockers for (%f, %f, %f)",
                         v->p.x, v->p.y, v->p.z);
                 }
 
-                if (id < vd) {
-                    v->light_blockers[light_blockers++] = t;
-                }
+                v->light_blockers[v->nlight_blockers++] = t - iso.triangles;
+
+                light_blockers_max = max(v->nlight_blockers, light_blockers_max);
             }
         }
     }
+printf("light_blockers %u\n", light_blockers_max);
 }
 
 static void 
@@ -957,6 +956,10 @@ cubes_init (fpoint3d light)
                     solid = true;
                 }
 
+                if ((x == CUBE_W / 4) && (y == CUBE_H / 3)) {
+                    solid = true;
+                }
+
                 if (z == 0) {
                     solid = true;
                 }
@@ -965,60 +968,25 @@ cubes_init (fpoint3d light)
             }
         }
     }
-
-#if 0
-    for (x = 0; x < CUBE_W; x++) {
-        for (y = 0; y < CUBE_H; y++) {
-            for (z = 0; z < CUBE_Z; z++) {
-
-#if 0
-                cube_t *cube = &iso.cubes[x][y][z];
-
-                if (!cube->solid) {
-                    continue;
-                }
-#endif
-
-                int vx, vy, vz;
-
-                for (vx = 0; vx <= VOX_RES; vx++) {
-                    for (vy = 0; vy <= VOX_RES; vy++) {
-                        for (vz = 0; vz <= VOX_RES; vz++) {
-                            vertice_t *v;
-
-                            int Xvox = (x * VOX_RES) + vx;
-                            int Yvox = (y * VOX_RES) + vy;
-                            int Zvox = (z * VOX_RES) + vz;
-
-                            v = &iso.vertices[Xvox][Yvox][Zvox];
-
-                            v->r = 0.0 + 0.15 * (double)x;
-                            v->g = 0.0 + 0.15 * (double)y;
-                            v->b = 0.0 + 0.25 * (double)z;
-                            v->a = 1.0;
-                        }
-                    }
-                }
-            }
-        }
-    }
-#endif
 }
 
 void test (void)
 {
     static int done;
 
-    fpoint3d light = {VOX_W , 0 , VOX_Z};
+    fpoint3d light = {VOX_W  - 2, 0 , VOX_Z / 2};
 
     if (!done) {
+printf("%lu\n", sizeof(iso) / (1024 * 1024));
+printf(".%lu\n", sizeof(iso.cubes));
+printf(".%lu\n", sizeof(iso.triangles));
+printf(".%lu\n", sizeof(iso.vertices));
         done = true;
         cubes_init(light);
     }
 
     vertices_walk_light_blockers(light);
 
-return;
     glBindTexture(GL_TEXTURE_2D, 0);
 
     int x = 1;
