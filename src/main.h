@@ -332,6 +332,12 @@ typedef struct {
 } fpoint3d;
 
 typedef struct {
+    short x;
+    short y;
+    char z;
+} spoint3d;
+
+typedef struct {
     int32_t x;
     int32_t y;
     int32_t z;

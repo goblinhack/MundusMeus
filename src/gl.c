@@ -99,7 +99,7 @@ void gl_enter_2_5d_mode (void)
 
     glLoadIdentity();
 
-    double scale = 50;
+    double scale = 15;
     glOrtho(-scale, 
             scale, 
             -scale * 0.7, 
@@ -121,10 +121,6 @@ void gl_enter_2_5d_mode (void)
 #endif
 
     glCullFace(GL_BACK); // don't draw back faces
-#if 0
-    glDisable(GL_CULL_FACE); // don't draw back faces
-#endif
-
 }
 
 void

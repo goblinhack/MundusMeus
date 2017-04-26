@@ -4922,6 +4922,27 @@ def init_tiles_land():
                      arr=tiles)
 
 
+def init_tiles_iso():
+
+    mm.tex_load_tiled(
+            file="data/gfx/iso.tga",
+            name="iso",
+            width=24,
+            height=24)
+
+    tiles = [
+        "",
+        "",
+        "",
+        "iso_rock",
+    ]
+
+    mm.tile_load_arr(tex_name="iso",
+                     tex_name_black_and_white="",
+                     width=32, height=32,
+                     arr=tiles)
+
+
 def init_tiles_powerups():
 
     mm.tex_load_tiled(
@@ -7770,6 +7791,7 @@ init_tiles_button_green()
 init_tiles_sea()
 init_tiles_walls()
 init_tiles_land()
+init_tiles_iso()
 init_tiles_powerups()
 init_tiles_items()
 init_tiles_creatures()
