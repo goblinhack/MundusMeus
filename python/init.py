@@ -182,48 +182,48 @@ def init2():
     if True:
         wid_help_editor.wid_help_editor_create()
 
-#    if True:
-#        w = wid_tp_list.WidTpList(name="tp window",
-#                                  tiles="wid2",
-#                                  body_tiles="wid1",
-#                                  width=0.15,
-#                                  height=0.2,
-#                                  x=0.85,
-#                                  y=0.30,
-#                                  detail_width=0.40,
-#                                  detail_height=0.3,
-#                                  detail_x=0.35,
-#                                  detail_y=0.20)
-#        print(w)
-#
-#        w = wid_tp_grid.WidTpGrid(name="tp window",
-#                                  tiles="wid2",
-#                                  body_tiles="wid1",
-#                                  width=0.15,
-#                                  height=0.5,
-#                                  x=0.85,
-#                                  y=0.50,
-#                                  detail_width=0.40,
-#                                  detail_height=0.3,
-#                                  detail_x=0.35,
-#                                  detail_y=0.50)
-#
-#        wid_mini_map.create()
-#
-#    if True:
-#        w = wid_tp_editor.WidTpEditor(name="tp window",
-#                                      tiles="wid2",
-#                                      body_tiles="wid1",
-#                                      width=0.6,
-#                                      height=0.9,
-#                                      x=0.0,
-#                                      y=0.0,
-#                                      detail_width=0.4,
-#                                      detail_height=0.4,
-#                                      detail_x=0.60,
-#                                      detail_y=0.00)
-#
-#    game.game_new()
+    if True:
+        w = wid_tp_list.WidTpList(name="tp window",
+                                  tiles="wid2",
+                                  body_tiles="wid1",
+                                  width=0.15,
+                                  height=0.2,
+                                  x=0.85,
+                                  y=0.30,
+                                  detail_width=0.40,
+                                  detail_height=0.3,
+                                  detail_x=0.35,
+                                  detail_y=0.20)
+        print(w)
+
+        w = wid_tp_grid.WidTpGrid(name="tp window",
+                                  tiles="wid2",
+                                  body_tiles="wid1",
+                                  width=0.15,
+                                  height=0.5,
+                                  x=0.85,
+                                  y=0.50,
+                                  detail_width=0.40,
+                                  detail_height=0.3,
+                                  detail_x=0.35,
+                                  detail_y=0.50)
+
+        wid_mini_map.create()
+
+    if True:
+        w = wid_tp_editor.WidTpEditor(name="tp window",
+                                      tiles="wid2",
+                                      body_tiles="wid1",
+                                      width=0.6,
+                                      height=0.9,
+                                      x=0.0,
+                                      y=0.0,
+                                      detail_width=0.4,
+                                      detail_height=0.4,
+                                      detail_x=0.60,
+                                      detail_y=0.00)
+
+    game.game_new()
 
 
 init1()

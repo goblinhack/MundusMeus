@@ -1368,13 +1368,9 @@ void sdl_loop (void)
          */
         sdl_tick();
 
-        gl_enter_2_5d_mode();
+//        gl_enter_2_5d_mode();
 
-{
-        extern void test(void);
-        test();
-}
-        gl_leave_2_5d_mode();
+//        gl_leave_2_5d_mode();
 
         /*
          * Do processing of some things, like reading the keyboard or doing
@@ -1505,7 +1501,7 @@ void sdl_loop (void)
 
         blit_flush();
 
-        SDL_Delay(game.sdl_delay);
+//        SDL_Delay(game.sdl_delay);
 
         time_get_time_ms();
 
