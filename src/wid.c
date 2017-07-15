@@ -10089,13 +10089,13 @@ void wid_gc_all_force (void)
  */
 void wid_tick_all (void)
 {
-//    wid_time = time_get_time_ms_cached();
     if (!game.sdl_delay) {
         wid_time += 100/1;
     } else {
         wid_time += 100/game.sdl_delay;
     }
 
+    wid_time = time_get_time_ms_cached();
     widp w;
 
     { TREE_OFFSET_WALK_UNSAFE(wid_top_level5, w) {
