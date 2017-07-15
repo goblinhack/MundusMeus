@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "SDL.h"
+#include "./sdl.h"
 #include "tile_private.h"
 #include "glapi.h"
 

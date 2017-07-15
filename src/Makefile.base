@@ -6,7 +6,6 @@ OBJDIR=.o
 #    $(RAMDISK_OBJ)			
     
 GAME_OBJECTS=				\
-    $(OBJDIR)/test.o 			\
     $(OBJDIR)/ramdisk_read.o 		\
     $(OBJDIR)/backtrace.o 		\
     $(OBJDIR)/color.o			\

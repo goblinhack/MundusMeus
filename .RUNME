@@ -31,9 +31,10 @@ case `uname` in
         /mingw64/bin/pip3 install hexdump
     ;;
     *Darwin*)
+        # sudo python3 -m pip install --upgrade pip
         port install python3-pip
-        pip3 install colored
-        pip3 install hexdump
+        python3 -m pip install colored
+        python3 -m pip install hexdump
     ;;
     *)
         apt-get install python3-pip3
