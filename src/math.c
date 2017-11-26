@@ -275,7 +275,7 @@ double fpoint_angle (const fpoint A, const fpoint B)
     const double a = sqrt(A.x*A.x + A.y*A.y);
     const double b = sqrt(B.x*B.x + B.y*B.y);
 
-    if (!(a * b)) {
+    if (!(int) (a * b)) {
         return (0);
     }
 

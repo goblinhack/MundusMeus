@@ -219,35 +219,6 @@ static void gl_init_fbo (void)
     gl_init_fbo_(&render_buf_id_wid, &fbo_id_wid, &fbo_tex_id_wid);
 }
 
-/*
- * x and y per element.
- */
-#define NUMBER_DIMENSIONS_PER_COORD_2D 2
-#define NUMBER_DIMENSIONS_PER_COORD_3D 3
-
-/*
- * r,g,b,a per element
- */
-#define NUMBER_COMPONENTS_PER_COLOR 4
-
-const uint32_t NUMBER_BYTES_PER_VERTICE_2D =
-                                            sizeof(GLfloat) *
-                                            NUMBER_DIMENSIONS_PER_COORD_2D +
-                                            sizeof(GLfloat) *
-                                            NUMBER_DIMENSIONS_PER_COORD_2D +
-                                            sizeof(GLfloat) *
-                                            NUMBER_COMPONENTS_PER_COLOR;
-
-const uint32_t NUMBER_BYTES_PER_VERTICE_3D =
-                                            sizeof(GLfloat) *
-                                            NUMBER_DIMENSIONS_PER_COORD_2D +
-                                            sizeof(GLfloat) *
-                                            NUMBER_DIMENSIONS_PER_COORD_3D +
-                                            sizeof(GLfloat) *
-                                            NUMBER_COMPONENTS_PER_COLOR;
-
-const uint32_t NUMBER_FLOATS_PER_VERTICE_2D = NUMBER_BYTES_PER_VERTICE_2D / sizeof(float);
-const uint32_t NUMBER_FLOATS_PER_VERTICE_3D = NUMBER_BYTES_PER_VERTICE_3D / sizeof(float);
 
 /*
  * Two arrays, xy and uv.

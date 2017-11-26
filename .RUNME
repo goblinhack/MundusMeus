@@ -511,7 +511,17 @@ then
     exit 1
 fi
 
-C_FLAGS="$C_FLAGS `$Python_CONFIG --cflags`"
+C_FLAGS="$C_FLAGS `$Python_CONFIG --cflags | \
+           tr ' ' '\n' | \
+           grep -v specs | \
+           grep -v debug-prefix | \
+           grep -v O3 | \
+           grep -v O2 | \
+           grep -v Os | \
+           grep -v wrapv | \
+           grep -v strict-proto | \
+           tr '\n' ' ' \
+           `"
 
 #
 # -funwind-tables and -rdynamic for backtrace info on linux.

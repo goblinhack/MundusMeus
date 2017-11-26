@@ -640,7 +640,34 @@ extern PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB_EXT;
 #define glDeleteBuffersARB_EXT glDeleteBuffersARBEXT
 #endif
 
-extern const uint32_t NUMBER_BYTES_PER_VERTICE_2D;
-extern const uint32_t NUMBER_BYTES_PER_VERTICE_3D;
-extern const uint32_t NUMBER_FLOATS_PER_VERTICE_2D;
-extern const uint32_t NUMBER_FLOATS_PER_VERTICE_3D;
+/*
+ * x and y per element.
+ */
+#define NUMBER_DIMENSIONS_PER_COORD_2D 2
+#define NUMBER_DIMENSIONS_PER_COORD_3D 3
+
+/*
+ * r,g,b,a per element
+ */
+#define NUMBER_COMPONENTS_PER_COLOR 4
+
+#define NUMBER_BYTES_PER_VERTICE_2D (\
+                                            sizeof(GLfloat) *\
+                                            NUMBER_DIMENSIONS_PER_COORD_2D +\
+                                            sizeof(GLfloat) *\
+                                            NUMBER_DIMENSIONS_PER_COORD_2D +\
+                                            sizeof(GLfloat) *\
+                                            NUMBER_COMPONENTS_PER_COLOR\
+                                    )
+
+#define NUMBER_BYTES_PER_VERTICE_3D (\
+                                            sizeof(GLfloat) *\
+                                            NUMBER_DIMENSIONS_PER_COORD_2D +\
+                                            sizeof(GLfloat) *\
+                                            NUMBER_DIMENSIONS_PER_COORD_3D +\
+                                            sizeof(GLfloat) *\
+                                            NUMBER_COMPONENTS_PER_COLOR\
+                                    )
+
+#define NUMBER_FLOATS_PER_VERTICE_2D (NUMBER_BYTES_PER_VERTICE_2D / sizeof(float))
+#define NUMBER_FLOATS_PER_VERTICE_3D (NUMBER_BYTES_PER_VERTICE_3D / sizeof(float))

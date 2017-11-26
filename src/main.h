@@ -129,6 +129,7 @@ static inline void uSleep (int waitTime)
 /*
  * Types
  */
+#ifndef _BITS_STDINT_INTN_H                                                     
 #ifndef __int8_t_defined
 #ifndef _INT8_T
 #define _INT8_T
@@ -169,6 +170,7 @@ typedef unsigned int         uint32_t;
 #define _UINT64_T
 typedef unsigned long long   uint64_t;
 #endif /* _UINT64_T */
+#endif
 #endif
 
 /*
