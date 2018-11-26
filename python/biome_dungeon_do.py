@@ -1743,6 +1743,7 @@ class Biome(biome.Biome):
                     self.putc(x, y, charmap.depth.wall, charmap.ROCK)
 
     def dump(self, max_depth=charmap.depth.max):
+        return
         from colored import fg, bg, attr
 
         for y in range(self.height):
@@ -1788,6 +1789,7 @@ class Biome(biome.Biome):
             mm.puts("\n")
 
     def dump_depth(self, max_depth=charmap.depth.max):
+        return
         from colored import fg, bg, attr
 
         for y in range(self.height):

@@ -70,6 +70,7 @@ typedef struct thing_tile_ {
     uint8_t is_join_block:1;
     uint8_t is_join_horiz2:1;
     uint8_t is_join_vert2:1;
+
     uint8_t is_moving:1;
     uint8_t dir:4;
     uint8_t is_yyy5:1;
